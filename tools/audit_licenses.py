@@ -37,6 +37,10 @@ def audit():
     assert color_fingerprint(AZIM10) not in retired
     dark = tuple(row['color'] for row in style.library['dark_background']['axes.prop_cycle'])
     assert color_fingerprint(dark) not in retired
+    oracle=json.loads((ROOT / 'docs/series-styles-reference.json').read_text('utf-8'))
+    for library in ('azimlib','matplotlib'):
+        roles=[row['color'] for group in ('multi','columns','broadcast_x','matrix_pair','data','implicit') for row in oracle[library][group]]
+        assert roles == [f'cycle:{i}' for i in range(10)]
     for directory in (ROOT / 'src', ROOT / 'tools/baselines'):
         for path in directory.rglob('*.py'):
             for node in ast.walk(ast.parse(path.read_text('utf-8'))):
