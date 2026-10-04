@@ -63,6 +63,7 @@ class PublicationTests(unittest.TestCase):
 
     def test_credential_patterns_and_conversation_quotes_are_detected(self):
         key = 'gh' + 'p_' + 'A' * 36
+        # Synthetic communication, never a quotation from project development.
         quote = 'O ' + 'usuário ' + 'respondeu: conteúdo sintético'
         self.assertIn('credential-pattern', findings(key.encode()))
         self.assertIn('conversation-context', findings(quote.encode()))
