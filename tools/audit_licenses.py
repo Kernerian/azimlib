@@ -29,6 +29,8 @@ def audit():
     assert tuple(PALETTES['blues']) == tuple(manifest['colorbrewer_blues']['colors'])
     for item in manifest['license_texts']:
         assert sha(ROOT / item['file']) == item['sha256'], item['file']
+    for item in manifest['immutable_resources']:
+        assert sha(ROOT / item['file']) == item['sha256'], item['file']
     retired = set(manifest['retired_palette_fingerprints'])
     def color_fingerprint(values):
         return hashlib.sha256(','.join(v.lower() for v in values).encode()).hexdigest()
@@ -52,6 +54,7 @@ def audit():
             'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics'],
             'license_texts_verified': len(manifest['license_texts']), 'own_cycle_colors': len(AZIM10),
             'unchanged_geographic_layers': len(data['layers']), 'unchanged_upstream_fonts': len(fonts['files']),
+            'unchanged_colormap_and_font_metric_resources': len(manifest['immutable_resources']),
             'scope': 'Local notice/hash/palette checks; does not establish legal title, trademark clearance or licenses of future dependency resolutions.'}
 
 
