@@ -86,6 +86,17 @@ def failed_group(module):
     finally:module.close(fig)
 
 
+def cycle_roles(states):
+    """Retain cycle ordering without redistributing a default palette table."""
+    import copy
+    result=copy.deepcopy(states);index=0
+    for group in ('multi','columns','broadcast_x','matrix_pair','data','implicit'):
+        for row in result[group]:
+            row['color']=f'cycle:{index}';index+=1
+    assert index==10
+    return result
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,default=ROOT/'docs/series-styles-reference.json')
     args=parser.parse_args()
@@ -101,11 +112,12 @@ if __name__=='__main__':
         reference=contracts(mpl,native_cycle)
     own_styles=style_contracts(azl,azl.cycler);native_styles=style_contracts(mpl,native_cycle)
     report=dict(matplotlib_version=matplotlib.__version__,python=platform.python_version(),platform=platform.platform(),
-                azimlib=own,matplotlib=reference,
+                azimlib=cycle_roles(own),matplotlib=cycle_roles(reference),
                 styles_azimlib=own_styles,styles_matplotlib=native_styles,
                 failed_group_azimlib=failed_group(azl),failed_group_matplotlib=failed_group(mpl),
                 notes=['Explicitly labelled line states; color spelling canonicalized, no pixel equivalence.',
                        'Both runs use the independently selected Azimlib default cycle as explicit comparison input.',
+                       'Default-cycle colors are archived as cycle roles; raw color equality is checked before abstraction.',
                        'Nx2 single-input geographic shorthand differs from Matplotlib y matrices.',
                        'Both attach zero lines after the recorded later shape error; Matplotlib consumes the first cycle entry, Azimlib preserves it.',
                        'Finite unmasked coordinates only; masked/NaN gaps and unit converters are unsupported.',
