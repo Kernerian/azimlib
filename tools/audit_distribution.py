@@ -101,6 +101,10 @@ def main():
         members=archive.getmembers();assert all(m.isfile() or m.isdir() for m in members),'Symlinks/unexpected archive entries'
         entries={m.name.split('/',1)[1]:m for m in members if m.isfile()}
         check_entries(entries)
+        for name in ('PKG-INFO','src/azimlib.egg-info/PKG-INFO'):
+            package_metadata=BytesParser().parsebytes(archive.extractfile(entries[name]).read())
+            for field in ('Name','Version','Requires-Python','License-Expression','Author','License-File','Provides-Extra','Requires-Dist'):
+                assert package_metadata.get_all(field,[])==metadata.get_all(field,[]),(name,field)
         for name,path in expected.items():assert archive.extractfile(entries['src/'+name]).read()==path.read_bytes(),name
         # Check every deliverable file, not just the runtime or selected old docs.
         source={p.relative_to(ROOT).as_posix():p for directory in ('docs','tests','tools','examples') for p in (ROOT/directory).rglob('*')
@@ -114,6 +118,8 @@ def main():
             entries=archive.namelist();check_entries(n.split('/',1)[1] for n in entries)
             for name,path in {**source,**{'src/'+n:p for n,p in expected.items()}}.items():
                 assert archive.read('azimlib/'+name)==path.read_bytes(),name
+            for name in ('pyproject.toml','LICENSE','THIRD_PARTY_LICENSES.md',*license_files):
+                assert archive.read('azimlib/'+name)==(ROOT/name).read_bytes(),name
     report=dict(schema_version=1,name=config['name'],normalized_name=canonicalize_name(config['name']),version=config['version'],
         license_expression=metadata['License-Expression'],license_files=license_files,mandatory_dependencies=[],optional_dependencies=config['optional-dependencies'],
         wheel_record_entries=len(records),runtime_files_exact=len(expected),source_files_exact=len(source),
