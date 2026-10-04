@@ -5,6 +5,10 @@
 > os checks atuais e a relação de hashes publicados estão em
 > [preparação de publicação](publication-readiness.md). Esses resultados não são uma nova execução CI.
 
+## Corte 0.2.0 encerrado
+
+[54/54 subpassos](release-progress.md), [24/24 jobs remotos da versão](ci-0.2.0.json), [instalações core/gui novas](release020-local-validation.json) e [19 exemplos reproduzidos](release020-gallery.json). [Aceite e limites](release-acceptance.md). Registros 0.1.0 abaixo permanecem históricos.
+
 ## Lote final local 5.08–5.09
 
 [Auditoria de distribuição e instalação](distribution-acceptance.md) e [resultados retidos](release-validation-local.json): duas suítes inteiras instaladas, kernel opcional, core offline e 13 scripts Tk por Python 3.11/3.14. Deadline inicial excedido em layout e retry ficam separados; não se soma repetição como teste novo. Runtime preservado. 49 dos 54 IDs concluídos; CI real e conferência nativa Linux/macOS ainda pendentes. [Preparar GitHub usando Windows](ci-setup.md).

@@ -5,7 +5,7 @@
 > os checks atuais e a relação de hashes publicados estão em
 > [preparação de publicação](publication-readiness.md). Esses resultados não são uma nova execução CI.
 
-Estado: **validação final de artefatos em andamento**. A promoção começou após a matriz corrigida aprovar 24/24 jobs; build, instalação e matriz da versão 0.2.0 ainda precisam terminar antes do aceite 5.12.
+**Azimlib 0.2.0 pronta; passo 5 encerrado, 54/54 IDs concluídos.** A [matriz da versão 0.2.0](ci-0.2.0.json) aprovou 24/24 jobs no commit 65697cab58fe949fe6a75057f670c89c6eea9feb. Cada relatório remoto identifica o pacote instalado, SHA dos módulos, logs e eventuais skips; todos os SHA de Python coincidem com o runtime entregue. Publicação no PyPI não realizada.
 
 ## Correções verificadas
 
@@ -31,3 +31,11 @@ O escopo de plataforma combina observação visual Windows e CI nos três sistem
 Os arquivos de [validação 0.1.0](release-validation-local.json) e galeria anterior permanecem históricos, com snapshots exatos; não aprovam automaticamente o pacote novo. Os hashes dos archives finais ficam ao lado dos arquivos, fora dos archives, evitando autorreferência.
 
 [Diferenças visuais/API](visual-differences.md), [limites de contornos](contour-boundaries.md), [desempenho observado](performance-acceptance.md), [projeções/dados](math.md). Relevo 3D, urbano, novos formatos/datum completo e demais expansões seguem [o roteiro posterior](pending.md). Publicação no PyPI é uma operação separada, não realizada.
+
+## Artefatos e reprodução final
+
+[Instalação local 0.2.0](release020-local-validation.json): venv core novo instalado offline, venv GUI novo, versão de distribuição e runtime coerentes, nenhum Matplotlib/GIS instalado e todos os 111 arquivos runtime/recursos idênticos. Treze checks viewer, 28 toolbar e 11 pan passaram no wheel. [Galeria 0.2.0 instalada](release020-gallery.json): 19 exemplos/57 arquivos em 100 DPI, PNG/SVG/HTML idênticos ao catálogo anterior. Os exemplos/checks são repetições verificadas, não testes novos.
+
+Build 0.2.0 e twine strict aprovados; auditoria confere METADATA/extras/SPDX, RECORD/tamanhos/SHA, licenças, quatro fontes, seis camadas e 21 ícones, além da ausência de dados externos/ambientes. Os hashes definitivos wheel/sdist/ZIP ficam no relatório `azimlib-0.2.0-distribution-audit.json` ao lado dos artefatos. O ZIP fonte completo conserva previews offline; o ZIP GitHub menor omite a galeria gerada.
+
+Mudanças posteriores ao commit de CI são apenas documentação/resultados, sem mudar runtime, dependências, workflow ou assertions. O relatório cita o commit que de fato executou a CI; não transforma uma atualização documental em outra execução remota.

@@ -24,7 +24,7 @@ O [passo 1 está aceito](docs/artist-acceptance.md): integração das camadas,
 auditoria de propriedades/aliases e limites explícitos. O [passo 2 também está
 aceito](docs/layout-acceptance.md): composição, textos e componentes nos cenários
 documentados. O [passo 3 está aceito](docs/viewer-visible-acceptance.md), incluindo
-a conferência visual do viewer Windows. O [passo 4 está aceito localmente](docs/performance-acceptance.md), com base original detalhada, aceleração opcional própria e limites explícitos. **Versão 0.2.0 em validação final de artefatos.** A [matriz corrigida](docs/ci-portability-fix.json) passou 24/24 jobs. [Aceite de release e limites](docs/release-acceptance.md): conferência visual Windows; testes automatizados nos três sistemas. Não houve publicação no PyPI.
+a conferência visual do viewer Windows. O [passo 4 está aceito localmente](docs/performance-acceptance.md), com base original detalhada, aceleração opcional própria e limites explícitos. **Azimlib 0.2.0 pronta: 54/54 subpassos encerrados.** A [matriz da versão 0.2.0](docs/ci-0.2.0.json) passou 24/24 jobs, além da matriz da correção anterior. [Aceite de release e limites](docs/release-acceptance.md): conferência visual Windows; testes automatizados nos três sistemas. Não houve publicação no PyPI.
 O [alinhamento de textos rotacionados](docs/text-rotation.md) foi conferido
 diretamente com Matplotlib: ticks, títulos, nomes dos eixos, textos de mapa/Figure
 e colorbars compartilham regras próprias de `rotation_mode`.
@@ -194,7 +194,7 @@ As diferenças restantes de rasterização, DPI e antialiasing estão explicadas
 em [qualidade de imagem](docs/image-quality.md).
 Pan/Zoom, dimensões físicas/hover/fontes da toolbar e cursor sobre Axes foram
 ajustados pela [auditoria Tk em quatro escalas](docs/toolbar.md). O aceite da
-janela visível continua pendente; há um script de comparação lado a lado.
+janela visível Windows foi registrado; há um script de comparação lado a lado.
 Veja a [comparação direta a 100 DPI](gallery/render-quality-after.png)
 e o [plano de próximos avanços](docs/next-steps.md).
 
@@ -548,8 +548,9 @@ A suíte verifica fórmulas e inversas, áreas locais, CRS, GeoJSON, antimeridia
 buracos em pixels, clipping, transparência, estilos, composição e navegação.
 O repositório inclui configuração de CI para Python 3.10–3.14 em Windows,
 Linux e macOS, com instalação isolada do wheel e jobs adicionais de Tk.
-A CI remota permanece pendente. O [viewer foi validado localmente](docs/viewer-validation.md)
-com widgets/event loop reais e janelas ocultas; isso não declara igualdade visual.
+A [CI 0.2.0](docs/ci-0.2.0.json) passou 24/24 jobs nos três sistemas. O viewer tem
+[checks locais](docs/viewer-validation.md) e [aceite visual Windows](docs/viewer-visible-acceptance.md);
+Linux/macOS têm CI desktop, sem conferência visual humana nativa. Isso não declara igualdade dos pixels.
 O Tk usa diretamente o buffer RGBA próprio; `savefig()` continua codificando
 PNG/SVG estáticos, sem UI. O comparador `tools/benchmark_viewer.py` mede
 abertura, redesenho, navegação, resize e edição com contadores de memória do
@@ -563,6 +564,6 @@ Código original sob BSD-3-Clause, copyright Kernerian; dados Natural Earth em d
 Plasma, Inferno e Magma sob CC0. Fontes DejaVu preservam sua licença.
 
 O inventário possui [16 frentes pendentes](docs/pending.md), com várias tarefas
-por frente. A [versão 0.2.0](docs/release-0.2.md) tem cinco critérios propostos
+por frente. A [versão 0.2.0](docs/release-0.2.md) encerrou os cinco critérios
 para consolidar o núcleo 2D; não precisa esperar formatos futuros ou 3D.
 A versão 0.2.0 consolida esse corte. Conferência visual nativa Linux/macOS segue como limitação explícita, no escopo de plataforma documentado; urbano/3D permanecem posteriores. Publicação PyPI é separada.
