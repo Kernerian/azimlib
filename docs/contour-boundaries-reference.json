@@ -1,0 +1,149 @@
+{
+  "matplotlib": "3.11.2",
+  "backend": "Agg",
+  "corner_mask": false,
+  "cases": [
+    {
+      "name": "constant-0",
+      "status": "accepted",
+      "levels": [
+        -2.4999999999999994e-14,
+        0.0,
+        2.4999999999999994e-14
+      ],
+      "segments": [
+        0,
+        0,
+        0
+      ],
+      "labels_empty": true,
+      "colorbar": "drawn",
+      "warnings": []
+    },
+    {
+      "name": "constant-5",
+      "status": "accepted",
+      "levels": [
+        4.999999999999451,
+        4.9999999999996,
+        4.999999999999751,
+        4.9999999999999005,
+        5.000000000000051,
+        5.000000000000201,
+        5.000000000000351,
+        5.000000000000501
+      ],
+      "segments": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "labels_empty": true,
+      "colorbar": "drawn",
+      "warnings": []
+    },
+    {
+      "name": "constant--3",
+      "status": "accepted",
+      "levels": [
+        -3.0000000000000804,
+        -3.0,
+        -2.99999999999992
+      ],
+      "segments": [
+        0,
+        0,
+        0
+      ],
+      "labels_empty": true,
+      "colorbar": "drawn",
+      "warnings": []
+    },
+    {
+      "name": "outside",
+      "status": "accepted",
+      "levels": [
+        3.0,
+        4.0
+      ],
+      "segments": [
+        0,
+        0
+      ],
+      "labels_empty": true,
+      "colorbar": "drawn",
+      "warnings": []
+    },
+    {
+      "name": "duplicate-levels",
+      "status": "rejected",
+      "error": "ValueError",
+      "warnings": []
+    },
+    {
+      "name": "nonfinite-level",
+      "status": "rejected",
+      "error": "ValueError",
+      "warnings": []
+    },
+    {
+      "name": "empty-levels",
+      "status": "accepted",
+      "levels": [],
+      "segments": [],
+      "labels_empty": true,
+      "colorbar": "IndexError",
+      "warnings": []
+    },
+    {
+      "name": "all-missing",
+      "status": "accepted",
+      "levels": [
+        1.0,
+        2.0
+      ],
+      "segments": [
+        0,
+        0
+      ],
+      "labels_empty": true,
+      "colorbar": "drawn",
+      "warnings": []
+    },
+    {
+      "name": "missing-center",
+      "status": "accepted",
+      "levels": [
+        0.5,
+        1.5
+      ],
+      "segments": [
+        0,
+        0
+      ],
+      "labels_empty": true,
+      "colorbar": "drawn",
+      "warnings": []
+    },
+    {
+      "name": "saddle",
+      "status": "accepted",
+      "levels": [
+        0.5,
+        1.5
+      ],
+      "segments": [
+        5,
+        4
+      ],
+      "labels_empty": false,
+      "colorbar": "drawn",
+      "warnings": []
+    }
+  ]
+}

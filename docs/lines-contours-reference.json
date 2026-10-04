@@ -1,0 +1,213 @@
+{
+  "matplotlib": "3.11.2",
+  "lines": [
+    {
+      "name": "initial",
+      "data": [
+        [
+          -52.0,
+          -48.0,
+          -44.0
+        ],
+        [
+          -25.0,
+          -22.0,
+          -20.0
+        ]
+      ],
+      "color": "red",
+      "linewidth": 1.5,
+      "linestyle": "-",
+      "marker": "o",
+      "markersize": 6.0,
+      "markerfacecolor": "red",
+      "markeredgecolor": "red",
+      "markeredgewidth": 1.0,
+      "solid_capstyle": "projecting",
+      "dash_capstyle": "butt",
+      "solid_joinstyle": "round",
+      "dash_joinstyle": "round",
+      "antialiased": true,
+      "alpha": null,
+      "visible": true,
+      "label": "Route"
+    },
+    {
+      "name": "grouped",
+      "data": [
+        [
+          -51.0,
+          -47.0,
+          -43.0
+        ],
+        [
+          -26.0,
+          -23.0,
+          -19.0
+        ]
+      ],
+      "color": "blue",
+      "linewidth": 0.9,
+      "linestyle": "--",
+      "marker": "s",
+      "markersize": 4.0,
+      "markerfacecolor": "white",
+      "markeredgecolor": "black",
+      "markeredgewidth": 0.4,
+      "solid_capstyle": "butt",
+      "dash_capstyle": "round",
+      "solid_joinstyle": "miter",
+      "dash_joinstyle": "bevel",
+      "antialiased": false,
+      "alpha": 0.7,
+      "visible": false,
+      "label": "Edited route"
+    },
+    {
+      "name": "no-symbols",
+      "data": [
+        [
+          -50.0,
+          -46.0,
+          -42.0
+        ],
+        [
+          -25.0,
+          -22.0,
+          -18.0
+        ]
+      ],
+      "color": "blue",
+      "linewidth": 0.9,
+      "linestyle": "None",
+      "marker": "None",
+      "markersize": 4.0,
+      "markerfacecolor": "blue",
+      "markeredgecolor": "blue",
+      "markeredgewidth": 0.4,
+      "solid_capstyle": "butt",
+      "dash_capstyle": "round",
+      "solid_joinstyle": "miter",
+      "dash_joinstyle": "bevel",
+      "antialiased": false,
+      "alpha": null,
+      "visible": true,
+      "label": "Edited route"
+    },
+    {
+      "name": "empty",
+      "data": [
+        [],
+        []
+      ],
+      "color": "blue",
+      "linewidth": 0.9,
+      "linestyle": "None",
+      "marker": "None",
+      "markersize": 4.0,
+      "markerfacecolor": "blue",
+      "markeredgecolor": "blue",
+      "markeredgewidth": 0.4,
+      "solid_capstyle": "butt",
+      "dash_capstyle": "round",
+      "solid_joinstyle": "miter",
+      "dash_joinstyle": "bevel",
+      "antialiased": false,
+      "alpha": null,
+      "visible": true,
+      "label": "Edited route"
+    }
+  ],
+  "contours": [
+    {
+      "name": "initial",
+      "levels": [
+        0.5,
+        1.5
+      ],
+      "array": [
+        0.5,
+        1.5
+      ],
+      "linewidths": [
+        0.4,
+        0.8
+      ],
+      "alpha": null,
+      "visible": true,
+      "clim": [
+        0.5,
+        1.5
+      ],
+      "cmap": "viridis"
+    },
+    {
+      "name": "grouped",
+      "levels": [
+        0.5,
+        1.5
+      ],
+      "array": [
+        0.5,
+        1.5
+      ],
+      "linewidths": [
+        1,
+        2
+      ],
+      "alpha": 0.5,
+      "visible": true,
+      "clim": [
+        0.0,
+        2.0
+      ],
+      "cmap": "plasma"
+    },
+    {
+      "name": "hidden",
+      "levels": [
+        0.5,
+        1.5
+      ],
+      "array": [
+        0.5,
+        1.5
+      ],
+      "linewidths": [
+        1,
+        2
+      ],
+      "alpha": 0.5,
+      "visible": false,
+      "clim": [
+        0.0,
+        2.0
+      ],
+      "cmap": "plasma"
+    }
+  ],
+  "label_protocol": {
+    "is_list": true,
+    "texts": [
+      "Low",
+      "High"
+    ],
+    "texts_after": [
+      "Edited",
+      "High"
+    ],
+    "visibility_after": [
+      true,
+      false
+    ],
+    "fontsize": [
+      9.0,
+      9.0
+    ],
+    "visibility_after_hidden_contour": [
+      true,
+      false
+    ],
+    "removed_with_contour": true
+  }
+}

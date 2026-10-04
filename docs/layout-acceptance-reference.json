@@ -1,0 +1,389 @@
+{
+  "matplotlib": "3.11.2",
+  "reference": {
+    "padding": [
+      {
+        "location": "left",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "top",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 4.63671875
+      },
+      {
+        "location": "top",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 4.63671875
+      },
+      {
+        "location": "top",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 4.63671875
+      },
+      {
+        "location": "top",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 4.63671875
+      },
+      {
+        "location": "top",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 4.63671875
+      },
+      {
+        "location": "top",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 4.63671875
+      },
+      {
+        "location": "bottom",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8,
+        "gap_points": 8.0
+      }
+    ],
+    "explicit_global_positions": [
+      [
+        0.4,
+        0.015
+      ],
+      [
+        0.015,
+        0.4
+      ]
+    ],
+    "automatic_globals_after_position_setter": [
+      [
+        0.4,
+        0.006945
+      ],
+      [
+        0.006945,
+        0.4
+      ]
+    ]
+  },
+  "azimlib": {
+    "padding": [
+      {
+        "location": "left",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "left",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "right",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "top",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "top",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "top",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "top",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "top",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "top",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 0,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 0,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 35,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 35,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 75,
+        "dpi": 100,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      },
+      {
+        "location": "bottom",
+        "rotation": 75,
+        "dpi": 200,
+        "labelpad": 8.0,
+        "gap_points": 8.0
+      }
+    ],
+    "explicit_global_positions": [
+      [
+        0.4,
+        0.015
+      ],
+      [
+        0.015,
+        0.4
+      ]
+    ],
+    "automatic_globals_after_position_setter": [
+      [
+        0.4,
+        0.006944444444444443
+      ],
+      [
+        0.006944444444444443,
+        0.4
+      ]
+    ]
+  },
+  "tool_sha256": "a4c5ce3a4abb22fedb2bc019e91aef807b4dd8c3ddba93bd321af07ce3d66e9f",
+  "scope": "24 labelpad values and explicit Figure label coordinates match. 18 physical gap states match; top has native baseline/descent difference (recorded). No all-pixel equality."
+}

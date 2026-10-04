@@ -1,0 +1,135 @@
+{
+  "matplotlib_version": "3.11.2",
+  "cases": [
+    {
+      "kind": "line",
+      "name": "linewidth",
+      "alias": "lw",
+      "value": 1.0,
+      "normalized": {
+        "linewidth": 1.0
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "line",
+      "name": "linestyle",
+      "alias": "ls",
+      "value": "--",
+      "normalized": {
+        "linestyle": "--"
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "line",
+      "name": "color",
+      "alias": "c",
+      "value": "red",
+      "normalized": {
+        "color": "red"
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "line",
+      "name": "markersize",
+      "alias": "ms",
+      "value": 5.0,
+      "normalized": {
+        "markersize": 5.0
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "line",
+      "name": "markeredgewidth",
+      "alias": "mew",
+      "value": 0.8,
+      "normalized": {
+        "markeredgewidth": 0.8
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "line",
+      "name": "markerfacecolor",
+      "alias": "mfc",
+      "value": "red",
+      "normalized": {
+        "markerfacecolor": "red"
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "line",
+      "name": "markeredgecolor",
+      "alias": "mec",
+      "value": "black",
+      "normalized": {
+        "markeredgecolor": "black"
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "line",
+      "name": "antialiased",
+      "alias": "aa",
+      "value": true,
+      "normalized": {
+        "antialiased": true
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "text",
+      "name": "fontsize",
+      "alias": "size",
+      "value": 12.0,
+      "normalized": {
+        "fontsize": 12.0
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "text",
+      "name": "fontweight",
+      "alias": "weight",
+      "value": "bold",
+      "normalized": {
+        "fontweight": "bold"
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "text",
+      "name": "fontfamily",
+      "alias": "family",
+      "value": "DejaVu Sans",
+      "normalized": {
+        "fontfamily": "DejaVu Sans"
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "text",
+      "name": "horizontalalignment",
+      "alias": "ha",
+      "value": "center",
+      "normalized": {
+        "horizontalalignment": "center"
+      },
+      "conflict_error": "TypeError"
+    },
+    {
+      "kind": "text",
+      "name": "verticalalignment",
+      "alias": "va",
+      "value": "top",
+      "normalized": {
+        "verticalalignment": "top"
+      },
+      "conflict_error": "TypeError"
+    }
+  ]
+}

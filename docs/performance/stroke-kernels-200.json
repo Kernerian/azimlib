@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tooling_sha256": "46ca82aab4646036a8b54ec5494cc64364162000254e59c1537bdb6631f26e91",
+  "factory_sha256": {
+    "stroke_kernel_map_factory": "9f9068f6bd5e745adaa2272e2ce91f83369c4f7542ee72038d00aaca6d597bc4",
+    "stroke_kernel_scientific_factory": "48bfe1eab77f5038dae335b64dfb79fcd22c21ffe55fd92bdce36e9b1e0dcfe2",
+    "stroke_kernel_municipal_factory": "61d4a0ae82029099489f4a3a5b87f92e881565f5d7ac1740968b8bcea82d11fa"
+  },
+  "coverage_sha256": {
+    "before": "e12a1ed30afa9a62a973f25a02f84b43eb180243c3a1a608f7e4dbc3d0af6509",
+    "after": "d1ccfeb3cf9f83386b12476d4a4dd5f298e97616f23911b97b9dcdcb8df3e17b"
+  },
+  "renderer_sha256": "33de4725add6f8523cff9d890cc0eb52c106c057d41bb2c0a8f8c06eac6abe0a",
+  "source": null,
+  "repeats": 2,
+  "points": 1500,
+  "cases": [
+    {
+      "name": "state",
+      "dpi": 200,
+      "pixels": [
+        1280.0,
+        960.0
+      ],
+      "scene_items": 82,
+      "samples_seconds": {
+        "before": [
+          2.3952852000002167,
+          2.6024748999989242
+        ],
+        "after": [
+          2.6371374999980617,
+          2.556857100000343
+        ]
+      },
+      "median_seconds": {
+        "before": 2.4988800499995705,
+        "after": 2.5969972999992024
+      },
+      "rgba_sha256": "4acaff9c936418d558d9e0bfbffe7e3fe9a417da07e7c92ff071d06de30ac270",
+      "png_sha256": "1e8e8bda7df8f547619e24af4f9a7cc58b709edff0851edd63e7740f6ecd938d",
+      "svg_sha256": "63ab63416b586c34c8fe7a6ad3dd0921f38ecf69e15c83e65f0ff8990ab40c5c",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "points",
+      "dpi": 200,
+      "pixels": [
+        1280.0,
+        960.0
+      ],
+      "scene_items": 1564,
+      "samples_seconds": {
+        "before": [
+          2.9424037000026146,
+          2.937586399999418
+        ],
+        "after": [
+          2.8438647000002675,
+          2.87481359999947
+        ]
+      },
+      "median_seconds": {
+        "before": 2.9399950500010164,
+        "after": 2.859339149999869
+      },
+      "rgba_sha256": "91c73546c4f4f6a51e3f0cd26a5370a0f92a8a4e43ea2c42d8ea2dc3431d26f4",
+      "png_sha256": "1a74d55f0298809ac1d9ad00d2b5506396e9b1b42a5140a0d7013780cd02020e",
+      "svg_sha256": "57f0bd89bbba5b9f0b4be586c0d37f072786f342c7c0858b151d57437f6f4737",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "terrain",
+      "dpi": 200,
+      "pixels": [
+        1600.0,
+        1300.0
+      ],
+      "scene_items": 3371,
+      "samples_seconds": {
+        "before": [
+          2.065798799998447,
+          2.089244899998448
+        ],
+        "after": [
+          2.03075170000011,
+          2.050241200002347
+        ]
+      },
+      "median_seconds": {
+        "before": 2.0775218499984476,
+        "after": 2.0404964500012284
+      },
+      "rgba_sha256": "07a6b59bb9d4094288225a13d780e1d5ff72532fe62990e955b6219394142d86",
+      "png_sha256": "528a63c85297836beb33f6dbd07454155a3738890720248343fdfd21a26c6c61",
+      "svg_sha256": "9e761330660fc954581e8a2ef79b8be8bd03b7b8d442b4ab47839477003c66cf",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "globe",
+      "dpi": 200,
+      "pixels": [
+        1600.0,
+        1600.0
+      ],
+      "scene_items": 430,
+      "samples_seconds": {
+        "before": [
+          4.710057100000995,
+          4.711076999999932
+        ],
+        "after": [
+          4.590825699997367,
+          4.648269600002095
+        ]
+      },
+      "median_seconds": {
+        "before": 4.7105670500004635,
+        "after": 4.619547649999731
+      },
+      "rgba_sha256": "675c3a46814bc042acf35e3184cfaa36dc7ec07644b8c1030ff08f4905aad455",
+      "png_sha256": "f7ddd8fe4bfc6ba2772408f6bb21cd13092f56260eb605e43d192a5483b1eb4f",
+      "svg_sha256": "5451adc6b3e2cfc6b9f1788b35a3c9424c2e1fe54091e46c9e3631dc1e75d1e2",
+      "identical_rgba": true,
+      "identical_png": true
+    }
+  ],
+  "notes": [
+    "One immutable scene per case/DPI. Before swaps only _area with our own previous snapshot.",
+    "Serial alternating calls; raster timings exclude composition, hash, PNG/SVG encoding and I/O.",
+    "No concurrent profiling/measurement sampler, geometry simplification or Tk frame cache.",
+    "Small local samples; caches warm across calls. Not a statistical or visible-input latency guarantee.",
+    "Terrain/vector/point values are synthetic. Bundled boundaries generalized; optional municipal source not redistributed."
+  ],
+  "independent_runtime": true
+}

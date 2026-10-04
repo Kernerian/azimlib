@@ -1,0 +1,185 @@
+# Linhas, contornos e seus rótulos editáveis
+
+Esta entrega reúne cinco avanços relacionados: dados/estilos de linhas em lote,
+propriedades de marcadores/extremidades, contornos editáveis, handles dos seus
+rótulos e integração/exportação. Matplotlib 3.11.2/Agg foi usado somente pelo
+tool de desenvolvimento `inspect_lines_contours.py`, que registra quatro
+estados de linha, três de contorno e o protocolo dos rótulos em
+[lines-contours-reference.json](lines-contours-reference.json).
+
+## Linhas e marcadores
+
+```python
+import azimlib as azl
+
+fig, ax = azl.subplots(projection='mercator')
+line, = ax.plot([-52, -48], [-25, -22], 'o--', label='Rota')
+azl.setp(line,
+    data=([-53, -49, -45], [-26, -23, -20]),
+    color='red', linewidth=1.1,
+    marker='^', markersize=5,
+    markerfacecolor='white', markeredgecolor='red', markeredgewidth=.7,
+    dash_capstyle='round', dash_joinstyle='bevel')
+ax.legend()
+fig.savefig('rotas.svg')
+```
+
+`data=(x,y)` ou `xdata=..., ydata=...` permite editar coordenadas com estilo,
+visibilidade e cores no mesmo lote. As formas/posições e propriedades são
+validadas antes de alterar o handle. Combinar data com xdata/ydata é rejeitado;
+usar somente xdata ou ydata exige conservar o comprimento da outra coordenada.
+Fontes geográficas anteriores permanecem imutáveis; vazios e um único ponto
+são aceitos. Dados continuam finitos, em longitude/latitude, com latitude
+em ±90°. Máscaras/NaN de Line2D e múltiplas séries ainda não estão disponíveis.
+
+Há setters/getters para marker, markersize, markerfacecolor, markeredgecolor,
+markeredgewidth e antialiased. `auto` em cor de preenchimento/borda do marcador
+acompanha a cor da linha. `marker=None/'None'` e tamanho zero ocultam marcadores;
+`linestyle='None'` oculta o traço mantendo marcadores. Formas disponíveis:
+o, s, ^, v, D, *, p, h, +, x, além dos aliases já documentados.
+
+Linhas de plot começam com marcador oculto, linewidth 1.5 pt e markersize 6 pt.
+Seus controles familiares são:
+
+- solid_capstyle/dash_capstyle: butt, round ou projecting;
+- solid_joinstyle/dash_joinstyle: miter, round ou bevel.
+
+Os defaults de plot acompanham Matplotlib: projecting no traço contínuo,
+butt nos traços descontínuos e junções round. O compositor converte projecting
+para a extremidade square dos renderizadores próprios. Os controles anteriores
+linecap/linejoin continuam disponíveis para geometrias. As larguras são em
+pontos e não crescem por causa da edição do marcador.
+
+`set_data`, `set_xdata`, `set_ydata` e os setters de estilo continuam disponíveis.
+Uma edição validada envia uma notificação de Artist com estado final. A vista
+manual permanece fixa; relim/autoscale_view ajustam eixos automáticos quando
+solicitados. setp de vários Artists não é uma transação global.
+
+## ContourSet próprio
+
+```python
+cs = ax.contour([-54, -49, -44], [-26, -22, -18],
+                [[0, 1, 2]] * 3, levels=[.5, 1.5],
+                linewidths=[.4, .8], linestyles=['--', ':'])
+bar = fig.colorbar(cs)
+cs.set(cmap='plasma', clim=(0, 2), linewidths=[.7, 1.2], alpha=.8)
+```
+
+contour retorna agora `azimlib.ContourSet`, derivado do Layer/Artist existente.
+Mantém o marching squares, ligação de segmentos, geometria, projeção e
+renderizadores próprios. `levels` é uma tupla; `allsegs` retorna uma cópia das
+linhas agrupadas por nível. Níveis sem geometria resultam em grupos vazios.
+
+linewidth/linewidths e linestyle/linestyles aceitam valores únicos ou sequências.
+Sequências curtas repetem **por nível**, não por segmento desconectado. Cores
+fixas aceitam uma string ou sequência de strings em color/colors/edgecolor;
+widths/styles/cores vazios e propriedades inválidas são rejeitados antes da
+edição. Use apenas um alias para cada propriedade no mesmo lote.
+
+Há set/get_linewidths, set/get_linestyles, set/get_edgecolors, os setters
+singulares e consultas por getp. Cores consultadas são strings, não arrays RGBA
+de Matplotlib. Padrões customizados continuam usando a sequência de comprimentos
+positivos da Azimlib; offset + sequência de dashes de Matplotlib ainda não existe.
+
+Normalização, clim/cmap e array numérico participam dos mesmos lotes de cores
+dos demais campos. Colorbar acompanha norm/clim/paleta: conservar norm mantém
+tickers personalizados; trocar norm os redefine. Cores fixas de linhas não
+são alteradas ao editar cmap/clim. `set_color(None)` é uma conveniência própria
+para retornar às cores numéricas. Na criação, colors explícitas definem uma
+ListedColormap própria e NoNorm: os valores são índices da paleta, como na
+referência. colors explícitas prevalecem sobre norm fornecida; não modificam
+o objeto de norm externo. Uma paleta de uma única cor também é aceita.
+
+A geometria e os níveis são fixos. set_array muda dados de **cor**, não recalcula
+isolinhas: exige **um valor por nível**, inclusive níveis vazios ou com vários
+caminhos desconectados. get_array/cvalues começa com os níveis numéricos, ou
+com índices 0,1,... para colors explícitas. Esta é uma correção do contrato
+anterior por caminho na alpha 0.1.0. Com NoNorm, a edição de array interpreta
+valores finitos como índices inteiros; use inteiros, não frações. None/NaN usam
+a cor bad da paleta. set_array(None) retorna ao mapeamento inicial dos níveis.
+Ao contrário do Matplotlib, que restaura seus cvalues em changed, a Azimlib
+permite editar esses valores de cor explicitamente. Para outro campo ou níveis,
+crie outro contour e remova o anterior. contourf, paths públicos, triangulação
+e todas as opções de QuadContourSet ainda não estão disponíveis.
+
+## Colorbar de isolinhas
+
+fig.colorbar(cs) mostra **linhas sólidas** nas cores e larguras mapeadas por
+nível, sem preenchimento em gradiente, como um ContourSet sem preenchimento
+do Matplotlib. Funciona nas quatro posições e nas duas orientações. Os ticks
+padrão são os níveis. spacing='uniform' distribui-os igualmente;
+spacing='proportional' usa a distância entre valores. Com LogNorm, as posições
+seguem a distância logarítmica. Uma barra com apenas um nível coloca-o no centro.
+boundaries/values expõem níveis/valores de cor; ticks, formatters, rótulo,
+borda e cax continuam editáveis pelos mesmos handles.
+
+A barra representa norm/cmap/cvalues. set_color('green') depois da criação
+muda manualmente os traços do mapa, mas não a paleta da barra, como na referência.
+Editar cmap muda as cores mapeadas da barra; editar linewidths muda suas larguras.
+Trocar norm redefine seus tickers, conservando os níveis como ticks padrão.
+Não há ainda uma Collection pública bar.lines para editar os traços da barra
+separadamente, nem toda a semântica de extensões de contornos do Matplotlib.
+As barras contínuas de imagens/scatter permanecem preenchidas em gradiente.
+
+## Rótulos individuais
+
+```python
+labels = ax.clabel(cs, [.5, 1.5], fmt={.5: 'Baixo', 1.5: 'Alto'},
+                   inline=False, fontsize=8)
+# Também: cs.clabel(...)
+azl.setp(labels, color='black', fontsize=9)
+labels[0].set_text('Baixo · editado')
+labels[1].set_visible(False)
+cs.remove()  # Remove também os rótulos associados.
+```
+
+clabel retorna `ContourLabels`, uma lista de handles `ContourLabel` derivados
+de Layer/Artist. Cada handle contém um caminho, texto, estilo e visibilidade
+próprios; entra em findobj e oferece set_text/get_text, set_fontsize, set_color,
+set_rotation, set_visible e remove. fmt aceita string printf, função, dicionário
+por nível ou Formatter próprio. Selecionar níveis inexistentes ou outro Axes
+é rejeitado. Chamadas adicionais retornam os rótulos associados ainda ativos.
+
+O posicionamento continua usando direção local projetada e colisões da Azimlib.
+A lista representa os rótulos candidatos; caminhos muito curtos ou sem espaço
+podem não exibir texto na composição. Não são objetos Text/Transforms completos
+de Matplotlib. Edições preservam os mesmos caminhos e recalculam posicionamento
+no próximo desenho; rotação explícita é respeitada.
+
+Por padrão, as cores seguem o contorno. Editar a cor de um rótulo, ou passar
+colors/color no clabel, fixa essa cor individual. Ocultar o contorno mantém a
+visibilidade dos rótulos, como a referência; remova ou oculte-os explicitamente.
+Remover o contorno remove/destaca seus rótulos, também como a referência.
+
+Os helpers de grupo labels.set_visible/set/remove preservam o atalho anterior.
+`inline=True`, inline_spacing=5 são agora os defaults da referência.
+Somente rótulos efetivamente posicionados e visíveis recortam seu próprio
+caminho conectado; textos transparentes, ocultos, removidos ou sem espaço não
+deixam cortes. O compositor subtrai a caixa rotacionada do texto, sem pintar
+um retângulo branco e sem alterar allsegs ou os dados geográficos. O corte
+é recalculado após pan/zoom, edição de fonte/rotação/texto ou desenho.
+
+Use labels.set(inline=False) para restaurar linhas inteiras, ou
+labels[0].set_inline_spacing(8) para ampliar a folga. Há getters e set/get_inline.
+inline_spacing usa pixels de display no DPI da Figure; ao exportar com outro
+dpi, a cena já composta e a folga são escaladas juntas. A posição dos textos
+vem do solver próprio, não é idêntica à escolha automática de Matplotlib;
+o recorte usa a caixa do texto, não distância acumulada pela curva.
+
+## Exemplo integrado
+
+[lines_contours.py](../examples/lines_contours.py) exporta rotas, marcadores,
+legenda, escala, norte, estados, campo e isolinhas em PNG/SVG/HTML antes/depois.
+Os dados do campo são sintéticos. Nenhum componente aparece sem ser solicitado.
+savefig continua estático; o HTML continua uma cena exportada e exige reexportação
+após edições Python. Nenhuma dessas APIs usa backend Matplotlib.
+
+[contour_refinement.py](../examples/contour_refinement.py) compara spacing
+uniform/proportional, cores explícitas por nível e rótulos sem/com cortes;
+edita a paleta e os mesmos handles antes da segunda exportação.
+O tool de desenvolvimento inspect_contour_bars.py registra 12 casos reais
+de Matplotlib/Agg em [contour-bars-reference.json](contour-bars-reference.json).
+compare_contours.py gera a comparação visual com os mesmos dados/fontes/DPI.
+
+Múltiplos grupos/matrizes, ciclos e defaults de legenda em contextos foram
+consolidados no [lote de séries e estilos](series-styles.md).

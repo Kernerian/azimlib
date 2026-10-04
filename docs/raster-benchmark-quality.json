@@ -1,0 +1,25 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "figsize": [
+    6.4,
+    4.8
+  ],
+  "dpi": 100,
+  "points": 600,
+  "seed": 123,
+  "cases": [
+    {
+      "name": "state",
+      "composition": 0.034996499998669606,
+      "raster": 1.0728309999976773,
+      "items": 64
+    },
+    {
+      "name": "points",
+      "composition": 0.016086399999039713,
+      "raster": 0.4940180000012333,
+      "items": 627
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "license_texts": [
+    {
+      "file": "licenses/LicenseRef-ColorBrewer.txt",
+      "source_url": "https://colorbrewer2.org/export/LICENSE.txt",
+      "sha256": "aba881933999be3549b2171832a11a9dfad574243019df95c067ccf3d47b9649"
+    },
+    {
+      "file": "licenses/Apache-2.0.txt",
+      "source_url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "file": "licenses/CC0-1.0.txt",
+      "source_url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    }
+  ]
+}

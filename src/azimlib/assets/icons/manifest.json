@@ -1,0 +1,29 @@
+{
+  "source": "Original Azimlib geometry",
+  "license": "BSD-3-Clause",
+  "geometry_sha256": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+  "generator_sha256": "230495ada5a3291439ffd89e0c6c357da65994e56397865b8ec8ff6db01255c7",
+  "files_sha256": {
+    "home.svg": "d5da59087382f89042d6750a402a537d7b56b5c04b6ee8ee6b14d403a32c355f",
+    "home.png": "8a99ffb2dbc2711c14993a16c39c396639a8d9a1b6da073fa92cba2178242890",
+    "home_large.png": "cc76e08b0523901ba29305b0eb56e6feae7a5ee45a0f930a990118abd58af4ff",
+    "back.svg": "2b969cc3ff23233d72eed2ce84571c7f927c575071fadb06c2cf58b46f21e57e",
+    "back.png": "4b12c5217b307b07db46adf23a392724400471e8b7bdacdbdb2cca66c453f8b9",
+    "back_large.png": "128deaa49b72d2ed278142770580e18fa3fb08d06ac124dc9aedb29db8c57b16",
+    "forward.svg": "e6f1a8df6c925a5d1454b8fcd47ea36d40278edb7552b344d00659ad5b60bff3",
+    "forward.png": "de061c63d43c7d725a427d9825934612790333b0766d02288124d8b353126db7",
+    "forward_large.png": "b22d83be0c1e33a6fb5df42c7b0ab0a0b65b2b16edc26320278b2dd48dd5137e",
+    "move.svg": "c07b349ca2f069737cbb789a01228d2a9590b83bbf40678468d91f7467380162",
+    "move.png": "5d688c9d6b7e1352213507905199d5dc883898cd341f695ee7509eaa49b8be5c",
+    "move_large.png": "8dc5b63869688017ce56471b7bdda12fd05a0f3560376ee7f77862a954b343f6",
+    "zoom_to_rect.svg": "5501c91ef5217191d11a84ecd6253ed64d7d3428cf41738fd8c04ddf0a13324d",
+    "zoom_to_rect.png": "2e8fb69360bacfb4cc6e2f9c8971ffddb3b518914b7d4519304e38bad057ba50",
+    "zoom_to_rect_large.png": "2a310645aed9d65030402ee01254f96c0f858dccdf2209490eac74248749ebfa",
+    "subplots.svg": "dff26bbf569594cee67e62f54711a8740b387c11154b4100988d7a7a07b5861d",
+    "subplots.png": "a8d19fdb28369c39a64f371a2bd1f97a108e5ddaa507b3ed83321df42c7c374c",
+    "subplots_large.png": "db83dee79f1aed30a9ae56b8d6a93719cbcb819b959ed9bc1fb07ddde5c0241e",
+    "filesave.svg": "35dc9973a59c6756725a0daf096175a65ea8777d99a3e3cc5f6eced326d1c7a2",
+    "filesave.png": "631eaabdf91539b9055b9dd7a6ad6c7448a210f7469d84f0b21fdbbeb18b2bde",
+    "filesave_large.png": "af45f54ab01b55153469e9f293fe9cb43998d1015cdbd47943ac4f3e01da2887"
+  }
+}

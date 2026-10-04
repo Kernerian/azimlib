@@ -1,0 +1,75 @@
+{
+  "matplotlib_version": "3.11.2",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "common": [
+    "child_remove",
+    "legend_visibility",
+    "colorbar_label_visibility",
+    "clim_preserves_locator",
+    "norm_resets_locator"
+  ],
+  "matplotlib": {
+    "child_remove": [
+      "NotImplementedError",
+      true,
+      false
+    ],
+    "legend_visibility": [
+      false,
+      false,
+      false,
+      true
+    ],
+    "old_legend_remove_preserves_current": false,
+    "replaced_tick_keeps_figure": true,
+    "colorbar_label_visibility": false,
+    "clim_preserves_locator": [
+      true,
+      0.0,
+      200.0
+    ],
+    "norm_resets_locator": [
+      false,
+      0.0,
+      10.0
+    ],
+    "removed_bar_stale": true,
+    "clear_keeps_colorbar": true
+  },
+  "azimlib": {
+    "child_remove": [
+      "NotImplementedError",
+      true,
+      false
+    ],
+    "legend_visibility": [
+      false,
+      false,
+      false,
+      true
+    ],
+    "old_legend_remove_preserves_current": true,
+    "replaced_tick_keeps_figure": false,
+    "colorbar_label_visibility": false,
+    "clim_preserves_locator": [
+      true,
+      0.0,
+      200.0
+    ],
+    "norm_resets_locator": [
+      false,
+      0.0,
+      10.0
+    ],
+    "removed_bar_stale": false,
+    "clear_keeps_colorbar": false
+  },
+  "notes": [
+    "Direct local Agg reference; Matplotlib is imported only by this development command.",
+    "Azimlib local colorbar occupies its Axes component slot; Matplotlib colorbar has a separate Axes.",
+    "Discarded tick texts detach in Azimlib; Matplotlib reuses/retains tick handles.",
+    "The measured Matplotlib figure became stale after editing the standalone mappable of a removed bar; Azimlib stayed clean.",
+    "Removing a superseded legend does not clear the current legend in Azimlib."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "python": "3.14.4 (tags/v3.14.4:23116f9, Apr  7 2026, 14:10:54) [MSC v.1944 64 bit (AMD64)]",
+  "scripts": [
+    {
+      "tool": "smoke_artist_tk.py",
+      "sha256": "3d15c15e3459232530f72d46029d5c9f748438beeb6062f0fc6f58ca71c5b3f9",
+      "returncode": 0,
+      "stdout": "Tk: three edits coalesced into one draw; live scene and stale state verified.\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_viewer_tk.py",
+      "sha256": "1f76e86d082469842761d592c315f179c09683a4f2273ec19c67dd43493a6730",
+      "returncode": 0,
+      "stdout": "{\n  \"python\": \"3.14.4\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"tk\": 8.6,\n  \"checks\": [\n    \"real widgets, toolbar, canvas, optional components, callback transfer\",\n    \"batched edits, visibility and live own Scene in draw_event\",\n    \"direct RGBA without PNG codec/initial copy; previous image closed\",\n    \"registered Motion binding and synthetic cursor coordinates\",\n    \"normalized keys/modifiers, editable keymap and Ctrl+S cancellation\",\n    \"middle/double-click input exposed without starting a pan drag\",\n    \"axes/figure transitions, cursor-targeted keys and major/minor grid cycles\",\n    \"pan preview/recomposition, shared axes, Home/Back/Forward toolbar\",\n    \"rectangle zoom, rubberband cleanup and fractional scroll\",\n    \"overview recentering, focus and optional visibility\",\n    \"registered Configure binding, real debounce timer and resized scene\",\n    \"Save toolbar writes static PNG/SVG; dialog cancellation\",\n    \"close cancels pending work, unregisters window and releases images\"\n  ],\n  \"timings\": {\n    \"first_draw_seconds\": 0.8401422999995702\n  },\n  \"scope\": \"withdrawn real Tk windows; synthetic input; not visual OS comparison\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_component_lifecycle_tk.py",
+      "sha256": "f0f15cab50b9e3d85c86a6ec2c4d5b6f3477bc8ed733046ed3e81e4588697e45",
+      "returncode": 0,
+      "stdout": "{\n  \"python\": \"3.14.4\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"tk\": 8.6,\n  \"checks\": [\n    \"real Tk window, optional components and explicit draw after callback transfer\",\n    \"one redraw hides legend entry/title and colorbar label\",\n    \"one redraw replaces local colorbar/scale after registration\",\n    \"discarded mapping/components do not schedule a redraw\",\n    \"norm replacement updates current bar and detaches previous ticks\",\n    \"clear removes local bar and disconnects its mapping\",\n    \"close releases current owned raster\"\n  ],\n  \"scope\": \"real withdrawn Tk; programmatic edits; no physical input or visible OS comparison\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_composition_tk.py",
+      "sha256": "1ef69bdd58d530906d668e59175e9baa44381319dfe22f8434c4f0705d615675",
+      "returncode": 0,
+      "stdout": "{\n  \"python\": \"3.14.4\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"tk\": 8.6,\n  \"checks\": [\n    \"single: callback observes registered first draw\",\n    \"single: grouped size/title/visibility edits update physical raster and preserve extent\",\n    \"single: DPI updates native canvas and typography\",\n    \"single: forward=False preserves widget request; static save DPI is temporary\",\n    \"atlas: callback observes registered first draw\",\n    \"atlas: grouped size/title/visibility edits update physical raster and preserve extent\",\n    \"atlas: DPI updates native canvas and typography\",\n    \"atlas: forward=False preserves widget request; static save DPI is temporary\",\n    \"nested: callback observes registered first draw\",\n    \"nested: grouped size/title/visibility edits update physical raster and preserve extent\",\n    \"nested: DPI updates native canvas and typography\",\n    \"nested: forward=False preserves widget request; static save DPI is temporary\",\n    \"failed first callback releases window, restores canvas/registry and permits retry\",\n    \"first draw callback can close its window without later widget access\"\n  ],\n  \"scope\": \"real withdrawn Tk; programmatic dimension/title edits; no physical input or perceptual latency\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_series_tk.py",
+      "sha256": "4b88b10e3d926fcbffa28e1cc57af66cda1998d527d8941fe4d21d2cfc770599",
+      "returncode": 0,
+      "stdout": "{\n  \"python\": \"3.14.4\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"tk\": 8.6,\n  \"checks\": [\n    \"light: matrix/data lines, independent scatter, styled legends and native widgets\",\n    \"light: batch editing/visibility/new cycle/legend reconstruction renders one frame\",\n    \"light: later invalid group leaves no layers, view changes, cycle consumption or frame\",\n    \"light: 48-column synthetic route batch creates editable handles in one frame\",\n    \"light: shared navigation/back preserve all routes and original geographic view\",\n    \"light: static SVG excludes UI; closing releases current raster\",\n    \"dark: matrix/data lines, independent scatter, styled legends and native widgets\",\n    \"dark: batch editing/visibility/new cycle/legend reconstruction renders one frame\",\n    \"dark: later invalid group leaves no layers, view changes, cycle consumption or frame\",\n    \"dark: 48-column synthetic route batch creates editable handles in one frame\",\n    \"dark: shared navigation/back preserve all routes and original geographic view\",\n    \"dark: static SVG excludes UI; closing releases current raster\"\n  ],\n  \"scope\": \"real withdrawn Tk, programmatic edits/navigation and synthetic 48-column routes; no physical input, native appearance or latency benchmark\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_numeric_tk.py",
+      "sha256": "b41f1db86c2f3e237c6e28b29b97bb4c5d7da1dd70a14e88b6a43bf4f1fda10c",
+      "returncode": 0,
+      "stdout": "{\n  \"python\": \"3.14.4\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"tk\": 8.6,\n  \"checks\": [\n    \"vertical: initial scientific/offset labels rendered in native Tk widgets\",\n    \"vertical: editable offset visibility/style invalidates one frame\",\n    \"vertical: clim, ticks, labelpad and narrow diamond/legend edits compose one frame\",\n    \"vertical: formatter replacement clears stale scientific offset\",\n    \"vertical: navigation/back and static SVG preserve independent export path\",\n    \"horizontal: initial scientific/offset labels rendered in native Tk widgets\",\n    \"horizontal: editable offset visibility/style invalidates one frame\",\n    \"horizontal: clim, ticks, labelpad and narrow diamond/legend edits compose one frame\",\n    \"horizontal: formatter replacement clears stale scientific offset\",\n    \"horizontal: navigation/back and static SVG preserve independent export path\"\n  ],\n  \"scope\": \"real withdrawn Tk; programmatic artist/navigation edits; no physical input or native appearance/latency equivalence\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_artist_validation_tk.py",
+      "sha256": "89c734731b30ff930208f5c65da8e8c756e3e3383927b2851209ad71706438d3",
+      "returncode": 0,
+      "stdout": "{\n  \"python\": \"3.14.4\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"tk\": 8.6,\n  \"checks\": [\n    \"initial integrated lines/scatter/raster/contours/shared bar/scale/legend compose in real Tk\",\n    \"mixed data, shared norm, text, frame, scale, outline and dash-generator edits produce one frame\",\n    \"shared normalization stays coherent with colorbar after edits\",\n    \"owned generator dash remains renderable across repeated draws\",\n    \"six rejected edits preserve raster, SVG, model and pending draw count\",\n    \"valid edits remain usable after failures; static SVG and portable HTML stay separate\",\n    \"closing releases owned Tk raster\"\n  ],\n  \"scope\": \"Real withdrawn Tk, programmatic edits, synthetic field/routes. No physical input, visible OS comparison or performance claim.\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_raster_cache_tk.py",
+      "sha256": "2d5331752afccf39f8c9433121c2b4219f7031077146cd82c6345fb8b4cfe4b6",
+      "returncode": 0,
+      "stdout": "{\n  \"python\": \"3.14.4\",\n  \"platform\": \"Windows-11-10.0.26200-SP0\",\n  \"tk\": 8.6,\n  \"checks\": [\n    \"unchanged redraws reuse exact RGBA while emitting each draw_event\",\n    \"back/forward/home reuse visited frames and restore exact original pixels\",\n    \"style and visibility edits rerasterize changed scenes\",\n    \"direct raster and static PNG equal cached current-view pixels\",\n    \"DPI changes invalidate dimensions and LRU respects retained pixel limits\",\n    \"optional cache retention failure still displays a fresh rendered frame\",\n    \"optional cache lookup allocation failure falls back to direct raster\",\n    \"closing releases active and all retained cached RGBA frames\"\n  ],\n  \"scope\": \"Real withdrawn Tk with programmatic input; no visible presentation or physical-input timing.\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "tool": "smoke_stroke_kernels_tk.py",
+      "sha256": "335fb25b6addc1472e8876d7e2276fffba611f3febccae68e47318e0a2df4faa",
+      "returncode": 0,
+      "stdout": "12 Tk checks passed\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Nine previous real withdrawn Tk scripts rerun in the installed wheel environment. Step 1 and new layout acceptance have separate fresh reports; no visible GUI/input claim."
+}

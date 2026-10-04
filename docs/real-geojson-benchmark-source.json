@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "azimlib_version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "source": {
+    "filename": "ibge-sp-municipalities.geojson",
+    "sha256": "57bf1e9d10b430d297955110792fb04b1af6f050956bc4ef598ef81636bc9340",
+    "bytes": 4913339,
+    "features": 645,
+    "vertices": 222324,
+    "bounds": [
+      -53.1101,
+      -25.3579,
+      -44.1614,
+      -19.7797
+    ]
+  },
+  "dpi": 100,
+  "repeats": 3,
+  "read_validate_seconds": 0.46235800000067684,
+  "index_seconds": 0.010842899999261135,
+  "indexed_features": 645,
+  "always_features": 0,
+  "views": [
+    {
+      "name": "whole",
+      "extent": [
+        -53.557535,
+        -43.713965,
+        -25.63681,
+        -19.50079
+      ],
+      "samples_seconds": {
+        "linear": [
+          0.056815500000084285,
+          0.07828920000065409,
+          0.0714724000008573
+        ],
+        "indexed": [
+          0.06792550000136544,
+          0.07577750000018568,
+          0.07254260000081558
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.0714724000008573,
+        "indexed": 0.07254260000081558
+      },
+      "scene_items": 719,
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "284b15b40ba55f5e1ae5f31e4a8ca1fb826025c0df6d311ce461d81abff36a0a",
+        "indexed": "284b15b40ba55f5e1ae5f31e4a8ca1fb826025c0df6d311ce461d81abff36a0a"
+      },
+      "png_seconds": {
+        "linear": 15.301177100000132,
+        "indexed": 15.991317099998923
+      },
+      "memory": {
+        "working_set_bytes": 160600064,
+        "peak_working_set_bytes": 182599680,
+        "private_committed_bytes": 144457728,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "name": "focus",
+      "extent": [
+        -49.620107000000004,
+        -47.651393,
+        -23.182402,
+        -21.955198
+      ],
+      "samples_seconds": {
+        "linear": [
+          0.024525599999833503,
+          0.023025700000289362,
+          0.02272640000046522
+        ],
+        "indexed": [
+          0.013600399999631918,
+          0.014949700000215671,
+          0.016833200001201476
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.023025700000289362,
+        "indexed": 0.014949700000215671
+      },
+      "scene_items": 120,
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "3430fc05cae58e145c9e368440c1d208cdefff7a61cf4edec816ff0093465a29",
+        "indexed": "3430fc05cae58e145c9e368440c1d208cdefff7a61cf4edec816ff0093465a29"
+      },
+      "png_seconds": {
+        "linear": 2.64220110000133,
+        "indexed": 2.5963117999999668
+      },
+      "memory": {
+        "working_set_bytes": 131821568,
+        "peak_working_set_bytes": 182599680,
+        "private_committed_bytes": 116224000,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "name": "pan",
+      "extent": [
+        -48.63575,
+        -46.667036,
+        -23.182402,
+        -21.955198
+      ],
+      "samples_seconds": {
+        "linear": [
+          0.024905100000978564,
+          0.02521109999906912,
+          0.02445600000100967
+        ],
+        "indexed": [
+          0.015140500001507462,
+          0.01869319999968866,
+          0.022816799999418436
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.024905100000978564,
+        "indexed": 0.01869319999968866
+      },
+      "scene_items": 140,
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "6616c9fd1351d6423d82a14eee1c42ff82ed01f8e0208fe54fb4dd28a343747a",
+        "indexed": "6616c9fd1351d6423d82a14eee1c42ff82ed01f8e0208fe54fb4dd28a343747a"
+      },
+      "png_seconds": {
+        "linear": 2.973622499999692,
+        "indexed": 2.8945781999991596
+      },
+      "memory": {
+        "working_set_bytes": 132014080,
+        "peak_working_set_bytes": 182599680,
+        "private_committed_bytes": 115818496,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "name": "zoom",
+      "extent": [
+        -49.1279285,
+        -48.1435715,
+        -22.875601,
+        -22.261999
+      ],
+      "samples_seconds": {
+        "linear": [
+          0.016854600000442588,
+          0.01742960000046878,
+          0.016814900000099442
+        ],
+        "indexed": [
+          0.008111200000712415,
+          0.008842699999149772,
+          0.008603999998740619
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.016854600000442588,
+        "indexed": 0.008603999998740619
+      },
+      "scene_items": 55,
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "f594ac5d385b31348163fa6cf191cead005440bafa5f4e600426bcc13af902af",
+        "indexed": "f594ac5d385b31348163fa6cf191cead005440bafa5f4e600426bcc13af902af"
+      },
+      "png_seconds": {
+        "linear": 0.9755236000000878,
+        "indexed": 0.9882191000015155
+      },
+      "memory": {
+        "working_set_bytes": 131739648,
+        "peak_working_set_bytes": 182599680,
+        "private_committed_bytes": 115539968,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    }
+  ],
+  "tk": {
+    "stages": [
+      {
+        "stage": "redraw",
+        "seconds": 15.373294499999247,
+        "extent": [
+          -53.557535,
+          -43.713965,
+          -25.63681,
+          -19.50079
+        ],
+        "history_index": 0,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 172392448,
+          "peak_working_set_bytes": 196247552,
+          "private_committed_bytes": 150953984,
+          "source": "Windows GetProcessMemoryInfo"
+        }
+      },
+      {
+        "stage": "zoom",
+        "seconds": 15.53894820000096,
+        "extent": [
+          -52.7389574855953,
+          -44.5359824855953,
+          -25.131228399889487,
+          -20.017878399889486
+        ],
+        "history_index": 1,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 146726912,
+          "peak_working_set_bytes": 196247552,
+          "private_committed_bytes": 124919808,
+          "source": "Windows GetProcessMemoryInfo"
+        }
+      },
+      {
+        "stage": "pan_preview_release",
+        "seconds": 15.83276769999975,
+        "extent": [
+          -52.92018503124763,
+          -44.71721003124762,
+          -25.032745514271046,
+          -19.915677957861522
+        ],
+        "history_index": 2,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 173821952,
+          "peak_working_set_bytes": 196247552,
+          "private_committed_bytes": 152367104,
+          "source": "Windows GetProcessMemoryInfo"
+        }
+      },
+      {
+        "stage": "back",
+        "seconds": 15.928281900000002,
+        "extent": [
+          -52.7389574855953,
+          -44.5359824855953,
+          -25.131228399889487,
+          -20.017878399889486
+        ],
+        "history_index": 1,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 152838144,
+          "peak_working_set_bytes": 196247552,
+          "private_committed_bytes": 131018752,
+          "source": "Windows GetProcessMemoryInfo"
+        }
+      },
+      {
+        "stage": "forward",
+        "seconds": 16.59609939999973,
+        "extent": [
+          -52.92018503124763,
+          -44.71721003124762,
+          -25.032745514271046,
+          -19.915677957861522
+        ],
+        "history_index": 2,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 174919680,
+          "peak_working_set_bytes": 199282688,
+          "private_committed_bytes": 153354240,
+          "source": "Windows GetProcessMemoryInfo"
+        }
+      },
+      {
+        "stage": "home",
+        "seconds": 18.152551900000617,
+        "extent": [
+          -53.557535,
+          -43.713965,
+          -25.63681,
+          -19.50079
+        ],
+        "history_index": 3,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 153128960,
+          "peak_working_set_bytes": 199282688,
+          "private_committed_bytes": 131268608,
+          "source": "Windows GetProcessMemoryInfo"
+        }
+      }
+    ],
+    "home_restored": true,
+    "tk_version": 8.6
+  },
+  "notes": [
+    "Local source explicitly supplied; no implicit network access.",
+    "Warm alternating linear/indexed culling; caches enabled in both. PNG raster/encoding reported separately once per mode/view.",
+    "Process memory outside timing; peak is process lifetime high-water mark, not stage-only allocation.",
+    "Tk, if requested: real withdrawn widgets, synthetic input, no visible presentation or physical-input latency.",
+    "Small local sample; no general speed guarantee. Detailed relative to bundled examples does not imply full-resolution original data."
+  ],
+  "independent_runtime": true
+}

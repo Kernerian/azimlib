@@ -1,0 +1,66 @@
+{
+  "matplotlib": "3.11.2",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tk": 8.6,
+  "windows_scroll": [
+    {
+      "delta": 120,
+      "step": 1.0,
+      "button": "up",
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "delta": -240,
+      "step": -2.0,
+      "button": "down",
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "delta": 60,
+      "step": 0.5,
+      "button": "up",
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "delta": 0,
+      "step": 0.0,
+      "button": null,
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    }
+  ],
+  "linux_scroll": [
+    {
+      "num": 4,
+      "step": 1,
+      "button": "up"
+    },
+    {
+      "num": 5,
+      "step": -1,
+      "button": "down"
+    }
+  ],
+  "draw_has_renderer": true,
+  "callback_dispatch": [
+    [
+      "first",
+      "removed",
+      "last"
+    ],
+    [
+      "first",
+      "last",
+      "new"
+    ]
+  ],
+  "scope": "real withdrawn TkAgg canvas, synthetic events; selected contracts only"
+}

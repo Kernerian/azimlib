@@ -1,0 +1,1151 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "repeats": 2,
+  "renderer_source_sha256": {
+    "before": {
+      "pillow.py": "0df7334cd8b68bde883611880588d83aa739fe44836f4b2b63139851c8195cfd",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    },
+    "after": {
+      "pillow.py": "4778285f84103e6ff6017b79c3030e8fcd41369845893dbea389556062cc28cc",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    }
+  },
+  "notes": [
+    "Every mode/case/DPI/trial starts a fresh interpreter; serial trials reverse before/after order. Both implementations are imported in every worker.",
+    "Identical map construction and cull=True. PNG hashing follows memory sampling; encoding is included. No profiler/tracemalloc/GUI.",
+    "OS peak working set includes runtime, data, Python and native buffers for the whole process lifetime; no baseline subtraction/native-only breakdown.",
+    "Resident memory depends on OS policy. Private committed memory is a different counter. Few samples do not establish a general memory bound or speed guarantee."
+  ],
+  "cases": [
+    {
+      "name": "state",
+      "dpi": 100,
+      "identical_png": true,
+      "samples": {
+        "before": [
+          {
+            "name": "state",
+            "dpi": 100,
+            "mode": "before",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 82,
+            "png_bytes": 56623,
+            "png_sha256": "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689",
+            "observed_png_seconds": 1.427235600000131,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27828224,
+                "peak_working_set_bytes": 27828224,
+                "private_committed_bytes": 19480576,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 46632960,
+                "peak_working_set_bytes": 46632960,
+                "private_committed_bytes": 38371328,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 53223424,
+                "peak_working_set_bytes": 54493184,
+                "private_committed_bytes": 44490752,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 57589760,
+                "peak_working_set_bytes": 93773824,
+                "private_committed_bytes": 47792128,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "state",
+            "dpi": 100,
+            "mode": "before",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 82,
+            "png_bytes": 56623,
+            "png_sha256": "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689",
+            "observed_png_seconds": 1.4500616000004811,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27414528,
+                "peak_working_set_bytes": 27414528,
+                "private_committed_bytes": 19062784,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 47017984,
+                "peak_working_set_bytes": 47017984,
+                "private_committed_bytes": 39067648,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 54018048,
+                "peak_working_set_bytes": 54894592,
+                "private_committed_bytes": 45498368,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 57929728,
+                "peak_working_set_bytes": 94322688,
+                "private_committed_bytes": 48082944,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ],
+        "after": [
+          {
+            "name": "state",
+            "dpi": 100,
+            "mode": "after",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 82,
+            "png_bytes": 56623,
+            "png_sha256": "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689",
+            "observed_png_seconds": 1.4881839999998192,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27439104,
+                "peak_working_set_bytes": 27439104,
+                "private_committed_bytes": 19087360,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 46514176,
+                "peak_working_set_bytes": 46514176,
+                "private_committed_bytes": 37818368,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 53575680,
+                "peak_working_set_bytes": 54525952,
+                "private_committed_bytes": 44605440,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 58351616,
+                "peak_working_set_bytes": 92000256,
+                "private_committed_bytes": 48521216,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "state",
+            "dpi": 100,
+            "mode": "after",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 82,
+            "png_bytes": 56623,
+            "png_sha256": "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689",
+            "observed_png_seconds": 1.4037468000005902,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27541504,
+                "peak_working_set_bytes": 27541504,
+                "private_committed_bytes": 19001344,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 46415872,
+                "peak_working_set_bytes": 46858240,
+                "private_committed_bytes": 37928960,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 53411840,
+                "peak_working_set_bytes": 54640640,
+                "private_committed_bytes": 44433408,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 58105856,
+                "peak_working_set_bytes": 91684864,
+                "private_committed_bytes": 48287744,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ]
+      },
+      "png_memory_medians": {
+        "before": {
+          "peak_working_set_bytes": 94048256.0,
+          "working_set_bytes": 57759744.0,
+          "private_committed_bytes": 47937536.0
+        },
+        "after": {
+          "peak_working_set_bytes": 91842560.0,
+          "working_set_bytes": 58228736.0,
+          "private_committed_bytes": 48404480.0
+        }
+      },
+      "peak_reduction_percent": 2.345281128870691
+    },
+    {
+      "name": "state",
+      "dpi": 200,
+      "identical_png": true,
+      "samples": {
+        "before": [
+          {
+            "name": "state",
+            "dpi": 200,
+            "mode": "before",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 82,
+            "png_bytes": 145516,
+            "png_sha256": "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be",
+            "observed_png_seconds": 3.446827399999165,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27488256,
+                "peak_working_set_bytes": 27488256,
+                "private_committed_bytes": 18968576,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 46297088,
+                "peak_working_set_bytes": 46874624,
+                "private_committed_bytes": 37416960,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 55091200,
+                "peak_working_set_bytes": 55091200,
+                "private_committed_bytes": 45830144,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 58351616,
+                "peak_working_set_bytes": 209960960,
+                "private_committed_bytes": 49782784,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "state",
+            "dpi": 200,
+            "mode": "before",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 82,
+            "png_bytes": 145516,
+            "png_sha256": "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be",
+            "observed_png_seconds": 3.45150189999913,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27455488,
+                "peak_working_set_bytes": 27455488,
+                "private_committed_bytes": 18993152,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 46243840,
+                "peak_working_set_bytes": 46243840,
+                "private_committed_bytes": 37998592,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 54980608,
+                "peak_working_set_bytes": 54980608,
+                "private_committed_bytes": 45842432,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 58257408,
+                "peak_working_set_bytes": 209924096,
+                "private_committed_bytes": 49881088,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ],
+        "after": [
+          {
+            "name": "state",
+            "dpi": 200,
+            "mode": "after",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 82,
+            "png_bytes": 145516,
+            "png_sha256": "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be",
+            "observed_png_seconds": 3.4357230000005075,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27578368,
+                "peak_working_set_bytes": 27578368,
+                "private_committed_bytes": 19124224,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 46432256,
+                "peak_working_set_bytes": 46755840,
+                "private_committed_bytes": 38309888,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 55087104,
+                "peak_working_set_bytes": 55087104,
+                "private_committed_bytes": 46993408,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 58081280,
+                "peak_working_set_bytes": 201715712,
+                "private_committed_bytes": 49221632,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "state",
+            "dpi": 200,
+            "mode": "after",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 82,
+            "png_bytes": 145516,
+            "png_sha256": "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be",
+            "observed_png_seconds": 3.3046590000012657,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27512832,
+                "peak_working_set_bytes": 27512832,
+                "private_committed_bytes": 18956288,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 46374912,
+                "peak_working_set_bytes": 46374912,
+                "private_committed_bytes": 38023168,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 54861824,
+                "peak_working_set_bytes": 54861824,
+                "private_committed_bytes": 45461504,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 57643008,
+                "peak_working_set_bytes": 201199616,
+                "private_committed_bytes": 48488448,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ]
+      },
+      "png_memory_medians": {
+        "before": {
+          "peak_working_set_bytes": 209942528.0,
+          "working_set_bytes": 58304512.0,
+          "private_committed_bytes": 49831936.0
+        },
+        "after": {
+          "peak_working_set_bytes": 201457664.0,
+          "working_set_bytes": 57862144.0,
+          "private_committed_bytes": 48855040.0
+        }
+      },
+      "peak_reduction_percent": 4.041517495683388
+    },
+    {
+      "name": "brazil",
+      "dpi": 100,
+      "identical_png": true,
+      "samples": {
+        "before": [
+          {
+            "name": "brazil",
+            "dpi": 100,
+            "mode": "before",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 323,
+            "png_bytes": 95536,
+            "png_sha256": "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e",
+            "observed_png_seconds": 5.090898999998899,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27422720,
+                "peak_working_set_bytes": 27422720,
+                "private_committed_bytes": 18980864,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50216960,
+                "peak_working_set_bytes": 50802688,
+                "private_committed_bytes": 42446848,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 66715648,
+                "peak_working_set_bytes": 66715648,
+                "private_committed_bytes": 57581568,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 75034624,
+                "peak_working_set_bytes": 101806080,
+                "private_committed_bytes": 65232896,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "brazil",
+            "dpi": 100,
+            "mode": "before",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 323,
+            "png_bytes": 95536,
+            "png_sha256": "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e",
+            "observed_png_seconds": 5.06591760000083,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27373568,
+                "peak_working_set_bytes": 27373568,
+                "private_committed_bytes": 18952192,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50245632,
+                "peak_working_set_bytes": 50802688,
+                "private_committed_bytes": 41971712,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 66703360,
+                "peak_working_set_bytes": 66703360,
+                "private_committed_bytes": 57659392,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 75005952,
+                "peak_working_set_bytes": 101707776,
+                "private_committed_bytes": 65200128,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ],
+        "after": [
+          {
+            "name": "brazil",
+            "dpi": 100,
+            "mode": "after",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 323,
+            "png_bytes": 95536,
+            "png_sha256": "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e",
+            "observed_png_seconds": 4.909464700000171,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27582464,
+                "peak_working_set_bytes": 27582464,
+                "private_committed_bytes": 19288064,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50167808,
+                "peak_working_set_bytes": 50999296,
+                "private_committed_bytes": 41091072,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 66756608,
+                "peak_working_set_bytes": 66756608,
+                "private_committed_bytes": 57593856,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 74715136,
+                "peak_working_set_bytes": 101531648,
+                "private_committed_bytes": 64761856,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "brazil",
+            "dpi": 100,
+            "mode": "after",
+            "pixels": [
+              640,
+              480
+            ],
+            "items": 323,
+            "png_bytes": 95536,
+            "png_sha256": "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e",
+            "observed_png_seconds": 4.967633099999148,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27512832,
+                "peak_working_set_bytes": 27512832,
+                "private_committed_bytes": 19046400,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50483200,
+                "peak_working_set_bytes": 51286016,
+                "private_committed_bytes": 41652224,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 66662400,
+                "peak_working_set_bytes": 66662400,
+                "private_committed_bytes": 57630720,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 74702848,
+                "peak_working_set_bytes": 101523456,
+                "private_committed_bytes": 64638976,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ]
+      },
+      "png_memory_medians": {
+        "before": {
+          "peak_working_set_bytes": 101756928.0,
+          "working_set_bytes": 75020288.0,
+          "private_committed_bytes": 65216512.0
+        },
+        "after": {
+          "peak_working_set_bytes": 101527552.0,
+          "working_set_bytes": 74708992.0,
+          "private_committed_bytes": 64700416.0
+        }
+      },
+      "peak_reduction_percent": 0.22541561003099897
+    },
+    {
+      "name": "brazil",
+      "dpi": 200,
+      "identical_png": true,
+      "samples": {
+        "before": [
+          {
+            "name": "brazil",
+            "dpi": 200,
+            "mode": "before",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 323,
+            "png_bytes": 246421,
+            "png_sha256": "dad344ff8d5af1de26b9205e3e6ff0597ce7196601679547ef66d7b51d2f2d31",
+            "observed_png_seconds": 10.15327520000028,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27521024,
+                "peak_working_set_bytes": 27521024,
+                "private_committed_bytes": 19148800,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50671616,
+                "peak_working_set_bytes": 51302400,
+                "private_committed_bytes": 41910272,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 74211328,
+                "peak_working_set_bytes": 74211328,
+                "private_committed_bytes": 65613824,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 77135872,
+                "peak_working_set_bytes": 196915200,
+                "private_committed_bytes": 67948544,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "brazil",
+            "dpi": 200,
+            "mode": "before",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 323,
+            "png_bytes": 246421,
+            "png_sha256": "dad344ff8d5af1de26b9205e3e6ff0597ce7196601679547ef66d7b51d2f2d31",
+            "observed_png_seconds": 9.78068119999989,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27545600,
+                "peak_working_set_bytes": 27545600,
+                "private_committed_bytes": 19099648,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50520064,
+                "peak_working_set_bytes": 50946048,
+                "private_committed_bytes": 42143744,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 74153984,
+                "peak_working_set_bytes": 74153984,
+                "private_committed_bytes": 65671168,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 76959744,
+                "peak_working_set_bytes": 196915200,
+                "private_committed_bytes": 67137536,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ],
+        "after": [
+          {
+            "name": "brazil",
+            "dpi": 200,
+            "mode": "after",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 323,
+            "png_bytes": 246421,
+            "png_sha256": "dad344ff8d5af1de26b9205e3e6ff0597ce7196601679547ef66d7b51d2f2d31",
+            "observed_png_seconds": 9.748697500001072,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27648000,
+                "peak_working_set_bytes": 27648000,
+                "private_committed_bytes": 19206144,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50257920,
+                "peak_working_set_bytes": 50831360,
+                "private_committed_bytes": 41156608,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 74383360,
+                "peak_working_set_bytes": 74383360,
+                "private_committed_bytes": 65859584,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 77766656,
+                "peak_working_set_bytes": 191057920,
+                "private_committed_bytes": 67919872,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "brazil",
+            "dpi": 200,
+            "mode": "after",
+            "pixels": [
+              1280,
+              960
+            ],
+            "items": 323,
+            "png_bytes": 246421,
+            "png_sha256": "dad344ff8d5af1de26b9205e3e6ff0597ce7196601679547ef66d7b51d2f2d31",
+            "observed_png_seconds": 9.926188100000218,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27406336,
+                "peak_working_set_bytes": 27406336,
+                "private_committed_bytes": 18956288,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 50397184,
+                "peak_working_set_bytes": 50925568,
+                "private_committed_bytes": 41209856,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 74399744,
+                "peak_working_set_bytes": 74399744,
+                "private_committed_bytes": 65511424,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 77946880,
+                "peak_working_set_bytes": 191037440,
+                "private_committed_bytes": 67952640,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ]
+      },
+      "png_memory_medians": {
+        "before": {
+          "peak_working_set_bytes": 196915200.0,
+          "working_set_bytes": 77047808.0,
+          "private_committed_bytes": 67543040.0
+        },
+        "after": {
+          "peak_working_set_bytes": 191047680.0,
+          "working_set_bytes": 77856768.0,
+          "private_committed_bytes": 67936256.0
+        }
+      },
+      "peak_reduction_percent": 2.979719188767549
+    },
+    {
+      "name": "atlas",
+      "dpi": 100,
+      "identical_png": true,
+      "samples": {
+        "before": [
+          {
+            "name": "atlas",
+            "dpi": 100,
+            "mode": "before",
+            "pixels": [
+              1200,
+              800
+            ],
+            "items": 549,
+            "png_bytes": 157918,
+            "png_sha256": "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae",
+            "observed_png_seconds": 7.838457699999708,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27422720,
+                "peak_working_set_bytes": 27422720,
+                "private_committed_bytes": 19111936,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 54181888,
+                "peak_working_set_bytes": 54181888,
+                "private_committed_bytes": 45633536,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 70119424,
+                "peak_working_set_bytes": 70119424,
+                "private_committed_bytes": 61894656,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 77729792,
+                "peak_working_set_bytes": 163041280,
+                "private_committed_bytes": 68657152,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "atlas",
+            "dpi": 100,
+            "mode": "before",
+            "pixels": [
+              1200,
+              800
+            ],
+            "items": 549,
+            "png_bytes": 157918,
+            "png_sha256": "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae",
+            "observed_png_seconds": 7.170436399999744,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27414528,
+                "peak_working_set_bytes": 27414528,
+                "private_committed_bytes": 19107840,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 54190080,
+                "peak_working_set_bytes": 54190080,
+                "private_committed_bytes": 45633536,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 70139904,
+                "peak_working_set_bytes": 70139904,
+                "private_committed_bytes": 61894656,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 77774848,
+                "peak_working_set_bytes": 163082240,
+                "private_committed_bytes": 68653056,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ],
+        "after": [
+          {
+            "name": "atlas",
+            "dpi": 100,
+            "mode": "after",
+            "pixels": [
+              1200,
+              800
+            ],
+            "items": 549,
+            "png_bytes": 157918,
+            "png_sha256": "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae",
+            "observed_png_seconds": 7.486975699999675,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27471872,
+                "peak_working_set_bytes": 27471872,
+                "private_committed_bytes": 19070976,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 53690368,
+                "peak_working_set_bytes": 53690368,
+                "private_committed_bytes": 45182976,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 70094848,
+                "peak_working_set_bytes": 70094848,
+                "private_committed_bytes": 61886464,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 77660160,
+                "peak_working_set_bytes": 162406400,
+                "private_committed_bytes": 68481024,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "atlas",
+            "dpi": 100,
+            "mode": "after",
+            "pixels": [
+              1200,
+              800
+            ],
+            "items": 549,
+            "png_bytes": 157918,
+            "png_sha256": "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae",
+            "observed_png_seconds": 7.255308900001182,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27512832,
+                "peak_working_set_bytes": 27512832,
+                "private_committed_bytes": 19144704,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 53719040,
+                "peak_working_set_bytes": 53719040,
+                "private_committed_bytes": 44638208,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 71000064,
+                "peak_working_set_bytes": 71000064,
+                "private_committed_bytes": 62984192,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 78757888,
+                "peak_working_set_bytes": 162951168,
+                "private_committed_bytes": 70488064,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ]
+      },
+      "png_memory_medians": {
+        "before": {
+          "peak_working_set_bytes": 163061760.0,
+          "working_set_bytes": 77752320.0,
+          "private_committed_bytes": 68655104.0
+        },
+        "after": {
+          "peak_working_set_bytes": 162678784.0,
+          "working_set_bytes": 78209024.0,
+          "private_committed_bytes": 69484544.0
+        }
+      },
+      "peak_reduction_percent": 0.234865611655366
+    },
+    {
+      "name": "atlas",
+      "dpi": 200,
+      "identical_png": true,
+      "samples": {
+        "before": [
+          {
+            "name": "atlas",
+            "dpi": 200,
+            "mode": "before",
+            "pixels": [
+              2400,
+              1600
+            ],
+            "items": 549,
+            "png_bytes": 385206,
+            "png_sha256": "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827",
+            "observed_png_seconds": 14.372004099999685,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27533312,
+                "peak_working_set_bytes": 27533312,
+                "private_committed_bytes": 19128320,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 53866496,
+                "peak_working_set_bytes": 53866496,
+                "private_committed_bytes": 45387776,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 79982592,
+                "peak_working_set_bytes": 79982592,
+                "private_committed_bytes": 71716864,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 82436096,
+                "peak_working_set_bytes": 422883328,
+                "private_committed_bytes": 73814016,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "atlas",
+            "dpi": 200,
+            "mode": "before",
+            "pixels": [
+              2400,
+              1600
+            ],
+            "items": 549,
+            "png_bytes": 385206,
+            "png_sha256": "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827",
+            "observed_png_seconds": 14.38841019999927,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27484160,
+                "peak_working_set_bytes": 27484160,
+                "private_committed_bytes": 19136512,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 54022144,
+                "peak_working_set_bytes": 54022144,
+                "private_committed_bytes": 45756416,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 80216064,
+                "peak_working_set_bytes": 80216064,
+                "private_committed_bytes": 72060928,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 82362368,
+                "peak_working_set_bytes": 422932480,
+                "private_committed_bytes": 73355264,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ],
+        "after": [
+          {
+            "name": "atlas",
+            "dpi": 200,
+            "mode": "after",
+            "pixels": [
+              2400,
+              1600
+            ],
+            "items": 549,
+            "png_bytes": 385206,
+            "png_sha256": "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827",
+            "observed_png_seconds": 14.131860600000437,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27504640,
+                "peak_working_set_bytes": 27504640,
+                "private_committed_bytes": 19042304,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 53702656,
+                "peak_working_set_bytes": 53702656,
+                "private_committed_bytes": 44814336,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 80367616,
+                "peak_working_set_bytes": 80367616,
+                "private_committed_bytes": 72241152,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 83034112,
+                "peak_working_set_bytes": 420769792,
+                "private_committed_bytes": 74059776,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          },
+          {
+            "name": "atlas",
+            "dpi": 200,
+            "mode": "after",
+            "pixels": [
+              2400,
+              1600
+            ],
+            "items": 549,
+            "png_bytes": 385206,
+            "png_sha256": "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827",
+            "observed_png_seconds": 14.03171680000014,
+            "pillow": "12.3.0",
+            "azimlib": "0.1.0",
+            "memory": {
+              "imported": {
+                "working_set_bytes": 27598848,
+                "peak_working_set_bytes": 27598848,
+                "private_committed_bytes": 19173376,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "data_and_artists": {
+                "working_set_bytes": 53743616,
+                "peak_working_set_bytes": 53743616,
+                "private_committed_bytes": 44670976,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "scene": {
+                "working_set_bytes": 80343040,
+                "peak_working_set_bytes": 80343040,
+                "private_committed_bytes": 72200192,
+                "source": "Windows GetProcessMemoryInfo"
+              },
+              "png": {
+                "working_set_bytes": 83619840,
+                "peak_working_set_bytes": 420896768,
+                "private_committed_bytes": 74633216,
+                "source": "Windows GetProcessMemoryInfo"
+              }
+            }
+          }
+        ]
+      },
+      "png_memory_medians": {
+        "before": {
+          "peak_working_set_bytes": 422907904.0,
+          "working_set_bytes": 82399232.0,
+          "private_committed_bytes": 73584640.0
+        },
+        "after": {
+          "peak_working_set_bytes": 420833280.0,
+          "working_set_bytes": 83326976.0,
+          "private_committed_bytes": 74346496.0
+        }
+      },
+      "peak_reduction_percent": 0.4905616519288336
+    }
+  ]
+}

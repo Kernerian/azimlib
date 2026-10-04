@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "azimlib_version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "repeats": 2,
+  "seed": 123,
+  "points": 1500,
+  "notes": [
+    "Measurements are local; no latency or speed guarantee.",
+    "Library/data/font caches remain in-process; setup is not an independent cold-start benchmark.",
+    "PNG includes rasterization and in-memory PNG encoding; SVG includes string serialization.",
+    "zoom_recompose excludes desktop event handling, painting and browser navigation.",
+    "Python memory peak excludes native buffers and is measured separately from timing."
+  ],
+  "cases": [
+    {
+      "name": "state",
+      "dpi": 200,
+      "figsize": [
+        6.4,
+        4.8
+      ],
+      "pixels": [
+        1280,
+        960
+      ],
+      "setup_seconds": 0.15170480000051612,
+      "cold_composition_seconds": 0.36433759999999893,
+      "composition": {
+        "samples_seconds": [
+          0.3312783000001218,
+          0.3328053999994154
+        ],
+        "median_seconds": 0.3320418499997686,
+        "min_seconds": 0.3312783000001218,
+        "max_seconds": 0.3328053999994154
+      },
+      "svg": {
+        "samples_seconds": [
+          0.045034700000542216,
+          0.045813999999154476
+        ],
+        "median_seconds": 0.045424349999848346,
+        "min_seconds": 0.045034700000542216,
+        "max_seconds": 0.045813999999154476
+      },
+      "png": {
+        "samples_seconds": [
+          3.785114000000249,
+          4.16988979999951
+        ],
+        "median_seconds": 3.9775018999998792,
+        "min_seconds": 3.785114000000249,
+        "max_seconds": 4.16988979999951
+      },
+      "zoom_recompose": {
+        "samples_seconds": [
+          0.4004014999991341,
+          0.35681060000024445
+        ],
+        "median_seconds": 0.3786060499996893,
+        "min_seconds": 0.35681060000024445,
+        "max_seconds": 0.4004014999991341
+      },
+      "python_composition_peak_bytes": 9080959,
+      "items": 137,
+      "primitive_types": {
+        "Rect": 3,
+        "Path": 111,
+        "Text": 23
+      },
+      "path_vertices": 37087,
+      "svg_bytes": 2816897,
+      "png_bytes": 145651,
+      "png_sha256": "1e67ad193e969cada082a97e2ffecee6f11b6cb50474607b799c124880ed70d6"
+    }
+  ]
+}

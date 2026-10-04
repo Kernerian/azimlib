@@ -1,0 +1,33 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "checks": [
+    "100dpi-horizontal: six shared mappables; direct RGBA, PNG and Tk match; static export creates no UI",
+    "100dpi-horizontal: multi-Artist edits and shared norm produce one scheduled Tk draw; manual extent retained",
+    "100dpi-horizontal: hiding/restoring all six layers restores exact edited pixels",
+    "100dpi-horizontal: rejected alias batch changes no data/control/pixels/draw count",
+    "100dpi-horizontal: focus/Home preserve manual view and current edits",
+    "100dpi-horizontal: removed layers/labels/bar stop invalidating former figure",
+    "100dpi-horizontal: closing releases raster cache",
+    "200dpi-vertical: six shared mappables; direct RGBA, PNG and Tk match; static export creates no UI",
+    "200dpi-vertical: multi-Artist edits and shared norm produce one scheduled Tk draw; manual extent retained",
+    "200dpi-vertical: hiding/restoring all six layers restores exact edited pixels",
+    "200dpi-vertical: rejected alias batch changes no data/control/pixels/draw count",
+    "200dpi-vertical: focus/Home preserve manual view and current edits",
+    "200dpi-vertical: removed layers/labels/bar stop invalidating former figure",
+    "200dpi-vertical: closing releases raster cache"
+  ],
+  "sha256": {
+    "src/azimlib/artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+    "src/azimlib/axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+    "src/azimlib/layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+    "src/azimlib/styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+    "src/azimlib/components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+    "src/azimlib/figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+    "tools/artist_acceptance_case.py": "22e4b25914429ff6e5afcf60943eb88360e7a47c3e0cc730fc6930826af6dec5",
+    "tools/smoke_artist_acceptance_tk.py": "787970685a0e8b3eedf681921266579f48c632680128427657e2732ce224874e"
+  },
+  "runtime_origin": "<environment>/site-packages/azimlib",
+  "independent_runtime": true,
+  "scope": "Real withdrawn Tk; bundled generalized Natural Earth states, synthetic values/fields; programmatic edits/navigation. Not native appearance or physical input/paint latency."
+}

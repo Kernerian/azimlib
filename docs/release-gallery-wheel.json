@@ -1,0 +1,667 @@
+{
+  "azimlib": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "runtime_sha256": {
+    "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+    "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+    "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+    "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+    "assets/components.js": "46c8274707c33a1dd52bdd0ea227e394c9d689596dc1afbc074fc9be1f790765",
+    "assets/icons/manifest.json": "aa4e8d3ff703a2ebcc7a50595ad3080015693579de4caed7527f98ff82963e9c",
+    "assets/navigation.js": "352c0fa7a2b1c2ec5cef7e05d1444e1f11bc70ec65121395bd80919a00dbabc1",
+    "assets/viewer.css": "fb076b770585a7f64fa1314951356b77c3ac508195f9644fd054efe150cb8280",
+    "assets/viewer.js": "4c9be01efc516235ba9beab7092f841f900de93a5744e499585170c3c0ae0def",
+    "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+    "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+    "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+    "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+    "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+    "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+    "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+    "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+    "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+    "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+    "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+    "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+    "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+    "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+    "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+    "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+    "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+    "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+    "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+    "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+    "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+    "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+    "data/brazil.geojson.gz": "d8a23e7241b2e63d1ce1484b495d9adc80ac4cebf127427c6f989ef181983d64",
+    "data/coastlines.geojson.gz": "4cf97659b69a3c0e8b7809ef2a3d1cf5b595f312c0fef4f65d715c3fd18dd388",
+    "data/colormaps.json": "6d66e4ab703becb527b600e284d74bbedc71a85988847315d79b528e4d9d082d",
+    "data/countries.geojson.gz": "18d8705638e1464a02e57d6b6b40d09b22dbea744fd22f2ad8769f9c3b312fd5",
+    "data/lakes.geojson.gz": "731626a1e2ad97df30e1fb364f3ca9fc5f80ad3797666af5c01d0f6cabaae86b",
+    "data/manifest.json": "cd77b5b8d955d2f0f7eb30355ea892d1286f5ad79277ef0874c4ddeb431a5ce2",
+    "data/rivers.geojson.gz": "1811e4469a5487cb84fb7fc36bb5afb00548cb7ead4e3dd195665d5ecc4e4d47",
+    "data/states.geojson.gz": "f9e13f1b16083f5c3e7ccccf8d014e8a9b256b09d91c6040120984189f4eebd4",
+    "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+    "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+    "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+    "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+    "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+    "fonts/DejaVuSans-Bold.ttf": "b184b89e3c1075f22f6b71575b6fc20d4972b3cfd3b23322ca6fd596dcaef167",
+    "fonts/DejaVuSans-BoldOblique.ttf": "6edf0283160186af451cbee71e7b845f2e4cabf264bb992ce668c83c25465e6f",
+    "fonts/DejaVuSans-Oblique.ttf": "ccdf74b350f11fd3dd5774de50e5e6346a1a5da1f5b7d5fb83590665e97a5213",
+    "fonts/DejaVuSans.ttf": "3fdf69cabf06049ea70a00b5919340e2ce1e6d02b0cc3c4b44fb6801bd1e0d22",
+    "fonts/metrics.json": "244e362de05455a9f8702ed1c953ab87714fe5b7cd5f6c7c8016bb76b810f7c2",
+    "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+    "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+    "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+    "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+    "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+    "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+    "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+    "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+    "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+    "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+    "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+    "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+    "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+    "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+    "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+    "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+    "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+    "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+    "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+    "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+    "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+    "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+    "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+    "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+    "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+    "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+    "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+    "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+    "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+    "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+    "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+    "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+    "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+    "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+    "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+    "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+    "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+    "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+  },
+  "tool_sha256": "28a6e62106bfc25a407e13d38cdcc878eb32dca5252288293f3adf3b69f62524",
+  "example_sha256": {
+    "components.py": "792d8cc405b574a0e5172ab80308f62895101e07808d11db0a3dacdf5a96ab0b",
+    "regions.py": "42a8111cdeb59ed5fc5a3f811d62584facf999dcac42313ae7bf2e4f58d69d93",
+    "series_styles.py": "5c67f7e28fbd6b0df6305a93cb1e7743e653e07cad08143e4325048abbe27791",
+    "scientific.py": "48bfe1eab77f5038dae335b64dfb79fcd22c21ffe55fd92bdce36e9b1e0dcfe2",
+    "contour_refinement.py": "17fd11c4da0864816e0ab89fa33e92ca1c9504732c5d54390f32000ddbc5bccf",
+    "numeric_formatting.py": "fd578b48f32f1423d32aee040aae9f0ec4752dfb987dc9bd237d1b8bf4b3761d",
+    "gallery.py": "0c178cd7f14a7d9614befebf84d785607eb560620c11709d1d7f168b5db59a68",
+    "gridspec_atlas.py": "49a3ecfa0b539873968aefc94a2f68d693e9cd31e470041f2264c1453b9c4a82"
+  },
+  "notes": [
+    "Own cartographic scenes; fields, regional values, routes and events are synthetic.",
+    "PNG/SVG static exports share the scene. HTML is separate and is not a live Python canvas.",
+    "Same-Scene Agg checks isolate rasterization, not native Axes/projections/layout/hatch generation.",
+    "Native Axes checks independently build only series and numeric colorbar examples.",
+    "Pixel differences are descriptive, not perceptual scores or performance results."
+  ],
+  "cases": [
+    {
+      "name": "components",
+      "dpi": 100,
+      "source": "components.py",
+      "covers": "territories, rivers, styled routes, legend, compass, scale, halo annotation",
+      "files": {
+        "png": "release-components-100.png",
+        "svg": "release-components-100.svg",
+        "html": "release-components-100.html"
+      },
+      "audit": {
+        "pixels": [
+          900,
+          1000
+        ],
+        "items": 338,
+        "texts": 30,
+        "clips": 1,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "223a196cd37828453f8a7b694497ab13bd4f832283830c892f82365d87b77e9c",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-components-100.html": "5600ec5212f90052850073a65964cc322359c2b7de1e83b9e3c5d2ccc9b60ba7",
+        "release-components-100.png": "5aaaf0ea554885f1695596e50693f30fa5ab13eab0260b6062de0783757ee7ed",
+        "release-components-100.svg": "7de2d746a140ed1eda9f3fa4b4cb16303e4e35feeb9f44bdf6140c2d3a1173b9"
+      }
+    },
+    {
+      "name": "brazil",
+      "dpi": 100,
+      "source": "regions.py",
+      "covers": "complete country and optional components",
+      "files": {
+        "png": "release-brazil-100.png",
+        "svg": "release-brazil-100.svg",
+        "html": "release-brazil-100.html"
+      },
+      "audit": {
+        "pixels": [
+          800,
+          800
+        ],
+        "items": 177,
+        "texts": 21,
+        "clips": 1,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "f06c8ed69402ea5d984d684fe751aaadf7a4b3928d78195fdbf928dc5dac9086",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-brazil-100.html": "0d03a9a1ce0d11c2efa5f5e6a3995b224f588f1abd6f38b6080ea792bd6d0659",
+        "release-brazil-100.png": "9835f39a6f18af92001d5d2b2a983b1d98d62c120b212fdbe4e21224ca09a8a5",
+        "release-brazil-100.svg": "41b61fb68140284aeebfc63348a211559ef07deabf91fce22825f1378f445188"
+      }
+    },
+    {
+      "name": "state",
+      "dpi": 100,
+      "source": "regions.py",
+      "covers": "isolated state and overview",
+      "files": {
+        "png": "release-state-100.png",
+        "svg": "release-state-100.svg",
+        "html": "release-state-100.html"
+      },
+      "audit": {
+        "pixels": [
+          900,
+          650
+        ],
+        "items": 192,
+        "texts": 25,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "15fbfd16c15f2c04413b3a8d85b79ecd07a4d28f421f3d696e75894f6a028c03",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-state-100.html": "3d725dd22d011d4af7f3f84f67532d7fd6aa1f31021d5945c4b2f9d06647e855",
+        "release-state-100.png": "96e0c52d0b49a054b1ab88085052b02df5b07fedd4c9daccb62207df8f15591f",
+        "release-state-100.svg": "9d9825012f7cbc1c8ce40c3e9000435e5d9b59e5c7413a5e4883547046a3eefd"
+      }
+    },
+    {
+      "name": "focus",
+      "dpi": 100,
+      "source": "regions.py",
+      "covers": "zoomed state and black overview focus",
+      "files": {
+        "png": "release-focus-100.png",
+        "svg": "release-focus-100.svg",
+        "html": "release-focus-100.html"
+      },
+      "audit": {
+        "pixels": [
+          900,
+          650
+        ],
+        "items": 165,
+        "texts": 16,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "5a03f0578e2fe34ee49509efe76831819aa25fcb80779df182877634c87fa8f0",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-focus-100.html": "38c69555f84ac42a931b78d8065a27c07519b8a475c47e656365a033974776a9",
+        "release-focus-100.png": "18014a33a5d9ad3aae9cb5edf6c6416f3ef0d00d33174097e7f535297452ca80",
+        "release-focus-100.svg": "fea38e3dfbba9c74190e98b00fb3eed9efdf7b760bc8725e167f387cb019aba8"
+      }
+    },
+    {
+      "name": "series-light",
+      "dpi": 100,
+      "source": "series_styles.py",
+      "covers": "matrix/data=, edited diamond, styles and legend",
+      "files": {
+        "png": "release-series-light-100.png",
+        "svg": "release-series-light-100.svg",
+        "html": "release-series-light-100.html"
+      },
+      "audit": {
+        "pixels": [
+          960,
+          560
+        ],
+        "items": 139,
+        "texts": 31,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "3462ae93e30513eb8b3daa82aae28a113a23f5e0dc16cdbaf32a96c566b7a68b",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-series-light-100.html": "4c90a208c0fa964f105451ba38588721fb738dc8ffb8fc440b349b88c2dfa4de",
+        "release-series-light-100.png": "f8d0332f99ac0b887a0f797659b13d586df9312b789edc894a8bf72db781331a",
+        "release-series-light-100.svg": "b6e240a0e590fc28c58463f3843477aacafb900f163f0f87d064d93063371b0e"
+      }
+    },
+    {
+      "name": "series-dark",
+      "dpi": 100,
+      "source": "series_styles.py",
+      "covers": "same edited series with dark style",
+      "files": {
+        "png": "release-series-dark-100.png",
+        "svg": "release-series-dark-100.svg",
+        "html": "release-series-dark-100.html"
+      },
+      "audit": {
+        "pixels": [
+          960,
+          560
+        ],
+        "items": 139,
+        "texts": 31,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "e150f06a5d21e2ba567ffd8d8032d4a0a14e60ef2a6fddf95e0b0c61e5b97743",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-series-dark-100.html": "11ac502b5073802528da90f22f8d162fd9684ec7e2e450ba21cbbef8c9cf6217",
+        "release-series-dark-100.png": "2f3d22c35dbbb94768a781775fda73ad871029f461ff50d6df59493e22641a2a",
+        "release-series-dark-100.svg": "3931125a1f4261cd537e59e13c0757e678ebe56685d045f64e7933639e0dca52"
+      }
+    },
+    {
+      "name": "colorbar",
+      "dpi": 100,
+      "source": "scientific.py",
+      "covers": "continuous choropleth, vertical editable bar",
+      "files": {
+        "png": "release-colorbar-100.png",
+        "svg": "release-colorbar-100.svg",
+        "html": "release-colorbar-100.html"
+      },
+      "audit": {
+        "pixels": [
+          720,
+          620
+        ],
+        "items": 380,
+        "texts": 26,
+        "clips": 1,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "d41273fef11f5b4470141f5aa4f1b169df8d48d7fee10913a440b3d2aca9a345",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-colorbar-100.html": "7f0b9bbd20c503732ed4e96c68961f73b05a2ad3169f02dcc75e413b8eaab068",
+        "release-colorbar-100.png": "f77bdd8be3fc6b77ace6a0e22a894bcd7647890ff9bdfd224d6a49c14803c05d",
+        "release-colorbar-100.svg": "83c50cf4678c1cfb962257a4a034c69a9d14164946e866274ea631d424f130e9"
+      }
+    },
+    {
+      "name": "colorbar-horizontal",
+      "dpi": 100,
+      "source": "scientific.py",
+      "covers": "same choropleth, horizontal editable bar",
+      "files": {
+        "png": "release-colorbar-horizontal-100.png",
+        "svg": "release-colorbar-horizontal-100.svg",
+        "html": "release-colorbar-horizontal-100.html"
+      },
+      "audit": {
+        "pixels": [
+          720,
+          620
+        ],
+        "items": 370,
+        "texts": 21,
+        "clips": 1,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "117112aa9e35dcf60ae5c90506a8e1b09581b4e9b3b5c4cffbc5f0038a4b83e5",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-colorbar-horizontal-100.html": "3c5d506e830327cb0269684735ec3eaea44fb15158c22ff90419c1939cef3b97",
+        "release-colorbar-horizontal-100.png": "d1e593c2b9f8a22fe0be94a89208b9f8fbb3c9324bed7872cd9971422967d27d",
+        "release-colorbar-horizontal-100.svg": "ebbdb7753ca1c204ce34219005c71f9a4b7ff64cca27d46b2a1fc5f362ee47cd"
+      }
+    },
+    {
+      "name": "hatch-catalog",
+      "dpi": 100,
+      "source": "scientific.py",
+      "covers": "ten basic hatches, repetition, combinations and polygon holes",
+      "files": {
+        "png": "release-hatch-catalog-100.png",
+        "svg": "release-hatch-catalog-100.svg",
+        "html": "release-hatch-catalog-100.html"
+      },
+      "audit": {
+        "pixels": [
+          1000,
+          600
+        ],
+        "items": 695,
+        "texts": 16,
+        "clips": 15,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "0480630b4be065b169addcdc4df85bb1f007ba3f3dc2a7547713f84880fb6271",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-hatch-catalog-100.html": "e4fd29a7e6e474ffb51c01ec2a670086fe2687a3b197e2fcdc50e86e1fc9c6e7",
+        "release-hatch-catalog-100.png": "7c6744fd9452fe646ae772526467ed95a2c29ff2e78c2a299606a1aec0b1206a",
+        "release-hatch-catalog-100.svg": "01fa4976008c98e8758eda1cc91399a79c1a5a70876d17e3a548d5ed8559a774"
+      }
+    },
+    {
+      "name": "contours-before",
+      "dpi": 100,
+      "source": "contour_refinement.py",
+      "covers": "per-level isolines, labels and two line colorbars",
+      "files": {
+        "png": "release-contours-before-100.png",
+        "svg": "release-contours-before-100.svg",
+        "html": "release-contours-before-100.html"
+      },
+      "audit": {
+        "pixels": [
+          1000,
+          580
+        ],
+        "items": 139,
+        "texts": 45,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "39b170999bf066ddf677d589b8d0d105b0bd3777492bcb59999481fb37775d01",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-contours-before-100.html": "aa99bb98fd1515e9548b47d72be48f0307a1287f2caa511e41d6e6eb680e387c",
+        "release-contours-before-100.png": "1320d8576326c3ae09027c0564ffcb807921bad699abbdac308e8908875ab95c",
+        "release-contours-before-100.svg": "f2bd26be314bce6d4e90c8a68ee66227ced6dc30fb12268895ce2277802646e5"
+      }
+    },
+    {
+      "name": "contours-after",
+      "dpi": 100,
+      "source": "contour_refinement.py",
+      "covers": "edited colormap and reversible inline label gaps",
+      "files": {
+        "png": "release-contours-after-100.png",
+        "svg": "release-contours-after-100.svg",
+        "html": "release-contours-after-100.html"
+      },
+      "audit": {
+        "pixels": [
+          1000,
+          580
+        ],
+        "items": 139,
+        "texts": 45,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "871faec1ab15533cec520c2f4f67f9456c8219aa6ce586f2db78b5851e49195d",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-contours-after-100.html": "fd7f948f7affc0e52bf3955740d29e4a15dad18af975b00593d4770dbd03fbc9",
+        "release-contours-after-100.png": "6b47c7f7c8b1d56ef17ec4cfd7266064ced9091273e018c6c4be71e0acb7441e",
+        "release-contours-after-100.svg": "c08a6ba48fa7282f34ac70429c0a201f9be64e0b65660a9a5627b8e86edb8dd6"
+      }
+    },
+    {
+      "name": "terrain",
+      "dpi": 100,
+      "source": "scientific.py",
+      "covers": "synthetic scalar elevation, hillshade, isolines and coast",
+      "files": {
+        "png": "release-terrain-100.png",
+        "svg": "release-terrain-100.svg",
+        "html": "release-terrain-100.html"
+      },
+      "audit": {
+        "pixels": [
+          800,
+          650
+        ],
+        "items": 3371,
+        "texts": 29,
+        "clips": 1,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "d135ac35d929252f1b9c80d20e8edbcdd7a43f11cfdde5999bbeedad53a9f515",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-terrain-100.html": "99e02a98f6c21e1dddea31bab81f2fd6b20c70fb3409084109a969a5ba086740",
+        "release-terrain-100.png": "d31031d06dafe5645ce1ba74afd76b87cd32da338c7b10683e086c39c6947eaa",
+        "release-terrain-100.svg": "8b8628f7cc9898eea129d64f3d186adb754d3f2b31ab2fb46180074231db6865"
+      }
+    },
+    {
+      "name": "globe",
+      "dpi": 100,
+      "source": "scientific.py",
+      "covers": "orthographic globe, graticule, spherical routes and vectors",
+      "files": {
+        "png": "release-globe-100.png",
+        "svg": "release-globe-100.svg",
+        "html": "release-globe-100.html"
+      },
+      "audit": {
+        "pixels": [
+          800,
+          800
+        ],
+        "items": 430,
+        "texts": 2,
+        "clips": 1,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "3456ede5720d8e6795812dbc8d847171652e01b8072ae93428b1ac82ad19f78f",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-globe-100.html": "8aa84ac37d17c51a8cb86b3087791ca1068561d943162f5faa8464c1c8e04634",
+        "release-globe-100.png": "b753eb3cc8e73199270b3246902a4c13f59c8460fe9ba511954da1da293e51e8",
+        "release-globe-100.svg": "0e342c3df04cf2b80924e8216dde39cbb006c96095c9ee899b6f42b19f667617"
+      }
+    },
+    {
+      "name": "numeric-vertical",
+      "dpi": 100,
+      "source": "numeric_formatting.py",
+      "covers": "scientific notation and additive offset, vertical bars",
+      "files": {
+        "png": "release-numeric-vertical-100.png",
+        "svg": "release-numeric-vertical-100.svg",
+        "html": "release-numeric-vertical-100.html"
+      },
+      "audit": {
+        "pixels": [
+          960,
+          540
+        ],
+        "items": 584,
+        "texts": 32,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "a0953b725211d77146364bbfa7877566d4fa55eec8248d0a67d9a9f36e614932",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-numeric-vertical-100.html": "91bae47e52439a177c0d41212f3e8b98c0b87a8cbc04aef5d8ae080898d976fe",
+        "release-numeric-vertical-100.png": "fb196f3fa8228f4e15b3ce967bc06480e39e5e41ddb041137441bb4deb551b20",
+        "release-numeric-vertical-100.svg": "a99cf2d395956155e8752249fb969364fa4b3ce3a9d03f751fe857ad4249b233"
+      }
+    },
+    {
+      "name": "numeric-horizontal",
+      "dpi": 100,
+      "source": "numeric_formatting.py",
+      "covers": "scientific notation and additive offset, horizontal bars",
+      "files": {
+        "png": "release-numeric-horizontal-100.png",
+        "svg": "release-numeric-horizontal-100.svg",
+        "html": "release-numeric-horizontal-100.html"
+      },
+      "audit": {
+        "pixels": [
+          960,
+          540
+        ],
+        "items": 584,
+        "texts": 32,
+        "clips": 2,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "3d6d8924a1321eb0fe8ae2466ad841486bf5067009a9e89e4b3ed39584d234f2",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-numeric-horizontal-100.html": "8b8df97dbaf8d85e6ec2f80c46a39648314c6011dca74ab3ccef6fd0c986ca72",
+        "release-numeric-horizontal-100.png": "6b2b71f017796a159c2bc92714444cfdf74dc7ef1d7215464d05fecb615d9269",
+        "release-numeric-horizontal-100.svg": "4b32b346512e5c7b7c33ab996eb2be8f075c409be83484205722b633b377d1aa"
+      }
+    },
+    {
+      "name": "thematic",
+      "dpi": 100,
+      "source": "gallery.py",
+      "covers": "synthetic regional values, proportional points, routes and inset",
+      "files": {
+        "png": "release-thematic-100.png",
+        "svg": "release-thematic-100.svg",
+        "html": "release-thematic-100.html"
+      },
+      "audit": {
+        "pixels": [
+          1300,
+          700
+        ],
+        "items": 624,
+        "texts": 34,
+        "clips": 3,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "952ebe7f23c98ffb641e10f14345f482470ceae651a56f15f9ac49d08ece65f7",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-thematic-100.html": "019f0267a4e36cd9240b3570ab981f761036b18eb019398a2a2cc686c110522e",
+        "release-thematic-100.png": "5c492fb68c2ab5d93a0047a599d655bd67dc89ae486ea89ad3ccdfa696b5791f",
+        "release-thematic-100.svg": "4c4384d31b6d4727fa5ea13331205566d9360fc828e746c7aadf775730a75199"
+      }
+    },
+    {
+      "name": "density",
+      "dpi": 100,
+      "source": "gallery.py",
+      "covers": "seeded synthetic events, smoothed angular counts",
+      "files": {
+        "png": "release-density-100.png",
+        "svg": "release-density-100.svg",
+        "html": "release-density-100.html"
+      },
+      "audit": {
+        "pixels": [
+          800,
+          700
+        ],
+        "items": 1008,
+        "texts": 26,
+        "clips": 1,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "321edc4eb3c76557e58e6a463472dd3444217e6717a05f912ac18802e4dbd164",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-density-100.html": "8fd4002a8b566662971e8a8cc0864b90d3331f786f0ad7f3f67eaa72d96539e7",
+        "release-density-100.png": "67e5bba7c2b4de829d45e5af650bfe28a9bcbca87123e24e392dbeabcd2f86b7",
+        "release-density-100.svg": "7d9a0870985370fee4817bb5e44e461d7736287bb90aa9f7e3a884ebf11550c0"
+      }
+    },
+    {
+      "name": "projections",
+      "dpi": 100,
+      "source": "gallery.py",
+      "covers": "six own spherical projections",
+      "files": {
+        "png": "release-projections-100.png",
+        "svg": "release-projections-100.svg",
+        "html": "release-projections-100.html"
+      },
+      "audit": {
+        "pixels": [
+          1400,
+          900
+        ],
+        "items": 1415,
+        "texts": 41,
+        "clips": 6,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "ec9387c104ff960a59c30c2e24e4e5103f5b13cd51b5ddc8e3365c96e1b62a9d",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-projections-100.html": "f2f68da401fc7916053d8d1fcd0cbb5f7b429388b9a14ea32559067df5a68704",
+        "release-projections-100.png": "c1a7d2258292c1119177a96e4eb4d75fc4b0b534fc0512c99aefcfba40c4dfb8",
+        "release-projections-100.svg": "28291a85fc6d1e2b96b5539537ad265e99722c1e437a92ea9cbcfdf6a48b816a"
+      }
+    },
+    {
+      "name": "atlas",
+      "dpi": 100,
+      "source": "gridspec_atlas.py",
+      "covers": "spans, shared colorbar and explicit ornaments",
+      "files": {
+        "png": "release-atlas-100.png",
+        "svg": "release-atlas-100.svg",
+        "html": "release-atlas-100.html"
+      },
+      "audit": {
+        "pixels": [
+          1200,
+          800
+        ],
+        "items": 549,
+        "texts": 57,
+        "clips": 3,
+        "svg_texts_match_scene": true,
+        "static_without_ui": true,
+        "rgba_sha256": "0e33c1e45ce54a2935987bb2a0206675721e7306e94b6e9ccf27ca107fb1376e",
+        "outside_unclipped_text": []
+      },
+      "files_sha256": {
+        "release-atlas-100.html": "591597f33d9f4ae5514c9e446dcebaac23adf1f418d03816a8e73248ac31c968",
+        "release-atlas-100.png": "b719e41e3b40eb819419cead048f85c3079d729dc871de5029e2ab9c6792d231",
+        "release-atlas-100.svg": "67264161b349374550aaa52057c1ab2ab657678f9cf30a2921e0b098bc454609"
+      }
+    }
+  ],
+  "overview_sha256": "5685af12a4e38dc4307761629546f19309b270432854953306b283fcae5af1a7",
+  "runtime_imports_external_cartography": false
+}

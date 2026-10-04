@@ -1,0 +1,53 @@
+{
+  "library": "azimlib",
+  "figure_pixels": [
+    640,
+    480
+  ],
+  "duration_seconds": 2.0066248000002815,
+  "motion_events": 81,
+  "held_frames": 62,
+  "held_frames_per_second": 30.89765460886923,
+  "first_held_frame_ms": 70.88260000091395,
+  "motion_handler_max_ms": 1.7434999972465448,
+  "heartbeat_max_gap_ms": 39.84429999763961,
+  "heartbeat_median_gap_ms": 16.21499999964726,
+  "settle_after_release_ms": 1031.1120000005758,
+  "initial_extent": [
+    -76.0,
+    -32.0,
+    -36.0,
+    8.0
+  ],
+  "final_extent": [
+    -90.28571428571429,
+    -46.285714285714306,
+    -33.023809523809526,
+    10.976190476190474
+  ],
+  "errors": [],
+  "scope": "Withdrawn actual Tk widgets, timed synthetic handlers, real raster/PhotoImage delivery. Not physical-input or visible-monitor latency.",
+  "prepare_max_ms": 25.931100000889273,
+  "raster_median_ms": {
+    "preview_renderer": 25.47719999893161,
+    "controlled_renderer": 977.8237999998964
+  },
+  "sha256": {
+    "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+    "renderer": "9dbc7a542a75a504335505f42e817d963f270d9011526d94f59542b1eb722396"
+  },
+  "navigation_sha256": {
+    "azimlib.backends._navigation_process": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+    "azimlib.backends._pan_raster": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+    "azimlib.renderers._tile_cache": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+    "azimlib.renderers._navigation_coverage": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+    "azimlib.renderers._interactive": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+    "azimlib.typography": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc"
+  },
+  "generic_dependencies": {
+    "Pillow": "12.3.0",
+    "aggdraw": "1.4.1",
+    "numpy": "2.5.3"
+  },
+  "pixel_process": true
+}

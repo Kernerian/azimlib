@@ -1,0 +1,60 @@
+{
+  "matplotlib": "3.11.2",
+  "azimlib": {
+    "states": {
+      "line": {
+        "linewidth": 2.5,
+        "markersize": 8.0,
+        "markeredgewidth": 0.6,
+        "alpha": 0.4
+      },
+      "text": {
+        "fontsize": 12.0,
+        "fontweight": 700,
+        "fontstyle": "italic",
+        "rotation": 30.0
+      },
+      "spine": {
+        "linewidth": 1.2,
+        "visible": false
+      }
+    },
+    "rejected": [
+      {
+        "fontstyle": "sideways"
+      },
+      {
+        "fontweight": "unknown"
+      }
+    ]
+  },
+  "reference": {
+    "states": {
+      "line": {
+        "linewidth": 2.5,
+        "markersize": 8.0,
+        "markeredgewidth": 0.6,
+        "alpha": 0.4
+      },
+      "text": {
+        "fontsize": 12.0,
+        "fontweight": 700,
+        "fontstyle": "italic",
+        "rotation": 30.0
+      },
+      "spine": {
+        "linewidth": 1.2,
+        "visible": false
+      }
+    },
+    "rejected": [
+      {
+        "fontstyle": "sideways"
+      },
+      {
+        "fontweight": "unknown"
+      }
+    ]
+  },
+  "scope": "Selected final setter states/rejected font properties. Own batch atomicity is stronger for audited classes; no general rollback or color validation claim."
+}

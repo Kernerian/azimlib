@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "original_code_license": "BSD-3-Clause",
+  "copyright_identifier": "Kernerian",
+  "azim10": {
+    "colors": [
+      "#237f96",
+      "#d57736",
+      "#667d32",
+      "#9b5cb5",
+      "#c34968",
+      "#4076bb",
+      "#ad8d27",
+      "#348e72",
+      "#85574b",
+      "#6e7387"
+    ],
+    "license": "BSD-3-Clause",
+    "origin": "New sequence independently selected for Azimlib; not sampled or ported from Category10. Dark variant mixes each RGB channel with 35 percent white.",
+    "compatibility_alias": "TAB10"
+  },
+  "colorbrewer_blues": {
+    "colors": [
+      "#eff3ff",
+      "#bdd7e7",
+      "#6baed6",
+      "#3182bd",
+      "#08519c"
+    ],
+    "name": "Blues",
+    "classes": 5,
+    "origin": "https://colorbrewer2.org/export/colorbrewer.json",
+    "license": "LicenseRef-ColorBrewer",
+    "copyright": "2002 Cynthia Brewer, Mark Harrower and The Pennsylvania State University",
+    "modifications": "Five original discrete hex samples; Azimlib implements its own interpolation."
+  },
+  "cc0_colormaps": {
+    "origin": "https://github.com/BIDS/colormap/blob/master/colormaps.py",
+    "license": "CC0-1.0",
+    "authors": [
+      "Nathaniel J. Smith",
+      "Stefan van der Walt",
+      "Eric Firing"
+    ],
+    "modifications": "256 RGB8 samples per table; no upstream Python implementation is shipped.",
+    "additional_samples": "Five-stop viridis in styles.py and its development baseline"
+  },
+  "license_texts": [
+    {
+      "file": "licenses/LicenseRef-ColorBrewer.txt",
+      "source_url": "https://colorbrewer2.org/export/LICENSE.txt",
+      "sha256": "aba881933999be3549b2171832a11a9dfad574243019df95c067ccf3d47b9649"
+    },
+    {
+      "file": "licenses/Apache-2.0.txt",
+      "source_url": "https://www.apache.org/licenses/LICENSE-2.0.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "file": "licenses/CC0-1.0.txt",
+      "source_url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+      "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499"
+    },
+    {
+      "file": "licenses/Natural-Earth.txt",
+      "sha256": "a6406d508bc1ce2cea7c6a2e92f10b48520abeed2b88de64727067d1c30755c9"
+    },
+    {
+      "file": "src/azimlib/fonts/LICENSE_DEJAVU",
+      "sha256": "d75938dec098f06f0ac3c00853065d94f020be1c3c62ef1dc2975ba15b4d9b0e"
+    },
+    {
+      "file": "NOTICE_COLORMAPS",
+      "sha256": "d6af9eaf4b0e9822736ff196fe3e31e557f47d9ba28f2048617edfdb5ff0ee01"
+    }
+  ],
+  "retired_palette_fingerprints": [
+    "fed143a1f3067e7c726e388cd4837cad597c287bad5a03eb874afd6d0fe1b6c1",
+    "04090b495edc70e3ac2a89525b0a93229da673ba3e7fb60133507614f9f51c0f"
+  ],
+  "immutable_resources": [
+    {
+      "file": "src/azimlib/data/colormaps.json",
+      "sha256": "6d66e4ab703becb527b600e284d74bbedc71a85988847315d79b528e4d9d082d",
+      "license": "CC0-1.0"
+    },
+    {
+      "file": "src/azimlib/fonts/metrics.json",
+      "sha256": "244e362de05455a9f8702ed1c953ab87714fe5b7cd5f6c7c8016bb76b810f7c2",
+      "license": "LicenseRef-DejaVu"
+    }
+  ]
+}

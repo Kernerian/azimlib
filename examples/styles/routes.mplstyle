@@ -1,0 +1,7 @@
+# Local sheet using only the supported subset, also readable by Matplotlib.
+lines.linewidth: 1.0
+lines.markersize: 4
+axes.grid: False
+axes.titlesize: 11
+legend.fontsize: 8
+axes.prop_cycle: cycler('color', ["#d62728", "#2ca02c", "#1f77b4"]) + cycler('linestyle', ['-', '--', ':']) + cycler('marker', ['o', 's', '^'])

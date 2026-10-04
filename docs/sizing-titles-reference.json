@@ -1,0 +1,330 @@
+{
+  "matplotlib_version": "3.11.2",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "matplotlib": {
+    "dimensions": [
+      {
+        "method": "set_size_inches",
+        "args": [
+          7.2,
+          4.6
+        ],
+        "kwargs": {},
+        "size": [
+          7.2,
+          4.6
+        ],
+        "width": 7.2,
+        "height": 4.6,
+        "dpi": 100.0,
+        "pixels": [
+          720,
+          460
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_size_inches",
+        "args": [
+          [
+            8,
+            5.4
+          ]
+        ],
+        "kwargs": {
+          "forward": false
+        },
+        "size": [
+          8.0,
+          5.4
+        ],
+        "width": 8.0,
+        "height": 5.4,
+        "dpi": 100.0,
+        "pixels": [
+          800,
+          540
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_figwidth",
+        "args": [
+          6.7
+        ],
+        "kwargs": {},
+        "size": [
+          6.7,
+          4.8
+        ],
+        "width": 6.7,
+        "height": 4.8,
+        "dpi": 100.0,
+        "pixels": [
+          670,
+          480
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_figheight",
+        "args": [
+          4.2
+        ],
+        "kwargs": {},
+        "size": [
+          6.4,
+          4.2
+        ],
+        "width": 6.4,
+        "height": 4.2,
+        "dpi": 100.0,
+        "pixels": [
+          640,
+          420
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_dpi",
+        "args": [
+          150
+        ],
+        "kwargs": {},
+        "size": [
+          6.4,
+          4.8
+        ],
+        "width": 6.4,
+        "height": 4.8,
+        "dpi": 150.0,
+        "pixels": [
+          960,
+          720
+        ],
+        "stale": true
+      },
+      {
+        "method": "set",
+        "args": [],
+        "kwargs": {
+          "size_inches": [
+            5,
+            4
+          ],
+          "dpi": 200
+        },
+        "size": [
+          5.0,
+          4.0
+        ],
+        "width": 5.0,
+        "height": 4.0,
+        "dpi": 200.0,
+        "pixels": [
+          1000,
+          800
+        ],
+        "stale": true
+      }
+    ],
+    "titles": [
+      {
+        "loc": "left",
+        "text": "left",
+        "ha": "left",
+        "va": "baseline",
+        "fontsize": 11.0,
+        "reused": true
+      },
+      {
+        "loc": "center",
+        "text": "center",
+        "ha": "center",
+        "va": "baseline",
+        "fontsize": 11.0,
+        "reused": true
+      },
+      {
+        "loc": "right",
+        "text": "right",
+        "ha": "right",
+        "va": "baseline",
+        "fontsize": 11.0,
+        "reused": true
+      }
+    ],
+    "independent": [
+      "Edited left",
+      "Anchor",
+      "Edited right"
+    ],
+    "center_ha": "left"
+  },
+  "azimlib": {
+    "dimensions": [
+      {
+        "method": "set_size_inches",
+        "args": [
+          7.2,
+          4.6
+        ],
+        "kwargs": {},
+        "size": [
+          7.2,
+          4.6
+        ],
+        "width": 7.2,
+        "height": 4.6,
+        "dpi": 100.0,
+        "pixels": [
+          720,
+          460
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_size_inches",
+        "args": [
+          [
+            8,
+            5.4
+          ]
+        ],
+        "kwargs": {
+          "forward": false
+        },
+        "size": [
+          8.0,
+          5.4
+        ],
+        "width": 8.0,
+        "height": 5.4,
+        "dpi": 100.0,
+        "pixels": [
+          800,
+          540
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_figwidth",
+        "args": [
+          6.7
+        ],
+        "kwargs": {},
+        "size": [
+          6.7,
+          4.8
+        ],
+        "width": 6.7,
+        "height": 4.8,
+        "dpi": 100.0,
+        "pixels": [
+          670,
+          480
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_figheight",
+        "args": [
+          4.2
+        ],
+        "kwargs": {},
+        "size": [
+          6.4,
+          4.2
+        ],
+        "width": 6.4,
+        "height": 4.2,
+        "dpi": 100.0,
+        "pixels": [
+          640,
+          420
+        ],
+        "stale": true
+      },
+      {
+        "method": "set_dpi",
+        "args": [
+          150
+        ],
+        "kwargs": {},
+        "size": [
+          6.4,
+          4.8
+        ],
+        "width": 6.4,
+        "height": 4.8,
+        "dpi": 150.0,
+        "pixels": [
+          960,
+          720
+        ],
+        "stale": true
+      },
+      {
+        "method": "set",
+        "args": [],
+        "kwargs": {
+          "size_inches": [
+            5,
+            4
+          ],
+          "dpi": 200
+        },
+        "size": [
+          5.0,
+          4.0
+        ],
+        "width": 5.0,
+        "height": 4.0,
+        "dpi": 200.0,
+        "pixels": [
+          1000,
+          800
+        ],
+        "stale": true
+      }
+    ],
+    "titles": [
+      {
+        "loc": "left",
+        "text": "left",
+        "ha": "left",
+        "va": "baseline",
+        "fontsize": 11.0,
+        "reused": true
+      },
+      {
+        "loc": "center",
+        "text": "center",
+        "ha": "center",
+        "va": "baseline",
+        "fontsize": 11.0,
+        "reused": true
+      },
+      {
+        "loc": "right",
+        "text": "right",
+        "ha": "right",
+        "va": "baseline",
+        "fontsize": 11.0,
+        "reused": true
+      }
+    ],
+    "independent": [
+      "Edited left",
+      "Anchor",
+      "Edited right"
+    ],
+    "center_ha": "left"
+  },
+  "differences": [
+    "Azimlib rejects zero dimensions/DPI; minimum drawable map area still applies.",
+    "get_size_inches returns an immutable tuple, not a NumPy array.",
+    "Title y/transform overrides and the full Matplotlib Transform system remain unsupported."
+  ]
+}

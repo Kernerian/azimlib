@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "azimlib"
+version = "0.1.0"
+description = "An independent Python cartography engine with a familiar plotting API"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "BSD-3-Clause AND CC0-1.0 AND LicenseRef-DejaVu AND LicenseRef-ColorBrewer"
+license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md", "NOTICE_COLORMAPS", "licenses/*.txt", "src/azimlib/fonts/LICENSE_DEJAVU"]
+authors = [{name = "Kernerian"}]
+keywords = ["cartography", "maps", "geography", "geojson", "visualization"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: GIS",
+  "Topic :: Multimedia :: Graphics",
+]
+dependencies = []
+
+[project.optional-dependencies]
+accelerate = ["numpy>=1.24", "numba>=0.63"]
+png = ["Pillow>=10"]
+gui = ["Pillow>=10", "aggdraw>=1.4", "numpy>=1.24"]
+dev = ["Pillow>=10", "aggdraw>=1.4", "numpy>=1.24", "build>=1", "pytest>=8", "twine>=6", "packaging>=24", "PyYAML>=6", "tomli>=2; python_version < '3.11'"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+azimlib = ["py.typed", "data/*.json", "data/*.geojson.gz", "assets/*.js", "assets/*.css", "assets/icons/*.png", "assets/icons/*.svg", "assets/icons/*.json", "fonts/*.ttf", "fonts/*.json", "fonts/*.md", "fonts/LICENSE_DEJAVU"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

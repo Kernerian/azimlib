@@ -1,0 +1,18 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tk": 8.6,
+  "checks": [
+    "vertical: initial scientific/offset labels rendered in native Tk widgets",
+    "vertical: editable offset visibility/style invalidates one frame",
+    "vertical: clim, ticks, labelpad and narrow diamond/legend edits compose one frame",
+    "vertical: formatter replacement clears stale scientific offset",
+    "vertical: navigation/back and static SVG preserve independent export path",
+    "horizontal: initial scientific/offset labels rendered in native Tk widgets",
+    "horizontal: editable offset visibility/style invalidates one frame",
+    "horizontal: clim, ticks, labelpad and narrow diamond/legend edits compose one frame",
+    "horizontal: formatter replacement clears stale scientific offset",
+    "horizontal: navigation/back and static SVG preserve independent export path"
+  ],
+  "scope": "real withdrawn Tk; programmatic artist/navigation edits; no physical input or native appearance/latency equivalence"
+}

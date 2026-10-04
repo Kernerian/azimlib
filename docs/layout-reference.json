@@ -1,0 +1,43 @@
+{
+  "matplotlib_version": "3.11.2",
+  "checks": [
+    {
+      "library": "matplotlib",
+      "decorations_inside_canvas": true,
+      "bounds_px": [
+        22.401826040155676,
+        15.0,
+        596.2353959554154,
+        450.0
+      ]
+    },
+    {
+      "library": "azimlib",
+      "decorations_inside_canvas": true,
+      "bounds_px": [
+        28.301620869155542,
+        15.000000000000005,
+        596.7323362002071,
+        450.0
+      ]
+    }
+  ],
+  "behavior": {
+    "matplotlib": {
+      "manual_adjust_ignored": true,
+      "warns": true,
+      "engine": "ConstrainedLayoutEngine",
+      "none_retains_adjust_policy": true,
+      "manual_adjust_after_disable": true,
+      "tight_stops_continuous_layout": true
+    },
+    "azimlib": {
+      "manual_adjust_ignored": true,
+      "warns": true,
+      "engine": "ConstrainedLayoutEngine",
+      "none_retains_adjust_policy": true,
+      "manual_adjust_after_disable": true,
+      "tight_stops_continuous_layout": true
+    }
+  }
+}

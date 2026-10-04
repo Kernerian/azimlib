@@ -1,0 +1,70 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "checks": [
+    "left motion updates limits and redraws full canvas while button is held, without PNG codecs/bitmap translation",
+    "longitude tick moves 30 pixels with geographic data; frame remains fixed; displayed RGBA is the freshly rendered full Scene",
+    "release keeps the live extent without a jump, restores exact raster quality and creates one history entry for the entire drag",
+    "Back/Forward/Home restore whole views after a live drag",
+    "right-button zoom updates continuously using the frozen cursor anchor and normalized equal-aspect display scale",
+    "lost release outside canvas ends the old drag at its last held view; reentry/motion cannot teleport; exact pixels and Back remain correct",
+    "a genuinely held button continues outside Axes/canvas and reenters using the original frozen anchor",
+    "Tk timer and ten newer motions remain responsive while raster is blocked; bounded active/prepared views plus coalesced newest limits",
+    "six wheel zoom edits coalesce and restore exact full-quality pixels after the 120ms quiet interval",
+    "rectangle zoom rasterizes off the Tk thread and presents exact settled pixels",
+    "closing releases the raster and pending redraw"
+  ],
+  "frames": [
+    {
+      "phase": "before",
+      "extent": [
+        -76.0,
+        -32.0,
+        -36.0,
+        8.0
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "rgba_sha256": "3d8d948dd1f9fcd0e32ff7cd83a6e467f0f650e3247d8eb516d6f0956e19e7e2"
+    },
+    {
+      "phase": "during",
+      "extent": [
+        -81.71428571428572,
+        -37.71428571428572,
+        -33.71428571428572,
+        10.285714285714285
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "rgba_sha256": "a78c2563a5cb084f5a3c86b3bcb2f54fdd01fa2d6b1a2841987cfcceb33b20a9"
+    },
+    {
+      "phase": "after",
+      "extent": [
+        -81.71428571428572,
+        -37.71428571428572,
+        -33.71428571428572,
+        10.285714285714285
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "rgba_sha256": "4d821784a68d955bc96ec7fe75976b97d095d667b8630c2ba32cd25927d7d7fd"
+    }
+  ],
+  "sha256": {
+    "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+    "navigation": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+    "pan_raster": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+    "tool": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879"
+  },
+  "independent_runtime": true,
+  "runtime_origin": "<environment>/site-packages/azimlib/__init__.py",
+  "scope": "Withdrawn real Tk, synthetic handlers and inspection of our generated canvas buffers only; no desktop screenshot, physical input or presentation-latency claim."
+}

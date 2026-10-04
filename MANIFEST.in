@@ -1,0 +1,15 @@
+include LICENSE README.md CHANGELOG.md
+include NOTICE_COLORMAPS
+include THIRD_PARTY_LICENSES.md
+recursive-include licenses *.txt *.json
+include .github/workflows/tests.yml
+recursive-include docs *.md *.json
+recursive-include examples *.py
+recursive-include examples *.mplstyle
+recursive-include tests *.py
+recursive-include src/azimlib/data *.json *.geojson.gz
+recursive-include src/azimlib/assets *.js *.css
+recursive-include src/azimlib/assets/icons *.png *.svg *.json
+recursive-include tools *.py *.md *.js
+recursive-include tools/baselines/layout-acceptance-before *.json
+recursive-include src/azimlib/fonts *.ttf *.json *.md LICENSE_DEJAVU
