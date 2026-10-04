@@ -71,7 +71,7 @@
 - Galeria consolidada de 19 exemplos/38 cenas em 100/200 DPI, PNG/SVG estáticos e HTML separado. Baselines Brasil/componentes/estado/foco/séries/colorbars/hachuras/contornos/terreno/globo/temáticos/densidade/projeções/atlas com hashes e auditoria de textos/recortes/dimensões.
 - Oito pares de Axes nativos Matplotlib e cinco pares same-Scene/Agg identificados separadamente; DPI da exportação nativa passado explicitamente. Reproduções dos 19 exemplos em wheel instalado produzem PNG/SVG/HTML idênticos a source, sem runtime Matplotlib/GIS.
 - Guia inicial com instalação/extras, import azimlib as azl, componentes/edições e diferenças de unidades/projeção; referência de API inclui MapText/Annotation/FigureTextArtist, ScaleBar, AxisComponents, projeções, Cycler e EngFormatter. Links locais Markdown auditados e três snippets SVG executados source/core novo/gui com hashes iguais.
-- 117 regressões/2.696 subtests existentes repetidos, sem falhas; suíte total permanece 624/16.577. Registro de diferenças visuais preparado. Janela nativa/input/apresentação físicos e CI remota continuam pendentes; helpers de UI falharam ao inicializar naquele registro histórico.
+- 117 regressões/2.696 subtests existentes repetidos, sem falhas; suíte total permanece 624/16.577. Registro de diferenças visuais preparado. Janela nativa/input/apresentação físicos e CI remota continuam pendentes; não houve inspeção automatizada de janela naquele registro.
 
 ## Aceite do passo 2 da 0.2.0 (2026-10-03)
 

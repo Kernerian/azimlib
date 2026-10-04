@@ -5,9 +5,10 @@ from numbers import Real
 import math
 from .styles import style_dict
 
+# Independently selected Azimlib sequence; provenance: data/materials.json.
 AZIM10=('#237f96','#d57736','#667d32','#9b5cb5','#c34968',
         '#4076bb','#ad8d27','#348e72','#85574b','#6e7387')
-# Compatibility alias; the original reference palette is not retained.
+# Import compatibility only; this is not the Tableau/Matplotlib palette.
 TAB10=AZIM10
 LINE_KEYS={'color','linewidth','linestyle','marker','markersize','markerfacecolor',
            'markeredgecolor','markeredgewidth','alpha','solid_capstyle','dash_capstyle',

@@ -1,4 +1,9 @@
 """Real withdrawn Tk for checklist 1.10/1.11; does not measure physical input."""
+
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from publication_privacy import public_path,sanitize_text
 import argparse
 import hashlib
 import importlib.util
@@ -84,7 +89,7 @@ def run():
             path=Path(module.__file__)
         hashes[name]=hashlib.sha256(path.read_bytes()).hexdigest()
     return dict(python=platform.python_version(),platform=platform.platform(),checks=checks,
-        sha256=hashes,runtime_origin=str(Path(azl.__file__).resolve().parent),
+        sha256=hashes,runtime_origin=public_path(Path(azl.__file__).resolve().parent),
         independent_runtime=True,scope='Real withdrawn Tk; bundled generalized Natural Earth states, synthetic values/fields; programmatic edits/navigation. Not native appearance or physical input/paint latency.')
 
 

@@ -95,6 +95,7 @@ if __name__=='__main__':
     from cycler import cycler as native_cycle
     import azimlib as azl
     own=contracts(azl,azl.cycler)
+    # Configure the same explicit cycle to compare contracts, not palette authorship.
     from azimlib.cycles import AZIM10
     with mpl.rc_context({'axes.prop_cycle':native_cycle(color=AZIM10)}):
         reference=contracts(mpl,native_cycle)
@@ -104,6 +105,7 @@ if __name__=='__main__':
                 styles_azimlib=own_styles,styles_matplotlib=native_styles,
                 failed_group_azimlib=failed_group(azl),failed_group_matplotlib=failed_group(mpl),
                 notes=['Explicitly labelled line states; color spelling canonicalized, no pixel equivalence.',
+                       'Both runs use the independently selected Azimlib default cycle as explicit comparison input.',
                        'Nx2 single-input geographic shorthand differs from Matplotlib y matrices.',
                        'Both attach zero lines after the recorded later shape error; Matplotlib consumes the first cycle entry, Azimlib preserves it.',
                        'Finite unmasked coordinates only; masked/NaN gaps and unit converters are unsupported.',

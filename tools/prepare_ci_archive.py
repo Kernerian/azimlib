@@ -11,8 +11,8 @@ from pathlib import Path
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-DIRS={'src','tests','tools','docs','examples','.github'}
-FILES={'pyproject.toml','MANIFEST.in','README.md','CHANGELOG.md','LICENSE','NOTICE_COLORMAPS','.gitignore','.gitattributes'}
+DIRS={'src','tests','tools','docs','examples','.github','licenses'}
+FILES={'pyproject.toml','MANIFEST.in','README.md','CHANGELOG.md','LICENSE','NOTICE_COLORMAPS','THIRD_PARTY_LICENSES.md','.gitignore','.gitattributes'}
 SKIP={'__pycache__','.git','.pytest_cache','site-packages','build','dist','.ci-results'}
 
 
@@ -31,6 +31,7 @@ def main():
     with zipfile.ZipFile(args.output) as archive:
         assert archive.testzip() is None
         assert '.github/workflows/tests.yml' in archive.namelist() and 'pyproject.toml' in archive.namelist()
+        assert 'THIRD_PARTY_LICENSES.md' in archive.namelist() and 'licenses/LicenseRef-ColorBrewer.txt' in archive.namelist()
         assert 'src/azimlib/__init__.py' in archive.namelist() and not any(n.startswith('gallery/') for n in archive.namelist())
     report=dict(schema_version=1,archive=args.output.name,files=len(entries),bytes=args.output.stat().st_size,
         sha256=hashlib.sha256(args.output.read_bytes()).hexdigest(),files_sha256=entries,

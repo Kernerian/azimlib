@@ -1,4 +1,9 @@
 """Real withdrawn toolbar integration; no Matplotlib or physical-input claim."""
+
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from publication_privacy import public_path,sanitize_text
 import argparse
 import hashlib
 import json
@@ -101,7 +106,7 @@ def run():
                     reference=hashlib.sha256((ROOT / 'docs/toolbar-reference.json').read_bytes()).hexdigest(),
                     subplot_editor=hashlib.sha256(Path(sys.modules['azimlib.backends._subplots'].__file__).read_bytes()).hexdigest(),
                     own_icon_geometry=hashlib.sha256(Path(icons.__file__).read_bytes()).hexdigest()),
-        runtime_origin=str(Path(azl.__file__).resolve()), independent_runtime=True,
+        runtime_origin=public_path(Path(azl.__file__).resolve()), independent_runtime=True,
         scope='Real withdrawn Tk and synthetic handlers in four physical Tk DPI settings. Not visible appearance or physical input; does not close 3.08.')
 
 

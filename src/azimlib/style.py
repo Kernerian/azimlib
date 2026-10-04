@@ -7,9 +7,9 @@ from contextlib import contextmanager
 from .config import DEFAULTS,rcParams,rc_context,RcParams
 from .cycles import cycler,Cycler,AZIM10
 
-def _lighten(color):
-    return "#"+"".join(f"{round(int(color[i:i+2],16)*.65+255*.35):02x}" for i in (1,3,5))
 
+def _lighten(color):
+    return '#'+''.join(f'{round(int(color[i:i+2],16)*.65+255*.35):02x}' for i in (1,3,5))
 
 library={'default':dict(DEFAULTS),
          'grayscale':{'axes.facecolor':'white','grid.color':'#b0b0b0','text.color':'black',

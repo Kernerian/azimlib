@@ -4,6 +4,11 @@ Used by GitHub Actions and local validation. A local execution never becomes a
 remote CI result. Desktop smokes use withdrawn Tk/synthetic handlers, not human
 input or visible-appearance approval.
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from publication_privacy import public_path,sanitize_text
 import argparse
 from datetime import datetime,timezone
 import hashlib
@@ -58,7 +63,7 @@ def main():
     report=dict(schema_version=1,started_utc=datetime.now(timezone.utc).isoformat(),kind=args.kind,
         execution_context='github-actions' if remote else 'local',
         python=platform.python_version(),platform=platform.platform(),machine=platform.machine(),
-        version=azl.__version__,runtime_origin=str(runtime),optional_packages=packages,
+        version=azl.__version__,runtime_origin=public_path(runtime),optional_packages=packages,
         tool_sha256=sha(Path(__file__)),runtime_sha256={p.relative_to(runtime).as_posix():sha(p) for p in sorted(runtime.rglob('*.py'))},
         github={key:os.environ.get(key) for key in ('GITHUB_REPOSITORY','GITHUB_SHA','GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_JOB','RUNNER_OS','RUNNER_ARCH')} if remote else None,
         scope='Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.')
@@ -84,7 +89,7 @@ def main():
                     else:os.killpg(child.pid,signal.SIGKILL)
                 stdout,stderr=child.communicate(timeout=30)
                 code=124;log=f'Timeout after {args.desktop_timeout} seconds\n'+stdout+'\n'+stderr
-            log_path=args.output/(Path(name).stem+'.log');log_path.write_text(log,encoding='utf-8')
+            log_path=args.output/(Path(name).stem+'.log');log_path.write_text(sanitize_text(log),encoding='utf-8')
             row=dict(tool=name,sha256=sha(ROOT/'tools'/name),returncode=code,seconds=time.perf_counter()-began,log_sha256=sha(log_path))
             if output.exists():row.update(report_file=output.name,report_sha256=sha(output))
             scripts.append(row);passed=passed and code==0
@@ -99,6 +104,7 @@ def main():
         log_path=args.output/'unittest.log'
         with log_path.open('w',encoding='utf-8') as stream:
             result=unittest.TextTestRunner(stream=stream,verbosity=2,resultclass=Results).run(suite)
+        log_path.write_text(sanitize_text(log_path.read_text(encoding='utf-8')),encoding='utf-8')
         passed=result.wasSuccessful()
         report['unittest']=dict(tests=result.testsRun,subtests=result.subtests,failures=len(result.failures),errors=len(result.errors),
             skipped=[dict(test=str(test),reason=reason) for test,reason in result.skipped],log_sha256=sha(log_path))

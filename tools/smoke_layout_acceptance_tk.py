@@ -1,4 +1,9 @@
 """Layout gate in real withdrawn Tk; programmatic toggles/resize/Home."""
+
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from publication_privacy import public_path,sanitize_text
 import argparse,hashlib,importlib.util,io,json,platform,sys,tkinter
 from pathlib import Path
 from unittest.mock import patch
@@ -72,7 +77,7 @@ def run():
     hashes={'src/azimlib/'+m.replace('.','/')+'.py':hashlib.sha256(Path(__import__('azimlib.'+m,fromlist=['__file__']).__file__).read_bytes()).hexdigest() for m in modules}
     hashes.update({str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (ROOT/'tools/layout_acceptance_case.py',Path(__file__))})
     return dict(python=platform.python_version(),platform=platform.platform(),checks=checks,frames=frames,sha256=hashes,
-                runtime_origin=str(Path(azl.__file__).resolve().parent),independent_runtime=True,
+                runtime_origin=public_path(Path(azl.__file__).resolve().parent),independent_runtime=True,
                 scope='Six real withdrawn Tk scenarios, 30 checks and 18 frame comparisons. Programmatic edits/navigation; no physical input or visible-paint latency.')
 
 

@@ -561,7 +561,10 @@ Veja [resultados e limites das medições Tk](docs/viewer-performance.md).
 · [Roadmap](docs/roadmap.md) · [Changelog](CHANGELOG.md)
 
 Código original sob BSD-3-Clause, copyright Kernerian; dados Natural Earth em domínio público; tabelas Viridis,
-Plasma, Inferno e Magma sob CC0. Fontes DejaVu preservam sua licença.
+Plasma, Inferno e Magma sob CC0. Fontes DejaVu preservam sua licença. A paleta Blues conserva os termos ColorBrewer.
+This product includes color specifications and designs developed by Cynthia Brewer (http://colorbrewer.org/).
+Veja [materiais e licenças de terceiros](THIRD_PARTY_LICENSES.md) e
+[preparação de publicação](docs/publication-readiness.md). A sequência padrão AZIM10 é própria; TAB10 é apenas um alias de compatibilidade.
 
 O inventário possui [16 frentes pendentes](docs/pending.md), com várias tarefas
 por frente. A [versão 0.2.0](docs/release-0.2.md) encerrou os cinco critérios

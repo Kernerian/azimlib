@@ -3,6 +3,11 @@
 Checks local target existence, not external URLs or Markdown anchor resolution.
 No network, viewer window, Matplotlib or GIS imports are needed.
 """
+
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from publication_privacy import public_path,sanitize_text
 import argparse
 import hashlib
 import importlib.util
@@ -62,7 +67,7 @@ def main():
     if not args.links_only:
         import azimlib as azl
         report['azimlib'] = azl.__version__
-        report['runtime_path'] = str(Path(azl.__file__).resolve())
+        report['runtime_path'] = public_path(Path(azl.__file__).resolve())
         report['optional_modules_available'] = {name: importlib.util.find_spec(name) is not None
                                                 for name in ('PIL', 'numpy', 'fontTools')}
         args.output.mkdir(parents=True, exist_ok=True)

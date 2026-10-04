@@ -1,4 +1,9 @@
 """Live-pan integration in real withdrawn Tk; no physical-input claim."""
+
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from publication_privacy import public_path,sanitize_text
 import argparse
 import hashlib
 import json
@@ -185,7 +190,7 @@ def run(previews=None):
                     sha256={name:hashlib.sha256(path.read_bytes()).hexdigest() for name,path in
                             (('backend',Path(backend.__file__)),('navigation',Path(navigation.__file__)),
                              ('pan_raster',Path(pan_raster.__file__)),('tool',Path(__file__)))},
-                    independent_runtime=True,runtime_origin=str(Path(azl.__file__).resolve()),
+                    independent_runtime=True,runtime_origin=public_path(Path(azl.__file__).resolve()),
                     scope='Withdrawn real Tk, synthetic handlers and inspection of our generated canvas buffers only; no desktop screenshot, physical input or presentation-latency claim.')
     finally:
         if viewer is not None:viewer.close()

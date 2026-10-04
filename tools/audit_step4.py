@@ -9,6 +9,10 @@ from pathlib import Path
 import statistics
 
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from published_evidence import published_hashes,equivalent_digest
+
 ROOT=Path(__file__).resolve().parents[1]
 
 
@@ -18,11 +22,11 @@ def read(name):return json.loads((ROOT/'docs'/name).read_text(encoding='utf-8'))
 
 def verify(report,tool,current=False):
     candidates=[ROOT/'tools'/tool,* (ROOT/'tools/baselines').rglob(tool)]
-    assert report['tool_sha256'] in {digest(p) for p in candidates if p.is_file()},tool
+    assert published_hashes(report['tool_sha256']) & {digest(p) for p in candidates if p.is_file()},tool
     for name,sha in report['runtime_sha256'].items():
         path=ROOT/'src/azimlib'/name
         candidates=[path,*(ROOT/'tools/baselines').rglob(path.name)]
-        assert sha in {digest(p) for p in candidates if p.is_file()},name
+        assert published_hashes(sha) & {digest(p) for p in candidates if p.is_file()},name
 
 
 def main():

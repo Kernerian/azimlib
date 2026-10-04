@@ -7,6 +7,10 @@ import hashlib
 import json
 from pathlib import Path
 
+import sys
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from published_evidence import published_hashes,equivalent_digest
+
 ROOT = Path(__file__).resolve().parents[1]
 def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -19,19 +23,19 @@ def main():
                sha(ROOT/'tools/baselines/release-checks-300/run_release_checks.py')}
     def verify(run):
         data = run['result']
-        assert data['tool_sha256'] in runners
+        assert published_hashes(data['tool_sha256']) & runners
         snapshots=json.loads((ROOT/'tools/baselines/ci-portability-before/manifest.json').read_text(encoding='utf-8'))
         for name,digest in data['runtime_sha256'].items():
-            if current.get(name)==digest:continue
+            if equivalent_digest(digest,current.get(name)):continue
             stored=snapshots['src/azimlib/'+name]
-            assert stored['sha256']==digest==sha(ROOT/stored['file'])
+            assert stored['sha256']==digest and equivalent_digest(digest,sha(ROOT/stored['file']))
         assert data['version'] == report['version'] == '0.1.0'
         assert data['execution_context'] == 'local' and data['github'] is None
         assert not data['forbidden_imports']
         assert 'site-packages' in data['runtime_origin']
         for row in data.get('scripts', []):
             candidates=[ROOT/'tools'/row['tool'],*(ROOT/'tools/baselines').rglob(row['tool'])]
-            assert row['sha256'] in {sha(path) for path in candidates if path.is_file()}
+            assert published_hashes(row['sha256']) & {sha(path) for path in candidates if path.is_file()}
         return data
     assert len(report['unit_runs']) == 2
     for run in report['unit_runs']:
@@ -59,9 +63,9 @@ def main():
     assert not negative['passed'] and negative['scripts'][0]['returncode'] == 124
     assert not report['ci']['executed_remotely'] and report['ci']['configured_jobs'] == 24
     candidates=[ROOT/'.github/workflows/tests.yml',ROOT/'tools/baselines/ci-portability-before/tests.yml']
-    assert report['ci']['workflow_sha256'] in {sha(path) for path in candidates if path.is_file()}
+    assert published_hashes(report['ci']['workflow_sha256']) & {sha(path) for path in candidates if path.is_file()}
     assert len(report['core_installations']) == 2 and all(row['passed'] for row in report['core_installations'])
-    print('Historical local 0.1.0 evidence verified against exact source/snapshots: 2 x 675 tests, compiler and Tk checks. Does not approve current CI or release bytes.')
+    print('Historical local 0.1.0 evidence verified against recorded source/public transformation map: 2 x 675 tests, compiler and Tk checks. Does not approve current CI or release bytes.')
 
 
 if __name__ == '__main__': main()
