@@ -608,8 +608,9 @@ class FigureWindow:
 
     def configure_subplots(self):
         dialog=getattr(self,'_subplot_dialog',None)
-        if dialog is not None and dialog.window.winfo_exists():
+        if dialog is not None and dialog.window is not None and dialog.window.winfo_exists():
             dialog.window.lift();return dialog
+        if dialog is not None:dialog.dispose()
         from ._subplots import SubplotEditor
         self._subplot_dialog=SubplotEditor(self)
         return self._subplot_dialog
@@ -713,10 +714,22 @@ class FigureWindow:
             self._pending=self._resize_pending=None
             self._pan_poll=None
             self._wheel_pending=None
-            self.window.destroy()
             if self._image is not None:self._image.close()
             self._raster_cache.clear()
             self._photo=self._image=self._initial_image=self._initial_scene=None
+            # A closed Figure/canvas cycle can be collected by a raster thread.
+            # Drop every owned Tk reference now, on the UI thread, rather than
+            # leaving Variable/PhotoImage/Tcl interpreter finalizers in that cycle.
+            dialog=getattr(self,'_subplot_dialog',None)
+            if dialog is not None:dialog.dispose()
+            self._subplot_dialog=None
+            self.window.destroy()
+            for button in getattr(self,'buttons',{}).values():
+                if hasattr(button,'var'):button.var=None
+            if hasattr(self,'buttons'):self.buttons.clear()
+            if hasattr(self,'_icons'):self._icons.clear()
+            self.message=self._overview_photo=None
+            self.widget=self.toolbar=self.window=None
             if self in _windows:_windows.remove(self)
             self.figure._closed=True
             from .. import _figures

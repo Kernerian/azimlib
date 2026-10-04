@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 import unittest
+import sys
 from unittest.mock import Mock
 
 import azimlib as azl
@@ -82,7 +83,9 @@ class PanInteractionTests(unittest.TestCase):
         self.assertEqual(ax.get_extent(),initial);self.assertEqual(len(viewer.navigation.history),1)
 
     def test_missing_release_finishes_at_last_held_position(self):
-        for button,mask in ((1,256),(3,1024)):
+        right=2 if sys.platform=='darwin' else 3
+        right_mask=512 if sys.platform=='darwin' else 1024
+        for button,mask in ((1,256),(right,right_mask)):
             for recovery in ('enter','motion'):
                 with self.subTest(button=button,recovery=recovery):
                     fig,ax=azl.subplots();ax.set_extent((-76,-32,-36,8))
@@ -103,7 +106,7 @@ class PanInteractionTests(unittest.TestCase):
                     viewer.press(SimpleNamespace(x=start[0],y=start[1],num=button,state=0))
                     viewer.motion(SimpleNamespace(x=start[0]+8,y=start[1]+5,state=mask))
                     expected=drag_extent(ax,viewer.drag['viewport'],start,(start[0]+8,start[1]+5),
-                                         button=button,initial_extent=held)
+                                         button=3 if button==right else 1,initial_extent=held)
                     self.assertEqual(ax.get_extent(),expected)
 
     def test_held_drag_continues_outside_axes_and_across_canvas_reentry(self):
