@@ -1,20 +1,19 @@
-# Escopo proposto para Azimlib 0.2.0
+# Escopo e aceite de Azimlib 0.2.0
 
 > Evidência histórica: resultados CI, tempos e hashes abaixo pertencem aos
 > snapshots originais. A preparação BSD/licenças/privacidade altera arquivos;
 > os checks atuais e a relação de hashes publicados estão em
 > [preparação de publicação](publication-readiness.md). Esses resultados não são uma nova execução CI.
 
-A versão atual continua 0.1.0 alpha. O inventário possui **16 frentes de
+A versão 0.2.0 está pronta no corte documentado; [aceite e limites](release-acceptance.md). O inventário possui **16 frentes de
 trabalho**, cada uma com várias tarefas; não representa 16 alterações pequenas
 nem um número fechado de funcionalidades futuras. Consulte [pendências](pending.md).
 Entregas dentro de uma frente reduzem seu trabalho pendente sem mudar esse total.
 Índice espacial/cache de paths e lotes editáveis de cores já são entregas concluídas.
 
-0.2.0 será uma consolidação do núcleo cartográfico 2D e da experiência familiar
-de Matplotlib. Não precisa aguardar todo o inventário, novos formatos, 3D,
-backend Qt ou compatibilidade integral. Não há data de lançamento comprometida:
-o corte será decidido por validação dos cinco critérios abaixo.
+0.2.0 consolida o núcleo cartográfico 2D e a experiência familiar de Matplotlib.
+Os cinco critérios abaixo estão aceitos no escopo registrado. Novos formatos,
+3D, backend Qt e compatibilidade integral fazem parte do roteiro futuro.
 
 A execução segue a [checklist completa](release-progress.md): IDs fixos,
 concluídos/pendentes e evidências por passo. As 16 frentes de crescimento não
@@ -24,6 +23,9 @@ substituem essa lista nem seu contador. [Catálogo](artist-scope-0.2.md) e
 Decisão de escopo: **cartografia urbana fica para depois da 0.2.0**, junto
 da fundação 3D e das demais expansões fora deste corte. O trabalho atual
 consolida os recursos 2D existentes; não inicia essas expansões para fechar 0.2.
+
+Os relatos de lotes e pendências intermediárias nesta página são históricos;
+o estado final é a checklist 54/54 e o aceite atual abaixo.
 
 Lote maior de 2026-10-02: aliases auditados, composição com componentes em
 doze cenários adicionais, cache limitado de raster no Tk e medição da API
@@ -48,7 +50,7 @@ source/wheel e limites explícitos. Passo 2 também aceito em [2.08–2.10](layo
 24 cenas de layout, rotação/padding, componentes e 30 checks Tk source/wheel;
 suíte registrada no lote de navegação e
 [verificação visual do passo 3](viewer-visible-acceptance.md).
-Passo 4 também aceito localmente: [base original, raster compilado próprio opcional e input humano](performance-acceptance.md), com limites explícitos. Passo 5 segue aberto; checklist: 49 concluídos/cinco pendentes, incluindo um aceite. Baselines finais e
+Passo 4 também aceito localmente: [base original, raster compilado próprio opcional e input humano](performance-acceptance.md), com limites explícitos. CI corrigida 24/24 e critério de plataforma documentado encerram 5.06–5.07. Checklist: **54 concluídos/zero pendentes**. [Matriz da versão](ci-0.2.0.json), [instalação isolada](release020-local-validation.json) e auditoria dos artefatos concluídas. Baselines finais e
 [documentação executável](release-gallery.md) encerram 3.07/5.05, com 38 cenas,
 19 reproduções exatas no wheel e 117 regressões selecionadas repetidas.
 
@@ -58,9 +60,9 @@ Passo 4 também aceito localmente: [base original, raster compilado próprio opc
 | 2. Composição familiar | GridSpec raiz/filhos/spans/pesos, tight/constrained próprios, eixos compartilhados, insets, barras/cax e rótulos globais; 24 cenas, fontes grandes/200 DPI, regras de rotação/padding e toggles/resize/Home source/wheel | **Aceito no escopo documentado**, conforme [2.08–2.10](layout-acceptance.md); textos livres/posições manuais e diferenças de solvers permanecem explícitos |
 | 3. Qualidade de PNG/SVG | antialiasing próprio, métricas/fontes, pontos físicos, hachuras, pares de mapas/estilos; baselines de 19 exemplos em 100/200 DPI e viewer corrigido | **Aceito no corte**, 3.08–3.10: [observação visual Windows](viewer-visible-acceptance.md), regressões e [diferenças explícitas](visual-differences.md) |
 | 4. Desempenho medido | tiles/cobertura fracionária, mapas completos por etapa, picos Python, comparação alternada, atalhos raster, cache de limites/paths e índice STR compacto/culling cilíndrico preservando PNG, clipping de cobertura dispensado com PNG idêntico, memória de processo em exports isolados, RGBA direto no Tk sem retenção inicial redundante e sete operações desktop comparadas em quatro casos/DPI com pixels/vistas idênticos | **Aceito localmente em 4.08–4.10**, com [base original, input humano, pixels, memória e limites](performance-acceptance.md). Bases arbitrariamente maiores, pausas densas, GPU e outras plataformas não têm garantia de fluidez |
-| 5. Validação e distribuição | testes, wheel/sdist, dados/licenças, documentação, verificação offline e smokes desktop locais em Tk real, também no wheel sem Matplotlib/GIS | CI realmente executada nas plataformas/versões suportadas, aparência/input nativo, auditoria final de pacote/nome/licenças e instruções de instalação verificadas |
+| 5. Validação e distribuição | testes, wheel/sdist, dados/licenças, documentação, verificação offline e smokes desktop locais em Tk real, também no wheel sem Matplotlib/GIS | **Aceito:** 24/24 jobs reais para 0.2.0, core/gui instalados e arquivos/RECORD/licenças/docs verificados. Aceite visual Windows; Linux/macOS apenas CI, limitação de plataforma explícita |
 
-Os quatro primeiros critérios estão fechados no escopo documentado; o quinto continua aberto. Cada um exige código funcional, regressões úteis e exemplos
+Os cinco critérios estão fechados no escopo documentado e no escopo de plataforma documentado. Cada um exige código funcional, regressões úteis e exemplos
 verificados. Alterar a string de versão só ocorrerá depois desse corte;
 publicação no PyPI é uma operação separada, ainda não realizada.
 
@@ -191,5 +193,6 @@ Lote ampliado de séries/estilos entregue: grupos e matrizes em plot, data por
 nome, ciclos próprios condicionais, folhas locais/stacks/contextos, defaults
 e texto lazy de legenda estáveis. Há referência direta, 21 regressões e 12
 cenários Tk adicionais. Gaps/máscaras/units, integrações densas e aparência
-nativa/CI real permanecem pendentes; o corte da 0.2 não foi declarado fechado.
+nativa/CI real permaneciam pendentes naquele lote. O corte 0.2.0 foi posteriormente
+encerrado no critério documentado: visual Windows e CI nos três sistemas.
 Veja [contratos e galeria](series-styles.md).

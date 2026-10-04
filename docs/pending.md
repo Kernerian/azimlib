@@ -1,5 +1,7 @@
 # Inventário de pendências
 
+O corte [0.2.0 está encerrado](release-acceptance.md), 54/54. Este é o roteiro de crescimento posterior, não uma lista de bloqueios da versão. Conferência visual humana nativa Linux/macOS permanece posterior, no escopo de plataforma documentado; CI e aceite visual Windows concluídos. Urbano e 3D/tempo continuam neste roteiro.
+
 Estado desta fundação 0.1.0 alpha. Esta lista reúne o trabalho conhecido para
 aproximar a experiência do Matplotlib e ampliar a cartografia. Não significa
 que cada função de todos os toolkits Matplotlib será necessária à Azimlib.

@@ -16,7 +16,7 @@ são próprios. Este registro encerra **3.09**, após a
 | Isolinhas | Marching squares, decisões em saddles e posicionamento de labels próprios | [Limites de contornos](contour-boundaries.md), [edições](lines-contours.md); sem contourf, triangulação ou toda a política automática de clabel |
 | Componentes cartográficos | Escala, norte, rosa e overview são extensões opt-in; não são componentes nativos do pyplot | [Componentes](components.md); norte/rosa independentes, foco preto e escala local esférica |
 | Dados/projeções | Natural Earth generalizado, seis projeções esféricas; transformação 4326/3857 própria | [Dados](data.md), [matemática](math.md); diferenças de datum/elipsoide/detalhe não são defeitos do renderer |
-| Viewer Tk | Renderer/navegação e sete ícones próprios, sem assets/código da referência. Grupos de botões e tooltip imediato à direita seguem Tk; Pan/Zoom são Checkbuttons. Pan altera limites e redesenha ticks durante o arrasto, sem traduzir bitmap/moldura. Hover plano, editor ttk e nomes opcionais preservados | [Quatro escalas Tk](toolbar.md), [60 gestos e integração](pan-interaction.md), [verificação visual Windows](viewer-visible-acceptance.md); decoração Tk não é Qt. Aparência/input observados neste Windows aceitos em 3.08; latência física medida e validação em outras plataformas continuam em 4.09/5.07 |
+| Viewer Tk | Renderer/navegação e sete ícones próprios, sem assets/código da referência. Grupos de botões e tooltip imediato à direita seguem Tk; Pan/Zoom são Checkbuttons. Pan altera limites e redesenha ticks durante o arrasto, sem traduzir bitmap/moldura. Hover plano, editor ttk e nomes opcionais preservados | [Quatro escalas Tk](toolbar.md), [60 gestos e integração](pan-interaction.md), [verificação visual Windows](viewer-visible-acceptance.md); decoração Tk não é Qt. Aparência/input observados neste Windows aceitos em 3.08; latência/input Windows encerrados em [4.09](performance-acceptance.md); [CI desktop nos três sistemas](ci-0.2.0.json) aprovada. Conferência humana nativa Linux/macOS fica posterior, conforme o [aceite 0.2.0](release-acceptance.md) |
 | Viewer HTML | Cena offline sem vínculo com Python; navegação/ornamentos dependem da projeção | [Navegação](portable-navigation.md), [componentes](components.md); não se declara equivalência integral ao desktop |
 
 O [catálogo da galeria](release-gallery.md) separa referências nativas de
@@ -28,5 +28,6 @@ não notas de qualidade perceptual.
 Correções de geometria, textos e componentes já auditadas estão nos aceites
 [1](artist-acceptance.md) e [2](layout-acceptance.md). Este registro não converte
 uma verificação oculta em inspeção da janela visível. O passo 3 foi encerrado
-com observação visual Windows, além dos testes/artefatos; medição física de
-latência e validação de outras plataformas continuam nos passos 4–5.
+com observação visual Windows, além dos testes/artefatos; a medição física
+Windows e a CI nos três sistemas encerraram os passos 4–5. A conferência humana
+nativa Linux/macOS permanece uma limitação documentada do corte 0.2.0.

@@ -1,6 +1,6 @@
 # Rodar a CI usando apenas seu Windows
 
-O projeto local ainda não tem repositório remoto. GitHub Actions oferece
+O repositório atual é [Kernerian/azimlib](https://github.com/Kernerian/azimlib), identificado nos registros de CI. A [primeira matriz corrigida](ci-portability-fix.json) passou; [aceite 0.2.0](release-acceptance.md) registra a validação final. Este guia também serve para preparar novos checkouts. GitHub Actions oferece
 [runners Windows, Ubuntu e macOS](https://docs.github.com/en/actions/concepts/runners/github-hosted-runners),
 portanto não é necessário instalar três sistemas no computador para executar
 os testes automáticos. A matriz preparada tem 24 jobs: 15 de suíte/build/core,
@@ -39,19 +39,14 @@ e repita o commit. Não é necessário mudar a configuração global do computad
    guarda `result.json`, logs, ambiente/versões, origem instalada e hashes;
    em falha, os logs também são publicados. Use a URL e os artefatos para diagnosticar eventuais falhas.
 
-Nenhum repositório foi criado ou código enviado automaticamente naquele registro histórico.
-Uma configuração de workflow não é resultado executado. **5.06 permanece
-aberto** até existirem execuções reais das plataformas/versões declaradas.
+O repositório inicial foi identificado nos registros de CI. A correção foi enviada na branch `fix/ci-portability`, com PR e execução real registrada; configurar workflow continua sendo diferente de executar testes.
 
 ## CI e conferência física são evidências diferentes
 
 Os smokes desktop usam Tk real com janela retirada e handlers programáticos;
 Linux usa Xvfb. Eles verificam contratos, exportação e fechamento, mas não
 representam alguém usando mouse/teclado ou avaliando aparência na tela.
-O usuário já aceitou a janela Windows nos passos 3/4; **Linux e macOS ainda
-precisam de uma conferência direta** para concluir 5.07. Pode ser em máquinas
-emprestadas ou com colaboradores que tenham esses sistemas, sem alterar o
-escopo da checklist silenciosamente.
+O escopo 0.2.0 combina observação visual Windows e CI nos três sistemas. A aparência nativa Linux/macOS não foi avaliada por pessoa e continua uma limitação documentada.
 
 Em cada sistema, instalar `.[gui]`, abrir o exemplo de componentes e registrar:
 pan e saída/retorno ao canvas, zoom/retângulo, Home/histórico, coordenadas,

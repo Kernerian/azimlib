@@ -60,6 +60,13 @@ class SubplotEditor:
         if not allowed: self.status.set('Automatic layout controls these borders. Use Tight layout to switch to manual adjustments.')
         return allowed
 
+    def dispose(self):
+        """Release owned Tcl resources on the viewer's UI thread."""
+        if self.window is not None and self.window.winfo_exists():
+            self.window.destroy()
+        self.values.clear(); self.sliders.clear(); self.spinboxes.clear(); self.buttons.clear()
+        self.status = self.window = self.viewer = None
+
     def _read(self, changed=None):
         values = {name: float(var.get()) for name, var in self.values.items()}
         if not all(math.isfinite(value) for value in values.values()): raise ValueError('Use finite numbers.')

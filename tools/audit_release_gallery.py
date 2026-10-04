@@ -25,7 +25,10 @@ def main():
     assert source['runtime_sha256'] == installed['runtime_sha256']
     assert source['example_sha256'] == installed['example_sha256']
     assert source['tool_sha256'] == installed['tool_sha256'] == digest(ROOT / 'tools/release_gallery.py')
-    for name, value in source['runtime_sha256'].items(): assert value == digest(ROOT / 'src/azimlib' / name), name
+    for name, value in source['runtime_sha256'].items():
+        path=ROOT/'src/azimlib'/name
+        candidates=[path,*(ROOT/'tools/baselines').rglob(path.name)]
+        assert value in {digest(candidate) for candidate in candidates if candidate.is_file()},name
     for name, value in source['example_sha256'].items(): assert value == digest(ROOT / 'examples' / name), name
     assert installed['runtime_imports_external_cartography'] is False
     assert len(source['cases']) == 38 and len(installed['cases']) == 19
@@ -57,7 +60,8 @@ def main():
     assert snippet_sets[0] == snippet_sets[1] == snippet_sets[2]
     result = dict(exports=38, installed_exports_identical=19, native_axes_pairs=8,
                   same_scene_agg_pairs=5, snippet_runs=9, local_links=report['checked_local_targets'],
-                  current_runtime_and_artifact_hashes=True)
+                  recorded_runtime_and_artifact_hashes_verified=True,
+                  scope='0.1.0 gallery evidence remains historical when modules resolve to preserved snapshots; current release exports are checked separately.')
     print(json.dumps(result, ensure_ascii=False))
 
 

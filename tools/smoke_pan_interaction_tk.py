@@ -81,13 +81,15 @@ def run(previews=None):
         viewer.home();viewer.flush_events();assert ax.get_extent()==original
         checks.append('Back/Forward/Home restore whole views after a live drag')
         viewport=viewer._viewport(0);x,y,w,h=viewport.box;start=(x+w*.35,y+h*.45)
-        viewer.press(SimpleNamespace(x=start[0],y=start[1],num=3,state=0))
+        right=2 if sys.platform=='darwin' else 3
+        right_mask=512 if sys.platform=='darwin' else 1024
+        viewer.press(SimpleNamespace(x=start[0],y=start[1],num=right,state=0))
         for dx,dy in ((18,-8),(30,-12)):
-            event=SimpleNamespace(x=start[0]+dx,y=start[1]+dy,state=1024)
+            event=SimpleNamespace(x=start[0]+dx,y=start[1]+dy,state=right_mask)
             viewer.motion(event);viewer.flush_events()
             assert ax.get_extent()==drag_extent(ax,viewport,start,(event.x,event.y),button=3,initial_extent=original)
             assert viewer.drag is not None
-        live=ax.get_extent();viewer.release(SimpleNamespace(x=event.x,y=event.y,num=3,state=0));viewer.flush_events()
+        live=ax.get_extent();viewer.release(SimpleNamespace(x=event.x,y=event.y,num=right,state=0));viewer.flush_events()
         assert ax.get_extent()==live
         checks.append('right-button zoom updates continuously using the frozen cursor anchor and normalized equal-aspect display scale')
         viewer.home();viewer.flush_events()

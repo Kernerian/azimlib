@@ -126,6 +126,7 @@ class TkEventTests(unittest.TestCase):
 
     def test_close_cleans_up_even_if_callback_raises(self):
         v=self.viewer;tk._windows.append(v)
+        window=v.window
         v._pending='idle';v._resize_pending='resize'
         image=Mock();v._image=image
         v._photo=v._initial_image=v._initial_scene=object()
@@ -137,12 +138,13 @@ class TkEventTests(unittest.TestCase):
         self.assertTrue(v.closed);self.assertTrue(self.fig._closed)
         self.assertNotIn(v,tk._windows)
         self.assertNotIn(self.fig,azl._figures)
-        v.window.destroy.assert_called_once()
-        self.assertEqual(v.window.after_cancel.call_count,2)
+        window.destroy.assert_called_once()
+        self.assertEqual(window.after_cancel.call_count,2)
+        self.assertIsNone(v.window);self.assertIsNone(v.widget);self.assertIsNone(v.message)
         self.assertIsNone(v._image);self.assertIsNone(v._photo)
         image.close.assert_called_once()
         self.assertIsNone(v._pending);self.assertIsNone(v._resize_pending)
-        v.close();v.window.destroy.assert_called_once()
+        v.close();window.destroy.assert_called_once()
 
 
 if __name__=='__main__':unittest.main()

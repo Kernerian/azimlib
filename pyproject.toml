@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "azimlib"
-version = "0.1.0"
+version = "0.2.0"
 description = "An independent Python cartography engine with a familiar plotting API"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -22,11 +22,15 @@ classifiers = [
 ]
 dependencies = []
 
+[project.urls]
+Source = "https://github.com/Kernerian/azimlib"
+Issues = "https://github.com/Kernerian/azimlib/issues"
+
 [project.optional-dependencies]
 accelerate = ["numpy>=1.24", "numba>=0.63"]
 png = ["Pillow>=10"]
-gui = ["Pillow>=10", "aggdraw>=1.4", "numpy>=1.24"]
-dev = ["Pillow>=10", "aggdraw>=1.4", "numpy>=1.24", "build>=1", "pytest>=8", "twine>=6", "packaging>=24", "PyYAML>=6", "tomli>=2; python_version < '3.11'"]
+gui = ["Pillow>=10", "aggdraw>=1.3.19", "numpy>=1.24"]
+dev = ["Pillow>=10", "aggdraw>=1.3.19", "numpy>=1.24", "build>=1", "pytest>=8", "twine>=6", "packaging>=24", "PyYAML>=6", "tomli>=2; python_version < '3.11'"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

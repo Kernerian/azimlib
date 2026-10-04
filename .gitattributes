@@ -1,0 +1,11 @@
+# Reproducible Python source/geometry hashes, even with core.autocrlf=true.
+* text=auto eol=lf
+.gitattributes text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+# Historical measured byte snapshots and bundled resources must stay exact.
+tools/baselines/** -text
+src/azimlib/assets/** -text
+src/azimlib/fonts/** -text
+src/azimlib/data/** -text

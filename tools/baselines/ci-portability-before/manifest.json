@@ -1,0 +1,282 @@
+{
+  "src/azimlib/backends/tk.py": {
+    "file": "tools/baselines/0.1.0-runtime/backends/tk.py",
+    "sha256": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e"
+  },
+  "src/azimlib/backends/_subplots.py": {
+    "file": "tools/baselines/0.1.0-runtime/backends/_subplots.py",
+    "sha256": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229"
+  },
+  "src/azimlib/__init__.py": {
+    "file": "tools/baselines/0.1.0-runtime/__init__.py",
+    "sha256": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9"
+  },
+  "tools/smoke_pan_interaction_tk.py": {
+    "file": "tools/baselines/ci-portability-before/smoke_pan_interaction_tk.py",
+    "sha256": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879"
+  },
+  "src/azimlib/_state.py": {
+    "file": "tools/baselines/0.1.0-runtime/_state.py",
+    "sha256": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6"
+  },
+  "src/azimlib/_toolbar_icons.py": {
+    "file": "tools/baselines/0.1.0-runtime/_toolbar_icons.py",
+    "sha256": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823"
+  },
+  "src/azimlib/artist.py": {
+    "file": "tools/baselines/0.1.0-runtime/artist.py",
+    "sha256": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f"
+  },
+  "src/azimlib/axes.py": {
+    "file": "tools/baselines/0.1.0-runtime/axes.py",
+    "sha256": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0"
+  },
+  "src/azimlib/axis.py": {
+    "file": "tools/baselines/0.1.0-runtime/axis.py",
+    "sha256": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542"
+  },
+  "src/azimlib/backend_bases.py": {
+    "file": "tools/baselines/0.1.0-runtime/backend_bases.py",
+    "sha256": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e"
+  },
+  "src/azimlib/backends/__init__.py": {
+    "file": "tools/baselines/0.1.0-runtime/backends/__init__.py",
+    "sha256": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4"
+  },
+  "src/azimlib/backends/_navigation_process.py": {
+    "file": "tools/baselines/0.1.0-runtime/backends/_navigation_process.py",
+    "sha256": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314"
+  },
+  "src/azimlib/backends/_pan_raster.py": {
+    "file": "tools/baselines/0.1.0-runtime/backends/_pan_raster.py",
+    "sha256": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b"
+  },
+  "src/azimlib/backends/_raster_cache.py": {
+    "file": "tools/baselines/0.1.0-runtime/backends/_raster_cache.py",
+    "sha256": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3"
+  },
+  "src/azimlib/backends/_tk_input.py": {
+    "file": "tools/baselines/0.1.0-runtime/backends/_tk_input.py",
+    "sha256": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f"
+  },
+  "src/azimlib/callbacks.py": {
+    "file": "tools/baselines/0.1.0-runtime/callbacks.py",
+    "sha256": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630"
+  },
+  "src/azimlib/cm.py": {
+    "file": "tools/baselines/0.1.0-runtime/cm.py",
+    "sha256": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba"
+  },
+  "src/azimlib/collections.py": {
+    "file": "tools/baselines/0.1.0-runtime/collections.py",
+    "sha256": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d"
+  },
+  "src/azimlib/colorbar.py": {
+    "file": "tools/baselines/0.1.0-runtime/colorbar.py",
+    "sha256": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be"
+  },
+  "src/azimlib/colorbar_render.py": {
+    "file": "tools/baselines/0.1.0-runtime/colorbar_render.py",
+    "sha256": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e"
+  },
+  "src/azimlib/colors.py": {
+    "file": "tools/baselines/0.1.0-runtime/colors.py",
+    "sha256": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9"
+  },
+  "src/azimlib/components.py": {
+    "file": "tools/baselines/0.1.0-runtime/components.py",
+    "sha256": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06"
+  },
+  "src/azimlib/config.py": {
+    "file": "tools/baselines/0.1.0-runtime/config.py",
+    "sha256": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176"
+  },
+  "src/azimlib/contour_inline.py": {
+    "file": "tools/baselines/0.1.0-runtime/contour_inline.py",
+    "sha256": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b"
+  },
+  "src/azimlib/contours.py": {
+    "file": "tools/baselines/0.1.0-runtime/contours.py",
+    "sha256": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9"
+  },
+  "src/azimlib/crs.py": {
+    "file": "tools/baselines/0.1.0-runtime/crs.py",
+    "sha256": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f"
+  },
+  "src/azimlib/cycles.py": {
+    "file": "tools/baselines/0.1.0-runtime/cycles.py",
+    "sha256": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7"
+  },
+  "src/azimlib/datasets.py": {
+    "file": "tools/baselines/0.1.0-runtime/datasets.py",
+    "sha256": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d"
+  },
+  "src/azimlib/field_artists.py": {
+    "file": "tools/baselines/0.1.0-runtime/field_artists.py",
+    "sha256": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f"
+  },
+  "src/azimlib/fields.py": {
+    "file": "tools/baselines/0.1.0-runtime/fields.py",
+    "sha256": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133"
+  },
+  "src/azimlib/figure.py": {
+    "file": "tools/baselines/0.1.0-runtime/figure.py",
+    "sha256": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4"
+  },
+  "src/azimlib/figure_text.py": {
+    "file": "tools/baselines/0.1.0-runtime/figure_text.py",
+    "sha256": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04"
+  },
+  "src/azimlib/geometry.py": {
+    "file": "tools/baselines/0.1.0-runtime/geometry.py",
+    "sha256": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b"
+  },
+  "src/azimlib/gridspec.py": {
+    "file": "tools/baselines/0.1.0-runtime/gridspec.py",
+    "sha256": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69"
+  },
+  "src/azimlib/hatches.py": {
+    "file": "tools/baselines/0.1.0-runtime/hatches.py",
+    "sha256": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60"
+  },
+  "src/azimlib/io.py": {
+    "file": "tools/baselines/0.1.0-runtime/io.py",
+    "sha256": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f"
+  },
+  "src/azimlib/label_layout.py": {
+    "file": "tools/baselines/0.1.0-runtime/label_layout.py",
+    "sha256": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd"
+  },
+  "src/azimlib/layers.py": {
+    "file": "tools/baselines/0.1.0-runtime/layers.py",
+    "sha256": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533"
+  },
+  "src/azimlib/layout_engine.py": {
+    "file": "tools/baselines/0.1.0-runtime/layout_engine.py",
+    "sha256": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae"
+  },
+  "src/azimlib/legend_layout.py": {
+    "file": "tools/baselines/0.1.0-runtime/legend_layout.py",
+    "sha256": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5"
+  },
+  "src/azimlib/line_labels.py": {
+    "file": "tools/baselines/0.1.0-runtime/line_labels.py",
+    "sha256": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471"
+  },
+  "src/azimlib/mosaic.py": {
+    "file": "tools/baselines/0.1.0-runtime/mosaic.py",
+    "sha256": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e"
+  },
+  "src/azimlib/navigation.py": {
+    "file": "tools/baselines/0.1.0-runtime/navigation.py",
+    "sha256": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab"
+  },
+  "src/azimlib/nested_layout.py": {
+    "file": "tools/baselines/0.1.0-runtime/nested_layout.py",
+    "sha256": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3"
+  },
+  "src/azimlib/overview.py": {
+    "file": "tools/baselines/0.1.0-runtime/overview.py",
+    "sha256": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387"
+  },
+  "src/azimlib/plotting.py": {
+    "file": "tools/baselines/0.1.0-runtime/plotting.py",
+    "sha256": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765"
+  },
+  "src/azimlib/projected_paths.py": {
+    "file": "tools/baselines/0.1.0-runtime/projected_paths.py",
+    "sha256": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1"
+  },
+  "src/azimlib/projections.py": {
+    "file": "tools/baselines/0.1.0-runtime/projections.py",
+    "sha256": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972"
+  },
+  "src/azimlib/pyplot.py": {
+    "file": "tools/baselines/0.1.0-runtime/pyplot.py",
+    "sha256": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543"
+  },
+  "src/azimlib/render_map.py": {
+    "file": "tools/baselines/0.1.0-runtime/render_map.py",
+    "sha256": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20"
+  },
+  "src/azimlib/renderers/__init__.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/__init__.py",
+    "sha256": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91"
+  },
+  "src/azimlib/renderers/_common.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/_common.py",
+    "sha256": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155"
+  },
+  "src/azimlib/renderers/_coverage_native.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/_coverage_native.py",
+    "sha256": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2"
+  },
+  "src/azimlib/renderers/_interactive.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/_interactive.py",
+    "sha256": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc"
+  },
+  "src/azimlib/renderers/_navigation_coverage.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/_navigation_coverage.py",
+    "sha256": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f"
+  },
+  "src/azimlib/renderers/_render_control.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/_render_control.py",
+    "sha256": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616"
+  },
+  "src/azimlib/renderers/_tile_cache.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/_tile_cache.py",
+    "sha256": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917"
+  },
+  "src/azimlib/renderers/coverage.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/coverage.py",
+    "sha256": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e"
+  },
+  "src/azimlib/renderers/pillow.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/pillow.py",
+    "sha256": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30"
+  },
+  "src/azimlib/renderers/svg.py": {
+    "file": "tools/baselines/0.1.0-runtime/renderers/svg.py",
+    "sha256": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced"
+  },
+  "src/azimlib/scene.py": {
+    "file": "tools/baselines/0.1.0-runtime/scene.py",
+    "sha256": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429"
+  },
+  "src/azimlib/shared_axes.py": {
+    "file": "tools/baselines/0.1.0-runtime/shared_axes.py",
+    "sha256": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f"
+  },
+  "src/azimlib/spatial.py": {
+    "file": "tools/baselines/0.1.0-runtime/spatial.py",
+    "sha256": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4"
+  },
+  "src/azimlib/style.py": {
+    "file": "tools/baselines/0.1.0-runtime/style.py",
+    "sha256": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5"
+  },
+  "src/azimlib/styles.py": {
+    "file": "tools/baselines/0.1.0-runtime/styles.py",
+    "sha256": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf"
+  },
+  "src/azimlib/text_artists.py": {
+    "file": "tools/baselines/0.1.0-runtime/text_artists.py",
+    "sha256": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180"
+  },
+  "src/azimlib/ticker.py": {
+    "file": "tools/baselines/0.1.0-runtime/ticker.py",
+    "sha256": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78"
+  },
+  "src/azimlib/typography.py": {
+    "file": "tools/baselines/0.1.0-runtime/typography.py",
+    "sha256": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc"
+  },
+  "src/azimlib/viewer.py": {
+    "file": "tools/baselines/0.1.0-runtime/viewer.py",
+    "sha256": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77"
+  },
+  "src/azimlib/viewport.py": {
+    "file": "tools/baselines/0.1.0-runtime/viewport.py",
+    "sha256": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+  }
+}

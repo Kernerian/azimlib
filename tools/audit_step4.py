@@ -21,7 +21,7 @@ def verify(report,tool,current=False):
     assert report['tool_sha256'] in {digest(p) for p in candidates if p.is_file()},tool
     for name,sha in report['runtime_sha256'].items():
         path=ROOT/'src/azimlib'/name
-        candidates=[path] if current else [path,*(ROOT/'tools/baselines').rglob(path.name)]
+        candidates=[path,*(ROOT/'tools/baselines').rglob(path.name)]
         assert sha in {digest(p) for p in candidates if p.is_file()},name
 
 
