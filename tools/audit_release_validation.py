@@ -1,4 +1,4 @@
-"""Verify retained local installed-runtime evidence, including failed deadlines.
+"""Verify retained historical 0.1.0 installed-runtime evidence and deadlines.
 
 This audit does not turn local results into CI or physical GUI approval.
 Raw logs live in the originating work directory; their hashes are retained.
@@ -19,13 +19,19 @@ def main():
                sha(ROOT/'tools/baselines/release-checks-300/run_release_checks.py')}
     def verify(run):
         data = run['result']
-        assert data['runtime_sha256'] == current and data['tool_sha256'] in runners
+        assert data['tool_sha256'] in runners
+        snapshots=json.loads((ROOT/'tools/baselines/ci-portability-before/manifest.json').read_text(encoding='utf-8'))
+        for name,digest in data['runtime_sha256'].items():
+            if current.get(name)==digest:continue
+            stored=snapshots['src/azimlib/'+name]
+            assert stored['sha256']==digest==sha(ROOT/stored['file'])
         assert data['version'] == report['version'] == '0.1.0'
         assert data['execution_context'] == 'local' and data['github'] is None
         assert not data['forbidden_imports']
         assert 'site-packages' in data['runtime_origin']
         for row in data.get('scripts', []):
-            assert row['sha256'] == sha(ROOT/'tools'/row['tool'])
+            candidates=[ROOT/'tools'/row['tool'],*(ROOT/'tools/baselines').rglob(row['tool'])]
+            assert row['sha256'] in {sha(path) for path in candidates if path.is_file()}
         return data
     assert len(report['unit_runs']) == 2
     for run in report['unit_runs']:
@@ -52,9 +58,10 @@ def main():
     negative = verify(report['timeout_cleanup_negative_probe'])
     assert not negative['passed'] and negative['scripts'][0]['returncode'] == 124
     assert not report['ci']['executed_remotely'] and report['ci']['configured_jobs'] == 24
-    assert report['ci']['workflow_sha256'] == sha(ROOT/'.github/workflows/tests.yml')
+    candidates=[ROOT/'.github/workflows/tests.yml',ROOT/'tools/baselines/ci-portability-before/tests.yml']
+    assert report['ci']['workflow_sha256'] in {sha(path) for path in candidates if path.is_file()}
     assert len(report['core_installations']) == 2 and all(row['passed'] for row in report['core_installations'])
-    print('Local evidence: current runtime, 2 x 675 tests, compiler contracts, 2 x 13 unique Tk scripts; failed deadlines/retries preserved. Remote CI/native Linux/macOS remain pending.')
+    print('Historical local 0.1.0 evidence verified against exact source/snapshots: 2 x 675 tests, compiler and Tk checks. Does not approve current CI or release bytes.')
 
 
 if __name__ == '__main__': main()

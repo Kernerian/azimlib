@@ -30,7 +30,7 @@ from . import colors,cm,ticker
 from .artist import Artist,setp,getp,ion,ioff,isinteractive
 from .cycles import cycler,Cycler
 
-__version__="0.1.0"
+__version__="0.2.0"
 __all__=["Artist","setp","getp","ion","ioff","isinteractive","Figure","GridSpec","SubplotSpec","MapAxes","AxesGrid","Layer","ScatterCollection","MeshCollection","ScalarImage","VectorCollection","ContourSet","ContourLabel","ContourLabels","Geometry","Feature","FeatureCollection",
          "Projection","Equirectangular","Mercator","EqualEarth","Orthographic","LambertConformalConic",
          "AlbersEqualArea","get_projection","register_projection","CRS","Transformer","transform",

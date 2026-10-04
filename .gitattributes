@@ -1,4 +1,5 @@
 # Reproducible Python source/geometry hashes, even with core.autocrlf=true.
+* text=auto eol=lf
 .gitattributes text eol=lf
 *.py text eol=lf
 *.yml text eol=lf

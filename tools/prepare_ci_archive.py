@@ -12,7 +12,7 @@ import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
 DIRS={'src','tests','tools','docs','examples','.github'}
-FILES={'pyproject.toml','MANIFEST.in','README.md','CHANGELOG.md','LICENSE','NOTICE_COLORMAPS','.gitignore'}
+FILES={'pyproject.toml','MANIFEST.in','README.md','CHANGELOG.md','LICENSE','NOTICE_COLORMAPS','.gitignore','.gitattributes'}
 SKIP={'__pycache__','.git','.pytest_cache','site-packages','build','dist','.ci-results'}
 
 

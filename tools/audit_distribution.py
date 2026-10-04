@@ -101,7 +101,7 @@ def main():
         source={p.relative_to(ROOT).as_posix():p for directory in ('docs','tests','tools','examples') for p in (ROOT/directory).rglob('*')
                 if p.is_file() and '__pycache__' not in p.parts and p.suffix in ('.py','.md','.json','.js','.mplstyle')}
         for name,path in source.items():assert archive.extractfile(entries[name]).read()==path.read_bytes(),name
-        for name in ('pyproject.toml','README.md','CHANGELOG.md','MANIFEST.in','.github/workflows/tests.yml',*config['license-files']):
+        for name in ('pyproject.toml','README.md','CHANGELOG.md','MANIFEST.in','.gitattributes','.github/workflows/tests.yml',*config['license-files']):
             assert archive.extractfile(entries[name]).read()==(ROOT/name).read_bytes(),name
     if args.source_zip:
         with zipfile.ZipFile(args.source_zip) as archive:

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0 — consolidação 2D (2026-10-04)
+
+- Núcleo próprio de geometria/GeoJSON/CRS/projeções, composição/mapas temáticos, Artists editáveis, layout/ticks/textos/colorbars e componentes cartográficos opcionais consolidados no catálogo documentado. PNG/SVG estáticos e show() Tk/HTML separados. Nenhum backend/código/asset Matplotlib ou motor GIS externo.
+- Correção da matriz real: aggdraw 1.3.19 permite Python 3.10; arquivos Python em LF preservam hashes; fixtures de pan usam números/máscaras macOS; fechamento libera objetos Tcl na thread UI e descarta recursos do editor Subplots. Hashes/pixels/contratos não foram relaxados.
+- Matriz corrigida: 24 jobs nos três sistemas, quinze suítes completas de 675 testes, seis contratos do compilador e três integrações Tk. Runtime normalizado para LF; snapshots exatos dos relatórios 0.1.0 retidos como históricos. A validação dos artefatos promovidos tem relatório próprio.
+- Escopo de plataformas: observação visual/input humano no Windows, CI Windows/Linux/macOS. Janela nativa Linux/macOS não foi avaliada por pessoa; essa limitação não impede este corte no escopo de plataforma documentado. Não se promete API/pixels integrais do Matplotlib, datum/elipsoide completo ou fluidez em bases arbitrárias.
+- Urbano, 3D/tempo, Qt e demais frentes permanecem posteriores. Artefatos de release separados; nenhum upload PyPI.
+
+
 ## Validação e pacote — 5.06–5.09 (2026-10-03)
 
 - Auditoria 5.08 encerrada: lookup PyPI exato retornou 404 sem reservar nome; metadados/extras/SPDX/RECORD e todo conteúdo wheel/sdist/ZIP conferidos, quatro fontes upstream/seis camadas/21 ícones próprios preservados; twine strict aprovado. Versão continua 0.1.0 alpha, sem upload.

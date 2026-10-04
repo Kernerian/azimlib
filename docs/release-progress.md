@@ -5,7 +5,7 @@
 > os checks atuais e a relação de hashes publicados estão em
 > [preparação de publicação](publication-readiness.md). Esses resultados não são uma nova execução CI.
 
-Versão atual: 0.1.0 alpha. Passos 1–4 aceitos no escopo documentado; passo 5 aberto.
+Versão 0.2.0 em validação final de artefatos. Passos 1–4 aceitos; passo 5 aguardando build/instalação/aceite final.
 As 16 frentes são o roteiro geral; não são o contador desta versão.
 
 ## Checklist completa do corte 0.2.0
@@ -16,7 +16,7 @@ IDs avançaram e atualizar esta seção. `[x]` significa entregue com a evidênc
 indicada; `[ ]` significa pendente. Um item parcialmente feito permanece aberto.
 Os cinco itens de aceite também entram no total, mas não são novas funcionalidades.
 
-Fotografia de 2026-10-03: **49 concluídos / 5 pendentes**, incluindo um
+Fotografia de 2026-10-04: **51 concluídos / 3 pendentes**, incluindo um
 aceite. A contagem será atualizada ao encerrar os próximos itens; não é uma
 estimativa de esforço, prazo ou percentual de compatibilidade com Matplotlib.
 Uma nova necessidade material deve entrar no registro de mudanças de escopo,
@@ -83,8 +83,8 @@ com ID e motivo, em vez de mudar silenciosamente o significado de um item.
 - [x] **5.03** Construir e auditar wheel/sdist/ZIP 0.1.0; instalar offline em ambiente novo e executar smokes Tk no wheel. Evidência: [validação](validation.md) e relatórios locais.
 - [x] **5.04** Configurar CI Windows/Linux/macOS, Python 3.10–3.14 e 13 scripts desktop em 24 jobs, com logs/JSON retidos mesmo em falha. Evidência: .github/workflows/tests.yml e [guia de CI](ci-setup.md); configurado não significa executado.
 - [x] **5.05** Consolidar README, instalação/extras, referências de API, exemplos/galeria e equivalências/diferenças Matplotlib → Azimlib para o catálogo final; verificar links e reprodução dos exemplos do corte. Evidência: [guia executável](getting-started.md), [catálogo de reprodução](release-gallery.md), referência de API regenerada incluindo textos/escala/projeções/EngFormatter, links locais auditados e três snippets SVG idênticos em source/core novo/gui instalado; 19 exemplos do catálogo reproduzidos no wheel sem Matplotlib/GIS. [Limites registrados](visual-differences.md).
-- [ ] **5.06** Executar CI efetiva nas plataformas/versões declaradas e corrigir falhas; guardar resultados. Matriz/logs preparados e Windows 3.11/3.14 verificado localmente; sem repositório remoto nem execução GitHub disponível. [Como iniciar usando só Windows](ci-setup.md).
-- [ ] **5.07** Verificar input/toolbar/save/fechamento em janela visível e limites por plataforma; distinguir validação física de chamadas programáticas em janela oculta. Aceite humano Windows dos passos 3/4 preservado; Linux/macOS continuam pendentes. [Estado por plataforma](distribution-acceptance.md).
+- [x] **5.06** CI efetiva corrigida: 24/24 jobs Windows/Linux/macOS, Python 3.10–3.14, suítes instaladas/build/twine/auditoria/core, compilador e 13 scripts desktop por sistema. [Resultado remoto](ci-portability-fix.json) e [análise](release-acceptance.md). Matriz da versão promovida permanece em verificação final.
+- [x] **5.07** Aceite visual/input Windows dos passos 3/4, integração Tk e limites separados por plataforma. O escopo documentado combina observação visual Windows e CI nos três sistemas. Linux/macOS tiveram Tk real oculto, sem conferência humana nativa. [Limitação explícita](release-acceptance.md).
 - [x] **5.08** Reauditar nome/distribuição, dependências, assets/licenças, exclusão de dados externos e metadados deste corte. [Auditoria](distribution-acceptance.md): lookup PyPI 404 sem reserva; METADATA/extras/SPDX/RECORD, seis camadas/quatro fontes/21 ícones, arquivos exatos e twine strict. Conta/URL/publicação não configuradas; repetir nos futuros bytes 0.2.0.
 - [x] **5.09** Suíte instalada core/gui e exemplos de instalação conferidos. [Resultados locais](release-validation-local.json): 675 testes por Python 3.11/3.14, skips Numba explícitos cobertos por 11 contratos/5.470 subtests; 13 scripts Tk por versão. Timeout inicial de layout retido e retry aprovado sem mudar runtime/assertions. Core offline novo, snippets SVG iguais e galeria instalada preservada; sem Matplotlib/GIS.
 - [ ] **5.10** Depois dos aceites 1–4 e verificações anteriores, preparar changelog final, alterar versão para 0.2.0 e gerar wheel/sdist/ZIP correspondentes.
@@ -93,11 +93,9 @@ com ID e motivo, em vez de mudar silenciosamente o significado de um item.
 
 ### Ordem de execução e mudanças de escopo
 
-Próximo lote: resultados efetivos de CI em **5.06** e conferência nativa Linux/macOS em **5.07**, seguindo [o guia preparado](ci-setup.md). Auditorias locais **5.08–5.09** encerradas; promoção/build/instalação finais **5.10–5.12** dependem das verificações anteriores. **4.08–4.10** encerrados com medições e referência visual Windows na janela Brasil.
-Checks do passo 5 podem avançar em paralelo,
-mas versão/build finais dependem dos aceites. Itens que precisam de outro
-ambiente ou conferência física permanecem abertos, sem impedir trabalho local
-independente. Cada lote deve apontar IDs, evidências novas e o total atualizado.
+Próximo lote: **5.10–5.12**, build/instalação/aceite final dos bytes 0.2.0. **5.06–5.07** encerrados no critério explicitamente autorizado.
+
+Escopo de plataforma em **2026-10-04**: observação visual Windows e CI nos três sistemas. A conferência física Linux/macOS fica documentada fora do aceite 0.2.0; nenhum ID foi criado/removido e testes ocultos não são descritos como input humano.
 
 Esta seção contém todo o trabalho atualmente previsto para **este corte**,
 não todo o inventário de crescimento. Urbano (cidades/bairros/ruas/construções),
@@ -112,8 +110,8 @@ verificados; passos 1–4 aceitos no escopo. Suíte completa atual: **675 testes
 subtests**, sem falhas. O lote da toolbar/editor acrescentou sete regressões/23 subtests;
 widgets reais comparados em quatro escalas Tk, 28 checks source/wheel e correções
 de Pan/Zoom, hover, ícones, Subplots e cursor. A conferência visual Windows está registrada em [3.08](viewer-visible-acceptance.md). O lote visual/documentação repetiu 117 dos testes anteriores
-(2.696 subtests), sem falhas; não são testes adicionais à suíte. Os cinco itens
-abertos incluem um aceite; os quatro
+(2.696 subtests), sem falhas; não são testes adicionais à suíte. Os três itens
+abertos incluem um aceite; os dois
 restantes são subpassos de trabalho/verificação, sem relação com as 16
 frentes do roteiro futuro. Para auditar IDs, totais e
 links locais: `python tools/check_release_progress.py` na raiz do projeto.
@@ -149,8 +147,7 @@ Limites: [auditoria de Artists](artist-validation.md).
    [verificação visual Windows](viewer-visible-acceptance.md); diferenças de
    raster/fontes/toolkit registradas, sem equivalência pixel a pixel.
 4. **Desempenho: aceito localmente** com [base original/camadas, input humano, pintura Tk e limites](performance-acceptance.md). Pixels preservados, composição de pan novo acelerada e raster opcional próprio compilado; não promete rapidez arbitrária, latência do monitor ou outras plataformas.
-5. **Release:** CI efetiva Windows/Linux/macOS, aparência/input nativos, auditoria
-   final de instalação/nome/licenças/docs e então changelog/versão/builds 0.2.0.
+5. **Release:** CI efetiva aprovada nos três sistemas; aceite visual Windows e limites nativos Linux/macOS explícitos, no escopo de plataforma documentado. Build/instalação 0.2.0 em verificação final.
 
 Este registro complementa [os critérios](release-0.2.md); não os substitui.
 Urbano, 3D, Qt e novos formatos ficam depois. Não há percentual/data estimados;

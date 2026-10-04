@@ -24,7 +24,7 @@ O [passo 1 está aceito](docs/artist-acceptance.md): integração das camadas,
 auditoria de propriedades/aliases e limites explícitos. O [passo 2 também está
 aceito](docs/layout-acceptance.md): composição, textos e componentes nos cenários
 documentados. O [passo 3 está aceito](docs/viewer-visible-acceptance.md), incluindo
-a conferência visual do viewer Windows. O [passo 4 está aceito localmente](docs/performance-acceptance.md), com base original detalhada, aceleração opcional própria e limites explícitos. Restam cinco subpassos do passo 5 (49/54 concluídos). [5.08–5.09 verificados localmente](docs/distribution-acceptance.md); CI efetiva e conferência nativa Linux/macOS pendentes. [Guia para iniciar a CI usando só Windows](docs/ci-setup.md).
+a conferência visual do viewer Windows. O [passo 4 está aceito localmente](docs/performance-acceptance.md), com base original detalhada, aceleração opcional própria e limites explícitos. **Versão 0.2.0 em validação final de artefatos.** A [matriz corrigida](docs/ci-portability-fix.json) passou 24/24 jobs. [Aceite de release e limites](docs/release-acceptance.md): conferência visual Windows; testes automatizados nos três sistemas. Não houve publicação no PyPI.
 O [alinhamento de textos rotacionados](docs/text-rotation.md) foi conferido
 diretamente com Matplotlib: ticks, títulos, nomes dos eixos, textos de mapa/Figure
 e colorbars compartilham regras próprias de `rotation_mode`.
@@ -565,4 +565,4 @@ Plasma, Inferno e Magma sob CC0. Fontes DejaVu preservam sua licença.
 O inventário possui [16 frentes pendentes](docs/pending.md), com várias tarefas
 por frente. A [versão 0.2.0](docs/release-0.2.md) tem cinco critérios propostos
 para consolidar o núcleo 2D; não precisa esperar formatos futuros ou 3D.
-O número atual permanece 0.1.0 alpha até concluir esse corte.
+A versão 0.2.0 consolida esse corte. Conferência visual nativa Linux/macOS segue como limitação explícita, no escopo de plataforma documentado; urbano/3D permanecem posteriores. Publicação PyPI é separada.

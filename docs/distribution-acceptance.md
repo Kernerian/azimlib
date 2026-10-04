@@ -1,9 +1,11 @@
-# Validação e distribuição — 5.06–5.09
+# Registro histórico local 0.1.0 — 5.06–5.09
 
 > Evidência histórica: resultados CI, tempos e hashes abaixo pertencem aos
 > snapshots originais. A preparação BSD/licenças/privacidade altera arquivos;
 > os checks atuais e a relação de hashes publicados estão em
 > [preparação de publicação](publication-readiness.md). Esses resultados não são uma nova execução CI.
+
+Estado desta página no lote de 2026-10-03. Repositório/CI e critérios foram atualizados em 2026-10-04: veja [o aceite 0.2.0](release-acceptance.md). Resultados antigos e falhas de prazo abaixo permanecem históricos, sem atribuição aos bytes novos.
 
 **5.08 e 5.09 concluídos no pacote 0.1.0 alpha deste corte.** A versão não foi
 alterada para 0.2.0. **5.06 e 5.07 permanecem abertos**: naquele registro não havia CI remota e a execução local cobria apenas Windows. Os resultados locais

@@ -5,7 +5,7 @@
 > os checks atuais e a relação de hashes publicados estão em
 > [preparação de publicação](publication-readiness.md). Esses resultados não são uma nova execução CI.
 
-A versão atual continua 0.1.0 alpha. O inventário possui **16 frentes de
+A versão 0.2.0 está em validação final de artefatos; [aceite e limites](release-acceptance.md). O inventário possui **16 frentes de
 trabalho**, cada uma com várias tarefas; não representa 16 alterações pequenas
 nem um número fechado de funcionalidades futuras. Consulte [pendências](pending.md).
 Entregas dentro de uma frente reduzem seu trabalho pendente sem mudar esse total.
@@ -48,7 +48,7 @@ source/wheel e limites explícitos. Passo 2 também aceito em [2.08–2.10](layo
 24 cenas de layout, rotação/padding, componentes e 30 checks Tk source/wheel;
 suíte registrada no lote de navegação e
 [verificação visual do passo 3](viewer-visible-acceptance.md).
-Passo 4 também aceito localmente: [base original, raster compilado próprio opcional e input humano](performance-acceptance.md), com limites explícitos. Passo 5 segue aberto; checklist: 49 concluídos/cinco pendentes, incluindo um aceite. Baselines finais e
+Passo 4 também aceito localmente: [base original, raster compilado próprio opcional e input humano](performance-acceptance.md), com limites explícitos. CI corrigida 24/24 e critério de plataforma documentado encerram 5.06–5.07. Checklist: 51 concluídos/três pendentes de artefatos e aceite final. Baselines finais e
 [documentação executável](release-gallery.md) encerram 3.07/5.05, com 38 cenas,
 19 reproduções exatas no wheel e 117 regressões selecionadas repetidas.
 

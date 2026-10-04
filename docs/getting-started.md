@@ -1,6 +1,6 @@
 # Do Matplotlib para mapas com Azimlib
 
-Esta é a API da fundação **0.1.0 alpha**, que será consolidada no corte 0.2.0.
+Esta é a API da fundação **0.2.0**, independente de Matplotlib/GIS. Artefatos locais disponíveis; publicação no PyPI é separada. Aceite visual Windows e CI Windows/Linux/macOS; aparência nativa Linux/macOS não conferida.
 O [catálogo](artist-scope-0.2.md) delimita as famílias suportadas. Familiaridade
 com Matplotlib não significa que qualquer argumento de Matplotlib já exista.
 
