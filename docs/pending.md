@@ -17,8 +17,8 @@ As 16 frentes abaixo são categorias, não a contagem de tarefas faltantes.
 | 9. Interação/widgets | 7, 9 | Picking, seletores, sliders e plataformas. |
 | 10. Backends/integração | 7 | Qt próprio, notebook e Python/viewer portátil. |
 | 11. Desempenho | 7, 10 | Simplificação, caches e medição urbana/densa. |
-| 12. Robustez cartográfica | 3 | Elipsoide, UTM, antimeridiano e topologia básica. |
-| 13. Formatos/dados/urbano | 1, 2 | CSV, Shapefile/DBF, KML, OSM XML e georreferência. |
+| 12. Robustez cartográfica | 3 | Fundação concluída no corte regional: elipsoide, UTM, antimeridiano e topologia básica; [limites](geodesy.md). |
+| 13. Formatos/dados/urbano | 1, 2 | Fundação concluída: CSV, Shapefile/DBF, KML, OSM XML e georreferência; extensões nos passos seguintes. |
 | 14. Raster/terreno/ciência | 5 | RGB/NoData/resampling, campos, contornos e fluxos. |
 | 15. 3D/tempo | 8, 9 | Terreno/extrusão CPU e animação/atlas. |
 | 16. Docs/testes/distribuição | 10 | Galeria, CI, proveniência e instalação/release gates. |

@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**16 concluídos / 64 pendentes**. Contagem por subpassos, não por frentes amplas.
+**24 concluídos / 56 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -49,14 +49,14 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 3. CRS, geodesia e robustez cartográfica
 
-- [ ] **3.01** Modelo de elipsoide, parâmetros de datum e unidades com contratos públicos.
-- [ ] **3.02** Geodesia elipsoidal direta/inversa com convergência e casos quase antipodais verificados.
-- [ ] **3.03** Transversa de Mercator/UTM próprias, zonas/hemisférios e transformações inversas.
-- [ ] **3.04** Projeções adicionais prioritárias: estereográfica e azimutal equidistante.
-- [ ] **3.05** Viewport atravessando antimeridiano, incluindo navegação, ajuste de limites e exportação.
-- [ ] **3.06** Recorte esférico de linhas/polígonos com horizonte e casos degenerados documentados.
-- [ ] **3.07** Topologia básica: testes de interseção, orientação e validação de anéis/fronteiras.
-- [ ] **3.08** Matriz numérica de forward/inverse, singularidades, tolerâncias e dados em CRS explícito.
+- [x] **3.01** Modelo de elipsoide, parâmetros de datum e unidades com contratos públicos.
+- [x] **3.02** Geodesia elipsoidal direta/inversa com convergência e casos quase antipodais verificados.
+- [x] **3.03** Transversa de Mercator/UTM próprias, zonas/hemisférios e transformações inversas.
+- [x] **3.04** Projeções adicionais prioritárias: estereográfica e azimutal equidistante.
+- [x] **3.05** Viewport atravessando antimeridiano, incluindo navegação, ajuste de limites e exportação.
+- [x] **3.06** Recorte esférico de linhas/polígonos com horizonte e casos degenerados documentados.
+- [x] **3.07** Topologia básica: testes de interseção, orientação e validação de anéis/fronteiras.
+- [x] **3.08** Matriz numérica de forward/inverse, singularidades, tolerâncias e dados em CRS explícito.
 
 ## 4. Transforms, Artists, escalas e composição
 
@@ -214,6 +214,57 @@ reparo topológico, raster RGB, resampling ou desenho de affines rotacionadas.
 Esses limites aparecem na API/documentação; não são simulados nem delegados a
 outro motor. Os próximos passos mantêm os IDs e o total de 80. Nenhum upload,
 push ou alteração da versão estável 0.2.0 foi feito por este lote.
+
+### Lote 3 — CRS, geodesia e robustez cartográfica (0.3.0.dev0)
+
+**3.01–3.08 concluídos no corte regional explicitamente documentado.**
+Implementação própria em `geodesy.py`, `transverse.py`, `topology.py`, integrada
+em CRS, projeções, readers, rotas, viewport, cache, renderização e navegação.
+O [guia do núcleo](geodesy.md) descreve modelos, erros, tolerâncias, entrada
+explícita e limites. Funções esféricas anteriores foram preservadas.
+
+- Elipsoide/datum/unidades imutáveis; WGS84/GRS80/esfera; geodesia elipsoidal
+  direta/inversa com diagnóstico, solução própria por shooting multistart para
+  falhas de convergência e sem fallback de distância esférica.
+- UTM WGS84: 60 zonas, dois hemisférios, exceções de seleção Norway/Svalbard,
+  forward/inverse e elevação preservada. TM elipsoidal regional ±6°; origem,
+  escala e offsets explícitos. CRS/units/datum/axis order consultáveis.
+- Estereográfica e azimutal equidistante esféricas, inversas, polos e antípoda
+  singular. Novas projeções usam o mesmo renderer/cache/API próprios.
+- Extensão cilindrica cruzada recenteriza cópia da projeção; limites crescentes
+  desenrolados, fit circular optativo, pan/zoom, histórico/Home, shared x,
+  exportação e modelo HTML portátil. LongitudeFormatter identifica E/W no ramo.
+- Linhas ortográficas terminam no horizonte por bisseção. Testes de clipping
+  de polígonos verificam limbo, inversão de winding e área degenerada; o recorte
+  esférico com holes existente continua integrado. Não é overlay global.
+- Topologia regional optativa O(n²): determinante com fallback racional,
+  interseções ponto/overlap, anéis, holes e multipolígonos. Sem reparo automático
+  nem alteração da permissividade dos datasets/geometrias existentes.
+- [22 testes novos](../tests/test_geodesy.py) e [579 casos numéricos calculados](geodesy-reference-0.3.json),
+  com [erros máximos/exports por hash](geodesy-numeric-0.3.json). Oráculos isolados
+  pyproj 3.8.0/GeographicLib 2.1 apenas por chamadas black-box, sem código/test
+  datasets vendorizados ou imports GIS em runtime/testes.
+- [Suíte completa do wheel instalado](geodesy-validation-0.3.json): **763 testes,
+  17.473 subtests, zero falhas/erros**; cinco skips opcionais/plataforma explícitos.
+  Todos os módulos Python instalados conferidos por hash contra o código-fonte.
+  Evidência Windows local/Python 3.14; não representa nova CI remota.
+- Atlas [geodesy_atlas.py](../examples/geodesy_atlas.py) e mapa cruzado
+  [pacific.py](../examples/pacific.py): PNG/SVG/HTML exportados, imagens inspecionadas,
+  Natural Earth creditado, rotas sintéticas. savefig continua PNG/SVG sem UI;
+  HTML usa to_html/show. Componentes continuam opcionais.
+- Wheel/sdist, twine strict, oito avisos legais, integridade de dados/fontes/
+  ícones, docs/snippets, smoke novo offline sem extras e dois smokes Tk ocultos
+  de pan/viewer aprovados. Fontes/dados/paletas/ícones de terceiros preservados;
+  nenhuma biblioteca GIS passou a ser backend/dependência. Varredura de privacidade
+  e integridade Git integra o fechamento local deste lote.
+
+Limites: datum shifts/epochs/grids e CRS universais não implementados; TM não
+é global; novas azimutais são esféricas. Raster UTM é representável e lido, mas
+plotting curvilíneo é rejeitado até seu lote. Topologia é planar lon/lat regional;
+recorte esférico não aceita todos os interiores globais/degenerações. Autoscala
+Cartesian legada continua; fit circular é opt-in. Reprojeção portátil viva nas
+projeções não cilíndricas permanece no passo 7. Nenhum push/upload/publicação
+ou modificação de main/0.2.0 foi feito. Checklist: **24/80**, **56 pendentes**.
 
 ## Corte explicitamente reservado à 0.4.0
 

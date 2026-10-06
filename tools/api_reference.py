@@ -2,7 +2,7 @@
 import inspect
 from pathlib import Path
 import azimlib
-from azimlib import pyplot,colors,cm,fields,components,colorbar,geometry,io,projections,crs,datasets,ticker
+from azimlib import pyplot,colors,cm,fields,components,colorbar,geometry,io,projections,crs,datasets,ticker,geodesy,topology,transverse
 from azimlib import GeoRaster, DatasetCatalog, DBFRecord
 from azimlib.axis import Axis
 from azimlib.artist import Artist
@@ -20,8 +20,8 @@ from azimlib.gridspec import GridSpec,GridSpecFromSubplotSpec,SubplotSpec,Subplo
 from azimlib.spatial import BoundsIndex
 from azimlib.layout_engine import LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine
 
-modules=(azimlib,pyplot,colors,cm,fields,io,projections,crs,datasets)
-classes=(GeoRaster,DatasetCatalog,DBFRecord,Artist,CallbackRegistry,BoundsIndex,Figure,GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox,FigureCanvas,MapAxes,AxesGrid,Layer,ScatterCollection,MeshCollection,ScalarImage,VectorCollection,ContourSet,ContourLabel,ContourLabels,Axis,components.AxisComponents,components.TextArtist,MapText,Annotation,FigureTextArtist,Cycler,
+modules=(azimlib,pyplot,colors,cm,fields,io,projections,crs,datasets,geodesy,topology,transverse)
+classes=(geodesy.Unit,geodesy.Ellipsoid,geodesy.Datum,geodesy.Geodesic,geodesy.GeodesicResult,topology.Intersection,topology.TopologyReport,topology.ValidationIssue,projections.TransverseMercator,projections.Stereographic,projections.AzimuthalEquidistant,GeoRaster,DatasetCatalog,DBFRecord,Artist,CallbackRegistry,BoundsIndex,Figure,GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox,FigureCanvas,MapAxes,AxesGrid,Layer,ScatterCollection,MeshCollection,ScalarImage,VectorCollection,ContourSet,ContourLabel,ContourLabels,Axis,components.AxisComponents,components.TextArtist,MapText,Annotation,FigureTextArtist,Cycler,
          components.MapComponent,components.Spine,components.Legend,components.LegendFrame,
          components.OrientationIndicator,components.ScaleBar,
          colorbar.Colorbar,colorbar.ColorbarAxes,cm.ScalarMappable,

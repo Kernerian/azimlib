@@ -586,3 +586,62 @@ def clip_orthographic_polygon(rings, projection, *, step=2.0):
             if len(vertices) >= 4:
                 output.append(tuple((x*projection.radius, y*projection.radius) for x, y in vertices))
     return (tuple(output),) if output else ()
+
+
+def longitude_bounds(longitudes):
+    """Shortest circular interval, returned increasing, possibly east>180.
+
+    For point samples, not polygon interiors spanning most of Earth. Equal
+    largest gaps are resolved deterministically. Empty input is invalid.
+    """
+    values=sorted(set(_number(lon)%360 for lon in longitudes))
+    if not values:raise ValueError('longitude_bounds requires points')
+    if len(values)==1:
+        lon=wrap_longitude(values[0]);return lon,lon
+    gaps=[((values[(i+1)%len(values)]-v)%360,i) for i,v in enumerate(values)]
+    gap,index=max(gaps,key=lambda item:(item[0],-item[1]))
+    west=wrap_longitude(values[(index+1)%len(values)]);return west,west+360-gap
+
+
+def clip_orthographic_line(coordinates,projection,*,step=2.0):
+    """Projected-metre line parts ending exactly on the visible horizon.
+
+    GeoJSON edges interpolate lon/lat in the shorter longitude branch, sampled
+    at most step degrees. Visibility crossings are bisected on that edge.
+    This is a bounded rendering approximation, not great-circle topology.
+    """
+    points=tuple(position(p)[:2] for p in coordinates);step=_number(step,'step')
+    if not 0<step<=10:raise ValueError('step must be greater than zero and at most ten degrees')
+    if getattr(projection,'name',None)!='orthographic':raise TypeError('Requires Orthographic projection')
+    if len(points)<2:return ()
+    sampled=[points[0]]
+    for a,b in zip(points,points[1:]):
+        delta=wrap_longitude(b[0]-a[0]);count=max(1,ceil(max(abs(delta),abs(b[1]-a[1]))/step))
+        sampled.extend((a[0]+delta*i/count,a[1]+(b[1]-a[1])*i/count) for i in range(1,count+1))
+    groups=[];current=[]
+    def project(point):
+        # Snap roundoff at the limb through the front-side limit.
+        p=projection.forward(*point)
+        if p is None:return None
+        return p
+    def append(point):
+        p=project(point)
+        if p is not None and (not current or hypot(p[0]-current[-1][0],p[1]-current[-1][1])>1e-8):current.append(p)
+    def flush():
+        if len(current)>1:groups.append(tuple(current))
+        current.clear()
+    for a,b in zip(sampled,sampled[1:]):
+        va,vb=projection.visibility(*a),projection.visibility(*b);fa,fb=va>=0,vb>=0
+        if fa:append(a)
+        if fa!=fb:
+            lo,hi=0.,1.
+            for _ in range(48):
+                mid=(lo+hi)/2;v=projection.visibility(a[0]+(b[0]-a[0])*mid,a[1]+(b[1]-a[1])*mid)
+                if (v>=0)==fa:lo=mid
+                else:hi=mid
+            t=lo if fa else hi
+            append((a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t))
+            if not fb:flush()
+        if fb:append(b)
+        else:flush()
+    flush();return tuple(groups)

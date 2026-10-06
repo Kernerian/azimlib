@@ -46,3 +46,12 @@ versions, declared requirements and hashes of available installed license files.
 It is evidence of that environment, not a lockfile or a license clearance for
 future binaries. `tools/inventory_dependency_licenses.py` regenerates it without
 publishing home-directory paths.
+
+## Geographic numeric comparison — development only
+
+Stage3 uses an isolated pyproj 3.8.0/GeographicLib 2.1 environment exclusively as
+black-box numerical oracles. Neither package is imported by runtime or required
+by tests; no source code or upstream test dataset is vendored. Recorded numeric
+outputs and versions are in [the core guide](geodesy.md). These tools are not
+included in wheel/sdist or package requirements. Redistributing an oracle
+environment would require reviewing its own licenses and binary dependencies.

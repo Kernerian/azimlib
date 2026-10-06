@@ -27,7 +27,7 @@ Não há promessa de compatibilidade integral ou igualdade de pixels nesta vers�
 | Widgets | toolbar, configuração de subplots e minimapa opcional | selectors, sliders, botões e controles de camadas |
 | Animation | ainda não implementada | atualização de dados, blitting e exportação temporal |
 | Image, contour, tri e raster | densidade angular, imagens/meshes/vetores editáveis, marching squares e hillshade | raster georreferenciado, RGB/máscaras, triangulação, edição de contornos, contourf e resampling |
-| units, dates e escalas não lineares | graus e CRS explícitos; projeções cartográficas | dados temporais, CRS adicionais e geodesia elipsoidal |
+| units, dates e escalas não lineares | graus e CRS explícitos; na 0.3.0 dev, unidades/modelos, geodesia elipsoidal e UTM regional próprios | datas, escalas de Axis e unidades automáticas |
 | mplot3d, polar, axisartist e toolkits | fora desta primeira fundação | avaliar por caso; não são pré-requisitos para cartografia 2D |
 | Testes e distribuição | testes numéricos, exportação, independência e componentes | baselines visuais, benchmarks, versões de dados e CI multiplataforma |
 

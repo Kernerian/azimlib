@@ -127,7 +127,7 @@ class AxesTests(unittest.TestCase):
         self.ax.map("Brazil", fit=False)
         self.assertEqual(self.ax.get_extent(), (-5, 5, -3, 3))
         self.assertIsNone(self.ax._bounds)
-        for extent in ((10, -10, 0, 1), (-190, 10, 0, 1), (0, 1, 3, 3), (0, 1, 0, float("nan"))):
+        for extent in ((180, -180, 0, 1), (-190, 10, 0, 1), (0, 1, 3, 3), (0, 1, 0, float("nan"))):
             with self.assertRaises(ValueError):
                 self.ax.set_extent(extent)
 

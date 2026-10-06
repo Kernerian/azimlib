@@ -16,6 +16,14 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 
 ### `clf()`
 
+### `clip_orthographic_line(coordinates, projection, *, step=2.0)`
+
+Projected-metre line parts ending exactly on the visible horizon.
+
+### `clip_orthographic_polygon(rings, projection, *, step=2.0)`
+
+Clip small spherical polygons to an Orthographic view, including its limb.
+
 ### `close(fig=None)`
 
 Close current, numbered/named/explicit figure, or 'all', without creation.
@@ -62,13 +70,21 @@ Great-circle distance in metres on a sphere.
 
 ### `isinteractive()`
 
+### `longitude_bounds(longitudes)`
+
+Shortest circular interval, returned increasing, possibly east>180.
+
+### `orientation(a, b, c)`
+
+Exact sign of the binary-float 2D determinant: -1, 0 or 1.
+
 ### `rc(group, **kwargs)`
 
 ### `rc_context(rc=None)`
 
 ### `rcdefaults()`
 
-### `read_csv(source, *, longitude='lon', latitude='lat', id_column=None, converters=None, delimiter=',', encoding='utf-8-sig')`
+### `read_csv(source, *, longitude='lon', latitude='lat', id_column=None, converters=None, delimiter=',', encoding='utf-8-sig', crs=None)`
 
 Read a local CSV into immutable Point features, without guessing a CRS.
 
@@ -76,7 +92,7 @@ Read a local CSV into immutable Point features, without guessing a CRS.
 
 Return DBFRecords with physical zero-based indices; explicit encoding.
 
-### `read_geojson(source)`
+### `read_geojson(source, *, crs=None)`
 
 Read a path, JSON string, mapping, text stream or __geo_interface__.
 
@@ -108,11 +124,17 @@ Convert six world-file values A,D,B,E,C,F (pixel centres) to corner affine.
 
 Register an independently implemented Projection subclass.
 
+### `ring_orientation(ring)`
+
 ### `savefig(path, **kwargs)`
 
 ### `sca(ax)`
 
 Select an axes and its managed figure without reordering Figure.axes.
+
+### `segment_intersection(a, b, c, d)`
+
+Return none, point or overlap, including endpoints and zero-length edges.
 
 ### `setp(artists, *args, **kwargs)`
 
@@ -135,6 +157,16 @@ Return (figure, dict of named axes) for a rectangular or nested mosaic.
 ### `transform(x, y, source='EPSG:4326', target='EPSG:3857')`
 
 Transform one coordinate pair, always using longitude before latitude.
+
+### `utm_crs(longitude, latitude)`
+
+### `utm_zone(longitude, latitude)`
+
+### `validate_geometry(geometry, *, require_winding=False)`
+
+Check rings/holes and multipolygon interiors in a regional lon/lat plane.
+
+### `validate_ring(ring, *, winding=None)`
 
 ### `write_geojson(data, destination=None, *, indent=2)`
 
@@ -292,7 +324,7 @@ Lambertian illumination; dx/dy and elevation use consistent units.
 
 ## azimlib.io
 
-### `read_csv(source, *, longitude='lon', latitude='lat', id_column=None, converters=None, delimiter=',', encoding='utf-8-sig')`
+### `read_csv(source, *, longitude='lon', latitude='lat', id_column=None, converters=None, delimiter=',', encoding='utf-8-sig', crs=None)`
 
 Read a local CSV into immutable Point features, without guessing a CRS.
 
@@ -300,7 +332,7 @@ Read a local CSV into immutable Point features, without guessing a CRS.
 
 Return DBFRecords with physical zero-based indices; explicit encoding.
 
-### `read_geojson(source)`
+### `read_geojson(source, *, crs=None)`
 
 Read a path, JSON string, mapping, text stream or __geo_interface__.
 
@@ -350,6 +382,10 @@ Validate and freeze a two- or three-dimensional geographic position.
 
 Register an independently implemented Projection subclass.
 
+### `tm_forward(lon, lat, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))`
+
+### `tm_inverse(x, y, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))`
+
 ### `wrap_longitude(longitude, central_longitude=0.0)`
 
 Wrap longitude into the central meridian's closed +/-180° interval.
@@ -359,6 +395,10 @@ Wrap longitude into the central meridian's closed +/-180° interval.
 ### `position(value)`
 
 Validate and freeze a two- or three-dimensional geographic position.
+
+### `tm_forward(lon, lat, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))`
+
+### `tm_inverse(x, y, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))`
 
 ### `transform(x, y, source='EPSG:4326', target='EPSG:3857')`
 
@@ -371,6 +411,10 @@ Transform a sequence of 2D/3D positions, preserving optional elevation.
 ### `transform_geojson(data, source='EPSG:4326', target='EPSG:3857')`
 
 Transform raw GeoJSON coordinates before geographic geometry validation.
+
+### `utm_crs(longitude, latitude)`
+
+### `utm_zone(longitude, latitude)`
 
 ## azimlib.datasets
 
@@ -393,6 +437,130 @@ Return source URLs, pinned commit, license, processing, and SHA-256 hashes.
 ### `state(name: 'str') -> 'dict'`
 
 Return one bundled Brazilian state by name, postal code or ISO code.
+
+## azimlib.geodesy
+
+### `haversine(start, end, radius=6371008.8)`
+
+Great-circle distance in metres on a sphere.
+
+### `position(value)`
+
+Validate and freeze a two- or three-dimensional geographic position.
+
+### `wrap_longitude(longitude, central_longitude=0.0)`
+
+Wrap longitude into the central meridian's closed +/-180° interval.
+
+## azimlib.topology
+
+### `orientation(a, b, c)`
+
+Exact sign of the binary-float 2D determinant: -1, 0 or 1.
+
+### `position(value)`
+
+Validate and freeze a two- or three-dimensional geographic position.
+
+### `ring_orientation(ring)`
+
+### `segment_intersection(a, b, c, d)`
+
+Return none, point or overlap, including endpoints and zero-length edges.
+
+### `validate_geometry(geometry, *, require_winding=False)`
+
+Check rings/holes and multipolygon interiors in a regional lon/lat plane.
+
+### `validate_ring(ring, *, winding=None)`
+
+### `wrap_longitude(longitude, central_longitude=0.0)`
+
+Wrap longitude into the central meridian's closed +/-180° interval.
+
+## azimlib.transverse
+
+### `position(value)`
+
+Validate and freeze a two- or three-dimensional geographic position.
+
+### `tm_forward(lon, lat, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))`
+
+### `tm_inverse(x, y, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))`
+
+### `utm_crs(longitude, latitude)`
+
+### `utm_zone(longitude, latitude)`
+
+### `wrap_longitude(longitude, central_longitude=0.0)`
+
+Wrap longitude into the central meridian's closed +/-180° interval.
+
+## azimlib.geodesy.Unit
+
+`Unit(name: str, symbol: str, to_si: float, quantity: str = 'length') -> None`
+
+### `convert(value, target)`
+
+## azimlib.geodesy.Ellipsoid
+
+`Ellipsoid(semi_major_axis: float = 6378137.0, inverse_flattening: float = 298.257223563, name: str = 'WGS84') -> None`
+
+## azimlib.geodesy.Datum
+
+`Datum(name: str = 'WGS84', ellipsoid: azimlib.geodesy.Ellipsoid = Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'), prime_meridian: float = 0) -> None`
+
+## azimlib.geodesy.Geodesic
+
+`Geodesic(ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))`
+
+### `direct(longitude, latitude, azimuth, distance)`
+
+### `inverse(longitude1, latitude1, longitude2, latitude2)`
+
+### `line(start, end, *, steps=100)`
+
+## azimlib.geodesy.GeodesicResult
+
+`GeodesicResult(longitude: float, latitude: float, distance: float, azimuth1: float, azimuth2: float, iterations: int, method: str) -> None`
+
+## azimlib.topology.Intersection
+
+`Intersection(kind: str, points: tuple = ()) -> None`
+
+## azimlib.topology.TopologyReport
+
+`TopologyReport(issues: tuple) -> None`
+
+### `raise_if_invalid()`
+
+## azimlib.topology.ValidationIssue
+
+`ValidationIssue(code: str, path: tuple, message: str) -> None`
+
+## azimlib.projections.TransverseMercator
+
+`TransverseMercator(central_longitude: 'float' = 0.0, central_latitude: 'float' = 0.0, radius: 'float' = 6371008.8, ellipsoid: 'Ellipsoid' = Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'), scale_factor: 'float' = 0.9996, false_easting: 'float' = 0, false_northing: 'float' = 0) -> None`
+
+### `forward(lon, lat)`
+
+### `inverse(x, y)`
+
+## azimlib.projections.Stereographic
+
+`Stereographic(central_longitude: 'float' = 0.0, central_latitude: 'float' = 0.0, radius: 'float' = 6371008.8) -> None`
+
+### `forward(lon, lat)`
+
+### `inverse(x, y)`
+
+## azimlib.projections.AzimuthalEquidistant
+
+`AzimuthalEquidistant(central_longitude: 'float' = 0.0, central_latitude: 'float' = 0.0, radius: 'float' = 6371008.8) -> None`
+
+### `forward(lon, lat)`
+
+### `inverse(x, y)`
 
 ## azimlib.raster.GeoRaster
 
@@ -772,6 +940,10 @@ A regular lon/lat count grid with optional Gaussian cell smoothing.
 
 ### `findobj(match=None, include_self=True)`
 
+### `fit_extent(data=None, *, margin=0.05)`
+
+Fit point samples using the shortest circular longitude interval.
+
 ### `geojson(data, *, style=None, fit=True, crs=None, **kwargs)`
 
 Read GeoJSON; style(feature) can override appearance per feature.
@@ -932,7 +1104,7 @@ Recompute geographic data bounds without moving the current view.
 
 ### `roads(data=None, **kwargs)`
 
-### `route(coordinates, *, geodesic=True, steps=64, **kwargs)`
+### `route(coordinates, *, geodesic=True, steps=64, ellipsoid=None, **kwargs)`
 
 ### `scale_bar(*, length=None, units='km', loc='lower left', fontsize=9, frameon=True, facecolor='white', edgecolor='#cccccc', framealpha=0.8, color='black')`
 

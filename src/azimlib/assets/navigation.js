@@ -66,7 +66,7 @@ class Navigation {
   if(!this.portable(i))return bounds.slice();
   const pr=this.metadata[i].projection,limit=pr.name==='mercator'?(pr.max_latitude||85.0511287798066):90;
   const lon0=pr.central_longitude||0;
-  const world=extentBounds(pr,[Math.max(-180,lon0-180),Math.min(180,lon0+180),-limit,limit]);
+  const world=extentBounds(pr,[this.metadata[i].longitude_wrap?lon0-180:Math.max(-180,lon0-180),this.metadata[i].longitude_wrap?lon0+180:Math.min(180,lon0+180),-limit,limit]);
   const x=interval(bounds[0],bounds[2],world[0],world[2]),y=interval(bounds[1],bounds[3],world[1],world[3]);
   return [x[0],y[0],x[1],y[1]];
  }
@@ -82,8 +82,8 @@ class Navigation {
     next[i][1]=project(pr,0,south)[1];next[i][3]=project(pr,0,north)[1];
    }
    if(links.x.length>1){
-    const minimum=Math.max(-180,...links.x.map(j=>(this.metadata[j].projection.central_longitude||0)-180));
-    const maximum=Math.min(180,...links.x.map(j=>(this.metadata[j].projection.central_longitude||0)+180));
+    const minimum=Math.max(...links.x.map(j=>this.metadata[j].longitude_wrap?(this.metadata[j].projection.central_longitude||0)-180:Math.max(-180,(this.metadata[j].projection.central_longitude||0)-180)));
+    const maximum=Math.min(...links.x.map(j=>this.metadata[j].longitude_wrap?(this.metadata[j].projection.central_longitude||0)+180:Math.min(180,(this.metadata[j].projection.central_longitude||0)+180)));
     const pr=this.metadata[i].projection,a=inverse(pr,next[i][0],next[i][1]),b=inverse(pr,next[i][2],next[i][3]);
     const [west,east]=interval(a[0],b[0],minimum,maximum);
     next[i][0]=project(pr,west,0)[0];next[i][2]=project(pr,east,0)[0];
@@ -103,7 +103,10 @@ class Navigation {
  }
  setExtent(i,extent){
   if(!this.portable(i))throw new Error('Geographic bounds require a cylindrical view');
-  if(extent.length!==4||!extent.every(Number.isFinite)||extent[0]>=extent[1]||extent[2]>=extent[3]||extent[0]<-180||extent[1]>180||extent[2]<-90||extent[3]>90)throw new Error('Invalid geographic extent');
+  extent=extent.slice();const wrapped=this.metadata[i].longitude_wrap,c=wrapped?(this.metadata[i].projection.central_longitude||0):0;
+  if(wrapped&&extent[0]>extent[1])extent[1]+=360;
+  if(wrapped){const shift=360*Math.round((c-(extent[0]+extent[1])/2)/360);extent[0]+=shift;extent[1]+=shift;}
+  if(extent.length!==4||!extent.every(Number.isFinite)||extent[0]>=extent[1]||extent[2]>=extent[3]||extent[0]<c-180||extent[1]>c+180||extent[2]<-90||extent[3]>90)throw new Error('Invalid geographic extent');
   return this.update(i,extentBounds(this.metadata[i].projection,extent));
  }
  zoom(i,factor,point,constraint=''){

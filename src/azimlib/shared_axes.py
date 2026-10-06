@@ -31,6 +31,13 @@ def share(owner,other,name):
         raise ValueError('Colorbar axes cannot share geographic coordinates')
     previous=getattr(owner,'_share'+name)
     if previous is not None and previous is not other:raise ValueError(name+'-axis is already shared')
+    if name=='x' and owner._longitude_wrap!=other._longitude_wrap:
+        if owner._longitude_wrap:raise ValueError('Set the same crossing extent before joining shared longitude axes')
+        from dataclasses import replace
+        from .projections import Equirectangular,Mercator
+        if type(owner.projection) not in (Equirectangular,Mercator):raise ValueError('Shared crossing extents require cylindrical projections')
+        owner.projection=replace(owner.projection,central_longitude=other.projection.central_longitude);owner._longitude_wrap=True
+    if name=='x' and owner._longitude_wrap and owner.projection.central_longitude!=other.projection.central_longitude:raise ValueError('Shared longitude branches are incompatible')
     source=other._shared_axes[name];old=owner._shared_axes[name]
     source.joined=True
     for member in tuple(old.members):

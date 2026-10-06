@@ -208,3 +208,8 @@ scalar georeferenced raster/GeoTIFF readers. See [formats and limits](docs/forma
 and [versioned optional data](docs/optional-data.md). These are not in the published
 0.2.0 package yet. The real urban OSM example keeps its database license separate
 and is never downloaded implicitly.
+
+Development 0.3.0: [geodesy, UTM and crossing viewports](docs/geodesy.md), with
+own implementations and explicit numeric limits. See the
+[complete progress checklist](docs/release-progress-0.3.md) for availability;
+these additions are not in the published 0.2.0 package.

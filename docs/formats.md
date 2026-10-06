@@ -22,12 +22,12 @@ as GeoJSON, so selection, per-feature styling and urban layers remain reusable.
 
 | Reader | Implemented | Explicit limits |
 | --- | --- | --- |
-| `read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)` | Null, Point, MultiPoint, Polyline, Polygon; multipartes; corresponding Z types; SHX exact offsets/lengths; DBF alignment | CRS 4326/3857 only; no .prj guessing, M-only, MultiPatch or topology repair. Optional M values on Z records are not represented. Clean closed shells must be clockwise, holes counterclockwise; hole ordering is independent. |
+| `read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)` | Null, Point, MultiPoint, Polyline, Polygon; multipartes; corresponding Z types; SHX exact offsets/lengths; DBF alignment | CRS 4326/3857 and regional WGS84 UTM; no .prj guessing, M-only, MultiPatch or topology repair. Optional M values on Z records are not represented. Clean closed shells must be clockwise, holes counterclockwise; hole ordering is independent. |
 | `read_dbf(source, *, encoding, include_deleted=False)` | No-memo dBASE III/IV/5, C/N/F/L/D, blank values, ISO dates, physical row indices | No memo, FoxPro or encrypted variants. Encoding is explicit, not inferred from platform or language byte. Deleted rows are omitted without renumbering; their fields are not decoded unless requested. |
 | `read_kml(source)` | KML 2.2/2.3 placemarks, names/descriptions, ExtendedData strings, Point/LineString/Polygon/MultiGeometry, optional elevation and altitudeMode | No styles, KMZ, Track, Model, overlays, extension namespaces or external resources. Altitude remains the supplied value, not a ground-height conversion. DTD/entities/XInclude/NetworkLink are rejected. |
 | `read_osm(source, *, include_untagged=False)` | Local XML 0.6 tagged POIs, ways, multipolygon assembly by node identity, reverse segments, holes and multiple shells | No PBF, streaming planet files, routing/restriction relations, nested relations or topology repair. Missing references, open/branched/repeated-node rings and reused multipolygon ways fail explicitly. Non-multipolygon relations are ignored. Editor metadata is not retained; arbitrary original tags can still contain personal data and must be audited before redistribution. |
 | `read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=...)` | Scalar grayscale/integer/float images, explicit extent or world-file, automatic local .tfw/.pgw/.jgw/.wld discovery, NoData | No RGB/palettes/multiframe, implicit identity coordinates or .prj guessing. Conflicting sidecars fail. Embedded TIFF georeference takes precedence unless explicitly overridden. |
-| `read_geotiff(source, *, crs=None, nodata=None, max_pixels=...)` | Classic TIFF in either byte order; single-band top-left scalar data; PixelScale+Tiepoint or 2D affine matrix; GeoKeys 4326/3857; PixelIsArea/Point; GDAL NoData | No BigTIFF, multiple IFDs/bands, palette/RGB, user-defined CRS, alternate units or 3D/projective transforms. Uncompressed 16-bit/float and deflate scalar fixtures are tested; other codecs depend on the installed Pillow build. Explicit CRS conflicts are errors. |
+| `read_geotiff(source, *, crs=None, nodata=None, max_pixels=...)` | Classic TIFF in either byte order; single-band top-left scalar data; PixelScale+Tiepoint or 2D affine matrix; GeoKeys 4326/3857 and WGS84 UTM; PixelIsArea/Point; GDAL NoData | No BigTIFF, multiple IFDs/bands, palette/RGB, user-defined CRS, alternate units or 3D/projective transforms. Uncompressed 16-bit/float and deflate scalar fixtures are tested; other codecs depend on the installed Pillow build. Explicit CRS conflicts are errors. |
 
 SHP binary inputs are bounded to 256 MiB; XML is bounded to 64 MiB. Readers load
 files in memory. Image decoding defaults to 16 million pixels, independently
@@ -60,7 +60,9 @@ coefficients to this corner convention, including rotation.
 colorbar and visibility remain editable. No legend, grid, north arrow or minimap
 appears automatically. Axis-aligned 4326/3857 rasters can be drawn; rotated/sheared
 affines are preserved by the reader but plotting rejects them before changing
-the axes. Curvilinear drawing and resampling belong to later roadmap steps.
+the axes. UTM raster metadata is accepted, but plotting also requires a curvilinear mesh
+and raises explicitly. Curvilinear drawing and resampling belong to later roadmap steps.
+See [geodesy and CRS](geodesy.md) for domains and numeric tolerances.
 PixelIsPoint is normalized by a half-pixel origin shift, not guessed as PixelIsArea.
 
 ## Independent implementation references

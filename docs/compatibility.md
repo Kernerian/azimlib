@@ -144,3 +144,10 @@ Múltiplos grupos e matrizes em plot, nomes via data, ciclos próprios e folhas
 de estilo locais/empilhadas foram entregues. O shorthand geográfico Nx2
 permanece distinto da matriz Y isolada da referência. Veja
 [séries, ciclos e estilos](series-styles.md) para contratos e limites.
+
+## Geographic core in 0.3.0 development
+
+The development branch adds explicit ellipsoid/UTM, regional TM, two spherical
+azimuthal projections, cylindrical seam viewports and opt-in planar topology.
+These are geographic contracts, not a Matplotlib datum/topology API. See
+[scope and numeric tolerances](geodesy.md); published 0.2.0 is unchanged.

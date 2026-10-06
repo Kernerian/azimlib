@@ -127,12 +127,13 @@ function coordinate(s,p){const m=s.meta,pr=m.projection, R=pr.radius||6371008.8;
  const xx=((p.x-s.tx)/s.k-m.ox)/m.scale,yy=(m.oy-(p.y-s.ty)/s.k)/m.scale;
  if(['equirectangular','mercator'].includes(pr.name)){
   const result=AzimlibNavigation.inverse(pr,xx,yy);
-  return result.every(Number.isFinite)&&result[0]>=-180.000001&&result[0]<=180.000001&&Math.abs(result[1])<=90.000001?result:null;
+  return result.every(Number.isFinite)&&result[0]>=(m.longitude_wrap?(pr.central_longitude||0)-180:-180)-.000001&&result[0]<=(m.longitude_wrap?(pr.central_longitude||0)+180:180)+.000001&&Math.abs(result[1])<=90.000001?result:null;
  }
  const rad=Math.PI/180,deg=180/Math.PI,lon0=pr.central_longitude||0,lat0=(pr.central_latitude||0)*rad;
  let lon,lat;
  if(pr.name==='equirectangular'){lon=lon0+xx/R/Math.cos((pr.standard_parallel||0)*rad)*deg;lat=(yy/R+lat0)*deg;}
  else if(pr.name==='mercator'){lon=lon0+xx/R*deg;lat=(2*Math.atan(Math.exp(yy/R+Math.log(Math.tan(Math.PI/4+lat0/2))))-Math.PI/2)*deg;}
+ else if(['stereographic','azimuthal_equidistant'].includes(pr.name)){const rho=Math.hypot(xx,yy)/R;if(rho<1e-12)return[lon0,lat0*deg];const c=pr.name==='stereographic'?2*Math.atan(rho/2):rho;if(c>=Math.PI-1e-14)return null;lat=Math.asin(Math.max(-1,Math.min(1,Math.cos(c)*Math.sin(lat0)+yy/R*Math.sin(c)*Math.cos(lat0)/rho)))*deg;lon=lon0+Math.atan2(xx/R*Math.sin(c),rho*Math.cos(lat0)*Math.cos(c)-yy/R*Math.sin(lat0)*Math.sin(c))*deg;}
  else if(pr.name==='orthographic'){const rho=Math.hypot(xx,yy)/R;if(rho>1)return null;if(rho<1e-12)return[lon0,lat0*deg];const c=Math.asin(rho);lat=Math.asin(Math.cos(c)*Math.sin(lat0)+yy/R*Math.sin(c)*Math.cos(lat0)/rho)*deg;lon=lon0+Math.atan2(xx/R*Math.sin(c),rho*Math.cos(lat0)*Math.cos(c)-yy/R*Math.sin(lat0)*Math.sin(c))*deg;}
  else if(pr.name==='equalearth'){let theta=yy/R/1.340264;for(let i=0;i<12;i++){const t2=theta*theta,poly=theta*(1.340264-.081106*t2+t2**3*(.000893+.003796*t2)),der=1.340264+3*(-.081106)*t2+7*.000893*t2**3+9*.003796*t2**4;theta-=(poly-yy/R)/der;}const t2=theta*theta,der=1.340264-3*.081106*t2+7*.000893*t2**3+9*.003796*t2**4;lat=Math.asin(2/Math.sqrt(3)*Math.sin(theta))*deg;lon=lon0+xx/R*3*der/(2*Math.sqrt(3)*Math.cos(theta))*deg;}
  else return {x:xx,y:yy};
@@ -146,6 +147,7 @@ function portableLabel(formatter,value,index,step){
   const digits=Math.max(0,Math.min(20,-Math.floor(Math.log10(step))+((step/10**Math.floor(Math.log10(step)))%1?1:0)));
   const text=v.toFixed(digits);return formatter.unicode_minus===false?text:text.replace('-','−');
  }
+ if(formatter.kind==='longitude'&&Math.abs(value)>180){const original=value;value=((value+180)%360+360)%360-180;if(value===-180&&original>0)value=180;}
  const f=formatter,negative=value<0||Object.is(value,-0),absolute=Math.abs(value);
  let suffix=f.kind==='longitude'?(negative?'W':'E'):(negative?'S':'N');
  if(!value&&!f.zero_direction_label||f.kind==='longitude'&&absolute===180&&!f.dateline_direction_label)suffix='';

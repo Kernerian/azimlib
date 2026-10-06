@@ -146,6 +146,25 @@ fig,ax=azl.subplots();mesh=ax.raster(raster);assert mesh.get_visible()
 assert '<svg' in fig.to_svg() and azl.read_world_file(io.StringIO(chr(10).join(('1','0','0','-1','.5','1.5'))))==raster.affine
 azl.close(fig)
 assert not any(name.split('.')[0] in ('PIL','numpy','matplotlib','cartopy','geopandas','shapely','pyproj','rasterio','fiona') for name in sys.modules)
+solver=azl.Geodesic()
+route=solver.inverse(0,0,179.999,.001)
+assert route.method=='shooting' and 19900000<route.distance<20100000
+endpoint=solver.direct(0,0,route.azimuth1,route.distance)
+assert azl.haversine((endpoint.longitude,endpoint.latitude),(179.999,.001))<.001
+crs=azl.utm_crs(-46.63,-23.55);assert crs==azl.CRS(32723)
+xy=azl.transform(-46.63,-23.55,4326,crs)
+lon,lat=azl.transform(*xy,crs,4326)
+assert abs(lon+46.63)<1e-8 and abs(lat+23.55)<1e-8
+assert azl.read_geojson({'type':'Point','coordinates':xy},crs=crs)[0].geometry.coordinates==(lon,lat)
+assert azl.segment_intersection((0,0),(2,2),(0,2),(2,0)).points==((1.,1.),)
+fig,ax=azl.subplots();ax.set_extent((170,-170,-10,10))
+ax.route([(175,0),(-175,5)],ellipsoid=azl.WGS84)
+assert ax.get_xlim()==(170,190) and 'longitude_wrap' in fig.to_html()
+assert '<svg' in fig.to_svg();azl.close(fig)
+for name in ('stereographic','azimuthal_equidistant','transverse_mercator'):
+    p=azl.get_projection(name);point=p.inverse(*p.forward(1,2))
+    assert abs(point[0]-1)<1e-8 and abs(point[1]-2)<1e-8
+assert not any(name.split('.')[0] in ('geographiclib','pyproj','matplotlib','PIL','numpy') for name in sys.modules)
 print('Installed wheel: SVG/HTML, data/fonts, artists, styles/aliases, scientific text and prevalidated edits; no optional/GIS/reference libraries.')
 '''
 

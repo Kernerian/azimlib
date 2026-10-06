@@ -637,7 +637,7 @@ class FigureWindow:
             ax=self.figure.axes[self.active]
             west,east,south,north=ax.get_extent()
             from ..navigation import bounded_extent
-            ax.set_extent(bounded_extent(center[0]-(east-west)/2,center[0]+(east-west)/2,center[1]-(north-south)/2,center[1]+(north-south)/2))
+            ax.set_extent(bounded_extent(center[0]-(east-west)/2,center[0]+(east-west)/2,center[1]-(north-south)/2,center[1]+(north-south)/2,longitude_center=ax.projection.central_longitude if ax._longitude_wrap else 0))
             self.navigation.push();self.draw_idle()
         return True
 

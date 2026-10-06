@@ -11,18 +11,23 @@ from .geometry import Feature, FeatureCollection, Geometry
 
 
 def read_csv(source, *, longitude="lon", latitude="lat", id_column=None,
-             converters=None, delimiter=",", encoding="utf-8-sig"):
+             converters=None, delimiter=",", encoding="utf-8-sig", crs=None):
     """Read a local CSV into immutable Point features, without guessing a CRS.
 
     Accept a path, multiline CSV string, bytes or readable stream. Caller
     streams remain open. Coordinates must be finite degrees in lon/lat
-    order; latitude must be in [-90, 90]. Longitude may be unwrapped.
+    order; latitude must be in [-90, 90]. Longitude may be unwrapped. With
+    explicit crs, x/y columns are transformed to WGS84; numeric properties
+    retain source values. Unsupported CRS/coordinates fail before returning.
     Coordinate properties become floats; other columns remain strings
     unless an explicit converter is provided. Converter results must be
     valid JSON properties. Optional IDs come from a named column.
     Invalid rows raise with a physical line number; no rows are silently
     dropped or returned as a partial collection. No network access occurs.
     """
+    if crs is not None:
+        from .crs import CRS,transform
+        crs=CRS.from_user_input(crs)
     for name, value in (("longitude", longitude), ("latitude", latitude)):
         if not isinstance(value, str) or not value:
             raise ValueError(f"{name} must be a nonempty column name")
@@ -74,7 +79,7 @@ def read_csv(source, *, longitude="lon", latitude="lat", id_column=None,
             properties = dict(zip(headers, row))
             try:
                 lon, lat = float(properties[longitude]), float(properties[latitude])
-                geometry = Geometry("Point", (lon, lat))
+                geometry = Geometry("Point", transform(lon,lat,crs,"EPSG:4326") if crs is not None else (lon,lat))
                 properties[longitude], properties[latitude] = lon, lat
                 for name, converter in converters.items():
                     properties[name] = converter(properties[name])

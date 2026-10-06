@@ -3,12 +3,12 @@ from __future__ import annotations
 import math
 from functools import lru_cache
 from .projections import (Equirectangular, Mercator, EqualEarth, Orthographic,
-                          LambertConformalConic, AlbersEqualArea)
+                          LambertConformalConic, AlbersEqualArea, TransverseMercator, Stereographic, AzimuthalEquidistant)
 from .geometry import wrap_longitude
 
 
 _BUILTINS = (Equirectangular, Mercator, EqualEarth, Orthographic,
-             LambertConformalConic, AlbersEqualArea)
+             LambertConformalConic, AlbersEqualArea, TransverseMercator, Stereographic, AzimuthalEquidistant)
 
 
 def _projected_bounds(projection, extent):

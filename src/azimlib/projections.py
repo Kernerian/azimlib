@@ -11,6 +11,8 @@ from math import asin, atan, atan2, cos, degrees, exp, hypot, isfinite, log, pi,
 from typing import ClassVar
 
 from .geometry import EARTH_RADIUS, _number, position, wrap_longitude
+from .geodesy import Ellipsoid, WGS84
+from .transverse import tm_forward, tm_inverse
 
 
 @dataclass(frozen=True)
@@ -269,7 +271,86 @@ class AlbersEqualArea(Projection):
         return self._lonlat(theta/self._n, asin(max(-1, min(1, argument))))
 
 
+
+@dataclass(frozen=True)
+class TransverseMercator(Projection):
+    """Regional ellipsoidal TM; radius is not used (ellipsoid defines metres)."""
+    ellipsoid: Ellipsoid = WGS84
+    scale_factor: float = .9996
+    false_easting: float = 0
+    false_northing: float = 0
+    name: ClassVar[str] = 'transverse_mercator'
+
+    def __post_init__(self):
+        super().__post_init__()
+        if not isinstance(self.ellipsoid,Ellipsoid): raise TypeError('ellipsoid must be Ellipsoid')
+        for key in ('scale_factor','false_easting','false_northing'):
+            object.__setattr__(self,key,_number(getattr(self,key),key))
+        if self.scale_factor<=0 or not -80<=self.central_latitude<=84: raise ValueError('Invalid regional TM scale/origin')
+
+    def _parameters(self):
+        return dict(central_longitude=self.central_longitude,central_latitude=self.central_latitude,scale_factor=self.scale_factor,false_easting=self.false_easting,false_northing=self.false_northing,ellipsoid=self.ellipsoid)
+
+    def forward(self,lon,lat):
+        position((lon,lat))
+        try:return tm_forward(lon,lat,**self._parameters())
+        except ValueError:return None
+
+    def inverse(self,x,y):
+        _number(x);_number(y)
+        try:return tm_inverse(x,y,**self._parameters())
+        except ValueError:return None
+
+
+def _azimuthal_inverse(projection,x,y,c):
+    rho=hypot(x,y)
+    if rho<1e-15:return wrap_longitude(projection.central_longitude),projection.central_latitude
+    p0=radians(projection.central_latitude);sc,cc=sin(c),cos(c)
+    phi=asin(max(-1,min(1,cc*sin(p0)+y*sc*cos(p0)/rho)))
+    lam=atan2(x*sc,rho*cos(p0)*cc-y*sin(p0)*sc)
+    return projection._lonlat(lam,phi)
+
+
+@dataclass(frozen=True)
+class Stereographic(Projection):
+    """Spherical conformal azimuthal map; the antipode is singular."""
+    name: ClassVar[str] = 'stereographic'
+
+    def forward(self,lon,lat):
+        l,p=self._angles(lon,lat);p0=radians(self.central_latitude)
+        divisor=1+sin(p0)*sin(p)+cos(p0)*cos(p)*cos(l)
+        if divisor<1e-14:return None
+        k=2*self.radius/divisor
+        return k*cos(p)*sin(l),k*(cos(p0)*sin(p)-sin(p0)*cos(p)*cos(l))
+
+    def inverse(self,x,y):
+        x,y=self._xy(x,y)
+        return _azimuthal_inverse(self,x,y,2*atan(hypot(x,y)/2))
+
+
+@dataclass(frozen=True)
+class AzimuthalEquidistant(Projection):
+    """Spherical distances from the centre; antipodal azimuth is undefined."""
+    name: ClassVar[str] = 'azimuthal_equidistant'
+
+    def forward(self,lon,lat):
+        l,p=self._angles(lon,lat);p0=radians(self.central_latitude)
+        u,v=cos(p)*sin(l),cos(p0)*sin(p)-sin(p0)*cos(p)*cos(l)
+        sine=hypot(u,v);dot=sin(p0)*sin(p)+cos(p0)*cos(p)*cos(l)
+        if sine<1e-14:return (0.,0.) if dot>0 else None
+        k=self.radius*atan2(sine,dot)/sine
+        return k*u,k*v
+
+    def inverse(self,x,y):
+        x,y=self._xy(x,y);c=hypot(x,y)
+        if c>=pi-1e-14:return None
+        return _azimuthal_inverse(self,x,y,c)
+
+
 _REGISTRY = {
+    "transverse_mercator": TransverseMercator, "tmerc": TransverseMercator,
+    "stereographic": Stereographic, "stereo": Stereographic,
+    "azimuthal_equidistant": AzimuthalEquidistant, "aeqd": AzimuthalEquidistant,
     "equirectangular": Equirectangular, "platecarree": Equirectangular, "plate_carree": Equirectangular,
     "mercator": Mercator, "equalearth": EqualEarth, "equal_earth": EqualEarth,
     "orthographic": Orthographic, "ortho": Orthographic,

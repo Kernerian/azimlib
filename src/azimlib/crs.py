@@ -1,7 +1,7 @@
 """Explicit lon/lat and Web Mercator coordinate-reference transformations.
 
-Only EPSG:4326 and EPSG:3857 are implemented. This module deliberately does not
-pretend to provide a global datum database or ellipsoidal transformations.
+EPSG:4326, EPSG:3857 and WGS84 UTM EPSG:32601–32660 / 32701–32760
+are implemented. No global datum database or datum shifts are implied.
 """
 from __future__ import annotations
 
@@ -13,6 +13,8 @@ from pathlib import Path
 from math import atan, degrees, exp, log, pi, radians, tan
 
 from .geometry import _number, position
+from .geodesy import WGS84_DATUM
+from .transverse import tm_forward, tm_inverse, utm_zone, utm_crs
 
 WEB_MERCATOR_RADIUS = 6_378_137.0
 WEB_MERCATOR_MAX_LATITUDE = 85.0511287798066
@@ -29,8 +31,8 @@ class CRS:
             code = "EPSG:"+code
         if code in ("WGS84", "WGS 84", "CRS84", "OGC:CRS84"):
             code = "EPSG:4326"
-        if code not in ("EPSG:4326", "EPSG:3857"):
-            raise ValueError(f"unsupported CRS {self.code!r}; supported: EPSG:4326, EPSG:3857")
+        if code not in ("EPSG:4326", "EPSG:3857") and not (code.startswith("EPSG:") and code[5:].isdigit() and (32601<=int(code[5:])<=32660 or 32701<=int(code[5:])<=32760)):
+            raise ValueError(f"unsupported CRS {self.code!r}; supported: EPSG:4326, EPSG:3857, WGS84 UTM zones")
         object.__setattr__(self, "code", code)
 
     @classmethod
@@ -44,6 +46,23 @@ class CRS:
     @property
     def units(self):
         return "degrees" if self.is_geographic else "metres"
+
+    @property
+    def datum(self): return WGS84_DATUM
+    @property
+    def ellipsoid(self): return self.datum.ellipsoid
+    @property
+    def axis_order(self): return ('longitude','latitude') if self.is_geographic else ('easting','northing')
+    @property
+    def zone(self):
+        return int(self.code[5:])%100 if self.code.startswith(('EPSG:326','EPSG:327')) else None
+    @property
+    def hemisphere(self): return ('north' if self.code.startswith('EPSG:326') else 'south') if self.zone else None
+    def _utm_parameters(self):
+        return dict(central_longitude=self.zone*6-183,scale_factor=.9996,false_easting=500000,false_northing=0 if self.hemisphere=='north' else 10000000)
+    def _check_utm_latitude(self,lat):
+        if not -80<=lat<=84 or (lat<0 and self.hemisphere=='north') or (lat>0 and self.hemisphere=='south'):
+            raise ValueError('Latitude outside UTM hemisphere/domain')
 
     def transform_to(self, target, x, y):
         return transform(x, y, self, target)
@@ -61,6 +80,10 @@ def transform(x, y, source="EPSG:4326", target="EPSG:3857"):
         lon, lat = position((x, y))
         if not -180 <= lon <= 180:
             raise ValueError("CRS longitude must lie between -180 and 180")
+    elif source.zone:
+        if not 0<=x<=1000000 or not 0<=y<=10000000: raise ValueError("Coordinate outside UTM domain")
+        lon,lat=tm_inverse(x,y,**source._utm_parameters())
+        source._check_utm_latitude(lat)
     else:
         maximum = pi*WEB_MERCATOR_RADIUS
         if abs(x) > maximum+1e-6 or abs(y) > maximum+1e-6:
@@ -71,6 +94,11 @@ def transform(x, y, source="EPSG:4326", target="EPSG:3857"):
         return x, y
     if target.is_geographic:
         return lon, lat
+    if target.zone:
+        target._check_utm_latitude(lat)
+        result=tm_forward(lon,lat,**target._utm_parameters())
+        if not 0<=result[0]<=1000000 or not 0<=result[1]<=10000000: raise ValueError("Coordinate outside UTM domain")
+        return result
     if abs(lat) > WEB_MERCATOR_MAX_LATITUDE+1e-12:
         raise ValueError("latitude lies outside the conventional EPSG:3857 domain")
     return WEB_MERCATOR_RADIUS*radians(lon), WEB_MERCATOR_RADIUS*log(tan(pi/4+radians(lat)/2))

@@ -13,7 +13,9 @@ from .layers import Layer
 from .text_artists import MapText,Annotation,ANNOTATION_COORDS,coordinate_pair
 from .collections import ScatterCollection
 from .field_artists import MeshCollection,ScalarImage,VectorCollection,scalar_rows,image_extent,image_edges
-from .projections import get_projection
+from .projections import get_projection, Equirectangular, Mercator
+from dataclasses import replace
+from .geometry import longitude_bounds, wrap_longitude
 from .styles import CATEGORY_COLORS, sample_color, style_dict, normalize_aliases
 from .components import AxisComponents,TextArtist,Legend,MapComponent,ScaleBar,OrientationIndicator
 from .config import rcParams
@@ -37,6 +39,7 @@ class MapAxes(AxisComponents):
         self._subplot_spec=None
         self._label=''
         self.projection = get_projection(projection, **(projection_kw or {}))
+        self._longitude_wrap = False
         self.layers = []
         self.insets = []
         self._extent = None
@@ -128,9 +131,13 @@ class MapAxes(AxisComponents):
 
     def _set_interval(self,name,low,high,*,emit=True,auto=False):
         low,high=float(low),float(high);bound=180 if name=='x' else 90
-        if not math.isfinite(low+high) or not -bound<=low<high<=bound:
+        center=self.projection.central_longitude if name=='x' and self._longitude_wrap else 0
+        if not math.isfinite(low+high) or not center-bound<=low<high<=center+bound:
             raise ValueError('Geographic limits must be finite, increasing and within '+str(bound)+' degrees')
         members=[self,*[ax for ax in self._shared_axes[name].members if ax is not self]] if emit else [self]
+        for ax in members:
+            c=ax.projection.central_longitude if name=='x' and ax._longitude_wrap else 0
+            if not c-bound<=low<high<=c+bound:raise ValueError('Shared longitude branches are incompatible')
         # Commit the whole group before notifying callbacks or requesting draws.
         for ax in members:
             w,s,e,n=ax._get_extent()
@@ -341,14 +348,18 @@ class MapAxes(AxisComponents):
         self._plot_index=index
         return result
 
-    def route(self, coordinates, *, geodesic=True, steps=64, **kwargs):
+    def route(self, coordinates, *, geodesic=True, steps=64, ellipsoid=None, **kwargs):
         coordinates = list(coordinates)
         if len(coordinates) < 2:
             raise ValueError("A route needs at least two coordinates")
+        if ellipsoid is not None:
+            from .geodesy import Geodesic
+            solver=Geodesic(ellipsoid)
+            if not geodesic:raise ValueError('ellipsoid requires geodesic=True')
         if geodesic:
             result = []
             for a, b in zip(coordinates, coordinates[1:]):
-                segment = list(great_circle(a, b, steps=steps))
+                segment = list(solver.line(a,b,steps=steps) if ellipsoid is not None else great_circle(a, b, steps=steps))
                 result.extend(segment if not result else segment[1:])
             coordinates = result
         return self.line(coordinates, **_defaults(kwargs, arrow=True))
@@ -501,11 +512,53 @@ class MapAxes(AxisComponents):
         if len(extent) != 4 or not all(math.isfinite(float(v)) for v in extent):
             raise ValueError("extent must contain four finite numbers: west,east,south,north")
         w, e, s, n = map(float, extent)
-        if not (-180 <= w < e <= 180 and -90 <= s < n <= 90):
-            raise ValueError("Require -180 <= west < east <= 180 and -90 <= south < north <= 90; seam-spanning viewports are not supported yet")
+        if not -90<=s<n<=90:raise ValueError('Require -90 <= south < north <= 90')
+        crossing=-180<=e<w<=180
+        if crossing:
+            if type(self.projection) not in (Equirectangular,Mercator):raise ValueError('Crossing extents require a cylindrical projection')
+            e+=360
+            if e<=w:raise ValueError('Crossing extent must have nonzero longitude span')
+        if not self._longitude_wrap and crossing:
+            members=tuple(self._shared_axes['x'].members)
+            if any(type(ax.projection) not in (Equirectangular,Mercator) for ax in members):raise ValueError('Shared crossing extents require cylindrical projections')
+            center=(w+e)/2
+            # Rebranch all shared longitudes before committing their limits.
+            for ax in members:
+                ax.projection=replace(ax.projection,central_longitude=center);ax._longitude_wrap=True
+        elif self._longitude_wrap:
+            shift=360*round((self.projection.central_longitude-(w+e)/2)/360)
+            w+=shift;e+=shift
+        center=self.projection.central_longitude if self._longitude_wrap else 0
+        if not center-180<=w<e<=center+180:raise ValueError('Longitude limits must increase within the current 360-degree branch')
         self._set_interval('x',w,e)
         self._set_interval('y',s,n)
         return self
+
+    def fit_extent(self,data=None,*,margin=.05):
+        """Fit point samples using the shortest circular longitude interval.
+
+        Explicit opt-in for local seam-crossing data. Not for polygon interiors
+        covering most of Earth; ordinary autoscaling keeps its legacy behavior.
+        """
+        from .geometry import position, _number
+        margin=_number(margin,'margin')
+        if margin<0:raise ValueError('margin must be nonnegative')
+        if data is None:
+            points=[p for layer in self.layers if layer.kind=='geometry' for f in layer.data if f.geometry is not None for p in f.geometry.iter_positions()]
+        elif isinstance(data,Geometry):points=list(data.iter_positions())
+        elif isinstance(data,FeatureCollection):points=[p for f in data if f.geometry is not None for p in f.geometry.iter_positions()]
+        else:points=[position(p) for p in data]
+        if not points:raise ValueError('fit_extent requires positions')
+        w,e=longitude_bounds(p[0] for p in points);s,n=min(p[1] for p in points),max(p[1] for p in points)
+        dx=max(.1,e-w)*margin;dy=max(.1,n-s)*margin
+        if w==e:w-=.05;e+=.05
+        if s==n:s-=.05;n+=.05
+        w-=dx;e+=dx;s=max(-90,s-dy);n=min(90,n+dy)
+        if e-w>=360:
+            center=self.projection.central_longitude if self._longitude_wrap else 0
+            w,e=center-180,center+180
+        elif not self._longitude_wrap:w,e=wrap_longitude(w),wrap_longitude(e)
+        return self.set_extent((w,e,s,n))
 
     def get_extent(self):
         w, s, e, n = self._get_extent()
@@ -543,8 +596,8 @@ class MapAxes(AxisComponents):
         """Zoom geographic limits by a positive factor (>1 zooms in).
 
         ``center`` is a (longitude, latitude) pair. Limits shift at the poles
-        and antimeridian to preserve their span; seam-spanning limits are not
-        supported by this initial viewport implementation.
+        and the longitude branch boundaries to preserve their span. Explicit
+        crossing extents establish a continuous cylindrical longitude branch.
         """
         factor = float(factor)
         if not math.isfinite(factor) or factor <= 0:
@@ -558,7 +611,9 @@ class MapAxes(AxisComponents):
             cx, cy = map(float, center)
             if not -180 <= cx <= 180 or not -90 <= cy <= 90:
                 raise ValueError("zoom center must lie within longitude [-180,180], latitude [-90,90]")
-        west, east = _bounded_interval(cx, min(360, (east-west)/factor), -180, 180)
+        branch=self.projection.central_longitude if self._longitude_wrap else 0
+        if self._longitude_wrap:cx=wrap_longitude(cx,branch)
+        west, east = _bounded_interval(cx, min(360, (east-west)/factor), branch-180, branch+180)
         south, north = _bounded_interval(cy, min(180, (north-south)/factor), -90, 90)
         return self.set_extent((west, east, south, north))
 
@@ -568,7 +623,8 @@ class MapAxes(AxisComponents):
         if not math.isfinite(dlon) or not math.isfinite(dlat):
             raise ValueError("pan offsets must be finite longitude/latitude degrees")
         west, east, south, north = self.get_extent()
-        west, east = _bounded_interval((west+east)/2+dlon, east-west, -180, 180)
+        branch=self.projection.central_longitude if self._longitude_wrap else 0
+        west, east = _bounded_interval((west+east)/2+dlon, east-west, branch-180, branch+180)
         south, north = _bounded_interval((south+north)/2+dlat, north-south, -90, 90)
         return self.set_extent((west, east, south, north))
 
@@ -612,21 +668,31 @@ class MapAxes(AxisComponents):
             return self._extent
         if self._bounds:
             return self._data_extent()
-        return -180, -80, 180, 84
+        center=self.projection.central_longitude if self._longitude_wrap else 0
+        return center-180, -80, center+180, 84
 
     def _data_extent(self):
         w,s,e,n=self._bounds if self._bounds is not None else self._get_extent()
-        def limits(low,high,margin,bound):
+        def limits(low,high,margin,bound,center=0):
             if low==high:low,high=low-.5,high+.5
             padding=(high-low)*margin
-            low,high=max(-bound,low-padding),min(bound,high+padding)
+            low,high=max(center-bound,low-padding),min(center+bound,high+padding)
             # Unwrapped longitudes may sit entirely outside the display domain.
-            return (-bound,bound) if low>=high else (low,high)
+            return (center-bound,center+bound) if low>=high else (low,high)
         for name in ('x','y'):
             bounds=[ax._bounds for ax in self._shared_axes[name].members if ax._bounds is not None]
             if not bounds:continue
             i,j=(0,2) if name=='x' else (1,3)
-            low,high=limits(min(b[i] for b in bounds),max(b[j] for b in bounds),self._margins[name],180 if name=='x' else 90)
+            center=self.projection.central_longitude if name=='x' and self._longitude_wrap else 0
+            if name=='x' and self._longitude_wrap:
+                spans=[]
+                for b in bounds:
+                    if b[2]-b[0]>180:
+                        spans.append((center-180,center+180))
+                    else:
+                        midpoint=wrap_longitude((b[0]+b[2])/2,center);half=(b[2]-b[0])/2;spans.append((midpoint-half,midpoint+half))
+                low,high=limits(min(b[0] for b in spans),max(b[1] for b in spans),self._margins[name],180,center)
+            else:low,high=limits(min(b[i] for b in bounds),max(b[j] for b in bounds),self._margins[name],180 if name=='x' else 90)
             if name=='x':w,e=low,high
             else:s,n=low,high
         return w,s,e,n

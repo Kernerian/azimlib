@@ -86,11 +86,13 @@ extensão própria: o relim do Matplotlib tem restrições para Collections.
 
 ## Limites desta implementação
 
-Os limites são longitude/latitude em graus e ficam no domínio ±180°/±90°.
-Um dado singular recebe expansão inicial de ±0.5° antes da margem, uma regra
-geográfica própria. Não há ainda vistas invertidas ou que cruzam o antimeridiano.
-`tight` controla a política de dados/margens disponível; sticky_edges,
-round_numbers, shared axes e unidades extensíveis continuam pendentes.
+Os limites são longitude/latitude em graus. O domínio ordinário é ±180°/±90°;
+na 0.3.0 em desenvolvimento, extents cilíndricos cruzados estabelecem um ramo
+contínuo de 360°, descrito em [geodesia/antimeridiano](geodesy.md). Um dado singular
+recebe expansão inicial de ±0.5° antes da margem, uma regra geográfica própria.
+Vistas invertidas, sticky_edges, round_numbers e unidades automáticas de Axis
+continuam fora deste corte. Shared axes já propagam limites/tickers. `tight`
+controla a política de dados/margens disponível; fit circular é optativo.
 
 Veja o [exemplo antes/depois](../examples/norm_limits.py), o
 [ciclo de vida de Artists](artists.md) e as [pendências](pending.md). O HTML é

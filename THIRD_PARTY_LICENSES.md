@@ -75,3 +75,13 @@ respect applicable ODbL sharing requirements; produced maps credit OpenStreetMap
 and identify the ODbL data license. See [the data guide](docs/optional-data.md),
 [OSM copyright](https://www.openstreetmap.org/copyright) and
 [ODbL](https://opendatacommons.org/licenses/odbl/1-0/).
+
+## Geographic numeric oracle records (development)
+
+`docs/geodesy-reference-0.3.json` records factual coordinate outputs computed
+through black-box calls to pyproj 3.8.0 and GeographicLib 2.1, in an isolated
+development environment. No implementation, protected prose or published test
+dataset from either project is vendored. The package does not redistribute
+these libraries or depend on them. New geodesy, TM, topology and clipping code
+is independently written under the original-code BSD 3-Clause license; published
+mathematical references and numeric limits are listed in `docs/geodesy.md`.

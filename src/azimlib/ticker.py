@@ -293,6 +293,9 @@ class _DegreeFormatter(Formatter):
     def __call__(self,x,pos=None):
         x=float(x)
         if not math.isfinite(x):raise ValueError('Coordinate must be finite')
+        if self.bound==180 and abs(x)>180:
+            from .geometry import wrap_longitude
+            x=wrap_longitude(x)
         suffix=self.negative if math.copysign(1.,x)<0 else self.positive
         if x==0 and not self.zero_direction_label:suffix=''
         if self.bound==180 and abs(x)==180 and not self.dateline_direction_label:suffix=''

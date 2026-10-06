@@ -19,8 +19,10 @@ Botão esquerdo desloca a vista; botão direito muda a escala projetada em torno
 do cursor inicial. O gesto direito usa deslocamentos relativos às dimensões dos
 Axes e escala base 10 com aspecto igual, em vez da sensibilidade fixa anterior.
 X/Y restringem o gesto; Ctrl iguala os deltas cartesianos e Shift favorece eixo
-ou diagonal. O domínio geográfico da Azimlib continua limitado: sem eixos
-invertidos, crossing do antimeridiano ou equivalência geral de projeções.
+ou diagonal. O domínio geográfico continua limitado, sem eixos invertidos ou
+equivalência geral de projeções. A 0.3.0 em desenvolvimento acrescenta crossing
+cilíndrico explícito: [ramo contínuo, histórico e navegação](geodesy.md). As
+medições e comparações abaixo preservam o escopo do runtime que as produziu.
 
 ## Comparação direta e integração
 

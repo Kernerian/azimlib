@@ -27,6 +27,11 @@ FeatureCollection → Geometry → recorte e densificação
   Leitura/escrita GeoJSON e CSV,
   sem dependência de GIS; seleção imutável vive em `geometry.py`. `crs.py`: transformações
   explicitamente registradas, sem inferência silenciosa de datum ou ordem de eixos.
+- `geodesy.py`: unidades/elipsoide/datum imutáveis, geodesia elipsoidal e solver
+  de convergência próprio; sem operações de datum implícitas.
+- `transverse.py`: TM elipsoidal regional e seleção de zonas UTM; `crs.py` usa
+  estas fórmulas para WGS84 UTM explícito. Veja [domínios](geodesy.md).
+- `topology.py`: interseções, winding e validação regional optativa, sem reparo/overlay global.
 - `projections.py`: projeções próprias com forward/inverse e registro extensível.
 - `datasets.py`: acesso por `importlib.resources` a arquivos compactados offline.
 - `axes.py`: API pública, limites, construção de camadas, coropléticos e densidade.

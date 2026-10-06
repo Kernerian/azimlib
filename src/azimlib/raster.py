@@ -75,6 +75,8 @@ class GeoRaster:
         until curvilinear meshes are supported. No resampling is performed.
         """
         a, b, c, d, e, f = self.affine
+        if self.crs.zone:
+            raise ValueError('UTM raster plotting requires a curvilinear mesh; not yet supported')
         if b != 0 or d != 0:
             raise ValueError('Rotated/sheared raster plotting requires a curvilinear mesh; not yet supported')
         ny, nx = self.shape

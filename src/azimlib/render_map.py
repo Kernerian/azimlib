@@ -41,6 +41,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     frame_indices={},anchor_ranges=[],start=len(scene.items),extent=vp.extent,
                     projected_bounds=vp.projected_bounds,ox=vp.ox,oy=vp.oy,scale=vp.scale,
                     projection=dict(asdict(ax.projection),name=ax.projection.name),
+                    longitude_wrap=ax._longitude_wrap,
                     overview=getattr(ax,"_overview",False) or False,tick_indices=[],static_indices=[],grid_indices=[],grid_specs=[],
                     ticks=bool(ax._frame),inset=inset,pixel_ratio=1,degree_ticks=bool(ax._grid_format and ax._grid_format['labels']),
                     custom_ticks=any(a.locator_explicit or a.formatter_explicit or a.minor_locator_explicit or a.minor_formatter_explicit for a in (ax.xaxis,ax.yaxis)),
@@ -393,6 +394,10 @@ def _line(coordinates,style,vp,scene,*,projected=None,cuts=None):
 
 
 def _line_uncached(coordinates,vp,add):
+    if vp.projection.name=='orthographic':
+        from .geometry import clip_orthographic_line
+        for part in clip_orthographic_line(coordinates,vp.projection):add([vp.xy(*p) for p in part])
+        return
     parts = split_antimeridian(coordinates, vp.projection.central_longitude)
     for part in parts:
         groups, current = [], []

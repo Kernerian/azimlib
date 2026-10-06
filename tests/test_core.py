@@ -327,7 +327,7 @@ class CRSTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             transform(0, 50_000_000, 3857, 4326)
         with self.assertRaises(ValueError):
-            CRS("EPSG:32623")
+            CRS("EPSG:32600")
 
 
 if __name__ == "__main__":

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0 development — geographic core batch
+
+- Immutable ellipsoid/datum/unit models and own ellipsoidal direct/inverse,
+  including bounded multistart shooting for difficult antipodal inverse cases.
+- WGS84 UTM all 60 zones/two hemispheres and own regional ellipsoidal TM;
+  spherical stereographic/azimuthal-equidistant projections and inverses.
+- Explicit CRS on GeoJSON/CSV, continuous cylindrical crossing viewports,
+  fit/pan/zoom/history/shared-axis/portable navigation support, horizon line
+  clipping and opt-in regional topology validation.
+- Numeric matrix of 579 black-box calculated cases; synthetic own-renderer
+  examples and exact scope/precision limits in docs/geodesy.md. Stable 0.2.0
+  remains unchanged; no remote release is created by this batch.
+
 ## 0.3.0.dev0 — em desenvolvimento, não publicada
 
 - Checklist única de 80 subpassos em dez etapas, com correspondência às 16 frentes posteriores à 0.2.0 e reservas justificadas para 0.4.0.

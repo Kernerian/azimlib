@@ -8,16 +8,20 @@ class Navigation:
         self.figure=figure
         self.history=[self.snapshot()]
         self._autoscale_history=[self._autoscale_snapshot()]
+        self._projection_history=[self._projection_snapshot()]
         self.index=0
 
     def snapshot(self):
         return tuple(None if ax._colorbar_artist is not None else ax.get_extent() for ax in self.figure.axes)
+
+    def _projection_snapshot(self):return tuple((ax.projection,ax._longitude_wrap) for ax in self.figure.axes)
 
     def _autoscale_snapshot(self):
         return tuple(None if ax._colorbar_artist is not None else (ax.get_autoscalex_on(),ax.get_autoscaley_on()) for ax in self.figure.axes)
 
     def _apply(self,index):
         with self.figure._mutation():
+            for ax,(projection,wrapped) in zip(self.figure.axes,self._projection_history[index]):ax.projection=projection;ax._longitude_wrap=wrapped
             for ax,extent,flags in zip(self.figure.axes,self.history[index],self._autoscale_history[index]):
                 if extent is not None and ax._colorbar_artist is None:
                     # A snapshot may contain emit=False edits and local auto flags.
@@ -32,10 +36,11 @@ class Navigation:
 
     def push(self):
         current=self.snapshot()
-        flags=self._autoscale_snapshot()
-        if current!=self.history[self.index] or flags!=self._autoscale_history[self.index]:
+        flags=self._autoscale_snapshot();projections=self._projection_snapshot()
+        if current!=self.history[self.index] or flags!=self._autoscale_history[self.index] or projections!=self._projection_history[self.index]:
             self.history=self.history[:self.index+1]+[current]
             self._autoscale_history=self._autoscale_history[:self.index+1]+[flags]
+            self._projection_history=self._projection_history[:self.index+1]+[projections]
             self.index+=1
 
     def restore(self,index):
@@ -56,11 +61,11 @@ class Navigation:
         return self.restore(self.index+1)
 
 
-def bounded_extent(west,east,south,north):
+def bounded_extent(west,east,south,north,*,longitude_center=0):
     """Translate windows back into geographic domain without reversing axes."""
     width=max(1e-6,min(360,east-west))
     height=max(1e-6,min(179.8,north-south))
-    west=max(-180,min(180-width,west))
+    west=max(longitude_center-180,min(longitude_center+180-width,west))
     south=max(-89.9,min(89.9-height,south))
     return west,west+width,south,south+height
 
@@ -95,6 +100,8 @@ def drag_extent(ax,viewport,start,end,*,mode='pan',button=1,constraint=None,init
     Projected corner sampling handles cylindrical and regional conic views.
     A singularity or invisible orthographic region returns None safely.
     """
+    from .geometry import wrap_longitude
+    branch=ax.projection.central_longitude if ax._longitude_wrap else 0
     x,y,w,h=viewport.box
     dx,dy=end[0]-start[0],end[1]-start[1]
     original=tuple(initial_extent) if initial_extent is not None else ax.get_extent()
@@ -133,12 +140,13 @@ def drag_extent(ax,viewport,start,end,*,mode='pan',button=1,constraint=None,init
             a,b=viewport.inverse(*start),viewport.inverse(*end)
             if a and b:
                 west,east,south,north=original
-                dl,dp=a[0]-b[0],a[1]-b[1]
-                return bounded_extent(west+dl,east+dl,south+dp,north+dp)
+                dl,dp=wrap_longitude(a[0]-b[0]),a[1]-b[1]
+                return bounded_extent(west+dl,east+dl,south+dp,north+dp,longitude_center=branch)
         return None
+    if ax._longitude_wrap:points=[(wrap_longitude(p[0],(original[0]+original[1])/2),p[1]) for p in points]
     west,east=min(p[0] for p in points),max(p[0] for p in points)
     south,north=min(p[1] for p in points),max(p[1] for p in points)
-    return bounded_extent(west,east,south,north)
+    return bounded_extent(west,east,south,north,longitude_center=branch)
 
 
 def zoom_extent(ax,factor,center=None):
@@ -146,5 +154,9 @@ def zoom_extent(ax,factor,center=None):
         raise ValueError('Zoom factor must be positive and finite')
     west,east,south,north=ax.get_extent()
     cx,cy=center or ((west+east)/2,(south+north)/2)
+    branch=ax.projection.central_longitude if ax._longitude_wrap else 0
+    if ax._longitude_wrap:
+        from .geometry import wrap_longitude
+        cx=wrap_longitude(cx,(west+east)/2)
     return bounded_extent(cx+(west-cx)/factor,cx+(east-cx)/factor,
-                          cy+(south-cy)/factor,cy+(north-cy)/factor)
+                          cy+(south-cy)/factor,cy+(north-cy)/factor,longitude_center=branch)

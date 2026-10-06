@@ -21,7 +21,7 @@ from .raster import GeoRaster, read_raster, read_geotiff, read_world_file
 from .catalog import DatasetCatalog
 
 from .projections import (Projection,Equirectangular,Mercator,EqualEarth,Orthographic,
-                          LambertConformalConic,AlbersEqualArea,get_projection,register_projection)
+                          LambertConformalConic,AlbersEqualArea,TransverseMercator,Stereographic,AzimuthalEquidistant,get_projection,register_projection)
 from .crs import CRS,Transformer,transform
 from .layers import Layer
 from .collections import ScatterCollection
@@ -50,3 +50,12 @@ from ._state import (figure,subplots,subplot_mosaic,subplot,show,savefig,gcf,gca
                      get_fignums,get_figlabels,fignum_exists,clf,cla,close,_figures)
 
 __all__.extend(("read_shapefile", "read_dbf", "DBFRecord", "read_kml", "read_osm", "GeoRaster", "read_raster", "read_geotiff", "read_world_file", "DatasetCatalog"))
+
+from .geodesy import (Unit, METRE, KILOMETRE, DEGREE, RADIAN, Ellipsoid, Datum,
+                      WGS84, GRS80, WGS84_DATUM, Geodesic, GeodesicResult)
+from .transverse import utm_zone, utm_crs
+__all__.extend(('Unit','METRE','KILOMETRE','DEGREE','RADIAN','Ellipsoid','Datum','WGS84','GRS80','WGS84_DATUM','Geodesic','GeodesicResult','utm_zone','utm_crs','TransverseMercator','Stereographic','AzimuthalEquidistant'))
+
+from .topology import (orientation, segment_intersection, ring_orientation, validate_ring, validate_geometry, Intersection, ValidationIssue, TopologyReport)
+from .geometry import longitude_bounds, clip_orthographic_line, clip_orthographic_polygon
+__all__.extend(('orientation','segment_intersection','ring_orientation','validate_ring','validate_geometry','Intersection','ValidationIssue','TopologyReport','longitude_bounds','clip_orthographic_line','clip_orthographic_polygon'))

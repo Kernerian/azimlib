@@ -1,0 +1,65 @@
+{
+  "schema": 1,
+  "version": "0.3.0.dev0",
+  "reference_file": "geodesy-reference-0.3.json",
+  "reference_sha256": "0dee3702c9ec7d0900c0037e3da2fbdbabfff266e4cb3f13d4b9da06fa2dbea0",
+  "cases": {
+    "inverse": 287,
+    "direct": 100,
+    "transverse": 40,
+    "utm": 120,
+    "projections": 32
+  },
+  "inverse_methods": {
+    "shooting": 70,
+    "vincenty": 216,
+    "coincident": 1
+  },
+  "maximum_observed_errors": {
+    "inverse_distance_metres": 6.788782775402069e-05,
+    "inverse_azimuth_degrees": 3.762488631764427e-08,
+    "endpoint_metres": 2.5464821622377736e-06,
+    "direct_degrees": 8.412825991399586e-10,
+    "tm_metres": 0.011487206327728927,
+    "utm_metres": 0.0009560463950037956,
+    "roundtrip_degrees": 8.526512829121202e-14,
+    "projection_metres": 5.587935447692871e-09
+  },
+  "reference_versions": {
+    "pyproj": "3.8.0",
+    "geographiclib": "2.1"
+  },
+  "gallery": [
+    {
+      "file": "geodesy-atlas.html",
+      "sha256": "7f641698a4db41b017117dea12b2ce13ab503f1e55510d462cb184e36200f93a",
+      "bytes": 3472394
+    },
+    {
+      "file": "geodesy-atlas.png",
+      "sha256": "d2a95a9c769a7bff7eecf544dba2c6df932178b2f81def301687411fc79ecb18",
+      "bytes": 262345
+    },
+    {
+      "file": "geodesy-atlas.svg",
+      "sha256": "7d07ae418447ad3be4664646dfbadfd14a8c6a954de8449456a2815ec33afe97",
+      "bytes": 3388634
+    },
+    {
+      "file": "pacific.html",
+      "sha256": "fee5672612e3fbb548123da9fb9ba78918e215d2d8e6e32a245fd26624be17bd",
+      "bytes": 2353788
+    },
+    {
+      "file": "pacific.png",
+      "sha256": "5cc3765a793bd82c8769b4aff106410367406ba0f8317dad7070c37b1ab40f91",
+      "bytes": 46912
+    },
+    {
+      "file": "pacific.svg",
+      "sha256": "efef777746b703e8e914decc8e6e1ea839c5a942642cdba503b5128f7b7ff3a3",
+      "bytes": 2028846
+    }
+  ],
+  "scope": "Deterministic black-box numeric records; observed sampled-domain errors, not global accuracy guarantees. Own renderer exports inspected locally. No runtime GIS imports or external implementation is included."
+}

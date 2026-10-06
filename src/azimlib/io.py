@@ -44,7 +44,7 @@ def _feature(data):
     return Feature(geometry, data["properties"], data.get("id"))
 
 
-def read_geojson(source):
+def read_geojson(source, *, crs=None):
     """Read a path, JSON string, mapping, text stream or __geo_interface__.
 
     Return FeatureCollection uniformly, wrapping standalone geometries and
@@ -52,6 +52,9 @@ def read_geojson(source):
     is always used; legacy CRS declarations must be transformed explicitly.
     No network requests are made and foreign members are not retained.
     """
+    if crs is not None:
+        from .crs import transform_geojson
+        source=transform_geojson(source,crs,"EPSG:4326")
     if isinstance(source, FeatureCollection):
         return source
     if isinstance(source, Feature):

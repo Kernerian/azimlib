@@ -23,7 +23,8 @@ explícita. Membros estrangeiros não são preservados pelo leitor.
 
 `bounds` é uma caixa cartesiana dos valores de longitude e latitude existentes;
 não calcula o menor intervalo circular. Uma geometria que cruza ±180° pode ter
-uma caixa muito larga. Use um centro e uma extensão explícitos nesse caso.
+uma caixa muito larga. Use uma extensão cruzada explícita ou `ax.fit_extent()` nesse caso;
+veja o [contrato de antimeridiano](geodesy.md).
 
 ## Projeções esféricas
 
@@ -58,9 +59,12 @@ pode ser estendida herdando Projection e usando `register_projection`.
 
 ## CRS e distâncias
 
-CRS e Transformer implementam somente EPSG:4326 e EPSG:3857. Web Mercator usa
+CRS e Transformer implementam EPSG:4326, EPSG:3857 e WGS84 UTM
+(EPSG:32601–32660 e 32701–32760), no domínio regional documentado em
+[geodesia](geodesy.md). Web Mercator usa
 **R = 6.378.137 m**, diferente do raio cartográfico padrão. Transformações de
-datum, UTM, grade de deslocamento e operação elipsoidal não estão implementadas.
+datum e grades de deslocamento não estão implementadas. Geodesic fornece
+operação elipsoidal explícita; as funções esféricas existentes são preservadas.
 `transform_geojson` lê dados projetados antes de validar a geometria geográfica,
 transforma posições e elimina caixas e metadados de CRS que ficariam obsoletos.
 
@@ -91,8 +95,7 @@ renderização aproximado; não é um motor geral de operações booleanas esfé
 
 ## Evidência de validação
 
-Os testes verificam valores analíticos e de referência, ida e volta das seis
-projeções nos dois hemisférios, área diferencial de Equal Earth/Albers,
+Os testes verificam valores analíticos e de referência, ida e volta das projeções nos dois hemisférios, área diferencial de Equal Earth/Albers,
 conformidade local de Lambert, pontos conhecidos de Web Mercator, validação de
 GeoJSON, buracos, imutabilidade, costura e antípodas. Também recortam todos os
 países incorporados em quatro vistas ortográficas, incluindo uma vista polar,

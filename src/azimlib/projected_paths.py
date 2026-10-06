@@ -12,7 +12,7 @@ from threading import RLock
 import weakref
 
 from .geometry import (Geometry, split_antimeridian, clip_polygon_antimeridian,
-                       clip_orthographic_polygon)
+                       clip_orthographic_polygon, clip_orthographic_line)
 from .viewport import _BUILTINS, densify
 
 
@@ -27,6 +27,7 @@ def _pack(points):
 
 
 def _line_paths(coordinates,projection):
+    if projection.name=='orthographic':return tuple(_pack(p) for p in clip_orthographic_line(coordinates,projection))
     groups=[]
     for part in split_antimeridian(coordinates,projection.central_longitude):
         current=[]
