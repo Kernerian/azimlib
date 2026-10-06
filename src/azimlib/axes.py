@@ -13,7 +13,7 @@ from .layers import Layer
 from .text_artists import MapText,Annotation,ANNOTATION_COORDS,coordinate_pair
 from .collections import ScatterCollection
 from .field_artists import MeshCollection,ScalarImage,VectorCollection,scalar_rows,image_extent,image_edges
-from .projections import get_projection, Equirectangular, Mercator
+from .projections import get_projection, Equirectangular, Mercator, TransverseMercator
 from dataclasses import replace
 from .geometry import longitude_bounds, wrap_longitude
 from .styles import CATEGORY_COLORS, sample_color, style_dict, normalize_aliases
@@ -668,6 +668,10 @@ class MapAxes(AxisComponents):
             return self._extent
         if self._bounds:
             return self._data_extent()
+        if type(self.projection) is TransverseMercator:
+            center=wrap_longitude(self.projection.central_longitude)
+            latitude=self.projection.central_latitude
+            return max(-180,center-6),max(-80,latitude-8),min(180,center+6),min(84,latitude+8)
         center=self.projection.central_longitude if self._longitude_wrap else 0
         return center-180, -80, center+180, 84
 

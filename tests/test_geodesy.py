@@ -102,6 +102,16 @@ class ProjectionCRSTests(unittest.TestCase):
         for params in ({'scale_factor':0},{'ellipsoid':'WGS84'},{'central_latitude':90}):
             with self.subTest(params=params),self.assertRaises((ValueError,TypeError)):az.TransverseMercator(**params)
 
+    def test_empty_tm_figure_has_finite_regional_view_and_export(self):
+        for lon,lat in ((0,0),(-177,-80),(177,84),(180,0)):
+            with self.subTest(origin=(lon,lat)):
+                fig,ax=az.subplots(projection='tmerc',projection_kw={'central_longitude':lon,'central_latitude':lat})
+                w,e,s,n=ax.get_extent()
+                self.assertTrue(-180<=w<e<=180 and -80<=s<n<=84)
+                self.assertLessEqual(e-w,12)
+                self.assertIn('<svg',fig.to_svg());self.assertIn('Figure navigation',fig.to_html())
+                ax.clear();self.assertIn('<svg',fig.to_svg());az.close(fig)
+
     def test_spherical_projection_reference_matrix(self):
         for row in REFERENCE['projections']:
             with self.subTest(name=row['name'],coordinates=row['input']):

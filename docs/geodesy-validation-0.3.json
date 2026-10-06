@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "started_utc": "2026-10-06T20:36:35.328061+00:00",
+  "started_utc": "2026-10-06T20:52:03.238210+00:00",
   "kind": "unit",
   "execution_context": "local",
   "python": "3.14.4",
@@ -22,7 +22,7 @@
     "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
     "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
     "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
-    "axes.py": "7b3d347fa678ca9fb7d6b69aaf760de87eb61477ec6437e2d4ef1d1ad2117a69",
+    "axes.py": "7f9ffb7e6ca1ea6d4ca1291398c1b412490617964ad8c21e28e5c2701eb1c61a",
     "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
     "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
     "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
@@ -99,8 +99,8 @@
   "github": null,
   "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
   "unittest": {
-    "tests": 763,
-    "subtests": 17473,
+    "tests": 764,
+    "subtests": 17477,
     "failures": 0,
     "errors": 0,
     "skipped": [
@@ -125,9 +125,9 @@
         "reason": "aggdraw optional"
       }
     ],
-    "log_sha256": "053e84cc6e9822fa9b082271e73d4832acb635977f47ed231019b85e84ef839a"
+    "log_sha256": "851d0c37962991bb911b08ba319aca30efe42e62055048ba05baa263cf60ddae"
   },
-  "seconds": 191.61735360000057,
+  "seconds": 183.18649030000051,
   "passed": true,
   "forbidden_imports": []
 }

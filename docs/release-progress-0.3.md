@@ -240,12 +240,12 @@ explícita e limites. Funções esféricas anteriores foram preservadas.
 - Topologia regional optativa O(n²): determinante com fallback racional,
   interseções ponto/overlap, anéis, holes e multipolígonos. Sem reparo automático
   nem alteração da permissividade dos datasets/geometrias existentes.
-- [22 testes novos](../tests/test_geodesy.py) e [579 casos numéricos calculados](geodesy-reference-0.3.json),
+- [23 testes novos](../tests/test_geodesy.py) e [579 casos numéricos calculados](geodesy-reference-0.3.json),
   com [erros máximos/exports por hash](geodesy-numeric-0.3.json). Oráculos isolados
   pyproj 3.8.0/GeographicLib 2.1 apenas por chamadas black-box, sem código/test
   datasets vendorizados ou imports GIS em runtime/testes.
-- [Suíte completa do wheel instalado](geodesy-validation-0.3.json): **763 testes,
-  17.473 subtests, zero falhas/erros**; cinco skips opcionais/plataforma explícitos.
+- [Suíte completa do wheel instalado](geodesy-validation-0.3.json): **764 testes,
+  17.477 subtests, zero falhas/erros**; cinco skips opcionais/plataforma explícitos.
   Todos os módulos Python instalados conferidos por hash contra o código-fonte.
   Evidência Windows local/Python 3.14; não representa nova CI remota.
 - Atlas [geodesy_atlas.py](../examples/geodesy_atlas.py) e mapa cruzado

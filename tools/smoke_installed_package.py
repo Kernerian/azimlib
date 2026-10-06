@@ -161,6 +161,7 @@ fig,ax=azl.subplots();ax.set_extent((170,-170,-10,10))
 ax.route([(175,0),(-175,5)],ellipsoid=azl.WGS84)
 assert ax.get_xlim()==(170,190) and 'longitude_wrap' in fig.to_html()
 assert '<svg' in fig.to_svg();azl.close(fig)
+fig,ax=azl.subplots(projection='tmerc');assert '<svg' in fig.to_svg();azl.close(fig)
 for name in ('stereographic','azimuthal_equidistant','transverse_mercator'):
     p=azl.get_projection(name);point=p.inverse(*p.forward(1,2))
     assert abs(point[0]-1)<1e-8 and abs(point[1]-2)<1e-8

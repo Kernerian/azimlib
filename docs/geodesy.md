@@ -72,7 +72,9 @@ the contract; EPSG:4326 always uses longitude first in this library.
 `TransverseMercator` uses its ellipsoid (the inherited spherical `radius`
 parameter is not used), origin, scale and false offsets. Our Snyder series is
 **regional**, latitude [-80,84], longitude within ±6° of the central meridian.
-The inverse is refined against the same forward series. It is not exact/global
+Empty TM axes start with finite regional limits around the origin (clipped
+to the canonical longitude and regional latitude bounds). Explicit limits and
+data fitting still take precedence. The inverse is refined against the same forward series. It is not exact/global
 TM, a universal CRS database or survey-certified datum transformation.
 
 GeoJSON/CSV accept `crs=` explicitly; CSV numeric source properties retain x/y
