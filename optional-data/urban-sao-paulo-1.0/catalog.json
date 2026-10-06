@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "datasets": [
+    {
+      "id": "urban-sao-paulo",
+      "version": "1.0",
+      "format": "osm",
+      "file": "data.osm",
+      "crs": "EPSG:4326",
+      "license": "ODbL-1.0",
+      "copyright": "OpenStreetMap contributors",
+      "source": "https://api.openstreetmap.org/api/0.6/map?bbox=-46.641,-23.547,-46.637,-23.543",
+      "attribution": "© OpenStreetMap contributors · ODbL 1.0 · openstreetmap.org/copyright",
+      "license_file": "LICENSE.txt",
+      "files": {
+        "data.osm": "1088c351abfef92243e1c9a445ab8ef84d34c6b2eb7bcccfff7c9a449713785d",
+        "LICENSE.txt": "77d2692c3d64efdd4db18dce2407699baf62930e2b50d6e5ed90b48acf16b7c1",
+        "provenance.json": "4de874345f46a6be308ecbd2182839667a6af55414bb613b7f7dd7b01bf4a9ce",
+        "README.md": "e334cbfd7e89b5fa0b0440f6b298313c03d1ef49a2ad3f09c40fecfd592adc6e"
+      }
+    }
+  ]
+}

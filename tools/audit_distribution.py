@@ -89,7 +89,7 @@ def main():
     icons=json.loads((runtime/'assets/icons/manifest.json').read_text(encoding='utf-8'))
     assert icons['source']=='Original Azimlib geometry' and icons['license']=='BSD-3-Clause'
     for file,digest in icons['files_sha256'].items():assert sha((runtime/'assets/icons'/file).read_bytes())==digest
-    blocked=('__pycache__','.venv','site-packages','.git','work','dist','build','.ci-results')
+    blocked=('optional-data','__pycache__','.venv','site-packages','.git','work','dist','build','.ci-results')
     def check_entries(entries):
         for name in entries:
             parts=Path(name).parts

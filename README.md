@@ -200,3 +200,11 @@ See [LICENSE](https://github.com/Kernerian/azimlib/blob/main/LICENSE),
 and [branding assets](https://github.com/Kernerian/azimlib/tree/main/docs/_static/branding).
 The familiar API and navigation are implemented independently; Matplotlib
 artwork and source code are not distributed as Azimlib's implementation.
+
+### Additional readers in 0.3.0 development
+
+The development branch adds independent SHP/SHX/DBF, KML, local OSM XML and
+scalar georeferenced raster/GeoTIFF readers. See [formats and limits](docs/formats.md)
+and [versioned optional data](docs/optional-data.md). These are not in the published
+0.2.0 package yet. The real urban OSM example keeps its database license separate
+and is never downloaded implicitly.

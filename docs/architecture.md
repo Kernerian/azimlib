@@ -20,7 +20,11 @@ FeatureCollection → Geometry → recorte e densificação
 
 - `geometry.py`: geometrias imutáveis, validação, bounds, geodesia esférica,
   corte de antimeridiano e clipping do horizonte ortográfico.
-- `io.py`: leitura/escrita GeoJSON e exportação do leitor CSV de `tabular.py`,
+- `io.py`: intercâmbio GeoJSON e exports dos leitores de `tabular.py`, `shapefile.py`,
+  `xmlio.py` e `raster.py`; interpretação SHP/SHX/DBF/KML/OSM/GeoTIFF própria.
+  `catalog.py` verifica catálogos locais versionados, arquivos e licenças antes de carregar;
+  Pillow decodifica somente pixels escalares. Veja [contratos de formatos](formats.md).
+  Leitura/escrita GeoJSON e CSV,
   sem dependência de GIS; seleção imutável vive em `geometry.py`. `crs.py`: transformações
   explicitamente registradas, sem inferência silenciosa de datum ou ordem de eixos.
 - `projections.py`: projeções próprias com forward/inverse e registro extensível.

@@ -9,3 +9,6 @@ tools/baselines/** -text
 src/azimlib/assets/** -text
 src/azimlib/fonts/** -text
 src/azimlib/data/** -text
+
+# Versioned optional payload/license hashes preserve exact bytes on every platform.
+optional-data/** -text

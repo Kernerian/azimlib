@@ -63,3 +63,15 @@ company or verified legal entity of that name exists. Third-party copyright
 notices remain unchanged. Git author labels, including automated labels, do
 not by themselves establish legal authorship or exclusive title. This inventory
 is technical documentation, not a legal opinion or a trademark/patent clearance.
+
+## Optional OpenStreetMap database (development examples)
+
+`optional-data/urban-sao-paulo-1.0` is a small, modified OpenStreetMap database,
+© OpenStreetMap contributors, licensed under **ODbL 1.0**. It retains its own
+LICENSE.txt, README, provenance and hashed catalog; it is excluded from both the
+wheel and sdist. No OSM code or automatic download is used. The BSD license of
+Azimlib code does not replace the database license. Derivative databases must
+respect applicable ODbL sharing requirements; produced maps credit OpenStreetMap
+and identify the ODbL data license. See [the data guide](docs/optional-data.md),
+[OSM copyright](https://www.openstreetmap.org/copyright) and
+[ODbL](https://opendatacommons.org/licenses/odbl/1-0/).

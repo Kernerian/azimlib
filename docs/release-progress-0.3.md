@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**8 concluídos / 72 pendentes**. Contagem por subpassos, não por frentes amplas.
+**16 concluídos / 64 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -38,14 +38,14 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 2. Formatos, dados reais e proveniência
 
-- [ ] **2.01** Leitor Shapefile próprio: cabeçalho, índice SHX, Point/Polyline/Polygon e multipartes.
-- [ ] **2.02** Leitor DBF próprio, codificação explícita, registros excluídos e vínculo com SHP.
-- [ ] **2.03** Leitor KML próprio: placemarks, geometrias, altitude e política XML sem recursos externos.
-- [ ] **2.04** Leitor OSM XML local: nodes/ways e relações multipolygon, com diagnóstico de referências incompletas.
-- [ ] **2.05** Contrato de raster georreferenciado com extent/CRS/NoData e sidecars world-file.
-- [ ] **2.06** Entrada GeoTIFF inicial: tags de georreferência e variantes suportadas explicitamente delimitadas.
-- [ ] **2.07** Exemplo urbano real pequeno com fonte/versão/licença/atribuição e licença de dados separada.
-- [ ] **2.08** Catálogo de dados opcionais versionados, sem downloads implícitos, com validação de integridade.
+- [x] **2.01** Leitor Shapefile próprio: cabeçalho, índice SHX, Point/Polyline/Polygon e multipartes.
+- [x] **2.02** Leitor DBF próprio, codificação explícita, registros excluídos e vínculo com SHP.
+- [x] **2.03** Leitor KML próprio: placemarks, geometrias, altitude e política XML sem recursos externos.
+- [x] **2.04** Leitor OSM XML local: nodes/ways e relações multipolygon, com diagnóstico de referências incompletas.
+- [x] **2.05** Contrato de raster georreferenciado com extent/CRS/NoData e sidecars world-file.
+- [x] **2.06** Entrada GeoTIFF inicial: tags de georreferência e variantes suportadas explicitamente delimitadas.
+- [x] **2.07** Exemplo urbano real pequeno com fonte/versão/licença/atribuição e licença de dados separada.
+- [x] **2.08** Catálogo de dados opcionais versionados, sem downloads implícitos, com validação de integridade.
 
 ## 3. CRS, geodesia e robustez cartográfica
 
@@ -170,8 +170,50 @@ em PNG/SVG com o renderer próprio; nenhum motor cartográfico externo foi usado
 
 Leitores adicionais, bases urbanas reais, picking, largura em metros, extrusão
 3D e roteamento não foram declarados implementados por este lote. O passo 1
-encerra a fundação descrita; não encerra a frente urbana inteira. Os passos
-2–10 permanecem pendentes. Versão de desenvolvimento apenas local, sem PyPI.
+encerra a fundação descrita; não encerra a frente urbana inteira. Ao final daquele lote, os passos
+2–10 ainda estavam pendentes; o lote seguinte está registrado abaixo. Versão de desenvolvimento apenas local, sem PyPI.
+
+### Lote 2 — formatos, dados reais e proveniência (0.3.0.dev0)
+
+**2.01–2.08 concluídos no corte delimitado.** Implementação independente em
+`shapefile.py`, `xmlio.py`, `raster.py`, `catalog.py` e `_readers.py`, integrada
+em `azimlib`, `azimlib.io` e `MapAxes.raster`. O [guia de formatos](formats.md)
+declara variantes, CRS, geometrias, entradas rejeitadas e limites de tamanho;
+o [guia de dados opcionais](optional-data.md) descreve catálogo e atribuição.
+
+- [32 testes novos](../tests/test_formats.py), com fixtures binários/XML próprios:
+  SHX/DBF excluído e alinhamento físico, Point/Polyline/Polygon/multipartes/Z,
+  KML/altitude/XML seguro, OSM multipolygon/furos/referências, affine/NoData,
+  PixelIsArea/Point, endian/float/16-bit/deflate/matrix, hashes/licença,
+  versões, path traversal e despacho integrado de todos os formatos.
+- [Suíte completa do wheel instalado](formats-validation-0.3.json): **741 testes,
+  16.879 subtests, zero falhas/erros**. Cinco skips opcionais/da plataforma são
+  identificados no relatório, incluindo symlink sem permissão no Windows.
+  Hashes de todos os módulos instalados conferidos contra o código-fonte.
+  Sem imports de Matplotlib ou motores GIS. Evidência Windows local, não nova CI remota.
+- Shapefile externo Natural Earth `ne_110m_populated_places` lido com SHX/DBF:
+  243 pontos; arquivo real não vendorizado. Os readers vieram das especificações
+  primárias listadas no guia, não de código de outro leitor.
+- Exemplo [urbano real](../examples/urban_real.py): 464 ways, 3.876 nodes,
+  extração OSM congelada de São Paulo em diretório opcional separado. ODbL,
+  copyright/atribuição, texto integral da licença e proveniência preservados;
+  metadados de editores e contatos/endereços removidos. PNG/SVG exportados e
+  inspecionados com crédito visível. [Raster sintético](../examples/georaster.py)
+  também inspecionado em PNG/SVG com colorbar editável e componentes opcionais.
+- `tools/audit_optional_data.py` verifica quatro arquivos por hash e valida
+  geometria/referências, tags permitidas e licença, sem rede. Gate incluído na CI.
+  Catálogo tem versão explícita e verifica os bytes de dados, sidecars e avisos
+  antes de interpretar. Nenhum import ou carregamento faz download.
+- Wheel/sdist de desenvolvimento: dados ODbL excluídos explicitamente e por
+  auditoria de distribuição; oito avisos legais do runtime preservados, BSD e
+  licenças próprias de recursos anteriores mantidas. Smoke instalado sem extras
+  cobre KML/OSM, GeoRaster/world-file/SVG e ambos os imports.
+
+Este lote não implementa leitor universal, OSM PBF, CRS além de 4326/3857,
+reparo topológico, raster RGB, resampling ou desenho de affines rotacionadas.
+Esses limites aparecem na API/documentação; não são simulados nem delegados a
+outro motor. Os próximos passos mantêm os IDs e o total de 80. Nenhum upload,
+push ou alteração da versão estável 0.2.0 foi feito por este lote.
 
 ## Corte explicitamente reservado à 0.4.0
 

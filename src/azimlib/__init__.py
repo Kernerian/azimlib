@@ -15,6 +15,11 @@ from .gridspec import GridSpec,SubplotSpec,GridSpecFromSubplotSpec
 from .axes import MapAxes
 from .geometry import Geometry,Feature,FeatureCollection,haversine,great_circle,destination
 from .io import read_geojson,write_geojson,read_csv
+from .shapefile import read_shapefile, read_dbf, DBFRecord
+from .xmlio import read_kml, read_osm
+from .raster import GeoRaster, read_raster, read_geotiff, read_world_file
+from .catalog import DatasetCatalog
+
 from .projections import (Projection,Equirectangular,Mercator,EqualEarth,Orthographic,
                           LambertConformalConic,AlbersEqualArea,get_projection,register_projection)
 from .crs import CRS,Transformer,transform
@@ -43,3 +48,5 @@ __all__.extend(('MapText','Annotation'))
 __all__.extend(('cycler','Cycler'))
 from ._state import (figure,subplots,subplot_mosaic,subplot,show,savefig,gcf,gca,sca,
                      get_fignums,get_figlabels,fignum_exists,clf,cla,close,_figures)
+
+__all__.extend(("read_shapefile", "read_dbf", "DBFRecord", "read_kml", "read_osm", "GeoRaster", "read_raster", "read_geotiff", "read_world_file", "DatasetCatalog"))

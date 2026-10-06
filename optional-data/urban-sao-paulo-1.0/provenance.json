@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "dataset": "urban-sao-paulo",
+  "version": "1.0",
+  "retrieved": "2026-10-06",
+  "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=-46.641,-23.547,-46.637,-23.543",
+  "source_sha256": "037f4b1a1ece4bb1c341e7de55a75d17cba4cc65ad5592061bf4de9f46147dec",
+  "source_bytes": 1884132,
+  "license": "ODbL-1.0",
+  "copyright": "OpenStreetMap contributors",
+  "license_text_source": "https://raw.githubusercontent.com/spdx/license-list-data/main/text/ODbL-1.0.txt",
+  "official_license": "https://opendatacommons.org/licenses/odbl/1-0/",
+  "bbox_lon_lat": [
+    -46.641,
+    -23.547,
+    -46.637,
+    -23.543
+  ],
+  "counts": {
+    "nodes": 3876,
+    "ways": 464,
+    "selected_named_pois": 0
+  },
+  "modifications": [
+    "Selected complete ways: building centroids in bbox; highways and gardens touching bbox.",
+    "Included all referenced nodes and selected named cultural/educational POIs inside bbox.",
+    "Excluded relations; no synthetic boundaries or inferred geometry.",
+    "Retained IDs/coordinates and allowlisted public place tags only; stripped editor metadata and contact/address fields."
+  ],
+  "tag_allowlist": [
+    "amenity",
+    "area",
+    "building",
+    "highway",
+    "landuse",
+    "leisure",
+    "name",
+    "natural"
+  ],
+  "data_sha256": "1088c351abfef92243e1c9a445ab8ef84d34c6b2eb7bcccfff7c9a449713785d",
+  "scope": "Frozen small derivative database, not a current street directory or navigation dataset."
+}

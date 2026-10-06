@@ -8,6 +8,11 @@ from pathlib import Path
 
 from .geometry import Feature, FeatureCollection, Geometry
 from .tabular import read_csv
+from .shapefile import read_shapefile, read_dbf, DBFRecord
+from .xmlio import read_kml, read_osm
+from .raster import GeoRaster, read_raster, read_geotiff, read_world_file
+from .catalog import DatasetCatalog
+
 
 
 def _object(value, context):

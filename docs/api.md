@@ -68,9 +68,41 @@ Great-circle distance in metres on a sphere.
 
 ### `rcdefaults()`
 
+### `read_csv(source, *, longitude='lon', latitude='lat', id_column=None, converters=None, delimiter=',', encoding='utf-8-sig')`
+
+Read a local CSV into immutable Point features, without guessing a CRS.
+
+### `read_dbf(source, *, encoding, include_deleted=False)`
+
+Return DBFRecords with physical zero-based indices; explicit encoding.
+
 ### `read_geojson(source)`
 
 Read a path, JSON string, mapping, text stream or __geo_interface__.
+
+### `read_geotiff(source, *, crs=None, nodata=None, max_pixels=16000000)`
+
+Classic single-band TIFF, GeoKeys and affine georeference interpreted here.
+
+### `read_kml(source)`
+
+Local KML 2.2/2.3 Point/LineString/Polygon/MultiGeometry placemarks.
+
+### `read_osm(source, *, include_untagged=False)`
+
+Interpret local OSM 0.6 nodes/ways and multipolygon relations strictly.
+
+### `read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=16000000)`
+
+Scalar image with an explicit extent/world-file, or embedded GeoTIFF.
+
+### `read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)`
+
+Read SHP plus optional SHX/DBF; source CRS is always explicit.
+
+### `read_world_file(source)`
+
+Convert six world-file values A,D,B,E,C,F (pixel centres) to corner affine.
 
 ### `register_projection(name, projection_class, *, replace=False)`
 
@@ -260,9 +292,41 @@ Lambertian illumination; dx/dy and elevation use consistent units.
 
 ## azimlib.io
 
+### `read_csv(source, *, longitude='lon', latitude='lat', id_column=None, converters=None, delimiter=',', encoding='utf-8-sig')`
+
+Read a local CSV into immutable Point features, without guessing a CRS.
+
+### `read_dbf(source, *, encoding, include_deleted=False)`
+
+Return DBFRecords with physical zero-based indices; explicit encoding.
+
 ### `read_geojson(source)`
 
 Read a path, JSON string, mapping, text stream or __geo_interface__.
+
+### `read_geotiff(source, *, crs=None, nodata=None, max_pixels=16000000)`
+
+Classic single-band TIFF, GeoKeys and affine georeference interpreted here.
+
+### `read_kml(source)`
+
+Local KML 2.2/2.3 Point/LineString/Polygon/MultiGeometry placemarks.
+
+### `read_osm(source, *, include_untagged=False)`
+
+Interpret local OSM 0.6 nodes/ways and multipolygon relations strictly.
+
+### `read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=16000000)`
+
+Scalar image with an explicit extent/world-file, or embedded GeoTIFF.
+
+### `read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)`
+
+Read SHP plus optional SHX/DBF; source CRS is always explicit.
+
+### `read_world_file(source)`
+
+Convert six world-file values A,D,B,E,C,F (pixel centres) to corner affine.
 
 ### `write_geojson(data, destination=None, *, indent=2)`
 
@@ -329,6 +393,32 @@ Return source URLs, pinned commit, license, processing, and SHA-256 hashes.
 ### `state(name: 'str') -> 'dict'`
 
 Return one bundled Brazilian state by name, postal code or ISO code.
+
+## azimlib.raster.GeoRaster
+
+`GeoRaster(values: tuple, affine: tuple, crs: object = 'EPSG:4326', nodata: float | None = None, pixel_type: str = 'area') -> None`
+
+### `coordinate(column, row, *, center=False)`
+
+### `geographic_mesh()`
+
+Return lon/lat edges and south-to-north rows for the own mesh Artist.
+
+## azimlib.catalog.DatasetCatalog
+
+`DatasetCatalog(manifest)`
+
+### `available()`
+
+Return detached metadata; editing it does not change the catalog.
+
+### `load(identifier, *, version=None)`
+
+### `verify(identifier=None, *, version=None)`
+
+## azimlib.shapefile.DBFRecord
+
+`DBFRecord(index: int, properties: object, deleted: bool = False) -> None`
 
 ## azimlib.artist.Artist
 
@@ -642,11 +732,19 @@ Fit data bounds on automatic axes; explicit limits remain fixed.
 
 ### `borders(**kwargs)`
 
+### `buildings(data=None, *, where=None, crs=None, **kwargs)`
+
+Draw supplied building footprints; heights do not imply extrusion.
+
 ### `callout(text, xy, xytext=None, *, textcoords='offset pixels', arrow=True, **kwargs)`
 
 ### `categorical(data, values, *, key=None, colors=None, missing_color='#dce1e0', **kwargs)`
 
 ### `choropleth(data, values, *, key=None, cmap='ocean', vmin=None, vmax=None, bins=5, scheme='equal_interval', missing_color='#dce1e0', norm=None, **kwargs)`
+
+### `cities(data=None, *, where=None, crs=None, **kwargs)`
+
+Draw supplied city/POI centres, not administrative boundaries.
 
 ### `clabel(contour, levels=None, *, fmt='%g', **kwargs)`
 
@@ -782,6 +880,10 @@ Enable automatic minor ticks without enabling any grid.
 
 ### `municipalities(data=None, **kwargs)`
 
+### `neighborhoods(data=None, *, where=None, crs=None, **kwargs)`
+
+Draw supplied neighborhood polygons; where filters properties.
+
 ### `north_arrow(*, loc='upper right', size=36, color='black')`
 
 Add a north arrow without replacing the compass rose.
@@ -813,6 +915,10 @@ Plot one/many lon/lat series, columns and named data; return handles.
 ### `quiver(lon, lat, u, v, C=None, *, scale=None, cmap='viridis', norm=None, vmin=None, vmax=None, **kwargs)`
 
 East/north vectors; scale is data units per axes width.
+
+### `raster(data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs)`
+
+Draw an explicit GeoRaster or read a locally georeferenced scalar image.
 
 ### `relim(visible_only=False)`
 
@@ -899,6 +1005,10 @@ Set latitude limits; accept ``(bottom, top)`` or separate values.
 Draw and fit one Brazilian state by name, postal code or BR-XX.
 
 ### `states(country=None, **kwargs)`
+
+### `streets(data=None, *, where=None, crs=None, **kwargs)`
+
+Draw supplied street lines, with linewidth in points, not metres.
 
 ### `subtitle(text, **kwargs)`
 
@@ -3304,6 +3414,10 @@ Enable subdivisions on the long axis; the short axis remains empty.
 
 `FeatureCollection(features: 'tuple' = ()) -> None`
 
+### `select(where=None, *, predicate=None, geometry_types=None)`
+
+Return a new collection, preserving feature objects, IDs and order.
+
 ### `to_geojson()`
 
 ## azimlib.crs.CRS
@@ -3701,19 +3815,3 @@ Signed cosine of angular distance to the view centre (>=0 visible).
 ### `execute(figure)`
 
 ### `get()`
-
-
-## Unreleased urban API — 0.3.0.dev0
-
-The additions below are available on the development branch, not in the PyPI
-0.2.0 package. The [urban guide](urban.md) gives validation and lifecycle rules.
-
-- `azimlib.read_csv(source, *, longitude="lon", latitude="lat", id_column=None, converters=None, delimiter=",", encoding="utf-8-sig")` returns a FeatureCollection of points.
-- `FeatureCollection.select(where=None, *, predicate=None, geometry_types=None)` returns a new collection with existing immutable features, preserving IDs/order.
-- `MapAxes.cities(data=None, *, where=None, crs=None, **kwargs)` draws point centres/POIs.
-- `MapAxes.neighborhoods(data=None, *, where=None, crs=None, **kwargs)` draws polygon boundaries.
-- `MapAxes.streets(data=None, *, where=None, crs=None, **kwargs)` draws line geometry.
-- `MapAxes.buildings(data=None, *, where=None, crs=None, **kwargs)` draws footprints, without 3D extrusion.
-
-Each drawing method returns an editable Layer, uses existing style/fit contracts,
-and requires explicit data. No components are added automatically.

@@ -4,7 +4,9 @@
 
 - Checklist única de 80 subpassos em dez etapas, com correspondência às 16 frentes posteriores à 0.2.0 e reservas justificadas para 0.4.0.
 - Seleção imutável de features, leitura CSV de pontos e camadas explícitas de cidades, bairros, ruas e plantas de construções, usando os Artists/renderer próprios.
-- Atlas urbano inteiramente sintético e testes de entrada inválida, filtros, estilos, edição, visibilidade e exportação. Dados reais e 3D/tempo permanecem pendentes nesta checklist.
+- Atlas urbano inteiramente sintético e testes de entrada inválida, filtros, estilos, edição, visibilidade e exportação. 3D/tempo permanecem pendentes nesta checklist.
+- Leitores próprios SHP/SHX/DBF, KML e OSM XML local; raster escalar georreferenciado/world-file e GeoTIFF inicial, com limites explícitos e entrada inválida testada.
+- Catálogo opcional local/versionado com hashes de dados e licenças; exemplo real de São Paulo separado sob ODbL, fora do wheel/sdist e sem metadados de editores.
 - O pacote PyPI 0.2.0 permanece inalterado.
 
 ## 0.2.0 — consolidação 2D (2026-10-04)

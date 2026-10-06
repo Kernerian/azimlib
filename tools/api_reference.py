@@ -3,6 +3,7 @@ import inspect
 from pathlib import Path
 import azimlib
 from azimlib import pyplot,colors,cm,fields,components,colorbar,geometry,io,projections,crs,datasets,ticker
+from azimlib import GeoRaster, DatasetCatalog, DBFRecord
 from azimlib.axis import Axis
 from azimlib.artist import Artist
 from azimlib.callbacks import CallbackRegistry
@@ -20,7 +21,7 @@ from azimlib.spatial import BoundsIndex
 from azimlib.layout_engine import LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine
 
 modules=(azimlib,pyplot,colors,cm,fields,io,projections,crs,datasets)
-classes=(Artist,CallbackRegistry,BoundsIndex,Figure,GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox,FigureCanvas,MapAxes,AxesGrid,Layer,ScatterCollection,MeshCollection,ScalarImage,VectorCollection,ContourSet,ContourLabel,ContourLabels,Axis,components.AxisComponents,components.TextArtist,MapText,Annotation,FigureTextArtist,Cycler,
+classes=(GeoRaster,DatasetCatalog,DBFRecord,Artist,CallbackRegistry,BoundsIndex,Figure,GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox,FigureCanvas,MapAxes,AxesGrid,Layer,ScatterCollection,MeshCollection,ScalarImage,VectorCollection,ContourSet,ContourLabel,ContourLabels,Axis,components.AxisComponents,components.TextArtist,MapText,Annotation,FigureTextArtist,Cycler,
          components.MapComponent,components.Spine,components.Legend,components.LegendFrame,
          components.OrientationIndicator,components.ScaleBar,
          colorbar.Colorbar,colorbar.ColorbarAxes,cm.ScalarMappable,
@@ -68,5 +69,5 @@ for cls in classes:
         if doc:lines.extend([doc.split('\n\n')[0], ''])
         if len(sig)>1000:raise RuntimeError('Unexpected oversized signature')
 target=Path(__file__).resolve().parents[1]/'docs/api.md'
-target.write_text('\n'.join(lines),encoding='utf-8')
+target.write_text('\n'.join(lines),encoding='utf-8',newline='\n')
 print(target)

@@ -1007,6 +1007,25 @@ class MapAxes(AxisComponents):
         elif automatic['y']:self.set_ylim(extent[2],extent[3])
         return layer
 
+    def raster(self, data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs):
+        """Draw an explicit GeoRaster or read a locally georeferenced scalar image.
+
+        Use the same editable MeshCollection/norm/colorbar contract as
+        pcolormesh. Source CRS/georeferencing are never inferred from filenames.
+        Rotated affines are rejected before mutating the Axes; no resampling.
+        """
+        from .raster import GeoRaster, read_raster
+        if isinstance(data, GeoRaster):
+            if any(value is not None for value in (crs, world_file, extent, nodata)):
+                raise ValueError("Reader overrides are not accepted for an existing GeoRaster")
+            raster = data
+        else:
+            raster = read_raster(data, crs=crs, world_file=world_file, extent=extent, nodata=nodata)
+        lon, lat, rows = raster.geographic_mesh()
+        layer = self.pcolormesh(lon, lat, rows, **kwargs)
+        layer.options['georaster'] = raster
+        return layer
+
     def contour(self,lon,lat,values,levels=7,*,cmap='viridis',norm=None,vmin=None,vmax=None,colors=None,linewidths=None,linestyles=None,**kwargs):
         if norm is not None and (vmin is not None or vmax is not None):raise ValueError('Use norm or vmin/vmax')
         from .fields import grid_data,contour_segments,contour_levels

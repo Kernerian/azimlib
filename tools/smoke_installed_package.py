@@ -137,6 +137,15 @@ assert ax.get_extent()==before and len(ax.layers)==1
 assert '<svg' in fig.to_svg() and ax.get_extent()==before
 layer.remove();assert len(ax.layers)==0
 azl.close(fig)
+kml=azl.read_kml('<kml><Placemark><Point><coordinates>1,2,3</coordinates></Point></Placemark></kml>')
+assert kml[0].geometry.coordinates==(1.,2.,3.)
+osm=azl.read_osm('<osm version="0.6"><node id="1" lon="1" lat="2"><tag k="name" v="Town"/></node></osm>')
+assert osm[0].id=='node/1'
+raster=azl.GeoRaster(((1,2),(3,None)),(1,0,0,0,-1,2))
+fig,ax=azl.subplots();mesh=ax.raster(raster);assert mesh.get_visible()
+assert '<svg' in fig.to_svg() and azl.read_world_file(io.StringIO(chr(10).join(('1','0','0','-1','.5','1.5'))))==raster.affine
+azl.close(fig)
+assert not any(name.split('.')[0] in ('PIL','numpy','matplotlib','cartopy','geopandas','shapely','pyproj','rasterio','fiona') for name in sys.modules)
 print('Installed wheel: SVG/HTML, data/fonts, artists, styles/aliases, scientific text and prevalidated edits; no optional/GIS/reference libraries.')
 '''
 
