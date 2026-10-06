@@ -119,6 +119,24 @@ assert layer.style['linewidth']==.3
 from azimlib.components import MapComponent
 assert not MapComponent(visible=False).get_visible()
 azl.close(fig)
+points=azl.read_csv('id,name,lon,lat\n01,Station,1,2\n',id_column='id')
+assert points.select({'name':'Station'})[0] is points[0]
+assert points[0].id=='01' and points[0].geometry.coordinates==(1.,2.)
+import azimlib.pyplot as plt
+fig,ax=plt.subplots()
+ax.set_extent((-1,3,0,4))
+layer=ax.cities(points,fit=False,ms=6,label='Stations')
+assert layer.get_visible() and ax.get_legend() is None and len(ax.layers)==1
+layer.set_visible(False);assert not layer.get_visible()
+layer.set_visible(True)
+before=ax.get_extent()
+try:ax.streets(points)
+except ValueError:pass
+else:raise AssertionError('Street layer must reject city centres')
+assert ax.get_extent()==before and len(ax.layers)==1
+assert '<svg' in fig.to_svg() and ax.get_extent()==before
+layer.remove();assert len(ax.layers)==0
+azl.close(fig)
 print('Installed wheel: SVG/HTML, data/fonts, artists, styles/aliases, scientific text and prevalidated edits; no optional/GIS/reference libraries.')
 '''
 

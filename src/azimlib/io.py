@@ -7,6 +7,7 @@ from os import PathLike
 from pathlib import Path
 
 from .geometry import Feature, FeatureCollection, Geometry
+from .tabular import read_csv
 
 
 def _object(value, context):

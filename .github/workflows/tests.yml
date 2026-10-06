@@ -23,6 +23,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install '.[dev]'
+      - run: python -I tools/check_release_progress.py
+      - run: python -I tools/check_release_progress_030.py
       - run: python -I tools/audit_licenses.py --report .ci-results/licenses.json
       - run: python -I tools/audit_publication_privacy.py --report .ci-results/privacy-source.json
       - run: python -I tools/run_release_checks.py --kind unit --output .ci-results/unit

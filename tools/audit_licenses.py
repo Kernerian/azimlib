@@ -54,7 +54,7 @@ def audit():
     fonts = json.loads((ROOT / 'docs/fonts-upstream.json').read_text('utf-8'))
     for item in fonts['files']:
         assert item['identical'] and sha(ROOT / 'src/azimlib/fonts' / item['file']) == item['sha256']
-    for folder in ('branding', 'showcase'):
+    for folder in ('branding', 'showcase', 'urban'):
         asset_root = ROOT / 'docs/_static' / folder
         asset_manifest = json.loads((asset_root / 'manifest.json').read_text('utf-8'))
         for asset in asset_manifest['files']:

@@ -165,6 +165,14 @@ Urban data workflows, more file formats, 3D and temporal visualization are
 future work. Automated CI covers Windows, Linux and macOS; native human visual
 acceptance currently covers Windows.
 
+## Development toward 0.3.0
+
+The published package is 0.2.0. Unreleased work follows an
+[80-item checklist](docs/release-progress-0.3.md), covering urban workflows,
+formats/CRS, composition, scientific maps, interaction, experimental 3D terrain
+and temporal maps. The [urban guide](docs/urban.md) describes the first batch;
+these new APIs are not yet available in the PyPI 0.2.0 package.
+
 ## Contribute and get help
 
 Report bugs or ask questions through

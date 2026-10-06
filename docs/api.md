@@ -3701,3 +3701,19 @@ Signed cosine of angular distance to the view centre (>=0 visible).
 ### `execute(figure)`
 
 ### `get()`
+
+
+## Unreleased urban API — 0.3.0.dev0
+
+The additions below are available on the development branch, not in the PyPI
+0.2.0 package. The [urban guide](urban.md) gives validation and lifecycle rules.
+
+- `azimlib.read_csv(source, *, longitude="lon", latitude="lat", id_column=None, converters=None, delimiter=",", encoding="utf-8-sig")` returns a FeatureCollection of points.
+- `FeatureCollection.select(where=None, *, predicate=None, geometry_types=None)` returns a new collection with existing immutable features, preserving IDs/order.
+- `MapAxes.cities(data=None, *, where=None, crs=None, **kwargs)` draws point centres/POIs.
+- `MapAxes.neighborhoods(data=None, *, where=None, crs=None, **kwargs)` draws polygon boundaries.
+- `MapAxes.streets(data=None, *, where=None, crs=None, **kwargs)` draws line geometry.
+- `MapAxes.buildings(data=None, *, where=None, crs=None, **kwargs)` draws footprints, without 3D extrusion.
+
+Each drawing method returns an editable Layer, uses existing style/fit contracts,
+and requires explicit data. No components are added automatically.

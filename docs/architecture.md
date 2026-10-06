@@ -20,7 +20,8 @@ FeatureCollection → Geometry → recorte e densificação
 
 - `geometry.py`: geometrias imutáveis, validação, bounds, geodesia esférica,
   corte de antimeridiano e clipping do horizonte ortográfico.
-- `io.py`: leitura/escrita GeoJSON sem dependência de GIS. `crs.py`: transformações
+- `io.py`: leitura/escrita GeoJSON e exportação do leitor CSV de `tabular.py`,
+  sem dependência de GIS; seleção imutável vive em `geometry.py`. `crs.py`: transformações
   explicitamente registradas, sem inferência silenciosa de datum ou ordem de eixos.
 - `projections.py`: projeções próprias com forward/inverse e registro extensível.
 - `datasets.py`: acesso por `importlib.resources` a arquivos compactados offline.

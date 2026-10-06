@@ -218,6 +218,51 @@ class MapAxes(AxisComponents):
             raise ValueError("Roads are not bundled. Supply road GeoJSON: ax.roads(data)")
         return self.geojson(data, **_defaults(kwargs, color="#cb9d6b", linewidth=1, zorder=4))
 
+    def _urban_layer(self, data, role, geometry_types, defaults, *,
+                     where=None, crs=None, **kwargs):
+        if data is None:
+            raise ValueError(f"{role} are not bundled; supply explicit geographic data")
+        if crs is not None:
+            from .crs import transform_geojson
+            data = transform_geojson(data, crs, "EPSG:4326")
+        collection = read_geojson(data)
+        if where is not None:
+            collection = collection.select(where)
+        for feature in collection:
+            if feature.geometry is not None and feature.geometry.type not in geometry_types:
+                raise ValueError(f"{role} require {' or '.join(geometry_types)} geometries")
+        return self.geojson(collection, **_defaults(kwargs, **defaults))
+
+    def cities(self, data=None, *, where=None, crs=None, **kwargs):
+        """Draw supplied city/POI centres, not administrative boundaries.
+
+        Point/MultiPoint input; markersize is a diameter in points. Return an
+        editable Layer. Data, optional attribute filter and source CRS are
+        explicit; no city data is downloaded or bundled by this method.
+        """
+        return self._urban_layer(data, "Cities", ("Point", "MultiPoint"),
+                                 dict(color="#147d92", marker="o", markersize=6,
+                                      markeredgecolor="white", markeredgewidth=.6, zorder=6),
+                                 where=where, crs=crs, **kwargs)
+
+    def neighborhoods(self, data=None, *, where=None, crs=None, **kwargs):
+        """Draw supplied neighborhood polygons; where filters properties."""
+        return self._urban_layer(data, "Neighborhoods", ("Polygon", "MultiPolygon"),
+                                 dict(facecolor="#edf1f4", edgecolor="#97a3ad", linewidth=.6, zorder=1),
+                                 where=where, crs=crs, **kwargs)
+
+    def streets(self, data=None, *, where=None, crs=None, **kwargs):
+        """Draw supplied street lines, with linewidth in points, not metres."""
+        return self._urban_layer(data, "Streets", ("LineString", "MultiLineString"),
+                                 dict(color="#cb9d6b", linewidth=1, zorder=4),
+                                 where=where, crs=crs, **kwargs)
+
+    def buildings(self, data=None, *, where=None, crs=None, **kwargs):
+        """Draw supplied building footprints; heights do not imply extrusion."""
+        return self._urban_layer(data, "Buildings", ("Polygon", "MultiPolygon"),
+                                 dict(facecolor="#b4bcc5", edgecolor="#77838f", linewidth=.4, zorder=3),
+                                 where=where, crs=crs, **kwargs)
+
     def municipalities(self, data=None, **kwargs):
         if data is None:
             raise ValueError("Municipal boundaries are not bundled. Supply GeoJSON: ax.municipalities(data)")

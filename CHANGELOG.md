@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0.dev0 — em desenvolvimento, não publicada
+
+- Checklist única de 80 subpassos em dez etapas, com correspondência às 16 frentes posteriores à 0.2.0 e reservas justificadas para 0.4.0.
+- Seleção imutável de features, leitura CSV de pontos e camadas explícitas de cidades, bairros, ruas e plantas de construções, usando os Artists/renderer próprios.
+- Atlas urbano inteiramente sintético e testes de entrada inválida, filtros, estilos, edição, visibilidade e exportação. Dados reais e 3D/tempo permanecem pendentes nesta checklist.
+- O pacote PyPI 0.2.0 permanece inalterado.
+
 ## 0.2.0 — consolidação 2D (2026-10-04)
 
 - Núcleo próprio de geometria/GeoJSON/CRS/projeções, composição/mapas temáticos, Artists editáveis, layout/ticks/textos/colorbars e componentes cartográficos opcionais consolidados no catálogo documentado. PNG/SVG estáticos e show() Tk/HTML separados. Nenhum backend/código/asset Matplotlib ou motor GIS externo.

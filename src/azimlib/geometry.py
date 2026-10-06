@@ -219,6 +219,42 @@ class FeatureCollection:
     def __getitem__(self, index):
         return self.features[index]
 
+    def select(self, where=None, *, predicate=None, geometry_types=None):
+        """Return a new collection, preserving feature objects, IDs and order.
+
+        ``where`` maps property names to exact values. Missing keys do not
+        match explicit None. All filters are combined with AND; a predicate
+        receives a Feature. Geometry types match top-level types, not members
+        of GeometryCollection. With no geometry filter, null geometries stay.
+        This selects attributes; it does not perform a spatial intersection.
+        """
+        if where is None:
+            where = {}
+        if not isinstance(where, Mapping) or any(not isinstance(key, str) for key in where):
+            raise TypeError("where must be a mapping with string property names")
+        where = _freeze_json(where)
+        if predicate is not None and not callable(predicate):
+            raise TypeError("predicate must be callable or None")
+        allowed = None
+        if geometry_types is not None:
+            known = {"Point", "MultiPoint", "LineString", "MultiLineString",
+                     "Polygon", "MultiPolygon", "GeometryCollection"}
+            try:
+                allowed = frozenset((geometry_types,) if isinstance(geometry_types, str)
+                                    else geometry_types)
+            except TypeError as exc:
+                raise TypeError("geometry_types must be a type name or iterable of names") from exc
+            if not allowed <= known:
+                raise ValueError("geometry_types contains an unsupported GeoJSON type")
+        def matches(feature):
+            if allowed is not None and (feature.geometry is None or feature.geometry.type not in allowed):
+                return False
+            if any(key not in feature.properties or feature.properties[key] != value
+                   for key, value in where.items()):
+                return False
+            return predicate is None or bool(predicate(feature))
+        return FeatureCollection(tuple(feature for feature in self.features if matches(feature)))
+
     @cached_property
     def bounds(self):
         boxes = [f.bounds for f in self.features if f.bounds is not None]
