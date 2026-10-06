@@ -64,7 +64,7 @@ Passo 4 também aceito localmente: [base original, raster compilado próprio opc
 
 Os cinco critérios estão fechados no escopo documentado e no escopo de plataforma documentado. Cada um exige código funcional, regressões úteis e exemplos
 verificados. Alterar a string de versão só ocorrerá depois desse corte;
-publicação no PyPI é uma operação separada, ainda não realizada.
+publicação 0.2.0 no PyPI foi concluída em 2026-10-06; veja o [registro verificado](release-publication-0.2.0.md).
 
 Avanço desktop: Tk recebe RGBA direto, libera imagens anteriores e não retém
 referências redundantes. A consolidação de [lifecycle](component-lifecycle.md)

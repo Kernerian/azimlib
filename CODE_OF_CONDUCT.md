@@ -7,7 +7,7 @@ information are not acceptable.
 
 Maintainers may remove abusive content or restrict participation to protect
 the project community. Report ordinary conduct concerns without publishing
-personal details. For a private report, use GitHub's private reporting channel
-described in [SECURITY.md](SECURITY.md) when available; otherwise contact a
-maintainer through their published GitHub profile to arrange a private channel.
+personal details. For a private conduct report, contact a maintainer through their published
+GitHub profile to arrange a private channel. Vulnerability advisories are for
+security reports; do not use them for ordinary conduct concerns.
 This policy is original project text, not a copied third-party template.

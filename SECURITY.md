@@ -1,14 +1,36 @@
-# Security policy
+# Security Policy
 
-Security fixes currently target the latest Azimlib release. Never post tokens,
-private datasets or exploitable vulnerability details in a public issue.
+## Supported Versions
 
-Use the repository's **Security → Report a vulnerability** private reporting
-channel. If that channel is unavailable, contact a maintainer through their
-published GitHub profile to arrange a private channel before sharing details.
-Include affected versions, a minimal reproduction and the expected impact.
-There is no promised response time or bug-bounty program.
+Security maintenance currently covers the latest patch release in the Azimlib
+0.2 series. Reports affecting that series are accepted for triage; users should
+upgrade to the latest available patch. Older versions do not receive maintained
+security fixes.
 
-Geographic files and user text are untrusted input. Include parser, archive,
-HTML/SVG or denial-of-service concerns in reports. Ordinary rendering defects
-can be reported through GitHub Issues without sensitive material.
+| Version | Supported |
+| --- | --- |
+| 0.2.x | ✅ |
+| < 0.2.0 | ❌ |
+
+These are **Azimlib versions**, not Python versions. The published package
+requires Python 3.10 or newer; release CI covers CPython 3.10–3.14 on Windows,
+Linux and macOS. Interpreter compatibility is separate from this security policy.
+
+## Reporting a Vulnerability
+
+Use **Security → Report a vulnerability** on
+[the GitHub repository](https://github.com/Kernerian/azimlib/security).
+Private vulnerability reporting is enabled. Do not disclose exploitable details,
+tokens or private datasets in public issues or pull requests.
+
+Include the affected Azimlib/Python versions, operating system, a minimal
+reproduction and the expected impact. Geographic parsers, archives, HTML/SVG
+output and denial-of-service concerns are relevant security reports.
+
+If the private reporting channel is unavailable, contact a maintainer through
+their published GitHub profile to arrange a private channel before sharing
+details. Azimlib does not use a third-party security coordinator. No response
+deadline, guaranteed fix or bug bounty is promised.
+
+Ordinary rendering defects can be reported through GitHub Issues without
+sensitive material. Coordinate any public vulnerability disclosure privately.

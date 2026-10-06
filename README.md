@@ -1,3 +1,4 @@
+[![PyPI](https://img.shields.io/pypi/v/azimlib)](https://pypi.org/project/azimlib/)
 [![Tests](https://github.com/Kernerian/azimlib/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Kernerian/azimlib/actions/workflows/tests.yml)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://github.com/Kernerian/azimlib/blob/main/pyproject.toml)
 [![Original code license](https://img.shields.io/badge/original_code-BSD--3--Clause-green)](https://github.com/Kernerian/azimlib/blob/main/LICENSE)
@@ -25,8 +26,8 @@ Natural Earth; thematic values, terrain and vectors are synthetic. See the
 
 ## Install
 
-Requires **Python 3.10 or newer**. Version 0.2.0 is being prepared for its first
-PyPI publication. Once available, choose the output you need:
+Requires **Python 3.10 or newer**. Azimlib is available on
+[PyPI](https://pypi.org/project/azimlib/). Choose the output you need:
 
 ```bash
 python -m pip install azimlib           # SVG and portable HTML; no dependencies
@@ -34,7 +35,7 @@ python -m pip install "azimlib[png]"    # PNG export
 python -m pip install "azimlib[gui]"    # Interactive desktop viewer + PNG
 ```
 
-Until the PyPI release is available, install directly from the source:
+For development, install directly from the source:
 
 ```bash
 git clone https://github.com/Kernerian/azimlib.git
@@ -154,6 +155,7 @@ An orthographic globe is a 2D projection, not a 3D terrain engine.
 - [Architecture](https://github.com/Kernerian/azimlib/blob/main/docs/architecture.md)
 - [Roadmap](https://github.com/Kernerian/azimlib/blob/main/docs/roadmap.md) and [remaining work](https://github.com/Kernerian/azimlib/blob/main/docs/pending.md)
 - [Changelog](https://github.com/Kernerian/azimlib/blob/main/CHANGELOG.md)
+- [Verified 0.2.0 publication](https://github.com/Kernerian/azimlib/blob/main/docs/release-publication-0.2.0.md)
 
 Azimlib 0.2.0 is an early independent cartography library, **not a complete
 replacement for every Matplotlib API**. Read the

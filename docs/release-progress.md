@@ -5,7 +5,7 @@
 > os checks atuais e a relação de hashes publicados estão em
 > [preparação de publicação](publication-readiness.md). Esses resultados não são uma nova execução CI.
 
-**Azimlib 0.2.0 pronta no corte documentado. Passos 1–5 encerrados.** Publicação PyPI separada; aceite visual Windows e CI nos três sistemas, sem conferência humana nativa Linux/macOS.
+**Azimlib 0.2.0 pronta no corte documentado. Passos 1–5 encerrados.** Publicação 0.2.0 no PyPI concluída; aceite visual Windows e CI nos três sistemas, sem conferência humana nativa Linux/macOS.
 As 16 frentes são o roteiro geral; não são o contador desta versão.
 
 ## Checklist completa do corte 0.2.0
@@ -93,7 +93,7 @@ com ID e motivo, em vez de mudar silenciosamente o significado de um item.
 
 ### Ordem de execução e mudanças de escopo
 
-**Corte 0.2.0 encerrado: 54/54.** Próximos lotes seguem o roteiro posterior (urbano, 3D/tempo e demais frentes), além da conferência visual nativa Linux/macOS; publicação PyPI é separada.
+**Corte 0.2.0 encerrado: 54/54.** Próximos lotes seguem o roteiro posterior (urbano, 3D/tempo e demais frentes), além da conferência visual nativa Linux/macOS; publicação 0.2.0 no PyPI concluída.
 
 Escopo de plataforma em **2026-10-04**: observação visual Windows e CI nos três sistemas. A conferência física Linux/macOS fica documentada fora do aceite 0.2.0; nenhum ID foi criado/removido e testes ocultos não são descritos como input humano.
 
@@ -144,7 +144,7 @@ Limites: [auditoria de Artists](artist-validation.md).
    [verificação visual Windows](viewer-visible-acceptance.md); diferenças de
    raster/fontes/toolkit registradas, sem equivalência pixel a pixel.
 4. **Desempenho: aceito localmente** com [base original/camadas, input humano, pintura Tk e limites](performance-acceptance.md). Pixels preservados, composição de pan novo acelerada e raster opcional próprio compilado; não promete rapidez arbitrária, latência do monitor ou outras plataformas.
-5. **Release:** CI efetiva aprovada nos três sistemas; aceite visual Windows e limites nativos Linux/macOS explícitos, no escopo de plataforma documentado. Build/instalação/auditoria 0.2.0 concluídos nos artefatos locais; publicação PyPI separada.
+5. **Release:** CI efetiva aprovada nos três sistemas; aceite visual Windows e limites nativos Linux/macOS explícitos, no escopo de plataforma documentado. Build/instalação/auditoria 0.2.0 concluídos nos artefatos locais; publicação 0.2.0 no PyPI concluída.
 
 Este registro complementa [os critérios](release-0.2.md); não os substitui.
 Urbano, 3D, Qt e novos formatos ficam depois. Não há percentual/data estimados;
@@ -159,3 +159,6 @@ quatro regressões/1.087 subtests e repetiu os oito scripts Tk no wheel instalad
 O [lote de contornos e integração](stroke-kernels.md) acrescentou oito
 regressões/5.887 subtests, 18 contratos Agg e 12 novas verificações Tk
 source/wheel; os oito scripts anteriores passaram novamente no wheel.
+
+A [publicação verificada da 0.2.0](release-publication-0.2.0.md) registra o
+commit publicado, a CI, os hashes e a instalação isolada do pacote do PyPI.

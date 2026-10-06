@@ -30,7 +30,7 @@ O escopo de plataforma combina observação visual Windows e CI nos três sistem
 
 Os arquivos de [validação 0.1.0](release-validation-local.json) e galeria anterior permanecem históricos, com snapshots exatos; não aprovam automaticamente o pacote novo. Os hashes dos archives finais ficam ao lado dos arquivos, fora dos archives, evitando autorreferência.
 
-[Diferenças visuais/API](visual-differences.md), [limites de contornos](contour-boundaries.md), [desempenho observado](performance-acceptance.md), [projeções/dados](math.md). Relevo 3D, urbano, novos formatos/datum completo e demais expansões seguem [o roteiro posterior](pending.md). Publicação no PyPI é uma operação separada, não realizada.
+[Diferenças visuais/API](visual-differences.md), [limites de contornos](contour-boundaries.md), [desempenho observado](performance-acceptance.md), [projeções/dados](math.md). Relevo 3D, urbano, novos formatos/datum completo e demais expansões seguem [o roteiro posterior](pending.md). Publicação 0.2.0 no PyPI concluída em 2026-10-06; veja o [registro verificado](release-publication-0.2.0.md).
 
 ## Artefatos e reprodução final
 

@@ -1,26 +1,26 @@
 # Do Matplotlib para mapas com Azimlib
 
-Esta é a API da fundação **0.2.0**, independente de Matplotlib/GIS. Artefatos locais disponíveis; publicação no PyPI é separada. Aceite visual Windows e CI Windows/Linux/macOS; aparência nativa Linux/macOS não conferida.
+Esta é a API da fundação **0.2.0**, independente de Matplotlib/GIS. Versão 0.2.0 disponível no [PyPI](https://pypi.org/project/azimlib/). Aceite visual Windows e CI Windows/Linux/macOS; aparência nativa Linux/macOS não conferida.
 O [catálogo](artist-scope-0.2.md) delimita as famílias suportadas. Familiaridade
 com Matplotlib não significa que qualquer argumento de Matplotlib já exista.
 
 ## Instalar e escolher a saída
 
-Na raiz do projeto, com Python 3.10 ou superior:
+Com Python 3.10 ou superior, escolha a instalação necessária:
 
 ```bash
-python -m pip install -e .
-python -m pip install -e ".[png]"
-python -m pip install -e ".[gui]"
-python -m pip install -e ".[gui,accelerate]"
+python -m pip install azimlib
+python -m pip install "azimlib[png]"
+python -m pip install "azimlib[gui]"
+python -m pip install "azimlib[gui,accelerate]"
 ```
 
 Escolha a instalação necessária: core gera SVG e HTML sem dependências;
 `png` acrescenta Pillow; `gui` acrescenta Pillow, aggdraw e NumPy genéricos,
 e usa Tk do Python. Geometria, projeções, composição e estilos continuam próprios;
 aggdraw apenas preenche polígonos de stroke já construídos durante a navegação.
-Tk não é instalado por pip. Matplotlib não é necessário. O pacote ainda não
-foi publicado no PyPI; depois da publicação, a instalação será `pip install azimlib`.
+Tk não é instalado por pip. Matplotlib não é necessário. Para desenvolvimento na raiz de um checkout, use `pip install -e ".[dev]"`.
+A [publicação 0.2.0](release-publication-0.2.0.md) registra os artefatos verificados.
 Veja [distribuição e validação](validation.md) e [proveniência dos dados](data.md).
 
 `accelerate` é opcional: NumPy/Numba compilam o kernel de cobertura da Azimlib
