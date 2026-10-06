@@ -1,0 +1,40 @@
+{
+  "copyright": "Copyright (c) 2026 Kernerian",
+  "original_artwork_license": "BSD-3-Clause",
+  "geographic_data": "Natural Earth, public domain; see THIRD_PARTY_LICENSES.md",
+  "source": "Kernerian final compositions of Azimlib-rendered globe variants",
+  "files": [
+    {
+      "file": "azimlib-wordmark.png",
+      "pixels": [
+        463,
+        110
+      ],
+      "sha256": "3e03368fa66f822507e12d604305c4341ae9d2b9a7d1cb5fb1d3eda7c545ce99"
+    },
+    {
+      "file": "azimlib-logo-2048.png",
+      "pixels": [
+        2048,
+        2048
+      ],
+      "sha256": "0a68438e1ef91181226f68df9f94f0e10896541678ce36e8f3d7f58b4a2031ee"
+    },
+    {
+      "file": "azimlib-logo-110.png",
+      "pixels": [
+        110,
+        110
+      ],
+      "sha256": "b84d65c1802166f653caf1e34ee8b4e4c52dcae7ac7ca99ac78bd8196e971b90"
+    },
+    {
+      "file": "azimlib-logo-32.png",
+      "pixels": [
+        32,
+        32
+      ],
+      "sha256": "b4a06b4e9997f624a9db62787631d36b0984434954a6deda76c1f4dba82d98ef"
+    }
+  ]
+}

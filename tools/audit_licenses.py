@@ -54,6 +54,16 @@ def audit():
     fonts = json.loads((ROOT / 'docs/fonts-upstream.json').read_text('utf-8'))
     for item in fonts['files']:
         assert item['identical'] and sha(ROOT / 'src/azimlib/fonts' / item['file']) == item['sha256']
+    for folder in ('branding', 'showcase'):
+        asset_root = ROOT / 'docs/_static' / folder
+        asset_manifest = json.loads((asset_root / 'manifest.json').read_text('utf-8'))
+        for asset in asset_manifest['files']:
+            path = asset_root / asset['file']
+            assert sha(path) == asset['sha256'], path
+            raw = path.read_bytes()
+            assert raw[:8] == b'\x89PNG\r\n\x1a\n', path
+            assert [int.from_bytes(raw[16:20], 'big'), int.from_bytes(raw[20:24], 'big')] == asset['pixels'], path
+    assert json.loads((ROOT / 'docs/_static/branding/manifest.json').read_text('utf-8'))['copyright'] == 'Copyright (c) 2026 Kernerian'
     return {'passed': True, 'original_code_license': 'BSD-3-Clause', 'copyright_identifier': 'Kernerian',
             'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics'],
             'license_texts_verified': len(manifest['license_texts']), 'own_cycle_colors': len(AZIM10),

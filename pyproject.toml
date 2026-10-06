@@ -25,6 +25,8 @@ dependencies = []
 [project.urls]
 Source = "https://github.com/Kernerian/azimlib"
 Issues = "https://github.com/Kernerian/azimlib/issues"
+Documentation = "https://github.com/Kernerian/azimlib/blob/main/docs/getting-started.md"
+Changelog = "https://github.com/Kernerian/azimlib/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 accelerate = ["numpy>=1.24", "numba>=0.63"]

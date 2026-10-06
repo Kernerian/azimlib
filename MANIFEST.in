@@ -15,3 +15,7 @@ recursive-include tools *.py *.md *.js
 recursive-include tools/baselines/layout-acceptance-before *.json
 recursive-include tools/baselines/ci-portability-before *.json *.yml
 recursive-include src/azimlib/fonts *.ttf *.json *.md LICENSE_DEJAVU
+
+include CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md
+include .github/workflows/publish.yml
+recursive-include docs/_static *.png

@@ -32,17 +32,17 @@ python tools/audit_distribution.py --wheel dist/azimlib-0.2.0-py3-none-any.whl -
 ```
 
 Archive hashes live outside their payload to avoid a circular hash. Local
-results are separate from previously recorded hosted CI. A new remote run is
-needed before treating those historical results as validation of corrected bytes.
+results are separate from previously recorded hosted CI. The corrected implementation passed a subsequent 24-job hosted CI matrix.
+For any later presentation or packaging changes, require a fresh successful
+run at the exact publication commit; historical reports remain historical.
 
 ## Boundaries before a future public release
 
-The local history was sanitized without changing GitHub. Until a separately
-coordinated remote replacement, old commits, PR refs, Actions logs/artifacts or
-cached views can remain on the private server. Do not make it public before
-checking those server-side objects. A normal push or deleting one branch is not
-a complete history cleanup. Recovery copies stay outside this repository and
-must never be included in a release.
+Local and remote histories were sanitized. GitHub Support removed the old PR
+and unreferenced commits; subsequent API/ref verification confirmed their
+absence. Old Actions runs and artifacts were removed, with no old caches.
+Always repeat current ref/archive/privacy verification before changing visibility.
+Recovery copies stay outside this repository and must never enter a release.
 
 External IBGE inputs remain excluded. Their specific redistribution terms must
 be established before any dataset bundling. Optional dependency binaries need
@@ -62,9 +62,14 @@ reports are under `.ci-results/publication-*`; they are outside archive payloads
 to avoid circular hashes. Historical CI JSON remains historical, including its
 original MIT metadata; it does not describe the new package metadata.
 
-Generated previews are deliberately not committed or included in the wheel.
+The curated [README showcase](showcase.md) and final branding PNGs are committed
+and included in the sdist; they do not enter the wheel runtime. Extended generated
+previews are deliberately not committed or included in the wheel.
 An optional local source ZIP can contain audited previews beside the source.
 Documentation-link checks cover that local gallery, not the existence of images
 in a fresh thin clone. Historical comparison previews and newly rendered maps
 are distinguished by their separate inventories. Comparators are development
 tools; Azimlib exports use its own renderer.
+
+The manual [publishing workflow](publishing.md) gates a PyPI upload on the full
+CI matrix at the exact source commit. Account setup is a separate prerequisite.

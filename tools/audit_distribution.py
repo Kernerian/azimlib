@@ -108,9 +108,9 @@ def main():
         for name,path in expected.items():assert archive.extractfile(entries['src/'+name]).read()==path.read_bytes(),name
         # Check every deliverable file, not just the runtime or selected old docs.
         source={p.relative_to(ROOT).as_posix():p for directory in ('docs','tests','tools','examples') for p in (ROOT/directory).rglob('*')
-                if p.is_file() and '__pycache__' not in p.parts and p.suffix in ('.py','.md','.json','.js','.mplstyle')}
+                if p.is_file() and '__pycache__' not in p.parts and (p.suffix in ('.py','.md','.json','.js','.mplstyle') or 'docs/_static/' in p.relative_to(ROOT).as_posix())}
         for name,path in source.items():assert archive.extractfile(entries[name]).read()==path.read_bytes(),name
-        for name in ('pyproject.toml','README.md','CHANGELOG.md','MANIFEST.in','.gitattributes','.github/workflows/tests.yml',*license_files):
+        for name in ('pyproject.toml','README.md','CHANGELOG.md','MANIFEST.in','.gitattributes','CONTRIBUTING.md','CODE_OF_CONDUCT.md','SECURITY.md','.github/workflows/tests.yml','.github/workflows/publish.yml',*license_files):
             assert archive.extractfile(entries[name]).read()==(ROOT/name).read_bytes(),name
     if args.source_zip:
         with zipfile.ZipFile(args.source_zip) as archive:

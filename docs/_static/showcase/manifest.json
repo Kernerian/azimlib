@@ -1,0 +1,52 @@
+{
+  "renderer": "Azimlib",
+  "version": "0.2.0",
+  "data": "Natural Earth boundaries/rivers; synthetic thematic values, terrain and vectors",
+  "generator": "tools/build_readme_showcase.py",
+  "files": [
+    {
+      "file": "brazil.png",
+      "pixels": [
+        880,
+        880
+      ],
+      "sha256": "bae9745aac4a31762e998aaa247be7a33650ee0e0d35fa7591b91f61ef061398",
+      "example": "brazil"
+    },
+    {
+      "file": "colorbar-horizontal.png",
+      "pixels": [
+        792,
+        682
+      ],
+      "sha256": "05ce6cb0880111dbc231f7c4f309a50ebe2c1f6409e929c97d4dabb6f0365c84",
+      "example": "colorbar-horizontal"
+    },
+    {
+      "file": "globe.png",
+      "pixels": [
+        880,
+        880
+      ],
+      "sha256": "7af9935c2ed49c4ac4a0676467038a532075ab42400a6b85ee9b7d329d0c6997",
+      "example": "globe"
+    },
+    {
+      "file": "terrain.png",
+      "pixels": [
+        880,
+        715
+      ],
+      "sha256": "e289ce7a6d2518d8dcfa205fca3d1ccb012faebd3406c915a75a315451d67a75",
+      "example": "terrain"
+    },
+    {
+      "file": "overview.png",
+      "pixels": [
+        1200,
+        1090
+      ],
+      "sha256": "eaa47981d770edd33f7e4881fbc5bd58cea68068e179fd7061162796dbce4aa2"
+    }
+  ]
+}
