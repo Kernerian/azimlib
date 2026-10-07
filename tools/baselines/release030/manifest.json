@@ -1,7 +1,7 @@
 {
   "composition": "Original synthetic Azimlib regression cases",
   "license": "BSD-3-Clause; DejaVu text retains bundled font terms; Viridis CC0",
-  "tool_sha256": "2cb8e18d05c104b3213c4cc21d3e45261ca0ab3df1888618881f61906eeb0cc5",
+  "tool_sha256": "cf934e7f8d893c5e9be9e34b837218035bac82b2b5be777edb5d1959e97974d0",
   "cases": {
     "styles": {
       "pixels": [

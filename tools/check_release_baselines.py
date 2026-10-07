@@ -74,10 +74,13 @@ def pixels(actual,expected,mask=None):
                     best.close();shifted.close();candidate.close();best=updated
             return best
         forward,reverse=nearest(a,b),nearest(b,a)
-        symmetric=ImageChops.lighter(forward,reverse)
-        diff=Image.composite(symmetric,raw,mask)
-        forward.close();reverse.close();symmetric.close()
-    rms,changed=metrics(diff);raw_rms,raw_changed=metrics(raw)
+        diff=Image.composite(forward,raw,mask)
+        backward=Image.composite(reverse,raw,mask)
+        backward_rms,backward_changed=metrics(backward)
+        backward.close();forward.close();reverse.close()
+    rms,changed=metrics(diff)
+    if mask is not None:rms,changed=max(rms,backward_rms),max(changed,backward_changed)
+    raw_rms,raw_changed=metrics(raw)
     a.close();b.close()
     if diff is not raw:diff.close()
     raw.close()
