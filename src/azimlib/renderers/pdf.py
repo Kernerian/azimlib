@@ -17,7 +17,7 @@ def n(value):
     result=format(float(value),'.8f').rstrip('0').rstrip('.')
     return '0' if result in ('','-0') else result
 
-def render_pdf(scene,path_or_stream=None,*,dpi=100):
+def render_pdf(scene,path_or_stream=None,*,dpi=100,_objects=False):
     """Return PDF bytes and optionally write them; dpi defines physical page units."""
     validate(scene)
     if not math.isfinite(dpi) or dpi<=0:raise ValueError('PDF dpi must be positive')
@@ -118,6 +118,7 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100):
     image_resources=(' /XObject << '+' '.join(f'/{name} {ref} 0 R' for name,ref in images)+' >>') if images else ''
     objects[2]=f'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 {n(scene.width*ratio)} {n(scene.height*ratio)}] /Resources << /ExtGState << {resources} >>{image_resources} >> /Contents {content} 0 R >>'.encode()
     info=object(b'<< /Producer (Azimlib independent PDF writer) /Subject (Vector text outlines; DejaVu notice attached) >>')
+    if _objects:return tuple(objects)
     out=bytearray(b'%PDF-1.4\n%\xe2\xe3\xcf\xd3\n');offsets=[0]
     for index,data in enumerate(objects,1):
         offsets.append(len(out));out+=f'{index} 0 obj\n'.encode()+data+b'\nendobj\n'
@@ -129,3 +130,48 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100):
         if hasattr(path_or_stream,'write'):path_or_stream.write(value)
         else:FilePath(path_or_stream).write_bytes(value)
     return value
+
+
+def render_pdf_pages(pages):
+    """Serialize/rebase only object dictionaries produced by our own writer.
+
+    Binary image/notice/content streams are kept byte for byte. This is not a
+    parser for arbitrary third-party PDFs. Each page retains its attached notices.
+    """
+    import re
+    if not 1<=len(pages)<=256:raise ValueError('Require 1..256 own PDF pages')
+    objects=[b'<< /Type /Catalog /Pages 2 0 R >>',None];kids=[]
+    for page in pages:
+        if len(page)<4 or b'/Type /Page ' not in page[2]:raise ValueError('Not an own page object bundle')
+        start=len(objects);mapping={old:start+old for old in range(1,len(page)+1)}
+        def remap(match):
+            old=int(match.group(1))
+            if old not in mapping:raise ValueError('PDF reference is outside page objects')
+            return f'{mapping[old]} 0 R'.encode()
+        for data in page:
+            header,marker,stream=data.partition(b'\nstream\n')
+            objects.append(re.sub(rb'(?<![0-9])([0-9]+) 0 R',remap,header)+marker+stream)
+        # Replace the page parent; its original single-page catalog/tree remain
+        # harmless private objects so all notice/image references stay intact.
+        index=start+2
+        objects[index]=objects[index].replace(f'/Parent {mapping[2]} 0 R'.encode(),b'/Parent 2 0 R')
+        kids.append(mapping[3])
+    objects[1]=('<< /Type /Pages /Kids ['+' '.join(f'{k} 0 R' for k in kids)+f'] /Count {len(kids)} >>').encode()
+    # Surface every per-page catalog's EmbeddedFiles through the final catalog.
+    names=[]
+    for i,page in enumerate(pages):
+        # Original catalogs list only controlled filenames and object references.
+        start=2+sum(len(p) for p in pages[:i]);catalog=objects[start]
+        match=re.search(rb'/Names \[([^]]*)\]',catalog)
+        if match:
+            entries=match.group(1)
+            entries=re.sub(rb'\(([^)]*)\)',lambda m:b'(page-'+str(i+1).encode()+b'-'+m.group(1)+b')',entries)
+            names.append(entries)
+    if names:objects[0]=b'<< /Type /Catalog /Pages 2 0 R /Names << /EmbeddedFiles << /Names ['+b' '.join(names)+b'] >> >> >>'
+    out=bytearray(b'%PDF-1.4\n%\xe2\xe3\xcf\xd3\n');offsets=[0]
+    for index,data in enumerate(objects,1):
+        offsets.append(len(out));out+=f'{index} 0 obj\n'.encode()+data+b'\nendobj\n'
+    start=len(out);out+=f'xref\n0 {len(offsets)}\n0000000000 65535 f \n'.encode()
+    for offset in offsets[1:]:out+=f'{offset:010d} 00000 n \n'.encode()
+    out+=f'trailer\n<< /Size {len(offsets)} /Root 1 0 R >>\nstartxref\n{start}\n%%EOF\n'.encode()
+    return bytes(out)

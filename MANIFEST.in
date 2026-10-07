@@ -20,6 +20,7 @@ include CONTRIBUTING.md CODE_OF_CONDUCT.md SECURITY.md
 include .github/workflows/publish.yml
 recursive-include docs/_static *.png
 recursive-include docs/_static/terrain3d *.svg *.pdf *.html
+recursive-include docs/_static/temporal *.svg *.pdf *.gif
 
 # Optional derivative databases retain separate licenses outside Python archives.
 prune optional-data

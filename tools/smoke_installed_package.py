@@ -219,6 +219,15 @@ except ImportError:pass
 else:raise AssertionError('3D SVG image encoding requires optional Pillow')
 buf=io.BytesIO();fig.savefig(buf,format='pdf');assert b'/Subtype /Image' in buf.getvalue()
 azl.close(fig)
+from azimlib.animation import FuncAnimation
+from azimlib.backends.backend_pdf import PdfPages
+series=azl.TemporalSeries([2000,2010],[[1,2],[10,20]],unit='year')
+fig,ax=azl.subplots();points=ax.scatter([-50,-48],[-24,-22],c=[1,2])
+binding=series.bind(points);movie=FuncAnimation(fig,lambda i:binding.apply(i),2,autoplay=False)
+movie.step();assert points.get_array()==[10,20] and movie.index==1
+pages=io.BytesIO()
+with PdfPages(pages) as pdf:pdf.savefig(fig);pdf.savefig(fig)
+assert b'/Count 2' in pages.getvalue();movie.close();azl.close(fig)
 print('Installed wheel: SVG/HTML, data/fonts, artists, styles/aliases, scientific text and prevalidated edits; no optional/GIS/reference libraries.')
 '''
 

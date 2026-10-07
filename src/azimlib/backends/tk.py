@@ -650,6 +650,10 @@ class FigureWindow:
             self.navigation.push();self.draw_idle()
         return True
 
+    def new_timer(self,interval=200,callbacks=None):
+        from ..timers import Timer
+        return Timer(self.figure,interval,callbacks)
+
     def mpl_connect(self,name,callback):
         """Familiar event connection API implemented locally."""
         if not callable(callback):raise TypeError('callback must be callable')

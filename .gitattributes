@@ -12,3 +12,8 @@ src/azimlib/data/** -text
 
 # Versioned optional payload/license hashes preserve exact bytes on every platform.
 optional-data/** -text
+
+# Binary exports must keep stream offsets and embedded legal notices exact.
+*.pdf binary
+*.png binary
+*.gif binary

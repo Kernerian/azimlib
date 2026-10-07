@@ -613,6 +613,10 @@ class FigureCanvas:
 
     def mpl_disconnect(self,cid):self._callbacks.pop(cid,None)
 
+    def new_timer(self,interval=200,callbacks=None):
+        from .timers import Timer
+        return Timer(self.figure,interval,callbacks)
+
     def flush_events(self):
         viewer=getattr(self.figure,"_viewer",None)
         if viewer and not viewer.closed:viewer.flush_events()

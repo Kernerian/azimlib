@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**63 concluídos / 17 pendentes**. Contagem por subpassos, não por frentes amplas.
+**71 concluídos / 9 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -115,14 +115,14 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 9. Mapas temporais e atlas
 
-- [ ] **9.01** Modelo de frames e dados temporais, unidades/datas e seleção de instante.
-- [ ] **9.02** Artist/scene updates por frame, preservando mapa e componentes estáticos.
-- [ ] **9.03** Playback, pausa, slider, intervalo e encerramento de timers sem recursos pendurados.
-- [ ] **9.04** Escalas de cores/legendas globais ou por frame com comportamento explícito.
-- [ ] **9.05** Exportação de sequência PNG e GIF via dependência genérica opcional.
-- [ ] **9.06** Protocolo de encoder de vídeo opcional com dependências/erros documentados.
-- [ ] **9.07** Atlas por páginas e séries regionais com vistas/estilos compartilhados.
-- [ ] **9.08** Exemplos temporal/populacional/climático sintéticos e testes de repetibilidade.
+- [x] **9.01** Modelo de frames e dados temporais, unidades/datas e seleção de instante.
+- [x] **9.02** Artist/scene updates por frame, preservando mapa e componentes estáticos.
+- [x] **9.03** Playback, pausa, slider, intervalo e encerramento de timers sem recursos pendurados.
+- [x] **9.04** Escalas de cores/legendas globais ou por frame com comportamento explícito.
+- [x] **9.05** Exportação de sequência PNG e GIF via dependência genérica opcional.
+- [x] **9.06** Protocolo de encoder de vídeo opcional com dependências/erros documentados.
+- [x] **9.07** Atlas por páginas e séries regionais com vistas/estilos compartilhados.
+- [x] **9.08** Exemplos temporal/populacional/climático sintéticos e testes de repetibilidade.
 
 ## 10. Documentação, compatibilidade e entrega
 
@@ -551,3 +551,60 @@ Relatórios das etapas anteriores são snapshots preservados de seus runtimes;
 nunca recebem hashes falsamente atualizados. A referência corrente desta etapa
 é verificada por `audit_terrain3d.py`. **Restam 17 subpassos:** 7.08 e etapas
 9–10. Nenhuma publicação, push, mudança do main ou lançamento 0.3.0 neste lote.
+
+
+### Lote 9 — mapas temporais e atlas (0.3.0.dev0)
+
+**9.01–9.08 concluídos; 7.08 permanece pendente.** [Guia](temporal.md),
+[53 testes de contrato](../tests/test_temporal.py), [galeria original](_static/temporal/README.md)
+e [auditor corrente](../tools/audit_temporal.py).
+
+- TemporalSeries/Frame com payloads imutáveis, unidades numéricas explícitas,
+  datas UTC, seleção exata/mais próxima/anterior/próxima e fontes finitas.
+  Sem interpolação de instantes nem inferência de duração pelas datas.
+- ScalarBinding prepara a série inteira antes de alterar imagens/malhas/pontos/
+  coropletas ou cores de SurfaceArtist. Preserva geometria, posição, câmera e
+  componentes estáticos; políticas global/por-frame explícitas e NoData.
+  Norms/classes e colorbars/legendas seguem o vínculo existente; callbacks gerais
+  reproduzíveis permitem alterar posições, áreas proporcionais, texto e rotas.
+- FuncAnimation própria, pausa/retomada/seek/intervalo e controles optativos;
+  timers Tk/Qt executam no thread GUI. Fechar a figura remove callbacks agendados,
+  widgets e subscrições. Manual/headless/notebook/HTML não recebem threads ocultos.
+- PNG por frames em diretório novo e GIF Pillow, exports atômicos e reaplicação
+  do frame selecionado. GIF quantiza 10 ms e pode juntar imagens idênticas mantendo
+  duração. Não se promete rollback de efeitos arbitrários de callbacks.
+- Protocolo setup/write_frame/finish/abort e FFMpegWriter explícito, sem shell,
+  download ou binário vendorizado; testes de argumentos/pipe/indisponibilidade/
+  falhas. **Nenhum codec de vídeo instalado foi validado neste lote**. Dependências
+  e obrigações do encoder escolhido permanecem separadas; MP4 requer dimensões pares.
+- Atlas regional com estilo/projeção/tamanho comuns, limites reaplicados e páginas
+  editáveis; sequências PNG/SVG/PDF e PdfPages próprio. Rebase de dicionários próprios,
+  streams binários intactos, tamanhos físicos e avisos DejaVu preservados por página.
+  [Leitor independente pypdf 6.10.0](temporal-pdf-0.3.json) confirmou três páginas e
+  avisos exatos; Poppler externo renderizou a primeira para inspeção. Nenhum leitor/
+  merger é backend ou material vendorizado da Azimlib.
+- [Windows Tk](temporal-tk-0.3.json) / [Qt](temporal-qt-0.3.json): ticks automáticos,
+  fim finito, pausa/retomada, slider/Play/intervalo e cleanup, sobre runtime instalado.
+  [Regressões Tk 2D/3D](temporal-desktop-0.3.json) e
+  [Qt 2D](temporal-qt-2d-0.3.json)/[3D](temporal-qt-3d-0.3.json) aprovadas.
+  São provas programáticas nativas Windows, não aceite humano/FPS/Linux/macOS.
+- [Suíte instalada com aggdraw](temporal-validation-0.3.json): **986 testes /
+  19,987 subtests**, zero falhas/erros. [Sem aggdraw/Numba](temporal-core-validation-0.3.json):
+  **986 testes / 19,971 subtests**, zero falhas/erros. Skips opcionais nomeados;
+  111 módulos do runtime conferidos por SHA-256, zero imports Matplotlib/GIS externo.
+- Galeria determinística de clima/população, comparações de normas, pontos
+  proporcionais, GIF/frames e três regiões em PDF/SVG. SVG mantém aviso de fonte
+  exato após XML decoding; exemplos exportados inspecionados. Dados temporais
+  sintéticos; basemaps Natural Earth e fontes/paletas com seus avisos próprios.
+- Carlito Bold Italic creditada voluntariamente na wordmark/manifest e avisos,
+  conforme OFL 1.1/FAQ. Logo PNG intacta, nenhum binário de fonte Carlito distribuído;
+  versão/hash da fonte de design não inventados. BSD da composição e código mantida.
+- Wheel/sdist dev reconstruídos; instalação core offline, bytes/RECORD/metadata,
+  avisos, documentação, privacidade/refs locais verificados. CI preparada para
+  timers Qt nos três sistemas, **não executada remotamente**. Relatórios anteriores
+  conservam seus hashes históricos; `audit_temporal.py` verifica o runtime corrente.
+
+**Restam 9 subpassos:** 7.08 e 10.01–10.08. Sem push, mudança do main, PyPI ou
+lançamento 0.3.0 neste lote. Budgets/limites da API inicial estão no guia; não é
+animação infinita, compilador de vídeo incorporado nem compatibilidade integral
+com todos os escritores/encoders/callbacks de outro framework.

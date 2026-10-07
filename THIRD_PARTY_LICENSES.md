@@ -112,3 +112,27 @@ Team, BSD), prompt_toolkit (Jonathan Slenders, BSD), jedi/parso (MIT), Pygments
 (BSD-2-Clause), plus other version-dependent dependencies. Preserve their
 actual notices if distributing these packages in a combined application.
 Neither their licenses nor authorship become exclusive Azimlib property.
+
+## Wordmark typography (artwork only)
+
+The wordmark PNG in `docs/_static/branding` uses **Carlito Bold Italic**,
+designed by Łukasz Dziedzic, **SIL OFL 1.1**. This voluntary credit records
+rasterized lettering; Carlito font software is not shipped in source, wheel
+or sdist. The exact design-time font binary/version is not retained. Upstream
+reference: https://github.com/googlefonts/carlito and
+https://github.com/google/fonts/blob/main/ofl/carlito/OFL.txt (copyright 2013
+The Carlito Project Authors; Reserved Font Name Carlito). The official FAQ
+https://openfontlicense.org/ofl-faq/ permits logos/commercial artwork without
+mandatory acknowledgement or OFL relicensing of that artwork. Redistributing
+or embedding the font itself would require preserving its actual OFL/copyright.
+The code and original logo composition keep their existing BSD terms.
+
+## Optional video encoder
+
+`animation.FFMpegWriter` invokes an explicitly selected, separately installed
+FFmpeg executable. No FFmpeg, libx264 or codec binary/source is redistributed
+or required by the Python archives. FFmpeg builds/codecs have version/build-
+dependent LGPL/GPL and possible patent obligations; embedding or distributing
+an encoder requires an audit of that exact build. The Azimlib writer is original
+BSD code; it does not grant codec rights. GIF encoding uses the optional Pillow
+installation already listed above.

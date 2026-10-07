@@ -2,6 +2,10 @@
 
 ## 0.3.0 development — experimental terrain 3D
 
+- Add own finite temporal frames/bindings, optional native playback controls,
+  atomic PNG/GIF/explicit encoder exports and regional multipage PDF atlas.
+- Record Carlito Bold Italic as a voluntary wordmark credit; font not shipped.
+
 - Own metric surface meshes, explicit regional WGS84 frame and source elevation units/reference.
 - Own orthographic/perspective camera, homogeneous clipping and per-pixel triangle depth buffer; optional NumPy acceleration of the same equations.
 - Editable ScalarMappable surface Artists, flat physical lighting, masks and bounded concave building extrusion with explicit height/base.

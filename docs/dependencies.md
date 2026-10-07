@@ -81,3 +81,14 @@ The [observed optional dependency closure](interaction-dependencies-0.3.json)
 records actual Windows versions, declared requirements and license-file hashes
 for the two new extras. It is not a lockfile or permission to redistribute an
 entire Qt binary installation without reviewing its complete notices.
+
+## Optional development PDF check
+
+`tools/audit_atlas_pdf.py` may use a separately installed **pypdf** (BSD-3-Clause)
+for an independent strict read of page trees/content streams/font attachments.
+Poppler (GPL terms for its exact build) may render development previews outside
+the project. Neither pypdf nor Poppler is required, embedded or invoked by the
+Azimlib runtime/PDF writer, and neither binary/implementation is distributed in
+Python archives. Their own licenses remain applicable if they are redistributed.
+The writer and generated gallery are independently produced by Azimlib; a reader
+check does not import/reproduce the reader's implementation into the project.

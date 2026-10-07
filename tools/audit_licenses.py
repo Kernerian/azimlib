@@ -64,8 +64,12 @@ def audit():
             assert raw[:8] == b'\x89PNG\r\n\x1a\n', path
             assert [int.from_bytes(raw[16:20], 'big'), int.from_bytes(raw[20:24], 'big')] == asset['pixels'], path
     assert json.loads((ROOT / 'docs/_static/branding/manifest.json').read_text('utf-8'))['copyright'] == 'Copyright (c) 2026 Kernerian'
+    typography=json.loads((ROOT/'docs/_static/branding/manifest.json').read_text('utf8'))['wordmark_typography']
+    assert typography['family']=='Carlito' and typography['style']=='Bold Italic' and typography['license']=='OFL-1.1'
+    assert 'Carlito Bold Italic' in notices and 'rasterized lettering' in notices
+    assert not any('carlito' in p.name.lower() and p.suffix.lower() in ('.ttf','.otf','.woff','.woff2') for p in ROOT.rglob('*') if '.git' not in p.parts)
     return {'passed': True, 'original_code_license': 'BSD-3-Clause', 'copyright_identifier': 'Kernerian',
-            'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics'],
+            'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics', 'Carlito wordmark artwork credit (font not shipped)'],
             'license_texts_verified': len(manifest['license_texts']), 'own_cycle_colors': len(AZIM10),
             'unchanged_geographic_layers': len(data['layers']), 'unchanged_upstream_fonts': len(fonts['files']),
             'unchanged_colormap_and_font_metric_resources': len(manifest['immutable_resources']),

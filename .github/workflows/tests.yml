@@ -131,6 +131,12 @@ jobs:
       - name: Own 3D Qt camera on Windows/macOS
         if: runner.os != 'Linux'
         run: python -I tools/smoke_terrain3d.py --backend qt --output .ci-results/terrain3d/result.json --image .ci-results/terrain3d/widget.png
+      - name: Temporal Qt playback on Linux
+        if: runner.os == 'Linux'
+        run: xvfb-run -a python -I tools/smoke_temporal.py --backend qt --output .ci-results/temporal/result.json --image .ci-results/temporal/widget.png
+      - name: Temporal Qt playback on Windows/macOS
+        if: runner.os != 'Linux'
+        run: python -I tools/smoke_temporal.py --backend qt --output .ci-results/temporal/result.json --image .ci-results/temporal/widget.png
       - run: python -I tools/smoke_notebook.py --output .ci-results/notebook/result.json
       - uses: actions/upload-artifact@v4
         if: always()

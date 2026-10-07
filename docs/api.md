@@ -320,6 +320,26 @@ Return (figure, dict of named axes) for a rectangular or nested mosaic.
 
 ### `yticks(ticks=None, labels=None, **kwargs)`
 
+## azimlib.temporal
+
+### `bounded(value)`
+
+### `freeze(value)`
+
+### `normalizer(template, values, *, rescale)`
+
+### `time_key(value, kind)`
+
+## azimlib.animation
+
+### `bounded(value)`
+
+### `fps_value(value)`
+
+### `frame_index(value, length)`
+
+### `freeze(value)`
+
 ## azimlib.colors
 
 ### `get_cmap(value='viridis')`
@@ -565,6 +585,129 @@ Simplify exact shared chains once; preserve IDs/properties/ring direction.
 Iterative Douglas-Peucker; bounds each input vertex against its kept chord.
 
 ### `simplify_path(points, tolerance)`
+
+## azimlib.temporal.TemporalSeries
+
+`TemporalSeries(times, values, *, unit=None, name='')`
+
+### `at(time, *, method='nearest')`
+
+### `bind(artist, *, scale='global', norm=None)`
+
+### `count(value)`
+
+S.count(value) -> integer -- return number of occurrences of value
+
+### `index(value, start=0, stop=None)`
+
+S.index(value, [start, [stop]]) -> integer -- return first index of value.
+Raises ValueError if the value is not present.
+
+### `index_at(time, *, method='nearest')`
+
+## azimlib.temporal.Frame
+
+`Frame(time: object, data: object) -> None`
+
+## azimlib.temporal.ScalarBinding
+
+`ScalarBinding(series, artist, *, scale='global', norm=None)`
+
+### `apply(index)`
+
+## azimlib.atlas.Atlas
+
+`Atlas(pages, *, labels=None)`
+
+### `save(path)`
+
+### `save_pages(directory, *, format='png', dpi=None)`
+
+### `savefig(path)`
+
+## azimlib.atlas.Region
+
+`Region(name: str, extent: tuple) -> None`
+
+## azimlib.timers.Timer
+
+`Timer(figure, interval=200, callbacks=None)`
+
+### `add_callback(func, *args, **kwargs)`
+
+### `close()`
+
+### `remove_callback(func, *args, **kwargs)`
+
+### `start(interval=None)`
+
+### `stop()`
+
+## azimlib.backends.backend_pdf.PdfPages
+
+`PdfPages(filename)`
+
+### `close()`
+
+### `get_pagecount()`
+
+### `savefig(figure=None)`
+
+## azimlib.animation.FuncAnimation
+
+`FuncAnimation(fig, func, frames, *, init_func=None, fargs=(), interval=200, repeat=True, event_source=None, autoplay=True)`
+
+### `add_controls(slider_ax, play_ax=None, *, label='Frame')`
+
+### `close()`
+
+### `pause()`
+
+### `resume()`
+
+### `save(filename, *, writer=None, fps=None, dpi=None)`
+
+Write GIF by default; a video encoder must be explicitly supplied.
+
+### `save_frames(directory, *, prefix='frame', dpi=None)`
+
+### `seek(index, *, draw=True)`
+
+### `set_interval(milliseconds)`
+
+### `step()`
+
+## azimlib.animation.PlaybackControls
+
+`PlaybackControls(animation, slider_ax, play_ax=None, *, label='Frame')`
+
+### `close()`
+
+### `sync()`
+
+## azimlib.animation.PillowWriter
+
+`PillowWriter()`
+
+### `abort()`
+
+### `finish()`
+
+### `setup(path, width, height, fps, count)`
+
+### `write_frame(image)`
+
+## azimlib.animation.FFMpegWriter
+
+`FFMpegWriter(*, executable='ffmpeg')`
+
+### `abort()`
+
+### `finish()`
+
+### `setup(path, width, height, fps, count)`
+
+### `write_frame(image)`
 
 ## azimlib.terrain_axes.TerrainAxes
 
@@ -3307,6 +3450,8 @@ Subdivide this rectangular selection using independent child tracks.
 ### `mpl_connect(event, callback)`
 
 ### `mpl_disconnect(cid)`
+
+### `new_timer(interval=200, callbacks=None)`
 
 ### `pick(mouseevent)`
 

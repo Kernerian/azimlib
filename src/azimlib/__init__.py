@@ -87,3 +87,8 @@ from . import widgets
 __all__.append('widgets')
 from .simplify import simplify_path,simplify_boundaries
 __all__.extend(('simplify_path','simplify_boundaries'))
+
+from .temporal import TemporalSeries,Frame,ScalarBinding
+from .atlas import Atlas,Region
+from . import animation
+__all__.extend(('TemporalSeries','Frame','ScalarBinding','Atlas','Region','animation'))

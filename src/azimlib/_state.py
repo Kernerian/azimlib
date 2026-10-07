@@ -148,3 +148,6 @@ def close(fig=None):
         target._closed=True
         viewer=getattr(target,'_viewer',None)
         if viewer and not viewer.closed:viewer.close()
+        elif viewer is None:
+            from types import SimpleNamespace
+            target.canvas._dispatch('close_event',SimpleNamespace(name='close_event',canvas=target.canvas))

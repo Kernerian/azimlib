@@ -30,7 +30,7 @@ DESKTOP=(
     'smoke_artist_validation_tk.py','smoke_raster_cache_tk.py',
     'smoke_stroke_kernels_tk.py','smoke_artist_acceptance_tk.py',
     'smoke_layout_acceptance_tk.py','smoke_toolbar_tk.py','smoke_pan_interaction_tk.py',
-    'smoke_transform_composition_tk.py','smoke_scientific_tk.py','smoke_finishing_tk.py','smoke_interaction_tk.py','smoke_terrain3d.py',
+    'smoke_transform_composition_tk.py','smoke_scientific_tk.py','smoke_finishing_tk.py','smoke_interaction_tk.py','smoke_terrain3d.py','smoke_temporal.py',
 )
 
 

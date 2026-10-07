@@ -36,5 +36,14 @@
       ],
       "sha256": "b4a06b4e9997f624a9db62787631d36b0984434954a6deda76c1f4dba82d98ef"
     }
-  ]
+  ],
+  "wordmark_typography": {
+    "family": "Carlito",
+    "style": "Bold Italic",
+    "use": "Rasterized wordmark lettering only; font software is not included",
+    "license": "OFL-1.1",
+    "source": "https://github.com/googlefonts/carlito",
+    "license_reference": "https://github.com/google/fonts/blob/main/ofl/carlito/OFL.txt",
+    "exact_font_binary_version": "Not retained; family/style identified by the artwork author. No binary hash/version is asserted."
+  }
 }
