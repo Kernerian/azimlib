@@ -1,0 +1,148 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Public-distribution remediation — 0.2.0 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="public-distribution-remediation-020">Public-distribution remediation — 0.2.0</h1>
+<p>This is a technical status record, not a legal opinion. It covers the local
+prepared repository and named rebuilt artifacts. The original local remediation did not publish a release. Remote cleanup was
+subsequently completed: the corrected branches were pushed, GitHub Support
+removed the old PR/unreferenced commits, and a new 24-job CI passed. PyPI
+publication remains a separate step.</p>
+<h2 id="findings-and-disposition">Findings and disposition</h2>
+<table>
+<thead>
+<tr>
+<th>Finding from the IP/privacy audit</th>
+<th>Status</th>
+<th>Concrete evidence / disposition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ColorBrewer Blues lacked its complete specific terms and required acknowledgment</td>
+<td><strong>RESOLVIDO</strong></td>
+<td><code>THIRD_PARTY_LICENSES.md</code>, <code>licenses/LicenseRef-ColorBrewer.txt</code>, referenced <code>licenses/Apache-2.0.txt</code>; complete texts and hashes in <code>licenses/upstream.json</code>; package metadata includes LicenseRef-ColorBrewer</td>
+</tr>
+<tr>
+<td>Category10/TAB10 incorporation route was not established</td>
+<td><strong>RESOLVIDO</strong></td>
+<td><code>src/azimlib/cycles.py</code> has new AZIM10; TAB10 aliases AZIM10; <code>config.py</code> and historical source baselines use it; default-cycle RGB observations in the old series oracle are abstracted as cycle roles, not a retained palette table</td>
+</tr>
+<tr>
+<td>Additional dark style cycle coincided with the reference preset</td>
+<td><strong>RESOLVIDO</strong></td>
+<td><code>style.py</code> lightens AZIM10 using a documented own rule; both retired sequence fingerprints are checked by <code>tools/audit_licenses.py</code></td>
+</tr>
+<tr>
+<td>Third-party materials were insufficiently separated from original-code ownership</td>
+<td><strong>RESOLVIDO</strong></td>
+<td>Inventory, per-material origins/copyrights/terms, complete separate license texts and <code>src/azimlib/data/materials.json</code>; no claim of exclusive rights in external materials</td>
+</tr>
+<tr>
+<td>Natural Earth provenance and publisher terms must remain</td>
+<td><strong>RESOLVIDO</strong></td>
+<td>Six compressed geographic layers are byte-identical; <code>data/manifest.json</code> retains source commit ca96624a56bd078437bca8184e78163e5039ad19, hashes and feature counts; <code>licenses/Natural-Earth.txt</code> records the publisher's public-domain statement</td>
+</tr>
+<tr>
+<td>DejaVu fonts and derived metrics must not be relabeled original/exclusive</td>
+<td><strong>RESOLVIDO</strong></td>
+<td>Four unchanged 2.35 TTF binaries verified against <code>docs/fonts-upstream.json</code>; complete <code>fonts/LICENSE_DEJAVU</code> unchanged; font README and inventory explicitly separate metrics and font rights</td>
+</tr>
+<tr>
+<td>CC0 color tables needed preserved provenance</td>
+<td><strong>RESOLVIDO</strong></td>
+<td><code>NOTICE_COLORMAPS</code> preserves upstream credits and explicitly includes the legacy five-stop viridis scale; complete <code>licenses/CC0-1.0.txt</code>; four 256-sample tables retain their upstream authors and origin in materials inventory</td>
+</tr>
+<tr>
+<td>Copyright label was inconsistent / legal entity not established</td>
+<td><strong>RESOLVIDO</strong> for the public notice</td>
+<td>Original-code <code>LICENSE</code> and metadata use Kernerian consistently. It is a public identifier, not an invented company or proof of civil identity / legal title</td>
+</tr>
+<tr>
+<td>Original-code MIT text and package metadata needed replacement</td>
+<td><strong>RESOLVIDO</strong></td>
+<td>BSD-3-Clause applies to original implementation/docs/icons; pyproject uses the composite SPDX expression; legitimate third-party MIT terms and historical measured MIT metadata remain distinctly identified</td>
+</tr>
+<tr>
+<td>Personal paths, conversation quotations, requests and approvals in documents/reports/comments</td>
+<td><strong>RESOLVIDO</strong> within scanned scope</td>
+<td>Portable paths, neutral technical records and <code>publication_privacy.py</code>; current tracked files and all local refs/reflogs pass the publication scan</td>
+</tr>
+<tr>
+<td>Removed private content remained recoverable in Git history</td>
+<td><strong>RESOLVIDO</strong> locally</td>
+<td>All original five commits were rewritten; main and fix/ci-portability preserved; old objects/reflogs pruned; <code>git fsck --full --no-reflogs</code> passes; technical files retained</td>
+</tr>
+<tr>
+<td>Previously reused reference icons, removed before the available Git history</td>
+<td><strong>NÃO APLICÁVEL</strong> to current deliverables</td>
+<td>No such assets in available sanitized history/package; 21 original icon resources, geometry SHA-256 45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823; zero byte matches against 32 reference icon files. Pre-Git events cannot be reconstructed exhaustively</td>
+</tr>
+<tr>
+<td>Old 0.2.0 archives contained stale MIT metadata / unsanitized source</td>
+<td><strong>RESOLVIDO</strong> for deliverables</td>
+<td>Fresh wheel/sdist and source ZIP; old archives quarantined outside this repository in private recovery storage; RECORD, License-File payloads and source equality audited</td>
+</tr>
+<tr>
+<td>Privacy/license checks were not recurring distribution gates</td>
+<td><strong>RESOLVIDO</strong></td>
+<td>New targeted tests, <code>audit_licenses.py</code>, archive/history scanner and explicit source/archive CI gates; the corrected workflow subsequently passed its complete hosted matrix</td>
+</tr>
+<tr>
+<td>GitHub retained original commits, PR refs and Actions data</td>
+<td><strong>RESOLVIDO</strong> in subsequent remote verification</td>
+<td>Corrected branches synchronized; GitHub Support removed the old PR/unreferenced commits; old refs/files returned absent; old Actions runs/artifacts removed and caches absent. Private recovery copies remain outside the repository</td>
+</tr>
+<tr>
+<td>Corrected bytes needed a new three-system CI run</td>
+<td><strong>RESOLVIDO</strong> for the sanitized implementation</td>
+<td>Run 37237723571 passed 24/24 jobs at ee46117a9fd3cd9d3d30cafe6c61d19e6ef4fe95. Later changes require their own exact-commit run</td>
+</tr>
+<tr>
+<td>IBGE benchmark dataset-specific redistribution terms were unconfirmed</td>
+<td><strong>NÃO APLICÁVEL</strong> to current deliverables</td>
+<td>Original external inputs remain excluded and are explicitly prohibited by distribution checks; confirm their license before any future bundling</td>
+</tr>
+<tr>
+<td>Optional dependency binaries and future dependency resolution</td>
+<td><strong>NÃO APLICÁVEL</strong> to this wheel's embedded materials</td>
+<td>Wheel embeds no third-party Python/native dependency. Separate installs retain their own licenses; a future combined installer requires review of its exact Pillow/NumPy/Numba/LLVM/codecs payloads and exceptions</td>
+</tr>
+<tr>
+<td>Exclusive authorship, AI-related title, trademark/patent clearance</td>
+<td><strong>AINDA PENDENTE</strong> as legal assurance</td>
+<td>No problematic source derivation was found in the technical audit, but source comparisons/Git labels do not prove exclusive title or legal clearance. Professional legal review is required for that assurance</td>
+</tr>
+</tbody>
+</table>
+<h2 id="new-local-verification">New local verification</h2>
+<ul>
+<li>Installed wheel, Windows / Python 3.14: <strong>682 tests, 16,795 subtests</strong>, passed;
+two compiler-only tests skipped in the GUI environment without Numba.</li>
+<li>Optional compiler environment: <strong>11 tests, 5,470 subtests</strong>, passed without
+skips. No forbidden runtime imports in either run.</li>
+<li>All <strong>13 real Tk integration scripts</strong> passed, including layout, toolbar,
+pan/zoom, lifecycle and raster caching. This is synthetic integration,
+not another human appearance or latency acceptance.</li>
+<li>Python 3.11: seven new publication tests and 21 series/style contracts passed.</li>
+<li>Fresh dependency-free installation passed SVG/HTML/data/fonts/artist smoke.</li>
+<li><strong>19 own-renderer gallery cases</strong> exported at 100 DPI; three starter SVGs
+executed. Documentation local targets passed with the audited local gallery.</li>
+<li>Complete separate license texts, six geographic layers, four fonts, original
+icon hashes, static runtime independence and archive metadata/RECORD checked.</li>
+<li>Privacy checks scan tracked files, all local refs/reflogs, reachable objects
+and delivery archives; they are pattern-based, not exhaustive secret detection.</li>
+</ul>
+<p>Raw machine reports and archive hashes are under <code>.ci-results/publication-*</code>,
+outside wheel/sdist/ZIP. The explicit <code>publication-source-map.json</code> maps changes
+to old snapshots without relabeling old runtime hashes as new execution results.
+All original tracked file paths remain present; only identified legal/privacy/
+palette consequences and validators/docs were changed.</p>
+<h2 id="legal-and-publication-boundaries">Legal and publication boundaries</h2>
+<p>BSD-3-Clause governs the original code; it does not replace ColorBrewer,
+DejaVu, CC0 or Natural Earth terms. Existing copies previously received under
+MIT cannot have those permissions revoked by rewriting a local repository.
+The change applies to the prepared distribution under the holder's authority;
+it does not establish ownership over third-party contributions by fiat.</p>
+<p>Recovery bundles/old archives intentionally remain private outside the release
+repository and must not be included in any public upload. Technical absence of
+known problems is not a “100% free” certification or substitute for professional
+legal advice. The subsequent server-history check confirmed removal through accessible
+GitHub APIs/refs; this does not claim removal of private external backups.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/publication-remediation.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

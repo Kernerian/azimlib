@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rótulos globais e textos da Figure · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="rótulos-globais-e-textos-da-figure">Rótulos globais e textos da Figure</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p><code>suptitle</code>, <code>supxlabel</code> e <code>supylabel</code> pertencem à Figure e servem a todos os
+mapas de um atlas. São opcionais e devolvem um Artist próprio editável:</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, axes = azl.subplots(1, 2, figsize=(9, 6), layout=&quot;constrained&quot;)
+for ax in axes.flat:
+    ax.states(facecolor=&quot;white&quot;, edgecolor=&quot;black&quot;, linewidth=0.4)
+
+title = fig.suptitle(&quot;Atlas regional&quot;)
+xlabel = fig.supxlabel(&quot;Longitude&quot;)
+ylabel = fig.supylabel(&quot;Latitude&quot;)
+xlabel.set(text=&quot;Longitude geográfica&quot;, fontsize=13, color=&quot;#333333&quot;)
+ylabel.set_visible(False)
+fig.savefig(&quot;atlas.svg&quot;)
+</code></pre>
+<p>As chamadas seguintes reutilizam o mesmo handle, atualizam texto/posição e
+reaplicam defaults de fonte, peso, alinhamento e rotação, como na referência
+instalada. Outras propriedades já editadas, como cor/visibilidade, permanecem
+até serem fornecidas novamente. <code>get_suptitle()</code>, <code>get_supxlabel()</code> e
+<code>get_supylabel()</code> devolvem o texto ou <code>&quot;&quot;</code> se não existir.</p>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Posição inicial <code>(x,y)</code></th>
+<th>Alinhamento</th>
+<th style="text-align:right">Rotação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fig.suptitle()</code></td>
+<td><code>(0.5, 0.98)</code></td>
+<td>center/top</td>
+<td style="text-align:right">0°</td>
+</tr>
+<tr>
+<td><code>fig.supxlabel()</code></td>
+<td><code>(0.5, 0.01)</code></td>
+<td>center/bottom</td>
+<td style="text-align:right">0°</td>
+</tr>
+<tr>
+<td><code>fig.supylabel()</code></td>
+<td><code>(0.02, 0.5)</code></td>
+<td>left/center</td>
+<td style="text-align:right">90°</td>
+</tr>
+</tbody>
+</table>
+<p>As coordenadas são frações da Figure, com Y para cima. Os defaults de fonte
+usam <code>figure.titlesize/titleweight</code> e <code>figure.labelsize/labelweight</code> em
+<code>rcParams</code>. O tamanho padrão <code>&quot;large&quot;</code> equivale a 1,2 vezes <code>font.size</code> (12 pt
+com base de 10 pt). Tamanhos numéricos e nomes usuais são aceitos nestas
+propriedades; isso não amplia automaticamente os contratos de todos os outros
+componentes de texto.</p>
+<h2 id="edição-visibilidade-e-ownership">Edição, visibilidade e ownership</h2>
+<pre><code class="language-python">title.set_position((0.5, 0.95))
+title.set_x(0.45)
+azl.setp(xlabel, text=&quot;Coordenada X&quot;, position=(0.5, 0.02), color=&quot;black&quot;)
+xlabel.get_position()
+xlabel.set_in_layout(False)  # desenha, mas não reserva margem
+xlabel.set_visible(False)   # não desenha
+xlabel.remove()             # remove o handle da Figure
+</code></pre>
+<p>Textos criados por <code>fig.text(x, y, ...)</code> também têm posição editável, setters
+de alinhamento/rotação e <code>rotation_mode=&quot;default&quot;/&quot;anchor&quot;</code>. Default alinha a
+caixa após rotação; anchor gira o texto já alinhado ao redor da posição.
+Os rótulos globais usam default. Métricas, shaping complexo e a baseline de
+texto rotacionado ainda não são integralmente equivalentes ao Matplotlib.</p>
+<p>Lotes de posição/estilo são validados antes de mudar o estado e notificam uma
+vez com o resultado final. Edição invalida a Figure; <code>clear()</code> desanexa os
+handles e limpa os três slots. <code>fig.text()</code> continua um texto livre, sem
+reserva automática de espaço ou correção geral de colisões.</p>
+<p><code>azimlib.pyplot.suptitle()</code> e <code>figtext()</code> usam a Figure corrente. Como no
+Matplotlib instalado, <code>supxlabel/supylabel</code> são métodos da Figure, sem
+funções homônimas em pyplot.</p>
+<h2 id="regras-de-layout">Regras de layout</h2>
+<ul>
+<li>Sem engine: as posições e as margens são manuais.</li>
+<li><code>fig.tight_layout()</code>: reserva as dimensões dos rótulos uma vez, sem mover os
+textos. O engine <code>layout=&quot;tight&quot;</code> repete a medição a cada desenho.</li>
+<li><code>layout=&quot;constrained&quot;</code>: só posiciona/reserva os rótulos globais automáticos.
+Omitir Y em suptitle/supxlabel ou X em supylabel marca aquela borda como
+automática. Fornecer explicitamente a coordenada marca a posição como manual.</li>
+<li>Editar diretamente o handle não troca esse marcador. Para controlar a borda
+em constrained, chame novamente <code>fig.supxlabel(..., y=...)</code>, por exemplo.</li>
+<li>Ocultar, remover ou excluir do layout libera espaço no próximo cálculo.</li>
+<li>Grids simples e hierarquias com um grid raiz usam as mesmas reservas;
+colorbars/legendas continuam medidas junto aos mapas. Sem espaço, o solver
+avisa e restaura posições dos Axes, textos automáticos e subplotpars.</li>
+</ul>
+<p>Não adiciona grid, norte, escala ou minimapa. A exportação HTML recebe o layout
+composto; não executa esse solver Python ao navegar no browser.</p>
+<h2 id="exemplo-e-validação">Exemplo e validação</h2>
+<p>O atlas (<code>gallery/figure-labels-atlas.png</code>, generated locally) combina os três rótulos globais,
+dois mapas, ticks rotacionados, colorbar horizontal, legenda, escala e norte.
+Seu <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/figure_labels.py">código</a> usa apenas Azimlib.</p>
+<p>Comparações com Axes/layout independentes do Matplotlib:
+tight (<code>gallery/figure-labels-tight-comparison.png</code>, generated locally),
+constrained (<code>gallery/figure-labels-constrained-comparison.png</code>, generated locally) e
+hierarquia (<code>gallery/figure-labels-nested-comparison.png</code>, generated locally). São exemplos com
+os mesmos dados/tamanhos/estilos, não imagens iguais. Há diferenças de fontes,
+reservas, aspecto e comprimento da colorbar; os solvers não são equivalentes.
+O caso tight não tem colorbar; os casos constrained demonstram barras
+compartilhadas, e na hierarquia a barra pertence somente ao grid filho.</p>
+<p><a href="figure-labels-reference.json">16 contratos</a> foram registrados diretamente do
+Matplotlib 3.11.2/Agg e comparados em testes sem importar Matplotlib. Doze novas
+regressões incluem 24 combinações de layout/hierarquia/tamanho/DPI, edição,
+visibilidade, remoção, falha atômica, exports SVG/HTML e exemplos PNG. O script de desenvolvimento
+<code>tools/inspect_figure_labels.py</code> recria os contratos e as três comparações;
+Matplotlib não integra o runtime.</p>
+<p>Dimensões/DPI públicos e títulos laterais independentes são descritos em
+<a href="sizing-composition.html">integração de composição</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/figure-labels.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

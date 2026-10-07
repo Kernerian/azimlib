@@ -1,0 +1,110 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GridSpec, proporções e painéis com spans · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="gridspec-proporções-e-painéis-com-spans">GridSpec, proporções e painéis com spans</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p><code>GridSpec</code> próprio separa a alocação das células da projeção/renderização de
+cada mapa. <code>SubplotSpec</code> descreve um retângulo de células, com a mesma forma
+de chamada familiar de Matplotlib:</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig = azl.figure(figsize=(12, 8), layout=&quot;constrained&quot;)
+gs = fig.add_gridspec(2, 3, width_ratios=[2.3, 1, 1])
+
+brasil = fig.add_subplot(gs[:, 0], projection=&quot;mercator&quot;)
+minas = fig.add_subplot(gs[0, 1:], projection=&quot;mercator&quot;)
+sao_paulo = fig.add_subplot(gs[1, 1:], projection=&quot;mercator&quot;)
+
+brasil.map(&quot;brazil&quot;)
+minas.state(&quot;MG&quot;)
+sao_paulo.state(&quot;SP&quot;)
+fig.suptitle(&quot;Atlas regional&quot;)
+fig.savefig(&quot;atlas.png&quot;, dpi=150)
+azl.show()
+</code></pre>
+<p>As linhas são contadas de cima para baixo; colunas, da esquerda para a direita.
+Índices são zero-based e aceitam valores negativos. <code>gs[0]</code> é a primeira célula
+na ordem por linhas; <code>gs[-1]</code> é a última. <code>gs[:, 0]</code> ocupa toda a primeira
+coluna, <code>gs[0, :]</code> ocupa toda a primeira linha. <code>gs[1:, 1:]</code> seleciona um bloco.
+O fim de uma slice é exclusivo. A seleção cria um SubplotSpec, sem criar Axes.</p>
+<p>Slices planas, como <code>gs[2:5]</code>, usam o retângulo definido pelas células inicial
+e final, seguindo a referência. Esse retângulo pode conter células fora da
+sequência plana. Para intenção clara, prefira <code>gs[rows, columns]</code>.</p>
+<p>Também funcionam <code>fig.add_subplot(231)</code>, <code>fig.add_subplot(2, 3, 4)</code> e
+<code>fig.add_subplot(2, 3, (2, 6))</code>: índices numéricos são <strong>one-based</strong>; o par
+seleciona o retângulo entre as duas células. Chamadas numéricas da mesma forma
+de grid reutilizam seu GridSpec; cada chamada cria um novo Axes.</p>
+<h2 id="proporções-e-espaços">Proporções e espaços</h2>
+<pre><code class="language-python">fig, axs = azl.subplots(
+    2, 2, width_ratios=[2, 1], height_ratios=[1, 3],
+    gridspec_kw={&quot;wspace&quot;: 0.3, &quot;hspace&quot;: 0.4},
+)
+# Alternativa: todos os parâmetros em gridspec_kw.
+gs = axs[0, 0].get_gridspec()
+</code></pre>
+<p>Proporções são pesos relativos, copiados da entrada: <code>[2,1]</code> aloca à primeira
+coluna duas vezes a largura útil da segunda. <code>width_ratios</code> tem um valor por
+coluna; <code>height_ratios</code>, por linha. A área de um span inclui os espaços internos
+entre suas células. Não corresponde necessariamente ao tamanho visível do mapa:
+a proporção geográfica pode deixar espaço em branco no retângulo alocado.</p>
+<p><code>left</code>, <code>right</code>, <code>bottom</code> e <code>top</code> usam frações da Figure. <code>wspace</code>/<code>hspace</code>
+usam frações da <strong>largura/altura média das células</strong>, independentemente dos pesos.
+Opções locais têm precedência sobre <code>fig.subplots_adjust(...)</code>.
+Quando não há opção local, o grid herda os parâmetros da Figure.</p>
+<pre><code class="language-python">fig.subplots_adjust(left=0.15, right=0.92, wspace=0.25)
+gs.update(left=0.2, wspace=0.35)
+gs.update(left=None)  # Volta a herdar o parâmetro da Figure.
+
+gs.set_width_ratios([1, 2])
+gs.set_height_ratios([2, 1])
+gs.update()  # Aplica os novos pesos às posições em layout manual.
+</code></pre>
+<p>Como na referência, setters de proporção não reposicionam imediatamente Axes
+em layout manual. <code>gs.update()</code> aplica as proporções atuais. Engines automáticos
+leem esses pesos no próximo desenho. Valores inválidos são rejeitados antes de
+alterar proporções, parâmetros ou posições.</p>
+<h2 id="layout-e-componentes">Layout e componentes</h2>
+<p>Tight/constrained próprios medem títulos, ticks, labels, legendas e colorbars
+considerando os limites externos de cada span. Reservas de margem/espaçamento
+são conservadoras; não são o solver do Matplotlib nem garantem pixels iguais.
+Opções locais de margem limitam a área disponível ao solver. Espaços locais
+são mínimos: decorações podem exigir separação maior.</p>
+<p>Colorbar compartilhada funciona sobre a união dos mapas, incluindo spans:</p>
+<pre><code class="language-python">bar = fig.colorbar(layer, ax=[brasil, minas, sao_paulo], orientation=&quot;horizontal&quot;)
+</code></pre>
+<p>Também é possível reservar uma célula/span para <code>cax=fig.add_subplot(gs[...])</code>.
+O retângulo desse cax continua explícito e não é movido pelo solver automático.
+Para um atlas com cax reservado, use layout manual ou reserve uma área externa
+ao rect do solver; ele ainda não evita esse cax como um obstáculo independente.
+<code>add_axes()</code> também preserva seu retângulo manual.</p>
+<p><code>get_subplotspec()</code> retorna a seleção de um Axes; <code>get_gridspec()</code> retorna seu
+grid. Em Axes manuais os dois retornam None. <code>spec.get_position(fig).bounds</code>
+retorna a alocação nominal pelas margens/espaços, antes do solver automático
+e da correção de aspecto do mapa. Não mede o viewport renderizado.
+<code>gs.get_grid_positions(fig)</code> retorna tuplas de bottoms/tops/lefts/rights.
+<code>gs.get_subplot_params(fig)</code> retorna uma cópia com acesso por chave ou atributo.</p>
+<p>Os componentes continuam opcionais. GridSpec não acrescenta grade, legenda,
+barra de escala, colorbar, minimapa, seta de norte ou rosa dos ventos.</p>
+<h2 id="escopo-e-diferenças-deliberadas">Escopo e diferenças deliberadas</h2>
+<ul>
+<li>O solver automático suporta <strong>uma hierarquia com um GridSpec raiz</strong> por Figure, com spans e pesos.
+Grids distintos em layout manual funcionam. Quando há múltiplos grids ativos
+em layout automático, avisa e preserva todas as posições anteriores.</li>
+<li><code>subplot_mosaic</code> e subgridspec aninhados estão disponíveis; veja
+<a href="nested-layout.html">hierarquias</a>. Ainda não há SubFigure ou compressed layout.</li>
+<li><code>GridSpec.subplots(sharex='col', sharey='row')</code> e vínculos em mosaicos também
+estão disponíveis; consulte <a href="shared-axes.html">eixos compartilhados</a>.</li>
+<li>Slices só aceitam <code>step=1</code>. O Matplotlib instalado ignora alguns passos nas
+seleções; aqui passos não contíguos são rejeitados explicitamente.</li>
+<li>Pesos devem ser positivos e finitos; não se usam pesos zero para ocultar células.</li>
+<li>Um GridSpec pertence a uma Figure. <code>GridSpec(2, 2)</code> sem Figure é vinculado
+quando seu primeiro Axes é criado; reutilizá-lo em outra Figure é rejeitado.</li>
+<li>Seleções sobrepostas são permitidas, como Axes sobrepostos manuais. O solver
+não decide automaticamente ocultar ou remover um deles.</li>
+<li>HTML é uma cena exportada: não recalcula esse solver ao navegar.</li>
+</ul>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/gridspec_atlas.py">Exemplo completo</a> e
+atlas renderizado (<code>gallery/gridspec-atlas.png</code>, generated locally).
+<code>tools/inspect_gridspec.py</code> registra 24 seleções, seis estados de edição e três
+seleções numéricas do Matplotlib 3.11.2/Agg em <code>gridspec-reference.json</code>.
+Os testes comparam a alocação manual em frações de Figure; não exigem
+Matplotlib instalado. O núcleo continua sem backend cartográfico externo.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/gridspec.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

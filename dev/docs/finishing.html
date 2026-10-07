@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Acabamento, texto e exportação — desenvolvimento 0.3.0 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="acabamento-texto-e-exportação-desenvolvimento-030">Acabamento, texto e exportação — desenvolvimento 0.3.0</h1>
+<p>Estes recursos pertencem ao desenvolvimento da 0.3.0. A versão publicada
+0.2.0 permanece separada. O runtime continua independente: matemática,
+geometria de símbolos, placement e escritor PDF são implementações próprias.</p>
+<h2 id="curvas-caps-junções-e-unidades">Curvas, caps, junções e unidades</h2>
+<p><code>Path.to_polylines(tolerance=.2, transform=None, max_depth=16)</code> subdivide
+Béziers quadraticas/cúbicas por De Casteljau. A tolerância mede distância às
+cordas nas unidades do transform. O teste usa uma cúbica analítica e 3.003
+amostras. O renderer de PathPatch/LineCollection usa .2 pixel lógico (100 DPI);
+o scene é escalado fisicamente para o DPI da Figure. O limite de erro é
+geométrico para transforms afins; em projeções não lineares a verificação de
+controles projetados é uma aproximação. Não substitui densificação geográfica.
+Profundidade insuficiente e controles fora do domínio falham explicitamente.
+O método sem tolerance preserva os 24 passos anteriores por compatibilidade.</p>
+<p><code>linewidth</code>, caps/junções e marcadores continuam em pontos. Clipping conserva
+coordenadas fracionárias. PNG usa coverage/antialiasing próprios e Pillow como
+superfície e rasterizador de fontes; SVG/PDF preservam coordenadas vetoriais.
+Antialiasing diferente entre rasterizadores impede promessa de igualdade pixel
+a pixel, mesmo quando a geometria física é a mesma.</p>
+<h2 id="tipografia-e-shaping">Tipografia e shaping</h2>
+<p>Todos os textos — títulos/subtítulos, eixos, ticks/offsets, figuras, legendas,
+colorbars, escala, norte/rosa, labels, annotations e caixas — passam pelas
+mesmas métricas de avanços/kerning, baselines, blocos e rotação. PNG rasteriza
+fontes com FreeType através de Pillow em 3x e compõe fases subpixel; a posição
+de origem é quantizada a 1/3 do pixel de saída. Hinting depende dessa resolução
+interna. SVG usa fontes DejaVu incorporadas, e seu leitor escolhe o hinting.
+PDF usa contornos exatos <strong>não hintados</strong>, apropriados a vetores escaláveis.</p>
+<p>O leitor próprio de glyf/loca preserva pontos implícitos, curvas quadráticas,
+composição/transformações e attachment de glifos. A comparação de 22.392
+glifos das quatro faces com fontTools é uma validação de desenvolvimento;
+fontTools não é usado pelo runtime. Não há shaping OpenType geral, bidi,
+ligaduras contextuais, fontes variáveis, fallback por script ou equivalência
+a HarfBuzz. Texto complexo não deve ser anunciado como corretamente composto.
+Famílias estrangeiras continuam possíveis em PNG/SVG, com métricas estimadas;
+PDF rejeita essas famílias para evitar substituição silenciosa.</p>
+<h2 id="labels-interiores-prioridade-e-leaders">Labels interiores, prioridade e leaders</h2>
+<p><code>ax.labels(data, field='name', priority_field='priority', avoid_overlap=True)</code>
+reserva obstáculos explícitos e prioriza globalmente antes de desenhar. A
+busca interior subdivide caixas no espaço projetado, favorecendo clearance
+às bordas, holes e viewport; usa limite de 1.024 células por polígono e .75
+pixel lógico. A caixa inteira do texto deve caber no polígono. Multiplos
+componentes visíveis são candidatos. Polígonos com cortes no horizonte retêm
+a posição geográfica conservadora anterior; labels podem ser omitidos.</p>
+<p><code>leader=True</code> termina a linha na borda da caixa de colisão do label, evitando
+riscar o texto. Candidatos cujos leaders cruzam outras caixas de labels ou
+obstáculos explícitos são rejeitados; não há roteamento de linhas em curvas.
+A caixa do ponto de origem pode ser atravessada para sair do próprio marcador.
+Labels explícitos/annotations não recebem deslocamentos
+automáticos ocultos. Colisão de labels usa caixas conservadoras; não promete
+resolver um layout arbitrariamente denso ou colisão entre todos os artists.</p>
+<h2 id="nomes-curvos-e-repetição">Nomes curvos e repetição</h2>
+<pre><code class="language-python">import azimlib as azl
+fig, ax = azl.subplots()
+ax.set_extent((0, 10, 0, 8))
+river = {'type': 'Feature', 'properties': {'name': 'River'},
+         'geometry': {'type': 'LineString',
+                      'coordinates': [[0, 3], [4, 4], [10, 3]]}}
+ax.geojson(river, color='#258bb0')
+ax.labels(river, placement='curve', repeat=100, fontsize=9)
+fig.savefig('river.pdf')
+</code></pre>
+<p><code>placement='line'</code> conserva o bloco tangente anterior; <code>'curve'</code> posiciona
+glifos por comprimento de arco com avanços e kerning próprios. <code>repeat</code> é
+distância entre centros em <strong>pontos</strong>, aumentada quando necessário para
+caber o nome. None coloca um nome aceito por feature. Caminhos são invertidos
+para leitura direita/esquerda; baseline maior que 85° e salto entre glifos
+maior que 35° são rejeitados. Espaço livre, viewport, obstáculos e prioridades
+continuam valendo por nome completo. Curved labels são uma linha de texto
+simples; matemática/multilinha e shaping contextual são rejeitados.
+Tk recompõe após navegação/edição. HTML permanece um snapshot de poses: não
+replaneja labels curvos a partir de dados Python após navegar.</p>
+<h2 id="expressões-simples-próprias">Expressões simples próprias</h2>
+<pre><code class="language-python">ax.set_title(r'Distance $d=\sqrt{x^2+y^2}$')
+ax.text(5, 5, r'$\sigma^2=\frac{x_0^2}{2}$', fontsize=14)
+</code></pre>
+<p>Pares de <code>$...$</code>, grupos <code>{...}</code>, scripts <code>_</code>/<code>^</code>, <code>\frac</code>, <code>\sqrt</code>, letras
+gregas alpha/beta/gamma/delta/epsilon/theta/lambda/mu/pi/rho/sigma/phi/omega
+(e maiúsculas Gamma/Delta/Theta/Lambda/Pi/Sigma/Phi/Omega), times/cdot/pm,
+leq/geq/neq/infty/degree são suportados. Parser e layout não executam código,
+TeX ou comandos externos. Há limites de 4.096 caracteres e 16 níveis de grupo.
+Comandos desconhecidos/malformed geram ValueError ao compor; um <code>$</code> isolado
+fica literal. Fonte matemática é DejaVu normal, sem italicização automática,
+stretchy delimiters, arrays, integrais ou tipografia TeX completa. O radical
+é um glifo com overbar, não uma construção TeX esticável.</p>
+<p>Expressões produzem textos/regras portáveis antes dos backends e entram nas
+métricas de layout. A API compatível <code>ScalarFormatter(useMathText=True)</code> e
+TeX/usetex continuam fora deste corte; formatação científica automática usa
+texto simples. Não alegamos implementar o MathText do Matplotlib.</p>
+<h2 id="símbolos-externos-e-padrões-com-proveniência">Símbolos externos e padrões com proveniência</h2>
+<pre><code class="language-python">origin = azl.Provenance(
+    source='https://example.org/icon-source', license='BSD-3-Clause',
+    copyright='Copyright ...', attribution='Required credit',
+    license_text='Full applicable third-party notice')
+symbol = azl.read_svg_symbol('station.svg', provenance=origin)
+ax.scatter([5], [5], marker=symbol, s=100, rotation=20)
+pattern = azl.HatchPattern([[(0, .2), (.5, .5), (1, .2)]], origin)
+</code></pre>
+<p>Provenance exige origem, licença e copyright/declaração de domínio público.
+Um hash fornecido é verificado; o leitor sempre registra o SHA-256 do arquivo.
+Isto documenta uma declaração do fornecedor, <strong>não comprova direitos</strong>. Cabe
+ao fornecedor incluir atribuição/texto integral de licença aplicáveis.
+Nenhum download, resolução de URL, licença presumida ou path local automático.
+Avisos declarados seguem em metadata SVG/PNG e anexo PDF, inclusive patches
+de legenda; permanecem sujeitos aos seus próprios termos.</p>
+<p>SVG é um ícone monocromático de <strong>um elemento path</strong>: M/L/H/V/Q/C/Z absolutos,
+até 1 MB/10.000 vertices. Multipartes exigem <code>fill-rule='evenodd'</code>; estilos
+são aplicados pelos artistas Azimlib. Scripts, entidades, recursos externos,
+images, text, transforms, comandos relativos/arcos e elementos adicionais
+são rejeitados. <code>Symbol</code>/<code>HandlerSymbol</code> preservam aspecto uniforme.</p>
+<p>HatchPattern aceita polylines de tile [0,1]², até 1.024 vertices. Repetição
+usa <code>hatch_spacing</code> em pontos, <code>hatch_color</code> e <code>hatch_linewidth</code>; segmentos
+são recortados pela regra par-ímpar, incluindo holes. Mais de 20.000 segmentos
+candidatos gera erro, não alocação ilimitada. Padrões customizados são lineares;
+imagens/tiles preenchidos não são suportados. Os dez padrões de string
+anteriores e repetições/composições continuam disponíveis.</p>
+<h2 id="pdf-próprio">PDF próprio</h2>
+<p><code>fig.savefig('map.pdf')</code> ou BytesIO com <code>format='pdf'</code> produz uma página PDF
+1.4: paths, caps/junções/dashes, clipping fracionário, fill par-ímpar,
+transparência separada de borda/preenchimento, circles e textos rotacionados.
+Tamanho da página usa figsize em polegadas ×72. DPI de raster exportado não
+altera tamanho/layout PDF. O diálogo nativo Save também oferece PDF; HTML
+Save continua PNG/SVG. Exportação atômica conserva arquivos preexistentes
+se houver erro e não fecha streams fornecidos pelo usuário.</p>
+<p>Contornos próprios das quatro faces DejaVu viram curvas cúbicas PDF, sem
+dependência opcional. Texto PDF <strong>não é selecionável/pesquisável</strong> neste
+corte. O aviso integral da fonte acompanha o PDF como anexo; SVG incorporando
+a fonte inclui aviso em metadata. Dados/colormaps/ícones conservam termos.
+Raster 2D segue sua representação atual de cells/paths em cena, que pode
+produzir PDFs grandes; não há objeto image incorporado, PDF/A, compressão,
+camadas PDF, multipage ou acessibilidade/tagging. Atlas por páginas é etapa 9.</p>
+<p>Formato especificado conforme <a href="https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/pdfreference1.7old.pdf">PDF Reference da Adobe</a>
+e <a href="https://learn.microsoft.com/en-us/typography/opentype/spec/glyf">OpenType glyf da Microsoft</a>.
+São referências de formato; nenhum código de leitores/exportadores foi portado.</p>
+<h2 id="exemplos-e-evidência">Exemplos e evidência</h2>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/finishing_atlas.py">Atlas completo</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/compare_finishing.py">comparação de desenvolvimento</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_finishing.py">testes</a> e
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/audit_finishing.py">auditoria numérica/exportação</a>.
+Veja a <a href="_static/finishing/README.html">galeria com hashes e proveniência</a> e a
+<a href="release-progress-0.3.html">checklist operacional</a>. Comparação é referência
+visual, não promessa de identidade universal entre renderizadores.</p>
+<p>Independent PDF verification: <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/verify_finishing_pdf.py">pypdf/Poppler validator</a>.
+This optional development tool needs pypdf, Pillow and a pdftoppm executable;
+none becomes a runtime or mandatory installation dependency. Run the numeric
+audit into <code>OUTPUT/installed-export</code>, the atlas into <code>OUTPUT/gallery-installed</code>,
+then <code>python tools/verify_finishing_pdf.py --output OUTPUT --pdftoppm PATH</code>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/finishing.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,193 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aceite local do passo 4 — 2026-10-03 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="aceite-local-do-passo-4-2026-10-03">Aceite local do passo 4 — 2026-10-03</h1>
+<p>Os itens <strong>4.08–4.10</strong> encerram o corte de desempenho com medições reproduzíveis,
+pixels preservados, input humano confirmado e limites explícitos. Não prometem
+FPS constantes, primeira vista instantânea ou desempenho igual ao Matplotlib
+em qualquer mapa. A validação das outras plataformas permanece no passo 5.</p>
+<h2 id="base-original-perfil-e-mudança">Base original, perfil e mudança</h2>
+<p>Foi usada a <a href="https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2024/UFs/SP/">malha municipal original de São Paulo, IBGE 2024</a>:
+645 municípios, <strong>892.336 posições</strong>, GeoJSON de 22.894.192 bytes. Todas as
+coordenadas XY fornecidas foram conservadas, sem simplificação. A conversão de
+desenvolvimento usa apenas a biblioteca padrão; não acrescenta leitura pública
+de Shapefile. <a href="original-geojson-provenance.json">Proveniência, hashes e CRS</a>.
+O CRS original é SIRGAS 2000: não foi realizada transformação de datum para
+WGS84. É uma avaliação de visualização esférica, sem promessa de precisão cadastral.
+Os dados externos não são incluídos no wheel, sdist ou ZIP fonte.</p>
+<p>O perfil da geometria original apontou cobertura de strokes/discos como maior
+gargalo: 82,3 s instrumentados em <code>CoverageDraw.polygon</code>, dentro de 106,0 s
+instrumentados. Esses valores de cProfile <strong>não são</strong> os tempos sem profiler
+da tabela abaixo. <a href="detailed-profile-before.json">Resumo do perfil</a>.</p>
+<p>O extra <code>accelerate</code> compila os loops numéricos <strong>da Azimlib</strong> com Numba/NumPy
+genéricos. Não inclui outro renderer, Matplotlib, engine GIS, fastmath, redução
+de vértices ou cache persistente de código. Construção de segmentos, tracejados,
+discos, caps/joins e polígonos continua própria; a ordem das interseções e da soma
+de áreas é preservada. Sem o extra, permanece o caminho escalar Python/Pillow.
+O custo inicial do compilador está incluído nas medidas frias.</p>
+<pre><code class="language-bash">pip install &quot;azimlib[gui,accelerate]&quot;
+</code></pre>
+<h2 id="rasterização-precisa-e-memória">Rasterização precisa e memória</h2>
+<p>Windows 11 build 26200, Ryzen 5 5600X (6 núcleos/12 threads), CPython 3.14.4,
+Pillow 12.3.0, NumPy 2.5.3, Numba 0.68.0, llvmlite 0.50.0. Figura 6,4×4,8
+polegadas; além da malha original, mesh sintético 47×35 células, cinco níveis
+de contorno e 1.200 pontos determinísticos. Sem janela durante estes timings.</p>
+<table>
+<thead>
+<tr>
+<th>Vista / DPI</th>
+<th style="text-align:right">Raster antes</th>
+<th style="text-align:right">Raster atual</th>
+<th style="text-align:right">Redução local</th>
+<th style="text-align:right">Pico WSS antes → atual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Completa / 100</td>
+<td style="text-align:right">60,42 s</td>
+<td style="text-align:right">33,58 s</td>
+<td style="text-align:right">44,4%</td>
+<td style="text-align:right">320 → 433 MiB</td>
+</tr>
+<tr>
+<td>Deslocada / 100</td>
+<td style="text-align:right">57,99 s</td>
+<td style="text-align:right">31,11 s</td>
+<td style="text-align:right">46,4%</td>
+<td style="text-align:right">321 → 434 MiB</td>
+</tr>
+<tr>
+<td>Foco / 100</td>
+<td style="text-align:right">20,38 s</td>
+<td style="text-align:right">11,81 s</td>
+<td style="text-align:right">42,0%</td>
+<td style="text-align:right">267 → 354 MiB</td>
+</tr>
+<tr>
+<td>Completa / 200</td>
+<td style="text-align:right">90,43 s</td>
+<td style="text-align:right">33,42 s</td>
+<td style="text-align:right">63,0%</td>
+<td style="text-align:right">487 → 559 MiB</td>
+</tr>
+</tbody>
+</table>
+<p>Duas amostras em processos novos por configuração; mediana do raster e maior
+pico WSS observado. Os oito pares finais têm <strong>RGBA e PNG byte a byte idênticos</strong>.
+Não é inferência de significância estatística nem garantia em outra máquina.
+O custo de compilação/runtime aumenta memória: o commit privado chegou a cerca
+de 794 MiB no caso de 200 DPI. WSS/commit vêm de <code>GetProcessMemoryInfo</code>, não de
+tracemalloc; são valores do processo, com seus módulos e buffers, não só da imagem.</p>
+<p>Os relatórios <code>detailed-before-*-r*.json</code> preservam o runtime anterior;
+<code>detailed-final-*-r*.json</code> medem o runtime atual. Os <code>detailed-after-*-r*.json</code>
+são uma etapa intermediária com limiar de compilação 256 e cache de 8 MiB,
+<strong>não</strong> o runtime final. Seus snapshots permanecem em <code>tools/baselines</code>.
+<a href="performance-acceptance-audit.json">Auditoria consolidada</a> confere hashes, origem
+dos módulos, input, pixels e memória sem repetir os timings.</p>
+<h2 id="preparação-de-vistas-novas-distinta-do-cache-de-imagens">Preparação de vistas novas, distinta do cache de imagens</h2>
+<p>O LRU de paths projetados passou de 8 para <strong>16 MiB de payload</strong>, mantendo
+1.024 entradas máximas. A malha original ocupa 14.455.285 bytes em 702 entradas:
+o orçamento anterior a expulsava durante cada percurso, provocando reprojeção
+completa em todo pan. Não se alteraram precisão float64 nem composição.</p>
+<table>
+<thead>
+<tr>
+<th>Composição</th>
+<th style="text-align:right">Antes</th>
+<th style="text-align:right">Atual</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Primeira vista</td>
+<td style="text-align:right">9,01 s</td>
+<td style="text-align:right">8,52 s</td>
+</tr>
+<tr>
+<td>Pan novo</td>
+<td style="text-align:right">9,09 s</td>
+<td style="text-align:right">0,41 s</td>
+</tr>
+<tr>
+<td>Segundo pan novo</td>
+<td style="text-align:right">9,14 s</td>
+<td style="text-align:right">0,37 s</td>
+</tr>
+<tr>
+<td>Retorno Home</td>
+<td style="text-align:right">8,31 s</td>
+<td style="text-align:right">0,38 s</td>
+</tr>
+<tr>
+<td>Retorno ao pan</td>
+<td style="text-align:right">8,49 s</td>
+<td style="text-align:right">0,35 s</td>
+</tr>
+</tbody>
+</table>
+<p>São vistas sucessivas reais no mesmo processo, <strong>sem cache de Scene ou imagem</strong>.
+Os cinco hashes da Scene, incluindo floats e estilos, coincidem antes/depois.
+<a href="detailed-new-views-before.json">Antes</a>, <a href="detailed-new-views-after.json">atual</a>.
+16 MiB limitam o payload retido; não limitam a memória total. Outras bases
+maiores ainda podem expulsar entradas. A primeira preparação continua em segundos.</p>
+<h2 id="janela-visível-e-input-humano">Janela visível e input humano</h2>
+<p>A verificação visual Windows cobriu Pan com saída/retorno, zoom, Home,
+Voltar/Avançar e fechamento, sem saltos ou mudança de espessura no exemplo
+Brasil. O escopo não inclui a base municipal pesada nem outras plataformas.</p>
+<p><a href="visible-navigation-brazil.json">Telemetria final do Brasil</a>: 1.606 eventos
+nativos, 26 press/release, dez wheel, três Home, 12 Back, quatro Forward e 246
+registros de pintura idle do Tk. Handler máximo 31,1 ms; intervalo máximo do
+heartbeat 108,5 ms; idade estimada do despacho mediana 0 ms/máximo 63 ms, sujeita
+à granularidade do timer nativo. Entrega PhotoImage/canvas mediana 5,5 ms.</p>
+<p>Para 31 eventos cuja vista exata foi entregue antes da próxima mudança de
+extent, input→idle teve mediana 210 ms, p95 551 ms e máximo 782 ms. Vistas
+intermediárias coalescidas não entram nessa amostra; uma revisita posterior não
+é contada como latência do evento antigo. Scene usa (west,south,east,north),
+enquanto Axes usa (west,east,south,north); a auditoria normaliza essa ordem.
+<strong>Idle do Tk não mede compositor, vsync ou apresentação física no monitor.</strong>
+O script preservado em <code>tools/baselines/visible-navigation-human</code> corresponde
+exatamente ao hash da sessão humana, anterior à opção de demonstração por API.</p>
+<p>Na <a href="visible-navigation-detailed.json">janela detalhada</a>, duas mudanças pela
+API própria, pan novo e retorno Home, mediram entrega/pintura do Tk em canvas
+visível. <strong>Não houve input humano nessa sessão.</strong> A primeira preparação/raster
+levou cerca de 48 s antes de disponibilizar a janela; o pan novo estabilizou em
+35,14 s e o retorno Home em 1,69 s usando o frame preciso armazenado. O maior
+intervalo do heartbeat foi 2,00 s. A primeira entrega ocorreu antes do canvas
+ficar mapeado; somente as mudanças seguintes têm <code>canvas_viewable=true</code>.
+Retorno de cache não representa velocidade da primeira rasterização.</p>
+<p>O quadro preciso pesado permanece em worker próprio após navegação; sua
+conclusão leva dezenas de segundos, e composição/cópia ainda podem causar pausas.
+A abertura inicial é síncrona. <strong>O caso de 892 mil posições não tem aceite de
+pan contínuo fluido.</strong> Ele delimita o teto medido deste corte, sem bloquear o
+aceite do viewer Brasil nem esconder um gargalo futuro.</p>
+<p>Não houve captura automática do desktop. Observação visual Windows e
+resultados da instrumentação são evidências separadas.</p>
+<h2 id="reprodução-e-escopo-do-aceite">Reprodução e escopo do aceite</h2>
+<p>Na raiz do projeto, prepare a entrada externa uma vez e execute sem outras
+cargas pesadas concorrentes. A ferramenta de preparação baixa apenas a entrada
+oficial selecionada para o benchmark, verificando formato e hashes; ela não integra o runtime.</p>
+<pre><code class="language-bash">python tools/prepare_original_benchmark.py --help
+python tools/benchmark_detailed_map.py caminho/ibge-sp-original-2024.geojson --output raster.json --warm
+python tools/benchmark_new_views.py caminho/ibge-sp-original-2024.geojson --runtime src --output views.json
+python tools/measure_visible_navigation.py --output native-input.json
+python tools/audit_step4.py
+</code></pre>
+<p>O benchmark aceita <code>--runtime</code> para comparar snapshots próprios preservados,
+<code>--view whole|pan|focus</code> e <code>--dpi 100|200</code>; cProfile usa <code>--profile</code> em uma
+execução separada. Sem entrada externa, o auditor ainda confere os relatórios
+distribuídos. Não se impõe um teste de tempo frágil à suíte.</p>
+<p>A suíte completa passou: <strong>675 testes/22.192 subtests</strong>, em 187,385 s, com
+compilador opcional disponível. As seis novas regressões/5.470 subtests comparam
+bits de áreas/interseções, máscaras, linhas finas, acumulados, fallback e pixels
+com alpha/tracejados/buracos/recortes em duas resoluções; também permanecem os
+testes de cancelamento, processos de navegação e orçamento/cache existentes.
+Tempo de suíte não é benchmark de navegação. CI do extra foi configurada,
+mas não é declarada executada remotamente.
+<a href="performance-acceptance-checks.json">Registro dos checks source/wheel</a>: 39
+testes selecionados com compilador e os mesmos 39 sem ele (dois checks
+exclusivos do compilador pulados), onze checks Tk de pan e 28 de toolbar
+em cada runtime; 114 exports estáticos iguais à distribuição anterior.</p>
+<p>O aceite fecha <strong>evidência, melhoria e limites</strong> de 4.08–4.10. Abrange as bases
+e resoluções descritas, não novos formatos, datum cadastral, GPU, dados urbanos,
+3D ou navegação fluida arbitrariamente densa. No encerramento deste lote havia
+sete subpassos do passo 5 pendentes, incluindo CI efetiva e verificações nas
+demais plataformas. A contagem atual está na <a href="release-progress.html">checklist</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/performance-acceptance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

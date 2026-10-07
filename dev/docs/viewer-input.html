@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teclado, mouse e atalhos no viewer Tk · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="teclado-mouse-e-atalhos-no-viewer-tk">Teclado, mouse e atalhos no viewer Tk</h1>
+<p>O viewer interpreta os eventos com implementação própria. Matplotlib é apenas
+referência de desenvolvimento; nenhum normalizador/backend dele é importado
+em execução. O HTML portátil conserva seu sistema JavaScript e suas limitações;
+os contratos abaixo se referem ao Tk.</p>
+<h2 id="eventos-e-propriedades">Eventos e propriedades</h2>
+<p><code>fig.canvas.mpl_connect(nome, callback)</code> conecta uma função. O callback recebe
+um objeto com <code>name</code>, <code>canvas</code>, <code>inaxes</code>, <code>x/y</code>, <code>xdata/ydata</code> e <code>guiEvent</code>.
+Display usa pixels a partir do canto inferior esquerdo; <code>x/y</code> são inteiros,
+mas a inversa geográfica usa a posição original, antes de truncar. Fora de
+um mapa, <code>inaxes</code> e coordenadas geográficas são <code>None</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Canal</th>
+<th>Propriedades e comportamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>key_press_event</code>, <code>key_release_event</code></td>
+<td><code>key</code> normalizado: <code>ctrl+s</code>, <code>P</code>, <code>enter</code>, <code>pageup</code>, Unicode; mapa sob o cursor</td>
+</tr>
+<tr>
+<td><code>button_press_event</code>, <code>button_release_event</code></td>
+<td><code>button</code> em MouseButton, <code>modifiers</code>, <code>dblclick</code>; clique do meio também é informado</td>
+</tr>
+<tr>
+<td><code>motion_notify_event</code></td>
+<td><code>buttons</code> frozenset dos botões atualmente pressionados; <code>button</code> é o último press ainda sem release</td>
+</tr>
+<tr>
+<td><code>scroll_event</code></td>
+<td><code>step</code> fracionário, <code>button='up'/'down'</code>, <code>modifiers</code>; delta zero não navega</td>
+</tr>
+<tr>
+<td><code>figure_enter_event</code>, <code>figure_leave_event</code></td>
+<td>entrada/saída do canvas; sair limpa a mensagem de coordenadas</td>
+</tr>
+<tr>
+<td><code>axes_enter_event</code>, <code>axes_leave_event</code></td>
+<td>mudança de mapa durante motion; sair do anterior precede entrar no novo</td>
+</tr>
+<tr>
+<td><code>draw_event</code>, <code>resize_event</code>, <code>close_event</code></td>
+<td>cena desenhada, dimensão alterada e fechamento</td>
+</tr>
+</tbody>
+</table>
+<p>Mouse usa <code>modifiers</code> como frozenset de nomes: ctrl, alt, shift e, conforme
+plataforma, cmd/super. Em teclado, os modificadores fazem parte de <code>key</code>; o
+campo <code>modifiers</code> permanece vazio, como na referência. A tecla pressionada
+também aparece em eventos de mouse até o release. Em axes_enter, o payload
+é o motion atual, inclusive <code>event.name='motion_notify_event'</code>, como Matplotlib.
+Em axes_leave, o payload informa o Axes anterior e a posição atual do cursor.</p>
+<pre><code class="language-python">from azimlib.backend_bases import MouseButton
+
+def on_click(event):
+    if event.inaxes is ax and event.button == MouseButton.LEFT:
+        if 'ctrl' in event.modifiers:
+            print(event.xdata, event.ydata)
+
+cid = fig.canvas.mpl_connect('button_press_event', on_click)
+# fig.canvas.mpl_disconnect(cid)
+</code></pre>
+<p>MouseButton possui LEFT=1, MIDDLE=2, RIGHT=3, BACK=8 e FORWARD=9 e continua
+comparável com inteiros. Botões 2/3 e máscaras têm a conversão própria de Tk
+em macOS. Botões extras só funcionam quando o sistema/Tk os entrega.
+Isso não implementa as classes MouseEvent/KeyEvent/LocationEvent completas.</p>
+<h2 id="atalhos-configuráveis">Atalhos configuráveis</h2>
+<table>
+<thead>
+<tr>
+<th>rcParam</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>keymap.home</code></td>
+<td>h, r, home</td>
+</tr>
+<tr>
+<td><code>keymap.back</code></td>
+<td>left, c, backspace, MouseButton.BACK</td>
+</tr>
+<tr>
+<td><code>keymap.forward</code></td>
+<td>right, v, MouseButton.FORWARD</td>
+</tr>
+<tr>
+<td><code>keymap.pan</code></td>
+<td>p</td>
+</tr>
+<tr>
+<td><code>keymap.zoom</code></td>
+<td>o</td>
+</tr>
+<tr>
+<td><code>keymap.save</code></td>
+<td>s, ctrl+s</td>
+</tr>
+<tr>
+<td><code>keymap.fullscreen</code></td>
+<td>f, ctrl+f</td>
+</tr>
+<tr>
+<td><code>keymap.quit</code></td>
+<td>ctrl+w, cmd+w, q</td>
+</tr>
+<tr>
+<td><code>keymap.grid</code></td>
+<td>g</td>
+</tr>
+<tr>
+<td><code>keymap.grid_minor</code></td>
+<td>G</td>
+</tr>
+</tbody>
+</table>
+<p>Maiúsculas e modificadores são significativos: P e Ctrl+P não ativam pan por
+padrão. Escape não fecha a janela por padrão. A grade maior, com g, percorre
+desligada → X → X+Y → Y → desligada. G percorre o mesmo ciclo para as grades
+maior+menor. Desligar uma grade maior desliga também sua menor. Atalhos de
+grade só atuam sobre o mapa sob o cursor; a grade continua opcional/desligada
+por padrão. +/- e roda são conveniências próprias de zoom, além da toolbar.</p>
+<pre><code class="language-python">import azimlib as azl
+
+with azl.rc_context({'keymap.pan': ['ctrl+p'], 'keymap.save': []}):
+    fig, ax = azl.subplots()
+    ax.map('brazil')
+    azl.show()
+</code></pre>
+<p>As configurações são lidas ao receber cada evento: mantenha o contexto ativo
+durante o viewer. Listas são copiadas e validação de update é prospectiva;
+<code>[]</code> desativa um atalho. O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/viewer_events.py">exemplo interativo</a>
+conecta clique com Ctrl a uma annotation e alterna legenda/escala/norte/rosa
+individualmente, sem substituir os componentes uns pelos outros.</p>
+<h2 id="evidência-e-limites">Evidência e limites</h2>
+<p><a href="tk-input-reference.json">Contratos registrados</a> de Matplotlib 3.11.2/TkAgg:
+60 teclas, 36 estados de máscaras, 15 botões, 10 transições, oito passos de
+grade e dez keymaps. A execução usou Tk real oculto no Windows; as tabelas
+Linux/macOS foram examinadas substituindo o identificador de plataforma
+durante a chamada ao normalizador instalado. Isso não valida input nativo
+nesses sistemas. O smoke próprio de doze cenários passou em Tk real oculto com
+inputs sintéticos, também no wheel instalado sem Matplotlib/GIS. O exemplo
+de componentes/Ctrl+clique passou nesse ambiente, incluindo exportação SVG.</p>
+<p>Ainda faltam picking/selectors, hierarquia completa de classes de eventos,
+mouse grab, foco em insets/colorbars, transições entre janelas diferentes,
+política geral de exceções de callbacks e integração incremental. Existem
+diferenças: eventos guardam o guiEvent depois da chamada; key_press é entregue
+antes do atalho da toolbar; configurações duplicadas usam a prioridade local;
+não há visibilidade individual de cada linha de tick para o caso misto de grid.
+Atalhos de escalas logarítmicas, clipboard/help/quit_all não são implementados.
+Conferência visual/input nativo e CI remota continuam pendentes. Veja
+<a href="viewer-validation.html">validação desktop</a>; não se declara equivalência integral.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/viewer-input.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,147 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Third-party materials · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="site.css"><body data-root=""><header><a href="docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="docs/index.html">Overview</a><a href="docs/getting-started.html">Getting started</a><a href="docs/migration-0.3.html">Migration</a><a href="docs/gallery-0.3.html">Gallery</a><a href="docs/api.html">API reference</a><a href="docs/api-stability.html">Compatibility policy</a><a href="docs/release-progress-0.3.html">Release progress</a><a href="docs/roadmap.html">Roadmap</a></aside><main><h1 id="third-party-materials">Third-party materials</h1>
+<p>The original Azimlib implementation, documentation and original toolbar artwork
+are licensed under BSD-3-Clause, Copyright (c) 2026 Kernerian. This notice does
+not relicense the materials below or claim exclusive ownership of them.</p>
+<h2 id="materials-shipped-in-the-package">Materials shipped in the package</h2>
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th>Files and origin</th>
+<th>Terms and notices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ColorBrewer Blues, five classes</td>
+<td><code>src/azimlib/styles.py</code>, and the corresponding development baseline; https://colorbrewer2.org/export/colorbrewer.json</td>
+<td>Copyright 2002 Cynthia Brewer, Mark Harrower and The Pennsylvania State University. The complete specific terms are in <code>licenses/LicenseRef-ColorBrewer.txt</code>; the referenced Apache-2.0 text is in <code>licenses/Apache-2.0.txt</code>.</td>
+</tr>
+<tr>
+<td>Viridis, magma, inferno and plasma</td>
+<td><code>src/azimlib/data/colormaps.json</code>, plus the five-stop viridis scale in <code>styles.py</code> and its development baseline; BIDS/colormap, https://github.com/BIDS/colormap/blob/master/colormaps.py</td>
+<td>CC0-1.0. Nathaniel J. Smith, Stefan van der Walt and, for viridis, Eric Firing. See <code>NOTICE_COLORMAPS</code> and <code>licenses/CC0-1.0.txt</code>. RGB8 quantization and the smaller scale change the representation, not the upstream authorship.</td>
+</tr>
+<tr>
+<td>Natural Earth geographic layers</td>
+<td>Six compressed GeoJSON files in <code>src/azimlib/data/</code>; upstream commit and per-file hashes in <code>src/azimlib/data/manifest.json</code></td>
+<td>Public-domain data according to the publisher. Primary authors Tom Patterson and Nathaniel Vaughn Kelso, with contributors. See <code>licenses/Natural-Earth.txt</code> and https://www.naturalearthdata.com/about/terms-of-use/.</td>
+</tr>
+<tr>
+<td>DejaVu Sans 2.35, four variants</td>
+<td><code>src/azimlib/fonts/*.ttf</code>; official upstream hashes in <code>docs/fonts-upstream.json</code></td>
+<td>Copyright 2003 Bitstream, Inc.; Arev portions copyright 2006 Tavmjong Bah; DejaVu changes are public domain. Preserve the complete <code>src/azimlib/fonts/LICENSE_DEJAVU</code>. Renaming restrictions apply to modified fonts; standalone font sales are restricted.</td>
+</tr>
+<tr>
+<td>Font metrics</td>
+<td><code>src/azimlib/fonts/metrics.json</code>, extracted by <code>tools/font_metrics.py</code></td>
+<td>Derived from the above fonts; retain the same provenance and font notices. The extraction implementation is original Azimlib code.</td>
+</tr>
+</tbody>
+</table>
+<p>This product includes color specifications and designs developed by Cynthia
+Brewer (http://colorbrewer.org/).</p>
+<p>Commercial use of the materials above is permitted subject to their respective
+terms. The BSD license of the implementation does not erase those terms.</p>
+<h2 id="original-palette">Original palette</h2>
+<p><code>AZIM10</code> in <code>src/azimlib/cycles.py</code> is a new ten-color sequence selected for
+Azimlib. The default and dark-background cycles use this sequence or its own
+lightened variant. <code>TAB10</code> remains a compatibility alias for <code>AZIM10</code>; it does
+not contain the Tableau/D3/Matplotlib Category10 sequence. Individual color
+values are not represented as globally unique or exclusively owned.
+The historical series oracle retains default-cycle roles rather than the
+retired ten RGB values; tests materialize those roles with AZIM10.</p>
+<h2 id="separately-installed-dependencies">Separately installed dependencies</h2>
+<p>No external Python packages are embedded in the Azimlib wheel. Optional extras
+install Pillow (MIT-CMU), aggdraw (permissive PIL-style terms including AGG),
+NumPy (BSD and additional bundled notices), and Numba/llvmlite (BSD plus LLVM
+and other component notices). Python and Tcl/Tk retain their own terms.
+Redistributing a combined application requires auditing and preserving the
+licenses of the actual dependency binaries, including Pillow codecs, NumPy's
+BLAS/LAPACK and any GCC runtime exception. See <code>docs/dependencies.md</code>.</p>
+<p>Matplotlib, fontTools, cycler, contourpy, Qt/PySide and Playwright are development
+or comparison tools, not the cartographic backend. Their code/assets are not
+vendored into the package. Using them does not make their licenses the license
+of Azimlib's original implementation. Distributing those tools is a separate
+licensing task.</p>
+<p>External IBGE benchmark inputs are not shipped. Their specific redistribution
+terms have not been established here; they must be checked before bundling any
+such dataset. Numerical benchmark records do not grant a dataset license.</p>
+<p>Generated gallery illustrations use synthetic fields/routes and the separately
+credited geographic/font resources above. Reference-comparison previews are
+rendered with development tools and retain their producer metadata. They are
+not vendored implementations or toolbar artwork. The wheel contains no gallery;
+see <code>docs/publication-readiness.md</code> for the local source ZIP and preview scope.</p>
+<h2 id="copyright-identity-and-scope">Copyright identity and scope</h2>
+<p>Kernerian is the project's public copyright identifier, not a claim that a
+company or verified legal entity of that name exists. Third-party copyright
+notices remain unchanged. Git author labels, including automated labels, do
+not by themselves establish legal authorship or exclusive title. This inventory
+is technical documentation, not a legal opinion or a trademark/patent clearance.</p>
+<h2 id="optional-openstreetmap-database-development-examples">Optional OpenStreetMap database (development examples)</h2>
+<p><code>optional-data/urban-sao-paulo-1.0</code> is a small, modified OpenStreetMap database,
+© OpenStreetMap contributors, licensed under <strong>ODbL 1.0</strong>. It retains its own
+LICENSE.txt, README, provenance and hashed catalog; it is excluded from both the
+wheel and sdist. No OSM code or automatic download is used. The BSD license of
+Azimlib code does not replace the database license. Derivative databases must
+respect applicable ODbL sharing requirements; produced maps credit OpenStreetMap
+and identify the ODbL data license. See <a href="docs/optional-data.html">the data guide</a>,
+<a href="https://www.openstreetmap.org/copyright">OSM copyright</a> and
+<a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>.</p>
+<h2 id="geographic-numeric-oracle-records-development">Geographic numeric oracle records (development)</h2>
+<p><code>docs/geodesy-reference-0.3.json</code> records factual coordinate outputs computed
+through black-box calls to pyproj 3.8.0 and GeographicLib 2.1, in an isolated
+development environment. No implementation, protected prose or published test
+dataset from either project is vendored. The package does not redistribute
+these libraries or depend on them. New geodesy, TM, topology and clipping code
+is independently written under the original-code BSD 3-Clause license; published
+mathematical references and numeric limits are listed in <code>docs/geodesy.md</code>.</p>
+<h2 id="optional-ui-notebook-dependencies-03-development">Optional UI / notebook dependencies (0.3 development)</h2>
+<p>The independently written Qt backend imports <strong>PySide6-Essentials</strong> (QtCore,
+QtGui, QtWidgets) and its <strong>shiboken6</strong> binding dependency dynamically; it does
+not vendor their code/binaries, Qt examples or icons. Installed 6.11.2 metadata
+declares <code>LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only</code>; Qt also offers a
+commercial licensing route. These terms are <strong>not replaced by Azimlib BSD</strong>.
+The Python archives declare an optional requirement only, not a combined Qt
+installer. If bundling/freezing Qt/bindings, review the exact Qt build/modules,
+third-party notices, license copies, source availability, user replacement and
+modification/debugging rights required by the chosen LGPL/commercial terms.
+No GPL-only Qt add-on module is imported by this backend. See <a href="https://doc.qt.io/qtforpython-6/commercial/index.html">Qt's licensing
+documentation</a>,
+<a href="https://www.qt.io/development/open-source-lgpl-obligations">open-source obligations</a>
+and <a href="docs/dependencies.html">the dependency inventory</a>. UI text uses the already
+licensed bundled DejaVu font; no new font or toolbar artwork is copied.</p>
+<p>The notebook adapter imports <strong>IPython</strong> through public display/event interfaces.
+IPython 9.17.1 metadata declares BSD-3-Clause; copyright belongs to the IPython
+Development Team. No IPython/Jupyter implementation is vendored. Optional
+transitive packages retain their own notices: traitlets (IPython Development
+Team, BSD), prompt_toolkit (Jonathan Slenders, BSD), jedi/parso (MIT), Pygments
+(BSD-2-Clause), plus other version-dependent dependencies. Preserve their
+actual notices if distributing these packages in a combined application.
+Neither their licenses nor authorship become exclusive Azimlib property.</p>
+<h2 id="wordmark-typography-artwork-only">Wordmark typography (artwork only)</h2>
+<p>The wordmark PNG in <code>docs/_static/branding</code> uses <strong>Carlito Bold Italic</strong>,
+designed by Łukasz Dziedzic, <strong>SIL OFL 1.1</strong>. This voluntary credit records
+rasterized lettering; Carlito font software is not shipped in source, wheel
+or sdist. The exact design-time font binary/version is not retained. Upstream
+reference: https://github.com/googlefonts/carlito and
+https://github.com/google/fonts/blob/main/ofl/carlito/OFL.txt (copyright 2013
+The Carlito Project Authors; Reserved Font Name Carlito). The official FAQ
+https://openfontlicense.org/ofl-faq/ permits logos/commercial artwork without
+mandatory acknowledgement or OFL relicensing of that artwork. Redistributing
+or embedding the font itself would require preserving its actual OFL/copyright.
+The code and original logo composition keep their existing BSD terms.</p>
+<h2 id="optional-video-encoder">Optional video encoder</h2>
+<p><code>animation.FFMpegWriter</code> invokes an explicitly selected, separately installed
+FFmpeg executable. No FFmpeg, libx264 or codec binary/source is redistributed
+or required by the Python archives. FFmpeg builds/codecs have version/build-
+dependent LGPL/GPL and possible patent obligations; embedding or distributing
+an encoder requires an audit of that exact build. The Azimlib writer is original
+BSD code; it does not grant codec rights. GIF encoding uses the optional Pillow
+installation already listed above.</p>
+<h3 id="optional-documentation-parser">Optional documentation parser</h3>
+<p>markdown-it-py and mdurl retain their upstream MIT terms. The docs extra/build
+uses these separately installed development tools; their implementations are
+not distributed in Azimlib or copied into generated site assets. Preserve their
+license notices if bundling their packages. See docs/dependencies.md.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/THIRD_PARTY_LICENSES.md">Source</a>.</footer></main><script src="site.js"></script></body></html>

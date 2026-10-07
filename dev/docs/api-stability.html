@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>API stability and version policy · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="api-stability-and-version-policy">API stability and version policy</h1>
+<p>The published release is <strong>0.2.0</strong>. This branch is <strong>0.3.0.dev0</strong>, not a released
+0.3.0 and not an instruction to publish. <a href="release-progress-0.3.html">Release gates</a>
+are tracked separately from implementation milestones.</p>
+<p>Azimlib follows a documented pre-1.0 policy: patch releases preserve supported
+public signatures/semantics except necessary security fixes; minor releases may
+introduce breaking changes, documented with a migration path. A future 1.x
+series will require major versions for incompatible supported public contracts.
+No numerical/pixel identity across all platforms is promised.</p>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Status in 0.3 development</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root/pyplot Figure, MapAxes and ordinary Artists</td>
+<td>Supported subset</td>
+<td><a href="compatibility.html">Compatibility</a>, <a href="migration-0.3.html">migration</a>, <a href="api.html">signature reference</a></td>
+</tr>
+<tr>
+<td>Explicit geodesy/readers and scientific 2D</td>
+<td>Supported within documented limits</td>
+<td>Units, CRS, masks/format variants and tolerances in their guides</td>
+</tr>
+<tr>
+<td>TerrainAxes, Camera/Mesh/SurfaceArtist, LocalFrame</td>
+<td>Experimental</td>
+<td>Metric regional terrain, opaque faces, bounded CPU depth rendering; <a href="terrain3d.html">limits</a></td>
+</tr>
+<tr>
+<td>TemporalSeries, ScalarBinding, FuncAnimation, writers, Atlas/PdfPages</td>
+<td>Experimental</td>
+<td>Finite sources, deterministic callbacks, export/encoder budgets; <a href="temporal.html">contracts</a></td>
+</tr>
+<tr>
+<td>Qt, notebook and browser-live integrations</td>
+<td>Experimental</td>
+<td>Optional dependencies, owner-thread/lifecycle rules; <a href="interaction.html">interaction</a></td>
+</tr>
+<tr>
+<td>Names beginning <code>_</code>, renderer internals, private caches</td>
+<td>Internal</td>
+<td>No API stability guarantee; examples should use public interfaces</td>
+</tr>
+</tbody>
+</table>
+<p>Experimental APIs can change at a minor version boundary; changes belong in
+CHANGELOG and migration notes. Existing runtime snapshots are evidence of their
+recorded code, not evidence that later code passed those tests. Current gates
+compare runtime/artifact hashes. Never rewrite old measurements to look current.</p>
+<p><code>import azimlib as azl</code> and <code>import azimlib.pyplot as plt</code> remain supported.
+No blanket compatibility with Matplotlib internals, renderers, plugins,
+callbacks, every keyword or every toolkit is claimed. Unknown options fail
+explicitly; physical points/DPI and geographical CRS must not be conflated.</p>
+<p>Optional dependencies preserve their own licensing. A release does not grant
+rights to arbitrary user-supplied data, fonts, symbols or external encoders.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/api-stability.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

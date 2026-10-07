@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cobertura raster de vistas novas · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="cobertura-raster-de-vistas-novas">Cobertura raster de vistas novas</h1>
+<p>O perfil de uma vista de 645 municípios de São Paulo identificou caps/junções
+arredondados como o principal custo. Foram mantidos os mesmos vértices,
+supersampling, recortes, espessuras e regras de composição. Este lote:</p>
+<ul>
+<li>calcula o centro da elipse uma vez, em vez de repetir o cálculo por vértice;</li>
+<li>descarta discos inteiramente fora do mask antes de gerar sua geometria;</li>
+<li>obtém limites de coordenadas com <code>itemgetter</code>/<code>map</code>, preservando os valores;</li>
+<li>materializa os termos da área antes de <code>sum</code>, mantendo sua ordem e aritmética.</li>
+</ul>
+<p>Uma tentativa de copiar arcos convexos em bloco foi rejeitada por não mostrar
+ganho no benchmark. O recorte de polígonos continua o algoritmo próprio anterior,
+também para geometrias côncavas e auto-interseções. Nenhuma dependência foi adicionada.</p>
+<h2 id="como-reproduzir">Como reproduzir</h2>
+<pre><code class="language-bash">python tools/compare_municipal_strokes.py /caminho/base.geojson --output municipal.json --repeats 2
+</code></pre>
+<p>O arquivo é fornecido explicitamente pelo usuário; a ferramenta não baixa dados.
+A <a href="real-geojson-provenance.json">proveniência da amostra</a> e os limites da malha
+generalizada da API estão no <a href="larger-batch.html">lote anterior</a>. A base não faz parte
+do pacote. O snapshot <code>tools/baselines/municipal-stroke-before/coverage.py</code> é
+código próprio de desenvolvimento, excluído do wheel de runtime.</p>
+<p>Cada vista usa a mesma cena nos dois modos. Chamadas são seriais, em ordem
+alternada; tempo exclui composição, hashes, encoding PNG e I/O. Não há profiling,
+Tk ou cache de frames durante o benchmark. Os hashes RGBA e PNG de todos os
+renders são comparados, e os relatórios registram código, ferramenta e dados.</p>
+<p>Regressões em <code>tests/test_municipal_stroke.py</code> cobrem áreas com comparação de bits,
+polígonos irregulares/côncavos, discos subpixel/fora do mask/limites invertidos,
+acúmulo de cobertura, alpha, recortes, caps/junções e três fatores de exportação.</p>
+<h2 id="limites">Limites</h2>
+<p>Medições locais source em 100 DPI, dois renders por modo/vista:</p>
+<table>
+<thead>
+<tr>
+<th>Vista</th>
+<th style="text-align:right">Antes (s)</th>
+<th style="text-align:right">Depois (s)</th>
+<th style="text-align:right">Redução da mediana</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Completa</td>
+<td style="text-align:right">19,264</td>
+<td style="text-align:right">17,522</td>
+<td style="text-align:right">9,0%</td>
+</tr>
+<tr>
+<td>Foco</td>
+<td style="text-align:right">3,006</td>
+<td style="text-align:right">2,565</td>
+<td style="text-align:right">14,7%</td>
+</tr>
+<tr>
+<td>Pan</td>
+<td style="text-align:right">3,533</td>
+<td style="text-align:right">3,302</td>
+<td style="text-align:right">6,5%</td>
+</tr>
+<tr>
+<td>Zoom</td>
+<td style="text-align:right">1,162</td>
+<td style="text-align:right">1,024</td>
+<td style="text-align:right">11,9%</td>
+</tr>
+</tbody>
+</table>
+<p>Os 16 renders preservaram RGBA e PNG. Valores brutos e hashes estão em
+<a href="municipal-stroke-source.json">municipal-stroke-source.json</a>.</p>
+<p>A suíte cumulativa passou com <strong>583 testes/8.135 subtests</strong>, incluindo quatro
+regressões/1.087 subtests novos. Os oito scripts Tk também passaram novamente
+no wheel instalado, sem Matplotlib/GIS: <a href="municipal-raster-tk-wheel.json">registro</a>.
+São widgets reais ocultos, com entradas programáticas; não inspeção visual
+da janela ou input físico.</p>
+<p>O <a href="municipal-stroke-wheel.json">wheel instalado</a> repetiu as quatro vistas com
+um render por modo/vista, sem importar o checkout como runtime. Os oito renders
+também preservaram RGBA/PNG; seus hashes coincidem com os do source. Os tempos
+dessa rodada única não são combinados com as medianas acima.</p>
+<p>Esses relatórios registram o lote anterior. A implementação exata medida está
+preservada em <code>tools/baselines/stroke-kernels-before/coverage.py</code>; o código atual
+recebeu kernels adicionais depois. Os tempos antigos não são atribuídos a eles.</p>
+<p>As amostras locais são pequenas e sujeitas à carga da máquina. Não comprovam
+fluidez, latência física ou ganho em todo tipo de mapa. O tempo inicial continua
+alto em dados densos. O cache de vistas já visitadas é uma otimização separada;
+<code>savefig()</code> permanece estático e <code>show()</code> continua usando o viewer próprio.
+O <a href="release-0.2.html">critério de desempenho da 0.2.0</a> permanece parcial.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/municipal-raster.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

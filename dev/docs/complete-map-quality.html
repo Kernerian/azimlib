@@ -1,0 +1,117 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mapas completos em vários DPI · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="mapas-completos-em-vários-dpi">Mapas completos em vários DPI</h1>
+<p>São Paulo, Brasil e atlas foram comparados em 100, 150 e 200 DPI, com as
+mesmas geometrias de tela, fontes DejaVu, cores, espessuras físicas, clipping
+e componentes opcionais. Os dados são os já distribuídos com a Azimlib;
+os valores temáticos do atlas são sintéticos.</p>
+<p>O renderer próprio produz o PNG/SVG final. Uma ferramenta <strong>somente de
+desenvolvimento</strong> envia a mesma Scene cartográfica para Matplotlib 3.11.2/Agg
+e gera comparações lado a lado e diferenças de pixels. Isso isola rasterização:
+não compara o layout de Axes do Matplotlib, seus locators, algoritmos geográficos
+ou GUI. As referências diretas de layout/API continuam nas comparações específicas.
+Matplotlib não entra no runtime ou wheel da Azimlib.</p>
+<p>O adaptador trata alpha global depois de fill/stroke, clip retangular, curvas
+de círculos, traços, alinhamento/rotação de textos, fontes explícitas e buracos
+simples aninhados. Agg usa fill nonzero: as orientações dos anéis simples são
+convertidas no adaptador para conservar a paridade. Caminhos auto-intersectantes
+complexos não estão cobertos por essa conversão. O halo de texto usa contorno
+vetorial sob o preenchimento hinted; também não é um oracle perfeito para halo.</p>
+<h2 id="diagnóstico">Diagnóstico</h2>
+<p>O relatório <a href="map-quality.json">map-quality.json</a> registra nove pares, dimensões,
+hashes, métricas e arquivos. A diferença absoluta média de RGB usa valores
+0–255. A média sobre pixels ocupados exclui pixels quase brancos dos dois lados;
+evita esconder diferenças num canvas com muita margem. Essas métricas são
+diagnósticos descritivos, sem limiar de aprovação perceptual ou promessa de
+igualdade de pixels. Tempos observados no adaptador não são um benchmark
+comparável de duas bibliotecas completas.</p>
+<p>Há diferenças visíveis de hinting, antialiasing e posição subpixel de glifos,
+bordas e linhas. O renderer próprio preserva suas fontes, cobertura e
+supersampling. Os pares não são idênticos, e os nove casos não encerram o
+critério de qualidade da 0.2.0. A conferência de SVG em todos os viewers/DPI,
+mais estilos/recortes e comparações de layout independentes continuam necessárias.</p>
+<table>
+<thead>
+<tr>
+<th>Caso</th>
+<th style="text-align:right">DPI</th>
+<th style="text-align:right">RGB médio absoluto</th>
+<th style="text-align:right">RGB nos pixels ocupados</th>
+<th style="text-align:right">Pixels com diferença máxima &gt;16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>state</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">1.796</td>
+<td style="text-align:right">2.840</td>
+<td style="text-align:right">2.03%</td>
+</tr>
+<tr>
+<td>state</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">1.720</td>
+<td style="text-align:right">2.744</td>
+<td style="text-align:right">1.54%</td>
+</tr>
+<tr>
+<td>state</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">1.752</td>
+<td style="text-align:right">2.815</td>
+<td style="text-align:right">1.36%</td>
+</tr>
+<tr>
+<td>brazil</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">2.495</td>
+<td style="text-align:right">11.633</td>
+<td style="text-align:right">3.32%</td>
+</tr>
+<tr>
+<td>brazil</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">1.421</td>
+<td style="text-align:right">7.177</td>
+<td style="text-align:right">2.06%</td>
+</tr>
+<tr>
+<td>brazil</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">1.657</td>
+<td style="text-align:right">8.642</td>
+<td style="text-align:right">1.73%</td>
+</tr>
+<tr>
+<td>atlas</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">2.670</td>
+<td style="text-align:right">4.597</td>
+<td style="text-align:right">2.64%</td>
+</tr>
+<tr>
+<td>atlas</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">1.880</td>
+<td style="text-align:right">3.271</td>
+<td style="text-align:right">1.72%</td>
+</tr>
+<tr>
+<td>atlas</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">2.227</td>
+<td style="text-align:right">3.886</td>
+<td style="text-align:right">1.55%</td>
+</tr>
+</tbody>
+</table>
+<h2 id="reproduzir">Reproduzir</h2>
+<p>No ambiente de referência de desenvolvimento com Matplotlib, NumPy e Pillow,
+instale a Azimlib local e execute na pasta do projeto:</p>
+<pre><code class="language-bash">python tools/compare_map_quality.py --cases state brazil atlas --dpi 100 150 200
+</code></pre>
+<p>A ferramenta escreve PNG próprio, PNG Agg, comparação, diferença e SVG em
+<code>gallery</code>. Pode selecionar <code>--gallery</code> e <code>--output</code>. Dados e fontes permanecem
+locais; não há downloads implícitos. O projeto continua independente dessas
+dependências de referência em sua execução normal.</p>
+<p>Veja também <a href="performance.html">a otimização de clipping e a memória medida</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/complete-map-quality.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

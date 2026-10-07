@@ -1,0 +1,140 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Registro histórico local 0.1.0 — 5.06–5.09 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="registro-histórico-local-010-506509">Registro histórico local 0.1.0 — 5.06–5.09</h1>
+<blockquote>
+<p>Evidência histórica: resultados CI, tempos e hashes abaixo pertencem aos
+snapshots originais. A preparação BSD/licenças/privacidade altera arquivos;
+os checks atuais e a relação de hashes publicados estão em
+<a href="publication-readiness.html">preparação de publicação</a>. Esses resultados não são uma nova execução CI.</p>
+</blockquote>
+<p>Estado desta página no lote de 2026-10-03. Repositório/CI e critérios foram atualizados em 2026-10-04: veja <a href="release-acceptance.html">o aceite 0.2.0</a>. Resultados antigos e falhas de prazo abaixo permanecem históricos, sem atribuição aos bytes novos.</p>
+<p><strong>5.08 e 5.09 concluídos no pacote 0.1.0 alpha deste corte.</strong> A versão não foi
+alterada para 0.2.0. <strong>5.06 e 5.07 permanecem abertos</strong>: naquele registro não havia CI remota e a execução local cobria apenas Windows. Os resultados locais
+não são rotulados como execução remota nem como validação das outras plataformas.</p>
+<h2 id="nome-metadados-e-conteúdo-508">Nome, metadados e conteúdo — 5.08</h2>
+<p>O <a href="package-name-check.json">lookup exato do PyPI</a> retornou HTTP 404 para o nome
+normalizado <code>azimlib</code> em 2026-10-03, horário local. É uma observação naquela
+consulta, sem reserva do nome ou garantia futura de permissão para upload.
+Nenhum pacote desconhecido com esse nome foi instalado. Os metadados continuam
+anunciando 0.1.0/alpha e Python &gt;=3.10. Conta/permissão PyPI e URL real do
+repositório ainda precisam existir antes de publicar; não foram inventadas.</p>
+<p>O auditor novo confere:</p>
+<ul>
+<li>Nome/versão/Python/SPDX do METADATA contra pyproject; todos os extras/markers
+em Python 3.10, 3.11 e 3.14. Dependências obrigatórias continuam vazias.</li>
+<li>Todos os arquivos runtime/recursos byte a byte no wheel e sdist; todos os
+arquivos entregáveis de docs/tests/tools/examples no sdist/ZIP fonte.</li>
+<li>RECORD: lista completa, tamanho e SHA-256 de cada entrada do wheel.</li>
+<li>Seis camadas Natural Earth com gzip, hashes e contagens conferidos;
+quatro fontes upstream DejaVu inalteradas e licença incluída;
+21 assets de toolbar próprios, com fonte/geometria BSD-3-Clause.</li>
+<li>Licenças registradas no relatório histórico presentes e expressão SPDX coerente. Cores CC0 têm
+autores e origem no NOTICE_COLORMAPS; dados têm manifesto e termos separados.</li>
+<li>Ausência de imports cartográficos externos no runtime; ausência de ambientes,
+caches, credenciais/dados de desenvolvimento e malha original IBGE nos pacotes.</li>
+<li><code>twine check --strict</code> aprovou wheel/sdist, incluindo o README em Markdown.</li>
+</ul>
+<p>Fontes, dados e escopo: <a href="fonts-upstream.json">upstream das fontes</a>,
+<a href="data.html">dados incluídos</a>, <a href="toolbar-icons-audit.json">assets originais</a>.
+O auditor compara conteúdo/licenças registrados; não é parecer sobre marcas
+nem autorização para publicação em contas externas.</p>
+<pre><code class="language-bash">python -I tools/audit_distribution.py --wheel dist/azimlib-0.1.0-py3-none-any.whl --sdist dist/azimlib-0.1.0.tar.gz --output audit.json
+python -m twine check --strict dist/*
+</code></pre>
+<p>O JSON de hashes dos arquivos finais fica <strong>ao lado dos artefatos</strong>, fora dos
+archives, evitando hash autorreferencial. Reexecutar a auditoria após 5.10/5.11:
+uma auditoria 0.1.0 não valida automaticamente os futuros bytes de 0.2.0.</p>
+<h2 id="suíte-e-instalação-isolada-509">Suíte e instalação isolada — 5.09</h2>
+<p><a href="release-validation-local.json">Resultados locais</a> guardam ambiente, origem
+instalada, versões genéricas, módulos/hashes, skips, logs e resultados separados.
+O runner usa <code>-I</code> e exige o pacote instalado dentro do venv; não acrescenta
+o checkout ao sys.path. A instalação GUI Python 3.11 foi feita em venv novo.</p>
+<table>
+<thead>
+<tr>
+<th>Ambiente Windows</th>
+<th>Execução</th>
+<th>Resultado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python 3.11.9 / Tk 8.6.12 / Pillow 12.3 / NumPy 2.4.6</td>
+<td>Suíte inteira do wheel GUI</td>
+<td>675 testes / 16.792 subtests, sem falhas; dois checks exclusivos de Numba pulados</td>
+</tr>
+<tr>
+<td>Python 3.14.4 / Tk 8.6.15 / Pillow 12.3 / NumPy 2.5.3</td>
+<td>Suíte inteira do wheel GUI</td>
+<td>675 testes / 16.792 subtests, sem falhas; os mesmos dois skips</td>
+</tr>
+<tr>
+<td>Python 3.14.4 / NumPy 2.5.3 / Numba 0.68</td>
+<td>Kernel compilado + contratos de pan</td>
+<td>11 testes / 5.470 subtests, sem falhas e sem skips</td>
+</tr>
+<tr>
+<td>Python 3.11 e 3.14</td>
+<td>Integração desktop instalada</td>
+<td>13 scripts Tk por versão, com retorno de processo/logs/relatórios separados</td>
+</tr>
+<tr>
+<td>Venv core novo / instalação offline</td>
+<td>SVG/HTML/dados/fontes/edição/componentes</td>
+<td>Smoke completo aprovado sem Pillow, NumPy, Matplotlib ou GIS</td>
+</tr>
+</tbody>
+</table>
+<p>O primeiro smoke de layout excedeu o limite de 300 s nas duas versões. Esses resultados de falha foram conservados. Apenas esse smoke foi repetido com prazo de 900 s: passou em 331 s (3.11) e 328 s (3.14), com 30 checks/18 frames por versão. Os outros 12 scripts já haviam passado. Runtime, pixels e assertions não mudaram; ampliar o prazo do runner não é ganho de desempenho. O runner agora encerra sua própria árvore de processos em timeout; a limpeza também foi conferida com um timeout intencional de um segundo, registrado como teste negativo.</p>
+<p>Os skips acima são explícitos e foram cobertos na execução com compilador.
+A suíte source anterior com o compilador passou 675 testes/22.192 subtests;
+não se somam execuções repetidas como se fossem novos testes. As durações das
+suítes concorrentes não são benchmarks de desempenho.</p>
+<p>O guia inicial também foi executado em source, core isolado e GUI instalado;
+os nove SVGs coincidem. A galeria instalada reproduz 19 exemplos em PNG/SVG/HTML.
+<a href="release-gallery.html">Galeria e metodologia</a>, <a href="visual-differences.html">limites do corte</a>.
+Não há Matplotlib/GIS instalado nos venvs GUI/core usados para este aceite.
+O compilador e os validadores de pacote são opcionais, não dependências do núcleo.</p>
+<h2 id="o-que-falta-nas-plataformas-506-e-507">O que falta nas plataformas — 5.06 e 5.07</h2>
+<p>A CI tem 24 jobs e conserva logs/JSON mesmo em falha. Agora usa o mesmo runner
+verificado localmente, com build, auditoria de wheel/sdist, core offline e
+smokes desktop. O Linux dispõe de setup explícito de Xvfb/xauth. A definição
+YAML foi conferida; nenhuma execução GitHub Actions ocorreu naquele registro histórico.
+<a href="ci-setup.html">Guia para criar o repositório e iniciar a matriz</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Plataforma</th>
+<th>Suíte instalada/contratos Tk locais</th>
+<th>Janela com input humano</th>
+<th>Estado restante</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>Python 3.11 e 3.14 executados</td>
+<td>Observação visual Windows dos passos 3/4, runtime do viewer preservado</td>
+<td>CI remota nas versões declaradas ainda necessária</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>Nenhuma execução local; WSL não instalado</td>
+<td>Pendente</td>
+<td>CI e conferência nativa</td>
+</tr>
+<tr>
+<td>macOS</td>
+<td>Nenhuma execução local/host disponível</td>
+<td>Pendente</td>
+<td>CI e conferência nativa</td>
+</tr>
+</tbody>
+</table>
+<p>Para conferir o relatório retido contra o runtime atual: <code>python -I tools/audit_release_validation.py</code>. Logs completos permanecem na pasta local de trabalho; hashes e resultados estão no JSON distribuído.</p>
+<p>Os smokes Tk ocultos verificam handlers, Subplots/toolbar/save/exportação e
+fechamento, sem aprovar a aparência ou input físico em Linux/macOS. O aceite
+humano Windows permanece em <a href="viewer-visible-acceptance.html">3.08</a> e no
+<a href="performance-acceptance.html">registro do passo 4</a>, com resultados separados dos testes automatizados.
+O roteiro de 54 IDs mantém essas duas pendências separadas da auditoria e
+instalação já concluídas. Versão/changelog finais e instalação 0.2.0 ficam
+em 5.10–5.12 após os requisitos anteriores.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/distribution-acceptance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

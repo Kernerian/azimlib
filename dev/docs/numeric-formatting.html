@@ -1,0 +1,110 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Texto, marcadores e formatação numérica · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="texto-marcadores-e-formatação-numérica">Texto, marcadores e formatação numérica</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>O núcleo e os renderizadores continuam próprios. Matplotlib 3.11.2 foi usado
+somente como referência de desenvolvimento, inclusive para medir as caixas de
+texto e os paths normalizados dos marcadores.</p>
+<h2 id="espaçamento-em-todos-os-textos">Espaçamento em todos os textos</h2>
+<p>A caixa vertical usa as métricas TrueType da fonte (ascendentes, descendentes
+e espaço entre linhas), ampliadas quando acentos/glifos exigem. A leitura usa
+somente a biblioteca padrão Python e as fontes licenciadas incluídas no pacote.
+Essa base atende títulos, nomes dos eixos, ticks, legendas, colorbars, textos
+livres, annotations e ornamentos. PNG/SVG compartilham os mesmos baselines.
+Títulos multilinha com alinhamento baseline ancoram a última linha; as anteriores
+ficam acima. Títulos também reservam espaço para offsets no topo do mapa.</p>
+<p><code>labelpad</code> mede pontos entre a caixa dos ticks e a caixa do nome do eixo:</p>
+<pre><code class="language-python">ax.set_xlabel('Longitude', labelpad=8)
+ax.set_ylabel('Latitude', labelpad=8)
+# Default familiar: 4 pontos. Default editável para novos Axes:
+azl.rcParams['axes.labelpad'] = 6
+</code></pre>
+<p>Os 96 estados registrados da referência cobrem dois tamanhos/pesos, texto
+simples/multilinha/acentos, quatro alinhamentos e rotações 0°/90°. A maior
+diferença vertical observada é 1,34 pixel lógico, por métricas/hinting de glifos;
+não há igualdade integral de pixels/avanços horizontais com Agg. O solver e
+alguns detalhes de rasterização/posicionamento ainda diferem. Posições explícitas
+de textos não ganham uma garantia geral de ausência de colisão.</p>
+<h2 id="marcadores-e-legendas">Marcadores e legendas</h2>
+<p>Legendas medem a caixa real de cada rótulo e do título, incluindo várias linhas
+e mudanças individuais de fonte. A escala também mede suas legendas, mantém
+margens verticais de 0,4 tamanho de fonte e continua reduzindo as graduações
+quando a largura não permite números separados. No modo compacto não há uma
+linha vazia para a unidade. Python e o viewer HTML usam o mesmo cálculo.</p>
+<p>O exemplo <code>components.py</code> escolhe fundos brancos explícitos para as caixas de
+legenda/escala; o default de legenda continua herdando a cor dos Axes, como
+Matplotlib. “Manaus” usa <code>halo='white', halo_width=2</code> em vez de fundo retangular.</p>
+<p>As dimensões de colorbar foram medidas em 16 configurações: quatro posições,
+<code>shrink=1</code>/<code>0.75</code> e layout manual/constrained. No layout manual as dimensões
+coincidem numericamente; nos casos constrained registrados diferem menos de
+um pixel a 100 dpi. Isso não garante igualdade de posição ou de outros layouts.
+Veja <a href="colorbar-size-reference.json">medidas diretas</a> e
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/inspect_colorbar_sizes.py">probe de desenvolvimento</a>.
+Para uma barra menor, use <code>fig.colorbar(points, ax=ax, shrink=.75)</code>; <code>aspect</code>
+controla a proporção comprimento/espessura e <code>fraction</code> limita o espaço reservado.</p>
+<p><code>D</code> é um losango simétrico; <code>d</code> é o losango estreito. A geometria da estrela
+também foi ajustada, e <code>+</code>/<code>x</code> respeitam markeredgecolor/markeredgewidth sem
+espessura mínima adicional. Os mesmos desenhos são usados nos dados e na legenda.
+Onze marcadores têm limites comparados aos paths da referência.</p>
+<p>Ao recriar a legenda depois de ocultar uma linha, seu símbolo nasce oculto,
+mas o texto continua presente, como na referência selecionada. Alterar a
+visibilidade da linha depois de criar a legenda não muda essa cópia. Os estilos
+de cor/traço dos handles ainda seguem a implementação existente de atualização
+ao desenhar; não são uma cópia completa do sistema Legend/handlers Matplotlib.</p>
+<h2 id="notação-científica-e-offset">Notação científica e offset</h2>
+<p><code>ScalarFormatter</code> escolhe precisão comum, escala científica e um offset aditivo.
+Por exemplo, 100000, 100002, 100004 viram 0, 2, 4 com <code>+1e5</code> na borda.
+O default de transição científica é <code>(-5, 6)</code>, e offset automático exige economia
+de dígitos segundo <code>axes.formatter.offset_threshold</code> (default 4).</p>
+<pre><code class="language-python">from azimlib.ticker import ScalarFormatter, EngFormatter
+
+ax.ticklabel_format(axis='x', style='plain', useOffset=False)
+ax.ticklabel_format(axis='y', style='sci', scilimits=(-3, 4))
+ax.xaxis.set_major_formatter(ScalarFormatter(useOffset=-46))
+ax.xaxis.get_offset_text().set(color='gray', fontsize=8, visible=True)
+
+bar = fig.colorbar(points, ax=ax, orientation='horizontal')
+bar.ax.ticklabel_format(style='sci', scilimits=(6, 6))
+bar.ax.xaxis.get_offset_text().set_visible(False)
+# Prefixos SI; 1500 -&gt; 1.5 km:
+bar.formatter = EngFormatter(unit='m')
+</code></pre>
+<p>Funciona também em barras verticais, nas quatro posições, compartilhadas e com
+cax explícito. Clim altera os números/offsets; substituir o norm reseta tickers,
+como no contrato já existente. Offset é TextArtist editável (fonte, cor,
+alinhamento, rotação, visibilidade, in_layout) e participa de ownership/stale.
+O texto é calculado novamente pelo formatter ao desenhar; set_text não fixa um
+offset manual permanente. Setters do formatter invalidam o desenho; a
+configuração em lote valida os eixos e opções antes de alterar qualquer um.</p>
+<p>Também existem <code>set_scientific</code>, <code>set_powerlimits</code>, <code>set_useOffset</code>,
+<code>set_useLocale</code>, seus getters de opções e <code>format_data</code>/<code>format_data_short</code>.
+<code>axes.unicode_minus</code> controla o sinal. Locale usa o locale numérico ativo do
+Python. EngFormatter aceita unit/places/sep, prefixos SI de quecto a quetta.</p>
+<p>Limites explícitos: MathText/TeX e offsets de EngFormatter ainda não são
+implementados e geram NotImplementedError. Formatar um ScalarFormatter solto
+sem set_locs continua retornando um número simples, extensão histórica da API.
+Os eixos geográficos permanecem longitude/latitude; notação não muda o CRS.
+O HTML conserva a composição científica exportada, mas não recalcula offsets
+científicos durante pan/zoom: esses ticks são ocultados ao navegar e restaurados
+por Home, como os demais formatters não portáteis. Para recomposição completa,
+use o viewer Tk.</p>
+<h2 id="exemplos-e-verificações">Exemplos e verificações</h2>
+<ul>
+<li>Traçados e textos versus Agg (<code>gallery/series-light-comparison.png</code>, generated locally).</li>
+<li>Colorbars verticais (<code>gallery/numeric-vertical-comparison.png</code>, generated locally).</li>
+<li>Colorbars horizontais (<code>gallery/numeric-horizontal-comparison.png</code>, generated locally).</li>
+<li><a href="numeric-formatting-reference.json">Referência numérica, paths e 96 caixas de texto</a>.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/numeric_formatting.py">Exemplo reproduzível</a>.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/smoke_numeric_tk.py">Smoke Tk</a>, com dez verificações em widgets reais
+ocultos: offsets/editabilidade/clim/ticks, texto, marcadores, troca de formatter,
+navegação, exportação estática e fechamento. Não testa input físico/aparência
+nativa nem mede latência. CI inclui esse smoke, ainda sem execução remota.</li>
+<li>Relatórios <a href="numeric-tk-validation.json">source</a> e
+<a href="numeric-tk-wheel-validation.json">wheel instalado</a>.</li>
+</ul>
+<pre><code class="language-bash">python examples/numeric_formatting.py
+python tools/smoke_numeric_tk.py
+# Apenas desenvolvimento com a referência instalada:
+python tools/inspect_numeric_formatting.py
+python tools/render_numeric_comparisons.py
+</code></pre>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/numeric-formatting.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,149 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Galeria do corte 0.2.0: reprodução e referências · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="galeria-do-corte-020-reprodução-e-referências">Galeria do corte 0.2.0: reprodução e referências</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<blockquote>
+<p>Evidência histórica: resultados CI, tempos e hashes abaixo pertencem aos
+snapshots originais. A preparação BSD/licenças/privacidade altera arquivos;
+os checks atuais e a relação de hashes publicados estão em
+<a href="publication-readiness.html">preparação de publicação</a>. Esses resultados não são uma nova execução CI.</p>
+</blockquote>
+<p>O catálogo abaixo reúne exemplos executados com a fundação 0.1.0 alpha.
+Ele cobre as famílias do <a href="artist-scope-0.2.html">catálogo 2D</a>, com dados reais
+generalizados de Natural Earth e campos/rotas/valores demonstrativos identificados.
+Não usa Matplotlib no runtime. <a href="getting-started.html">Como começar</a>.</p>
+<h2 id="reproduzir-sem-abrir-janelas">Reproduzir sem abrir janelas</h2>
+<p>Na raiz do projeto, após instalar <code>.[png]</code>:</p>
+<pre><code class="language-bash">python tools/release_gallery.py
+python tools/release_gallery.py --cases state focus colorbar-horizontal --dpi 200
+python tools/release_gallery.py --gallery gallery-local --report gallery-local/report.json
+python tools/api_reference.py
+python tools/check_documentation.py --output doc-examples
+</code></pre>
+<p>O primeiro comando produz PNG/SVG estáticos e HTML separado para <strong>19 exemplos
+em 100 e 200 DPI</strong>. Cada caso tem origem, dimensões, quantidade de textos,
+clipping, hashes e overflow de texto registrados em
+<a href="release-gallery.json">release-gallery.json</a>. SVG é lido como XML e seus textos
+são comparados com a cena; PNG é conferido por dimensões e pixels RGBA.
+Isso complementa as regressões de composição/renderização, sem substituir
+inspeção visual de uma janela nativa ou de qualquer viewer SVG externo.</p>
+<p>O <a href="release-gallery-wheel.json">wheel instalado</a> reproduziu os 19 exemplos em
+100 DPI com PNG, SVG e HTML exatamente iguais aos de source. O núcleo sem
+dependências opcionais e o wheel GUI também executaram os três snippets do
+<a href="getting-started.html">guia inicial</a>, produzindo SVGs idênticos. <a href="documentation-check.json">Auditoria de docs</a>.
+<code>python tools/audit_release_gallery.py --wheel-gallery CAMINHO</code> confere os
+hashes dos artefatos/source e os relatórios de reprodução instalados.</p>
+<p>Local preview: Catálogo visual (<code>gallery/release-overview.png</code>, generated locally)</p>
+<h2 id="exemplos-e-componentes">Exemplos e componentes</h2>
+<table>
+<thead>
+<tr>
+<th>Exemplo a 200 DPI</th>
+<th>Código</th>
+<th>O que demonstra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brasil: componentes (<code>gallery/release-components-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/components.py">components.py</a></td>
+<td>Países, estados, rios, três estilos de linha/marcador, legenda, rosa, escala, annotation com halo</td>
+</tr>
+<tr>
+<td>Brasil inteiro (<code>gallery/release-brazil-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/regions.py">regions.py</a></td>
+<td>Extensão completa, componentes adicionados explicitamente</td>
+</tr>
+<tr>
+<td>Estado (<code>gallery/release-state-200.png</code>, generated locally) / foco (<code>gallery/release-focus-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/regions.py">regions.py</a></td>
+<td>São Paulo isolado, zoom, overview sombreado com borda preta</td>
+</tr>
+<tr>
+<td>Séries claras (<code>gallery/release-series-light-200.png</code>, generated locally) / escuras (<code>gallery/release-series-dark-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/series_styles.py">series_styles.py</a></td>
+<td>Séries por coluna, data=, ciclo, edição de losangos D, legenda explícita</td>
+</tr>
+<tr>
+<td>Colorbar vertical (<code>gallery/release-colorbar-200.png</code>, generated locally) / horizontal (<code>gallery/release-colorbar-horizontal-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a></td>
+<td>Coroplético contínuo e barra vinculada ao mappable</td>
+</tr>
+<tr>
+<td>Hachuras (<code>gallery/release-hatch-catalog-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a></td>
+<td>Dez padrões básicos, repetições e combinações; polígonos com buracos</td>
+</tr>
+<tr>
+<td>Contornos antes (<code>gallery/release-contours-before-200.png</code>, generated locally) / depois (<code>gallery/release-contours-after-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/contour_refinement.py">contour_refinement.py</a></td>
+<td>Estilos por nível, rótulos inline editáveis, barras de linhas</td>
+</tr>
+<tr>
+<td>Terreno (<code>gallery/release-terrain-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a></td>
+<td>Campo escalar sintético, hillshade, isolinhas, costa e colorbar</td>
+</tr>
+<tr>
+<td>Globo (<code>gallery/release-globe-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a></td>
+<td>Ortográfica, graticule, rotas esféricas e vetores; não uma câmera 3D</td>
+</tr>
+<tr>
+<td>Formatação vertical (<code>gallery/release-numeric-vertical-200.png</code>, generated locally) / horizontal (<code>gallery/release-numeric-horizontal-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/numeric_formatting.py">numeric_formatting.py</a></td>
+<td>Notação científica, offset aditivo e eixos editáveis de colorbar</td>
+</tr>
+<tr>
+<td>Temático (<code>gallery/release-thematic-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/gallery.py">gallery.py</a></td>
+<td>Valores por estado, bolhas proporcionais, rotas e inset</td>
+</tr>
+<tr>
+<td>Densidade (<code>gallery/release-density-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/gallery.py">gallery.py</a></td>
+<td>Eventos com seed fixo, contagem suavizada em grade angular</td>
+</tr>
+<tr>
+<td>Projeções (<code>gallery/release-projections-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/gallery.py">gallery.py</a></td>
+<td>Seis projeções próprias do mesmo território</td>
+</tr>
+<tr>
+<td>Atlas (<code>gallery/release-atlas-200.png</code>, generated locally)</td>
+<td><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/gridspec_atlas.py">gridspec_atlas.py</a></td>
+<td>GridSpec/spans, colorbar compartilhada, mapas e ornamentos independentes</td>
+</tr>
+</tbody>
+</table>
+<p>Cada PNG tem SVG e HTML com o mesmo nome-base. Por exemplo:
+components SVG (<code>gallery/release-components-200.svg</code>, generated locally) e
+components HTML (<code>gallery/release-components-200.html</code>, generated locally).
+A <a href="layout-acceptance.html">matriz de layout</a> acrescenta 24 composições, fontes
+grandes e ticks rotacionados. <a href="artist-acceptance.html">Aceite de Artists</a> cobre
+edições integradas de geometria, scatter, mesh, vetores e contornos. Os exemplos
+do catálogo são um corte de reprodução; não toda combinação possível de recursos.</p>
+<h2 id="comparar-com-matplotlib">Comparar com Matplotlib</h2>
+<p>Matplotlib 3.11.2 está instalado apenas no ambiente de referência. Com esse
+ambiente, execute <code>python tools/release_gallery.py --reference</code>.</p>
+<p>Há duas comparações diferentes:</p>
+<ol>
+<li><strong>Mesmo Scene → Agg:</strong> componentes, estado, foco, hachuras e globo em 100 DPI.
+O núcleo Azimlib calcula geografia, layout, hachuras e símbolos; o adapter
+envia os mesmos caminhos/textos ao Agg. Isola rasterização, não valida
+projeções nem o layout nativo Matplotlib.</li>
+<li><strong>Axes nativos independentes:</strong> séries claras/escuras e colorbars numéricas
+vertical/horizontal em 100/200 DPI, com chamadas à API de cada biblioteca.
+A referência tem eixos geográficos comuns com aspecto igual. Escala/norte
+são extensões da Azimlib e aparecem apenas no seu painel de séries.</li>
+</ol>
+<p>Exemplos: séries, API/layout nativos (<code>gallery/release-series-light-200-native-comparison.png</code>, generated locally),
+colorbars horizontais, API/layout nativos (<code>gallery/release-numeric-horizontal-200-native-comparison.png</code>, generated locally),
+componentes, mesmo Scene (<code>gallery/release-components-100-raster-comparison.png</code>, generated locally).
+Contornos também têm uma referência nativa específica (<code>gallery/contour-reference.png</code>, generated locally).
+Regras de rotação foram comparadas em <a href="text-rotation.html">768 caixas de texto nativas</a>.
+Diferenças restantes estão no <a href="visual-differences.html">registro visual</a>.</p>
+<p>As imagens de comparação incluem uma faixa de identificação; ela não faz parte
+de <code>savefig()</code>. Nenhum resultado declara igualdade pixel a pixel, rapidez de
+primeiro desenho. O relatório automático da galeria não é uma inspeção da
+janela Tk; o <a href="viewer-visible-acceptance.html">verificação visual Windows</a> é evidência separada.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/release-gallery.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

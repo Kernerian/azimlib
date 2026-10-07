@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rotação e alinhamento de textos · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="rotação-e-alinhamento-de-textos">Rotação e alinhamento de textos</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>O alinhamento padrão usa a caixa completa <strong>depois da rotação</strong>, seguindo a
+referência instalada Matplotlib 3.11.2. <code>rotation_mode='anchor'</code> alinha antes de
+girar. <code>xtick</code> e <code>ytick</code> ajustam o alinhamento conforme o ângulo, como os modos
+homônimos da referência; eles são opcionais, não o padrão dos ticks.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots(layout='constrained')
+ax.map('brazil')
+ax.tick_params(labelrotation=35)  # default: caixa alinhada após girar
+ax.set_xlabel('Longitude', labelpad=4)
+ax.set_ylabel('Latitude', labelpad=4)  # vertical, anchor por padrão
+ax.set_title('Brasil\nDivisões territoriais')
+
+text = ax.text(-48, -15, 'Região', rotation=35, ha='center', va='top')
+text.set_rotation_mode('anchor')
+bar = fig.colorbar(azl.cm.ScalarMappable(azl.colors.Normalize(0, 100)), ax=ax)
+bar.ax.tick_params(labelrotation=35, labelrotation_mode='ytick')
+fig.savefig('mapa.svg')
+</code></pre>
+<p><code>Text</code> de mapa, annotation, títulos, nomes dos eixos e textos da Figure usam as
+mesmas regras próprias. <code>set_rotation()</code> aceita números, <code>'vertical'</code> e
+<code>'horizontal'</code>; <code>set_rotation_mode()</code> e os getters permitem editar o modo.
+<code>tick_params(labelrotation_mode=...)</code> atua nos ticks major/minor selecionados,
+incluindo colorbars. PNG, SVG, Tk e ticks regenerados no HTML usam a mesma
+convenção de ângulos. Nenhum caminho importa Matplotlib no runtime.</p>
+<p>Um texto multilinha conserva uma caixa retangular única para layout, mesmo
+quando suas linhas têm comprimentos diferentes. Nomes dos eixos reservam o
+padding a partir das caixas dos ticks rotacionados; títulos automáticos
+consideram as decorações que ultrapassam o topo. O layout não muda os valores
+ou a quantidade de ticks fixados pelo usuário. Fontes grandes em painéis
+pequenos ainda exigem aumentar a figura ou escolher menos ticks, como na
+referência. Annotations/textos livres não recebem um solver universal de colisões.</p>
+<h2 id="verificação-direta">Verificação direta</h2>
+<ul>
+<li>Comparação visual (<code>gallery/text-rotation-comparison.png</code>, generated locally): mesmos dados,
+posições, fontes e estilos em 0°, 35°, −35° e 90°; Azimlib/Pillow e Matplotlib/Agg.</li>
+<li><a href="text-rotation-reference.json">Referência numérica</a>: 768 combinações de quatro
+modos, oito ângulos, três alinhamentos horizontais, quatro verticais e uma/duas
+linhas. A maior diferença de caixa é 1,43 pixel lógico a 100 DPI; a tolerância
+de fonte é 1,5 pixel, pois Agg arredonda/hinta avanços e o núcleo usa métricas
+fracionárias. Isso não declara identidade de pixels.</li>
+<li><code>tests/test_text_rotation.py</code>: rejeição de modos inválidos antes da edição,
+ancoragem, escala e 1.536 comparações de planos Python/JavaScript em dois DPIs.
+O teste JavaScript precisa de Node no ambiente de desenvolvimento.</li>
+</ul>
+<p>Reprodução: <code>python tools/inspect_text_rotation.py</code> e
+<code>python tools/compare_text_rotation.py</code> no ambiente de referência com Matplotlib.
+MathText, TeX e shaping complexo permanecem fora deste corte.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/text-rotation.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

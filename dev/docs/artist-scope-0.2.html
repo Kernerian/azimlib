@@ -1,0 +1,171 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Catálogo do corte 0.2.0: Artists e edição · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="catálogo-do-corte-020-artists-e-edição">Catálogo do corte 0.2.0: Artists e edição</h1>
+<p>Este catálogo fixa o escopo dos itens <strong>1.08–1.11</strong> da
+<a href="release-progress.html">checklist</a>. Descreve a API existente que será consolidada,
+não uma promessa de toda a hierarquia Matplotlib. A versão ainda é 0.1.0 alpha.
+Código cartográfico/renderers/Artist são próprios; a instalação de Matplotlib
+é usada apenas nos tools de desenvolvimento para registrar referências.</p>
+<h2 id="famílias-que-entram-no-aceite">Famílias que entram no aceite</h2>
+<table>
+<thead>
+<tr>
+<th>Família / entrada pública</th>
+<th>Edição coberta</th>
+<th>Evidências e limites</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Figure / MapAxes</td>
+<td>figsize, dpi, posições, títulos/rótulos, limites, margens, relim/autoscale, filhos e clear</td>
+<td><a href="figure-state.html">Figuras</a>, <a href="sizing-composition.html">dimensões</a>, tests/test_artists.py; limites geográficos crescentes, sem inversão dos eixos</td>
+</tr>
+<tr>
+<td>Layer de linhas / <code>plot</code>, <code>line</code>, <code>route</code></td>
+<td>set/data/xdata/ydata, cor/largura/dash, marker/face/edge/size, cap/join, alpha, label, zorder, visibilidade</td>
+<td><a href="lines-contours.html">Linhas</a>, <a href="series-styles.html">séries</a>, tests/test_lines_contours.py; dados geográficos finitos, gaps/NaN/máscaras de séries ainda não</td>
+</tr>
+<tr>
+<td>Layer de geometria / geojson e camadas territoriais/temáticas</td>
+<td>estilos globais e por feature, hachuras, set_array, norm/cmap/clim, visibilidade/remoção</td>
+<td><a href="data.html">Dados</a>, <a href="map-types.html">mapas</a>, tests/test_api.py e tests/test_mappable_batches.py; set_data não substitui coleções arbitrárias de polígonos</td>
+</tr>
+<tr>
+<td>ScatterCollection / scatter</td>
+<td>offsets, sizes, array, norm/cmap/clim, cores/bordas/marcadores, edições combinadas</td>
+<td><a href="scatter.html">Scatter</a>, tests/test_scatter_collection.py; coordenadas finitas e tamanhos/arrays compatíveis; não toda PathCollection</td>
+</tr>
+<tr>
+<td>ScalarImage / imshow</td>
+<td>matriz escalar, shape, extent, array, norm/cmap/clim e visibilidade</td>
+<td><a href="field-editing.html">Campos</a>, tests/test_field_artists.py; extent geográfico crescente, não imagem RGB/RGBA ou GeoTIFF</td>
+</tr>
+<tr>
+<td>MeshCollection / pcolormesh</td>
+<td>valores/array com shape fixo, estilos e mapping</td>
+<td>Mesmo documento/testes; arestas retangulares fixas, sem malha curvilínea ou triangulação</td>
+</tr>
+<tr>
+<td>VectorCollection / quiver</td>
+<td>UVC, offsets com contagem fixa, scale, array e mapping</td>
+<td>Mesmo documento/testes; componentes leste/norte, não toda Quiver/Barbs</td>
+</tr>
+<tr>
+<td>ContourSet / contour</td>
+<td>paths/levels consultáveis, colors/widths/styles por nível, mapping e visibilidade/remoção</td>
+<td><a href="lines-contours.html">Contornos</a>, <a href="contour-boundaries.html">limites</a>, tests/test_lines_contours.py; paths fixos, campo novo exige contour novo; sem contourf</td>
+</tr>
+<tr>
+<td>ContourLabel / clabel e Layer de labels</td>
+<td>texto/estilo/visibilidade, inline/spacing; prioridade/colisão/halo cartográficos</td>
+<td><a href="labels.html">Labels</a>, tests/test_contour_refinement.py e tests/test_label_placement.py; solver próprio, não a posição escolhida automaticamente pelo Matplotlib</td>
+</tr>
+<tr>
+<td>MapText, Annotation, TextArtist</td>
+<td>texto, fonte/peso/tamanho, alinhamento, rotação, cor/alpha, posição nos sistemas implementados, alvo/offset da annotation</td>
+<td><a href="text-edits.html">Textos</a>, tests/test_text_edits.py; sem MathText/TeX/shaping completo ou grafo geral de Transform</td>
+</tr>
+<tr>
+<td>AxisComponents / ticks / Spine</td>
+<td>major/minor, locators/formatters, texto de offset, estilos/padding/direção, bordas independentes</td>
+<td><a href="ticks.html">Ticks</a>, <a href="numeric-formatting.html">formatação</a>, tests/test_numeric_formatting.py; não toda Axis/Scale/units do Matplotlib</td>
+</tr>
+<tr>
+<td>Legend / LegendFrame</td>
+<td>textos/título/frame, loc, colunas, bbox_to_anchor, padding e visibilidade</td>
+<td><a href="components.html">Componentes</a>, tests/test_component_frames.py; título só quando pedido, handlers/best próprios; textos internos ocultáveis, sem remove individual</td>
+</tr>
+<tr>
+<td>Colorbar / eixo/outline</td>
+<td>orientação/local, shrink/aspect/pad, label/ticks/formatters, extend/spacing, update_normal, visibilidade/remoção</td>
+<td><a href="scientific.html">Científico</a>, tests/test_scientific.py e tests/test_contour_refinement.py; axis proxy próprio, não MapAxes completo</td>
+</tr>
+<tr>
+<td>ScaleBar</td>
+<td>comprimento/unidade, loc, fonte/cor, frame/alpha e visibilidade</td>
+<td><a href="components.html">Componentes</a>, tests/test_scale_labels.py; graduações automáticas, distância esférica local, não geodesia elipsoidal</td>
+</tr>
+<tr>
+<td>OrientationIndicator / north_arrow e compass</td>
+<td>loc, size, color, estilos suportados, visibilidade/remoção</td>
+<td><a href="components.html">Orientação</a>, tests/test_orientation.py; dois componentes independentes, extensões cartográficas</td>
+</tr>
+<tr>
+<td>Overview / inset</td>
+<td>mapa secundário, enquadramento, foco vinculado, estilos/visibilidade e remoção</td>
+<td><a href="composition.html">Composição</a>, tests/test_ornaments.py; retângulo de foco próprio, não todo toolkit inset_locator</td>
+</tr>
+</tbody>
+</table>
+<h2 id="propriedades-comuns-e-aliases">Propriedades comuns e aliases</h2>
+<p>As famílias Artist oferecem ownership/get_figure, stale/callbacks,
+get_children/findobj, set_visible, set_in_layout e remoção quando aplicável.
+<code>set</code>, <code>setp</code>, setters específicos e <code>properties</code>/<code>getp</code> compõem o protocolo.
+Consultar propriedades não implica que todas as chaves de estilo se apliquem a
+todas as geometrias: por exemplo, marker é para pontos e hatch para áreas.
+A <a href="artist-acceptance.html">auditoria 1.11</a> rejeita propriedades desconhecidas,
+aliases ambíguos e estilos incompatíveis de texto. O vocabulário de Layer
+continua compartilhado: estilos conhecidos podem ficar sem efeito em outra
+geometria. Não se declara uma tipagem completa da hierarquia Matplotlib.</p>
+<p>Os aliases gerais atuais de styles.py são:</p>
+<table>
+<thead>
+<tr>
+<th>Grafia curta/alternativa</th>
+<th>Propriedade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lw / ls / c</td>
+<td>linewidth / linestyle / color</td>
+</tr>
+<tr>
+<td>fc / ec</td>
+<td>facecolor / edgecolor</td>
+</tr>
+<tr>
+<td>ms / mfc / mec / mew</td>
+<td>markersize / markerfacecolor / markeredgecolor / markeredgewidth</td>
+</tr>
+<tr>
+<td>size / weight / family</td>
+<td>fontsize / fontweight / fontfamily</td>
+</tr>
+<tr>
+<td>horizontalalignment / verticalalignment</td>
+<td>ha / va</td>
+</tr>
+<tr>
+<td>aa</td>
+<td>antialiased</td>
+</tr>
+</tbody>
+</table>
+<p>Duas grafias da mesma propriedade no mesmo lote são ambíguas e rejeitadas no
+normalizador geral. ContourSet acrescenta aliases por nível: colors/edgecolors,
+linewidths e linestyles. Scatter usa <code>s</code> como área em pontos quadrados e <code>c</code>
+como cor/valores conforme a chamada; esses são argumentos próprios da API,
+não uma equivalência geral s → markersize.</p>
+<p>Spines/outline e LegendFrame reconhecem os aliases aplicáveis de bordas.
+getp resolve aliases quando não existe um getter dedicado com aquele nome;
+por isso size continua representando o tamanho físico do indicador de norte.
+Componentes cartográficos próprios só aceitam os controles declarados em sua
+API; a tabela de aliases não promete todas as grafias em todos os componentes.</p>
+<p>Fontfamily aceita string, não lista de famílias. Fontstyle é
+normal/italic/oblique; pesos normal/bold ou múltiplos de 100 até 900. Fontsize
+precisa ser positivo. Linestyle aceita nomes ou sequência própria de comprimentos
+positivos, sem o par Matplotlib (offset, sequência). <a href="artist-validation.html">Validação</a>
+registra diferenças e escopo das edições prevalidada/não transacionais.</p>
+<h2 id="evidência-e-itens-ainda-abertos">Evidência e itens ainda abertos</h2>
+<p>As referências JSON de aliases, linhas/contornos, colorbars, textos/lifecycle e
+validação foram produzidas com Matplotlib instalado. Testes da biblioteca leem
+esses registros sem importar Matplotlib. Semelhança da API não declara igualdade
+de pixels, contagem de callbacks, topology de saddles degenerados ou solver.</p>
+<p>O catálogo <strong>1.08</strong>, limites <strong>1.09</strong>, integração <strong>1.10</strong> e auditoria <strong>1.11</strong>
+estão entregues. O aceite <strong>1.12</strong> fecha o passo 1 neste catálogo, com
+<a href="artist-acceptance.html">regressões, source/wheel/Tk e limitações explícitas</a>.
+O <a href="layout-acceptance.html">passo 2 também está aceito</a> e o
+<a href="viewer-visible-acceptance.html">passo 3 está aceito</a>. Os passos 4–5 continuam
+abertos. A <a href="release-gallery.html">galeria do corte</a> e o <a href="getting-started.html">guia inicial</a>
+consolidam exemplos e diferenças sem ampliar este catálogo por inferência.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/artist-scope-0.2.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

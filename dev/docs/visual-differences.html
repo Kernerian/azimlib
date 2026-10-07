@@ -1,0 +1,87 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Diferenças visuais e comportamentais registradas · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="diferenças-visuais-e-comportamentais-registradas">Diferenças visuais e comportamentais registradas</h1>
+<p>Referência de desenvolvimento: Matplotlib 3.11.2/Agg, Python 3.14.4, Windows.
+Azimlib permanece independente; o renderer cartográfico, Scene, layout e API
+são próprios. Este registro encerra <strong>3.09</strong>, após a
+<a href="viewer-visible-acceptance.html">conferência 3.08 da janela Tk visível no Windows</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Área</th>
+<th>Diferença / limite atual</th>
+<th>Evidência e decisão</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Texto raster</td>
+<td>Agg usa hinting/posições de glifos; Azimlib usa cobertura/supersampling próprios com Pillow</td>
+<td><a href="image-quality.html">Qualidade</a>, <a href="text-rotation.html">fontes e rotação</a>; não se promete identidade dos pixels. Máxima diferença das caixas nas 768 referências de rotação: cerca de 1,43 px a 100 DPI</td>
+</tr>
+<tr>
+<td>Traços e clipping</td>
+<td>Cobertura subpixel, recorte fracionário, caps/joins/dashes podem rasterizar diferentemente</td>
+<td><a href="style-quality.html">Estilos</a>, <a href="complete-map-quality.html">mapas completos</a> e <a href="release-gallery.html">baselines atuais</a>; larguras públicas continuam em pontos</td>
+</tr>
+<tr>
+<td>Hachuras</td>
+<td>Vocabulário e repetição familiares; formas/espacamento gerados pelo nosso núcleo</td>
+<td><a href="scientific.html">Científico</a>; comparar o mesmo Scene em Agg não compara o gerador nativo de hachuras</td>
+</tr>
+<tr>
+<td>SVG</td>
+<td>Texto vetorial editável com fontes DejaVu embarcadas; rasterização final depende do viewer</td>
+<td><a href="architecture.html">Renderers</a>; XML/textos/clip/transform conferidos, sem alegar PNG idêntico em todos os navegadores</td>
+</tr>
+<tr>
+<td>Layout</td>
+<td>Solver próprio por medidas, uma raiz GridSpec e seus filhos; projeção preserva aspecto geográfico</td>
+<td><a href="layout-acceptance.html">Aceite de layout</a>; posições manuais e textos livres continuam responsabilidade do autor</td>
+</tr>
+<tr>
+<td>Colorbar no topo</td>
+<td>A referência Tk/Agg usa posicionamento por baseline no rótulo superior; gap visível pode diferir do labelpad</td>
+<td><a href="layout-acceptance-reference.json">24 controles/18 gaps físicos</a>; nos casos registrados, Azimlib mantém 8 pt de distância geométrica, referência superior aproximadamente 4,64 pt</td>
+</tr>
+<tr>
+<td>Isolinhas</td>
+<td>Marching squares, decisões em saddles e posicionamento de labels próprios</td>
+<td><a href="contour-boundaries.html">Limites de contornos</a>, <a href="lines-contours.html">edições</a>; sem contourf, triangulação ou toda a política automática de clabel</td>
+</tr>
+<tr>
+<td>Componentes cartográficos</td>
+<td>Escala, norte, rosa e overview são extensões opt-in; não são componentes nativos do pyplot</td>
+<td><a href="components.html">Componentes</a>; norte/rosa independentes, foco preto e escala local esférica</td>
+</tr>
+<tr>
+<td>Dados/projeções no corte 0.2.0</td>
+<td>Natural Earth generalizado, seis projeções esféricas; transformação 4326/3857 própria</td>
+<td><a href="data.html">Dados</a>, <a href="math.html">matemática</a>; diferenças de datum/elipsoide/detalhe não são defeitos do renderer</td>
+</tr>
+<tr>
+<td>Viewer Tk</td>
+<td>Renderer/navegação e sete ícones próprios, sem assets/código da referência. Grupos de botões e tooltip imediato à direita seguem Tk; Pan/Zoom são Checkbuttons. Pan altera limites e redesenha ticks durante o arrasto, sem traduzir bitmap/moldura. Hover plano, editor ttk e nomes opcionais preservados</td>
+<td><a href="toolbar.html">Quatro escalas Tk</a>, <a href="pan-interaction.html">60 gestos e integração</a>, <a href="viewer-visible-acceptance.html">verificação visual Windows</a>; decoração Tk não é Qt. Aparência/input observados neste Windows aceitos em 3.08; latência/input Windows encerrados em <a href="performance-acceptance.html">4.09</a>; <a href="ci-0.2.0.json">CI desktop nos três sistemas</a> aprovada. Conferência humana nativa Linux/macOS fica posterior, conforme o <a href="release-acceptance.html">aceite 0.2.0</a></td>
+</tr>
+<tr>
+<td>Viewer HTML</td>
+<td>Cena offline sem vínculo com Python; navegação/ornamentos dependem da projeção</td>
+<td><a href="portable-navigation.html">Navegação</a>, <a href="components.html">componentes</a>; não se declara equivalência integral ao desktop</td>
+</tr>
+</tbody>
+</table>
+<p>O <a href="release-gallery.html">catálogo da galeria</a> separa referências nativas de
+comparações de raster sobre a mesma cena. Os JSON antigos de desempenho e
+qualidade preservam os hashes/medições do código que produziram seus resultados;
+as novas baselines têm relatório próprio. As métricas RGB são diagnósticos,
+não notas de qualidade perceptual.</p>
+<p>Correções de geometria, textos e componentes já auditadas estão nos aceites
+<a href="artist-acceptance.html">1</a> e <a href="layout-acceptance.html">2</a>. Este registro não converte
+uma verificação oculta em inspeção da janela visível. O passo 3 foi encerrado
+com observação visual Windows, além dos testes/artefatos; a medição física
+Windows e a CI nos três sistemas encerraram os passos 4–5. A conferência humana
+nativa Linux/macOS permanece uma limitação documentada do corte 0.2.0.</p>
+<p>A 0.3.0 em desenvolvimento acrescenta duas projeções esféricas, TM/UTM
+elipsoidais regionais, geodesia e vistas cruzadas. Esse avanço possui
+<a href="geodesy.html">matriz numérica e limites próprios</a>; não altera retroativamente
+as medições visuais da 0.2.0 descritas acima.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/visual-differences.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

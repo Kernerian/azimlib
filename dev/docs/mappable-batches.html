@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Edição agrupada de cores e dados · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="edição-agrupada-de-cores-e-dados">Edição agrupada de cores e dados</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>Layer, ScatterCollection, MeshCollection, ScalarImage e VectorCollection
+aceitam <code>norm</code>, <code>cmap</code>, <code>clim</code> e <code>array</code> por <code>set()</code> e <code>azl.setp()</code>, combinados
+com seus dados/estilos já editáveis. O núcleo e o desenho continuam próprios.</p>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.colors import Normalize
+
+fig, ax = azl.subplots()
+image = ax.imshow([[1, 2], [3, 4]], extent=(-54, -44, -26, -18))
+bar = fig.colorbar(image, orientation='horizontal')
+
+image.set(data=[[10, 20, 30]], norm=Normalize(),
+          cmap='plasma', clim=(0, 50), alpha=.8)
+fig.savefig('campo.svg')
+</code></pre>
+<h2 id="contrato-dos-lotes">Contrato dos lotes</h2>
+<ul>
+<li><code>norm</code> exige Normalize próprio ou sua subclasse; <code>None</code> cria Normalize novo.</li>
+<li><code>cmap</code> usa nome/paleta própria ou Colormap; <code>None</code> retorna à paleta padrão
+viridis. A atribuição <code>item.cmap = 'plasma'</code> agora valida e notifica a mudança,
+como <code>set_cmap</code>. Não há rcParam <code>image.cmap</code> nesta etapa.</li>
+<li><code>clim=(vmin,vmax)</code> muda os limites. <code>None</code> em uma extremidade preserva seu
+limite existente; um escalar é o limite inferior, como em <code>set_clim</code>.</li>
+<li>O lote considera os dados e a norm finais, independentemente da ordem dos
+argumentos. Limites explícitos completos prevalecem; limites não definidos
+podem ser preenchidos pelos dados novos. Limites previamente fixados continuam
+fixos, até edição explícita ou <code>autoscale()</code>.</li>
+<li><code>array</code> segue a forma/quantidade aceita pelo handle. ScalarImage mantém sua
+ordem geográfica legada para vetor plano; prefira <code>data</code> para matriz na ordem
+original. <code>data</code> e <code>array</code> juntos são rejeitados na imagem. Veja <a href="field-editing.html">campos</a>.</li>
+</ul>
+<p>Offsets/sizes, extent/forma da imagem, UVC/scale e estilos também podem entrar
+no mesmo lote. Dados e propriedades são verificados antes de alterar o handle
+ou a norm compartilhada. Erros comuns de forma, paleta, intervalo ou estilo
+preservam dados, cores, visibilidade e callbacks. A validação prospectiva usa
+uma cópia rasa da norm com callbacks isolados, sem mudar a instância original.</p>
+<h2 id="observadores-e-colorbars">Observadores e colorbars</h2>
+<p>Um lote em um handle agrupa suas notificações de Artist e de ScalarMappable;
+os observadores recebem os dados/estilos/cores finais. Uma norm compartilhada
+continua notificando os outros mappables quando seus limites mudam. Não há
+transação entre vários Artists, rollback de callbacks que lançam exceções ou
+garantia de isolamento para efeitos externos de subclasses customizadas de norm.
+Matplotlib aplica seus setters em sequência; o agrupamento/validação prévia é
+uma garantia própria da Azimlib, sem prometer contagem idêntica de sinais.</p>
+<p>Alterar a paleta ou clim com a mesma norm preserva locators/formatters
+personalizados da colorbar. Substituir a instância de norm redefine seus
+tickers, como Matplotlib; a conexão com a norm antiga é removida.
+Setters individuais, <code>getp</code>, SVG/PNG e exportação HTML usam os mesmos handles.
+Editar cores/dados não muda automaticamente o extent geográfico.</p>
+<h2 id="comparação-e-limites">Comparação e limites</h2>
+<p><a href="mappable-batches-reference.json">mappable-batches-reference.json</a> registra 20
+estados de Matplotlib 3.11.2/Agg: imagem, mesh, pontos e vetores, antes/depois
+do lote, troca de norm, atribuição de paleta e retorno à paleta padrão.
+O tool <code>inspect_mappable_batches.py</code> importa Matplotlib somente em desenvolvimento;
+os testes da Azimlib usam o JSON e não precisam dele.</p>
+<p>As regressões adicionais cobrem callbacks finais, norm compartilhada, inválidos
+sem alteração parcial, 24 ordens de argumentos, dados/geografia no lote, missing
+values, norm logarítmica/divergente/discreta, exportações e igualdade PNG entre
+lote e setters dedicados. Não entregamos aqui edição completa de contornos,
+reclassificação/regeneração automática de legendas temáticas ou RGBA/máscaras.</p>
+<p>Veja o <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/mappable_batches.py">exemplo</a>,
+antes (<code>gallery/mapping-before.png</code>, generated locally) e depois (<code>gallery/mapping-after.png</code>, generated locally).</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/mappable-batches.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

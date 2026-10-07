@@ -1,0 +1,238 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Raster direto e medições do viewer Tk · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="raster-direto-e-medições-do-viewer-tk">Raster direto e medições do viewer Tk</h1>
+<p>As medições abaixo preservam o código e os hashes da entrega original. O
+<a href="pan-interaction.html">pan ao vivo</a> de 2026-10-03 removeu o preview traduzido e
+passou a redesenhar durante motion; os tempos históricos de pan não medem
+essa nova implementação. Latência de apresentação/input permanece em 4.09.</p>
+<p>O renderer próprio agora expõe <code>render_image(scene, scale=1)</code>, que devolve uma
+imagem Pillow RGBA com o mesmo antialiasing, fontes e composição do PNG. Quem
+recebe a imagem deve fechá-la. A importação do módulo não exige Pillow; essa
+dependência opcional só é necessária ao renderizar.</p>
+<pre><code class="language-python">from azimlib.renderers import render_image
+
+image = render_image(fig.to_scene())
+try:
+    print(image.size, image.mode)
+finally:
+    image.close()
+</code></pre>
+<p><code>render_png</code> codifica essa imagem no arquivo/stream e a libera mesmo se a
+gravação falhar. Streams do chamador permanecem abertos. <code>savefig()</code> continua
+uma exportação estática PNG/SVG sem UI. <code>show()</code> usa o backend próprio: o Tk
+encaminha RGBA a PhotoImage sem codificar, decodificar e converter um PNG
+intermediário. Libera a imagem anterior após cada desenho e a atual no
+fechamento. Não retém a Scene e a cópia raster iniciais: Home recompõe a vista
+pelo histórico. Minimapa e demais componentes continuam opcionais.</p>
+<p>Atualização de 2026-10-02: o Tk recompõe a cena e pode reusar pixels de uma
+vista já visitada através de uma LRU limitada (quatro frames/16 MiB de RGBA
+retidos). Home/histórico mantêm metadata e eventos atuais. Não há cópia inicial
+dedicada nem cache na exportação estática. Veja <a href="larger-batch.html">medição municipal e limites</a>.
+Os experimentos abaixo registram a implementação anterior, sem essa LRU.</p>
+<p>Cinco testes adicionais/33 subtests verificam ownership, fechamento, streams,
+validação e equivalência com o snapshot próprio anterior. Em 27 composições de
+polígonos com buracos, clipping, tracejados, transparência, círculos e textos,
+variando fundo, escala e rotação, os pixels RGBA e os bytes PNG são idênticos.
+O smoke Tk impede chamadas a <code>Image.save</code>/<code>Image.open</code> durante a abertura e
+confere a liberação da imagem anterior. Nenhum desses testes usa Matplotlib.</p>
+<h2 id="experimento-antesdepois">Experimento antes/depois</h2>
+<p><a href="performance/viewer-100.json">100 DPI</a> e <a href="performance/viewer-200.json">200 DPI</a>
+registram Windows/Python 3.14.4/Tk 8.6/Pillow 12.3.0, hashes das fontes e
+ferramentas, amostras e contadores. São dois pares por caso, com ordem alternada
+e <strong>16 intérpretes novos, executados serialmente</strong>. Ambos os modos importam as
+mesmas implementações próprias; o modo anterior restaura os snapshots Tk/PNG
+anteriores à extração do RGBA e à remoção da retenção inicial. Os sete estados
+de cada caso têm pixels RGBA, itens/vértices, vistas, histórico e estado stale
+idênticos nos quatro workers: <strong>112 registros de operações</strong>.</p>
+<p>Há widgets e event loop Tk reais em janelas ocultas e entradas sintéticas.
+Abertura inclui root/widgets/ícones/composição/raster/PhotoImage/canvas e
+<code>update_idletasks</code>, mas exclui construção da Figure e carregamento dos dados.
+As demais operações incluem composição/raster/atualização do canvas. Pan mede
+uma prévia e a recomposição ao soltar, sem medir throughput de arrasto contínuo.
+Resize inclui debounce de 180 ms e callback de espera de 200 ms. O caso atlas
+tem múltiplos mapas; zoom/pan alteram o primeiro Axes.</p>
+<p>As bases Natural Earth incluídas são generalizadas; os valores temáticos do
+atlas são sintéticos. O experimento não usa uma base municipal detalhada e
+não mede input físico, pintura visível do sistema, screenshots ou percepção
+da latência pelo usuário.</p>
+<p>Medianas em segundos da implementação RGBA registrada neste experimento:</p>
+<table>
+<thead>
+<tr>
+<th>Caso</th>
+<th style="text-align:right">DPI</th>
+<th>Canvas inicial</th>
+<th style="text-align:right">Abrir</th>
+<th style="text-align:right">Redesenhar</th>
+<th style="text-align:right">Zoom</th>
+<th style="text-align:right">Pan/soltar</th>
+<th style="text-align:right">Home</th>
+<th style="text-align:right">Resize</th>
+<th style="text-align:right">Editar título</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>São Paulo</td>
+<td style="text-align:right">100</td>
+<td>640 × 480</td>
+<td style="text-align:right">1.741</td>
+<td style="text-align:right">1.396</td>
+<td style="text-align:right">1.287</td>
+<td style="text-align:right">1.277</td>
+<td style="text-align:right">1.360</td>
+<td style="text-align:right">1.742</td>
+<td style="text-align:right">1.592</td>
+</tr>
+<tr>
+<td>Brasil</td>
+<td style="text-align:right">100</td>
+<td>640 × 480</td>
+<td style="text-align:right">5.542</td>
+<td style="text-align:right">4.996</td>
+<td style="text-align:right">5.046</td>
+<td style="text-align:right">5.041</td>
+<td style="text-align:right">5.058</td>
+<td style="text-align:right">5.306</td>
+<td style="text-align:right">4.886</td>
+</tr>
+<tr>
+<td>Atlas</td>
+<td style="text-align:right">100</td>
+<td>1200 × 800</td>
+<td style="text-align:right">8.525</td>
+<td style="text-align:right">7.529</td>
+<td style="text-align:right">7.766</td>
+<td style="text-align:right">7.158</td>
+<td style="text-align:right">7.194</td>
+<td style="text-align:right">7.915</td>
+<td style="text-align:right">7.456</td>
+</tr>
+<tr>
+<td>São Paulo</td>
+<td style="text-align:right">200</td>
+<td>1280 × 960</td>
+<td style="text-align:right">3.922</td>
+<td style="text-align:right">3.420</td>
+<td style="text-align:right">3.398</td>
+<td style="text-align:right">3.231</td>
+<td style="text-align:right">3.228</td>
+<td style="text-align:right">3.544</td>
+<td style="text-align:right">3.592</td>
+</tr>
+</tbody>
+</table>
+<p>Comparação de duas operações, antes → depois, em segundos:</p>
+<table>
+<thead>
+<tr>
+<th>Caso/DPI</th>
+<th style="text-align:right">Abrir</th>
+<th style="text-align:right">Redesenhar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>São Paulo/100</td>
+<td style="text-align:right">1.760 → 1.741</td>
+<td style="text-align:right">1.376 → 1.396</td>
+</tr>
+<tr>
+<td>Brasil/100</td>
+<td style="text-align:right">5.943 → 5.542</td>
+<td style="text-align:right">4.918 → 4.996</td>
+</tr>
+<tr>
+<td>Atlas/100</td>
+<td style="text-align:right">8.033 → 8.525</td>
+<td style="text-align:right">7.304 → 7.529</td>
+</tr>
+<tr>
+<td>São Paulo/200</td>
+<td style="text-align:right">3.548 → 3.922</td>
+<td style="text-align:right">3.174 → 3.420</td>
+</tr>
+</tbody>
+</table>
+<p>Os tempos variam nos dois sentidos. Estas amostras pequenas não permitem
+declarar aceleração geral, significância estatística ou navegação fluida. A
+remoção do codec e da cópia inicial reduz trabalho/retenção desnecessários,
+mas a preparação e a cobertura raster Python continuam custosas.</p>
+<h2 id="memória-do-processo">Memória do processo</h2>
+<p>Contadores Windows são lidos fora do trecho cronometrado. O pico é o high-water
+mark acumulado do processo inteiro, incluindo Python, dados, buffers nativos
+e Tk; não é pico isolado de uma etapa nem apenas de memória nativa. Hashes de
+pixels são calculados por faixas após tempo/contador e podem influenciar picos
+das etapas seguintes. Não há tracemalloc/profiling/sampler simultâneo.</p>
+<p>Medianas em MiB, antes → depois:</p>
+<table>
+<thead>
+<tr>
+<th>Caso/DPI</th>
+<th style="text-align:right">Working set após abrir</th>
+<th style="text-align:right">Maior pico observado na sequência</th>
+<th style="text-align:right">Working set após editar título</th>
+<th style="text-align:right">Working set após fechar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>São Paulo/100</td>
+<td style="text-align:right">77.3 → 75.8</td>
+<td style="text-align:right">126.3 → 121.8</td>
+<td style="text-align:right">82.0 → 78.2</td>
+<td style="text-align:right">76.9 → 74.3</td>
+</tr>
+<tr>
+<td>Brasil/100</td>
+<td style="text-align:right">93.5 → 92.0</td>
+<td style="text-align:right">142.4 → 132.5</td>
+<td style="text-align:right">107.7 → 97.6</td>
+<td style="text-align:right">102.6 → 93.7</td>
+</tr>
+<tr>
+<td>Atlas/100</td>
+<td style="text-align:right">105.8 → 102.2</td>
+<td style="text-align:right">203.7 → 188.4</td>
+<td style="text-align:right">126.0 → 110.5</td>
+<td style="text-align:right">109.0 → 99.1</td>
+</tr>
+<tr>
+<td>São Paulo/200</td>
+<td style="text-align:right">90.5 → 86.0</td>
+<td style="text-align:right">212.1 → 205.5</td>
+<td style="text-align:right">96.7 → 90.3</td>
+<td style="text-align:right">78.1 → 76.0</td>
+</tr>
+</tbody>
+</table>
+<p>O contador após fechar ainda inclui referências locais à Figure, à última
+Scene e aos dados, além de memória que o alocador pode reter. Não representa
+um processo sem mapas nem prova ausência geral de vazamentos. As reduções
+locais não garantem limites em outras bases, máquinas ou plataformas.</p>
+<h2 id="reprodução-e-trabalho-restante">Reprodução e trabalho restante</h2>
+<pre><code class="language-bash">python tools/benchmark_viewer.py --cases state brazil atlas --dpi 100 --repeats 2 --output viewer-100.json
+python tools/benchmark_viewer.py --cases state --dpi 200 --repeats 2 --output viewer-200.json
+python tools/smoke_viewer_tk.py --output viewer-tk-validation.json
+</code></pre>
+<p>Rodar sem outros testes/benchmarks intensivos simultâneos. Os snapshots em
+<code>tools/baselines/viewer-raster-before</code> são código próprio de referência de
+desenvolvimento, não backend alternativo ou dependência do wheel.</p>
+<p>Ainda faltam localizar/reduzir o custo da cobertura e da recomposição,
+ampliar culling/cache e medir uma base detalhada real. Também faltam pintura
+visível/input nativo e resultados reais de outras plataformas. Este lote
+avança o critério de desempenho da <a href="release-0.2.html">0.2.0</a>, sem declará-lo
+concluído. Veja também <a href="viewer-validation.html">validação desktop</a>.</p>
+<h2 id="proveniência-após-alterações-do-viewer">Proveniência após alterações do viewer</h2>
+<p>As medidas acima são históricas. O código RGBA medido está preservado em
+<code>tools/baselines/viewer-rgba-measured/</code>, com hashes conferidos contra os relatórios.
+O viewer/núcleo atual recebeu mudanças de primeiro draw, dimensões/DPI, títulos,
+séries/ciclos e estilos depois
+do experimento. Não se atribuem estes tempos à implementação atual nem se
+declara aceleração decorrente das novas mudanças.</p>
+<p>O <a href="municipal-raster.html">lote municipal de cobertura</a> traz uma comparação nova
+antes/depois da rasterização de vistas ainda não cacheadas. Ele mede o renderer
+direto e preservação de pixels; não mede pintura visível ou input físico.</p>
+<p>O <a href="pan-responsiveness.html">pan com renderer real</a> mede separadamente a versão
+anterior, source atual, wheel atual e TkAgg. Coalescência antes da composição e
+raster temporário diminuíram os travamentos; a referência ainda redesenha mais
+quadros por segundo. Exportação e quadros finais mantêm a cobertura exata.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/viewer-performance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

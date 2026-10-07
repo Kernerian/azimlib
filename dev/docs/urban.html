@@ -1,0 +1,97 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mapas urbanos — primeira base da 0.3.0 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="mapas-urbanos-primeira-base-da-030">Mapas urbanos — primeira base da 0.3.0</h1>
+<p>A branch de desenvolvimento acrescenta entrada CSV, seleção por atributos e
+quatro conveniências urbanas. Estes recursos ainda não fazem parte do pacote
+0.2.0 publicado. Veja a <a href="release-progress-0.3.html">checklist da 0.3.0</a>.</p>
+<pre><code class="language-python">import azimlib as azl
+
+points = azl.read_csv(&quot;stations.csv&quot;, longitude=&quot;longitude&quot;, latitude=&quot;latitude&quot;,
+                      id_column=&quot;id&quot;, converters={&quot;population&quot;: int})
+fig, ax = azl.subplots(projection=&quot;mercator&quot;)
+stations = ax.cities(points, marker=&quot;o&quot;, markersize=6, label=&quot;Stations&quot;)
+ax.labels(stations, field=&quot;name&quot;, halo=&quot;white&quot;)
+ax.set_title(&quot;Stations&quot;)
+fig.savefig(&quot;stations.svg&quot;)
+</code></pre>
+<p><code>import azimlib.pyplot as plt</code> continua oferecendo a mesma criação de figuras
+e o mesmo viewer. A leitura de dados permanece disponível em <code>azimlib</code>.</p>
+<h2 id="dados-e-contratos">Dados e contratos</h2>
+<table>
+<thead>
+<tr>
+<th>Método</th>
+<th>Geometrias aceitas</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ax.cities(data)</code></td>
+<td>Point, MultiPoint</td>
+<td>Centros urbanos ou POIs; não limites municipais</td>
+</tr>
+<tr>
+<td><code>ax.neighborhoods(data)</code></td>
+<td>Polygon, MultiPolygon</td>
+<td>Limites fornecidos de bairros</td>
+</tr>
+<tr>
+<td><code>ax.streets(data)</code></td>
+<td>LineString, MultiLineString</td>
+<td>Traçados de ruas; não grafo de roteamento</td>
+</tr>
+<tr>
+<td><code>ax.buildings(data)</code></td>
+<td>Polygon, MultiPolygon</td>
+<td>Plantas de construções; não extrusões 3D</td>
+</tr>
+</tbody>
+</table>
+<p>Os quatro métodos aceitam os mesmos dados de <code>geojson()</code>, <code>style(feature)</code>,
+<code>fit</code>, aliases visuais, <code>where={&quot;campo&quot;: valor}</code> e <code>crs</code> explícito, atualmente
+EPSG:4326/3857. Geometrias incompatíveis são rejeitadas antes de alterar limites
+ou camadas. Geometrias nulas são preservadas e não desenhadas. Uma seleção vazia
+cria uma camada vazia sem mudar a vista. <code>fit=False</code> preserva a vista existente.</p>
+<p>Linhas, bordas e <code>markersize</code> usam <strong>pontos tipográficos</strong>, não metros no solo.
+Um atributo <code>height</code> não cria volume. Nenhum destes métodos baixa dados, infere
+limites a partir de um nome ou acrescenta componentes automaticamente.</p>
+<h2 id="selecionar-e-editar">Selecionar e editar</h2>
+<pre><code class="language-python">streets = azl.read_geojson(&quot;streets.geojson&quot;)
+avenues = streets.select({&quot;class&quot;: &quot;arterial&quot;},
+                         predicate=lambda feature: feature.properties.get(&quot;lanes&quot;, 0) &gt;= 2)
+layer = ax.streets(avenues, color=&quot;orange&quot;, linewidth=2)
+layer.set_visible(False)
+layer.set(linewidth=1.5, visible=True)
+layer.remove()
+</code></pre>
+<p><code>FeatureCollection.select(where=None, *, predicate=None, geometry_types=None)</code>
+combina os filtros com AND, mantém ordem/IDs e reutiliza as features imutáveis.
+Um campo ausente difere de um campo cujo valor é <code>None</code>. <code>geometry_types</code>
+aceita um nome ou iterable de nomes GeoJSON, comparando somente o tipo da
+geometria principal. Não é uma operação de interseção espacial.</p>
+<p><code>read_csv(source, *, longitude=&quot;lon&quot;, latitude=&quot;lat&quot;, id_column=None, converters=None, delimiter=&quot;,&quot;, encoding=&quot;utf-8-sig&quot;)</code> aceita caminhos locais,
+texto com quebras de linha, bytes e streams. Streams fornecidos permanecem
+abertos. Coordenadas tornam-se floats finitos em graus; latitude deve estar
+entre -90 e 90. Outras propriedades permanecem strings, salvo conversores
+explícitos. IDs são opcionais; não há inferência de CRS nem de tipos.</p>
+<p>Cabeçalhos duplicados/vazios, colunas ausentes, registros malformados,
+contagem de campos incorreta e dados inválidos falham com erro. Registros
+inválidos nunca são descartados silenciosamente. Linhas físicas vazias são
+ignoradas, como linhas sem registros; erros de registros incluem o número da
+linha física. CSV vazio não representa uma coleção; cabeçalho válido sem
+registros representa uma coleção vazia.</p>
+<h2 id="exemplo-reproduzível-e-proveniência">Exemplo reproduzível e proveniência</h2>
+<p><img src="_static/urban/urban.png" alt="Atlas urbano sintético" /></p>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/urban.py">examples/urban.py</a> constrói bairros, ruas, edifícios e
+estações <strong>inteiramente sintéticos</strong>, com legenda, rótulos com halo, norte,
+escala e dois mapas. Não contém dados OSM, endereços ou pessoas reais.</p>
+<pre><code class="language-bash">python examples/urban.py --output gallery/urban
+</code></pre>
+<p>Exporta PNG/SVG com o renderer próprio. Grid, legenda, norte, escala e
+minimapa continuam opcionais. Layers podem ser editadas, ocultadas e removidas
+com o mesmo ciclo de Artists do núcleo existente.</p>
+<p>Dados reais posteriores precisam de origem, versão, licença e atribuições
+explícitas. O leitor OSM planejado não torna bases ODbL propriedade da Azimlib;
+exemplos e pacotes de dados terão seus próprios avisos. Leitores adicionais,
+largura geográfica, indexação densa e picking constam na checklist, ainda
+pendentes. Geocodificação e roteamento não estão implementados neste lote.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/urban.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

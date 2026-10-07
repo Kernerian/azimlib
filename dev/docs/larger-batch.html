@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Consolidação de aliases, composição e navegação · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="consolidação-de-aliases-composição-e-navegação">Consolidação de aliases, composição e navegação</h1>
+<p>Lote de 2026-10-02 para a fundação 0.2.0. A versão continua 0.1.0 alpha.</p>
+<h2 id="propriedades-de-artists">Propriedades de Artists</h2>
+<p>Aliases explícitos são normalizados antes dos defaults internos. <code>lw</code>, <code>ls</code>,
+<code>fc</code>, <code>ec</code>, <code>ms</code>, aliases de marcadores e aliases de texto continuam aceitos.
+<code>linewidth=1, lw=1</code> agora gera TypeError, mesmo com valores iguais: não há
+escolha silenciosa de uma das duas grafias. A falha ocorre antes de anexar
+camadas, alterar limites/ciclo, texto, visibilidade ou callbacks dos Artists
+auditados. Edições de grid com <code>lw</code>/<code>c</code> substituem o estilo anterior.</p>
+<p>O contrato selecionado de 13 pares de aliases foi registrado diretamente no
+Matplotlib instalado por <code>tools/inspect_style_aliases.py</code>, em
+<code>style-alias-reference.json</code>. Azimlib mantém ha/va como nomes internos; isso
+não muda as grafias públicas. Não se promete toda a API de propriedades.
+<code>fontdict</code> e kwargs de set_title são camadas distintas: o kwarg prevalece.</p>
+<h2 id="composição">Composição</h2>
+<p><code>examples/composition_components.py</code> combina duas áreas, títulos multilinha,
+Latitude/Longitude com labelpad, dados sintéticos, losangos, legenda, escala,
+norte, rosa dos ventos e overview de foco preto. Uma colorbar compartilhada
+tem versões horizontal e vertical. A grade aparece somente no mapa que a pede.</p>
+<p>Doze combinações de dois tamanhos, 72/100/180 DPI e duas orientações verificam
+contenção dos textos, viewports positivos e foco do overview. Regressões
+adicionais verificam escala física do desenho, visibilidade de cada componente,
+norm compartilhada, posições explícitas e separação PNG/SVG/HTML.</p>
+<p>Matplotlib também reposiciona suptitle automático depois de set_position()
+quando constrained layout está ativo. Azimlib preserva essa regra. Para uma
+posição manual persistente, use a chamada pública com coordenadas explícitas:</p>
+<pre><code class="language-python">fig.suptitle('Título', x=0.47, y=0.97)
+</code></pre>
+<h2 id="cache-de-raster-no-viewer">Cache de raster no viewer</h2>
+<p>Cada janela Tk mantém uma LRU de até quatro frames e 16 MiB de pixels RGBA
+retidos. O limite não inclui a imagem ativa, PhotoImage, cenas, objetos Python
+ou cópias temporárias. Frames grandes demais continuam pela renderização direta.
+Fechar a janela libera o cache. Falhas de alocação opcionais também retornam
+à renderização direta.</p>
+<p>O hash SHA-256 usa os elementos desenhados completos: dimensões, fundo,
+geometria, ordem, estilos, textos, recortes e conteúdo das fontes empacotadas.
+Não arredonda coordenadas. Cada hit devolve uma cópia própria; modificá-la não
+corrompe o cache. A cena e metadata de navegação são recompostas em cada draw,
+que conserva draw_event. Alterações visuais/DPI geram outro frame. O cache é
+exclusivo de show() Tk: savefig() continua rasterizando o conteúdo estático.</p>
+<p>Oito verificações em Tk real, com janela oculta, foram executadas tanto no
+source quanto no wheel instalado sem Matplotlib/GIS. Conferem pixels iguais
+ao raster direto/PNG, histórico, edições, limite, fallback e cleanup:
+<code>raster-cache-tk-source.json</code> e <code>raster-cache-tk-wheel.json</code>.</p>
+<h2 id="base-municipal-real-e-limites-de-desempenho">Base municipal real e limites de desempenho</h2>
+<p>Download de desenvolvimento: malha de São Paulo subdividida em municípios,
+fornecida pela <a href="https://servicodados.ibge.gov.br/api/docs/malhas?versao=3">API oficial do IBGE</a>.
+A própria documentação descreve as malhas da API como simplificadas; qualidade
+maxima não significa a malha original em resolução integral. Foram lidos 645
+features, 222.324 posições e 4.913.339 bytes. A proveniência e o SHA-256 estão
+em <code>real-geojson-provenance.json</code>. O GeoJSON fica em work/bench-data, fora dos
+artefatos distribuídos. Não há download implícito nem afirmação de licença.</p>
+<p><code>tools/benchmark_real_geojson.py</code> aceita um arquivo local de qualquer origem.
+A leitura/validação usa o núcleo próprio. Estado inteiro, foco regional, pan
+e zoom tiveram cenas e PNGs idênticos com índice ou varredura linear, em três
+pares alternados por vista. Os relatórios conservam amostras e memória de
+processo, medida fora do tempo da operação.</p>
+<p>O primeiro experimento de cache observou redraw/back/forward/home de cerca de
+16–18 s para 0,4–0,5 s em vistas já visitadas, com 2,5 MiB de RGBA retidos nas
+três vistas do teste. <strong>Vistas novas ainda custam a rasterização completa</strong>:
+nessa execução, aproximadamente 19–20 s para zoom/pan. O cache não resolve a
+cobertura raster inicial, e composição rápida não significa pintura rápida.</p>
+<p>A conferência final no wheel instalado observou 0,395–0,416 s para
+redraw/back/forward/home e aproximadamente 16,6 s para novas vistas de zoom/pan,
+com os mesmos limites, dimensões e índices de histórico da medição anterior.
+As 54 composições anteriores permanecem na matriz original; os 12 cenários
+novos estão em arquivos adicionais, preservando o exemplo e os testes existentes.</p>
+<p>Relatórios: <code>real-geojson-benchmark-source.json</code> (anterior ao cache),
+<code>real-geojson-benchmark-cache.json</code> (experimento inicial) e
+<code>real-geojson-benchmark-wheel.json</code> (implementação final instalada).
+São observações locais pequenas, com carga do computador não controlada,
+sem garantia geral de tempo e sem inferir latência de apresentação física.
+Tk usou widgets/event loop reais, janela oculta e input programático.</p>
+<p>Reprodução no ambiente de desenvolvimento, após fornecer o arquivo:</p>
+<pre><code class="language-bash">python tools/benchmark_real_geojson.py municipios.geojson --output resultado.json --repeats 3 --tk
+python tools/benchmark_real_geojson.py municipios.geojson --output navegacao.json --tk-only
+</code></pre>
+<p>Continuam pendentes cobertura raster inicial em bases detalhadas, apresentação
+visível/input nativo, bases originais mais extensas e CI efetiva multiplataforma.
+Este lote encerra subpassos verificáveis; não encerra os cinco critérios da 0.2.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/larger-batch.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

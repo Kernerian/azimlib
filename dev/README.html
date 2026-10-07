@@ -1,0 +1,213 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Install · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="site.css"><body data-root=""><header><a href="docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="docs/index.html">Overview</a><a href="docs/getting-started.html">Getting started</a><a href="docs/migration-0.3.html">Migration</a><a href="docs/gallery-0.3.html">Gallery</a><a href="docs/api.html">API reference</a><a href="docs/api-stability.html">Compatibility policy</a><a href="docs/release-progress-0.3.html">Release progress</a><a href="docs/roadmap.html">Roadmap</a></aside><main><p><a href="https://pypi.org/project/azimlib/"><img src="https://img.shields.io/pypi/v/azimlib" alt="PyPI" /></a>
+<a href="https://github.com/Kernerian/azimlib/actions/workflows/tests.yml"><img src="https://github.com/Kernerian/azimlib/actions/workflows/tests.yml/badge.svg?branch=main" alt="Tests" /></a>
+<a href="https://github.com/Kernerian/azimlib/blob/main/pyproject.toml"><img src="https://img.shields.io/badge/Python-3.10%2B-blue" alt="Python" /></a>
+<a href="https://github.com/Kernerian/azimlib/blob/main/LICENSE"><img src="https://img.shields.io/badge/original_code-BSD--3--Clause-green" alt="Original code license" /></a>
+<a href="https://github.com/Kernerian/azimlib/blob/main/CONTRIBUTING.md"><img src="https://img.shields.io/badge/contributions-welcome-238b98" alt="Contributions" /></a></p>
+<p><img src="https://raw.githubusercontent.com/Kernerian/azimlib/main/docs/_static/branding/azimlib-wordmark.png" alt="Azimlib" /></p>
+<p><strong>Independent cartography in Python, with a familiar plotting API.</strong></p>
+<p>Build maps from geographic data, compose scientific figures, and explore them
+in an interactive viewer. Azimlib owns its geometry, projections, coordinate
+transformations, map layers, layout and rendering. Matplotlib and other GIS
+engines are not runtime dependencies.</p>
+<p><a href="https://github.com/Kernerian/azimlib/blob/main/docs/getting-started.md">Getting started</a> ·
+<a href="https://github.com/Kernerian/azimlib/blob/main/docs/api.md">API reference</a> ·
+<a href="https://github.com/Kernerian/azimlib/tree/main/examples">Examples</a> ·
+<a href="https://github.com/Kernerian/azimlib/blob/main/docs/compatibility.md">Compatibility</a></p>
+<p><img src="https://raw.githubusercontent.com/Kernerian/azimlib/main/docs/_static/showcase/overview.png" alt="Maps rendered by Azimlib: Brazil, a thematic map, an orthographic globe and synthetic terrain" /></p>
+<p>The examples above use Azimlib's own renderer. Boundaries and rivers are from
+Natural Earth; thematic values, terrain and vectors are synthetic. See the
+<a href="https://github.com/Kernerian/azimlib/blob/main/docs/showcase.md">reproducible showcase</a>.</p>
+<h2 id="install">Install</h2>
+<p>Requires <strong>Python 3.10 or newer</strong>. Azimlib is available on
+<a href="https://pypi.org/project/azimlib/">PyPI</a>. Choose the output you need:</p>
+<pre><code class="language-bash">python -m pip install azimlib           # SVG and portable HTML; no dependencies
+python -m pip install &quot;azimlib[png]&quot;    # PNG export
+python -m pip install &quot;azimlib[gui]&quot;    # Interactive desktop viewer + PNG
+</code></pre>
+<p>For development, install directly from the source:</p>
+<pre><code class="language-bash">git clone https://github.com/Kernerian/azimlib.git
+cd azimlib
+python -m pip install &quot;.[gui]&quot;
+</code></pre>
+<p>The desktop viewer requires Tk, normally included with official Windows and
+macOS Python installations; on Linux it may need an operating-system package.
+Pillow, aggdraw and NumPy provide low-level raster support. Optional
+<code>azimlib[accelerate]</code> uses NumPy/Numba to compile Azimlib's own coverage kernel.
+No external cartography library is required for any of these installations.</p>
+<h2 id="your-first-map">Your first map</h2>
+<p>Both import styles expose the familiar figure/axes workflow:</p>
+<pre><code class="language-python">import azimlib as azl
+# Or: import azimlib.pyplot as plt
+
+fig, ax = azl.subplots(figsize=(8, 9), projection=&quot;mercator&quot;)
+ax.map(&quot;brazil&quot;, facecolor=&quot;white&quot;, edgecolor=&quot;black&quot;, linewidth=0.8)
+ax.states(edgecolor=&quot;#777777&quot;, linewidth=0.4)
+ax.rivers(color=&quot;#237f96&quot;, linewidth=0.8, label=&quot;Rivers&quot;)
+ax.scatter(
+    lon=[-46.63, -43.17], lat=[-23.55, -22.90],
+    s=[40, 60], c=&quot;#c34968&quot;, label=&quot;Cities&quot;,
+)
+ax.set_title(&quot;Brazil&quot;)
+ax.set_xlabel(&quot;Longitude&quot;)
+ax.set_ylabel(&quot;Latitude&quot;)
+ax.legend()
+ax.scale_bar()
+ax.north_arrow()
+
+fig.savefig(&quot;brazil.svg&quot;)        # Static export; no viewer controls
+fig.savefig(&quot;brazil.png&quot;, dpi=200)
+azl.show()                       # Interactive desktop viewer
+</code></pre>
+<p>Longitude and latitude are geographic coordinates. Use
+<code>subplot_kw={&quot;projection&quot;: &quot;mercator&quot;}</code> if you prefer the Matplotlib-style
+subplot configuration. A GeoJSON path, dictionary or feature collection can be
+added with <code>ax.geojson(data)</code>.</p>
+<p><code>savefig()</code> writes a static PNG or SVG. <code>show()</code> opens the independent desktop
+canvas with <strong>Home, Back, Forward, Pan, Zoom, Subplots, Save</strong> and cursor
+coordinates. A separate portable HTML viewer is available with
+<code>fig.show(backend=&quot;browser&quot;, path=&quot;map.html&quot;)</code>; it navigates an exported scene,
+without a live Python connection.</p>
+<p>For the recommended plain light figure, see <a href="docs/visual-style.html">clean view</a>
+and <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/clean_map.py">clean_map.py</a>. Development 0.3 adds opt-in map
+rotation and composition contracts; these are not features of stable 0.2.0.</p>
+<h2 id="add-only-the-components-you-need">Add only the components you need</h2>
+<p>Grid, legend, colorbar, scale bar, north arrow, compass and overview map are
+<strong>optional</strong>. There is no default minimap or grid. North arrow and compass are
+separate components, and a legend has a title only when you provide one.</p>
+<pre><code class="language-python">ax.grid(linestyle=&quot;--&quot;, linewidth=0.5)
+scale = ax.scale_bar()
+scale.set_visible(False)
+scale.set_visible(True)
+ax.compass()
+ax.overview(context=&quot;brazil&quot;)
+fig.canvas.draw_idle()
+</code></pre>
+<p>Artists expose editing, visibility and removal controls. You can set limits,
+change styles, edit labels and update scalar data while retaining the same
+figure. See <a href="https://github.com/Kernerian/azimlib/blob/main/docs/components.md">components</a>
+and <a href="https://github.com/Kernerian/azimlib/blob/main/docs/artist-scope-0.2.md">Artist editing</a>.</p>
+<h2 id="thematic-and-scientific-maps">Thematic and scientific maps</h2>
+<pre><code class="language-python">import azimlib.pyplot as plt
+from azimlib import datasets
+
+data = datasets.load(&quot;states&quot;, country=&quot;brazil&quot;)
+values = list(range(len(data[&quot;features&quot;])))  # Synthetic example values
+
+fig, ax = plt.subplots(projection=&quot;mercator&quot;)
+layer = ax.choropleth(data, values, cmap=&quot;viridis&quot;, bins=None)
+bar = fig.colorbar(layer, ax=ax, orientation=&quot;horizontal&quot;, label=&quot;Example value&quot;)
+ax.set_title(&quot;Values by state&quot;)
+layer.set_clim(0, 30)
+bar.set_label(&quot;Updated example value&quot;)
+fig.savefig(&quot;thematic.svg&quot;)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Build</th>
+<th>With</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Political and regional maps</td>
+<td>Countries, states, boundaries, <code>ax.state(&quot;SP&quot;)</code></td>
+</tr>
+<tr>
+<td>Physical and hydrographic maps</td>
+<td>Coastlines, rivers, lakes, geographic labels</td>
+</tr>
+<tr>
+<td>Choropleths and categories</td>
+<td>Feature styles, colormaps, norms, editable colorbars</td>
+</tr>
+<tr>
+<td>Points and proportional bubbles</td>
+<td>Scatter, markers, symbols, values mapped to size/color</td>
+</tr>
+<tr>
+<td>Routes and vector fields</td>
+<td>Styled lines, arrows, spherical routes, quiver</td>
+</tr>
+<tr>
+<td>Density and scalar fields</td>
+<td>Heatmaps, raster fields, isolines, hillshade</td>
+</tr>
+<tr>
+<td>Atlases and regional focus</td>
+<td>Subplots, GridSpec, mosaics, shared axes, insets/overviews</td>
+</tr>
+</tbody>
+</table>
+<p>Lines support widths, opacity, dashes, caps, joins and arrows; polygons support
+per-feature styling and hatches. Text offers alignment, rotation, backgrounds
+and halos. Layout includes tight/constrained modes, physical sizing and editable
+ticks. Colorbars support horizontal/vertical placement, ticks, labels and norms.</p>
+<p>The spherical projection implementations include equirectangular, Mercator,
+orthographic, Lambert conformal conic, Albers equal area and Equal Earth.
+An orthographic globe is a 2D projection, not a 3D terrain engine.</p>
+<h2 id="learn-more">Learn more</h2>
+<ul>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/docs/getting-started.md">Tutorial and Matplotlib → Azimlib guide</a></li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/docs/api.md">API reference</a></li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/docs/showcase.md">Maps and components gallery</a></li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/docs/data.md">Coordinate systems and datasets</a></li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/docs/architecture.md">Architecture</a></li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/docs/roadmap.md">Roadmap</a> and <a href="https://github.com/Kernerian/azimlib/blob/main/docs/pending.md">remaining work</a></li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/CHANGELOG.md">Changelog</a></li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/main/docs/release-publication-0.2.0.md">Verified 0.2.0 publication</a></li>
+</ul>
+<p>Azimlib 0.2.0 is an early independent cartography library, <strong>not a complete
+replacement for every Matplotlib API</strong>. Read the
+<a href="https://github.com/Kernerian/azimlib/blob/main/docs/compatibility.md">compatibility boundaries</a>
+before migrating. Detailed views can still require expensive rasterization.
+Urban data workflows, more file formats, 3D and temporal visualization are
+future work. Automated CI covers Windows, Linux and macOS; native human visual
+acceptance currently covers Windows.</p>
+<h2 id="development-toward-030">Development toward 0.3.0</h2>
+<p><a href="docs/index.html">Development documentation</a> · <a href="docs/migration-0.3.html">Migration guide</a> ·
+<a href="docs/gallery-0.3.html">Integrated gallery</a> · <a href="docs/api-stability.html">API stability</a></p>
+<p>The published package is 0.2.0. Unreleased work follows an
+<a href="docs/release-progress-0.3.html">80-item checklist</a>, covering urban workflows,
+formats/CRS, composition, scientific maps, interaction, experimental 3D terrain
+and temporal maps. The <a href="docs/urban.html">urban guide</a> describes the first batch;
+these new APIs are not yet available in the PyPI 0.2.0 package.</p>
+<h2 id="contribute-and-get-help">Contribute and get help</h2>
+<p>Report bugs or ask questions through
+<a href="https://github.com/Kernerian/azimlib/issues">GitHub Issues</a>. Include a minimal
+example, Python/Azimlib versions and the relevant output format.
+See the <a href="https://github.com/Kernerian/azimlib/blob/main/CONTRIBUTING.md">contribution guide</a>
+for local tests, data provenance and independent implementation requirements.
+Please follow the <a href="https://github.com/Kernerian/azimlib/blob/main/CODE_OF_CONDUCT.md">code of conduct</a>.
+Use the <a href="https://github.com/Kernerian/azimlib/blob/main/SECURITY.md">security policy</a>
+for sensitive vulnerability reports.</p>
+<h2 id="license-and-provenance">License and provenance</h2>
+<p>Original code and visual compositions: <strong>BSD 3-Clause</strong>, copyright 2026
+Kernerian. Bundled geographic data, fonts and palettes retain their own terms:
+Natural Earth is public domain; DejaVu fonts retain their license; Viridis,
+Plasma, Inferno and Magma tables are CC0; Blues retains ColorBrewer terms.
+The default AZIM10 color sequence is independently selected.</p>
+<p>This product includes color specifications and designs developed by Cynthia
+Brewer (http://colorbrewer.org/).</p>
+<p>See <a href="https://github.com/Kernerian/azimlib/blob/main/LICENSE">LICENSE</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/main/THIRD_PARTY_LICENSES.md">third-party notices</a>
+and <a href="https://github.com/Kernerian/azimlib/tree/main/docs/_static/branding">branding assets</a>.
+The familiar API and navigation are implemented independently; Matplotlib
+artwork and source code are not distributed as Azimlib's implementation.</p>
+<h3 id="additional-readers-in-030-development">Additional readers in 0.3.0 development</h3>
+<p>The development branch adds independent SHP/SHX/DBF, KML, local OSM XML and
+scalar georeferenced raster/GeoTIFF readers. See <a href="docs/formats.html">formats and limits</a>
+and <a href="docs/optional-data.html">versioned optional data</a>. These are not in the published
+0.2.0 package yet. The real urban OSM example keeps its database license separate
+and is never downloaded implicitly.</p>
+<p>Development 0.3.0: <a href="docs/geodesy.html">geodesy, UTM and crossing viewports</a>, with
+own implementations and explicit numeric limits. See the
+<a href="docs/release-progress-0.3.html">complete progress checklist</a> for availability;
+these additions are not in the published 0.2.0 package.</p>
+<p>Development 0.3.0 also adds <a href="docs/finishing.html">visual finishing, curved labels, simple equations,
+provenance-aware symbols/patterns and own vector PDF</a>,
+with an <a href="docs/_static/finishing/README.html">original reproducible gallery</a>.</p>
+<p>Development 0.3.0 adds <a href="docs/interaction.html">optional picking, widgets, live/local viewers, Qt and notebook updates</a>. These are not part of published 0.2.0.</p>
+<p>Development also includes <a href="docs/terrain3d.html">experimental own 3D terrain and building extrusion</a>, with explicit metric units, camera/depth rendering, export policy and performance limits. <a href="docs/_static/terrain3d/README.html">Original 3D gallery</a>.</p>
+<p>Development guide: <a href="docs/temporal.html">temporal maps and regional atlas</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/README.md">Source</a>.</footer></main><script src="site.js"></script></body></html>

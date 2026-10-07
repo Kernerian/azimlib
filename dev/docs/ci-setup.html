@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rodar a CI usando apenas seu Windows · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="rodar-a-ci-usando-apenas-seu-windows">Rodar a CI usando apenas seu Windows</h1>
+<p>O repositório atual é <a href="https://github.com/Kernerian/azimlib">Kernerian/azimlib</a>, identificado nos registros de CI. A <a href="ci-portability-fix.json">primeira matriz corrigida</a> passou; <a href="release-acceptance.html">aceite 0.2.0</a> registra a validação final. Este guia também serve para preparar novos checkouts. GitHub Actions oferece
+<a href="https://docs.github.com/en/actions/concepts/runners/github-hosted-runners">runners Windows, Ubuntu e macOS</a>,
+portanto não é necessário instalar três sistemas no computador para executar
+os testes automáticos. A matriz preparada tem 24 jobs: 15 de suíte/build/core,
+seis do compilador opcional e três de integração Tk.</p>
+<h2 id="criar-e-enviar-o-repositório">Criar e enviar o repositório</h2>
+<ol>
+<li>Entre no GitHub e <a href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository">crie um repositório</a>
+chamado <code>azimlib</code>, privado se preferir. Crie-o vazio: o projeto já inclui
+README, licença e gitignore.</li>
+<li>Extraia o arquivo <code>azimlib-github.zip</code> preparado ao lado da pasta do projeto
+para uma pasta nova. Ela deve conter <code>pyproject.toml</code>, <code>src</code>, <code>tests</code>, <code>tools</code>
+e <code>.github</code> diretamente na raiz. O ZIP de CI é pequeno porque omite a galeria
+gerada. A distribuição fonte completa conserva os previews offline;
+links de previews na documentação precisam dessa galeria ou de regeneração.</li>
+<li>Abra PowerShell nessa pasta e execute os comandos abaixo, trocando o URL
+pelo endereço do seu repositório. Git já está disponível no Windows desta
+sessão. A autenticação acontece no fluxo do GitHub/Git Credential Manager.</li>
+</ol>
+<pre><code class="language-powershell">git init
+git add .
+git commit -m &quot;Initial Azimlib source&quot;
+git branch -M main
+git remote add origin https://github.com/SEU_USUARIO/azimlib.git
+git push -u origin main
+</code></pre>
+<p>Se o primeiro commit pedir identificação, configure nome/email <strong>nesta pasta</strong>
+com <code>git config user.name &quot;Seu nome&quot;</code> e <code>git config user.email &quot;Seu email&quot;</code>,
+e repita o commit. Não é necessário mudar a configuração global do computador.</p>
+<ol start="4">
+<li>No GitHub, abra <strong>Actions → tests</strong>. O push inicia a matriz. Também há
+<code>workflow_dispatch</code> para executar novamente pela interface do GitHub.</li>
+<li>Ao terminar, conserve a URL da execução e baixe seus artefatos. Cada job
+guarda <code>result.json</code>, logs, ambiente/versões, origem instalada e hashes;
+em falha, os logs também são publicados. Use a URL e os artefatos para diagnosticar eventuais falhas.</li>
+</ol>
+<p>O repositório inicial foi identificado nos registros de CI. A correção foi enviada na branch <code>fix/ci-portability</code>, com PR e execução real registrada; configurar workflow continua sendo diferente de executar testes.</p>
+<h2 id="ci-e-conferência-física-são-evidências-diferentes">CI e conferência física são evidências diferentes</h2>
+<p>Os smokes desktop usam Tk real com janela retirada e handlers programáticos;
+Linux usa Xvfb. Eles verificam contratos, exportação e fechamento, mas não
+representam alguém usando mouse/teclado ou avaliando aparência na tela.
+O escopo 0.2.0 combina observação visual Windows e CI nos três sistemas. A aparência nativa Linux/macOS não foi avaliada por pessoa e continua uma limitação documentada.</p>
+<p>Em cada sistema, instalar <code>.[gui]</code>, abrir o exemplo de componentes e registrar:
+pan e saída/retorno ao canvas, zoom/retângulo, Home/histórico, coordenadas,
+resize, Subplots, Salvar PNG/SVG, componentes opcionais e fechamento sem worker
+remanescente. Registrar sistema, Python/Tk, DPI, limitações e retorno humano.
+Esses resultados devem permanecer separados dos smokes automatizados.</p>
+<h2 id="repetir-localmente">Repetir localmente</h2>
+<p>Em um ambiente que já tenha o wheel instalado:</p>
+<pre><code class="language-bash">python -I tools/run_release_checks.py --kind unit --output .ci-results/unit
+python -I tools/run_release_checks.py --kind desktop --output .ci-results/desktop
+</code></pre>
+<p>Para o kernel opcional, instalar <code>.[png,accelerate]</code> e usar <code>--kind accelerator</code>.
+O runner exige pacote instalado, preserva skips e erros e identifica execução
+local como <code>local</code>. Não transforma um teste Windows em teste Linux/macOS.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/ci-setup.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

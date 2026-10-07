@@ -1,0 +1,315 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Familiaridade com Matplotlib · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="familiaridade-com-matplotlib">Familiaridade com Matplotlib</h1>
+<p>A referência é a organização documentada de
+<a href="https://matplotlib.org/stable/api/pyplot_summary.html">pyplot</a>,
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html">Axes.plot</a>
+e da <a href="https://matplotlib.org/stable/api/backend_bases_api.html#matplotlib.backend_bases.NavigationToolbar2">navegação interativa</a>.
+O código não depende desses módulos e a semântica cartográfica pertence à Azimlib.</p>
+<p>Use também <code>import azimlib as azl</code>: subplots, figure, show, savefig e os
+controles de estado estão disponíveis diretamente. O <a href="getting-started.html">guia inicial</a>
+explica unidades, dados/projeção, handles e exemplos completos; o
+<a href="release-gallery.html">catálogo de reprodução</a> e o <a href="visual-differences.html">registro visual</a>
+separam evidência de API/layout de diferenças do rasterizador.</p>
+<table>
+<thead>
+<tr>
+<th>Padrão conhecido</th>
+<th>Azimlib supported subset</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>import matplotlib.pyplot as plt</code></td>
+<td><code>import azimlib.pyplot as plt</code></td>
+</tr>
+<tr>
+<td><code>fig, ax = plt.subplots()</code></td>
+<td>Mesmo padrão de chamada e desempacotamento</td>
+</tr>
+<tr>
+<td><code>fig, axs = plt.subplots(2, 2)</code></td>
+<td><code>axs[0, 1]</code>, <code>axs.flat</code>, <code>axs.shape</code>; objeto próprio</td>
+</tr>
+<tr>
+<td><code>plt.figure(num)</code> / <code>get_fignums</code> / <code>close(num)</code></td>
+<td>Registro próprio por número/nome, reativação/fechamento e clear; veja <a href="figure-state.html">figuras</a></td>
+</tr>
+<tr>
+<td><code>plt.sca(ax)</code> / <code>fig.sca(ax)</code> / <code>plt.subplot(221)</code></td>
+<td>Seleção própria por Figure/eixo, retorno ao eixo anterior após remoção e reuso de subplot</td>
+</tr>
+<tr>
+<td><code>plt.subplot_mosaic('AA;BC')</code></td>
+<td>Dict de mapas nomeados, retângulos/vazios/pesos, listas 2D aninhadas e sharex/sharey booleanos</td>
+</tr>
+<tr>
+<td><code>plt.subplots(..., sharex='col', sharey='row')</code></td>
+<td>Grupos próprios, limites/autoescala/tickers sincronizados; estilos locais, Python/Tk e HTML cilíndrico</td>
+</tr>
+<tr>
+<td><code>ax.sharex(other)</code>, <code>ax.sharey(other)</code>, <code>ax.label_outer()</code></td>
+<td>Vínculo manual, consulta de irmãos, rótulos externos e remoção opcional de ticks; <a href="shared-axes.html">regras</a></td>
+</tr>
+<tr>
+<td><code>gs[0].subgridspec(2,2)</code></td>
+<td>Grids filhos próprios, spans/pesos e get_topmost_subplotspec; <a href="nested-layout.html">hierarquias</a></td>
+</tr>
+<tr>
+<td><code>ax.plot(x, y, 'r--')</code></td>
+<td>lon/lat, grupos e matrizes por coluna, nomes via data; lista de handles editáveis</td>
+</tr>
+<tr>
+<td><code>ax.set_prop_cycle</code> / <code>cycler</code></td>
+<td>Ciclos próprios finitos, zip/produto e defaults condicionais; azl.cycler sem dependência externa</td>
+</tr>
+<tr>
+<td><code>ax.scatter(x, y, s=..., c=...)</code></td>
+<td>lon/lat, tamanho nominal em pontos², cor ou sequência</td>
+</tr>
+<tr>
+<td><code>Normalize</code>, <code>LogNorm</code>, <code>TwoSlopeNorm</code>, <code>BoundaryNorm</code></td>
+<td>Classes próprias, escala compartilhada; retornos escalares/listas, sem MaskedArray</td>
+</tr>
+<tr>
+<td><code>fig.colorbar(mappable, ax=axs, cax=cax)</code></td>
+<td>Barra editável vertical/horizontal, compartilhada ou em retângulo/célula explícita</td>
+</tr>
+<tr>
+<td><code>mappable.set_clim</code>, <code>set_cmap</code>, <code>set_array</code></td>
+<td>Cores e barra atualizadas no próximo redraw</td>
+</tr>
+<tr>
+<td><code>artist.set(norm=..., cmap=..., clim=..., array=...)</code> / <code>azl.setp</code></td>
+<td>Lotes de mappables com dados/estilos validados; colorbar preserva ticks com a mesma norm e redefine ao substituí-la</td>
+</tr>
+<tr>
+<td><code>hatch='////'</code></td>
+<td>Dez símbolos básicos, repetição e combinações; recorte de buracos</td>
+</tr>
+<tr>
+<td><code>ax.imshow</code>, <code>ax.pcolormesh</code></td>
+<td>Campo escalar lon/lat; extent obrigatório ou bordas 1D, apenas shading flat</td>
+</tr>
+<tr>
+<td><code>ax.contour</code>, <code>ax.clabel</code>, <code>ax.quiver</code></td>
+<td>Subconjunto próprio; vetores orientados leste/norte na projeção</td>
+</tr>
+<tr>
+<td><code>ax.set_title</code>, <code>ax.set_xlabel</code>, <code>ax.set_ylabel</code></td>
+<td>Retornam TextArtist editável; <code>ax.title()</code> preserva encadeamento</td>
+</tr>
+<tr>
+<td><code>ax.set_xticks</code>, <code>ax.set_yticks</code>, <code>ax.tick_params</code></td>
+<td>Ticks maiores/menores, labels explícitos, lados, direção, tamanho, cor e rotação; <code>minor=True</code>/<code>which=</code></td>
+</tr>
+<tr>
+<td><code>ax.minorticks_on/off</code>, <code>ax.grid(which=..., axis=...)</code></td>
+<td>Subdivisões automáticas e grupos/eixos com visibilidade e estilo independentes</td>
+</tr>
+<tr>
+<td><code>ax.xaxis.set_major_locator</code>, <code>set_major_formatter</code></td>
+<td>Objetos próprios, Fixed/Multiple/MaxN/Auto/Log/Null, funções e textos geográficos; veja <a href="ticks.html">ticks</a></td>
+</tr>
+<tr>
+<td><code>ScalarFormatter</code>, <code>EngFormatter</code>, <code>ticklabel_format</code>, <code>get_offset_text</code></td>
+<td>Precisão/escala científica/offset automático ou forçado, prefixos SI e texto editável; sem MathText/TeX ou offset de engenharia</td>
+</tr>
+<tr>
+<td><code>ax.spines['top'].set_visible(False)</code></td>
+<td>Bordas independentes com cor, largura e visibilidade</td>
+</tr>
+<tr>
+<td><code>ax.legend(handles, labels, ...)</code></td>
+<td>Colunas, handles compostos, best/bbox_to_anchor, textos/frame editáveis; heurística de best própria</td>
+</tr>
+<tr>
+<td><code>plt.rcParams</code>, <code>plt.rc_context</code>, <code>plt.style.context</code></td>
+<td>Subconjunto validado; opções desconhecidas geram erro</td>
+</tr>
+<tr>
+<td><code>ax.set_xlim</code>, <code>ax.set_ylim</code></td>
+<td>Limites geográficos em graus; inversão não suportada</td>
+</tr>
+<tr>
+<td><code>ax.grid</code>, <code>ax.legend</code>, <code>ax.text</code>, <code>ax.annotate</code></td>
+<td>Subconjunto explícito de parâmetros</td>
+</tr>
+<tr>
+<td><code>fig.savefig</code></td>
+<td>SVG/PNG estáticos; PDF vetorial na 0.3.0 development, com contornos DejaVu e sem texto pesquisável</td>
+</tr>
+<tr>
+<td><code>plt.show()</code></td>
+<td>Janela desktop Tk própria; bloqueia até fechar, como pyplot</td>
+</tr>
+<tr>
+<td><code>plt.show(block=False)</code></td>
+<td>Abre sem bloquear; event loop deve continuar ativo</td>
+</tr>
+<tr>
+<td><code>fig.show()</code></td>
+<td>Janela desktop própria, não bloqueia por padrão</td>
+</tr>
+<tr>
+<td><code>fig.show(backend='browser')</code></td>
+<td>Alternativa HTML explícita, offline</td>
+</tr>
+<tr>
+<td><code>fig.canvas.draw_idle()</code></td>
+<td>Recalcula a figura desktop após editar artistas</td>
+</tr>
+<tr>
+<td><code>fig.canvas.mpl_connect()</code></td>
+<td>Eventos de mouse, teclado, desenho e fechamento</td>
+</tr>
+<tr>
+<td><code>line.set_color</code>, <code>set_linewidth</code>, <code>set_alpha</code></td>
+<td>Métodos familiares nos artistas próprios</td>
+</tr>
+<tr>
+<td><code>line.set(data=..., marker=..., dash_capstyle=...)</code></td>
+<td>Dados/estilos em lote, markers e caps/junções separados; <a href="lines-contours.html">contrato</a></td>
+</tr>
+<tr>
+<td><code>ContourSet.set(linewidths=..., linestyles=...)</code> / <code>ax.clabel</code></td>
+<td>Estilo/valores por nível, rótulos editáveis, cortes inline reversíveis e colorbar de linhas; posicionamento/cortes e set_array têm diferenças documentadas</td>
+</tr>
+<tr>
+<td><code>fig.add_gridspec(...)</code> / <code>fig.add_subplot(gs[:, 0])</code></td>
+<td>GridSpec/SubplotSpec próprios com spans/pesos; raiz única no solver automático; veja <a href="gridspec.html">GridSpec</a></td>
+</tr>
+<tr>
+<td><code>fig.add_subplot(111)</code> / <code>fig.add_subplot(2, 3, (2, 6))</code></td>
+<td>Célula ou span em grid, índices numéricos one-based</td>
+</tr>
+<tr>
+<td><code>fig.subplots_adjust</code></td>
+<td>Margens e espaçamento proporcionais</td>
+</tr>
+<tr>
+<td><code>fig.tight_layout</code> / <code>layout='tight'</code> / <code>layout='constrained'</code></td>
+<td>Solver próprio por limites reais de texto/componentes, para um GridSpec raiz com spans/pesos; veja <a href="layout.html">layout</a></td>
+</tr>
+<tr>
+<td><code>fig.set_layout_engine</code> / <code>get_layout_engine</code></td>
+<td>Engines próprios, padding editável, modo inativo e controle manual</td>
+</tr>
+<tr>
+<td><code>artist.set_in_layout(False)</code></td>
+<td>Exclui do cálculo de margens, mantendo visibilidade independente</td>
+</tr>
+<tr>
+<td><code>text.set_rotation_mode(...)</code></td>
+<td>default/anchor/xtick/ytick, regras de alinhamento por caixa/âncora/ângulo; <a href="text-rotation.html">referência</a></td>
+</tr>
+<tr>
+<td><code>ax.tick_params(labelrotation=...)</code></td>
+<td>Major/minor, X/Y e eixo longo da colorbar; extensão labelrotation_mode seleciona o modo de rotação</td>
+</tr>
+<tr>
+<td><code>ax.set_xlabel(..., labelpad=4)</code> / <code>set_ylabel</code></td>
+<td>Espaço físico a partir dos ticks/offsets rotacionados; ylabel vertical usa anchor</td>
+</tr>
+</tbody>
+</table>
+<p>As extensões <code>map</code>, <code>states</code>, <code>rivers</code>, <code>lakes</code>, <code>coastlines</code>, <code>choropleth</code>,
+<code>categorical</code>, <code>density</code>, <code>scale_bar</code>, <code>north_arrow</code>, <code>compass</code>, <code>overview</code>,
+<code>zoom</code> e <code>pan</code> são cartográficas.
+<code>labels</code> também é uma extensão: direção local, prioridades, colisões e
+detalhe por extensão, com <a href="labels.html">regras próprias documentadas</a>.</p>
+<h2 id="desktop-e-comparação-direta">Desktop e comparação direta</h2>
+<p>Matplotlib <strong>3.11.2 foi instalado em um ambiente isolado</strong> para comparação real,
+incluindo TkAgg e WebAgg. A janela padrão da Azimlib acompanha Tk: canvas branco,
+tamanho 640×480, margens de subplot 0.125/0.11/0.9/0.88, título de 12 pontos,
+labels de 10 pontos e toolbar inferior com Home/Back/Forward, Pan/Zoom,
+Subplots e Save. Os ícones foram desenhados de forma independente.</p>
+<p>As quatro variantes DejaVu Sans são distribuídas com sua licença original.
+PNG/Tk usam essas fontes; SVG/HTML embutem as variantes utilizadas. Linhas,
+marcadores e textos usam pontos convertidos pelo DPI. A legenda usa avanços de
+glifos e kerning da fonte, e os handles refletem as alterações de estilo.
+Rasterizadores Agg e Pillow têm diferenças de antialiasing: a equivalência
+visual é uma meta, não uma alegação de igualdade de pixels.</p>
+<p>O <a href="matplotlib-systems.html">inventário de sistemas</a> separa o que já existe do que
+está planejado. A listagem de 894 símbolos em 27 módulos é uma referência de
+escopo, não uma declaração de compatibilidade com todos esses símbolos.</p>
+<p>O código runtime da Azimlib não importa Matplotlib. Tk e Pillow são ferramentas
+genéricas de interface/raster, sem realizar o trabalho cartográfico.</p>
+<p>Figure/MapAxes/camadas/componentes compartilham Artist, get_children/findobj,
+setp/getp, callbacks e propagação de stale. ion/ioff controlam solicitações de
+redesenho; show permanece explícito. O contrato de edição não inclui todas
+as propriedades/classes nem replica contagens internas de callbacks. Veja
+<a href="artists.html">Artists</a> para os limites e a separação entre exportação e canvas.</p>
+<p>No desktop, o histórico guarda limites geográficos de todos os subplots.
+Pan/zoom atualizam esses limites e redesenham com o núcleo da Azimlib;
+<code>savefig()</code> exporta a vista corrente sem controles. O diálogo nativo Save oferece PNG/SVG/PDF na 0.3.0 development; o HTML permanece PNG/SVG.
+Restrições X/Y são suportadas no arraste; mapas mantêm proporção espacial.
+O minimapa só existe visualmente se <code>ax.overview()</code> for chamado.
+Ele é parte da composição exportada e usa a mesma base no desktop e no HTML.
+<code>context='brazil'</code> fornece um contexto independente de uma vista estadual;
+sem contexto explícito, captura a extensão atual e suas camadas geométricas.</p>
+<p><code>scale_bar</code>, <code>north_arrow</code>, <code>compass</code>, <code>overview</code> e <code>colorbar</code> agora retornam
+componentes com <code>set_visible/get_visible/remove</code>; deixaram de retornar Axes para
+encadeamento. <code>fig.text</code>, <code>fig.suptitle</code> e <code>subtitle</code> retornam TextArtist. Use
+chamadas separadas, conforme os <a href="components.html">exemplos</a>. Ocultar um grid não
+troca a formatação automática dos ticks; formatters explícitos prevalecem. A legenda mantém visibilidade independente das
+camadas representadas, e seu título continua opcional.</p>
+<h2 id="alternativa-html">Alternativa HTML</h2>
+<p>Home restaura todas as vistas iniciais. Back/Forward percorrem um histórico da Figure.
+Pan arrasta o conteúdo; botão direito amplia durante o arraste. Zoom usa seleção
+retangular; roda e duplo clique também ampliam. O minimapa mostra a extensão
+inicial e a área corrente quando adicionado, podendo ser clicado para reposicionar a vista.
+Grupos compartilhados sincronizam longitude/latitude em Mercator/equiretangular
+contínuas, preservando aspecto. Veja <a href="portable-navigation.html">contratos e limites</a>.</p>
+<p>O navegador navega uma cena vetorial já projetada. Não baixa dados adicionais
+nem conversa com o processo Python. <code>ax.zoom()</code> em Python recalcula a composição;
+o zoom HTML atua na cena exportada. Grade e coordenadas de borda são recalculadas
+para equiretangular/Mercator; nas demais projeções a grade usa as linhas iniciais. Conicidades
+sem inversa JavaScript exibem coordenadas projetadas em metros no cursor.</p>
+<p>Em Mercator/equiretangular contínuas, a escala recompõe distância/rótulos após
+pan/zoom, e norte/rosa preservam tamanho e ancoragem. Comprimento explícito que
+não cabe é ocultado com aviso. Em outras projeções/vistas descontínuas, os
+ornamentos dependentes da vista continuam ocultos após navegar até Home.
+Para exportar mapa final com todos os ornamentos recalculados, defina os limites
+com <code>ax.set_extent</code>, <code>set_xlim</code> ou <code>set_ylim</code> e chame <code>fig.savefig</code> em Python.</p>
+<p>O HTML offline permanece um snapshot. No desenvolvimento 0.3.0, os backends
+Qt/notebook e browser-live, picking e controles opcionais estão disponíveis; veja
+<a href="interaction.html">contratos e diferenças</a>. Ainda não há todos os eventos/objetos
+Artist do Matplotlib, vínculo geográfico geral no HTML offline para projeções
+não cilíndricas/rotacionadas, eixos
+geográficos logarítmicos, todas as opções de legendas ou todos os rcParams. Opções desconhecidas
+não são aceitas silenciosamente. A compatibilidade é ampliável, não total.</p>
+<p>Múltiplos grupos e matrizes em plot, nomes via data, ciclos próprios e folhas
+de estilo locais/empilhadas foram entregues. O shorthand geográfico Nx2
+permanece distinto da matriz Y isolada da referência. Veja
+<a href="series-styles.html">séries, ciclos e estilos</a> para contratos e limites.</p>
+<h2 id="geographic-core-in-030-development">Geographic core in 0.3.0 development</h2>
+<p>The development branch adds explicit ellipsoid/UTM, regional TM, two spherical
+azimuthal projections, cylindrical seam viewports and opt-in planar topology.
+These are geographic contracts, not a Matplotlib datum/topology API. See
+<a href="geodesy.html">scope and numeric tolerances</a>; published 0.2.0 is unchanged.</p>
+<h2 id="composition-in-03-development">Composition in 0.3 development</h2>
+<p>Own transforms, plot gaps, Paths/LineCollection, numeric date/log tickers,
+sampled curved graticule intersections, SubFigure, disjoint root layouts,
+bounded compressed layout and custom PathPatch legend handlers are available.
+See <a href="transforms-composition.html">precise contracts and unsupported cases</a>.
+Map rotation is opt-in; <a href="visual-style.html">local north behavior and portable limits</a>.</p>
+<h2 id="scientific-2d-in-03-development">Scientific 2D in 0.3 development</h2>
+<p>Own color raster/alpha, inverse-affine nearest/bilinear sampling, filled scalar
+bands/inner rings, regional planar triangulation, weighted angular density,
+geodesic flow Artists and illuminated terrain are available. Colorbar follows
+filled intervals; thematic legends follow mapping/class edits. Triangles in
+custom legend handles keep uniform aspect ratio. See <a href="scientific-2d.html">scope, masks, units,
+editing and unsupported cases</a>. No Matplotlib/GIS code or new
+scientific dependency is incorporated; published 0.2.0 is unchanged.</p>
+<h2 id="visual-finishing-in-03-development">Visual finishing in 0.3 development</h2>
+<p>Own adaptive Beziers, projected interior anchors, curved/repeated line names,
+simple inline mathematical expressions, declared-provenance external SVG
+symbols/custom line tiles and vector PDF are available. See <a href="finishing.html">exact contracts,
+font strategy and exclusions</a>. This is not general MathText,
+OpenType shaping, a complete SVG reader or a multipage/PDF-A backend.</p>
+<h2 id="temporal-maps-atlas-and-api-policy">Temporal maps, atlas and API policy</h2>
+<p>Own finite FuncAnimation, TemporalSeries and PdfPages/Atlas are available in
+0.3 development. <a href="migration-0.3.html">Migration guide</a>, <a href="api-stability.html">stability policy</a>
+and <a href="temporal.html">temporal contracts</a> distinguish supported subsets/experimental
+APIs from the full Matplotlib surface. Multipage PDF is now supported for our
+own figure output; arbitrary PDF merging, PDF-A and searchable text are not.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/compatibility.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

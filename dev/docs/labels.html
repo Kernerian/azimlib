@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rótulos cartográficos · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="rótulos-cartográficos">Rótulos cartográficos</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p><code>ax.labels</code> é uma extensão cartográfica da Azimlib. Retorna uma camada editável,
+com <code>set(...)</code>, <code>set_visible(...)</code>, <code>get_visible()</code> e <code>remove()</code>. Não é uma
+alegação de que Matplotlib ofereça esse mesmo posicionador geográfico.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots(projection='mercator', layout='tight')
+ax.map('brazil', facecolor='white')
+rivers = ax.rivers(color='#287fb0', linewidth=.6)
+names = ax.labels(rivers, field='name', placement='line', fontsize=8,
+                 color='#175477', halo='white', halo_width=2, padding=3)
+ax.set_title('Hidrografia')
+fig.savefig('rivers.svg')
+azl.show()
+</code></pre>
+<p>O dado pode ser uma camada geométrica, um GeoJSON ou um objeto aceito pelo leitor
+GeoJSON. O campo <code>field</code> determina o texto. Features sem geometria ou com nome
+ausente/vazio não reservam espaço. A camada de rótulos é independente da camada
+de rios: ocultar uma delas não oculta automaticamente a outra.</p>
+<h2 id="posicionamento-e-direção">Posicionamento e direção</h2>
+<ul>
+<li><code>placement='auto'</code> usa a direção local em LineString/MultiLineString e uma
+posição geométrica em pontos/polígonos.</li>
+<li><code>placement='line'</code> exige geometrias lineares. Procura trechos visíveis, com
+comprimento suficiente e sem curvas muito fechadas. Funciona mesmo quando
+o centro original da linha está fora da vista.</li>
+<li><code>placement='point'</code> mantém o posicionamento pontual, inclusive em linhas.</li>
+<li><code>rotation=...</code> explícito prevalece sobre a direção automática. Ângulos
+públicos positivos são anti-horários, como nos demais textos da biblioteca.</li>
+</ul>
+<p>A direção do nome não depende da ordem dos vértices. Um bloco de texto segue
+um trecho aproximadamente reto; ainda não há texto curvado glifo a glifo.
+Linhas são partidas no antimeridiano, densificadas e projetadas com o núcleo
+próprio antes de buscar candidatos. Recorte, tamanho da fonte, halo e fundo
+entram na avaliação. Nomes em polígonos só são aceitos se a caixa inteira
+couber na área, sem cruzar a borda ou um buraco. A busca ainda é heurística;
+nem toda região estreita ou geometria complexa terá um nome colocado.</p>
+<h2 id="colisões-e-prioridade">Colisões e prioridade</h2>
+<p><code>avoid_overlap=True</code> é o padrão. As prioridades são globais entre camadas de
+rótulos: maior valor primeiro, mantendo ordem estável em empates.</p>
+<pre><code class="language-python">names = ax.labels(cities, field='name', priority_field='importance',
+                  fontsize=9, leader=True, padding=2)
+names.set(fontsize=10, color='#222222')
+names.set_visible(False)
+fig.canvas.draw_idle()
+</code></pre>
+<p><code>priority_field='priority'</code> lê a propriedade por feature; se ela estiver
+ausente/nula, usa <code>priority=0</code> do estilo. <code>priority_field=None</code> ignora o atributo
+e permite prioridade constante por camada. Valores precisam ser finitos.</p>
+<p>Marcadores, textos explícitos, annotations (texto e setas), legenda, escala,
+norte/rosa, overview e insets visíveis reservam espaço. Ocultá-los libera esse
+espaço no próximo desenho. <code>set_in_layout(False)</code> apenas exclui um artista
+do cálculo de margens; ele continua sendo um obstáculo se estiver visível.
+Linhas de rios, preenchimentos de regiões e grade não reservam toda sua área.</p>
+<p><code>offsets=[(dx, dy), ...]</code> oferece deslocamentos candidatos em pixels lógicos
+do canvas a 100 DPI; X cresce para a direita e Y para baixo. <code>padding</code> também
+usa esses pixels. Sem offsets explícitos, pontos procuram posições vizinhas
+e linhas procuram posições sobre o trecho e em suas duas laterais.
+<code>leader=True</code> desenha uma linha entre o rótulo deslocado e sua âncora.
+Essas linhas ainda não têm resolução própria de colisões entre si.</p>
+<p><code>avoid_overlap=False</code> libera sobreposições com outros artistas; não ignora
+os limites da vista nem permite que nomes de polígonos cruzem suas bordas.
+Features omitidas por falta de espaço permanecem na camada original.</p>
+<h2 id="visibilidade-por-extensão-e-zoom">Visibilidade por extensão e zoom</h2>
+<pre><code class="language-python">detail = ax.labels(cities, max_span=12, min_span=2)
+ax.set_extent((-64, -52, -8, 0))  # west, east, south, north
+fig.savefig('detail.png', dpi=150)
+</code></pre>
+<p>O span é <code>max(east-west, north-south)</code>, em graus geográficos. O intervalo é
+inclusivo: <code>min_span &lt;= span &lt;= max_span</code>. <code>min_span=0</code> e <code>max_span=None</code>
+não restringem a extensão. Isso é um controle de detalhe por vista; não é
+denominador de escala física, pois projeção, latitude e tamanho da figura
+também influenciam a escala. Ocultar por span não muda <code>get_visible()</code>.</p>
+<p>Salvar ou desenhar em Python e navegar no desktop Tk recalcula candidatos,
+colisões e direção usando o viewport corrente. O HTML portátil navega a cena
+exportada: não refaz a busca, não aplica os filtros de span novamente nem
+comunica alterações ao Python. Para uma saída final correta em outra vista,
+altere os limites em Python e exporte novamente.</p>
+<h2 id="exemplos-e-limites">Exemplos e limites</h2>
+<p><code>python examples/labels.py</code> gera Brasil (<code>gallery/labels-brazil.png</code>, generated locally),
+Amazônia (<code>gallery/labels-amazon.png</code>, generated locally), foco (<code>gallery/labels-focus.png</code>, generated locally)
+e obstáculos (<code>gallery/label-obstacles.png</code>, generated locally), com versões SVG e HTML.
+Limites e hidrografia são dados Natural Earth generalizados; o exemplo não
+atribui classes de navegabilidade. Pontos de teste e a posição aproximada
+de Manaus são identificados no código/figuras.</p>
+<p>Próximas extensões: textos curvados, posições ótimas para polígonos, repetição
+de nomes em linhas longas, exclusão entre leaders, estilos por atributo e
+índices/cache para bases densas. Colisões entre rótulos automáticos de mapas
+diferentes são resolvidas por Axes, não globalmente entre figuras/insets.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/labels.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

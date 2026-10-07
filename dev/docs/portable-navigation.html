@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Navegação compartilhada no HTML portátil · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="navegação-compartilhada-no-html-portátil">Navegação compartilhada no HTML portátil</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>O viewer exportado usa um modelo JavaScript próprio, sem DOM no núcleo e sem
+framework cartográfico. O HTML contém dados, fontes, SVG e scripts; pode ser
+aberto offline, sem servidor ou processo Python. Matplotlib é somente a
+referência de desenvolvimento para limites, aspecto e histórico.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, axs = azl.subplots(1, 2, sharex=True, sharey=True,
+                       subplot_kw={'projection': 'mercator'})
+for ax in axs:
+    ax.map('brazil')
+    ax.states(facecolor='none', linewidth=0.5)
+axs[0].set_title('Político')
+axs[1].rivers(color='steelblue', linewidth=0.6)
+axs[1].set_title('Hidrografia')
+fig.savefig('atlas.png')
+fig.show(backend='browser', path='atlas.html')
+</code></pre>
+<p>Grade, legenda, colorbar, escala, norte, rosa e overview continuam opcionais.
+Este exemplo não adiciona nenhum desses componentes. <code>savefig()</code> exporta a
+composição Python sem UI; <code>show(backend='browser')</code> oferece a navegação portátil.</p>
+<h2 id="limites-aspecto-e-histórico">Limites, aspecto e histórico</h2>
+<ul>
+<li>Pan, zoom retangular, roda, duplo clique e atalhos atualizam os irmãos dos
+grupos <code>sharex</code>/<code>sharey</code>. Os modos <code>'all'</code>, <code>'row'</code>, <code>'col'</code>, vínculos manuais
+e mosaicos aninhados conservam seus grupos na exportação.</li>
+<li><code>x</code> e <code>y</code> restringem a dimensão de uma ampliação. Longitude e latitude são
+sincronizadas separadamente; a outra dimensão conserva os limites locais.</li>
+<li>O histórico pertence à Figure inteira. Home restaura todos os painéis;
+Back/Forward restauram uma fotografia de todas as vistas. Uma nova alteração
+após Back descarta o ramo futuro. Cancelar um gesto restaura todos os irmãos
+sem inserir uma vista no histórico.</li>
+<li>A projeção mantém uma única escala espacial por painel. Compartilhar somente
+uma dimensão pode reduzir a largura/altura da moldura dentro da área nominal;
+o mapa não é esticado. Clipping, fundo, spines e âncoras de títulos/rótulos
+acompanham essa moldura. Ticks e grid cilíndricos são recalculados.</li>
+<li>Um overview explicitamente adicionado mostra o foco corrente com borda preta;
+clicar nele reposiciona o grupo. Nenhum minimapa aparece por padrão.</li>
+</ul>
+<p>Mercator e equiretangular contínuas permitem o vínculo portátil, inclusive
+entre projeções distintas: os irmãos recebem intervalos geográficos, projetados
+individualmente. A navegação respeita a interseção dos domínios de latitude e
+longitude do grupo, incluindo o limite polar de Mercator e a posição da emenda.
+Índices de eixos ocultos/colorbars não confundem a identificação dos mapas.
+Vínculos entre Figures distintas não são transportados ao arquivo HTML.</p>
+<h2 id="exportação-da-vista-corrente">Exportação da vista corrente</h2>
+<p>Salvar na toolbar exporta somente o canvas atual em SVG ou PNG, sem controles.
+No PNG do browser, retângulos preenchidos sem transformação/borda são alinhados
+aos mesmos limites de pixel para evitar frestas entre faixas adjacentes da
+colorbar. O fundo percentual da Figure é preservado. SVG e o renderizador PNG
+Python conservam seus próprios caminhos de exportação.</p>
+<h2 id="limites-desta-implementação">Limites desta implementação</h2>
+<p>O HTML navega geometrias já projetadas; não recompõe toda a cena Python. Não
+reexecuta callbacks Python, busca de rótulos, posicionamento automático de
+legendas ou solver de layout durante o gesto. Em mapas cilíndricos contínuos,
+a escala agora recalcula a distância e seus rótulos usando métricas próprias
+exportadas da fonte. Norte e rosa mantêm tamanho físico e ancoragem na moldura;
+nessas duas projeções o norte local é vertical. Para um mapa final com toda a
+composição recalculada, ajuste os limites em Python e use <code>fig.savefig()</code>.</p>
+<p>A escala automática escolhe uma distância legível; a escala de comprimento
+explícito conserva esse comprimento. Se não couber na vista ampliada, é
+ocultada com aviso na área de coordenadas, em vez de produzir uma medida falsa;
+Home restaura a composição inicial. Não se reduz a fonte para amontoar números:
+há três graduações, duas ou uma legenda compacta com total/unidade. A caixa
+compacta remove a linha ausente e conserva somente uma folga curta.</p>
+<p>Em outras projeções ou vistas descontínuas, escala, norte e rosa continuam
+ocultos após navegar até Home. Regeneração/rotação local geral nesses casos
+continua pendente. Nenhum desses componentes é acrescentado automaticamente.</p>
+<p>Mapas isolados em outras projeções conservam a navegação afim da cena inicial.
+Um grupo contendo projeção não suportada ou extensão descontínua é recusado
+com mensagem no viewer, sem modificar parcialmente os irmãos. Não há ainda
+vínculo geográfico portátil geral para projeções cônicas, globos ou subclasses
+customizadas. O browser conserva toda a geometria exportada, sem índice espacial
+dinâmico para bases densas. A GUI Tk real ainda exige validação em um ambiente
+com Tcl/Tk funcional; os testes headless não substituem essa validação.</p>
+<h2 id="exemplos-e-verificação-reproduzível">Exemplos e verificação reproduzível</h2>
+<p>Atlas vinculado (<code>gallery/linked-navigation.html</code>, generated locally) reúne político, rios,
+valores sintéticos e rotas; adiciona colorbar e overview explicitamente.
+Grupos por linha/coluna (<code>gallery/linked-groups.html</code>, generated locally) mostra a alteração
+independente das dimensões. O código está em
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/portable_navigation.py">portable_navigation.py</a>.
+O exemplo de componentes (<code>gallery/portable-components.html</code>, generated locally) mostra escala,
+norte e rosa independentes em dois mapas vinculados, com km e milhas; veja
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/portable_components.py">portable_components.py</a>.</p>
+<p>O oracle <a href="portable-navigation-reference.json">portable-navigation-reference.json</a>
+registra oito estados de Matplotlib 3.11.2/Agg: vistas, caixas, cursor e tamanho
+do histórico. A comparação executa o modelo JavaScript realmente distribuído,
+com casos adicionais de 36 combinações de grupos, projeções diferentes, domínios,
+DPI, cancelamento, índices ocultos e operações inválidas sem alterações parciais.
+Node é uma ferramenta opcional de teste, sem dependência no pacote Python.</p>
+<p>Uma ferramenta de desenvolvimento testa 20 cenários em Chromium headless,
+num contexto novo sem perfil pessoal. Instale Playwright separadamente para
+esse teste; use <code>AZIMLIB_BROWSER_EXECUTABLE</code> para selecionar um Chromium local
+ou deixe a variável ausente para usar o browser instalado pelo Playwright:</p>
+<pre><code class="language-bash">python examples/portable_navigation.py
+python examples/portable_components.py
+node tools/verify_portable_browser.js /caminho/para/artefatos
+python tools/check_browser_png.py /caminho/para/artefatos
+</code></pre>
+<p>A conferência de PNG usa Pillow somente no desenvolvimento. Verifica o fundo
+branco opaco deste exemplo e uma linha de pixels internos da colorbar, excluindo
+a borda externa. É uma regressão específica, não uma promessa de igualdade de
+pixels com Agg em todos os estilos, tamanhos ou browsers.</p>
+<p>O modelo de componentes distribuído também é comparado numericamente com 147
+composições do renderizador Python próprio: duas projeções, três unidades,
+quatro cantos, três larguras, dois DPI e comprimentos explícitos. Métricas de
+fonte, baseline, frame, distância, redução de graduações e recusas são cobertas,
+além de oito deslocamentos de orientação e formatação numérica. Matplotlib não
+possui esses ornamentos cartográficos no núcleo; a referência geométrica aqui
+é o comportamento cartográfico próprio da Azimlib.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/portable-navigation.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

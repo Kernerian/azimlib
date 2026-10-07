@@ -1,0 +1,11 @@
+Natural Earth geographic data
+
+Primary authors: Tom Patterson and Nathaniel Vaughn Kelso, with contributors.
+The publisher declares all versions of its vector and raster data public domain;
+commercial use, modification and redistribution are permitted and attribution
+is not required. Optional credit: Made with Natural Earth.
+
+Terms: https://www.naturalearthdata.com/about/terms-of-use/
+Source commit: ca96624a56bd078437bca8184e78163e5039ad19
+Per-file source and distribution hashes: src/azimlib/data/manifest.json
+This notice summarizes the publisher declaration, not an Azimlib copyright claim.

@@ -1,0 +1,120 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contornos, linhas coincidentes e integração em mais mapas · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="contornos-linhas-coincidentes-e-integração-em-mais-mapas">Contornos, linhas coincidentes e integração em mais mapas</h1>
+<p>Relatórios desse lote preservam seus hashes originais. As versões anteriores
+de Tk/Pillow estão em <code>tools/baselines/interactive-tiles-before</code>; a auditoria
+verifica esses snapshots, sem declarar tempos antigos como medições atuais.
+Resultados atuais do viewer: <a href="pan-responsiveness.html">responsividade</a>.</p>
+<p>Este lote fecha três subpassos no escopo local auditado:</p>
+<ol>
+<li>Calcula diretamente a área dos recortes com cinco a nove vértices,
+traduzindo cada coordenada uma vez. Mantém todos os termos, inclusive os
+zeros, na mesma ordem de <code>sum</code>; não arredonda nem simplifica geometria.</li>
+<li>Corrige linhas totalmente coincidentes: não desenha um traço sem segmento,
+independentemente da extremidade; marcadores explícitos continuam visíveis.</li>
+<li>Amplia a comparação raster para mapas políticos, atlas, pontos, terreno,
+globo com vetores/rotas e municípios; integra globo/terreno com Tk e exports.</li>
+</ol>
+<h2 id="regra-de-linhas-coincidentes">Regra de linhas coincidentes</h2>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots()
+line, = ax.plot([-46, -46], [-23, -23], solid_capstyle=&quot;projecting&quot;)
+# Sem segmento: nenhum traço. Um marcador pode ser acrescentado normalmente.
+line.set_marker(&quot;D&quot;)
+line.set_visible(False)
+</code></pre>
+<p>Antes, <code>round</code> podia gerar um ponto extra e <code>projecting</code> podia lançar
+<code>AttributeError</code> durante PNG/Tk. O compositor e os renderizadores agora omitem
+esses traços sem alterar o dado original ou seus marcadores. A comparação usa
+igualdade exata de coordenadas, sem uma tolerância que descarte linhas curtas.
+Partes válidas vizinhas de uma MultiLineString/Path permanecem renderizáveis.</p>
+<p><a href="degenerate-strokes-reference.json">18 casos registrados diretamente</a> cobrem
+três capstyles, um/dois/quatro pontos e presença/ausência de marcador. O contrato
+adotado é o de visibilidade do <strong>Matplotlib/Agg</strong>. O SVG nativo ainda serializa
+subpaths coincidentes; a Azimlib os omite para manter sua regra entre PNG, SVG e
+viewers. Isso não promete equivalência entre todos os backends de Matplotlib,
+nem igualdade dos pixels dos marcadores com Agg.</p>
+<h2 id="comparação-de-desempenho">Comparação de desempenho</h2>
+<pre><code class="language-bash">python tools/compare_stroke_kernels.py --output kernels-100.json --dpi 100
+python tools/compare_stroke_kernels.py --output kernels-200.json --cases state points terrain globe --dpi 200
+python tools/compare_stroke_kernels.py --output municipal.json --cases municipal --geojson /caminho/base.geojson
+</code></pre>
+<p>Referência é o próprio <code>_area</code> anterior, preservado em
+<code>tools/baselines/stroke-kernels-before/coverage.py</code>. O comparador troca apenas
+essa função em uma cena fixa, alternando serialmente antes/depois. Composição,
+PNG/SVG, hashes e I/O ficam fora do tempo de raster. Não usa cache de frames,
+profiling simultâneo, downloads ou backend geoespacial externo.</p>
+<p><a href="performance/stroke-kernels-100.json">100 DPI</a> contém sete cenários e
+<a href="performance/stroke-kernels-200.json">200 DPI</a> contém quatro: <strong>11 cenários,
+44 renders</strong>, com RGBA/PNG idênticos em cada comparação. Valores de terreno,
+vetores e pontos são sintéticos; fronteiras incluídas são generalizadas. A
+base municipal fornecida pela API tem <a href="municipal-raster.html">proveniência e limites</a>
+e não integra o pacote.</p>
+<p>O wheel instalado repetiu os mesmos onze cenários, uma chamada por modo/cenário:
+<a href="performance/stroke-kernels-wheel-100.json">100 DPI</a> e
+<a href="performance/stroke-kernels-wheel-200.json">200 DPI</a>. Os 22 renders mantiveram
+RGBA/PNG iguais antes/depois e os hashes RGBA/PNG/SVG coincidem com os do source.
+Os tempos dessa rodada única não são agrupados com as medianas do source.</p>
+<table>
+<thead>
+<tr>
+<th>Cenário/DPI</th>
+<th style="text-align:right">Antes (s)</th>
+<th style="text-align:right">Depois (s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Brasil/100</td>
+<td style="text-align:right">3,859</td>
+<td style="text-align:right">3,740</td>
+</tr>
+<tr>
+<td>Atlas/100</td>
+<td style="text-align:right">5,580</td>
+<td style="text-align:right">5,354</td>
+</tr>
+<tr>
+<td>Municípios/100</td>
+<td style="text-align:right">13,027</td>
+<td style="text-align:right">12,677</td>
+</tr>
+<tr>
+<td>Terreno/100</td>
+<td style="text-align:right">0,895</td>
+<td style="text-align:right">0,912</td>
+</tr>
+<tr>
+<td>São Paulo/200</td>
+<td style="text-align:right">2,499</td>
+<td style="text-align:right">2,597</td>
+</tr>
+<tr>
+<td>Globo/200</td>
+<td style="text-align:right">4,711</td>
+<td style="text-align:right">4,620</td>
+</tr>
+</tbody>
+</table>
+<p>São medianas de duas chamadas por modo, sujeitas à carga da máquina. Há variação
+nos dois sentidos; não se declara aceleração geral ou significância estatística.
+Estes valores não devem ser comparados diretamente com tempos de lotes anteriores,
+obtidos em outras sequências/cargas. O tempo inicial de bases densas segue alto.</p>
+<h2 id="integração-desktop">Integração desktop</h2>
+<p><code>tools/smoke_stroke_kernels_tk.py</code> verifica globo e terreno em Tk real oculto:
+foco regional/Home, edições de marcador, visibilidade, 200 DPI, pixels do canvas
+versus raster/PNG e exports PNG/SVG sem criar UI. Campos/rotas são sintéticos.
+Os relatórios <a href="stroke-kernels-tk-source.json">source</a> e
+<a href="stroke-kernels-tk-wheel.json">wheel</a> registram <strong>12 verificações cada</strong> e hashes
+do runtime. A CI inclui este nono script desktop; execução remota nas três
+plataformas permanece pendente. Janelas ocultas/entradas programáticas não medem
+input físico, pintura visível ou a aparência real da toolbar do sistema.</p>
+<p>O <a href="release-progress.html">progresso da 0.2.0</a> continua por subpassos. Este lote
+consolida recursos existentes; urbano, 3D e Qt permanecem depois desse corte.</p>
+<p>Suíte cumulativa: <strong>591 testes/14.022 subtests</strong>, incluindo oito regressões/
+5.887 subtests novos de aritmética/máscaras/pixels, linhas colapsadas e marcadores.
+Os oito scripts desktop anteriores também passaram novamente no wheel instalado.</p>
+<p>Os experimentos de tempo stroke-kernels-* preservam o renderer anterior ao
+caminho transitório de navegação em <code>tools/baselines/interactive-raster-before/pillow.py</code>.
+Seus hashes continuam conferidos contra esse snapshot; não são tempos do preview
+novo. Smokes Tk e galerias atuais são repetidos com o runtime instalado atual.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/stroke-kernels.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

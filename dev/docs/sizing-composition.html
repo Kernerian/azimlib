@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dimensões, títulos e integração de composição · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="dimensões-títulos-e-integração-de-composição">Dimensões, títulos e integração de composição</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots(figsize=(6.4, 4.8), layout='constrained')
+ax.map('brazil')
+ax.set_title('Brasil', loc='left', pad=8)
+ax.set_title('Mapa político', loc='center')
+right = ax.set_title('2026', loc='right')
+right.set_visible(False)
+fig.set_size_inches(8, 6)
+fig.set_dpi(150)
+fig.savefig('brasil.png', dpi=200)  # Não muda o DPI da Figure/viewer.
+azl.show()
+</code></pre>
+<h2 id="contratos-públicos">Contratos públicos</h2>
+<p><code>get_size_inches()</code> devolve uma tupla independente. <code>get_figwidth()</code>,
+<code>get_figheight()</code> e <code>get_dpi()</code> consultam o estado. <code>set_size_inches(w, h)</code>
+ou <code>set_size_inches((w, h))</code>, <code>set_figwidth()</code>, <code>set_figheight()</code> e <code>set_dpi()</code>
+retornam <code>None</code>, validam números finitos positivos antes de alterar o estado
+e participam de stale/callbacks/<code>setp</code>. Mudar DPI preserva as dimensões em
+polegadas. Fontes, linhas e padding continuam expressos em pontos físicos.</p>
+<p>Com viewer Tk aberto, <code>forward=True</code> ajusta o canvas e agenda redraw mesmo
+em modo não interativo. <code>forward=False</code> mantém a solicitação de tamanho da
+janela; <code>fig.canvas.draw()</code> renderiza explicitamente as novas dimensões.
+Um viewer fechado não recebe resize. Atributos diretos antigos continuam
+disponíveis; use os setters para notificação. O DPI de exportação PNG é
+temporário; o SVG mantém o contrato atual de Scene/viewBox, sem prometer todas
+as regras de unidades físicas do Matplotlib.</p>
+<p>Há três títulos independentes, <code>loc='left'</code>, <code>'center'</code> e <code>'right'</code>.
+<code>get_title(loc)</code> consulta cada slot. Repetir <code>set_title()</code> no mesmo slot
+preserva seu handle; visibilidade, remoção e <code>clear()</code> são funcionais.
+<code>pad</code> usa pontos e admite valores negativos finitos. <code>fontdict</code> é aceito,
+com kwargs tendo precedência. <code>rcParams['axes.titlelocation']</code> e
+<code>rcParams['axes.titlepad']</code> definem os padrões. O anchor acompanha <code>loc</code>;
+<code>ha</code> modifica o alinhamento do texto naquele anchor. O padrão vertical é
+baseline. Não existe redução automática de fonte para encaixar três títulos:
+o exemplo aninhado usa fonte explicitamente menor nos mapas pequenos.</p>
+<p>A <a href="sizing-titles-reference.json">referência registrada</a> compara seis operações
+de dimensões e os três títulos com Matplotlib 3.11.2/Agg. Os estados suportados
+coincidem. Diferenças: tupla em vez de ndarray, dimensões zero rejeitadas,
+e <code>y</code>/transforms de título fora deste contrato. Não há equivalência completa
+com o sistema de transforms ou SubFigure da referência.</p>
+<h2 id="composição-e-exemplos">Composição e exemplos</h2>
+<p>A <a href="composition-matrix-reference.json">matriz registrada</a> contém 54 configurações:
+mapa único, atlas e GridSpecs aninhados × tight/constrained × três tamanhos
+por tipo × 100/150/200 DPI. Os 54 casos Azimlib completaram sem warnings ou
+primitivas medidas fora da Figure. As dimensões lógicas são estáveis entre DPIs.
+Também há regressões de recuperação após layout pequeno inviável, componentes
+vizinhos e preservação de Axes/cax posicionados manualmente.</p>
+<p>Na referência, 45 casos completaram: 18 emitiram warning de incompatibilidade
+com tight layout, e nove casos aninhados/constrained com colorbar compartilhada
+entre GridSpecs distintos falharam com IndexError. São resultados deste roteiro
+e desta versão, não uma conclusão geral sobre Matplotlib. Os bounds são medidos
+por primitivas próprias e tight bboxes nativos, respectivamente; solvers e
+ornamentos diferem. A Azimlib adiciona escala/norte explicitamente; o núcleo
+Matplotlib não fornece equivalentes diretos. Não se declara igualdade de pixels.</p>
+<p>O teste usa polígonos e valores sintéticos. A <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/composition_matrix.py">galeria</a>
+usa divisões reais Natural Earth embarcadas, com valores de estações sintéticos:
+mapa (<code>gallery/composition-single.png</code>, generated locally), atlas (<code>gallery/composition-atlas.png</code>, generated locally)
+e aninhado (<code>gallery/composition-nested.png</code>, generated locally). PNG/SVG são estáticos; HTML é
+separado. Compare mapa (<code>gallery/composition-single-comparison.png</code>, generated locally) e
+atlas (<code>gallery/composition-atlas-comparison.png</code>, generated locally) lado a lado com Agg.
+Os layouts permanecem diferentes; textos livres e obstáculos posicionados
+explicitamente não ganham uma garantia universal de ausência de colisão.</p>
+<h2 id="primeiro-desenho-e-tk">Primeiro desenho e Tk</h2>
+<p><code>show()</code> transfere callbacks e registra canvas/viewer antes do primeiro draw.
+Um callback de <code>draw_event</code> já observa o estado pronto. Falha nesse callback
+fecha/libera a janela, restaura o canvas/registro anteriores e permite nova
+tentativa; o callback também pode fechar sua janela sem acesso posterior a
+widgets destruídos. São regras da implementação própria.</p>
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/smoke_composition_tk.py">smoke</a> cobre 14 cenários em Tk real oculto:
+primeiro draw, edições agrupadas, resize, DPI, exportação temporária,
+<code>forward=False</code>, recuperação de erro e fechamento em callback.
+Relatórios: <a href="composition-tk-validation.json">source</a> e
+<a href="composition-tk-wheel-validation.json">wheel instalado</a>.
+São eventos/edições programáticos; não medem aparência, input físico ou latência.
+Os 17 testes novos somam 101 subtests. CI remota, conferência de janela nativa
+e composição com bases densas continuam pendentes para a <a href="release-0.2.html">0.2.0</a>.</p>
+<pre><code class="language-bash">python examples/composition_matrix.py
+python tools/smoke_composition_tk.py
+# Somente desenvolvimento, com Matplotlib instalado:
+python tools/inspect_sizing_titles.py
+python tools/compare_composition_matrix.py
+python tools/render_composition_comparisons.py
+</code></pre>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/sizing-composition.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

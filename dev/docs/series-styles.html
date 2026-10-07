@@ -1,0 +1,140 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Séries, ciclos e folhas de estilo · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="séries-ciclos-e-folhas-de-estilo">Séries, ciclos e folhas de estilo</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<h2 id="uma-chamada-vários-traçados">Uma chamada, vários traçados</h2>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots(layout='constrained')
+ax.states(facecolor='#eeeeee', linewidth=0.35)
+lon = [-52, -49, -45]
+a = [-25, -23, -20]
+b = [-24, -22, -19]
+first, second = ax.plot(lon, a, '--', lon, b, ':', label='Trajetos')
+ax.legend([first, second], ['Trajeto A', 'Trajeto B'])
+second.set(linewidth=1.2, visible=False)
+fig.savefig('trajetos.svg')
+</code></pre>
+<p><code>plot(lon, lat, [fmt], lon2, lat2, [fmt2], ...)</code> devolve um handle por série.
+Os handles têm edição, ownership e remoção independentes. Uma matriz 2D tem
+linhas correspondendo a posições e colunas correspondendo a séries:</p>
+<pre><code class="language-python">lines = ax.plot(lon, list(zip(a, b)), label=['A', 'B'])
+line, = ax.plot('longitude', 'latitude', data={
+    'longitude': lon, 'latitude': a,
+})  # Rótulo padrão: latitude.
+</code></pre>
+<p>Vetores podem ser compartilhados com matrizes; duas matrizes precisam de
+colunas compatíveis. Listas, tuplas, iteráveis e arrays NumPy funcionam, sem
+exigir NumPy no runtime. Labels são escalares ou têm um valor por série de
+cada grupo, como no contrato selecionado da referência. <code>data=</code> admite uma
+chamada de até três argumentos com acesso por nome; múltiplos grupos com
+<code>data=</code> são rejeitados explicitamente. A string encontrada em <code>data</code> prevalece
+como coluna no segundo argumento, inclusive nomes como <code>o</code>.</p>
+<p>Formatos e aliases comuns funcionam; kwargs prevalecem sobre tokens redundantes
+de formato, com warning. Há suporte aos formatos de cor hex e aos nomes comuns
+documentados pelo parser; não se promete todos os tokens/cor-specs Matplotlib.
+Entradas escalares, séries vazias e com um ponto são válidas. <code>lon=</code>, <code>lat=</code> e
+<code>fmt=</code> conservam a conveniência geográfica anterior para um grupo.</p>
+<p>Diferença deliberada: <code>ax.plot([(lon, lat), ...])</code> continua significando uma
+série de coordenadas geográficas. No Matplotlib, uma matriz passada sozinha
+representa colunas de Y. Na Azimlib, use os dois argumentos para matrizes de
+séries. Um vetor numérico sozinho usa índices de linha como longitude; essas
+coordenadas ainda são geográficas, sem converters de datas/unidades.
+Na 0.3 em desenvolvimento, NaN e máscaras numéricas abrem lacunas nas séries;
+get_data preserva essas lacunas. Infinity e latitudes finitas fora de ±90°
+são rejeitados; Geometry/GeoJSON continuam exigindo coordenadas finitas.
+Veja <a href="transforms-composition.html">Paths e transforms</a>. A conveniência antiga de formato com apenas
+marcador conserva linewidth zero, uma diferença da Line2D da referência.</p>
+<p>Todas as formas, coordenadas, labels e estilos são preparados antes de anexar
+camadas ou avançar o ciclo. Erro num grupo posterior não altera camadas,
+limites, stale ou posição do ciclo. No experimento registrado, ambas as
+bibliotecas anexaram zero linhas após erro de forma posterior; Matplotlib
+consumiu a primeira cor e Azimlib a preservou. Não há rollback universal de
+callbacks do usuário ou de lotes entre Artists diferentes.</p>
+<h2 id="ciclos-próprios-de-propriedades">Ciclos próprios de propriedades</h2>
+<pre><code class="language-python">ax.set_prop_cycle(
+    color=['#d62728', '#2ca02c', '#1f77b4'],
+    linestyle=['-', '--', ':'],
+    marker=['o', 's', '^'],
+)
+ax.plot(lon, list(zip(a, b)))
+
+cycle = azl.cycler(color=['red', 'blue']) + azl.cycler(linewidth=[0.8, 1.2])
+ax.set_prop_cycle(cycle)
+</code></pre>
+<p><code>cycler(key, values)</code> e <code>cycler(**properties)</code> criam ciclos finitos. <code>+</code> combina
+linhas correspondentes de ciclos com o mesmo comprimento; <code>*</code> forma produto
+cartesiano. As propriedades precisam ser distintas nas combinações. Iteração,
+<code>keys</code> e <code>by_key()</code> não expõem os dados internos para edição. Aliases são
+normalizados; duplicação de uma propriedade por alias é rejeitada. Também se
+aceitam iteráveis finitos de dicionários, incluindo Cycler genérico fornecido
+pelo usuário, sem importar a biblioteca cycler.</p>
+<p>São propriedades de linha suportadas: color, linewidth, linestyle, marker,
+markersize, markerfacecolor, markeredgecolor, markeredgewidth, alpha, caps,
+junções, antialiased e zorder. Cores curtas e RGB/RGBA em [0,1] são convertidas
+para hex. Não há suporte integral a todos os métodos/algebra do Cycler externo,
+nem a qualquer propriedade de Patch/Collection no ciclo.</p>
+<p>O ciclo avança quando precisa preencher uma propriedade ausente. Uma cor
+explícita não consome um ciclo apenas de cores. Defaults explícitos de formato
+participam dessa decisão. Scatter usa um cursor independente e somente a cor
+do ciclo; <code>c=</code> numérico ou cor explícita não consomem esse cursor.
+<code>set_prop_cycle()</code> afeta séries futuras; não recolore Artists existentes.
+<code>set_prop_cycle(None)</code> retoma o rcParam atual. Cada Axes captura
+<code>rcParams['axes.prop_cycle']</code> ao nascer; <code>clear()</code> recaptura os padrões atuais.</p>
+<h2 id="estilos-empilhados-e-arquivos-locais">Estilos empilhados e arquivos locais</h2>
+<pre><code class="language-python">with azl.style.context(['dark_background', 'routes.mplstyle']):
+    fig, ax = azl.subplots()
+    ax.plot(lon, a, label='Trajeto')
+    ax.legend()
+</code></pre>
+<p><code>style.use()</code> aplica nomes, mappings, caminhos locais ou uma lista ordenada
+desses itens. Itens posteriores prevalecem; toda a lista é validada antes de
+alterar rcParams. <code>style.context()</code> restaura o estado mesmo quando o corpo
+levanta erro; <code>after_reset=True</code> começa pelos defaults. Alterar o estilo global
+não refaz automaticamente Artists já existentes.</p>
+<p><code>style.read(path)</code> lê UTF-8/BOM, linhas <code>rcParam: valor</code> e comentários. Um exemplo
+de folha compartilhável com a referência está em
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/styles/routes.mplstyle">routes.mplstyle</a>. Use aspas duplas em cores
+hex para que Matplotlib também preserve o <code>#</code> dentro de expressões de ciclo:</p>
+<pre><code class="language-text">lines.linewidth: 0.8
+axes.grid: False
+axes.prop_cycle: cycler('color', [&quot;#d62728&quot;, &quot;#1f77b4&quot;]) + cycler(marker=['o', 's'])
+</code></pre>
+<p>O parser próprio interpreta literais e chamadas restritas de cycler, com <code>+</code>
+e <code>*</code>; não executa Python. Não permite imports, atributos, chamadas arbitrárias,
+URLs ou downloads implícitos. Apenas rcParams suportados são aceitos. Chaves
+desconhecidas, duplicadas ou inválidas produzem erro com arquivo/linha; difere
+da tolerância por warnings de folhas da referência. Temas científico/urbanos,
+style discovery por diretórios e rcParams completos ainda não estão disponíveis.</p>
+<p>Legendas herdam o fundo dos Axes pelo padrão <code>legend.facecolor='inherit'</code>.
+<code>legend.edgecolor</code> e <code>legend.framealpha</code> também são configuráveis; kwargs
+prevalecem. Textos de legenda conservam cor/família de fonte do momento de
+criação mesmo se materializados depois de sair do contexto. Legendas não são
+regeneradas implicitamente ao editar/ocultar linhas; reconstrua com <code>legend()</code>
+quando desejar novas entradas, como no exemplo. Componentes cartográficos e
+grade permanecem opcionais. O tema não configura automaticamente todo ornamento.</p>
+<h2 id="referência-e-integração">Referência e integração</h2>
+<p><a href="series-styles-reference.json">Contratos registrados</a> com Matplotlib 3.11.2/Agg
+comparam vários grupos, broadcasting de matrizes, nomes, ciclos combinados,
+formatos, cursor de pontos, contexto/reset, folha local e defaults de legenda.
+As cores dos estados são normalizadas apenas para comparar grafias RGB/hex.
+Há 21 regressões/44 subtests adicionais; NumPy é opcional no teste de arrays.</p>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/series_styles.py">Exemplo</a>: fronteiras reais Natural Earth,
+trajetos/estações sintéticos, temas claros e escuros,
+antes/depois (<code>gallery/series-light-after.png</code>, generated locally),
+escuro (<code>gallery/series-dark-after.png</code>, generated locally) e comparações independentes com
+Agg claro (<code>gallery/series-light-comparison.png</code>, generated locally) e
+Agg escuro (<code>gallery/series-dark-comparison.png</code>, generated locally). Escala/norte são adicionados
+explicitamente pela Azimlib e não têm equivalente direto no núcleo Matplotlib.
+PNG/SVG são estáticos, HTML separado; métricas/layout ainda diferem.
+A legenda consulta estilos atuais dos handles. Desde o lote de
+<a href="numeric-formatting.html">texto/formatação</a>, ao reconstruir a legenda ela copia
+a visibilidade do símbolo: uma linha oculta mantém o texto e perde o símbolo,
+como na referência. A visibilidade posterior da camada não altera essa cópia.
+Ainda há diferenças na atualização de estilos e nos handlers; não se declara
+o sistema completo de handles equivalente ao Matplotlib.</p>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/smoke_series_tk.py">Smoke Tk</a>, <a href="series-tk-validation.json">source</a> e
+<a href="series-tk-wheel-validation.json">wheel</a> conferem 12 cenários com UI real oculta,
+edição agrupada, 48 colunas sintéticas, limites compartilhados e histórico.
+Não são benchmark, conferência visual do SO ou validação de base urbana densa.
+Os critérios da <a href="release-0.2.html">0.2.0</a> continuam parcialmente implementados.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/series-styles.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

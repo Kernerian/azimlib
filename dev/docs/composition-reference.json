@@ -1,0 +1,79 @@
+{
+  "matplotlib_version": "3.11.2",
+  "columns": {
+    "matplotlib": [
+      [
+        "Item 0",
+        "Item 1",
+        "Item 2"
+      ],
+      [
+        "Item 3",
+        "Item 4"
+      ]
+    ],
+    "azimlib": [
+      [
+        "Item 0",
+        "Item 1",
+        "Item 2"
+      ],
+      [
+        "Item 3",
+        "Item 4"
+      ]
+    ]
+  },
+  "best": {
+    "matplotlib": "upper left",
+    "azimlib": "upper left"
+  },
+  "shared": [
+    {
+      "orientation": "vertical",
+      "max_fraction_error": 1.1102230246251565e-16,
+      "matplotlib_bar": [
+        0.78375,
+        0.10999999999999999,
+        0.03849999999999998,
+        0.77
+      ],
+      "azimlib_bar": [
+        0.7837499999999998,
+        0.1100000000000001,
+        0.03849999999999999,
+        0.7699999999999999
+      ]
+    },
+    {
+      "orientation": "horizontal",
+      "max_fraction_error": 1.3877787807814457e-16,
+      "matplotlib_bar": [
+        0.125,
+        0.18674999999999997,
+        0.7749999999999999,
+        0.03875000000000001
+      ],
+      "azimlib_bar": [
+        0.125,
+        0.18675000000000008,
+        0.7749999999999999,
+        0.03874999999999999
+      ]
+    }
+  ],
+  "cax": {
+    "matplotlib": [
+      0.91,
+      0.2,
+      0.025,
+      0.6
+    ],
+    "azimlib": [
+      0.91,
+      0.2,
+      0.025,
+      0.6
+    ]
+  }
+}

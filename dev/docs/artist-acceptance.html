@@ -1,0 +1,109 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aceite de Artists 2D: checklist 1.10–1.12 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="aceite-de-artists-2d-checklist-110112">Aceite de Artists 2D: checklist 1.10–1.12</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>O passo 1 é aceito no <a href="artist-scope-0.2.html">catálogo do corte</a>, após a
+integração/auditoria descritas aqui. Isso não encerra layout, fidelidade visual,
+desempenho ou validação multiplataforma dos outros quatro passos da 0.2.0.
+A versão continua 0.1.0 alpha; não houve publicação.</p>
+<p>Os hashes dos relatórios desse lote continuam históricos, resolvidos contra
+snapshots exatos em <code>tools/baselines</code>, incluindo <code>interactive-tiles-before</code>.
+Não são substituídos pelos hashes atuais sem executar novamente o roteiro.
+<a href="validation.html">Validação atual</a> e <a href="release-gallery.html">galeria</a> registram a
+nova suíte/exports, sem reabrir este catálogo por mudanças internas no viewer.</p>
+<h2 id="110-mapa-integrado">1.10 — Mapa integrado</h2>
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/artist_acceptance_case.py">cenário reproduzível</a> combina estados
+reais da base Natural Earth embarcada com valores, estações, rota, imagem,
+mesh, vetores e contornos <strong>sintéticos</strong>. Seis mappables compartilham a mesma
+Normalize: geometria temática, scatter, mesh, imagem, quiver e contour.
+Os dados geográficos permanecem imutáveis; cada handle edita seu próprio estado.</p>
+<p>Verificações em colorbars horizontal/vertical e 100/200 DPI:</p>
+<ul>
+<li>Uma mudança de limites da norma é observada pelos seis mappables e pela
+colorbar; os rótulos de contornos acompanham a paleta.</li>
+<li>Edições de dados/estilos mantêm paths de contorno e os limites manuais
+definidos <strong>antes</strong> de criar as camadas.</li>
+<li>Ocultar/restaurar as seis camadas restaura a cena e os pixels editados nos
+casos Tk. Componentes cartográficos continuam opt-in e independentes.</li>
+<li>Remover camadas, rótulos e colorbar interrompe invalidações da antiga figura
+por alterações posteriores na norma compartilhada.</li>
+<li>PNG estático, RGBA direto e buffer Tk coincidem nos casos medidos; SVG é
+estático, sem UI. Pan/foco/Home conserva as edições existentes.</li>
+</ul>
+<p>A inspeção da primeira imagem revelou que imshow sobrepunha o enquadramento
+manual do mapa com seu próprio extent. A correção respeita os limites de cada
+eixo bloqueado pelo usuário. Três casos de limites manuais (x, y ou ambos)
+foram registrados diretamente com Matplotlib/Agg e comparados no teste.
+<strong>Diferença preservada:</strong> nos eixos automáticos, a Azimlib continua aplicando
+seu enquadramento exato/fixo ao criar uma imagem, em vez de reproduzir toda a
+política sticky-edges/flags de autoscale do Matplotlib. Use limites explícitos
+ou <code>ax.autoscale()</code> para escolher a política da vista; essa diferença não fica
+escondida no aceite.</p>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/artist_acceptance.py">Exemplo</a>,
+antes (<code>gallery/artist-acceptance-before.png</code>, generated locally) e
+depois (<code>gallery/artist-acceptance-after.png</code>, generated locally), também em SVG/HTML.
+O HTML é uma exportação: edições posteriores em Python exigem reexportação.</p>
+<h2 id="111-auditoria-de-propriedades-e-aliases">1.11 — Auditoria de propriedades e aliases</h2>
+<p>Os testes percorrem <strong>28 handles/famílias de uso</strong> do catálogo, incluindo
+Figure/eixos, todas as camadas, textos internos de ticks/legenda/colorbar,
+spines/frame/outline, escala, norte, rosa, overview e inset. Uma propriedade
+desconhecida, junto de uma mudança de visibilidade, é rejeitada sem alterar
+controles, cena SVG, callbacks ou estado stale nesses casos.</p>
+<p>Correções acrescentadas:</p>
+<ul>
+<li>Alinhamentos ha/va inválidos são rejeitados no normalizador de estilo,
+incluindo aliases, antes de editar labels ou substituir ticks/locators.</li>
+<li>Textos não aceitam propriedades exclusivas de pontos/áreas: marker, ms e
+demais estilos de marcador, symbol ou hachuras. O erro não deixa posição de
+texto de Figure alterada nem ticks substituídos.</li>
+<li>Spine/outline e LegendFrame reconhecem os aliases aplicáveis (lw/ec/fc),
+rejeitando pares ambíguos antes de editar controles/estilo.</li>
+<li><code>getp(handle, 'lw')</code> e os aliases existentes consultam a propriedade
+canônica; getters próprios têm prioridade. <code>getp(north, 'size')</code> consulta o
+tamanho da seta, sem reinterpretá-lo como fonte.</li>
+<li>Choropleth prepara norma/cmap/array enquanto está desconectado. Norma
+inválida ou conflito norm/vmin/vmax não deixa camada parcial anexada, vista
+alterada ou norma compartilhada parcialmente preenchida.</li>
+</ul>
+<p><a href="artist-acceptance-reference.json">Referência direta</a> produzida pelo
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/inspect_artist_acceptance.py">tool de desenvolvimento</a>: estados
+selecionados de aliases em linha/spine/frame, cinco rejeições e três vistas
+de imagem. Os testes lêem o registro, sem importar Matplotlib.
+As cores retornadas continuam com representações próprias, não tuplas RGBA
+idênticas em toda consulta; o teste verifica a coerência de cada alias/getter.</p>
+<h2 id="112-aceite-e-limites">1.12 — Aceite e limites</h2>
+<p>Aceite requer a suíte cumulativa sem falhas, regressões do conjunto acima,
+execução em source/wheel, exports e relatório Tk com a mesma implementação.
+O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/smoke_artist_acceptance_tk.py">smoke</a> possui <strong>14 verificações</strong>
+em janela Tk real <strong>oculta</strong>: duas combinações de DPI/orientação, edições em
+ion agrupadas em um draw, roundtrip de visibilidade, rejeição sem redraw,
+foco/Home, descarte e liberação do cache.</p>
+<p>Relatórios <a href="artist-acceptance-tk-source.json">source</a> e
+<a href="artist-acceptance-tk-wheel.json">wheel instalado</a> incluem hashes dos módulos
+efetivamente importados, dos tools e o caminho do runtime. O core/wheel não
+usa Matplotlib, Cartopy, GeoPandas, Shapely ou pyproj. CI inclui este décimo
+smoke, mas <strong>não foi executada remotamente</strong> neste lote.</p>
+<p>Limites que permanecem explícitos, sem impedir este aceite restrito:</p>
+<ul>
+<li>Não existe transação com rollback de vários Artists/callbacks customizados.
+<code>setp</code> em uma sequência e setters genéricos de Figure/MapAxes podem executar
+propriedades válidas em ordem; falha posterior não desfaz valores anteriores.
+Prevalidação de nomes evita propriedades desconhecidas no lote, mas não
+equivale à validação antecipada de todos os valores/setters arbitrários.</li>
+<li>Estilos de Layer usam vocabulário compartilhado: propriedades conhecidas
+destinadas a outra geometria podem ser armazenadas sem efeito no desenho.
+Textos rejeitam os estilos incompatíveis auditados; isso não é uma tipagem
+completa de todas as subclasses Artist do Matplotlib.</li>
+<li>Parsing de cores/fontes, listas de famílias, máscaras/gaps, contourf,
+Transform completo, MathText/TeX e formatos adicionais não fazem parte do
+catálogo deste corte. Callbacks de styling por feature são executados na
+composição e podem falhar nessa fase; não há avaliação antecipada universal.</li>
+<li>Permanecem as diferenças de contornos/precisão em
+<a href="contour-boundaries.html">1.09</a> e a política automática de imagem acima.</li>
+<li>Janela oculta não comprova aparência, input físico, tempo de pintura ou
+suporte efetivo a outras plataformas. Esses checks continuam abertos nos
+passos posteriores. As geometrias reais aqui são generalizadas e não substituem a
+base original mais detalhada prevista em 4.08.</li>
+</ul>
+<p>Evidências de regressão: <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_artist_acceptance.py">test_artist_acceptance.py</a>,
+além dos testes já ligados no catálogo. Próximo trabalho do roteiro: <strong>2.08</strong>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/artist-acceptance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

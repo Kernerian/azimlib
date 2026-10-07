@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Validação do viewer Tk e do pacote instalado · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="validação-do-viewer-tk-e-do-pacote-instalado">Validação do viewer Tk e do pacote instalado</h1>
+<p>O viewer continua próprio: Tk fornece widgets e Pillow o buffer de imagem;
+geometria, projeção, composição e rasterização pertencem à Azimlib.
+Matplotlib 3.11.2 foi utilizado somente na referência de desenvolvimento.</p>
+<h2 id="integração-desktop-executada">Integração desktop executada</h2>
+<p>Em Windows 11, Python 3.14.4/Tk 8.6, os dois smokes executaram com janelas Tk
+reais <strong>ocultas</strong>, widgets e event loop reais. Entradas sintéticas são chamadas
+nos handlers registrados; não são movimentos físicos de mouse. Isso valida
+integração funcional, não aparência da janela do SO. Veja o
+<a href="viewer-tk-validation.json">relatório local</a>.
+Os mesmos smokes também passaram no <a href="viewer-tk-wheel-validation.json">wheel instalado</a>,
+em ambiente separado com Pillow e sem Matplotlib/GIS; importação do código
+instalado foi conferida em modo isolado (<code>python -I</code>). O smoke do núcleo passou
+em outro ambiente novo sem nenhuma dependência opcional.</p>
+<p>O smoke inicial tinha nove cenários. Input ampliou para doze; buffer direto
+acrescenta o décimo terceiro:</p>
+<ol>
+<li>Toolbar, canvas, componentes opcionais e transferência dos callbacks.</li>
+<li>Edições agrupadas em um redesenho, visibilidade e Scene em draw_event.</li>
+<li>Registro da entrada de movimento e coordenadas do cursor.</li>
+<li>Pan, eixos compartilhados e Home/Back/Forward.</li>
+<li>Zoom retangular, remoção da seleção e passos fracionários da roda.</li>
+<li>Recentrar pelo minimapa, foco e visibilidade do componente.</li>
+<li>Registro de Configure, temporizador real e nova dimensão da cena.</li>
+<li>Save da toolbar produz PNG/SVG estáticos; cancelar o diálogo não salva.</li>
+<li>Fechar cancela tarefas, remove o viewer do registro e libera imagens.</li>
+<li>Teclas normalizadas, keymaps editáveis e cancelamento de Ctrl+S.</li>
+<li>Botão do meio/duplo clique informado sem iniciar pan.</li>
+<li>Transições Axes/Figure, teclas no mapa sob o cursor e ciclos g/G.</li>
+<li>Viewer usa RGBA sem codecs PNG/cópia inicial e fecha a imagem substituída.</li>
+</ol>
+<p>Tempo e memória das sete operações desktop têm um experimento separado,
+com workers seriais novos e comparação de pixels/vistas antes/depois. Veja
+<a href="viewer-performance.html">medidas e limites</a>. A duração dos smokes não é
+benchmark; a pintura visível/input físico continua fora dessa validação.</p>
+<p>O <a href="pan-interaction.html">pan ao vivo</a> recebeu um smoke adicional de nove cenários:
+limites e ticks durante motion, moldura fixa, buffer fresco, release sem salto,
+origem congelada, histórico e botão direito. A referência direta inclui 60
+gestos selecionados; toolbar/tooltip agora têm 28 checks por instalação.</p>
+<p>O diálogo de salvar é substituído por um caminho temporário no teste; arquivos
+são realmente gerados. Cancelamento também é simulado. Não é teste visual do
+diálogo nativo. A primeira renderização desse mapa pequeno está registrada,
+mas uma amostra não mede latência típica nem bases densas.</p>
+<h2 id="contratos-comparados-diretamente-com-matplotlib">Contratos comparados diretamente com Matplotlib</h2>
+<p><code>tools/inspect_tk_events.py</code> instancia um canvas TkAgg real e registra os
+<a href="tk-events-reference.json">resultados da referência</a>. Regressões consomem esse
+arquivo sem importar Matplotlib. Foram comparados quatro deltas de roda do
+Windows, dois botões de roda Linux processados pelo handler da referência,
+coordenadas de display, presença de renderer e duas emissões com edição dos
+callbacks. A execução foi no Windows; não equivale a executar em Linux.</p>
+<ul>
+<li><code>scroll_event.step</code> conserva <code>delta / 120</code>, incluindo frações; botão é
+<code>up</code>, <code>down</code> ou <code>None</code>. Delta zero não altera vista nem cria histórico.</li>
+<li>Eventos de roda fora dos Axes também são entregues, com <code>inaxes=None</code>.</li>
+<li><code>draw_event.renderer</code> informa a Scene própria. Não é um renderer Agg.</li>
+<li>Canvas sem GUI e Tk usam a lista de assinantes capturada no início da
+emissão, como a referência: conectar/desconectar dentro de um callback afeta
+eventos seguintes. O callback já capturado recebe o evento atual.</li>
+</ul>
+<p>São contratos selecionados, não equivalência completa de eventos. Teclado,
+modificadores/botões, enter/leave e keymaps foram ampliados com
+<a href="viewer-input.html">referência direta</a>; picking e seleção permanecem pendentes. A Azimlib
+oferece zoom pela roda como conveniência própria; a toolbar padrão Matplotlib
+não ativa esse zoom automaticamente apenas por emitir scroll_event.</p>
+<h2 id="executar-e-validar-distribuição">Executar e validar distribuição</h2>
+<p>Na raiz do projeto, após instalar as dependências apropriadas:</p>
+<pre><code class="language-bash">python -m pip install -e &quot;.[dev]&quot;
+python -m unittest discover -s tests -v
+python tools/smoke_artist_tk.py
+python tools/smoke_viewer_tk.py
+python tools/smoke_component_lifecycle_tk.py
+python tools/smoke_composition_tk.py
+python tools/smoke_series_tk.py
+python -m build
+python tools/smoke_installed_package.py
+</code></pre>
+<p>O último comando cria um ambiente novo e instala o wheel com <code>--no-index --no-deps</code>. Confere importação desse ambiente, ausência de Pillow/Matplotlib/GIS,
+dados/fontes embarcados e SVG/HTML com Artists/componentes editáveis.
+Nenhum caminho de código fonte é acrescentado ao subprocesso.
+Linux pode usar <code>xvfb-run -a python ...</code> para os smokes desktop.</p>
+<h2 id="ci-e-trabalho-restante">CI e trabalho restante</h2>
+<p>A configuração contém 15 combinações: Windows, Linux e macOS × Python
+3.10–3.14. Cada job executa suíte, build e instalação limpa do wheel. Um job
+desktop adicional por sistema, em Python 3.12, executa os cinco smokes Tk;
+Linux utiliza Xvfb. Esses jobs não importam Matplotlib.</p>
+<p><strong>A CI remota ainda não foi executada.</strong> Faltam resultados efetivos dos runners,
+conferência manual de aparência/input nativo, comparação visual da janela com
+Matplotlib e medições desktop em bases densas. A validação local avança o quinto
+critério da 0.2.0, mas não o fecha nem antecipa urbano/3D/publicação.</p>
+<p>Há também <a href="component-lifecycle.html">sete cenários de lifecycle</a> em Tk real
+oculto: edições agrupadas, texto interno ocultável, substituição/desconexão de
+componentes, troca de norm/ticks e clear. São edições programáticas, sem medir
+aparência/input físico. O primeiro draw agora ocorre após o registro de
+callbacks/canvas. Mais <a href="sizing-composition.html">14 cenários de composição</a> verificam
+dimensões/DPI, três títulos, erro inicial e fechamento em callback.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/viewer-validation.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Contributing to Azimlib · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="site.css"><body data-root=""><header><a href="docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="docs/index.html">Overview</a><a href="docs/getting-started.html">Getting started</a><a href="docs/migration-0.3.html">Migration</a><a href="docs/gallery-0.3.html">Gallery</a><a href="docs/api.html">API reference</a><a href="docs/api-stability.html">Compatibility policy</a><a href="docs/release-progress-0.3.html">Release progress</a><a href="docs/roadmap.html">Roadmap</a></aside><main><h1 id="contributing-to-azimlib">Contributing to Azimlib</h1>
+<p>Small, reproducible reports and focused pull requests help improve the library.
+Use GitHub Issues for bugs, proposals and questions. Before a substantial change,
+explain the use case and check the <a href="docs/roadmap.html">roadmap</a>.</p>
+<h2 id="develop-and-verify">Develop and verify</h2>
+<pre><code class="language-bash">git clone https://github.com/Kernerian/azimlib.git
+cd azimlib
+python -m pip install -e &quot;.[dev]&quot;
+python -m unittest discover -s tests -v
+python tools/audit_licenses.py
+python tools/audit_publication_privacy.py
+python -m build
+python -m twine check --strict dist/*
+</code></pre>
+<p>The hosted CI tests Python 3.10–3.14 on Windows, Linux and macOS, with separate
+compiler and desktop integration jobs. GUI checks require Tk and a display.
+The <a href="docs/architecture.html">architecture</a> and <a href="docs/artist-scope-0.2.html">API scope</a>
+describe the current contracts. Add meaningful regression checks when behavior
+changes; keep examples reproducible and identify synthetic data.</p>
+<h2 id="independent-implementations-and-provenance">Independent implementations and provenance</h2>
+<p>Azimlib implements cartography itself. Do not add Matplotlib or another GIS
+engine as a runtime backend. API compatibility does not authorize copying an
+implementation, logo, icon or documentation. Identify sources, licenses and
+copyrights for new external material; preserve applicable notices.
+Do not bundle datasets unless redistribution rights are established.</p>
+<p>Do not commit credentials, personal paths, private communication, build outputs
+or local environments. Prefer portable paths in diagnostic reports.</p>
+<p>By submitting a contribution, identify any relevant external sources and make
+the original contribution available under the project's BSD-3-Clause license.
+You retain copyright in your contribution; third-party licenses remain separate.
+Follow the <a href="CODE_OF_CONDUCT.html">code of conduct</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/CONTRIBUTING.md">Source</a>.</footer></main><script src="site.js"></script></body></html>

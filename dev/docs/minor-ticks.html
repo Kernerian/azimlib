@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ticks menores e grade menor · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="ticks-menores-e-grade-menor">Ticks menores e grade menor</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.ticker import MultipleLocator, AutoMinorLocator
+
+fig, ax = azl.subplots(projection='mercator')
+ax.state('SP')
+ax.xaxis.set_major_locator(MultipleLocator(2))
+ax.yaxis.set_major_locator(MultipleLocator(2))
+ax.xaxis.set_minor_locator(AutoMinorLocator(4))
+ax.yaxis.set_minor_locator(AutoMinorLocator(4))
+ax.tick_params(which='minor', length=2, width=.6)
+ax.grid(True, which='major', linewidth=.5)
+ax.grid(True, which='minor', linewidth=.25, linestyle=':')
+fig.savefig('state.svg')
+azl.show()
+</code></pre>
+<p><code>ax.minorticks_on()</code> habilita subdivisões automáticas nos dois eixos;
+<code>minorticks_off()</code> instala NullLocator para os menores. Não habilitam grade.
+Os menores vêm desligados por padrão e usam NullFormatter: não há números
+adicionais até fornecer um formatter ou labels. O tamanho padrão é 2 pontos,
+com largura .6, independentemente dos maiores (3.5 pontos/.8).</p>
+<h2 id="posições-e-textos-editáveis">Posições e textos editáveis</h2>
+<p><code>AutoMinorLocator(n)</code> divide o intervalo entre maiores em <code>n</code> partes: <code>n=4</code>
+produz três posições intermediárias. Precisa de maiores uniformes e escala
+linear. Sem <code>n</code>, consulta <code>xtick.minor.ndivs</code>/<code>ytick.minor.ndivs</code>; <code>'auto'</code>
+escolhe 5 partes para passos cuja mantissa é 1, 2.5 ou 5, e 4 nas demais.
+O objeto depende do contexto do Axis, portanto não oferece <code>tick_values</code>
+isolado. Zoom e mudança do locator maior recalculam os menores.</p>
+<p><code>set_minor_locator</code>, <code>set_minor_formatter</code>, <code>get_minor_locator</code>,
+<code>get_minor_formatter</code> e <code>get_minorticklocs</code> estão nos objetos Axis.
+<code>ax.set_xticks(..., minor=True, labels=...)</code> retorna textos editáveis;
+<code>ax.get_xticks(minor=True)</code> consulta as posições. O mesmo vale para Y.
+Posições que coincidem com maiores são removidas, com tolerância relativa ao
+intervalo da vista. <code>axis.remove_overlapping_locs=False</code> desativa essa filtragem.
+Custom locators continuam sujeitos ao limite de 1.500 posições.</p>
+<h2 id="estilos-grupos-e-grade">Estilos, grupos e grade</h2>
+<p><code>tick_params(which='major'/'minor'/'both')</code> controla grupos separados.
+<code>grid(which=..., axis='x'/'y'/'both')</code> controla grupos/eixos independentemente,
+com estilos preservados após ocultar e mostrar. Sem argumentos, alterna
+somente a grade maior. Propriedades de estilo implicam <code>visible=True</code>, como
+na referência; <code>grid(False, color=...)</code> avisa e habilita.</p>
+<p>A grade menor não cria ticks menores: habilite-os separadamente. Sem <code>step</code>,
+a grade acompanha as posições do grupo escolhido. <code>step=</code> explícito permanece
+uma extensão para graticule independente dos locators. Desligar ticks menores
+também remove a grade baseada nesses ticks; uma grade com <code>step</code> fixo independe
+deles. A visibilidade do artista retornado por grid também pode ser editada.</p>
+<p>rcParams disponíveis: <code>xtick.minor.visible/size/width/pad/ndivs</code> e equivalentes
+Y, além de <code>axes.grid.which/axis</code>. <code>clear()</code> reaplica os defaults do contexto.
+Ainda não há objetos Tick completos, <code>tick_params(reset=True)</code> ou todas as
+propriedades de grade por tick presentes no Matplotlib.</p>
+<h2 id="colorbars-horizontais-e-verticais">Colorbars horizontais e verticais</h2>
+<pre><code class="language-python">bar = fig.colorbar(layer, ax=ax, orientation='horizontal')
+bar.minorticks_on()
+bar.ax.tick_params(which='minor', length=2, width=.6)
+bar.minorlocator = MultipleLocator(5)
+bar.set_ticks([5, 15], minor=True, labels=['baixo', 'médio'])
+bar.minorticks_off()
+</code></pre>
+<p>Colorbars oferecem <code>minorlocator</code>, <code>minorformatter</code>, <code>get_ticks(minor=True)</code>
+e <code>set_ticklabels(..., minor=True)</code>. Os menores só pertencem ao eixo longo;
+funcionam também por cax e nas duas orientações. Norm linear começa sem
+menores, salvo rcParams explícitos. LogNorm fornece subdivisões 2–9 por
+década por padrão, como na referência instalada. <code>minorticks_on()</code> seleciona
+AutoMinorLocator para norm linear e LogLocator para logarítmica; a filtragem
+de coincidências em log usa distância logarítmica.</p>
+<p>Alterar clim preserva os controles menores; outra norm restaura os padrões.
+O formatter menor padrão é NullFormatter, também em LogNorm nesta versão:
+o LogFormatterSciNotation e suas regras de rótulos científicos ainda não
+foram implementados. LogLocator tem um subconjunto de parâmetros e ainda
+não reproduz toda a escolha de stride/fallback de décadas do Matplotlib.</p>
+<h2 id="exportação-e-referência">Exportação e referência</h2>
+<p>PNG e SVG usam a mesma cena. O desktop recompõe os ticks a partir da vista.
+No HTML Mercator/equiretangular, AutoMinor/Multiple/Fixed/NullLocator e
+formatters portáteis preservam grupos maiores/menores, lados, direção,
+comprimentos, cores, rotação e estilos de grades durante zoom. Home restaura
+a cena original. Outras projeções, funções Python e formatos customizados
+precisam do desktop para recomposição completa. Textos com estilo individual
+e transforms/fontes fora do subconjunto podem diferir após navegar no HTML.
+Veja também as <a href="ticks.html">restrições de ticker</a>.</p>
+<p><code>examples/minor_ticks.py</code> gera São Paulo (<code>gallery/minor-grid.png</code>, generated locally),
+colorbar horizontal (<code>gallery/minor-colorbar-horizontal.png</code>, generated locally) e
+LogNorm (<code>gallery/minor-colorbar-log.png</code>, generated locally), todos com SVG e HTML.
+O campo colorido é sintético e não representa uma medida geográfica real.</p>
+<p><code>tools/inspect_minor_ticks.py</code> compara seis configurações de AutoMinorLocator
+e quatro colorbars contra Matplotlib 3.11.2. Valores em
+<code>minor-ticker-reference.json</code>; testes normais usam a fixture sem importar
+Matplotlib. Isso verifica esses casos controlados, não equivalência integral
+de escalas, offsets, todas as opções de ticker ou igualdade de pixels.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/minor-ticks.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

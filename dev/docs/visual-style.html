@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Recommended clean view · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="recommended-clean-view">Recommended clean view</h1>
+<p>The default light style gives a white figure, a plain axes frame, standard
+typography and physical line widths. Add only the content the map needs:</p>
+<pre><code class="language-python">import azimlib as azl
+# Equivalent convenience import: import azimlib.pyplot as plt
+
+with azl.style.context('default'):
+    fig, ax = azl.subplots(figsize=(6.4, 6), layout='constrained')
+    ax.map('brazil', facecolor='#f2f2f2', edgecolor='#444444', linewidth=0.6)
+    ax.states(edgecolor='#999999', linewidth=0.35)
+    ax.set_title('Brazil')
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+
+fig.savefig('brazil.svg')
+fig.savefig('brazil.png', dpi=200)
+azl.show()
+</code></pre>
+<p><img src="_static/composition/clean-map.png" alt="Default light map" /></p>
+<p>Grid, legend, colorbar, scale, north arrow, compass and overview are optional.
+No minimap, grid or cartographic ornament is added by default. Components
+retain independent <code>set_visible</code>, <code>set_in_layout</code>, editing and removal controls.
+Prefer thin boundaries and one strong accent for thematic information. Use
+larger DPI for PNG delivery; changing DPI does not change the physical widths
+or font sizes. <code>savefig()</code> contains no UI; <code>show()</code> adds viewer controls outside
+the map. The <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/clean_map.py">runnable example</a> exports PNG/SVG/HTML.</p>
+<h2 id="rotation-in-03-development">Rotation in 0.3 development</h2>
+<pre><code class="language-python">ax.set_bearing(35)              # clockwise display rotation, degrees
+north = ax.north_arrow()        # optional, independent
+rose = ax.compass()             # optional, independent
+angle = north.get_angle()       # local north, clockwise from display-up
+</code></pre>
+<p>Bearing starts at zero and is normalized modulo 360. Coordinates and CRS stay
+geographic; rotation is in the projected viewport, with isotropic scaling.
+Both indicators follow the local projected direction of north at their own
+anchors. In curved projections their angles may differ because local north
+differs by position. Cardinal labels remain upright for readability. A finite
+northward derivative is used; at a pole or outside the inverse domain the
+indicator falls back to the bearing. This is map rotation, not a 3D camera.
+The compass never replaces the north arrow.</p>
+<p>PNG/SVG and the Python desktop renderer recompose the rotated map. Navigation
+history retains bearing and projection. Standalone HTML exports the rotated
+scene but uses its existing snapshot navigation fallback for rotated/curved
+views: it cannot execute Python or recompute arbitrary graticules/ornaments.
+Use Python and <code>savefig()</code> for a final recomposed output. A live portable
+bridge is still <a href="release-progress-0.3.html">step 7.03</a>.</p>
+<p><img src="_static/composition/composition-atlas.png" alt="Subfigures and rotation" /></p>
+<p>The <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/composition_atlas.py">atlas example</a> uses Natural Earth
+boundaries (public domain), synthetic routes and an original triangle symbol.
+See <a href="transforms-composition.html">composition contracts</a> and <a href="_static/composition/README.html">asset provenance</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/visual-style.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

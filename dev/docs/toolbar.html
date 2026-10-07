@@ -1,0 +1,81 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Toolbar: contratos Tk e verificação visual · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="toolbar-contratos-tk-e-verificação-visual">Toolbar: contratos Tk e verificação visual</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>A auditoria do passo 3 encontrou e corrigiu diferenças na toolbar:</p>
+<ul>
+<li>Pan/Zoom agora são Checkbuttons sem indicador, com seleção sincronizada
+entre clique e atalhos, como a referência Tk do Matplotlib.</li>
+<li>Botões usam dimensões de 18 pontos; a barra pede a largura
+do canvas e mantém 50 pixels de altura.</li>
+<li>Hover plano/fundo neutro substituem
+o groove do Tk. Os sete ícones são <strong>desenhos originais da Azimlib</strong>, com
+geometria própria em src/azimlib/_toolbar_icons.py. Desktop gera RGBA direto
+com oito amostras por dimensão; HTML usa SVG da mesma geometria. Não há
+glyphs, caminhos ou imagens copiados da referência. Os assets próprios
+PNG 24/48 px e SVG são reproduzíveis por tools/build_toolbar_icons.py e
+seguem a licença BSD-3-Clause da Azimlib. <a href="toolbar-icons-audit.json">Auditoria</a>.</li>
+<li>Cursor de pan/zoom só aparece dentro do mapa; margens e saída do canvas
+restauram o cursor padrão.</li>
+<li>Subplots pertence ao grupo Pan/Zoom; Save fica após o segundo separador.
+Tooltips aparecem imediatamente à direita do botão, alinhados ao topo,
+como a referência Tk; não há atraso de 550 ms nem caixa abaixo do botão.</li>
+<li><a href="pan-interaction.html">Pan ao vivo</a> atualiza limites/ticks durante o movimento,
+usando origem congelada, e mantém a moldura fixa, sem preview de bitmap.</li>
+</ul>
+<p><a href="toolbar-reference.json">Referência</a>: widgets reais das duas bibliotecas em
+96/120/144/192 DPI de escala Tk. Tipos, dimensões pedidas, fontes, hover e
+sequência de seleção Pan/Zoom coincidem nos estados medidos; hover plano é
+uma diferença de apresentação documentada. Isso usa Tk
+8.6/Windows e Matplotlib 3.11.2 no ambiente separado de desenvolvimento.</p>
+<p>Local preview: Ícones originais da Azimlib (<code>gallery/toolbar-icon-assets.png</code>, generated locally)</p>
+<p>A imagem contém apenas os PhotoImages gerados pela Azimlib, <strong>não é uma
+screenshot de janela</strong>. Os símbolos têm função/proporções familiares, mas
+são construídos a partir de polígonos, elipses e retângulos definidos por nós.
+Diferenças de tema/widget ainda requerem conferência visual. Matplotlib é
+somente referência no ambiente separado de desenvolvimento.</p>
+<p>Há quatro regressões sem janela/Matplotlib em tests/test_toolbar.py, três
+regressões de limites/exportação em tests/test_subplot_editor.py, cinco
+regressões próprias de assets/SVG/alpha/simetria e 28 checks
+com Tk real e janelas ocultas em
+<a href="toolbar-tk-source.json">source</a>/<a href="toolbar-tk-wheel.json">wheel</a>. O smoke testa
+widgets, estados, cursor nos handlers, nomes opcionais, editor e fechamento;
+não entrada física.</p>
+<h2 id="nomes-e-editor-subplots">Nomes e editor Subplots</h2>
+<p>A toolbar padrão do Matplotlib mostra ícones com nomes/dicas no hover. A
+Azimlib mantém esse padrão e oferece nomes permanentes opcionais:</p>
+<pre><code class="language-python">viewer = fig.show(block=False)
+viewer.set_toolbar_labels(True)  # False restaura apenas os ícones
+</code></pre>
+<p>O editor foi reconstruído com widgets ttk e grupos Borders/Spacings, tomando
+o diálogo Qt instalado como referência de organização. Sliders e campos
+numéricos permitem edição ao vivo; limites relacionados preservam left &lt; right
+e bottom &lt; top. Reset restaura uma cópia dos valores iniciais; Tight layout
+recalcula a composição; Export values fornece código fig.subplots_adjust()
+copiável. Um único diálogo é reutilizado e pode ser reaberto após fechar.
+Layout automático incompatível desativa ajustes manuais, com explicação;
+Tight layout permite mudar para o modo ajustável. O toolkit continua <strong>Tk/ttk</strong>,
+sem exigir Qt no runtime. Não se promete que Tk reproduza a decoração nativa Qt.</p>
+<h2 id="reproduzir">Reproduzir</h2>
+<p>Com <code>.[gui]</code> instalado:</p>
+<pre><code class="language-bash">python tools/smoke_toolbar_tk.py --output toolbar-check.json
+python tools/show_viewer_comparison.py --library azimlib --labels --subplots
+</code></pre>
+<p>No ambiente separado com Matplotlib, execute:</p>
+<pre><code class="language-bash">python tools/inspect_toolbar.py
+python tools/show_viewer_comparison.py --library matplotlib
+python tools/show_viewer_comparison.py --library matplotlib --reference-backend QtAgg --subplots
+</code></pre>
+<p>Os comandos de comparação abrem uma janela <strong>visível</strong>, identificada e
+posicionada lado a lado, com os mesmos dados/figsize/DPI e eixos de graus com
+aspecto igual. Permite conferir canvas/margens, toolbar/hover, títulos/fontes,
+cursor, Home/Back/Forward, pan/zoom e resize. Matplotlib só é importado quando
+o modo <code>--library matplotlib</code> é selecionado; o viewer Azimlib não o utiliza.
+QtAgg exige uma biblioteca Qt apenas no ambiente de referência; PySide6 foi
+instalado nesse ambiente para permitir a comparação de desenvolvimento.</p>
+<h2 id="escopo-da-verificação">Escopo da verificação</h2>
+<p>Comparação programática com a referência e observação visual Windows são
+registradas em <a href="viewer-visible-acceptance.html">viewer-visible-acceptance</a>.
+Linux/macOS têm testes Tk automatizados, sem avaliação visual nativa humana.
+Os snapshots e resultados de desempenho permanecem históricos; não descrevem
+automaticamente o runtime atual.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/toolbar.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

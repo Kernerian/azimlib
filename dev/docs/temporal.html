@@ -1,0 +1,153 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Temporal maps and regional atlas · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="temporal-maps-and-regional-atlas">Temporal maps and regional atlas</h1>
+<p>Azimlib 0.3 development uses its own finite frame model, Artist updates, native
+GUI scheduler and multi-page PDF writer. It does not import another animator,
+GIS backend, PDF merger or Matplotlib implementation. The default figure remains
+light and clean: no playback controls, grid, north, scale or legend are inserted
+unless explicitly requested.</p>
+<h2 id="frames-and-instants">Frames and instants</h2>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.animation import FuncAnimation
+
+series = azl.TemporalSeries(
+    [2000, 2010, 2020],
+    [[[1, 2], [3, 4]], [[4, 8], [12, 16]], [[9, 18], [27, 36]]],
+    unit=&quot;year&quot;, name=&quot;Synthetic population index&quot;,
+)
+fig, ax = azl.subplots()
+image = ax.imshow(series[0].data, extent=(-54, -42, -28, -16), origin=&quot;lower&quot;)
+ax.set_extent((-54, -42, -28, -16))
+fig.colorbar(image, ax=ax, label=&quot;Population index&quot;)
+binding = series.bind(image, scale=&quot;global&quot;)
+ani = FuncAnimation(fig, lambda i: binding.apply(i), len(series), interval=400)
+# Keep ani alive; start the native event loop when desired:
+# azl.show()
+</code></pre>
+<p><code>import azimlib.pyplot as plt</code> provides the same plotting state. Import animation
+from <code>azimlib.animation</code>, or use <code>azl.animation</code>. <code>frames</code> accepts a positive
+count, bounded sequence/NumPy array or TemporalSeries. With TemporalSeries the
+callback receives an immutable Frame with <code>time</code> and <code>data</code>; with a count it
+receives indices. Generators and infinite sources are rejected, not silently
+cached forever. Frame payloads contain immutable nested numeric/text/date/array
+or string-keyed mapping values; no arbitrary mutable application objects.</p>
+<p>Numeric times require an explicit nonempty unit. They are not implicitly converted
+or assumed to be longitude; dates/datetimes normalize to UTC (naive dates assume
+UTC). Times must be strictly increasing, unique and finite. <code>series.at(time, method=&quot;exact&quot;|&quot;nearest&quot;|&quot;previous&quot;|&quot;next&quot;)</code> and <code>index_at</code> select a frame.
+Nearest clamps outside the series and chooses the earlier frame on a tie;
+previous/next raise outside their respective available bounds. No implicit time
+interpolation is performed. Playback cadence is <code>interval</code> in milliseconds,
+independent of gaps between source dates.</p>
+<h2 id="update-existing-artists-and-color-policies">Update existing Artists and color policies</h2>
+<p><code>series.bind(artist, scale=&quot;global&quot;|&quot;frame&quot;, norm=None)</code> prepares <strong>every</strong> frame
+before altering an Artist. Supported targets: scalar imshow with fixed shape,
+pcolormesh, scatter colors with fixed point count, existing choropleth features,
+and experimental SurfaceArtist scalar colors with fixed mesh topology. <code>apply(i)</code>
+edits scalar values/norm; boundaries, IDs, point positions, camera, limits,
+visibility and existing components remain owned by the same Artists. Moving
+points, proportional sizes, text, routes or geometry can instead be edited in
+a reproducible custom callback through their existing setters.</p>
+<ul>
+<li>Global: one norm across all frames; without an explicit norm, infer limits
+across all finite scalar values in the series. An explicit complete norm
+preserves its supplied limits/classes. Same values retain the same colors.</li>
+<li>Frame: infer a separate norm for each nonempty frame. Identical colors may
+represent different magnitudes across frames; make this clear in titles/labels.</li>
+<li>BoundaryNorm retains its explicit class boundaries for both policies. Linked
+colorbars and thematic legends follow existing ScalarMappable callbacks.</li>
+<li>Missing/nonfinite values use the current colormap's bad color. A wholly missing
+frame uses the global norm, not invented local limits. An entirely missing
+series cannot infer automatic limits and is rejected.</li>
+<li>Editing a bound scalar image's shape externally invalidates the binding.
+Removing the Artist prevents further updates. Limits in prepared norms are
+snapshots; change/create the binding when intentionally changing the policy.</li>
+</ul>
+<p>General callback code can update arbitrary state and cannot be rolled back by
+Azimlib. Use callbacks that reproduce any requested frame, without accumulating
+new layers or irreversible external side effects. A failed callback pauses
+playback; its partial application changes remain the callback's responsibility.</p>
+<h2 id="playback-and-optional-controls">Playback and optional controls</h2>
+<p><code>ani.seek(index)</code>, <code>step()</code>, <code>pause()</code>, <code>resume()</code>, <code>set_interval(milliseconds)</code>
+and <code>close()</code> are explicit. Home/Back/Forward continue to control the map/camera,
+not the time index. Native Tk/Qt auto-play starts on the first native draw;
+<code>autoplay=False</code> disables this. <code>repeat=False</code> stops after the last frame.</p>
+<pre><code class="language-python">slider_ax = fig.add_axes((0.2, 0.02, 0.5, 0.05))
+play_ax = fig.add_axes((0.75, 0.02, 0.15, 0.05))
+controls = ani.add_controls(slider_ax, play_ax, label=&quot;Frame&quot;)
+</code></pre>
+<p>Controls require distinct empty axes and are optional. Seeking with the slider
+pauses playback. Keep room for map ticks/labels. Controls are independently
+visible/editable through <code>controls.slider</code> and <code>controls.play</code>; disconnect with
+<code>controls.close()</code>. An animation close disconnects its controls/subscriptions.
+Figure close stops native timers and removes scheduled callbacks. An explicit
+external event_source follows start/stop/add_callback/remove_callback/interval;
+it is stopped/detached but not destroyed by animation close.</p>
+<p><code>fig.canvas.new_timer(interval=200)</code> returns an owned timer. Callbacks run on the
+native GUI thread via Tk after or Qt QTimer; no worker thread changes Artists.
+No hard real-time frame rate, blitting, GPU or dropped-frame catch-up is promised.
+Slow drawing stretches playback. Notebook, static HTML and headless Figures
+support manual seek/step/exports, not an implicit background event loop. Browser-
+live remains useful for Python-side manual updates; automatic timers in this cut
+require Tk or Qt. Linux/macOS native GUI validation remains checklist <strong>7.08</strong>.</p>
+<h2 id="frames-gif-and-an-explicit-video-encoder">Frames, GIF and an explicit video encoder</h2>
+<pre><code class="language-python">ani.save_frames(&quot;outputs/frames&quot;)        # new directory, frame-00000.png ...
+ani.save(&quot;outputs/map.gif&quot;, fps=4)       # optional Pillow encoder
+# Optional, separately installed encoder, never auto-downloaded:
+# ani.save(&quot;outputs/map.mp4&quot;, writer=azl.animation.FFMpegWriter(), fps=4)
+</code></pre>
+<p>Exports use the full own scene, no toolbar or pan-preview simplification. Files
+are atomically replaced only after successful encoding; directory exports require
+a new target and commit the complete sequence. On success or failure the selected
+frame is reapplied, and prior playback resumes if possible. Arbitrary callback
+side effects outside the reproducible frame cannot be restored. Exceptions do
+not overwrite existing final files; encoder.abort cleans up owned processes.</p>
+<p>GIF is RGB/palette output; antialiasing/color quantization differ from PNG. Its
+frame delays are multiples of 10 ms; identical consecutive images may coalesce
+while preserving their total duration. The default GIF loops; GUI repeat and GIF
+loop metadata are separate contracts in this initial writer. Budgets: 1..10000
+playback frames; 2 million bound scalar values; 8 million output pixels per frame;
+GIF at most 1000 frames/100 million total pixels. PNG core export requires Pillow.</p>
+<p>A custom FrameWriter implements <code>setup(path, width, height, fps, count)</code>,
+<code>write_frame(Pillow_image)</code>, <code>finish()</code>, <code>abort()</code>. It must consume/copy the image
+synchronously; Azimlib closes it after each call. FFMpegWriter uses a fixed
+argument list, raw RGBA stdin, no shell, libx264 MP4, even dimensions, and bounded
+finish/cleanup waits. It checks executable availability; no actual installed
+video codec/build is validated by this batch. Encoder/codecs keep their own
+licenses and possible patent obligations; see <a href="../THIRD_PARTY_LICENSES.html">third-party notices</a>.</p>
+<h2 id="regional-and-multipage-atlas">Regional and multipage atlas</h2>
+<pre><code class="language-python">regions = [
+    azl.Region(&quot;Southeast&quot;, (-54, -40, -26, -14)),
+    azl.Region(&quot;North&quot;, (-74, -45, -13, 6)),
+]
+def draw(ax, region):
+    ax.map(&quot;brazil&quot;, facecolor=&quot;white&quot;, edgecolor=&quot;black&quot;, linewidth=0.5)
+    ax.set_title(region.name)
+
+atlas = azl.Atlas.from_regions(regions, draw, style=&quot;default&quot;)
+atlas.savefig(&quot;outputs/atlas.pdf&quot;)
+atlas.save_pages(&quot;outputs/atlas-svg&quot;, format=&quot;svg&quot;)
+</code></pre>
+<p>Region extent is west,east,south,north; cylindrical crossings are supported.
+A common projection/style/size is used for all pages and the region limits are
+reapplied after the draw callback. No implicit basemap, grid or decorations are
+added. The Figures remain editable; <code>Atlas([fig1, fig2], labels=...)</code> also accepts
+existing compositions, including multiple maps and mixed 2D/3D on each page.
+PNG/SVG/PDF sequences and own multipage PDF are supported; no PDF merger is used.</p>
+<pre><code class="language-python">from azimlib.backends.backend_pdf import PdfPages
+with PdfPages(&quot;outputs/pages.pdf&quot;) as pdf:
+    pdf.savefig(fig)
+    # Edit the figure and capture a second page:
+    ani.seek(1)
+    pdf.savefig(fig)
+</code></pre>
+<p>PdfPages captures each page's own PDF objects at savefig time, preserving image
+streams/vector text outlines/physical page size/material and DejaVu notices.
+The final writer rebases only its own object dictionaries; binary streams are
+unchanged. It does not parse/import arbitrary third-party PDF files. Context
+failure leaves a previous target unchanged. Empty PdfPages writes nothing.
+Budgets: 256 pages and 64 MB of captured PDF objects. Font outlines are not
+searchable text, as in the existing single-page writer.</p>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/temporal_atlas.py">Reproducible climate/population/region example</a>,
+<a href="_static/temporal/README.html">gallery</a> and <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_temporal.py">contracts</a>.
+Only synthetic temporal fields are bundled; optional geographic data/font terms
+remain applicable. Historical stage proofs retain their original hashes; the
+current installed runtime is checked by <code>audit_temporal.py</code>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/temporal.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

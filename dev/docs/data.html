@@ -1,0 +1,111 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dados geográficos incluídos · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="dados-geográficos-incluídos">Dados geográficos incluídos</h1>
+<p>Azimlib distribui um pequeno catálogo <strong>offline</strong> de dados reais do
+<a href="https://www.naturalearthdata.com/">Natural Earth</a>. A biblioteca não baixa dados
+durante importação, renderização ou exportação.</p>
+<table>
+<thead>
+<tr>
+<th>Camada</th>
+<th>Cobertura</th>
+<th>Escala de origem</th>
+<th style="text-align:right">Feições</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>countries</code></td>
+<td>Mundo</td>
+<td>1:110.000.000</td>
+<td style="text-align:right">177</td>
+</tr>
+<tr>
+<td><code>brazil</code></td>
+<td>Brasil, contorno nacional detalhado</td>
+<td>1:10.000.000</td>
+<td style="text-align:right">1</td>
+</tr>
+<tr>
+<td><code>states</code></td>
+<td>26 estados do Brasil e Distrito Federal</td>
+<td>1:10.000.000</td>
+<td style="text-align:right">27</td>
+</tr>
+<tr>
+<td><code>rivers</code></td>
+<td>Principais rios e eixos de lagos, mundo</td>
+<td>1:50.000.000</td>
+<td style="text-align:right">461</td>
+</tr>
+<tr>
+<td><code>lakes</code></td>
+<td>Principais lagos, mundo</td>
+<td>1:50.000.000</td>
+<td style="text-align:right">412</td>
+</tr>
+<tr>
+<td><code>coastlines</code></td>
+<td>Costas, mundo</td>
+<td>1:50.000.000</td>
+<td style="text-align:right">1.428</td>
+</tr>
+</tbody>
+</table>
+<p>Os seis arquivos comprimidos ocupam aproximadamente 1,3 MB. Seus vértices
+originais são preservados e arredondados para cinco casas decimais em graus;
+o arredondamento não aumenta a precisão cartográfica dos dados de origem.
+As propriedades selecionadas usam nomes em minúsculas. Todos os dados usam
+longitude e latitude WGS 84, nesta ordem, em graus.
+Uma feição vazia de rio (Loire, sem coordenadas no arquivo de origem) foi
+omitida; o manifesto registra a quantidade de geometrias vazias excluídas.</p>
+<pre><code class="language-python">from azimlib import datasets
+
+brasil = datasets.country(&quot;Brasil&quot;)   # também &quot;brazil&quot;, &quot;BR&quot;, &quot;BRA&quot;
+franca = datasets.country(&quot;France&quot;)   # nomes em inglês/português e códigos ISO
+estados = datasets.load(&quot;states&quot;)
+rios = datasets.load(&quot;rivers&quot;, country=&quot;BR&quot;)
+fontes = datasets.provenance()
+catalogo = datasets.catalog()
+</code></pre>
+<p>Cada chamada retorna um dicionário GeoJSON independente. Alterá-lo não muda os
+próximos carregamentos. <code>country(&quot;world&quot;)</code> fornece os países a 1:110 milhões;
+<code>country(&quot;Brazil&quot;)</code> usa o contorno brasileiro a 1:10 milhões. Por isso, um mapa
+mundial e um mapa detalhado do Brasil têm níveis de generalização diferentes.</p>
+<p>O filtro <code>country</code> de rios, lagos e costas é uma <strong>seleção por retângulo
+envolvente</strong>, sem recortar as geometrias na fronteira política. Uma feição que
+cruza esse retângulo pode continuar para outro país. A janela do mapa faz seu
+próprio recorte visual. Países com territórios distantes ou que atravessam o
+antimeridiano podem selecionar áreas muito amplas.</p>
+<h2 id="limites-de-uso-e-interpretação">Limites de uso e interpretação</h2>
+<p>Estes dados são generalizados para cartografia em escalas pequenas. Não servem
+para navegação, cadastro, limites legais ou análise de precisão. O catálogo não
+é um inventário completo de rios, lagos, ilhas ou territórios. Municípios,
+estradas, altimetria e divisões administrativas de outros países ainda precisam
+ser fornecidos pelo usuário em GeoJSON. Solicitar estados de outro país produz
+um erro explícito, sem inventar dados nem retornar estados brasileiros.</p>
+<p>As feições seguem as decisões cartográficas do Natural Earth, inclusive seu
+<a href="https://www.naturalearthdata.com/about/">tratamento de fronteiras disputadas</a>.
+Dados populacionais de países conservam o campo <code>pop_year</code>; não representam
+necessariamente a população atual. Não há classificação de navegabilidade de
+rios neste catálogo: espessuras e estilos atribuídos em exemplos são escolhas
+visuais e não certificam trechos navegáveis.</p>
+<h2 id="licença-e-reprodução">Licença e reprodução</h2>
+<p>O Natural Earth declara seus dados vetoriais e raster em domínio público e
+permite redistribuição e modificação. Veja os
+<a href="https://www.naturalearthdata.com/about/terms-of-use/">termos oficiais</a>.
+A atribuição sugerida é “Made with Natural Earth.” Os dados não têm a licença
+de software da biblioteca; sua condição de domínio público é independente.</p>
+<p>O arquivo <code>src/azimlib/data/manifest.json</code> registra os URLs imutáveis,
+o commit <code>ca96624a56bd078437bca8184e78163e5039ad19</code> do repositório de origem,
+hashes SHA-256 dos downloads e dos arquivos distribuídos, cobertura, escala e
+processamento aplicado. Não existe simplificação por uma biblioteca geoespacial
+nem geração de polígonos fictícios.</p>
+<p>Para reconstruir os dados, execute na raiz do projeto:</p>
+<pre><code class="language-console">python tools/fetch_data.py --cache ../../work/natural-earth
+</code></pre>
+<p>Esse comando de manutenção requer internet e usa apenas a biblioteca padrão de
+Python. Downloads intermediários ficam no diretório <code>--cache</code>. A reconstrução
+usa versão fixa, retém todos os vértices, normaliza propriedades, filtra o Brasil
+nas duas camadas detalhadas e produz gzip com timestamp zero. A sequência
+comprimida pode variar entre versões de zlib; o manifesto registra o resultado
+efetivamente produzido.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/data.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

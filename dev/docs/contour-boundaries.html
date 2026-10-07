@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Limites dos contornos: checklist 1.09 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="limites-dos-contornos-checklist-109">Limites dos contornos: checklist 1.09</h1>
+<p>O algoritmo continua próprio: marching squares sobre grid retangular crescente,
+interpolação nas arestas, decider bilinear para saddles e união de segmentos.
+Esta revisão fecha o subpasso <strong>1.09</strong> no conjunto existente; não acrescenta
+contourf, corner_mask, grades irregulares ou um backend externo.</p>
+<h2 id="correção-entregue">Correção entregue</h2>
+<p>Um campo constante com níveis automáticos produzia valores repetidos e era
+rejeitado. Agora cria um ContourSet vazio e editável, com um nível igual ao
+valor constante. <code>allsegs</code> retorna <code>[[]]</code>, clabel retorna lista vazia e o handle
+permanece ligado aos eixos; cor/largura/visibilidade/remoção e colorbar continuam
+funcionais. O Matplotlib/Agg instalado também aceita campo constante, sem
+linhas/rótulos, mas escolhe vários níveis muito próximos pelo seu locator.
+Não copiamos aqueles pequenos intervalos numéricos: o locator automático da
+Azimlib continua usando sua política documentada de espaçamento uniforme.</p>
+<p>Quando o intervalo possui poucos floats representáveis, níveis automáticos
+arredondados iguais são deduplicados. Quando o cálculo do intervalo/intermediário
+transborda, é usada uma combinação convexa finita. O caso usual conserva a
+aritmética e os níveis anteriores; isso não garante toda a geometria/normalização
+de campos com magnitude extrema. Níveis explícitos não são deduplicados: precisam
+continuar finitos, não vazios e estritamente crescentes.</p>
+<h2 id="regras-auditadas-e-diferenças-explícitas">Regras auditadas e diferenças explícitas</h2>
+<table>
+<thead>
+<tr>
+<th>Situação</th>
+<th>Azimlib</th>
+<th>Referência instalada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Campo constante + níveis automáticos</td>
+<td>Handle vazio editável, um nível; colorbar desenha</td>
+<td>Handle vazio editável, níveis escolhidos por locator; colorbar desenha</td>
+</tr>
+<tr>
+<td>Níveis fora do intervalo do campo</td>
+<td>Grupos vazios, sem labels; estilos/mapping continuam editáveis</td>
+<td>Mesmo contrato vazio nos casos registrados</td>
+</tr>
+<tr>
+<td>Níveis repetidos/não finitos</td>
+<td>Rejeição antes de anexar camada ou alterar vista</td>
+<td>Rejeitados nos casos registrados</td>
+</tr>
+<tr>
+<td>Lista explícita vazia</td>
+<td>ValueError</td>
+<td>Aceita ContourSet sem níveis; a colorbar do caso registrado falha com IndexError</td>
+</tr>
+<tr>
+<td>Campo inteiro ausente</td>
+<td>ValueError antes de anexar camada</td>
+<td>Aceita ContourSet vazio com níveis explícitos</td>
+</tr>
+<tr>
+<td>None/NaN/inf em célula</td>
+<td>Exclui as células com qualquer canto ausente, sem cruzar a lacuna</td>
+<td>Comparação feita com corner_mask=False; default do Matplotlib usa outro tratamento de cantos</td>
+</tr>
+<tr>
+<td>Saddle bilinear</td>
+<td>Determinante escolhe conectividade; empate exato usa pares (0,1)/(2,3) de arestas</td>
+<td>Não prometemos mesma conectividade em empates degenerados</td>
+</tr>
+</tbody>
+</table>
+<p>As posições dos paths são unidas por coordenadas arredondadas a 12 casas;
+limites de precisão/topologia extremamente pequenos continuam documentados.
+clabel possui solver próprio e recorta somente sua linha conectada quando o
+rótulo foi posicionado/está visível. Não recria curvas de nível por set_array:
+esse setter edita valores de cor, conforme <a href="lines-contours.html">o contrato</a>.</p>
+<h2 id="verificação-reproduzível">Verificação reproduzível</h2>
+<ul>
+<li><a href="contour-boundaries-reference.json">Referência</a>: dez casos produzidos pelo
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/inspect_contour_boundaries.py">tool</a> com Matplotlib 3.11.2/Agg instalado;
+aceita/rejeita, níveis, paths vazios, labels e possibilidade de desenhar colorbar.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_contour_boundaries.py">Regressões</a>: campos constantes, floats
+adjacentes/transbordamento, rejeição sem alterações, lacunas sem pontes,
+decider e norma compartilhada com scatter/colorbar.</li>
+<li>Integração em 100/200 DPI e colorbars vertical/horizontal: edição de cor/traço,
+atualização dos halos/cores dos labels, preservação de paths/vista manual,
+exportação PNG/SVG e remoção sem callbacks em figura antiga.</li>
+</ul>
+<p>O teste utiliza os registros, sem importar Matplotlib em runtime. Esta entrega
+não mede pintura de janela visível ou input físico e não fecha os demais aceites
+da 0.2.0. A integração <strong>1.10</strong> e o aceite <strong>1.12</strong> foram posteriormente
+encerrados no <a href="artist-acceptance.html">passo 1</a>; próximo item da lista: <strong>2.08</strong>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/contour-boundaries.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

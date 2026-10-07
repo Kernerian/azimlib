@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Terreno 3D experimental — 0.3.0 em desenvolvimento · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="terreno-3d-experimental-030-em-desenvolvimento">Terreno 3D experimental — 0.3.0 em desenvolvimento</h1>
+<p>Disponível no branch de desenvolvimento, <strong>não no pacote publicado 0.2.0</strong>.
+Câmera, matrizes, clipping homogêneo, triangulação, iluminação e depth buffer
+são implementados pela Azimlib. NumPy acelera nossas equações; Pillow codifica
+imagens e compõe pixels. Nenhum backend de Matplotlib/GIS/3D é utilizado.</p>
+<h2 id="superfície-em-coordenadas-físicas">Superfície em coordenadas físicas</h2>
+<pre><code class="language-python">import azimlib.pyplot as plt  # import azimlib as azl também funciona
+
+fig, ax = plt.subplots(subplot_kw={'projection': '3d'})
+surface = ax.plot_surface(
+    [0, 100, 200], [0, 100, 200],
+    [[0, 20, 0], [20, 80, 20], [0, 20, 0]],
+    horizontal_unit='m', vertical_unit='m', cmap='terrain', shade=True,
+)
+ax.set_xlabel('Leste (m)')
+ax.set_ylabel('Norte (m)')
+ax.set_zlabel('Elevação (m)')
+ax.set_title('Relevo sintético')
+ax.set_vertical_exaggeration(2)
+ax.view_init(elev=35, azim=-60, roll=0)
+fig.colorbar(surface, label='Elevação física (m)')
+fig.savefig('terrain.png')
+plt.show()
+</code></pre>
+<p>X/Y podem ser vetores de colunas/linhas ou matrizes da mesma forma de Z. Unidades
+aceitas: <code>m</code>, <code>km</code>, <code>ft</code> e <code>geodesy.Unit</code> de comprimento. Alturas físicas ficam
+em metros, independentemente do exagero vertical. Limites <code>set_xlim</code>, <code>set_ylim</code>
+e <code>set_zlim</code> são físicos e crescentes; <strong>não longitude/latitude</strong>. Exagero atua
+somente na transformação de exibição, sem alterar geometria, alturas ou colorbar.</p>
+<p><code>None</code>, NaN e valores mascarados de Z retiram as células adjacentes; não são
+preenchidos com terreno inventado. Células degeneradas, formas incompatíveis,
+malha vazia e valores não finitos de X/Y são rejeitados. Triângulos têm normais
+orientadas para cima, inclusive com linhas Y decrescentes.</p>
+<h2 id="dem-geográfico-e-referencial-local">DEM geográfico e referencial local</h2>
+<pre><code class="language-python">from azimlib.raster import GeoRaster
+
+dem = GeoRaster([[100, 110], [115, 130]],
+                (.001, 0, -46, 0, -.001, -23), crs='EPSG:4326')
+surface = ax.terrain(dem, origin=(-46, -23), elevation_unit='m',
+                     elevation_reference='referência declarada pelo DEM')
+</code></pre>
+<p>Os centros dos pixels são transformados pelo CRS próprio para EPSG:4326 e para
+Leste/Norte de um plano tangente local WGS84 na origem explícita. Affines com
+rotação/cisalhamento são aceitas; transformação de CRS limita-se aos sistemas
+que nosso núcleo já suporta. <strong>Z continua sendo a altura fornecida</strong>, sem
+conversão silenciosa entre geóide, elipsóide ou datum vertical. A descrição de
+<code>elevation_reference</code> é metadado do Artist, não uma transformação nem um aviso
+de licença. A região deve estar até 250 km da origem. Não é um globo 3D; o
+globo ortográfico 2D existente permanece separado.</p>
+<p>Uma axes usa uma única <code>LocalFrame</code>; mudar a origem exige outra axes. Os limites
+referem-se aos vértices utilizados da malha. A superfície amostra os centros dos
+pixels, não reconstrói a cobertura das bordas; não há resampling implícito.</p>
+<h2 id="construções-extrudadas">Construções extrudadas</h2>
+<p><code>ax.buildings(data, height='height', base='base', coordinates='geographic')</code>
+usa plantas GeoJSON EPSG:4326 no mesmo referencial local do DEM. Height/base
+podem ser números, propriedades ou funções de Feature; a unidade é <code>unit='m'</code>.
+Base é a altitude física da base; height é a altura positiva acima dela. Não
+estimamos automaticamente pavimentos, datum, base no terreno ou altura OSM.</p>
+<p><code>coordinates='world'</code> aceita um mapping tipo FeatureCollection com XY físicos;
+ele não passa pelo parser angular de GeoJSON. Plantas simples, inclusive côncavas,
+recebem teto, piso e paredes triangulados. IDs ficam em <code>artist.feature_ids</code>.
+Holes, MultiPolygon, auto-interseções, vértices repetidos e plantas maiores que
+256 vértices são rejeitados neste corte. Um lote inválido não é anexado parcialmente.
+Não há picking 3D por construção, texturas ou reconstrução de cidades realista.</p>
+<h2 id="artists-câmera-e-interação">Artists, câmera e interação</h2>
+<ul>
+<li><code>surface.set_visible(False)</code> e <code>remove()</code> usam o ciclo de vida da figura.</li>
+<li><code>set_cmap</code>, <code>set_norm</code>, <code>set_clim</code> atualizam a colorbar pelo ScalarMappable.
+<code>set_array</code> recebe um valor por vértice e altera os escalares de cor, mantendo
+a elevação física; valores ausentes ocultam faces. A cor da face é a média dos
+seus três escalares. A colorbar mostra os valores anteriores à iluminação.</li>
+<li><code>set_color</code> fixa uma cor; <code>set_shade(False)</code> desliga iluminação Lambert plana.
+O vetor de luz é expresso no mundo físico. Sem interpolação de normais/cores.</li>
+<li><code>view_init(elev, azim, roll)</code>, <code>set_proj_type('ortho'/'persp', fov=35)</code> e
+<code>set_camera(terrain3d.Camera(...))</code> alteram a câmera própria. Zoom é magnificação,
+não caminhada pela cena. Eixos/ticks são decorações de tela, não geometria oclusora.</li>
+<li>Tk e Qt: Pan com botão esquerdo orbita; Pan com direito ou a ferramenta Zoom
+varia magnificação por arrasto vertical; roda aproxima/afasta. Zoom 3D não é a
+seleção retangular geográfica. Home/Voltar/Avançar restauram a câmera; não
+desfazem edições de dados, limites físicos ou exagero. Soltar/perder o botão
+encerra o gesto. Cursor não inventa lon/lat/XYZ a partir de uma imagem 3D.</li>
+<li><code>browser-live</code> usa o controlador Python; HTML offline tem <strong>snapshot estático
+do terreno</strong>, sem órbita. Mapas 2D na mesma figura mantêm navegação geográfica.
+Notebook recebe o SVG com terreno embutido, sem widget 3D independente.</li>
+</ul>
+<p>Frame, títulos, nomes dos eixos, colorbar e <code>grid(True/False)</code> são opcionais.
+Grid não aparece por padrão. Formas 2D, annotations, legendas cartográficas,
+escala, norte, rosa dos ventos e inset maps <strong>não são adaptados automaticamente
+para 3D</strong>; use-os nas axes 2D ao lado. Não existe compatibilidade integral com
+<code>mplot3d</code>, sharex/sharey 3D, escalas log 3D, eixos invertidos ou texto geográfico 3D.
+API experimental: somente os métodos acima fazem parte deste contrato.</p>
+<h2 id="exportação-e-limites-verificáveis">Exportação e limites verificáveis</h2>
+<p><code>savefig()</code> mantém figuras estáticas sem toolbar. PNG usa triângulos com clipping
+nas seis faces homogêneas e depth buffer próprio. SVG embute PNG do terreno e
+preserva os textos/eixos vetoriais; precisa de <code>azimlib[png]</code> para codificação.
+PDF incorpora RGB comprimido e soft mask do terreno; eixos e contornos de texto
+continuam vetoriais. Não prometemos terreno SVG/PDF vetorial, texto PDF pesquisável,
+transparência de superfícies sobrepostas ou exportação de um modelo 3D.</p>
+<p>Somente faces opacas ou inteiramente ocultas: alpha parcial é rejeitado. Empate
+de profundidade em 1e-7 mantém a primeira face. Pixels são amostrados no centro;
+PNG compõe em supersampling próprio, SVG/PDF usam a resolução da cena. Bordas
+podem diferir pelo antialiasing; conteúdo geométrico, máscara e orientação são iguais.</p>
+<p>Limites por axes: 50 mil vértices por malha e 20 mil triângulos no total; por
+rasterização: 8 milhões de pixels e 64 milhões de testes de bbox. PNG conta os
+pixels de supersampling (3× em cada dimensão); DPI alto pode exceder o budget.
+São limites de CPU/memória, não precisão GIS nem garantia de FPS. Não há LOD
+automático, GPU, volume/nebula, tiling de terreno ou memória nativa/RSS auditada.</p>
+<p>Veja <a href="_static/terrain3d/README.html">galeria reproduzível</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_terrain3d.py">contratos numéricos e de integração</a>,
+<a href="terrain3d-benchmark-0.3.json">benchmark</a> e <a href="release-progress-0.3.html">checklist</a>.
+Os resultados da etapa 7 permanecem snapshots do runtime anterior; não são
+reescritos para fingir validação do runtime 3D. A <strong>7.08 continua pendente</strong>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/terrain3d.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

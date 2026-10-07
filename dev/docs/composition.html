@@ -1,0 +1,99 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Legendas, colorbars e vários mapas · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="legendas-colorbars-e-vários-mapas">Legendas, colorbars e vários mapas</h1>
+<p>Os componentes são desenhados pelo núcleo próprio, em PNG, SVG e na janela Tk.
+Matplotlib é usado somente pelas ferramentas de comparação de desenvolvimento.
+Execute <code>python examples/composition.py</code> para reproduzir as três figuras.</p>
+<h2 id="legenda-em-várias-colunas">Legenda em várias colunas</h2>
+<pre><code class="language-python">legend = ax.legend(
+    [states, rivers, (route, cities)],
+    ['Estados', 'Rios', 'Rota e cidades'],
+    ncols=2, loc='upper center', bbox_to_anchor=(.5, -.08),
+    title='Camadas', columnspacing=2,
+)
+legend.get_texts()[0].set_text('Divisões estaduais')
+legend.get_title().set_color('navy')
+legend.get_frame().set_alpha(.8)
+legend.set_ncols(1)
+legend.set_visible(False)
+</code></pre>
+<p>As entradas preenchem a primeira coluna antes de passar à seguinte. Cinco
+entradas em duas colunas formam grupos de três e duas. <code>ncol</code> é aceito como
+alias; <code>ncols</code> prevalece se ambos forem fornecidos. Um handle composto,
+como <code>(route, cities)</code>, sobrepõe os símbolos em uma mesma amostra. Os estilos
+dos handles permanecem vivos após a criação da legenda.</p>
+<p><code>loc</code> aceita os nomes e códigos 0–10 do Matplotlib, ou uma posição <code>(x, y)</code>.
+O padrão é <code>best</code>, que escolhe entre dez posições considerando colisões com
+geometrias, pontos, textos, annotations, norte e escala. É uma heurística
+própria: não garante o mesmo resultado do Matplotlib em todas as cenas;
+campos raster, vetores e labels automáticos ainda não entram nesse cálculo.
+Use <code>loc</code> explícito para mapas densos ou para preservar uma composição fixa.</p>
+<p><code>bbox_to_anchor=(x, y)</code> define uma referência; <code>(x, y, width, height)</code> define
+uma caixa. As frações usam os eixos do mapa, com origem inferior esquerda.
+<code>bbox_transform='figure'</code> usa a figura inteira; esta opção é uma conveniência
+Azimlib, não um objeto de transformação Matplotlib. <code>mode='expand'</code> distribui
+as colunas na largura da caixa, sem comprimir o conteúdo abaixo da sua largura
+mínima. Uma legenda fora dos eixos pode reservar espaço com os engines
+<code>tight</code>/<code>constrained</code> próprios; veja <a href="layout.html">layout</a>. Sem engine automático,
+reserve espaço com <code>fig.subplots_adjust(...)</code>.</p>
+<p>O título é opcional. <code>ax.legend()</code> não adiciona a palavra “Legenda”.
+<code>get_texts()</code> e <code>get_title()</code> retornam textos editáveis; <code>get_frame()</code> retorna
+uma fachada editável. <code>set_visible()</code> e <code>remove()</code> afetam a legenda inteira.</p>
+<h2 id="colorbar-compartilhada">Colorbar compartilhada</h2>
+<pre><code class="language-python">import azimlib.pyplot as plt
+from azimlib import datasets
+from azimlib.colors import Normalize
+
+data = datasets.load('states', country='brazil')
+values = list(range(len(data['features'])))
+norm = Normalize(0, len(values) - 1)
+fig, axs = plt.subplots(2, 2, figsize=(9, 8))
+layers = []
+for ax in axs.flat:
+    layers.append(ax.choropleth(data, values, bins=None,
+                               norm=norm, cmap='viridis'))
+bar = fig.colorbar(layers[0], ax=axs, orientation='horizontal')
+bar.set_label('Indicador')
+bar.set_ticks([0, 10, 20])
+fig.savefig('atlas.png')
+</code></pre>
+<p><code>ax</code> pode ser um mapa, uma sequência ou o grid retornado por <code>subplots</code>.
+A barra automática reserva espaço no retângulo que envolve todos os pais;
+as proporções e os espaços relativos do grid são preservados. Os mapas
+continuam usando aspecto cartográfico isotrópico, portanto podem ocupar uma
+área menor que o espaço reservado. A composição é recalculada a cada desenho.
+Ocultar ou remover a barra devolve o espaço aos mapas sem alterar suas
+posições configuradas. É possível adicionar mais de uma barra compartilhada;
+cada uma reserva seu espaço em ordem de criação.</p>
+<p>Compartilhar <code>Normalize</code> explicitamente faz a alteração de limites em uma
+camada afetar todas as que usam esse objeto. A barra representa <strong>um</strong> mappable:
+alterar sua paleta não altera automaticamente a paleta de outras camadas.
+Mantenha a mesma <code>norm</code> e a mesma <code>cmap</code> em todos os mapas comparáveis.</p>
+<h2 id="eixos-explícitos-cax">Eixos explícitos — cax</h2>
+<pre><code class="language-python">cax = fig.add_axes((.88, .18, .025, .60))
+bar = fig.colorbar(layers[0], ax=axs, cax=cax)
+assert bar.ax is cax
+cax.set_yticks([0, 10, 20], labels=['Baixo', 'Médio', 'Alto'])
+cax.tick_params(labelsize=9, colors='black')
+cax.set_ylabel('Indicador', fontsize=10)
+</code></pre>
+<p>Com <code>cax</code>, o retângulo fornecido determina a posição e o tamanho: os pais não
+perdem espaço e <code>fraction</code>, <code>shrink</code>, <code>aspect</code> e <code>pad</code> não dimensionam a barra.
+Use <code>orientation='horizontal'</code>, ticks X e <code>set_xlabel</code> para uma barra horizontal.
+O <code>cax</code> deve pertencer à figura e não conter camadas, insets ou outra colorbar.
+Ele passa a representar a barra e sai da navegação geográfica; <code>bar.remove()</code>
+também remove esse eixo da figura. Remoção repetida é segura.</p>
+<p>Sem <code>cax</code>, <code>bar.ax</code> oferece uma fachada de ticks, rótulo e visibilidade; não
+é um MapAxes completo. Locators/formatters como objetos já estão disponíveis
+no <a href="ticks.html">guia de ticks</a>; ainda faltam handlers de legenda customizados,
+transformações arbitrárias e grids aninhados. GridSpec raiz com spans já funciona;
+veja <a href="gridspec.html">composição com spans</a>.
+No HTML exportado, os componentes são fixos; edições Python exigem exportar
+novamente. O backend Tk usa os objetos Python vivos.</p>
+<h2 id="verificação-da-referência">Verificação da referência</h2>
+<p><code>tools/inspect_composition.py</code> usa Matplotlib/Agg no ambiente de referência e
+registra <code>composition-reference.json</code>: ordem das colunas, escolha de <code>best</code>
+em uma cena controlada, alocação de barras compartilhadas vertical/horizontal
+e retângulo de <code>cax</code>. Os testes normais não exigem Matplotlib instalado.</p>
+<p>Regras consultadas na documentação oficial:
+<a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.legend.html">Axes.legend</a>
+e <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.figure.Figure.colorbar.html">Figure.colorbar</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/composition.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,93 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visibilidade, substituição e ciclo de vida de componentes · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="visibilidade-substituição-e-ciclo-de-vida-de-componentes">Visibilidade, substituição e ciclo de vida de componentes</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>O protocolo próprio de Artist continua preservando handles editáveis, stale,
+callbacks e o caminho separado de exportação estática/viewer. Este lote corrige
+referências descartadas e o momento de registrar uma nova colorbar, sem usar
+Matplotlib no runtime.</p>
+<h2 id="ocultar-um-componente-ou-seu-texto">Ocultar um componente ou seu texto</h2>
+<pre><code class="language-python">legend = ax.legend(title='Camadas')
+legend.set_visible(False)                 # Oculta a legenda inteira.
+legend.set_visible(True)
+legend.get_title().set_visible(False)     # Oculta somente o título.
+legend.get_texts()[0].set_visible(False)   # Oculta o texto, preservando o símbolo.
+
+bar = fig.colorbar(points, ax=ax, orientation='horizontal')
+bar.label_artist.set_visible(False)       # Oculta somente o rótulo da barra.
+</code></pre>
+<p>Títulos de legenda, textos de entradas, ticks e rótulos de colorbar são filhos
+estruturais. Seu <code>remove()</code> agora levanta <code>NotImplementedError</code> antes de alterar
+visibilidade/stale, em vez de falhar com IndexError ao tratar os textos da
+legenda como tuplas da Figure. Use <code>set_visible(False)</code>. Textos livres da
+Figure, títulos/rótulos de MapAxes e camadas com remoção implementada continuam
+removíveis. <code>set_visible(True)</code> não reinsere um Artist já retirado da composição.</p>
+<h2 id="substituir-e-limpar">Substituir e limpar</h2>
+<p>Escala, norte, rosa, overview e colorbar local têm slots independentes nos Axes.
+Uma nova instância válida do mesmo tipo substitui a anterior e desconecta seus
+handles. Um argumento inválido preserva a instância atual. Norte e rosa
+continuam coexistindo; não substituem um ao outro.</p>
+<pre><code class="language-python">previous = ax.scale_bar(length=200)
+scale = ax.scale_bar(length=100)
+assert previous.get_figure() is None
+
+old_bar = ax.colorbar(mapping)
+bar = ax.colorbar(mapping, orientation='horizontal')
+assert old_bar.get_figure() is None
+</code></pre>
+<p>Colorbars locais antigas desconectam o callback do mappable na substituição ou
+em <code>ax.clear()</code>. Colorbars compartilhadas e as de <code>cax</code> explícito são Artists
+da Figure e não são removidas ao limpar apenas um mapa; podem ser retiradas
+por <code>bar.remove()</code> ou <code>fig.clear()</code>. Alterar um mappable que ainda seja uma
+camada ativa continua invalidando seus Axes, mesmo se sua barra foi removida.</p>
+<p>A construção de uma colorbar não agenda desenho antes do registro. Em <code>ion()</code>,
+adicionar/substituir a barra local ou limpar os Axes solicita uma atualização
+com o estado final. Não há transação com rollback geral entre vários Artists.</p>
+<h2 id="rótulos-de-ticks-descartados">Rótulos de ticks descartados</h2>
+<p>Trocar ticks/locator/formatter descarta os textos explícitos correspondentes,
+desconectando owner/parent antigos; eixos compartilhados seguem a mesma regra
+ao sincronizar ou entrar no grupo. A substituição de norm de colorbar também
+descarta ticks maiores/menores antigos. Alterar apenas clim ou mudar orientação
+preserva os handles explícitos atuais.</p>
+<pre><code class="language-python">old = ax.set_xticks([-50], ['Antigo'])
+current = ax.set_xticks([-45], ['Atual'])
+assert old[0].get_figure() is None
+current[0].set_color('red')
+</code></pre>
+<p>Editar os handles descartados não invalida a Figure anterior. Consulte os
+handles retornados pelo setter atual; a reutilização completa de objetos Tick
+do Matplotlib não está implementada.</p>
+<h2 id="referência-direta-e-limites">Referência direta e limites</h2>
+<p><a href="component-lifecycle-reference.json">Registro local</a>: Matplotlib 3.11.2/Agg e
+Azimlib, nove contratos observados. Cinco coincidem: remoção não suportada de
+texto de entrada, visibilidade independente de entrada/título/frame, rótulo de
+colorbar ocultável, locator preservado ao mudar clim e reiniciado ao trocar norm.</p>
+<p>Quatro diferenças são explícitas: Matplotlib retém/reutiliza ticks antigos;
+sua barra ocupa outro Axes e sobrevive ao clear do mapa; remover uma legenda
+antiga limpa a referência à atual no caso registrado; editar o mappable de uma
+barra removida ainda marcou a Figure como stale nesse experimento. Azimlib
+desconecta ticks descartados, remove sua barra local com o mapa e preserva a
+legenda atual quando uma anterior é removida. O caso de mappable independente
+de barra removida permanece limpo. Esses resultados são do experimento, não
+uma afirmação sobre todos os backends ou versões da referência.</p>
+<p>Doze regressões adicionais/18 subtests verificam integração da Scene/SVG,
+visibilidade reversível, callbacks, eixos compartilhados, validação antes de
+substituir e desenho observando o registro completo. O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/smoke_component_lifecycle_tk.py">smoke Tk</a>
+confere sete cenários em janelas reais ocultas com edições programáticas;
+não mede input físico, pintura visível ou latência. O lote seguinte corrigiu
+o primeiro draw: callbacks e canvas são registrados antes dele, com recuperação
+de erro e fechamento reentrante. Veja <a href="sizing-composition.html">integração de composição</a>.</p>
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/component_lifecycle.py">exemplo</a> gera
+antes (<code>gallery/component-lifecycle-before.png</code>, generated locally) e
+depois (<code>gallery/component-lifecycle-after.png</code>, generated locally), com PNG/SVG estáticos e
+HTML separado. Todos os componentes são adicionados explicitamente.</p>
+<pre><code class="language-bash">python examples/component_lifecycle.py
+python tools/smoke_component_lifecycle_tk.py
+# Somente desenvolvimento, requer Matplotlib:
+python tools/inspect_component_lifecycle.py
+</code></pre>
+<p>Ainda faltam ampliar propriedades e casos de integração dos Artists existentes,
+conferir composição em outros tamanhos/DPI, input/aparência nativos e resultados
+reais de CI. Não se declara fechado o critério de Artists da <a href="release-0.2.html">0.2.0</a>.</p>
+<p>Múltiplos grupos/matrizes, ciclos e defaults de legenda em contextos foram
+consolidados no <a href="series-styles.html">lote de séries e estilos</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/component-lifecycle.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,120 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Estilos e recortes: Azimlib × Matplotlib/Agg · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="estilos-e-recortes-azimlib-matplotlibagg">Estilos e recortes: Azimlib × Matplotlib/Agg</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>Nove pares em 100/150/200 DPI comparam a mesma Scene própria, fontes e tamanhos
+físicos em dois rasterizadores. Matplotlib 3.11.2/Agg é usado somente na ferramenta
+de desenvolvimento; o pacote e seus renderizadores continuam independentes.</p>
+<ul>
+<li>Traços: 0,25/0,5/1,5 pt, cores, opacidade, padrões contínuos/tracejados/customizados,
+extremidades butt/round/square e junções miter/round/bevel.</li>
+<li>Recortes retangulares fracionários: traço fino, caps/tracejado, polígono com buraco,
+texto rotacionado com halo/fundo, marcadores e sobreposição com alpha.</li>
+<li>Hachuras: catálogo público com dez padrões básicos, repetição/composição e buracos.</li>
+</ul>
+<p>Inspeção visual dos painéis traços/100 DPI (<code>gallery/style-quality-strokes-100-comparison.png</code>, generated locally),
+recortes/100 DPI (<code>gallery/style-quality-clipping-100-comparison.png</code>, generated locally) e
+hachuras/200 DPI (<code>gallery/style-quality-hatches-200-comparison.png</code>, generated locally) não identificou
+defeito material adicional nestes exemplos. Persistem diferenças pequenas de
+suavização, hinting de fonte e cobertura dos traços; os pixels não são idênticos.
+Cada par também tem PNG separado, SVG próprio e imagem de diferença na galeria.</p>
+<h2 id="medições-descritivas">Medições descritivas</h2>
+<p>MAE é a diferença RGB absoluta média em escala 0–255. A média ocupada exclui
+somente o fundo branco comum; o percentual conta pixels cuja maior diferença
+de canal excede 16. Não são notas de qualidade nem limiares de aprovação.
+Os exemplos têm áreas e quantidades de tinta diferentes, portanto as linhas
+da tabela não devem ser usadas para classificar estilos ou escolher DPI.</p>
+<table>
+<thead>
+<tr>
+<th>Caso</th>
+<th style="text-align:right">DPI</th>
+<th style="text-align:right">MAE RGB</th>
+<th style="text-align:right">MAE ocupada</th>
+<th style="text-align:right">Pixels com diferença &gt;16</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Traços</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">3.587</td>
+<td style="text-align:right">4.902</td>
+<td style="text-align:right">3.33%</td>
+</tr>
+<tr>
+<td>Traços</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">3.774</td>
+<td style="text-align:right">5.206</td>
+<td style="text-align:right">3.21%</td>
+</tr>
+<tr>
+<td>Traços</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">1.843</td>
+<td style="text-align:right">2.561</td>
+<td style="text-align:right">1.96%</td>
+</tr>
+<tr>
+<td>Recortes</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">1.736</td>
+<td style="text-align:right">3.377</td>
+<td style="text-align:right">2.11%</td>
+</tr>
+<tr>
+<td>Recortes</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">2.201</td>
+<td style="text-align:right">4.294</td>
+<td style="text-align:right">2.08%</td>
+</tr>
+<tr>
+<td>Recortes</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">2.117</td>
+<td style="text-align:right">4.140</td>
+<td style="text-align:right">1.79%</td>
+</tr>
+<tr>
+<td>Hachuras</td>
+<td style="text-align:right">100</td>
+<td style="text-align:right">1.356</td>
+<td style="text-align:right">11.128</td>
+<td style="text-align:right">1.31%</td>
+</tr>
+<tr>
+<td>Hachuras</td>
+<td style="text-align:right">150</td>
+<td style="text-align:right">1.076</td>
+<td style="text-align:right">9.802</td>
+<td style="text-align:right">0.89%</td>
+</tr>
+<tr>
+<td>Hachuras</td>
+<td style="text-align:right">200</td>
+<td style="text-align:right">0.759</td>
+<td style="text-align:right">7.989</td>
+<td style="text-align:right">0.58%</td>
+</tr>
+</tbody>
+</table>
+<p><a href="style-quality.json">Dados completos</a> incluem versões, dimensões, itens,
+hashes dos PNGs e dos renderizadores usados.</p>
+<h2 id="alcance-e-reprodução">Alcance e reprodução</h2>
+<p>Esta comparação isola rasterização. Não compara a composição de Axes/ticks/layout
+independente do Matplotlib, sua cartografia ou seu viewer. Os paths de hachura
+foram gerados pela Azimlib e enviados aos dois renderizadores: não demonstra
+igualdade com o gerador nativo de hachuras do Matplotlib. O adaptador de referência
+desenha halo como contorno vetorial sob texto com hinting; caminhos complexos
+autointersectantes com even-odd ficam fora de seu contrato.</p>
+<p>Os SVGs foram conferidos como XML válido, com dimensões correspondentes aos PNGs.
+Não se fez nesta bateria uma segunda rasterização independente dos SVGs. A
+igualdade byte a byte antes/depois da otimização é uma regressão entre versões
+do renderer próprio, separada da comparação diagnóstica com Agg.</p>
+<p>Em ambiente de desenvolvimento com Pillow, NumPy e Matplotlib instalados:</p>
+<pre><code class="language-bash">python tools/compare_style_quality.py --cases strokes clipping hatches --dpi 100 150 200
+</code></pre>
+<p>O comando gera imagens e relatório, sem medir performance. Veja também
+<a href="complete-map-quality.html">mapas completos</a> e <a href="performance.html">tempo do rasterizador</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/style-quality.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Edição dos campos 2D · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="edição-dos-campos-2d">Edição dos campos 2D</h1>
+<p>MeshCollection, ScalarImage e VectorCollection são handles próprios derivados
+de Layer/Artist. O renderer continua recebendo somente primitivas de cena;
+Matplotlib não participa da leitura, projeção, composição ou desenho.</p>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.colors import Normalize
+
+fig, ax = azl.subplots()
+image = ax.imshow([[0, 1], [2, 3]], extent=(-50, -40, -20, -10),
+                  origin='lower', norm=Normalize(0, 10))
+bar = fig.colorbar(image)
+image.set_data([[2, 4, 6]])
+image.set_extent((-55, -40, -25, -15))
+image.autoscale()  # Atualiza explicitamente o intervalo de cores.
+fig.savefig('campo.svg')
+</code></pre>
+<h2 id="imagens-escalares">Imagens escalares</h2>
+<p><code>ScalarImage.set_data(Z)</code> aceita matriz retangular escalar não vazia; a forma
+pode mudar. As bordas das células são recalculadas no mesmo extent geográfico.
+<code>get_data()</code> devolve cópia na ordem original da matriz. origin='upper' mantém
+a primeira linha ao norte; lower a mantém ao sul. No desenvolvimento 0.3, RGB/RGBA e arrays mascarados possuem
+<a href="scientific-2d.html">contratos próprios</a>. Arrays curvilíneos
+de NumPy ainda não têm contrato próprio.</p>
+<p><code>get_extent()</code> e <code>set_extent((west,east,south,north))</code> controlam a geografia da
+imagem. São exigidos limites finitos, crescentes e dentro de ±180°/±90°.
+<code>image.set(data=Z, extent=..., alpha=.5)</code> e setp editam esses campos num lote.
+Dados/extent inválidos e estilos rejeitados são verificados antes da alteração.</p>
+<p>Para preservar a API inicial da Azimlib, <code>get_array()</code> continua retornando um
+vetor plano em ordem geográfica sul→norte. <code>set_array(flat)</code> mantém a forma
+existente e usa essa ordem; <code>set_array(matrix)</code> equivale a set_data. Isto difere
+do get_array de AxesImage, que retorna uma matriz. Use get_data/set_data no
+código novo para evitar ambiguidade de origin. Uma imagem não aceita array=None.</p>
+<h2 id="malhas-de-células">Malhas de células</h2>
+<p><code>pcolormesh</code> retorna MeshCollection. <code>set_array(Z)</code> aceita matriz com forma
+<code>(len(lat)-1,len(lon)-1)</code> ou vetor plano de mesmo total. As bordas permanecem
+fixas. <code>get_array()</code> é plano; <code>get_coordinates()</code> retorna cópia da grade de
+pares longitude/latitude das bordas. Sem NumPy, essas consultas usam listas.
+<code>mesh.set(array=Z, visible=True)</code> também funciona.</p>
+<p><code>mesh.set_array(None)</code> suspende o desenho das células, preservando sua geometria;
+não é um preenchimento automático com facecolors previamente calculados.
+None/NaN/infinito em células são lacunas. O desenvolvimento 0.3 oferece resampling explícito de GeoRaster; não há rasterização
+georreferenciada implícita: cada célula continua um quadrilátero projetado.</p>
+<h2 id="vetores">Vetores</h2>
+<pre><code class="language-python">vectors = ax.quiver([-52, -48], [-25, -21], [1, 0], [0, 1], C=[20, 80])
+vectors.set_UVC([0, 2], [2, 0], [30, 90])
+vectors.set_offsets([[-54, -28], [-43, -18]])
+vectors.set_scale(20)
+</code></pre>
+<p>VectorCollection.set_UVC(U,V,C=None) atualiza as componentes leste/norte e,
+se fornecidas, as cores numéricas. C omitido/None mantém as cores existentes,
+como Quiver; <code>set_array(None)</code> retira o mapeamento de cores. Componentes e C
+escalares ou sequências de um elemento expandem para todas as origens. Na
+Azimlib são armazenadas as componentes efetivas por origem; os caches internos
+de Quiver podem conservar arrays de um elemento.</p>
+<p><code>get_UVC()</code> é uma conveniência própria que retorna cópias de U, V e C. Offsets
+são longitude/latitude; a quantidade de vetores é fixa. <code>set_offsets()</code> move as
+origens; <code>set_scale(None)</code> retorna ao cálculo automático de escala. scale é
+positivo e representa unidades dos dados por largura do Axes. U/V devem ser
+finitos; máscaras de vetores ainda não são suportadas.</p>
+<p><code>vectors.set(UVC=(U,V,C), offsets=..., scale=...)</code>/setp agrupa a edição. Um
+array explícito separado precisa de um valor por origem; combinar esse array
+com C dentro de UVC é rejeitado. Formas/valores inválidos não deixam alterações
+parciais nos dados, estilos ou visibilidade.</p>
+<h2 id="vista-callbacks-e-limites">Vista, callbacks e limites</h2>
+<p>Os mesmos handles preservam norm, paleta, colorbar e callbacks. Atualizar valores
+não redefine limites de cores já fixados: use autoscale ou set_clim. Norm
+compartilhada continua atualizando todos os campos associados. Validação de
+intervalos prospectivos evita alterar dados antes de descobrir limites invertidos.</p>
+<p>Edição de dados/origens/extent não muda a vista automaticamente. Depois de
+alterar a geografia, <code>ax.relim(); ax.autoscale_view()</code> ajusta somente eixos
+automáticos. Esta é uma política explícita da Azimlib; imshow inicial respeita
+limites manuais de cada eixo e fixa por extent os eixos ainda automáticos.
+Edições de extent não copiam todas as regras de sticky_edges
+de Matplotlib. Valores de imagem e direção de vetor não alteram a geografia
+dos limites. Veja <a href="norm-limits.html">normalização e limites</a>.
+Os casos de limites manuais foram comparados diretamente à referência no
+<a href="artist-acceptance.html">aceite de integração</a>.</p>
+<p>set/setp aceita norm/cmap/clim junto dos dados/estilos e agrupa notificações do
+mesmo handle. Veja <a href="mappable-batches.html">lotes de cores</a>. Não há transação geral
+entre diferentes Artists, callbacks ou normalizadores externos. Setters dedicados
+continuam disponíveis. remove/clear desligam os handles da figura. O HTML continua uma
+exportação; alterações posteriores em Python exigem nova exportação.</p>
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/field_editing.py">exemplo antes/depois</a> usa dados sintéticos.
+<a href="field-edits-reference.json">field-edits-reference.json</a> compara oito estados
+de imagem, dois de mesh e quatro de vetores efetivos com Matplotlib 3.11.2/Agg.
+Contornos e clabel têm <a href="lines-contours.html">handles de estilo/texto editáveis</a>,
+mas sua geometria não é recalculada implicitamente ao editar outro campo;
+animação, blitting e novas coordenadas de mesh continuam pendentes.
+RGB/máscaras e resampling explícito foram adicionados no <a href="scientific-2d.html">lote científico 2D</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/field-editing.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,163 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Do Matplotlib para mapas com Azimlib · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="do-matplotlib-para-mapas-com-azimlib">Do Matplotlib para mapas com Azimlib</h1>
+<p>Esta é a API da fundação <strong>0.2.0</strong>, independente de Matplotlib/GIS. Versão 0.2.0 disponível no <a href="https://pypi.org/project/azimlib/">PyPI</a>. Aceite visual Windows e CI Windows/Linux/macOS; aparência nativa Linux/macOS não conferida.
+O <a href="artist-scope-0.2.html">catálogo</a> delimita as famílias suportadas. Familiaridade
+com Matplotlib não significa que qualquer argumento de Matplotlib já exista.</p>
+<h2 id="instalar-e-escolher-a-saída">Instalar e escolher a saída</h2>
+<p>Com Python 3.10 ou superior, escolha a instalação necessária:</p>
+<pre><code class="language-bash">python -m pip install azimlib
+python -m pip install &quot;azimlib[png]&quot;
+python -m pip install &quot;azimlib[gui]&quot;
+python -m pip install &quot;azimlib[gui,accelerate]&quot;
+</code></pre>
+<p>Escolha a instalação necessária: core gera SVG e HTML sem dependências;
+<code>png</code> acrescenta Pillow; <code>gui</code> acrescenta Pillow, aggdraw e NumPy genéricos,
+e usa Tk do Python. Geometria, projeções, composição e estilos continuam próprios;
+aggdraw apenas preenche polígonos de stroke já construídos durante a navegação.
+Tk não é instalado por pip. Matplotlib não é necessário. Para desenvolvimento na raiz de um checkout, use <code>pip install -e &quot;.[dev]&quot;</code>.
+A <a href="release-publication-0.2.0.html">publicação 0.2.0</a> registra os artefatos verificados.
+Veja <a href="validation.html">distribuição e validação</a> e <a href="data.html">proveniência dos dados</a>.</p>
+<p><code>accelerate</code> é opcional: NumPy/Numba compilam o kernel de cobertura da Azimlib
+para traçados longos. Não substituem geometria, projeções ou renderização por
+outra biblioteca cartográfica. O primeiro raster paga importação/compilação e
+o compilador ocupa memória adicional; sem ele, PNG/Tk continuam funcionando.</p>
+<p><code>savefig()</code> cria um arquivo estático. <code>azl.show()</code> abre o canvas desktop e
+bloqueia até fechar, enquanto <code>fig.show()</code> não bloqueia por padrão.
+<code>fig.show(backend='browser', open_browser=False, path='mapa.html')</code> grava a
+alternativa HTML sem abrir janela; ela não mantém uma conexão com Python.
+Veja <a href="viewer-validation.html">viewer</a> e <a href="portable-navigation.html">limites HTML</a>.</p>
+<h2 id="começar-sem-componentes-automáticos">Começar sem componentes automáticos</h2>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots(figsize=(6.4, 4.8), projection='mercator')
+ax.map('brazil', facecolor='white', edgecolor='black', linewidth=.8)
+ax.states(edgecolor='#777777', linewidth=.4)
+ax.set_title('Brasil')
+ax.set_xlabel('Longitude', labelpad=4)
+ax.set_ylabel('Latitude', labelpad=4)
+fig.savefig('brasil.svg')
+azl.close(fig)
+</code></pre>
+<p>Adicione <code>ax.grid()</code>, <code>ax.legend()</code>, <code>ax.scale_bar()</code>, <code>ax.north_arrow()</code>,
+<code>ax.compass()</code> ou <code>ax.overview()</code> explicitamente. A grade começa desativada,
+e a legenda só ganha título quando <code>title=...</code> é fornecido. Norte e rosa dos
+ventos são componentes diferentes; ambos podem existir juntos.</p>
+<h2 id="editar-pelos-handles">Editar pelos handles</h2>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots(figsize=(7, 5), layout='constrained')
+ax.state('SP', facecolor='#eeeeee', edgecolor='#666666')
+line, = ax.plot([-51, -49, -47], [-24, -23, -22], 'D--',
+                color='#9467bd', markersize=6, label='Rota sintética')
+title = ax.set_title('São Paulo')
+scale = ax.scale_bar(length=100, fontsize=9)
+north = ax.north_arrow(loc='upper left')
+compass = ax.compass(loc='upper right')
+overview = ax.overview(context='brazil', loc='lower right')
+legend = ax.legend(loc='upper right')
+line.set(linewidth=1.3, markerfacecolor='white')
+title.set_text('São Paulo · componentes independentes')
+compass.set_visible(False)
+scale.set(length=50, fontsize=10)
+ax.set_xlabel('Longitude', labelpad=6)
+ax.set_ylabel('Latitude', labelpad=6)
+ax.tick_params(labelrotation=35, labelrotation_mode='default')
+fig.savefig('estado.svg')
+azl.close(fig)
+</code></pre>
+<p>Em um viewer aberto, <code>fig.canvas.draw_idle()</code> solicita o redesenho depois de
+uma edição. <code>set_visible(False)</code> oculta e <code>remove()</code> descarta o Artist.
+Não se regenere uma legenda implicitamente ao mudar uma camada: chame
+<code>ax.legend()</code> de novo se quiser reconstruir seus handles.
+Textos livres/annotations podem se sobrepor; layout automático não resolve
+qualquer colisão. <code>labels(placement='auto')</code> oferece a busca cartográfica
+própria, com prioridade e halo. <a href="text-edits.html">Textos</a>,
+<a href="text-rotation.html">rotação</a>, <a href="labels.html">labels</a> e <a href="layout-acceptance.html">layout</a>.</p>
+<h2 id="colorbar-ligada-ao-dado">Colorbar ligada ao dado</h2>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.colors import Normalize
+
+fig, ax = azl.subplots(figsize=(7, 6), projection='mercator', layout='constrained')
+states = azl.datasets.load('states', country='brazil')
+values = [float(i) for i in range(len(states['features']))]
+layer = ax.choropleth(states, values, bins=None, cmap='viridis',
+                      norm=Normalize(0, 26), edgecolor='white', linewidth=.4)
+bar = fig.colorbar(layer, ax=ax, orientation='horizontal', label='Indicador sintético')
+bar.set_ticks([0, 10, 20, 30])
+layer.set_clim(0, 30)
+bar.ax.tick_params(labelsize=9)
+bar.set_label('Indicador sintético atualizado', labelpad=6)
+ax.set_title('Estados · valores demonstrativos')
+fig.savefig('tematico.svg')
+azl.close(fig)
+</code></pre>
+<p>A barra acompanha <code>norm</code>, <code>cmap</code> e <code>clim</code> do mappable. Há orientação vertical
+e horizontal, quatro posições, <code>cax</code>, barra compartilhada, ticks major/minor,
+extensões, remoção e controles do outline. O eixo da barra é um proxy próprio,
+não um MapAxes completo. <a href="scientific.html">Cores e colorbars</a>,
+<a href="mappable-batches.html">edições agrupadas</a> e <a href="norm-limits.html">normas compartilhadas</a>.</p>
+<h2 id="os-instintos-que-mudam">Os instintos que mudam</h2>
+<table>
+<thead>
+<tr>
+<th>Hábito</th>
+<th>Regra da Azimlib</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x, y</code> de plot/scatter</td>
+<td>Longitude, latitude em graus, nesta ordem; <code>lon=</code>/<code>lat=</code> também existem</td>
+</tr>
+<tr>
+<td>Tamanho e estilo</td>
+<td>figsize em polegadas, fontes/linewidth/labelpad/markersize em pontos, scatter <code>s</code> em pontos²</td>
+</tr>
+<tr>
+<td><code>extent</code></td>
+<td><code>(west, east, south, north)</code> em graus, também para campos escalares; limites crescentes</td>
+</tr>
+<tr>
+<td>Projeção</td>
+<td>Seis projeções esféricas próprias; não se entrega um objeto Cartopy/pyproj</td>
+</tr>
+<tr>
+<td>Aspecto do mapa</td>
+<td>A projeção preserva proporção espacial; o quadro visível pode ocupar menos que o espaço alocado</td>
+</tr>
+<tr>
+<td><code>imshow(Z)</code></td>
+<td>Campo escalar 2D; no desenvolvimento 0.3 também RGB/RGBA, GeoTIFF e resampling explícito (<a href="scientific-2d.html">guia</a>)</td>
+</tr>
+<tr>
+<td><code>quiver(U,V)</code></td>
+<td>Componentes leste/norte; a direção é calculada na projeção</td>
+</tr>
+<tr>
+<td>Densidade</td>
+<td>Contagem suavizada em células angulares, não pessoas/km² nem KDE geodésico</td>
+</tr>
+<tr>
+<td>Escala</td>
+<td>Distância esférica local na latitude/posição da barra, não uma escala uniforme de toda a projeção</td>
+</tr>
+<tr>
+<td>Textos rotacionados</td>
+<td>default alinha a caixa após rotação; anchor alinha antes; xtick/ytick escolhem alinhamento por ângulo</td>
+</tr>
+<tr>
+<td>Hachuras</td>
+<td><code>/</code>, <code>\\</code>, `</td>
+</tr>
+<tr>
+<td><code>plot()</code> / edição</td>
+<td>Retorna lista; <code>line, = ...</code>; dados finitos, sem gaps NaN/máscaras ou inversão de eixos neste corte</td>
+</tr>
+<tr>
+<td>Navegação</td>
+<td>Tk recalcula geografia/ornamentos; HTML navega uma cena exportada e tem limites por projeção</td>
+</tr>
+</tbody>
+</table>
+<p><a href="finishing.html">Acabamento/PDF na 0.3.0 development</a> · <a href="compatibility.html">Equivalências detalhadas</a> · <a href="math.html">matemática</a> ·
+<a href="map-types.html">tipos de mapas</a> · <a href="release-gallery.html">reprodução da galeria</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/getting-started.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,129 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Responsividade do pan — 2026-10-03 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="responsividade-do-pan-2026-10-03">Responsividade do pan — 2026-10-03</h1>
+<p>A revisão preserva a espessura durante o pan, melhora o renderer temporário
+e corrige a continuidade do gesto ao sair e voltar ao canvas.</p>
+<h2 id="comparação-medida">Comparação medida</h2>
+<p>Tk real oculto; handlers sintéticos temporizados durante dois segundos; mesmo
+Brasil, tamanho, dados, estilo e deslocamento. Inclui composição, raster e entrega
+a PhotoImage. Cada execução abaixo ocorreu separadamente, antes de iniciar a
+suíte/galeria pesada. Não mede input físico nem apresentação no monitor.</p>
+<table>
+<thead>
+<tr>
+<th>Runtime</th>
+<th style="text-align:right">Quadros/s durante o gesto</th>
+<th style="text-align:right">Maior intervalo do timer Tk</th>
+<th style="text-align:right">Raster de navegação, mediana</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="pan-responsiveness-before.json">Primeiro worker instalado</a></td>
+<td style="text-align:right">0,44</td>
+<td style="text-align:right">883 ms</td>
+<td style="text-align:right">1.263 ms</td>
+</tr>
+<tr>
+<td><a href="pan-responsiveness-previous-wheel.json">Revisão anterior instalada</a></td>
+<td style="text-align:right">9,90</td>
+<td style="text-align:right">31 ms</td>
+<td style="text-align:right">67 ms</td>
+</tr>
+<tr>
+<td><a href="pan-responsiveness-source.json">Azimlib atual source</a></td>
+<td style="text-align:right">30,90</td>
+<td style="text-align:right">40 ms</td>
+<td style="text-align:right">25 ms</td>
+</tr>
+<tr>
+<td><a href="pan-responsiveness-wheel.json">Azimlib atual instalada</a></td>
+<td style="text-align:right">31,99</td>
+<td style="text-align:right">32 ms</td>
+<td style="text-align:right">23 ms</td>
+</tr>
+<tr>
+<td><a href="pan-responsiveness-reference.json">Matplotlib/TkAgg de referência</a></td>
+<td style="text-align:right">30,81</td>
+<td style="text-align:right">47 ms</td>
+<td style="text-align:right">—</td>
+</tr>
+</tbody>
+</table>
+<p>Tempos variam por hardware, carga e complexidade. Os limites finais
+coincidem com a referência até arredondamento numérico. São execuções pontuais,
+sem afirmar equivalência geral de FPS ou um SLA de responsividade.</p>
+<p>Python 3.14.4/Windows, Pillow 12.3.0, aggdraw 1.4.1 e NumPy 2.5.3 no ambiente
+atual. Os JSONs registram hashes dos módulos usados.</p>
+<h2 id="primeira-pegada-e-retomada">Primeira pegada e retomada</h2>
+<p><a href="first-grab-before.json">Antes</a>: primeiro quadro em 113 ms; nova pegada durante
+o raster preciso em 1.082 ms. <a href="first-grab-wheel.json">Wheel atual</a>: 39 ms e
+46 ms, respectivamente. <a href="first-grab-source.json">Source</a> registra a mesma prova
+independente. Essas medidas começam no Motion sintético e terminam na entrega
+do buffer; não incluem latência de mouse/compositor. O processo de pixels aquece
+durante o primeiro desenho, e a próxima pegada interrompe trabalho preciso
+obsoleto. O teste confere o quadro final contra nosso renderer preciso.</p>
+<h2 id="implementação-e-independência">Implementação e independência</h2>
+<ul>
+<li>Geometria, projeções, composição, estilos, construção de strokes, dashes,
+caps/joins, buracos e layout continuam próprios. Nenhum backend/asset
+Matplotlib ou biblioteca geoespacial é incorporado.</li>
+<li>O extra <code>gui</code> inclui <strong>aggdraw e NumPy genéricos</strong>. aggdraw preenche os
+polígonos de stroke que a Azimlib já calculou, com antialiasing, usando
+explicitamente um pen de largura zero para evitar a dilatação de contorno
+padrão do fill. Não delegamos a construção do traço. NumPy acelera a
+validação/comparação de todos os vértices para o cache.</li>
+<li>Um subprocesso próprio recebe somente Scenes congeladas por pipe privado e
+devolve RGBA. Não carrega Figure/Artists/Tk nem usa PNG como transporte. A
+rasterização temporária não disputa o GIL da thread de eventos Tk; o processo
+termina quando o viewer fecha. Não usa rede nem exige mudar o script do usuário.</li>
+<li>Uma Scene intermediária pode ser preparada enquanto o raster está ativo;
+demais movimentos guardam somente os limites mais recentes. Quadros de um
+gesto anterior são invalidados ao iniciar o seguinte.</li>
+<li>Coordenadas do cursor, antes do próximo desenho, usam bounds cilíndricos
+monotônicos quando disponíveis; outras projeções continuam no cálculo geral.
+Evita amostrar 1.225 pontos por Motion sem mudar coordenadas/fit. Seis casos
+conferem a vista ainda não pintada contra a Scene completa. O handler teve
+máximo de aproximadamente 2 ms nos benchmarks atuais.</li>
+<li>Tiles próprios de primitivas, nunca uma imagem do canvas transladada: clipping,
+ticks e ornamentos são compostos para a vista nova. LRU de 128 entradas,
+16 MiB de payload de pixels/arrays, tile RGBA individual até 8 MiB, arrays de
+preparação até 8 MiB por quadro. Overhead dos objetos Python é adicional.
+Todos os vértices são comparados antes de aceitar uma tradução; zoom, dados e
+estilo invalidam reutilização. Sem aggdraw há fallback para o kernel próprio.</li>
+<li>Glyphs/halos continuam amostrados a 3x e alinhados à grade de pixels; o cache
+das métricas portáteis de fonte é limitado e devolve cópias independentes.
+Dezesseis casos de largura/ângulo verificam área do traço temporário versus
+o preciso, incluindo linhas finas; cache e clips têm testes específicos.</li>
+</ul>
+<p>O preenchimento genérico foi conferido diretamente no
+<a href="https://github.com/pytroll/aggdraw/blob/main/aggdraw/_aggdraw.cxx">código oficial de aggdraw</a>.
+Essa dependência opcional não é o Matplotlib nem um motor cartográfico.</p>
+<h2 id="bordas-e-qualidade-final">Bordas e qualidade final</h2>
+<p>Ao voltar com o botão já solto, um gesto cujo release foi perdido termina na
+última posição realmente pressionada. A posição de reentrada não desloca o
+mapa. Com o botão ainda pressionado, o gesto continua fora dos Axes, preservando
+a origem congelada. Um zoom retangular interrompido não aplica uma seleção
+incompleta. O histórico grava a vista uma vez.
+<a href="pan-interaction.html">Integração source/wheel</a> cobre esses casos.</p>
+<p>Ao soltar, o quadro exato levou aproximadamente um segundo neste Brasil. Essa
+espera ocorre fora da thread Tk e pode ser interrompida por outra pegada.
+PNG/SVG estáticos usam o caminho normal; qualidade final e dimensões
+continuam iguais às cenas completas. Navegação, ownership e exportação têm
+regressões específicas, além dos smokes source/wheel.</p>
+<p>A verificação visual Windows cobre espessura, componentes e navegação;
+o <a href="viewer-visible-acceptance.html">registro de observação</a> fecha 3.08–3.10.
+Acelerar o quadro preciso e medir gesto físico visível continuam no
+critério 4.09. Os benchmarks ocultos isoladamente não fecham esse item. O núcleo permanece
+sem dependências obrigatórias e o extra <code>png</code> continua apenas Pillow.</p>
+<h2 id="reprodução">Reprodução</h2>
+<pre><code class="language-bash">python tools/benchmark_pan_tk.py --library azimlib --output pan.json
+python tools/benchmark_first_grab_tk.py --output first-grab.json
+python tools/benchmark_pan_tk.py --library matplotlib --output mpl-pan.json
+</code></pre>
+<p>A terceira execução exige o ambiente de desenvolvimento com Matplotlib; ele não
+é importado no primeiro modo nem pelo runtime. As implementações anteriores e
+hashes estão em <code>tools/baselines/interactive-raster-before</code> e
+<code>tools/baselines/interactive-tiles-before</code>; os relatórios anteriores permanecem
+identificados como históricos, sem substituir seus hashes pelos atuais.</p>
+<h2 id="relação-com-o-aceite-atual">Relação com o aceite atual</h2>
+<p>As tabelas acima preservam medições históricas dos snapshots indicados. “Atual” nessas tabelas significa o runtime daquele lote, não o kernel opcional posterior. O <a href="performance-acceptance.html">aceite do passo 4</a> traz os hashes finais, base original mais detalhada, input humano/idle Tk e limites. Nenhum tempo antigo foi atribuído novamente ao runtime novo.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/pan-responsiveness.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

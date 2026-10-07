@@ -1,0 +1,15 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tk": 8.6,
+  "checks": [
+    "initial integrated lines/scatter/raster/contours/shared bar/scale/legend compose in real Tk",
+    "mixed data, shared norm, text, frame, scale, outline and dash-generator edits produce one frame",
+    "shared normalization stays coherent with colorbar after edits",
+    "owned generator dash remains renderable across repeated draws",
+    "six rejected edits preserve raster, SVG, model and pending draw count",
+    "valid edits remain usable after failures; static SVG and portable HTML stay separate",
+    "closing releases owned Tk raster"
+  ],
+  "scope": "Real withdrawn Tk, programmatic edits, synthetic field/routes. No physical input, visible OS comparison or performance claim."
+}

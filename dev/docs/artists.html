@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Edição e ciclo de vida dos Artists · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="edição-e-ciclo-de-vida-dos-artists">Edição e ciclo de vida dos Artists</h1>
+<p>Auditoria de validação antes da edição, representações numéricas/tracejados
+próprios e integração Tk/exportação: <a href="artist-validation.html">contratos e evidências</a>.</p>
+<p>Figure, MapAxes, Layer, TextArtist, Spine, legenda, frame e componentes
+cartográficos compartilham <code>azimlib.artist.Artist</code>. Esta base é própria;
+Matplotlib participa somente dos scripts de comparação no desenvolvimento.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots()
+ax.set_extent((-54, -43, -27, -19))
+line, = ax.plot([-52, -48, -46.63], [-25, -23, -23.55], 'o--')
+title = ax.set_title('Mapa inicial')
+
+title.set_text('Mapa editado')
+azl.setp(line, color='red', linewidth=1.5)
+line.set_data([-52, -50, -46.63], [-25, -24, -23.55])
+print(azl.getp(line, 'color'))
+fig.canvas.draw_idle()
+fig.savefig('mapa.svg')
+</code></pre>
+<h2 id="propriedades-e-visibilidade">Propriedades e visibilidade</h2>
+<p><code>artist.set(...)</code>, <code>setp(...)</code> e os setters existentes editam os mesmos
+objetos que a composição utiliza. <code>getp(artist)</code>/<code>artist.properties()</code> retornam
+um dicionário de propriedades editáveis implementadas. <code>setp</code> aceita também
+listas aninhadas de artistas e pares nome/valor posicionais. A consulta
+impressa de opções sem argumentos do setp de Matplotlib não foi implementada.</p>
+<p><code>set_visible(False)</code> oculta; <code>set_in_layout(False)</code> exclui das medições de
+layout sem ocultar; <code>remove()</code> retira da composição. As APIs não acrescentam
+grade, minimapa, legenda ou outros ornamentos automaticamente. Remoção e
+<code>ax.clear()</code> desconectam os Artists antigos da figura: editar um handle
+removido não solicita atualização da figura anterior.</p>
+<p>Textos internos de legenda/ticks/colorbar não oferecem remoção individual;
+use <code>set_visible(False)</code>. <code>remove()</code> informa <code>NotImplementedError</code>, como no
+contrato de texto de entrada registrado diretamente na referência. Substituição
+de componentes locais e descarte de ticks desconectam handles antigos; veja
+<a href="component-lifecycle.html">regras, exemplos e diferenças explícitas</a>.</p>
+<p><code>ax.set_title</code>, <code>set_xlabel</code>, <code>set_ylabel</code> e <code>fig.suptitle</code> reutilizam seu
+TextArtist, preservando propriedades anteriores não sobrescritas. A legenda
+também mantém o mesmo handle de frame. <code>set_alpha(None)</code> de Layer remove a
+opacidade explícita e retorna ao padrão de renderização.</p>
+<p>Linhas permitem data=(x,y) ou xdata/ydata no mesmo set/setp que marcadores,
+traços e visibilidade; textos/annotations aceitam text com seu estilo no lote.
+Contornos têm handles próprios com widths/styles por nível e clabel retorna
+uma lista de rótulos individuais editáveis. Veja <a href="lines-contours.html">linhas e contornos</a>.</p>
+<p>Textos do mapa retornam MapText com posição/x/y editáveis; annotations permitem
+editar destino xy e posição xyann/anncoords separadamente. Rótulos de legenda
+e colorbar validam estilo/posição antes de gravar o lote. Veja
+<a href="text-edits.html">edição de textos</a>, incluindo o contrato de offset points e a
+diferença preservada dos offsets antigos em pixels.</p>
+<p><code>get_children()</code> lista filhos diretos; <code>findobj()</code> percorre o grafo sem
+duplicatas, incluindo componentes ocultos. Aceita uma classe ou predicado:</p>
+<pre><code class="language-python">from azimlib.components import TextArtist
+for text in fig.findobj(TextArtist):
+    text.set_fontsize(9)
+assert title.get_figure() is fig
+</code></pre>
+<h2 id="atualização-e-callbacks">Atualização e callbacks</h2>
+<p>Uma edição marca o Artist, seu MapAxes e a Figure como <code>stale=True</code>.
+Limpar o estado de um filho não limpa seu pai. <code>canvas.draw()</code> confirma uma
+composição bem-sucedida e limpa os estados antes de emitir <code>draw_event</code>.
+Se o desenho falhar ou um callback editar a figura depois dele, ela continua
+pendente. Chamadas recursivas a draw durante draw_event são protegidas.</p>
+<p><code>to_scene()</code> e <code>savefig()</code> não confirmam o estado da janela: medição, exportação
+e viewer permanecem separados. Esta regra de exportação não é uma reprodução
+literal do estado interno de todos os backends do Matplotlib.</p>
+<pre><code class="language-python">cid = line.add_callback(lambda artist: print(artist.get_color()))
+line.set(color='blue', linewidth=1.2)
+line.remove_callback(cid)
+</code></pre>
+<p>O callback recebe o Artist depois da edição. Setters aninhados em uma chamada
+<code>set()</code> do mesmo objeto são agrupados em uma notificação. A contagem exata
+de notificações de cada setter do Matplotlib não é reproduzida. <code>pchanged()</code>
+emite uma notificação explícita; <code>stale_callback(artist, True)</code> pode observar
+a invalidação. Callbacks que levantam exceções as propagam ao chamador.</p>
+<p><code>ScalarMappable.callbacks.connect('changed', callback)</code> observa alterações
+por <code>set_array</code>, <code>set_cmap</code>, <code>set_norm</code>, <code>set_clim</code> e <code>autoscale</code>. Colorbars se
+inscrevem neste sinal: preservam locators customizados quando só clim muda e
+reinicializam ticks quando norm é substituído. Remover a barra ou trocar seu
+mappable desconecta a inscrição antiga. Atribuição direta a <code>norm.vmin</code>,
+<code>norm.vmax</code>, <code>norm.clip</code> e <code>TwoSlopeNorm.vcenter</code> também notifica todos os
+mappables associados. Dicionários internos, arrays e Colormap ainda exigem
+setters ou changed(). Veja <a href="norm-limits.html">normalização e limites</a>.</p>
+<h2 id="modo-interativo">Modo interativo</h2>
+<p>O padrão é <code>ioff()</code>. Edições invalidam a figura e o redesenho explícito usa
+<code>fig.canvas.draw_idle()</code>. Com o viewer Tk aberto, <code>ion()</code> agenda o redesenho
+no event loop; várias solicitações pendentes são agrupadas pelo viewer.</p>
+<pre><code class="language-python">fig.show(block=False)  # Desktop Tk, depende do extra gui.
+with azl.ion():
+    line.set_color('red')
+    title.set_text('Atualizado')
+fig.canvas.flush_events()
+</code></pre>
+<p><code>ion</code>, <code>ioff</code> e <code>isinteractive</code> existem no root e em pyplot. Os dois primeiros
+também funcionam como context managers, restaurando o modo anterior. Sem
+janela, draw_idle compõe a cena imediatamente. ion não abre janelas por si
+só; <code>show()</code> continua explícito. O HTML é uma cena exportada e não recebe
+edições posteriores do processo Python.</p>
+<h2 id="edição-de-dados-e-limites-atuais">Edição de dados e limites atuais</h2>
+<p><code>get_data</code>/<code>set_data</code>, <code>get_xdata</code>/<code>set_xdata</code> e <code>get_ydata</code>/<code>set_ydata</code> editam
+uma série geográfica simples criada por <code>plot</code> ou uma LineString única.
+As entradas originais continuam imutáveis; consultas devolvem cópias. Uma
+série pode ficar vazia ou conter um único ponto. A edição não muda a vista:
+use <code>relim()</code> seguido de <code>autoscale_view()</code> nos eixos automáticos, ou defina
+limites manuais com <code>set_extent</code>, <code>set_xlim</code>/<code>set_ylim</code>. Margens e estados de
+autoescala têm controles próprios. ScatterCollection permite set_offsets/set_sizes
+e edição coordenada de posições/array via setp; veja <a href="scatter.html">coleções de pontos</a>.
+MeshCollection, ScalarImage e VectorCollection também permitem editar seus
+dados por setters próprios, sem recriar handles. Veja <a href="field-editing.html">campos 2D</a>.</p>
+<p>Esta entrega consolida um protocolo comum, não toda a hierarquia Line2D,
+Patch, Collection, Transform, picking, blitting ou animação do Matplotlib.
+Setters de Layer/Text validam estilos antes de alterar controles; não há
+transação com rollback geral para lotes entre vários Artists. Consulte
+<a href="pending.html">pendências</a> e o <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/artists.py">exemplo antes/depois</a>.</p>
+<p>Dimensões/DPI públicos e títulos laterais independentes são descritos em
+<a href="sizing-composition.html">integração de composição</a>.</p>
+<p>Múltiplos grupos/matrizes, ciclos e defaults de legenda em contextos foram
+consolidados no <a href="series-styles.html">lote de séries e estilos</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/artists.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

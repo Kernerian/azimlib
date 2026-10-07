@@ -1,0 +1,106 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Geographic readers — 0.3.0 development · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="geographic-readers-030-development">Geographic readers — 0.3.0 development</h1>
+<p>These APIs are on <code>dev/0.3.0</code>, not the published 0.2.0 package. All geometry,
+DBF/XML interpretation, affine georeferencing and GeoTIFF GeoKey interpretation
+are implemented in Azimlib. Pillow only decodes scalar image pixels. No GIS
+library, Matplotlib backend, automatic download or external XML resource is used.</p>
+<pre><code class="language-python">import azimlib as azl
+
+features = azl.read_shapefile(&quot;regions.shp&quot;, crs=&quot;EPSG:4326&quot;, encoding=&quot;utf-8&quot;)
+fig, ax = azl.subplots()
+ax.geojson(features)  # accepts the common FeatureCollection, regardless of source format
+</code></pre>
+<p><code>import azimlib.pyplot as plt</code> remains available for plotting. Data readers are
+available through <code>azimlib</code> and <code>azimlib.io</code>. Caller-owned streams stay open.
+Vector outputs use the same immutable Geometry/Feature/FeatureCollection types
+as GeoJSON, so selection, per-feature styling and urban layers remain reusable.</p>
+<h2 id="supported-contracts-and-explicit-limits">Supported contracts and explicit limits</h2>
+<table>
+<thead>
+<tr>
+<th>Reader</th>
+<th>Implemented</th>
+<th>Explicit limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)</code></td>
+<td>Null, Point, MultiPoint, Polyline, Polygon; multipartes; corresponding Z types; SHX exact offsets/lengths; DBF alignment</td>
+<td>CRS 4326/3857 and regional WGS84 UTM; no .prj guessing, M-only, MultiPatch or topology repair. Optional M values on Z records are not represented. Clean closed shells must be clockwise, holes counterclockwise; hole ordering is independent.</td>
+</tr>
+<tr>
+<td><code>read_dbf(source, *, encoding, include_deleted=False)</code></td>
+<td>No-memo dBASE III/IV/5, C/N/F/L/D, blank values, ISO dates, physical row indices</td>
+<td>No memo, FoxPro or encrypted variants. Encoding is explicit, not inferred from platform or language byte. Deleted rows are omitted without renumbering; their fields are not decoded unless requested.</td>
+</tr>
+<tr>
+<td><code>read_kml(source)</code></td>
+<td>KML 2.2/2.3 placemarks, names/descriptions, ExtendedData strings, Point/LineString/Polygon/MultiGeometry, optional elevation and altitudeMode</td>
+<td>No styles, KMZ, Track, Model, overlays, extension namespaces or external resources. Altitude remains the supplied value, not a ground-height conversion. DTD/entities/XInclude/NetworkLink are rejected.</td>
+</tr>
+<tr>
+<td><code>read_osm(source, *, include_untagged=False)</code></td>
+<td>Local XML 0.6 tagged POIs, ways, multipolygon assembly by node identity, reverse segments, holes and multiple shells</td>
+<td>No PBF, streaming planet files, routing/restriction relations, nested relations or topology repair. Missing references, open/branched/repeated-node rings and reused multipolygon ways fail explicitly. Non-multipolygon relations are ignored. Editor metadata is not retained; arbitrary original tags can still contain personal data and must be audited before redistribution.</td>
+</tr>
+<tr>
+<td><code>read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=...)</code></td>
+<td>Scalar grayscale/integer/float or RGB/RGBA/palette-decoded images, explicit extent or world-file, automatic local .tfw/.pgw/.jgw/.wld discovery, NoData</td>
+<td>No multiframe, implicit identity coordinates or .prj guessing. Conflicting sidecars fail. Embedded TIFF georeference takes precedence unless explicitly overridden.</td>
+</tr>
+<tr>
+<td><code>read_geotiff(source, *, crs=None, nodata=None, max_pixels=...)</code></td>
+<td>Classic TIFF in either byte order; top-left scalar or RGB8/RGBA8 contiguous data with unassociated alpha; PixelScale+Tiepoint or 2D affine matrix; GeoKeys 4326/3857 and WGS84 UTM; PixelIsArea/Point; GDAL NoData</td>
+<td>No BigTIFF, multiple IFDs/unsupported bands, palette/YCbCr/CMYK, user-defined CRS, alternate units or 3D/projective transforms. Uncompressed 16-bit/float and deflate scalar fixtures are tested; other codecs depend on the installed Pillow build. Explicit CRS conflicts are errors.</td>
+</tr>
+</tbody>
+</table>
+<p>SHP binary inputs are bounded to 256 MiB; XML is bounded to 64 MiB. Readers load
+files in memory. Image decoding defaults to 16 million pixels, independently
+of the encoded-byte bound. These limits do not promise resistance to every
+adversarial file; reject untrusted oversized data before processing.</p>
+<p>OSM area classification uses <code>area=yes</code>, or building/landuse/leisure/amenity
+tags except <code>no</code>, or natural=water; <code>area=no</code> takes precedence. Closed highways
+otherwise remain lines. Multipolygon member ways are omitted as standalone
+features; IDs are namespaced as <code>node/123</code>, <code>way/123</code>, <code>relation/123</code>.</p>
+<h2 id="affine-coordinates-and-raster-artists">Affine coordinates and raster Artists</h2>
+<pre><code class="language-python">raster = azl.GeoRaster([[1, 2], [3, None]], (1, 0, -48, 0, -1, -20))
+fig, ax = azl.subplots()
+image = ax.raster(raster, cmap=&quot;viridis&quot;)
+fig.colorbar(image, ax=ax, label=&quot;Value&quot;)
+image.set_clim(0, 5)
+</code></pre>
+<p><code>GeoRaster</code> is immutable. Its <code>(a,b,c,d,e,f)</code> maps pixel <strong>corners</strong>:
+<code>x=a*column+b*row+c</code>, <code>y=d*column+e*row+f</code>. <code>coordinate(..., center=True)</code>
+adds half a pixel. <code>shape</code> is <code>(rows, columns)</code>; <code>extent</code> is <code>(west,east,south,north)</code>
+in the source CRS; <code>bounds</code> is <code>(west,south,east,north)</code>. NaN/infinity and NoData
+become masked <code>None</code>. <code>read_world_file()</code> converts A,D,B,E,C,F pixel-centre
+coefficients to this corner convention, including rotation.</p>
+<p><code>ax.raster()</code> uses the own pcolormesh/ScalarMappable Artist: norm, cmap, clim,
+colorbar and visibility remain editable. No legend, grid, north arrow or minimap
+appears automatically. Axis-aligned 4326/3857 rasters can be drawn; rotated/sheared
+affines are preserved by the reader but plotting rejects them before changing
+the axes. UTM raster metadata is accepted, but plotting also requires a curvilinear mesh
+and raises explicitly. Curvilinear drawing remains pending; <code>GeoRaster.resample</code> supplies an explicit
+axis-aligned geographic destination using own inverse-affine/CRS interpolation.
+See <a href="scientific-2d.html">scientific 2D contracts</a>.
+See <a href="geodesy.html">geodesy and CRS</a> for domains and numeric tolerances.
+PixelIsPoint is normalized by a half-pixel origin shift, not guessed as PixelIsArea.</p>
+<h2 id="independent-implementation-references">Independent implementation references</h2>
+<p>The readers were implemented from format descriptions, not ported from another
+reader's source code. Tests generate original binary/XML fixtures, including
+invalid records. An external Natural Earth populated-places SHP/SHX/DBF (243
+points) also parsed successfully during local verification; those files are not
+vendored. The real OSM example is a separately licensed derivative database.</p>
+<ul>
+<li><a href="https://www.esri.com/library/whitepapers/pdfs/shapefile.pdf">ESRI Shapefile specification</a>.</li>
+<li><a href="https://www.dbase.com/Knowledgebase/INT/db7_file_fmt.htm">dBASE format reference</a>
+and <a href="https://www.loc.gov/preservation/digital/formats/fdd/fdd000325.shtml">Library of Congress DBF families</a>.</li>
+<li><a href="https://docs.ogc.org/is/12-007r2/12-007r2.html">OGC KML 2.3</a>.</li>
+<li><a href="https://wiki.openstreetmap.org/wiki/OSM_XML">OSM XML 0.6</a>.</li>
+<li><a href="https://docs.ogc.org/is/19-008r4/19-008r4.html">OGC GeoTIFF 1.1</a>.</li>
+<li><a href="https://doc.esri.com/en/arcgis-pro/latest/help/data/imagery/world-files-for-raster-datasets.html">ESRI world-file convention</a>.</li>
+</ul>
+<p>See <a href="optional-data.html">optional data</a>, <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/georaster.py">georaster example</a>
+and <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_formats.py">format tests</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/formats.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

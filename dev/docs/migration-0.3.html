@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Moving to Azimlib 0.3 development · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="moving-to-azimlib-03-development">Moving to Azimlib 0.3 development</h1>
+<p>This guide describes <strong>unreleased 0.3.0.dev0</strong>. Install a reviewed source checkout
+or its locally built wheel; <code>pip install azimlib</code> still installs stable 0.2.0.
+See <a href="api-stability.html">API stability</a> and <a href="compatibility.html">precise compatibility</a>.</p>
+<h2 id="familiar-figure-and-artist-workflow">Familiar figure and Artist workflow</h2>
+<pre><code class="language-python">import azimlib.pyplot as plt
+# Equivalent figure workflow: import azimlib as azl
+fig, ax = plt.subplots(figsize=(5, 4), projection=&quot;mercator&quot;)
+ax.map(&quot;brazil&quot;, facecolor=&quot;#f3f5f6&quot;, linewidth=0.6)
+route, = ax.plot([-50, -47, -43], [-25, -22, -20], &quot;r--o&quot;, label=&quot;Synthetic route&quot;)
+ax.set_xlabel(&quot;Longitude&quot;, labelpad=4)
+ax.set_ylabel(&quot;Latitude&quot;, labelpad=4)
+ax.set_title(&quot;Independent geographic plot&quot;)
+ax.legend()
+route.set_linewidth(1.2)
+fig.savefig(&quot;migration-map.svg&quot;)
+plt.close(fig)
+</code></pre>
+<p><code>plot</code> receives longitude/latitude, not arbitrary categorical X/Y. Geographic
+<code>set_extent</code> uses west/east/south/north in degrees with an explicit projection.
+<code>scatter(s=...)</code> sizes are points squared; line widths/text sizes are points,
+converted by DPI. A 2D orthographic globe is distinct from a 3D terrain scene.</p>
+<h2 id="static-output-and-optional-viewers">Static output and optional viewers</h2>
+<p><code>fig.savefig(...)</code> produces static SVG/PNG/PDF; controls are not exported.
+PNG requires Pillow. PDF uses our own vector writer (3D is explicitly embedded
+raster); outlined text is not searchable text. <code>plt.show()</code> opens Tk, with
+explicit Qt/live/notebook alternatives. <code>draw_idle</code> belongs to the GUI owner
+thread. Offline HTML is a scene snapshot, not a general live Python callback.
+See <a href="interaction.html">viewer contracts</a> and <a href="finishing.html">export limits</a>.</p>
+<h2 id="opt-in-components-and-units">Opt-in components and units</h2>
+<p>Grid, legend, colorbar, scale bar, compass, north arrow and overview are optional.
+Use returned Artists for editing, visibility/removal; compass and north arrow
+are separate components. A legend title only exists if passed explicitly.</p>
+<pre><code class="language-python">import azimlib as azl
+fig, ax = azl.subplots(figsize=(4, 3))
+ax.set_extent((-55, -40, -30, -15))
+image = ax.imshow([[1, 2], [3, 4]], extent=(-55, -40, -30, -15), origin=&quot;lower&quot;)
+bar = fig.colorbar(image, ax=ax, orientation=&quot;horizontal&quot;, label=&quot;Synthetic value&quot;)
+image.set_clim(0, 5)
+bar.set_label(&quot;Updated value&quot;)
+scale = ax.scale_bar()
+scale.set_visible(False)
+fig.savefig(&quot;migration-colors.svg&quot;)
+azl.close(fig)
+</code></pre>
+<p>Replacing a norm resets automatic colorbar ticks; editing the same norm/clim
+retains applicable custom settings. Missing data and masks are explicit.
+<code>geojson</code> is not a GeoPandas object; readers return Azimlib-owned geometry/raster
+models. <a href="formats.html">Format limits</a>, <a href="geodesy.html">CRS</a> and <a href="urban.html">urban</a> describe
+supported variants and coordinate conventions. There are no implicit downloads.</p>
+<h2 id="animation-and-atlas">Animation and atlas</h2>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.animation import FuncAnimation
+from azimlib.backends.backend_pdf import PdfPages
+fig, ax = azl.subplots(figsize=(4, 3))
+ax.set_extent((-55, -40, -30, -15))
+points = ax.scatter([-50, -45], [-25, -20], c=[1, 2])
+series = azl.TemporalSeries([2000, 2010], [[1, 2], [3, 4]], unit=&quot;year&quot;)
+binding = series.bind(points, scale=&quot;global&quot;)
+movie = FuncAnimation(fig, lambda i: binding.apply(i), 2, autoplay=False)
+movie.seek(1, draw=False)
+with PdfPages(&quot;migration-atlas.pdf&quot;) as pages:
+    pages.savefig(fig)
+    movie.seek(0, draw=False)
+    pages.savefig(fig)
+movie.close()
+azl.close(fig)
+</code></pre>
+<p>The finite animation interface does not implement infinite frame generators,
+all Matplotlib writers or blitting. Native timers run on Tk/Qt's owner thread;
+manual/headless exports remain independent. GIF requires Pillow; FFmpeg is an
+explicit separate executable, not bundled software. <a href="temporal.html">Temporal guide</a>.</p>
+<p>3D APIs are experimental. Coordinates, height/base and vertical exaggeration
+have explicit metric units; no global datum transform, GPU, transparent surface
+sorting or volumetric renderer is promised. <a href="terrain3d.html">3D guide</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/migration-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

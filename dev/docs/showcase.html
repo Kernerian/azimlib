@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Maps made with Azimlib · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="maps-made-with-azimlib">Maps made with Azimlib</h1>
+<p>These figures use Azimlib 0.2.0 geometry, composition and PNG rendering.
+They are committed so that the README images work in a fresh checkout.
+Natural Earth supplies geographic boundaries and rivers; other values are
+explicitly synthetic. This is not a map of verified navigation classes or
+measured terrain elevation.</p>
+<h2 id="political-map">Political map</h2>
+<p><img src="_static/showcase/brazil.png" alt="Brazil with optional map components" /></p>
+<p>Country/state boundaries, geographic ticks, legend, scale and orientation.
+Source: <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/regions.py">regions.py</a>.</p>
+<h2 id="thematic-map-and-horizontal-colorbar">Thematic map and horizontal colorbar</h2>
+<p><img src="_static/showcase/colorbar-horizontal.png" alt="Synthetic values per state" /></p>
+<p>Scalar values per feature, continuous mapping, editable ticks and colorbar.
+Source: <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a>, <code>horizontal_example()</code>.</p>
+<h2 id="orthographic-globe">Orthographic globe</h2>
+<p><img src="_static/showcase/globe.png" alt="Globe with routes and vector field" /></p>
+<p>An independent spherical projection, graticule, routes and projected vectors.
+This is a two-dimensional projection, not a three-dimensional terrain viewer.
+Source: <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a>, <code>globe_example()</code>.</p>
+<h2 id="scalar-field-hillshade-and-isolines">Scalar field, hillshade and isolines</h2>
+<p><img src="_static/showcase/terrain.png" alt="Synthetic terrain field" /></p>
+<p>Raster field, shading, contours, inline labels, coastline and color scale.
+The elevation field is synthetic.
+Source: <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a>, <code>terrain_example()</code>.</p>
+<h2 id="reproduce">Reproduce</h2>
+<pre><code class="language-bash">python -m pip install -e &quot;.[png]&quot;
+python tools/build_readme_showcase.py
+</code></pre>
+<p>The builder calls the existing examples and Azimlib's renderer, then assembles
+the README overview with Pillow. It does not import Matplotlib. PNG bytes can
+vary with dependency/platform versions; <a href="_static/showcase/manifest.json">the manifest</a>
+records the currently committed files, not a guarantee of identical future bytes.
+Original composition/code is BSD-3-Clause; <a href="../THIRD_PARTY_LICENSES.html">third-party notices</a>
+retain the separate data, palette and font terms.</p>
+<p>The <a href="release-gallery.html">extended gallery</a> documents more reproducible examples;
+its generated local images are not all committed. Run its generator to obtain
+the extended PNG/SVG/HTML previews.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/showcase.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

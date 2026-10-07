@@ -1,0 +1,97 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transforms and composition in 0.3 development · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="transforms-and-composition-in-03-development">Transforms and composition in 0.3 development</h1>
+<p>This is an implemented subset of familiar plotting contracts, using Azimlib's
+own geometry, projection, scene and renderer. Stable PyPI 0.2.0 is unchanged.</p>
+<h2 id="coordinate-spaces-and-inverses">Coordinate spaces and inverses</h2>
+<p><code>ax.transData</code> maps longitude/latitude degrees to display; <code>transProjection</code>
+maps projected X/Y in the projection's units; <code>transAxes</code> maps fractions of
+the actual equal-aspect map box. <code>fig.transFigure</code> uses figure fractions.
+Public display coordinates are DPI pixels, origin bottom-left, Y up. The
+internal scene uses logical 100-DPI pixels and Y down; conversion is explicit.
+<code>IdentityTransform</code> means display coordinates. <code>PhysicalTransform(fig, unit)</code>
+accepts inches, points or mm; <code>fig.dpi_scale_trans</code> is inches to display.</p>
+<pre><code class="language-python">from azimlib.transforms import Affine2D, offset_copy, blended_transform_factory
+
+t = Affine2D().scale(2).translate(5, 3)
+assert t.inverted().transform_point(t.transform_point((1, 2))) == (1, 2)
+ax.text(-50, -20, 'Offset', transform=offset_copy(ax.transData, fig, x=6, y=4, units='points'))
+ax.text(-50, .05, 'Mixed', transform=blended_transform_factory(ax.transData, ax.transAxes))
+</code></pre>
+<p><code>a + b</code> applies a first, b second. Transform objects compose by reference;
+axes limits, figure size and DPI are read live. Affine inversion rejects a
+singular matrix. Geographic inverse/forward may return None outside a domain.
+Mixed inversion is supported only for known separable transforms; a rotated
+or curved geographic blend raises NotImplementedError instead of inventing
+an inverse. Cross-figure Artist transforms are rejected before attachment/edit.
+This is not a full cache/invalidation graph for arbitrary user transforms.</p>
+<p>Existing geometry/scatter/text/path artists accept <code>set_transform(t)</code>; text,
+line and annotation entry points also accept a Transform. An annotation uses
+it for its target and for a data-space text position; offset points remain
+relative to the transformed target. Existing offset-pixels Y-down semantics
+are retained. Independent xycoords/textcoords Transform objects and general
+Figure-text transforms are not yet part of the annotation/text contract.</p>
+<h2 id="gaps-paths-and-editable-collections">Gaps, paths and editable collections</h2>
+<p>Plot inputs preserve NaN gaps in get_data and editing; masked NumPy scalars
+become gaps without making NumPy a core dependency. Infinity is rejected.
+This does not relax strict finite geographic Geometry/GeoJSON validation.
+<code>Path</code> has immutable vertices/codes, MOVETO/LINETO/CURVE3/CURVE4/CLOSEPOLY/STOP
+and compound rings. Public flattening defaults to 24 steps for compatibility;
+PathPatch/LineCollection rendering now uses bounded adaptive subdivision with
+a .2 logical-pixel tolerance. See <a href="finishing.html">curves and transform limits</a>.</p>
+<p><code>PathPatch</code> draws reusable Path geometry under a transform. <code>Symbol.patch()</code>
+creates a new patch per use. <code>LineCollection</code> batches independent paths,
+cycles per-segment colors/widths/dashes, and edits segments/styles/array in
+one transaction with one notification. Its scalar array must match the segment
+count; its norm/cmap drive colors and colorbars. A failed edit leaves data intact.
+Collection attachment currently does not auto-fit path/segment bounds; set
+the map extent explicitly. Curved transformed paths are flattened before their
+transform, rather than using geographic great-circle densification.</p>
+<p>Plot, scatter, fill/patch, collections and unmapped quiver have independent
+style-cycle cursors. Explicit properties do not consume a row when every
+cycle property is already supplied; color-mapped vectors use their mappable.</p>
+<p><code>HandlerBase.create_artists</code> receives the familiar legend/handle/dimensions/
+fontsize/transform signature. Handlers return fresh Azimlib PathPatch artists;
+<code>HandlerSymbol</code> supplies a reusable unit-box Symbol. Instance mappings precede
+MRO class mappings. Arbitrary foreign artists, images and composite handler
+families are outside this initial protocol.</p>
+<h2 id="numeric-scales-dates-and-graticules">Numeric scales, dates and graticules</h2>
+<p><code>scale</code> supplies LinearScale, LogScale, SymLogScale and inverses for numeric
+transforms. <code>dates</code> supplies UTC days since 1970, date2num/num2date,
+DateFormatter, DayLocator, MonthLocator and AutoDateLocator. Date/log locators
+and formatters can be installed on scalar colorbar axes; LogNorm remains a
+color normalization. MapAxes longitude/latitude stay linear degrees and reject
+log/symlog setters. No implicit date-as-latitude or unit converter registry.
+LogFormatter variants produce plain-text powers, not a MathText engine.</p>
+<p>Curved or rotated graticules sample lines over the supported projection domain,
+intersect their segments with the frame and place border ticks at those hits.
+Orthographic horizon endpoints are assigned to a border label side. Sampling
+is bounded (361 points for intersections), not exact analytic intersection of
+every possible projection boundary. Scientific offset artists remain linked
+to the formatter and use the same scene as export/layout; CRS values do not change.</p>
+<h2 id="subfigures-independent-grids-and-layout">Subfigures, independent grids and layout</h2>
+<pre><code class="language-python">fig = azl.figure(figsize=(12, 5), layout='constrained')
+left, right = fig.subfigures(1, 2)
+a, b = left.subplots(), right.subplots()
+left.suptitle('Region A')
+right.suptitle('Region B')
+</code></pre>
+<p>SubFigure owns its axes/text/grids, shares the root canvas and export, and can
+contain subfigures. add_axes/text positions are local fractions; returned
+GridSpecs use root fractions, including explicit updates. MapAxes.figure is
+the root Figure, while its Artist parent is the SubFigure. Independent roots
+must have disjoint explicit regions. The regional solver preserves manual axes,
+uses existing weighted/nested-track measurement and rolls all roots back on
+failure. Overlapping root regions warn and retain the previous positions.</p>
+<p><code>layout='compressed'</code> first solves constrained layout, then compacts measured
+fixed-aspect boxes in complete, unspanned grids. Nested or spanning grids keep
+their constrained solution. This does not reproduce all reference solver
+optimizations. Free Figure/SubFigure text and explicit cax reserve edge strips
+when in_layout is true; interior objects stay manual. It is not a universal
+collision solver. Manual positions remain unchanged. Simple/nested solvers
+retain the existing bounded 16/32 measurement limits and failure rollback.</p>
+<p>See <a href="layout.html">layout</a>, <a href="visual-style.html">rotation and recommended light view</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/composition_atlas.py">runnable atlas</a> and
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_transforms_composition.py">27 integration tests</a>.</p>
+<p>Custom <code>HandlerSymbol</code> fits the finite path bounds uniformly and centres it in
+the handle box, preserving aspect ratio across handle width/height and DPI.
+Empty symbols and nonpositive handle sizes fail explicitly.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/transforms-composition.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

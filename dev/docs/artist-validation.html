@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Auditoria de validação e integração de Artists 2D · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="auditoria-de-validação-e-integração-de-artists-2d">Auditoria de validação e integração de Artists 2D</h1>
+<p>Este lote consolida o primeiro critério da 0.2.0 sem incluir um backend externo.
+O conjunto auditado cobre linhas, scatter, campos raster/mesh/vetores, contornos,
+textos/annotations, spines, outline de colorbar, frame de legenda, escala e ticks.</p>
+<h2 id="correções-entregues">Correções entregues</h2>
+<ul>
+<li>Propriedades numéricas de estilo são validadas e armazenadas como floats.
+Strings numéricas aceitas não deixam valores incompatíveis com a composição.</li>
+<li>Família/tipo/peso de fonte inválidos falham antes de editar dados, controles,
+estilos, norm, colorbar ou notificações. O suporte atual de fontfamily é uma
+string; fontstyle é normal/italic/oblique e fontweight normal/bold ou 100–900.</li>
+<li>Fontsize/labelsize devem ser positivos na Azimlib. Matplotlib pode converter
+tamanhos não positivos em um mínimo: esse detalhe não é reproduzido. Ocultar
+texto continua sendo feito com set_visible ou os controles de ticks.</li>
+<li>Padrões personalizados de tracejado são copiados para tuplas imutáveis.
+Geradores são consumidos uma única vez; editar a lista de entrada não muda
+a linha ou os contornos existentes. Não implementa offset+sequência Matplotlib.</li>
+<li>Spine/outline e LegendFrame validam o lote antes de editar o estado.
+Por exemplo, cor válida com linewidth inválido não deixa uma cor parcial.</li>
+<li>ScaleBar valida também sua criação. Uma tentativa inválida não substitui
+o componente anterior. Criação/edição usam a mesma validação de dimensões.</li>
+<li>tick_params normaliza tamanhos numéricos antes de atualizar configurações;
+labelsize inválido não modifica os labels nem as opções dos ticks/colorbar.</li>
+</ul>
+<p>As validações não constituem rollback geral de callbacks, vários Artists,
+normalizadores customizados ou edição direta de dicionários. Este lote não
+acrescenta um parser completo de cores/fontes ou máscaras de dados.</p>
+<h2 id="evidências">Evidências</h2>
+<ul>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_artist_validation.py">Regressões</a>: 12 testes/52 subtests
+adicionais; estado da figura, ownership, notificações, mappables compartilhados,
+dados/estilos e exportação após sucesso/falha.</li>
+<li><a href="artist-validation-reference.json">Referência direta</a>: estados selecionados
+de setters e rejeição de fontes em Matplotlib instalado. A referência só é
+executada no desenvolvimento; o teste usa o registro sem importar Matplotlib.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/artist_validation.py">Exemplo</a>: rotas e valores sintéticos,
+antes/depois em PNG/SVG/HTML, com norm compartilhada, legenda, escala e contornos.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/smoke_artist_validation_tk.py">Smoke Tk</a>: sete verificações em
+janela real oculta. Um lote de edições gera um redesenho; seis falhas preservam
+imagem, SVG/modelo e contagem de draws. Não mede input físico, aparência nativa,
+latência ou bases densas reais.</li>
+<li>Relatórios <a href="artist-validation-tk.json">source</a> e
+<a href="artist-validation-tk-wheel.json">wheel instalado</a>.</li>
+</ul>
+<h2 id="integração-com-o-corte">Integração com o corte</h2>
+<p>Validação de propriedades numéricas/fontes/tracejados e edição de bordas do
+conjunto acima está entregue. Propriedades/aliases, contornos e integração das
+camadas foram consolidados no <a href="artist-acceptance.html">aceite do passo 1</a>.
+Bases originais mais detalhadas e pintura/input físicos permanecem nos passos
+4–5 da checklist. Não significa que
+toda a API Artist/Line2D/Patch/Collection/Transforms do Matplotlib exista.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/artist-validation.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

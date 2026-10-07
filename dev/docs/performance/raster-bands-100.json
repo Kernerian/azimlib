@@ -1,0 +1,111 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "dpi": 100,
+  "repeats": 4,
+  "points": 1500,
+  "renderer_source_sha256": {
+    "before": {
+      "pillow.py": "4778285f84103e6ff6017b79c3030e8fcd41369845893dbea389556062cc28cc",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    },
+    "after": {
+      "pillow.py": "b1c2b1cfb97906e0cf4dd10651a830701ee19883fb1890618e7f739a6387a396",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    }
+  },
+  "policy": "Each pair reverses before/after order; one immutable scene per case; PNG encoding included; no profiling or memory instrumentation.",
+  "cases": [
+    {
+      "name": "state",
+      "items": 137,
+      "samples_seconds": {
+        "before": [
+          1.3302502000005916,
+          1.3777240999988862,
+          1.6096897999996145,
+          1.695124300000316
+        ],
+        "after": [
+          1.4034518000007665,
+          1.39570730000014,
+          1.5201269999997749,
+          1.7287529000004724
+        ]
+      },
+      "before_median_seconds": 1.4937069499992504,
+      "after_median_seconds": 1.4617894000002707,
+      "reduction_percent": 2.1368013316799273,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689"
+        ],
+        "after": [
+          "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689"
+        ]
+      }
+    },
+    {
+      "name": "brazil",
+      "items": 568,
+      "samples_seconds": {
+        "before": [
+          6.0687625999999,
+          5.851282600000559,
+          5.705667000000176,
+          5.280913099999452
+        ],
+        "after": [
+          5.815316000000166,
+          6.018642799999725,
+          6.51153449999947,
+          5.406830699999773
+        ]
+      },
+      "before_median_seconds": 5.778474800000367,
+      "after_median_seconds": 5.916979399999946,
+      "reduction_percent": -2.39690584095944,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e"
+        ],
+        "after": [
+          "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e"
+        ]
+      }
+    },
+    {
+      "name": "atlas",
+      "items": 656,
+      "samples_seconds": {
+        "before": [
+          7.720475500000248,
+          7.19878460000109,
+          6.99016070000107,
+          7.448983300000691
+        ],
+        "after": [
+          7.207293699999354,
+          7.225332399999388,
+          7.231525999999576,
+          7.324812400000155
+        ]
+      },
+      "before_median_seconds": 7.323883950000891,
+      "after_median_seconds": 7.228429199999482,
+      "reduction_percent": 1.3033350972389002,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae"
+        ],
+        "after": [
+          "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae"
+        ]
+      }
+    }
+  ]
+}

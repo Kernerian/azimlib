@@ -1,0 +1,146 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visualizações e dados necessários · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="visualizações-e-dados-necessários">Visualizações e dados necessários</h1>
+<p>Os nomes abaixo representam aplicações cartográficas; muitos compartilham
+os mesmos artistas. A biblioteca não inventa dados de população, clima ou
+terreno. Os exemplos científicos usam dados sintéticos identificados.</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Implementação atual / evolução</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Político</td>
+<td>map/countries/states/state/borders; municípios próprios via GeoJSON</td>
+</tr>
+<tr>
+<td>Físico</td>
+<td>rivers/lakes/coastlines, campo escalar de terreno fornecido pelo usuário</td>
+</tr>
+<tr>
+<td>Coroplético</td>
+<td>choropleth, bins ou contínuo, norm e colorbar</td>
+</tr>
+<tr>
+<td>Categórico</td>
+<td>categorical, estilos por feature e legenda</td>
+</tr>
+<tr>
+<td>Pontos</td>
+<td>scatter, marcadores/símbolos, textos e labels</td>
+</tr>
+<tr>
+<td>Bolhas proporcionais</td>
+<td>scatter(s=valores): área do marcador em pt²</td>
+</tr>
+<tr>
+<td>Rotas</td>
+<td>line/plot/route, curvas e setas</td>
+</tr>
+<tr>
+<td>Rotas geodésicas</td>
+<td>route(geodesic=True), esfera ou elipsoide próprios</td>
+</tr>
+<tr>
+<td>Heatmap</td>
+<td>imshow/pcolormesh com intensidade fornecida</td>
+</tr>
+<tr>
+<td>Density map</td>
+<td>density/hist2d: pesos + suavização e normalização angular</td>
+</tr>
+<tr>
+<td>Flow map</td>
+<td>flow: rotas geodésicas, magnitude/cores/larguras e legenda; quiver leste/norte; sem grafo/OD especializado</td>
+</tr>
+<tr>
+<td>Isolinhas</td>
+<td>contour/clabel e contourf; tricontourf/tripcolor em malha regional própria</td>
+</tr>
+<tr>
+<td>Raster</td>
+<td>scalar/RGB/RGBA por imshow/GeoRaster, GeoTIFF próprio e resampling nearest/bilinear explícito</td>
+</tr>
+<tr>
+<td>Relevo/hipsometria</td>
+<td>terrain + elevação fornecida, com iluminação e ScalarMappable separado</td>
+</tr>
+<tr>
+<td>Hillshade</td>
+<td>fields.hillshade/ax.hillshade + imshow; unidades físicas explícitas</td>
+</tr>
+<tr>
+<td>Topográfico</td>
+<td>combinação de campo, hillshade, contour, rios e labels</td>
+</tr>
+<tr>
+<td>Climático</td>
+<td>campo escalar, coroplético ou vetores com dados externos</td>
+</tr>
+<tr>
+<td>Hidrográfico</td>
+<td>rios/lagos offline + bacias/drenagem externa; sem algoritmo hidrológico</td>
+</tr>
+<tr>
+<td>Rodoviário</td>
+<td>roads(data) + estilo/hierarquia por feature</td>
+</tr>
+<tr>
+<td>Urbano</td>
+<td>GeoJSON fornecido de ruas/bairros/edifícios + labels/hachuras; bases/APIs especializadas e navegação densa planejadas no <a href="urban.html">roteiro urbano</a></td>
+</tr>
+<tr>
+<td>Populacional</td>
+<td>choropleth, proportional scatter ou density com dados externos</td>
+</tr>
+<tr>
+<td>Elevação 3D</td>
+<td>planejada: câmera, depth buffer e artistas de superfície próprios</td>
+</tr>
+<tr>
+<td>Temporal</td>
+<td>callbacks/editáveis no desktop; animação/frames/time slider especializados planejados</td>
+</tr>
+<tr>
+<td>Atlas</td>
+<td>subplots e várias figuras; exportação paginada/PDF planejada</td>
+</tr>
+<tr>
+<td>Regional focus</td>
+<td>state, set_extent/zoom + overview</td>
+</tr>
+<tr>
+<td>Inset/overview</td>
+<td>inset_axes e overview com foco preto/sombra</td>
+</tr>
+<tr>
+<td>Minimalista</td>
+<td>componentes opt-in, set_axis_off e estilos explícitos</td>
+</tr>
+<tr>
+<td>Dark map</td>
+<td>style.context('dark_background') + estilos das camadas</td>
+</tr>
+<tr>
+<td>Scientific map</td>
+<td>unidades, labels, escalas, colorbars e exportação PNG/SVG</td>
+</tr>
+<tr>
+<td>Infográfico</td>
+<td>textos, annotations, callouts, marcadores, inset e composição própria</td>
+</tr>
+</tbody>
+</table>
+<p>O anexo de nuvem 3D exige uma fundação de câmera/profundidade; não corresponde
+ao renderer cartográfico 2D atual. O globo ortográfico do exemplo já combina
+projeção esférica, geometrias, graticule, rotas e vetores projetados. No momento,
+pan/zoom não equivalem a girar uma câmera 3D.</p>
+<p>Exemplos executáveis: <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific.py">scientific.py</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/components.py">components.py</a>, <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/regions.py">regions.py</a>
+e <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/gallery.py">gallery.py</a> (thematic/density/projections/hydrography).
+O <a href="release-gallery.html">catálogo do corte</a> fornece reprodução conjunta, fontes
+e limites das visualizações.</p>
+<p>As extensões de campos científicos acima pertencem ao desenvolvimento 0.3,
+com <a href="scientific-2d.html">limites e exemplos explícitos</a>; não mudam o PyPI 0.2.0.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/map-types.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

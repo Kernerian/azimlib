@@ -1,0 +1,650 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow": "12.3.0",
+  "renderer_sha256": "4778285f84103e6ff6017b79c3030e8fcd41369845893dbea389556062cc28cc",
+  "case": "atlas",
+  "dpi": 200,
+  "pixels": [
+    2400.0,
+    1600.0
+  ],
+  "png_sha256": "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827",
+  "samples": [
+    {
+      "event": "scene",
+      "memory": {
+        "working_set_bytes": 86892544,
+        "peak_working_set_bytes": 86892544,
+        "private_committed_bytes": 77262848,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        3340,
+        3538
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 272912384,
+        "peak_working_set_bytes": 308346880,
+        "private_committed_bytes": 263335936,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        3340,
+        3538
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 273018880,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 263335936,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1339,
+        938
+      ],
+      "target": [
+        1339,
+        938
+      ],
+      "memory": {
+        "working_set_bytes": 237297664,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 228233216,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1339,
+        938
+      ],
+      "target": [
+        1339,
+        938
+      ],
+      "memory": {
+        "working_set_bytes": 237297664,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 228233216,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1339,
+        938
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 231014400,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 221937664,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1339,
+        938
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 231014400,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 221937664,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        2981,
+        3126
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 264261632,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 254304256,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        2981,
+        3126
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 264265728,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 254304256,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1863,
+        1535
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 238010368,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 227373056,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1863,
+        1535
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 238022656,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 228372480,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1591,
+        1308
+      ],
+      "target": [
+        1591,
+        1308
+      ],
+      "memory": {
+        "working_set_bytes": 246214656,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 235810816,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1591,
+        1308
+      ],
+      "target": [
+        1591,
+        1308
+      ],
+      "memory": {
+        "working_set_bytes": 246214656,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 235810816,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1591,
+        1308
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 235802624,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 225378304,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1591,
+        1308
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 235806720,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 225378304,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1618,
+        1335
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 236122112,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 225693696,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1618,
+        1335
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 236122112,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 225693696,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        2281,
+        1534
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 240873472,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 230170624,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        2281,
+        1534
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 240889856,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 230195200,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1953,
+        1308
+      ],
+      "target": [
+        1953,
+        1308
+      ],
+      "memory": {
+        "working_set_bytes": 249925632,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 239247360,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1953,
+        1308
+      ],
+      "target": [
+        1953,
+        1308
+      ],
+      "memory": {
+        "working_set_bytes": 249925632,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 239247360,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1953,
+        1308
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 237150208,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 226447360,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1953,
+        1308
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 237150208,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 226447360,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1634,
+        828
+      ],
+      "target": [
+        1634,
+        828
+      ],
+      "memory": {
+        "working_set_bytes": 239374336,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 228659200,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1634,
+        828
+      ],
+      "target": [
+        1634,
+        828
+      ],
+      "memory": {
+        "working_set_bytes": 239374336,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 228659200,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1634,
+        828
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 232603648,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 221876224,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1634,
+        828
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 232603648,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 221876224,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        1979,
+        1335
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 237760512,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 227041280,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        1979,
+        1335
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 237760512,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 227041280,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_enter",
+      "mode": "RGBA",
+      "source": [
+        6772,
+        285
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 234885120,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 224903168,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "composite_exit",
+      "mode": "RGBA",
+      "source": [
+        6772,
+        285
+      ],
+      "target": [
+        7200,
+        4800
+      ],
+      "memory": {
+        "working_set_bytes": 234885120,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 224903168,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "resize_enter",
+      "mode": "RGBA",
+      "source": [
+        7200,
+        4800
+      ],
+      "target": [
+        2400,
+        1600
+      ],
+      "memory": {
+        "working_set_bytes": 227905536,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 217165824,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "resize_enter",
+      "mode": "RGBa",
+      "source": [
+        7200,
+        4800
+      ],
+      "target": [
+        2400,
+        1600
+      ],
+      "memory": {
+        "working_set_bytes": 366186496,
+        "peak_working_set_bytes": 367513600,
+        "private_committed_bytes": 355708928,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "resize_exit",
+      "mode": "RGBa",
+      "source": [
+        7200,
+        4800
+      ],
+      "target": [
+        2400,
+        1600
+      ],
+      "memory": {
+        "working_set_bytes": 381566976,
+        "peak_working_set_bytes": 427651072,
+        "private_committed_bytes": 371105792,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "resize_exit",
+      "mode": "RGBA",
+      "source": [
+        7200,
+        4800
+      ],
+      "target": [
+        2400,
+        1600
+      ],
+      "memory": {
+        "working_set_bytes": 243298304,
+        "peak_working_set_bytes": 427651072,
+        "private_committed_bytes": 232562688,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    },
+    {
+      "event": "png",
+      "memory": {
+        "working_set_bytes": 90013696,
+        "peak_working_set_bytes": 427651072,
+        "private_committed_bytes": 79081472,
+        "source": "Windows GetProcessMemoryInfo"
+      }
+    }
+  ],
+  "notes": [
+    "Single instrumented diagnostic, not used for timing comparison or statistical gain.",
+    "Callbacks select native resize/composite calls with more than one million source pixels.",
+    "OS high-water mark covers the whole process, not a single stage/native-only allocation. Callbacks do not locate all transient native allocations."
+  ]
+}

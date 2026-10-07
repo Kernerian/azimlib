@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Edição de textos do mapa e annotations · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="edição-de-textos-do-mapa-e-annotations">Edição de textos do mapa e annotations</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p><code>ax.text()</code> devolve um <code>MapText</code> e <code>ax.annotate()</code> devolve uma <code>Annotation</code>
+própria. Ambos continuam subclasses de Layer/Artist, com visibilidade,
+remoção, callbacks, invalidação e estilo usados pela mesma composição.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots()
+ax.set_extent((-54, -42, -28, -16))
+text = ax.text(-48, -22, &quot;Local inicial&quot;)
+text.set(position=(-46, -20), text=&quot;Local editado&quot;, color=&quot;red&quot;, ha=&quot;center&quot;)
+text.set_x(-45)
+text.set_y(-19)
+print(text.get_position())
+</code></pre>
+<p>Posição significa longitude/latitude em graus com <code>transform=&quot;data&quot;</code>, ou
+frações do Axes com <code>transform=&quot;axes&quot;</code>. <code>set_position</code>, <code>set_x/set_y</code> e os
+respectivos getters respeitam esse sistema; não deslocam limites nem disparam
+autoescala. <code>setp/getp</code> também aceitam essas propriedades. Latitude geográfica
+é validada em [-90,90]; longitude segue o núcleo existente, inclusive valores
+desenrolados. Posições fora do Axes podem ser cortadas pelo viewport.</p>
+<p>Os handles oferecem <code>set/get_horizontalalignment</code>, <code>set/get_verticalalignment</code>
+e aliases ha/va, fontfamily/fontstyle, size/weight. Texto de título, rótulo,
+legenda e colorbar também recebe esses setters de estilo. A família suportada
+é uma string; isso não reproduz FontProperties e sua lista de fallback. Fonte
+em tamanho numérico e os limites de shaping existentes continuam válidos.
+Rotação consultada é normalizada em [0,360), como na referência.</p>
+<h2 id="posição-do-texto-e-destino-da-annotation">Posição do texto e destino da annotation</h2>
+<pre><code class="language-python">note = ax.annotate(
+    &quot;Destino&quot;, xy=(-48, -22), xytext=(18, 20),
+    textcoords=&quot;offset points&quot;, color=&quot;#553377&quot;
+)
+note.xy = (-44, -20)       # destino geográfico da seta
+note.xyann = (-100, -26)  # posição do texto no sistema textcoords
+note.set_position((-80, 12))
+note.set_anncoords(&quot;offset points&quot;)
+</code></pre>
+<p><code>get_position()</code>/<code>set_position()</code> editam o texto, preservando xy. <code>xy</code> é sempre
+o destino lon/lat; <code>xyann</code> acompanha a posição do texto. <code>get_anncoords()</code> e
+<code>set_anncoords()</code> consultam/trocam o sistema, sem converter numericamente os
+valores existentes, como na referência.</p>
+<table>
+<thead>
+<tr>
+<th>textcoords/anncoords</th>
+<th>Unidades</th>
+<th>Y positivo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&quot;data&quot;</code></td>
+<td>graus lon/lat</td>
+<td>norte</td>
+</tr>
+<tr>
+<td><code>&quot;axes fraction&quot;</code> ou alias anterior <code>&quot;axes&quot;</code></td>
+<td>frações do mapa</td>
+<td>para cima</td>
+</tr>
+<tr>
+<td><code>&quot;offset points&quot;</code></td>
+<td>pontos físicos a partir de xy</td>
+<td>para cima</td>
+</tr>
+<tr>
+<td><code>&quot;offset pixels&quot;</code> anterior</td>
+<td>pixels lógicos a 100 DPI a partir de xy</td>
+<td>para baixo</td>
+</tr>
+</tbody>
+</table>
+<p><code>offset points</code> preserva a distância física ao variar DPI/projeção. O caminho
+anterior <code>offset pixels</code> e seu default de <code>(20,-20)</code> foram mantidos para não
+alterar exemplos existentes; <strong>não são a semântica de offset pixels do
+Matplotlib</strong>. Use <code>offset points</code> para a convenção familiar de anotação.</p>
+<p>O lote abaixo é uma conveniência adicional própria: xy, posição, sistema e
+estilo são validados juntos antes de alterar o mesmo handle.</p>
+<pre><code class="language-python">note.set(
+    xy=(-44, -20), position=(0.6, 0.8), anncoords=&quot;axes fraction&quot;,
+    text=&quot;Novo destino&quot;, color=&quot;blue&quot;, fontsize=12
+)
+</code></pre>
+<p>Recomposição de seta, texto, clipping e obstáculos de labels utiliza as
+coordenadas editadas. <code>set_visible(False)</code> e <code>remove()</code> continuam funcionando;
+editar um handle removido não invalida sua Figure antiga. Não cria um sistema
+geral de Transforms, xycoords customizados, picking ou edição por arrastar.
+Arrowprops/FancyArrowPatch ainda não estão implementados. O estilo de seta
+próprio e seus limites continuam os anteriores. Camadas de texto agora oferecem
+<a href="text-rotation.html">rotation_mode</a>, compartilhado com os demais textos.</p>
+<h2 id="títulos-e-rótulos-de-componentes">Títulos e rótulos de componentes</h2>
+<pre><code class="language-python">legend = ax.legend(title=&quot;Pesquisa&quot;)
+legend.set_title(&quot;Pesquisa atualizada&quot;, fontsize=11, color=&quot;black&quot;)
+bar.set_label(&quot;Indicador atualizado&quot;, labelpad=6, loc=&quot;center&quot;, fontsize=11)
+</code></pre>
+<p>Estilo/alinhamento inválido não deixa o texto parcialmente modificado.
+<code>Colorbar.set_label()</code> valida também labelpad/loc antes de gravar; o título da
+legenda e seu dicionário, ou o rótulo da barra e sua posição, chegam coerentes
+aos callbacks. Um lote válido notifica uma vez por handle editado; a contagem
+exata de callbacks do Matplotlib não é reproduzida. Exceções em callbacks
+ocorrem após o commit e não desfazem a edição, como no protocolo Artist existente.</p>
+<h2 id="exemplos-e-validação">Exemplos e validação</h2>
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/text_edits.py">exemplo</a> exporta
+antes (<code>gallery/component-text-edits-before.png</code>, generated locally) e
+depois (<code>gallery/component-text-edits-after.png</code>, generated locally), incluindo mapa, texto,
+annotation, legenda, escala e colorbar horizontal, sem Matplotlib.
+Os comparativos antes (<code>gallery/text-edits-before-comparison.png</code>, generated locally) e
+depois (<code>gallery/text-edits-after-comparison.png</code>, generated locally) usam Axes/layout
+independentes no Matplotlib instalado e as mesmas coordenadas/estilos.
+Fontes, clipping de texto, composição e setas apresentam diferenças; não há
+igualdade de pixels ou implementação completa do sistema Text/Annotation.</p>
+<p><a href="text-edits-reference.json">19 estados</a> foram registrados diretamente de
+Matplotlib 3.11.2/Agg e verificados em testes sem importar a referência.
+As regressões também verificam edição atômica, callbacks finais, ownership,
+projeções/DPI, offsets, obstáculos e exportação própria.
+<code>tools/inspect_text_edits.py</code> recria contratos/comparativos em desenvolvimento.
+Nenhum renderizador ou classe do Matplotlib é usado no runtime.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/text-edits.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

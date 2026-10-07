@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Publishing Azimlib · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="publishing-azimlib">Publishing Azimlib</h1>
+<p>The publication workflow is manual. It checks that its commit is the current
+<code>main</code> and that all 24 jobs of the test workflow passed for that exact commit.
+It builds and audits wheel/sdist, runs an isolated installation smoke check,
+and passes those distributions to a separate, narrowly authorized publish job.
+It never publishes on an ordinary push or pull request.</p>
+<h2 id="first-pypi-project">First PyPI project</h2>
+<p>Create a PyPI account, verify its email and enable two-factor authentication.
+For a new project, register a pending GitHub Trusted Publisher under your PyPI
+account's publishing settings with:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PyPI project</td>
+<td><code>azimlib</code></td>
+</tr>
+<tr>
+<td>GitHub owner</td>
+<td><code>Kernerian</code></td>
+</tr>
+<tr>
+<td>Repository</td>
+<td><code>azimlib</code></td>
+</tr>
+<tr>
+<td>Workflow filename</td>
+<td><code>publish.yml</code></td>
+</tr>
+<tr>
+<td>Environment</td>
+<td><code>pypi</code></td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="https://docs.pypi.org/trusted-publishers/creating-a-project-through-oidc/">PyPI's new-project instructions</a>.
+No long-lived token, account password or recovery code belongs in this repository.
+Registration of a pending publisher does not guarantee a project name is available.</p>
+<h2 id="release">Release</h2>
+<ol>
+<li>Review the version, changelog, package metadata and third-party notices.</li>
+<li>Require source/history privacy audits and a green 24-job CI matrix at <code>main</code>.</li>
+<li>Run <strong>Actions → publish → Run workflow</strong> on <code>main</code> after publisher registration.</li>
+<li>Check both publish jobs, PyPI version/files and their SHA-256 digests against
+the workflow's audited distributions. Test installation from PyPI.</li>
+<li>Announce only the version actually uploaded. Update any prepublication note
+in the README after upload confirmation, and tag the exact released source.</li>
+</ol>
+<p>PyPI version uploads are immutable. A failed or absent publisher registration
+must be resolved rather than bypassing checks or committing a credential.
+The project remains independent of Matplotlib and other GIS engines after upload.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/publishing.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

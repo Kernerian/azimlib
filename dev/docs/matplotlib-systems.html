@@ -1,0 +1,162 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sistemas de referência e evolução da Azimlib · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="sistemas-de-referência-e-evolução-da-azimlib">Sistemas de referência e evolução da Azimlib</h1>
+<p>Referência inspecionada diretamente: Matplotlib 3.11.2 instalado em ambiente de
+desenvolvimento separado. <code>tools/inspect_reference.py</code> registra 27 módulos e
+894 símbolos públicos em <code>matplotlib-reference.json</code>. A inspeção não copia o
+backend nem inclui Matplotlib como dependência da biblioteca.</p>
+<p>O objetivo é manter o vocabulário e a organização familiar de Figure, Axes e
+artistas, acrescentando coordenadas, projeções e componentes cartográficos.
+Não há promessa de compatibilidade integral ou igualdade de pixels nesta versão.</p>
+<table>
+<thead>
+<tr>
+<th>Sistema do Matplotlib</th>
+<th>Fundação atual na Azimlib</th>
+<th>Próxima evolução</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pyplot e gerenciamento de figuras</td>
+<td>seleção por número/nome/sca, subplot/mosaicos, show/close, ion/ioff e conveniências</td>
+<td>integração ampliada de event loop</td>
+</tr>
+<tr>
+<td>Figure, Axes e composição</td>
+<td>GridSpec raiz/filhos/spans/pesos, mosaicos aninhados, compartilhamento, rótulos globais, inset, dimensões/DPI, tight/constrained, SubFigure, raízes disjuntas e compressed limitado (0.3 dev)</td>
+<td>alinhamento global de labels e refinamentos do solver</td>
+</tr>
+<tr>
+<td>Artist, Text, Line2D, Patch</td>
+<td>Artist próprio, Layer/Text/Spine/Legend, ScatterCollection editável, ownership, stale, callbacks, setp/getp, edição de linhas e relim/autoscale_view</td>
+<td>outras classes especializadas, propriedades completas, picking e seleção</td>
+</tr>
+<tr>
+<td>Paths, patches e collections</td>
+<td>primitivas próprias, polígonos com buracos, Paths/coleções editáveis, símbolos reutilizáveis, círculos e dez hachuras</td>
+<td>padrões e símbolos externos com proveniência</td>
+</tr>
+<tr>
+<td>Cores, Normalize e ScalarMappable</td>
+<td>normalizadores próprios, tabelas CC0 e callbacks de norm compartilhada/mappable para colorbars</td>
+<td>normalizadores adicionais, reclassificação discreta, RGBA e arrays mascarados</td>
+</tr>
+<tr>
+<td>rcParams e style sheets</td>
+<td>defaults validados, rc_context, arquivos locais, style.use/context empilhados/reset e ciclos próprios condicionais</td>
+<td>discovery, rcParams/ciclos de outras classes mais amplos e novos perfis</td>
+</tr>
+<tr>
+<td>Axis, ticker e scale</td>
+<td>ticks maiores/menores, grades por grupo/eixo, locators/formatters próprios, graus/hemisférios/DMS, labels, spines, tick_params, autoescala/margens, ScalarFormatter científico/offsets editáveis e EngFormatter SI</td>
+<td>objetos Tick completos, MathText/TeX, sticky_edges, escalas completas e unidades extensíveis</td>
+</tr>
+<tr>
+<td>transforms</td>
+<td>projeção forward/inverse, CRS, viewport e transforms composáveis próprios (0.3 dev)</td>
+<td>invalidação/cache de grafos arbitrários; câmera 3D</td>
+</tr>
+<tr>
+<td>Grid e coordenadas</td>
+<td>graticules opcionais, controle X/Y, N/S/E/W e interseções amostradas de bordas curvas (0.3 dev)</td>
+<td>interseção exata de graticules com bordas curvas</td>
+</tr>
+<tr>
+<td>Legend e colorbar</td>
+<td>múltiplas colunas, handles compostos, best/bbox_to_anchor, textos/frame editáveis, colorbar compartilhada, cax, tickers, norm/clim e handlers PathPatch/Symbol (0.3 dev)</td>
+<td>handlers de famílias adicionais e regeneração de legendas temáticas</td>
+</tr>
+<tr>
+<td>Text, fonts e annotations</td>
+<td>fontes DejaVu, rotação, multiline, halo, callout, labels na direção local de linhas, colisões com annotations/insets, prioridade por atributo e filtro por extensão</td>
+<td>texto curvo por glifo, shaping complexo, posicionamento global otimizado</td>
+</tr>
+<tr>
+<td>Eventos e navegação</td>
+<td>callbacks de mouse/teclado/desenho, pan/zoom/home/history com estados de autoescala</td>
+<td>picking, seleção de features, atualização incremental e eventos padronizados</td>
+</tr>
+<tr>
+<td>Backends e canvas</td>
+<td>SVG próprio, Pillow próprio, Tk desktop, HTML explícito</td>
+<td>backend Qt, PDF e cache de renderização</td>
+</tr>
+<tr>
+<td>Widgets</td>
+<td>toolbar, configuração de subplots e minimapa opcional</td>
+<td>selectors, sliders, botões e controles de camadas</td>
+</tr>
+<tr>
+<td>Animation</td>
+<td>ainda não implementada</td>
+<td>atualização de dados, blitting e exportação temporal</td>
+</tr>
+<tr>
+<td>Image, contour, tri e raster</td>
+<td>densidade angular, imagens/meshes/vetores editáveis, marching squares e hillshade</td>
+<td>raster georreferenciado, RGB/máscaras, triangulação, edição de contornos, contourf e resampling</td>
+</tr>
+<tr>
+<td>units, dates e escalas não lineares</td>
+<td>graus e CRS explícitos; na 0.3.0 dev, unidades/modelos, geodesia elipsoidal e UTM regional próprios; datas/log tickers e transforms numéricos (0.3 dev)</td>
+<td>conversores automáticos de unidades e escalas adicionais</td>
+</tr>
+<tr>
+<td>mplot3d, polar, axisartist e toolkits</td>
+<td>fora desta primeira fundação</td>
+<td>avaliar por caso; não são pré-requisitos para cartografia 2D</td>
+</tr>
+<tr>
+<td>Testes e distribuição</td>
+<td>testes numéricos, exportação, independência e componentes</td>
+<td>baselines visuais, benchmarks, versões de dados e CI multiplataforma</td>
+</tr>
+</tbody>
+</table>
+<p>Séries e estilos têm <a href="series-styles.html">contratos diretamente registrados</a>:
+plot com grupos/matrizes/lookup data, composição de ciclos, contexto/reset,
+folha local e defaults da legenda. Propriedades completas, masks/units e
+compatibilidade integral permanecem fora deste subconjunto.</p>
+<h2 id="da-decomposição-visual-ao-mapa-completo">Da decomposição visual ao mapa completo</h2>
+<p><code>examples/components.py</code> reúne os equivalentes dos nove elementos da imagem de
+referência: título, legenda, área do mapa, labels de longitude/latitude, ticks,
+grid e três séries com cores, traçados e marcadores diferentes. Acrescenta
+camadas territoriais, rios, annotation, escala e rosa dos ventos. Todos são
+adicionados explicitamente. Não inclui minimapa por padrão.</p>
+<pre><code class="language-python">import azimlib.pyplot as plt
+
+with plt.rc_context({'axes.titlesize': 16, 'lines.linewidth': 2}):
+    fig, ax = plt.subplots(subplot_kw={'projection': 'mercator'})
+    ax.map('brazil')
+    line, = ax.plot([-60, -50, -40], [-20, -15, -10], 'o--', label='Rota')
+    title = ax.set_title('Brasil')
+    title.set_color('#222222')
+    ax.set_xticks([-70, -60, -50, -40])
+    ax.tick_params(direction='out', labelsize=9)
+    ax.spines['top'].set_linewidth(1)
+    ax.grid(step=10)
+    ax.legend([line], ['Rota demonstrativa'], loc='upper left')
+    ax.scale_bar()
+    ax.compass()
+    fig.savefig('brasil.svg')
+    plt.show()
+</code></pre>
+<h2 id="caminho-para-o-mapa-de-hidrovias">Caminho para o mapa de hidrovias</h2>
+<ol>
+<li><strong>Acabamento:</strong> finalizar métricas/layout, offsets dinâmicos no HTML, handlers de legenda
+compostas e escala segmentada configurável; manter exemplos de comparação.</li>
+<li><strong>Simbologia cartográfica:</strong> largura/cor/traçado por atributo, labels sobre
+linhas, prioridade e prevenção de colisões. As categorias devem gerar legendas
+com a mesma simbologia, sem exigir desenho manual dos exemplos.</li>
+<li><strong>Dados e semântica:</strong> conectar cada trecho a uma fonte versionada de
+navegabilidade, com categoria, situação e data. Os rios Natural Earth atuais
+não fornecem todas essas classes. As rotas coloridas do exemplo são
+esquemáticas e não representam hidrovias classificadas.</li>
+<li><strong>Escala e desempenho:</strong> recorte por viewport, índice espacial, simplificação
+por resolução e cache antes de aumentar o detalhe de rios e municípios.</li>
+<li><strong>Validação:</strong> mapa completo com testes de geometria, escala, classificação,
+legenda, legibilidade e exportação; depois repetir o processo com outros temas.</li>
+</ol>
+<p>Cada etapa deve entregar um mapa reproduzível e ampliar os mesmos componentes
+públicos. Evita-se uma coleção de funções especiais que só funcionam na demo.</p>
+<p>O <a href="pending.html">inventário detalhado de pendências</a> reúne o trabalho restante.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/matplotlib-systems.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

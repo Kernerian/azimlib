@@ -1,0 +1,59 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Conferência integrada de layout — itens 2.08–2.10 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="conferência-integrada-de-layout-itens-208210">Conferência integrada de layout — itens 2.08–2.10</h1>
+<p>Passo 2 aceito neste escopo: 624 testes/16.577 subtests passaram; 16 regressões
+novas também passaram no wheel instalado. A versão permanece 0.1.0 alpha.</p>
+<p>Os relatórios desse aceite preservam hashes dos módulos que os produziram;
+Tk/Pillow/typography anteriores estão em <code>tools/baselines/interactive-tiles-before</code>.
+As medições históricas não são relabeladas como execuções do viewer atual.
+A suíte atual e galeria regenerada estão em <a href="validation.html">validação</a>; o
+<a href="viewer-visible-acceptance.html">aceite visual do passo 3</a> é evidência separada.</p>
+<p>O lote combina mapas regionais, atlas vertical e grids aninhados com títulos
+multilinhas, ticks a 35°, nomes dos eixos e rótulos globais. Legenda, barra de
+escala, norte, rosa e overview são adicionados explicitamente pelo exemplo;
+nenhum deles aparece por padrão.</p>
+<p><code>examples/layout_acceptance.py</code> mede 24 cenas: três composições, duas orientações
+de colorbar, fontes de 14/18 pontos e 100/200 DPI. Gera seis conjuntos de
+PNG/SVG/HTML com dados estaduais reais embarcados e rotas/valores sintéticos.
+O cenário regional usa 4,6 × 5,8 polegadas; atlas e grid aninhado recebem espaço
+compatível com os textos grandes. Os ticks são explicitamente mais esparsos
+na fonte de 18 pontos: layout não altera uma FixedLocator para esconder colisões.</p>
+<h2 id="correções-e-evidências">Correções e evidências</h2>
+<ul>
+<li><a href="text-rotation.html">Rotação</a>: alinhamento do bloco após girar, modos editáveis,
+nome do eixo Y com anchor e título considerando caixas de ticks/descendentes.</li>
+<li>Padding da colorbar medido a partir dos textos major/minor reais, incluindo
+multilinhas e rotação. A <a href="layout-acceptance-reference.json">referência</a> confere
+24 controles de labelpad e 18 distâncias físicas. Na posição superior, o label
+de Matplotlib usa baseline e deixa 4,64 pontos de vão no caso de oito pontos;
+Azimlib conserva os oito pontos até a caixa. Essa diferença é explícita.</li>
+<li>Barras compartilhadas usam a área de subplot efetivamente alocada na medição
+e reservam folga interna automática sem reescrever <code>bar.pad</code>. <code>cax</code> manual
+mantém sua posição. Falha de layout restaura posições e reservas anteriores.</li>
+<li>Overview pequeno acompanha a área real do mapa; a medição de layout não
+reprojeta a geometria do contexto. O foco permanece preto.</li>
+<li><a href="layout-acceptance-matrix.json">Matriz</a>, <code>tests/test_layout_acceptance.py</code> e
+<a href="composition-matrix-reference.json">54 composições</a>. A fotografia anterior
+da matriz está em <code>tools/baselines/layout-acceptance-before/</code>.</li>
+</ul>
+<p>O smoke <code>tools/smoke_layout_acceptance_tk.py</code> cobre seis cenários com edições,
+toggles/restauração, resize a 200 DPI, foco/Home e comparação de RGBA/PNG/SVG.
+Os <a href="layout-acceptance-tk-source.json">relatórios source</a>/<a href="layout-acceptance-tk-wheel.json">wheel</a>
+registram 30 checks/18 frames cada, origem e hashes dos arquivos importados.
+Nove scripts Tk anteriores passaram novamente no wheel, registrados em
+<a href="layout-acceptance-tk-regressions-wheel.json">regressões</a>; o smoke de Artists
+foi repetido separadamente source/wheel, com 14 checks cada.
+Ele usa Tk real com janela oculta; não encerra o aceite de aparência/input da
+janela visível do passo 3.08. A CI inclui esse smoke, mas execução remota e
+outros sistemas não são evidências locais.</p>
+<h2 id="composição-automática-e-manual">Composição automática e manual</h2>
+<p>Layout reserva decorações de eixos, barras e rótulos globais; não é um solver
+para qualquer par de textos. Textos livres, annotations, componentes sobre
+dados, <code>add_axes()</code> e <code>cax</code> explícito exigem decisão do autor. <code>in_layout=False</code>
+desenha o Artist sem reservar espaço. Posições globais explicitadas em
+<code>fig.supxlabel(..., x=..., y=...)</code>/<code>supylabel(...)</code> são conservadas. Um setter de
+posição em rótulo global ainda automático pode ter sua coordenada perpendicular
+recalculada pelo engine, também observado diretamente no Matplotlib.</p>
+<p>Grades não são obrigatórias. Dimensões insuficientes ou falta de convergência
+geram aviso e conservam posições anteriores; fontes não são reduzidas
+silenciosamente. Solvers próprios e rasterização não prometem os mesmos pixels
+nem a mesma distribuição de espaço de todos os layouts Matplotlib.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/layout-acceptance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

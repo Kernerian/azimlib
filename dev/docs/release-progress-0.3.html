@@ -1,0 +1,641 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progresso da Azimlib 0.3.0 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="progresso-da-azimlib-030">Progresso da Azimlib 0.3.0</h1>
+<p>Status: <strong>em desenvolvimento, não publicada</strong>. A versão estável publicada é 0.2.0.
+Esta é a checklist operacional única; os IDs são estáveis. O <a href="release-progress.html">registro da 0.2.0</a> permanece separado.</p>
+<p><strong>76 concluídos / 4 pendentes</strong>. Contagem por subpassos, não por frentes amplas.</p>
+<h2 id="regras-de-conclusão">Regras de conclusão</h2>
+<p>Marcar um subpasso somente após implementação, testes de contrato/regressão e documentação.
+Recursos visuais exigem exemplo reproduzível e exportação inspecionada. Novos formatos/datasets
+exigem proveniência/licença, limites declarados e testes de dados inválidos. A conclusão do
+passo exige integração entre seus subpassos; não basta uma API vazia ou um screenshot.
+O estado de Python/plataformas só será atualizado a partir da CI efetivamente executada.
+Matplotlib pode ser uma referência de comportamento em ferramentas de comparação; o runtime
+continua independente e os componentes cartográficos permanecem opcionais.</p>
+<p>O escopo é o corte verificável descrito abaixo, não a promessa de implementar todos os
+toolkits/CRS/formatos do mercado. API 3D será experimental e própria. Mudanças de escopo
+devem ser registradas aqui, com motivo, sem apagar IDs nem reduzir silenciosamente o total.</p>
+<h2 id="ordem-dos-lotes">Ordem dos lotes</h2>
+<p>Começar por 1; seguir com 2 e 3. O núcleo do passo 4 sustenta 5–9.
+Acabamento/performance/licenças entram em cada lote; o passo 10 consolida os gates.
+A numeração não impede corrigir uma regressão imediatamente.</p>
+<h2 id="1-dados-e-fundação-urbana">1. Dados e fundação urbana</h2>
+<ul>
+<li>[x] <strong>1.01</strong> Seleção imutável por atributos, predicado e tipo de geometria, preservando IDs/ordem.</li>
+<li>[x] <strong>1.02</strong> Leitor CSV de pontos com colunas/conversores explícitos e validação de registros.</li>
+<li>[x] <strong>1.03</strong> Artist de cidades/POIs, distinguindo centros de limites administrativos.</li>
+<li>[x] <strong>1.04</strong> Camada de bairros com filtros e estilos por feature.</li>
+<li>[x] <strong>1.05</strong> Camada de ruas com seleção de hierarquia e estilos físicos em pontos.</li>
+<li>[x] <strong>1.06</strong> Camada de plantas de construções, sem fingir extrusão 3D.</li>
+<li>[x] <strong>1.07</strong> Atlas urbano sintético exportável em PNG/SVG, usando somente o núcleo próprio.</li>
+<li>[x] <strong>1.08</strong> Contratos urbanos, erros sem mutação, ciclo de visibilidade/edição e testes de regressão.</li>
+</ul>
+<h2 id="2-formatos-dados-reais-e-proveniência">2. Formatos, dados reais e proveniência</h2>
+<ul>
+<li>[x] <strong>2.01</strong> Leitor Shapefile próprio: cabeçalho, índice SHX, Point/Polyline/Polygon e multipartes.</li>
+<li>[x] <strong>2.02</strong> Leitor DBF próprio, codificação explícita, registros excluídos e vínculo com SHP.</li>
+<li>[x] <strong>2.03</strong> Leitor KML próprio: placemarks, geometrias, altitude e política XML sem recursos externos.</li>
+<li>[x] <strong>2.04</strong> Leitor OSM XML local: nodes/ways e relações multipolygon, com diagnóstico de referências incompletas.</li>
+<li>[x] <strong>2.05</strong> Contrato de raster georreferenciado com extent/CRS/NoData e sidecars world-file.</li>
+<li>[x] <strong>2.06</strong> Entrada GeoTIFF inicial: tags de georreferência e variantes suportadas explicitamente delimitadas.</li>
+<li>[x] <strong>2.07</strong> Exemplo urbano real pequeno com fonte/versão/licença/atribuição e licença de dados separada.</li>
+<li>[x] <strong>2.08</strong> Catálogo de dados opcionais versionados, sem downloads implícitos, com validação de integridade.</li>
+</ul>
+<h2 id="3-crs-geodesia-e-robustez-cartográfica">3. CRS, geodesia e robustez cartográfica</h2>
+<ul>
+<li>[x] <strong>3.01</strong> Modelo de elipsoide, parâmetros de datum e unidades com contratos públicos.</li>
+<li>[x] <strong>3.02</strong> Geodesia elipsoidal direta/inversa com convergência e casos quase antipodais verificados.</li>
+<li>[x] <strong>3.03</strong> Transversa de Mercator/UTM próprias, zonas/hemisférios e transformações inversas.</li>
+<li>[x] <strong>3.04</strong> Projeções adicionais prioritárias: estereográfica e azimutal equidistante.</li>
+<li>[x] <strong>3.05</strong> Viewport atravessando antimeridiano, incluindo navegação, ajuste de limites e exportação.</li>
+<li>[x] <strong>3.06</strong> Recorte esférico de linhas/polígonos com horizonte e casos degenerados documentados.</li>
+<li>[x] <strong>3.07</strong> Topologia básica: testes de interseção, orientação e validação de anéis/fronteiras.</li>
+<li>[x] <strong>3.08</strong> Matriz numérica de forward/inverse, singularidades, tolerâncias e dados em CRS explícito.</li>
+</ul>
+<h2 id="4-transforms-artists-escalas-e-composição">4. Transforms, Artists, escalas e composição</h2>
+<ul>
+<li>[x] <strong>4.01</strong> Transforms composáveis geo/projetado/axes/figure/display com inversas e unidades físicas.</li>
+<li>[x] <strong>4.02</strong> Transforms mistos e vínculo de objetos existentes sem quebrar coordenadas geográficas.</li>
+<li>[x] <strong>4.03</strong> Linhas com gaps NaN/máscaras, Paths públicos e coleções editáveis em lotes.</li>
+<li>[x] <strong>4.04</strong> Locators/formatters de datas e logs; contrato de escalas separado de CRS/latitude.</li>
+<li>[x] <strong>4.05</strong> Ticks de graticules em bordas curvas e offsets científicos consistentes.</li>
+<li>[x] <strong>4.06</strong> SubFigure e solver para múltiplos GridSpecs raiz, preservando posições explícitas.</li>
+<li>[x] <strong>4.07</strong> Layout compressed, obstáculos de textos livres/cax e critérios de convergência.</li>
+<li>[x] <strong>4.08</strong> Ciclos de estilo nas demais famílias, símbolos reutilizáveis e handlers de legenda personalizados.</li>
+</ul>
+<h2 id="5-raster-terreno-e-mapas-científicos-2d">5. Raster, terreno e mapas científicos 2D</h2>
+<ul>
+<li>[x] <strong>5.01</strong> Raster RGB/RGBA, máscaras/NoData e exportação consistente.</li>
+<li>[x] <strong>5.02</strong> Resampling nearest/bilinear de campos geográficos com cobertura e NoData.</li>
+<li>[x] <strong>5.03</strong> contourf próprio, níveis discretos, holes e ligação a ScalarMappable/colorbar.</li>
+<li>[x] <strong>5.04</strong> Campos irregulares e triangulação inicial própria com degenerações explícitas.</li>
+<li>[x] <strong>5.05</strong> Heatmaps/densidade, normalização, amostras ponderadas e controles de resolução.</li>
+<li>[x] <strong>5.06</strong> Fluxos/vetores geográficos e rotas geodésicas com legendas temáticas.</li>
+<li>[x] <strong>5.07</strong> Hipsometria/hillshade/topográfico: composição raster + contornos + hidrografia.</li>
+<li>[x] <strong>5.08</strong> Colorbars/legendas: máscaras, atualização de classes, norm/RGBA e edição vinculada.</li>
+</ul>
+<h2 id="6-acabamento-visual-texto-e-exportação">6. Acabamento visual, texto e exportação</h2>
+<ul>
+<li>[x] <strong>6.01</strong> Curvas/caps/junções e clipping fracionário: testes PNG/SVG no mesmo DPI.</li>
+<li>[x] <strong>6.02</strong> Tipografia subpixel e métricas/hinting, com auditoria de todos os tipos de texto.</li>
+<li>[x] <strong>6.03</strong> Âncoras interiores de polígonos, prioridade e colisões de labels/leader lines.</li>
+<li>[x] <strong>6.04</strong> Textos ao longo de curvas e repetição de nomes em ruas/rios extensos.</li>
+<li>[x] <strong>6.05</strong> Expressões matemáticas simples próprias e documentação das limitações de shaping.</li>
+<li>[x] <strong>6.06</strong> Símbolos/ícones externos e padrões customizados com proveniência explícita.</li>
+<li>[x] <strong>6.07</strong> Exportador PDF vetorial próprio, incluindo transparência e estratégia de fontes/avisos.</li>
+<li>[x] <strong>6.08</strong> Galeria comparativa de mapas completos e componentes, sem copiar assets/implementação de referência.</li>
+</ul>
+<h2 id="7-interação-integração-e-desempenho">7. Interação, integração e desempenho</h2>
+<ul>
+<li>[x] <strong>7.01</strong> Picking de features e seleção com tolerância em pixels e callbacks.</li>
+<li>[x] <strong>7.02</strong> Seletores, controle de camadas e sliders próprios, sem componentes obrigatórios.</li>
+<li>[x] <strong>7.03</strong> Ponte viva Python/viewer portátil para atualização/reprojeção em todas as projeções suportadas.</li>
+<li>[x] <strong>7.04</strong> Integração notebook com lifecycle/event loop e atualização de Figures.</li>
+<li>[x] <strong>7.05</strong> Backend Qt opcional próprio usando o mesmo canvas/renderer e comandos de navegação.</li>
+<li>[x] <strong>7.06</strong> Simplificação por erro em pixels, compartilhamento de fronteiras e caches incrementais.</li>
+<li>[x] <strong>7.07</strong> Benchmarks urbanos/densos: primeira pintura, pan, labels, memória e exportação.</li>
+<li>[ ] <strong>7.08</strong> Validação nativa Tk/Qt por plataforma e manutenção da fluidez/espessura física de linhas.</li>
+</ul>
+<h2 id="8-terreno-3d-experimental-verdadeiro">8. Terreno 3D experimental verdadeiro</h2>
+<ul>
+<li>[x] <strong>8.01</strong> Contrato de coordenadas de elevação/unidades; separar altura física de exagero vertical.</li>
+<li>[x] <strong>8.02</strong> Câmera própria ortográfica/perspectiva e transforms mundo/view/clip/display.</li>
+<li>[x] <strong>8.03</strong> Clipping 3D, raster de triângulos e depth buffer próprios, incluindo oclusão.</li>
+<li>[x] <strong>8.04</strong> Artist de superfície/terreno com cores/norm, iluminação e máscaras.</li>
+<li>[x] <strong>8.05</strong> Extrusão inicial de plantas de construções com altitude/base explícitas.</li>
+<li>[x] <strong>8.06</strong> Órbita/zoom da câmera e reset, mantendo separada a navegação de mapas 2D.</li>
+<li>[x] <strong>8.07</strong> PNG 3D e política explícita para exportação SVG/PDF com camada raster.</li>
+<li>[x] <strong>8.08</strong> Galeria, testes de câmera/profundidade e limites de desempenho da API experimental.</li>
+</ul>
+<h2 id="9-mapas-temporais-e-atlas">9. Mapas temporais e atlas</h2>
+<ul>
+<li>[x] <strong>9.01</strong> Modelo de frames e dados temporais, unidades/datas e seleção de instante.</li>
+<li>[x] <strong>9.02</strong> Artist/scene updates por frame, preservando mapa e componentes estáticos.</li>
+<li>[x] <strong>9.03</strong> Playback, pausa, slider, intervalo e encerramento de timers sem recursos pendurados.</li>
+<li>[x] <strong>9.04</strong> Escalas de cores/legendas globais ou por frame com comportamento explícito.</li>
+<li>[x] <strong>9.05</strong> Exportação de sequência PNG e GIF via dependência genérica opcional.</li>
+<li>[x] <strong>9.06</strong> Protocolo de encoder de vídeo opcional com dependências/erros documentados.</li>
+<li>[x] <strong>9.07</strong> Atlas por páginas e séries regionais com vistas/estilos compartilhados.</li>
+<li>[x] <strong>9.08</strong> Exemplos temporal/populacional/climático sintéticos e testes de repetibilidade.</li>
+</ul>
+<h2 id="10-documentação-compatibilidade-e-entrega">10. Documentação, compatibilidade e entrega</h2>
+<ul>
+<li>[ ] <strong>10.01</strong> Documentação versionada/hospedada e guias de migração Matplotlib → Azimlib.</li>
+<li>[x] <strong>10.02</strong> Galeria política/física/urbana/científica/3D/temporal com scripts e proveniência.</li>
+<li>[x] <strong>10.03</strong> Contrato de compatibilidade/semver, API experimental e changelog completo.</li>
+<li>[x] <strong>10.04</strong> Auditoria de licenças/proveniência/privacidade de todas as novas fontes e assets.</li>
+<li>[ ] <strong>10.05</strong> CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.</li>
+<li>[x] <strong>10.06</strong> Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.</li>
+<li>[x] <strong>10.07</strong> Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.</li>
+<li>[ ] <strong>10.08</strong> Aceite final e publicação 0.3.0 somente após gates; nenhuma publicação automática deste desenvolvimento.</li>
+</ul>
+<h2 id="evidências-por-lote">Evidências por lote</h2>
+<p>Nenhum subpasso é declarado concluído apenas por constar no plano. Evidências dos lotes
+executados serão acrescentadas abaixo com arquivos, testes e limitações.</p>
+<h3 id="lote-1-dados-e-camadas-urbanas-030dev0">Lote 1 — dados e camadas urbanas (0.3.0.dev0)</h3>
+<p><strong>1.01–1.08 concluídos.</strong> Código em <code>geometry.py</code>, <code>tabular.py</code>, <code>io.py</code> e
+<code>axes.py</code>; documentação no <a href="urban.html">guia urbano</a>; script em
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/urban.py">examples/urban.py</a>. Os dados do atlas são inteiramente
+sintéticos. A <a href="_static/urban/README.html">imagem e seu manifest</a> foram inspecionados
+em PNG/SVG com o renderer próprio; nenhum motor cartográfico externo foi usado.</p>
+<ul>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_urban.py">27 testes de contrato</a>: CSV/erros/conversores,
+igualdade de propriedades JSON, seleção preservando features/IDs/ordem,
+geometria errada sem mutação, multipartes, CRS explícito, aliases, styles por
+feature, edição/visibilidade/remoção e exportação.</li>
+<li>Suíte geral em código-fonte: 708 testes, sem falhas, dois skips Numba.
+Um teste adicional de seleção JSON composta passou no lote final de 27.</li>
+<li><a href="urban-validation-0.3.json">Relatório do wheel instalado</a>: 709 testes,
+16.820 subtests, sem falhas/erros, com skips opcionais nomeados. Runtime
+verificado por hash contra o código-fonte. Ambiente local Windows/CPython
+3.14.4 com Pillow/NumPy, sem aggdraw/Numba; bibliotecas de referência/GIS
+não importadas. Isto não é uma CI nova de três plataformas.</li>
+<li>Wheel de desenvolvimento instalado também em ambiente limpo sem extras:
+core/GeoJSON/CSV/urbano/SVG e os dois estilos de importação aprovados pelo
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/smoke_installed_package.py">smoke instalado</a>. PNG não é exigido
+no core sem Pillow.</li>
+<li>Auditorias locais de licenças/proveniência, privacidade e links aprovadas.
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/check_release_progress_030.py">Validador da checklist</a> integra a CI.
+A auditoria da distribuição confere BSD/composição de licenças, RECORD,
+conteúdo exato do wheel/sdist e exclusão de motores externos.</li>
+</ul>
+<p>Leitores adicionais, bases urbanas reais, picking, largura em metros, extrusão
+3D e roteamento não foram declarados implementados por este lote. O passo 1
+encerra a fundação descrita; não encerra a frente urbana inteira. Ao final daquele lote, os passos
+2–10 ainda estavam pendentes; o lote seguinte está registrado abaixo. Versão de desenvolvimento apenas local, sem PyPI.</p>
+<h3 id="lote-2-formatos-dados-reais-e-proveniência-030dev0">Lote 2 — formatos, dados reais e proveniência (0.3.0.dev0)</h3>
+<p><strong>2.01–2.08 concluídos no corte delimitado.</strong> Implementação independente em
+<code>shapefile.py</code>, <code>xmlio.py</code>, <code>raster.py</code>, <code>catalog.py</code> e <code>_readers.py</code>, integrada
+em <code>azimlib</code>, <code>azimlib.io</code> e <code>MapAxes.raster</code>. O <a href="formats.html">guia de formatos</a>
+declara variantes, CRS, geometrias, entradas rejeitadas e limites de tamanho;
+o <a href="optional-data.html">guia de dados opcionais</a> descreve catálogo e atribuição.</p>
+<ul>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_formats.py">32 testes novos</a>, com fixtures binários/XML próprios:
+SHX/DBF excluído e alinhamento físico, Point/Polyline/Polygon/multipartes/Z,
+KML/altitude/XML seguro, OSM multipolygon/furos/referências, affine/NoData,
+PixelIsArea/Point, endian/float/16-bit/deflate/matrix, hashes/licença,
+versões, path traversal e despacho integrado de todos os formatos.</li>
+<li><a href="formats-validation-0.3.json">Suíte completa do wheel instalado</a>: <strong>741 testes,
+16.879 subtests, zero falhas/erros</strong>. Cinco skips opcionais/da plataforma são
+identificados no relatório, incluindo symlink sem permissão no Windows.
+Hashes de todos os módulos instalados conferidos contra o código-fonte.
+Sem imports de Matplotlib ou motores GIS. Evidência Windows local, não nova CI remota.</li>
+<li>Shapefile externo Natural Earth <code>ne_110m_populated_places</code> lido com SHX/DBF:
+243 pontos; arquivo real não vendorizado. Os readers vieram das especificações
+primárias listadas no guia, não de código de outro leitor.</li>
+<li>Exemplo <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/urban_real.py">urbano real</a>: 464 ways, 3.876 nodes,
+extração OSM congelada de São Paulo em diretório opcional separado. ODbL,
+copyright/atribuição, texto integral da licença e proveniência preservados;
+metadados de editores e contatos/endereços removidos. PNG/SVG exportados e
+inspecionados com crédito visível. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/georaster.py">Raster sintético</a>
+também inspecionado em PNG/SVG com colorbar editável e componentes opcionais.</li>
+<li><code>tools/audit_optional_data.py</code> verifica quatro arquivos por hash e valida
+geometria/referências, tags permitidas e licença, sem rede. Gate incluído na CI.
+Catálogo tem versão explícita e verifica os bytes de dados, sidecars e avisos
+antes de interpretar. Nenhum import ou carregamento faz download.</li>
+<li>Wheel/sdist de desenvolvimento: dados ODbL excluídos explicitamente e por
+auditoria de distribuição; oito avisos legais do runtime preservados, BSD e
+licenças próprias de recursos anteriores mantidas. Smoke instalado sem extras
+cobre KML/OSM, GeoRaster/world-file/SVG e ambos os imports.</li>
+</ul>
+<p>Este lote não implementa leitor universal, OSM PBF, CRS além de 4326/3857,
+reparo topológico, raster RGB, resampling ou desenho de affines rotacionadas.
+Esses limites aparecem na API/documentação; não são simulados nem delegados a
+outro motor. Os próximos passos mantêm os IDs e o total de 80. Nenhum upload,
+push ou alteração da versão estável 0.2.0 foi feito por este lote.</p>
+<h3 id="lote-3-crs-geodesia-e-robustez-cartográfica-030dev0">Lote 3 — CRS, geodesia e robustez cartográfica (0.3.0.dev0)</h3>
+<p><strong>3.01–3.08 concluídos no corte regional explicitamente documentado.</strong>
+Implementação própria em <code>geodesy.py</code>, <code>transverse.py</code>, <code>topology.py</code>, integrada
+em CRS, projeções, readers, rotas, viewport, cache, renderização e navegação.
+O <a href="geodesy.html">guia do núcleo</a> descreve modelos, erros, tolerâncias, entrada
+explícita e limites. Funções esféricas anteriores foram preservadas.</p>
+<ul>
+<li>Elipsoide/datum/unidades imutáveis; WGS84/GRS80/esfera; geodesia elipsoidal
+direta/inversa com diagnóstico, solução própria por shooting multistart para
+falhas de convergência e sem fallback de distância esférica.</li>
+<li>UTM WGS84: 60 zonas, dois hemisférios, exceções de seleção Norway/Svalbard,
+forward/inverse e elevação preservada. TM elipsoidal regional ±6°; origem,
+escala e offsets explícitos. CRS/units/datum/axis order consultáveis.</li>
+<li>Estereográfica e azimutal equidistante esféricas, inversas, polos e antípoda
+singular. Novas projeções usam o mesmo renderer/cache/API próprios.</li>
+<li>Extensão cilindrica cruzada recenteriza cópia da projeção; limites crescentes
+desenrolados, fit circular optativo, pan/zoom, histórico/Home, shared x,
+exportação e modelo HTML portátil. LongitudeFormatter identifica E/W no ramo.</li>
+<li>Linhas ortográficas terminam no horizonte por bisseção. Testes de clipping
+de polígonos verificam limbo, inversão de winding e área degenerada; o recorte
+esférico com holes existente continua integrado. Não é overlay global.</li>
+<li>Topologia regional optativa O(n²): determinante com fallback racional,
+interseções ponto/overlap, anéis, holes e multipolígonos. Sem reparo automático
+nem alteração da permissividade dos datasets/geometrias existentes.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_geodesy.py">23 testes novos</a> e <a href="geodesy-reference-0.3.json">579 casos numéricos calculados</a>,
+com <a href="geodesy-numeric-0.3.json">erros máximos/exports por hash</a>. Oráculos isolados
+pyproj 3.8.0/GeographicLib 2.1 apenas por chamadas black-box, sem código/test
+datasets vendorizados ou imports GIS em runtime/testes.</li>
+<li><a href="geodesy-validation-0.3.json">Suíte completa do wheel instalado</a>: <strong>764 testes,
+17.477 subtests, zero falhas/erros</strong>; cinco skips opcionais/plataforma explícitos.
+Todos os módulos Python instalados conferidos por hash contra o código-fonte.
+Evidência Windows local/Python 3.14; não representa nova CI remota.</li>
+<li>Atlas <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/geodesy_atlas.py">geodesy_atlas.py</a> e mapa cruzado
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/pacific.py">pacific.py</a>: PNG/SVG/HTML exportados, imagens inspecionadas,
+Natural Earth creditado, rotas sintéticas. savefig continua PNG/SVG sem UI;
+HTML usa to_html/show. Componentes continuam opcionais.</li>
+<li>Wheel/sdist, twine strict, oito avisos legais, integridade de dados/fontes/
+ícones, docs/snippets, smoke novo offline sem extras e dois smokes Tk ocultos
+de pan/viewer aprovados. Fontes/dados/paletas/ícones de terceiros preservados;
+nenhuma biblioteca GIS passou a ser backend/dependência. Varredura de privacidade
+e integridade Git integra o fechamento local deste lote.</li>
+</ul>
+<p>Limites: datum shifts/epochs/grids e CRS universais não implementados; TM não
+é global; novas azimutais são esféricas. Raster UTM é representável e lido, mas
+plotting curvilíneo é rejeitado até seu lote. Topologia é planar lon/lat regional;
+recorte esférico não aceita todos os interiores globais/degenerações. Autoscala
+Cartesian legada continua; fit circular é opt-in. Reprojeção portátil viva nas
+projeções não cilíndricas permanece no passo 7. Nenhum push/upload/publicação
+ou modificação de main/0.2.0 foi feito. Checklist: <strong>24/80</strong>, <strong>56 pendentes</strong>.</p>
+<h2 id="corte-explicitamente-reservado-à-040">Corte explicitamente reservado à 0.4.0</h2>
+<table>
+<thead>
+<tr>
+<th>Recurso</th>
+<th>Razão técnica</th>
+<th>O que a 0.3.0 entrega antes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Volumes 3D, nuvens volumétricas e GPU</td>
+<td>Exigem pipeline volumétrico/paralelo além de superfícies e depth buffer</td>
+<td>Câmera, terreno e extrusão experimental CPU</td>
+</tr>
+<tr>
+<td>OSM PBF completo e planet-scale streaming</td>
+<td>Codec binário, referências em blocos e consumo limitado de memória precisam de validação própria</td>
+<td>OSM XML local validado e benchmarks urbanos</td>
+</tr>
+<tr>
+<td>CRS universais e datum por grids oficiais</td>
+<td>Catálogo, grids licenciados, inversão e tolerâncias são uma fundação adicional</td>
+<td>Elipsoide, UTM e CRS/projeções explicitamente suportados</td>
+</tr>
+<tr>
+<td>Overlay/union globais de topologia arbitrária</td>
+<td>Robustez numérica/topológica global não pode ser inferida de clipping</td>
+<td>Validação/interseções básicas e recorte esférico delimitado</td>
+</tr>
+<tr>
+<td>Geocodificação e roteamento urbano completos</td>
+<td>Dependem de índices de endereços, grafos/restrições de trânsito e licenças de bases reais</td>
+<td>Leitores/camadas urbanas, seleção e picking</td>
+</tr>
+<tr>
+<td>TeX completo e shaping internacional complexo</td>
+<td>Requerem motor de composição e fontes/cobertura adicionais auditados</td>
+<td>Tipografia/labels aprimorados e expressões simples próprias</td>
+</tr>
+</tbody>
+</table>
+<p>Estas reservas não substituem urbano, 3D e tempo: os três estão no corte 0.3.0.
+Não há data prometida; 80 subpassos representam trabalho substancial. Novas funções
+só serão anunciadas como disponíveis quando passarem pelos respectivos gates.</p>
+<h3 id="lote-4-transforms-artists-escalas-e-composição-030dev0">Lote 4 — transforms, Artists, escalas e composição (0.3.0.dev0)</h3>
+<p><strong>4.01–4.08 concluídos no corte documentado.</strong> Implementações próprias em
+<code>transforms.py</code>, <code>path.py</code>, <code>patches.py</code>, <code>collections.py</code>, <code>dates.py</code>,
+<code>scale.py</code>, <code>subfigure.py</code>, <code>legend_handler.py</code>, viewport/render/layout.
+Veja <a href="transforms-composition.html">contratos e limites</a> e a
+<a href="visual-style.html">recomendação de visualização clara</a>.</p>
+<ul>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_transforms_composition.py">27 testes de integração</a>: inversas,
+DPI/unidades, transforms mistos/insets/ownership, gaps/máscaras, paths/holes,
+edição atômica de coleções, datas/logs, bordas curvas/offsets, SubFigure,
+rollback entre raízes, compressed, obstáculos e handlers/ciclos.</li>
+<li><a href="composition-validation-0.3.json">Wheel instalado</a>: <strong>791 testes / 17.499
+subtests</strong>, zero falhas/erros. Cinco skips explicitados: dois Numba, dois
+aggdraw e um symlink sem permissão. Hashes dos módulos do runtime conferidos
+contra o código-fonte final. Windows/CPython 3.14.4, Pillow/NumPy; nenhuma
+importação de Matplotlib/Cartopy/GeoPandas/Shapely/pyproj. Resultado local,
+sem atualizar o aceite de CI/plataformas da release.</li>
+<li><a href="composition-desktop-0.3.json">Desktop instalado</a>: três smokes reais de Tk
+em janelas ocultas e input sintético — pan/lifecycle, viewer e nova composição
+com bearing/norte/rosa/history. Não é aceite visual/input humano. O novo
+smoke integra o runner utilizado pelas futuras execuções de CI.</li>
+<li><a href="composition-evidence-0.3.json">Matriz própria</a>: 486 roundtrips em nove
+projeções, três bearings e dois DPI; 108 casos de interseções amostradas
+dentro do frame. Erros máximos registrados por espaço. Não é oracle externo
+nem promessa de exatidão analítica para qualquer projeção/borda.</li>
+<li>Exemplos <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/clean_map.py">mapa limpo</a> e
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/composition_atlas.py">atlas</a>: PNG/SVG/HTML exportados, PNGs
+inspecionados e SVG/XML validado; <a href="_static/composition/README.html">hashes e proveniência</a>.
+Natural Earth permanece domínio público; rotas e símbolos são sintéticos.</li>
+<li>Instalação nova offline sem extras preserva SVG/HTML, dados/fontes e os
+novos contratos de transform/composição. Wheel/sdist reconstruídos, conteúdo
+e metadata BSD-3-Clause auditados, twine strict e notices conferidos.</li>
+<li>Integração corrigida para eixos isolados sem Figure, contextos de overview,
+transforms entre eixos/insets e cursor antes da pintura em vistas rotacionadas.
+A antiga entrada inválida NaN do teste de séries passou a infinity: NaN agora
+é gap suportado; a validação atômica de dados realmente inválidos permanece.</li>
+</ul>
+<p>Limites explícitos: inversas mistas exigem separabilidade; Beziers usam
+flattening determinístico, não adaptativo. Layout múltiplo exige regiões
+disjuntas; compressed compacta grids completos sem spans/aninhamento. Textos
+livres/cax reservam faixas de borda, sem solver universal de colisões interiores.
+Datas/logs são números escalares, não eixos de latitude logarítmica. Handlers
+customizados desenham PathPatch próprios. Bearing é rotação 2D isotrópica;
+norte/rosa seguem a direção local da projeção e mantêm componentes independentes.
+HTML rotacionado/curvo continua snapshot sem recomposição Python, conforme
+<a href="visual-style.html">limites do viewer</a>; ponte viva permanece em 7.03.</p>
+<p>O lote seguinte a este registro foi <strong>5.01–5.08</strong>: raster/terreno e mapas científicos 2D.
+3D, animação, Qt e demais IDs permanecem pendentes; versão estável/main 0.2.0
+preservada. Nenhum push, release ou upload PyPI é parte deste lote.</p>
+<h3 id="lote-5-raster-terreno-e-mapas-científicos-2d-030dev0">Lote 5 — raster, terreno e mapas científicos 2D (0.3.0.dev0)</h3>
+<p><strong>5.01–5.08 concluídos no corte documentado.</strong> <a href="scientific-2d.html">Contratos, unidades e limites</a>.
+Implementações próprias em <code>scientific.py</code>, <code>scientific_artists.py</code>, <code>tri.py</code>,
+<code>raster.py</code>, campos/axes/cores e integração renderer/colorbar/legenda existente.</p>
+<ul>
+<li><strong>5.01:</strong> GeoRaster escalar/RGB/RGBA, máscara imutável, alpha e NoData;
+ColorImage editável, codecs genéricos limitados e mesma cena projetada PNG/SVG.</li>
+<li><strong>5.02:</strong> inverse-affine/CRS e centros de pixels; nearest/bilinear,
+cobertura semiaberta, strict/renormalize e alpha premultiplicado.</li>
+<li><strong>5.03:</strong> contourf com recorte linear por triângulos, união de fronteiras,
+furos/ilhas, FilledContourSet, níveis/cores editáveis e barras preenchidas.</li>
+<li><strong>5.04:</strong> Delaunay regional próprio, interpolação baricêntrica, tripcolor/
+tricontourf, máscaras e erros de degeneração explícitos.</li>
+<li><strong>5.05:</strong> heatmap, hist2d e density ponderado com resolução, extent,
+gaussiana que conserva massa e count/probability/density angular.</li>
+<li><strong>5.06:</strong> FlowCollection de rotas geodésicas esféricas/elipsoidais,
+magnitude/cores/larguras e legenda temática; proxies de magnitude quiver.</li>
+<li><strong>5.07:</strong> terrain RGB iluminado com ScalarMappable de elevação separado,
+hillshade próprio e composição com contornos/hidrografia sintética.</li>
+<li><strong>5.08:</strong> RGBA com tipos de índices/máscaras, classes/norm/cmap/NoData
+vinculados a legendas/colorbars, incluindo edição de níveis preenchidos.</li>
+<li>Correção adicional: HandlerSymbol usa fator uniforme e centralização
+por bounds reais; triângulo do atlas deixou de se achatar na legenda.</li>
+</ul>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_scientific_foundation.py">36 testes novos</a> verificam planos
+analíticos, triângulos/circumcírculos, áreas/furos, conservação de pesos, alpha
+e pixels exportados, edição sem mutação inválida, máscaras, classes e lifecycle.
+<a href="scientific-validation-0.3.json">Wheel instalado</a>: <strong>827 testes / 18.757
+subtests</strong>, zero falhas/erros; os mesmos cinco skips opcionais/permissionais
+nomeados do lote anterior. Runtime e runner conferidos por hash contra a fonte.
+Windows/CPython 3.14.4, Pillow/NumPy, sem aggdraw/Numba nem importação de
+Matplotlib/GIS. Resultado local, não uma CI nova de três plataformas.</p>
+<p><a href="scientific-desktop-0.3.json">Desktop instalado</a>: dois smokes reais Tk em
+janelas ocultas, incluindo novas edições científicas e composição rotacionada;
+input sintético, sem novo aceite visual/input humano. O runner da futura CI
+inclui o novo smoke. Instalação offline nova sem extras também executa SVG,
+RGB/contourf/interpolação/resampling e preserva os contratos anteriores.
+<a href="scientific-evidence-0.3.json">503 casos próprios</a> de interpolação/conservação
+e exportação estrutural; erro máximo observado 1,78e-15 nas fixtures, não um
+oracle externo nem tolerância universal. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/scientific_atlas.py">Galeria sintética</a>
+em PNG/SVG/HTML, PNGs instalados inspecionados e <a href="_static/scientific/README.html">manifests/proveniência</a>.
+Atlas de composição regenerado com a legenda corrigida.</p>
+<p>Wheel/sdist de desenvolvimento reconstruídos; notices, recursos upstream,
+licenças, exclusão do dado ODbL opcional, conteúdo/metadata, twine strict,
+documentação e scanner de privacidade/refs locais fazem parte dos gates do lote.
+Nenhuma nova base/font/ícone/paleta de terceiros foi incorporada.</p>
+<p>Limites: representação por células vetoriais, não textura GPU; amostragem
+in-memory; triangulação planar regional limitada e sem constrained/spherical
+mesh. contourf é linear SW–NE, não idêntico ao interpolador bilinear de contour.
+Density em graus², não população/km². Terreno iluminado é snapshot 2D, não
+3D; recompute para mudar iluminação/elevação. Malha curvilínea direta, mosaico,
+satélite volumoso, hidrologia, graph routing e flow bundling não fazem parte
+deste corte. Níveis exteriores de contourf não são preenchidos implicitamente.</p>
+<p>Próximo lote: <strong>6.01–6.08</strong>, acabamento visual, texto e exportação. Os passos
+6–10 permanecem pendentes (<strong>40 subpassos</strong>); main/estável 0.2.0 preservados.
+Nenhum push, release ou upload PyPI é parte deste lote.</p>
+<h3 id="lote-6-acabamento-texto-e-exportação-030dev0">Lote 6 — acabamento, texto e exportação (0.3.0.dev0)</h3>
+<p><strong>6.01–6.08 concluídos no corte delimitado.</strong> <a href="finishing.html">Contratos completos</a>
+e <a href="_static/finishing/README.html">galeria original com proveniência/hashes</a>.
+Implementações próprias em <code>path.py</code>, <code>polygon_labels.py</code>, <code>curved_text.py</code>,
+<code>mathtext.py</code>, <code>font_outline.py</code>, <code>patterns.py</code>, <code>icons.py</code> e <code>renderers/pdf.py</code>.
+PNG/SVG/Tk preservam a arquitetura; savefig PDF estático também integra Save
+nativo. Componentes continuam opcionais e a versão publicada não é alterada.</p>
+<ul>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_finishing.py">32 testes novos</a>: Bézier analítica/erro,
+transforms/limites, clipping/caps fracionários, fases subpixel e todos os
+tipos de texto, expressões/erros/rotação, glifos simples/compostos,
+tamanho/xref/transparência/avisos/atomicidade e números PDF, anchors/holes,
+viewport/prioridade, leaders/obstáculos, curva/repetição/visibilidade,
+SVG limitado/finito/seguro/hash, tile/holes/limites e metadata PNG/SVG/PDF.</li>
+<li><a href="finishing-validation-0.3.json">Suíte instalada</a>: <strong>859 testes,
+19.937 subtests, zero falhas/erros</strong>, skips opcionais/plataforma nomeados.
+Todos os módulos do wheel conferidos por SHA-256 contra o source final;
+runtime sem imports cartográficos/de referência externos. Windows local,
+CPython 3.14.4/Pillow/NumPy, sem aggdraw/Numba; isto não é nova CI remota.</li>
+<li><a href="finishing-font-reference-0.3.json">Oráculo de fontes</a>: <strong>22.392 glifos</strong>
+das quatro faces, comparação com fontTools 4.66.0, diferença de pontos zero.
+Contornos não hintados; não é teste de shaping/rasterização. Fontes originais
+e avisos permanecem intactos. fontTools não entra no runtime.</li>
+<li><a href="finishing-evidence-0.3.json">Auditoria instalada</a>: <strong>3.003 casos analíticos</strong>
+em tolerâncias .02/.1/.4 e PNG/SVG/PDF em 100/150/200 DPI. Exportações do
+atlas completo e SVG/ícone próprio; hashes/scripts registrados.</li>
+<li><a href="finishing-pdf-validation-0.3.json">PDF independente</a>: pypdf estrito,
+Poppler, pagesize, anexo DejaVu exato/proveniência, nove probes de alpha
+com diferença de canais zero. Imagens finais inspecionadas; não promessa
+de identidade pixel a pixel entre rasterizadores.</li>
+<li><a href="finishing-desktop-0.3.json">Três smokes Tk</a>: novo acabamento e regressões
+científico/composição aprovados em janelas reais retiradas da tela;
+edição/rotação/visibilidade/cleanup sintéticos, não aceite humano nativo.</li>
+<li>Wheel core offline sem extras aprova expressões/PDF/SVG e ambos os imports.
+Wheel/sdist reconstruídos; auditorias de avisos/assets/links, RECORD,
+conteúdo exato, privacidade do source/histórico/arquivos e fsck executadas
+no fechamento. Nenhuma publicação, push ou mudança em main.</li>
+</ul>
+<p>Limites explícitos: contornos PDF sem texto pesquisável, uma página, famílias
+DejaVu incorporadas; raster 2D em cells pode gerar PDF grande. Expressões
+simples não são TeX/MathText completo; hinting subpixel/shaping generalizado,
+SVG completo e fonts variáveis não são prometidos. Curved names simples,
+prioridade/colisão conservadoras, budget interior e snapshot HTML documentados.
+Etapas 7–10 permanecem pendentes: <strong>32 subpassos</strong>; nenhum ID foi eliminado.</p>
+<h3 id="lote-7-interação-integração-e-desempenho-030dev0">Lote 7 — interação, integração e desempenho (0.3.0.dev0)</h3>
+<p><strong>7.01–7.07 concluídos no corte documentado; 7.08 permanece pendente por
+plataforma.</strong> Implementação própria em <code>picking.py</code>, <code>widgets.py</code>,
+<code>interaction.py</code>, <code>simplify.py</code>, <code>backends/live.py</code>, <code>backends/qt.py</code> e
+<code>backends/notebook.py</code>. <a href="interaction.html">Guia e limites</a>,
+<a href="_static/interaction/README.html">galeria original inspecionada</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/audit_interaction.py">auditor de evidências</a>.</p>
+<ul>
+<li>Picking por feature/ponto com IDs/índices, tolerância física em pixels,
+holes/clipping, callbacks e picking individual; seletores/layers/sliders
+opcionais. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_interaction_integration.py">36 contratos</a>, incluindo
+mutação inválida sem efeito, desligamento/clear, navegação e visibilidade externa.</li>
+<li>Ponte Python <code>browser-live</code> explícita: snapshots SVG e recomposição Python nas
+nove projeções internas, callbacks na thread proprietária, fila e corpo limitados,
+token/Host/Origin local, timeout de conexão e encerramento com cliente incompleto.
+Cliente próprio verificado com <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/check_live_viewer.js">fixture Node/DOM</a>.
+Não houve aceite em navegador real; a inspeção automatizada do navegador estava
+indisponível. Este backend inicial tem Home/Back/Forward/Pan/Zoom e downloads
+PNG/SVG; não declara o editor Subplots/PDF dos viewers nativos.</li>
+<li>Notebook: display_id/update e post_run_cell reais em IPython 9.17.1, atualização
+e cleanup; <a href="interaction-notebook-0.3.json">evidência</a>. SVG atualizável, não widget
+DOM com mouse; nenhuma equivalência a todos os frontends Jupyter foi declarada.</li>
+<li>Qt opcional: QWidget/toolbar próprios sobre o mesmo Pillow/scene, sem toolkit
+cartográfico externo, QTest nativo Windows/PySide6-Essentials 6.11.2 com picking,
+pan/histórico, widgets, largura física e fechamento. <a href="interaction-qt-0.3.json">Evidência</a>.
+Tk mantém os contratos anteriores e passa os dois smokes do runtime final,
+<a href="interaction-desktop-0.3.json">relatório</a>. As 17 integrações Tk amplas passaram
+<a href="interaction-desktop-regression-0.3.json">antes</a> do último ajuste exclusivamente
+HTTP; o auditor verifica que somente <code>backends/live.py</code> difere nesse relatório.
+Os relatórios são preservados sem substituir hashes de execuções anteriores.</li>
+<li>Simplificação de linhas optativa por erro projetado em pixels, markers originais,
+exportação estática com geometria integral; cache de 4 MiB. Fronteiras regionais
+com edges exatamente coincidentes compartilhadas uma vez, IDs/anéis preservados
+e rejeição explícita de topologia/vertexização não suportada. Sem snapping/overlay.</li>
+<li><a href="interaction-benchmark-0.3.json">Benchmark reproduzível</a>: 400 ruas/20 labels e
+5000 pontos sintéticos, 640×480, quatro amostras. Pan completo mediano cerca de
+261/309 ms; primeira pintura cerca de seis segundos. Mede Python/caches, não
+memória nativa/RSS/FPS/latência humana. SVG/PDF/PNG registrados por bytes/hash.
+Círculos sólidos usam área analítica, alpha/clipping e annulus próprios; preview
+quantiza centro até 1/32 pixel para cache, mantendo tamanho/espessura. Settled e
+exports são exatos. Baselines legados congelados conservam comparação exata para
+sua geometria poligonal; novos círculos têm testes matemáticos e de bands/PNG.</li>
+<li><a href="interaction-validation-0.3.json">Suíte instalada com aggdraw</a>:
+<strong>896 testes / 19,957 subtests</strong>, zero falhas/erros.
+<a href="interaction-core-validation-0.3.json">Suíte instalada sem aggdraw/Numba</a>:
+<strong>896 testes / 19,941 subtests</strong>, zero falhas/erros.
+Skips opcionais nomeados; todos os módulos instalados conferidos por hash contra
+o source, nenhum import de referência/GIS. Core também instalado offline sem
+extras, com picking/simplificação/SVG e imports públicos verificados.</li>
+<li>Extras Qt/IPython resolvidos separadamente, com avisos e
+<a href="interaction-dependencies-0.3.json">inventário observado</a>; nenhum binário/código
+dessas dependências foi vendorizado. BSD e termos próprios de Natural Earth,
+DejaVu/ColorBrewer/CC0 permanecem. O gate de distribuição confere bytes, RECORD,
+metadata/licenças; documentação/API, privacidade e Git conferidos localmente.</li>
+</ul>
+<p><strong>Falta em 7.08:</strong> executar Tk/Qt em Linux e macOS e registrar seus resultados
+nativos. A CI foi estendida com Qt/IPython e fixture Node (27 jobs expandidos),
+mas não foi executada remotamente neste lote. Windows programático/pintura está
+validado; não equivale a novo aceite humano de fluidez em três sistemas. Nenhuma
+publicação, push ou mudança do <code>main</code>/versão estável 0.2.0 faz parte deste lote.</p>
+<h3 id="lote-8-terreno-3d-experimental-030dev0">Lote 8 — terreno 3D experimental (0.3.0.dev0)</h3>
+<p><strong>8.01–8.08 concluídos no contrato experimental; 7.08 continua pendente.</strong>
+<a href="terrain3d.html">Guia e limites</a>, <a href="_static/terrain3d/README.html">galeria original</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_terrain3d.py">37 contratos</a> e <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/audit_terrain3d.py">auditor das evidências</a>.</p>
+<ul>
+<li>Unidades físicas m/km/ft/Unit, Z físico separado do exagero; GeoRaster com
+affine completa usa centros de pixels e referencial horizontal local WGS84
+explícito, até 250 km da origem. Não inventa/converte datum vertical.</li>
+<li>Câmera ortográfica/perspectiva, matrizes, seis planos de clipping homogêneo,
+triângulos, cobertura top-left e depth buffer próprios. Triângulos cruzados
+verificam oclusão por pixel, sem ordenar faces pelo centro. Equações NumPy e
+fallback próprio conferidos; cancelamento e limites antes das grandes alocações.</li>
+<li>SurfaceArtist com scalar array/norm/cmap/clim/colorbar editáveis, visibilidade,
+remoção e iluminação plana. Máscaras retiram células; cores são escalares médios
+por face. Construções simples côncavas recebem piso/teto/paredes, IDs e base/altura
+explícitas. Sem transparência parcial, holes, picking 3D ou altura urbana inferida.</li>
+<li>Órbita e zoom separados dos limites geográficos 2D; Home/Back/Forward guardam
+Camera. <a href="terrain3d-tk-0.3.json">Tk Windows</a> e <a href="terrain3d-qt-0.3.json">Qt Windows</a>
+programáticos com pintura, mudança de pixels e cleanup; não equivalem a aceite
+humano ou nativo Linux/macOS. Cache inclui triângulos para não reusar pose antiga. Sharing físico/geográfico
+é rejeitado antes de alterar grupos, inclusive em chamadas diretas.
+<a href="terrain3d-desktop-0.3.json">Regressões Tk selecionadas</a> e
+<a href="terrain3d-qt-2d-0.3.json">Qt 2D</a> passam no mesmo runtime.</li>
+<li>PNG estático próprio; SVG embute PNG, PDF usa RGB comprimido com soft mask,
+preservando textos/eixos vetoriais. Pixel/alpha/orientação dos streams conferidos;
+exportação inspecionada por PNG e figura Qt. HTML offline é snapshot 3D, não órbita.
+Diferenças de antialiasing são declaradas; nenhuma exportação de modelo/GPU prometida.</li>
+<li><a href="terrain3d-validation-0.3.json">Suíte instalada</a>: <strong>933 testes / 19,963 subtests</strong>,
+zero falhas/erros. <a href="terrain3d-core-validation-0.3.json">Sem aggdraw/Numba</a>:
+<strong>933 testes / 19,947 subtests</strong>, zero falhas/erros. Skips opcionais nomeados,
+todos os módulos conferidos por SHA-256; zero imports de Matplotlib/GIS externo.</li>
+<li><a href="terrain3d-benchmark-0.3.json">Benchmark</a>: raster 320×240, três amostras após
+warmup; 450 triângulos sem NumPy ~46 ms, 1,922 com NumPy ~93 ms e 7,938 ~453 ms
+medianos. Exclui composição/GUI, RSS, GPU e latência humana/FPS. Budget: 50 mil
+vértices por malha, 20 mil triângulos por axes, 8M pixels e 64M testes bbox por
+rasterização; PNG conta supersampling. Não existe LOD automático ou terreno global.</li>
+<li>Instalação core offline sem extras também verifica câmera/raster fallback/PDF 3D
+e falha explícita do encoder SVG opcional. Wheel/sdist dev reconstruídos e conferidos
+por bytes/RECORD/licenças; documentação, privacidade e refs locais auditados.
+Termos de DejaVu/ColorBrewer/CC0/Natural Earth preservados. Nenhum novo material
+de terceiros foi vendorizado. CI preparada para smoke 3D, não executada remotamente.</li>
+</ul>
+<p>Relatórios das etapas anteriores são snapshots preservados de seus runtimes;
+nunca recebem hashes falsamente atualizados. A referência corrente desta etapa
+é verificada por <code>audit_terrain3d.py</code>. <strong>Restam 17 subpassos:</strong> 7.08 e etapas
+9–10. Nenhuma publicação, push, mudança do main ou lançamento 0.3.0 neste lote.</p>
+<h3 id="lote-9-mapas-temporais-e-atlas-030dev0">Lote 9 — mapas temporais e atlas (0.3.0.dev0)</h3>
+<p><strong>9.01–9.08 concluídos; 7.08 permanece pendente.</strong> <a href="temporal.html">Guia</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tests/test_temporal.py">53 testes de contrato</a>, <a href="_static/temporal/README.html">galeria original</a>
+e <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/audit_temporal.py">auditor corrente</a>.</p>
+<ul>
+<li>TemporalSeries/Frame com payloads imutáveis, unidades numéricas explícitas,
+datas UTC, seleção exata/mais próxima/anterior/próxima e fontes finitas.
+Sem interpolação de instantes nem inferência de duração pelas datas.</li>
+<li>ScalarBinding prepara a série inteira antes de alterar imagens/malhas/pontos/
+coropletas ou cores de SurfaceArtist. Preserva geometria, posição, câmera e
+componentes estáticos; políticas global/por-frame explícitas e NoData.
+Norms/classes e colorbars/legendas seguem o vínculo existente; callbacks gerais
+reproduzíveis permitem alterar posições, áreas proporcionais, texto e rotas.</li>
+<li>FuncAnimation própria, pausa/retomada/seek/intervalo e controles optativos;
+timers Tk/Qt executam no thread GUI. Fechar a figura remove callbacks agendados,
+widgets e subscrições. Manual/headless/notebook/HTML não recebem threads ocultos.</li>
+<li>PNG por frames em diretório novo e GIF Pillow, exports atômicos e reaplicação
+do frame selecionado. GIF quantiza 10 ms e pode juntar imagens idênticas mantendo
+duração. Não se promete rollback de efeitos arbitrários de callbacks.</li>
+<li>Protocolo setup/write_frame/finish/abort e FFMpegWriter explícito, sem shell,
+download ou binário vendorizado; testes de argumentos/pipe/indisponibilidade/
+falhas. <strong>Nenhum codec de vídeo instalado foi validado neste lote</strong>. Dependências
+e obrigações do encoder escolhido permanecem separadas; MP4 requer dimensões pares.</li>
+<li>Atlas regional com estilo/projeção/tamanho comuns, limites reaplicados e páginas
+editáveis; sequências PNG/SVG/PDF e PdfPages próprio. Rebase de dicionários próprios,
+streams binários intactos, tamanhos físicos e avisos DejaVu preservados por página.
+<a href="temporal-pdf-0.3.json">Leitor independente pypdf 6.10.0</a> confirmou três páginas e
+avisos exatos; Poppler externo renderizou a primeira para inspeção. Nenhum leitor/
+merger é backend ou material vendorizado da Azimlib.</li>
+<li><a href="temporal-tk-0.3.json">Windows Tk</a> / <a href="temporal-qt-0.3.json">Qt</a>: ticks automáticos,
+fim finito, pausa/retomada, slider/Play/intervalo e cleanup, sobre runtime instalado.
+<a href="temporal-desktop-0.3.json">Regressões Tk 2D/3D</a> e
+<a href="temporal-qt-2d-0.3.json">Qt 2D</a>/<a href="temporal-qt-3d-0.3.json">3D</a> aprovadas.
+São provas programáticas nativas Windows, não aceite humano/FPS/Linux/macOS.</li>
+<li><a href="temporal-validation-0.3.json">Suíte instalada com aggdraw</a>: <strong>986 testes /
+19,987 subtests</strong>, zero falhas/erros. <a href="temporal-core-validation-0.3.json">Sem aggdraw/Numba</a>:
+<strong>986 testes / 19,971 subtests</strong>, zero falhas/erros. Skips opcionais nomeados;
+111 módulos do runtime conferidos por SHA-256, zero imports Matplotlib/GIS externo.</li>
+<li>Galeria determinística de clima/população, comparações de normas, pontos
+proporcionais, GIF/frames e três regiões em PDF/SVG. SVG mantém aviso de fonte
+exato após XML decoding; exemplos exportados inspecionados. Dados temporais
+sintéticos; basemaps Natural Earth e fontes/paletas com seus avisos próprios.</li>
+<li>Carlito Bold Italic creditada voluntariamente na wordmark/manifest e avisos,
+conforme OFL 1.1/FAQ. Logo PNG intacta, nenhum binário de fonte Carlito distribuído;
+versão/hash da fonte de design não inventados. BSD da composição e código mantida.</li>
+<li>Wheel/sdist dev reconstruídos; instalação core offline, bytes/RECORD/metadata,
+avisos, documentação, privacidade/refs locais verificados. CI preparada para
+timers Qt nos três sistemas, <strong>não executada remotamente</strong>. Relatórios anteriores
+conservam seus hashes históricos; <code>audit_temporal.py</code> verifica o runtime corrente.</li>
+</ul>
+<p><strong>Restam 9 subpassos:</strong> 7.08 e 10.01–10.08. Sem push, mudança do main, PyPI ou
+lançamento 0.3.0 neste lote. Budgets/limites da API inicial estão no guia; não é
+animação infinita, compilador de vídeo incorporado nem compatibilidade integral
+com todos os escritores/encoders/callbacks de outro framework.</p>
+<h3 id="lote-10-documentação-e-gates-de-entrega-030dev0">Lote 10 — documentação e gates de entrega (0.3.0.dev0)</h3>
+<p><strong>10.02, 10.03, 10.04, 10.06 e 10.07 concluídos para os artefatos de desenvolvimento.</strong>
+10.01 (hospedagem verificada), 10.05 (CI hospedada do estado novo) e 10.08
+(aceite/publicação final) permanecem pendentes, assim como 7.08.</p>
+<ul>
+<li><a href="documentation-site.html">Site versionado</a> com parser Markdown genérico opcional,
+layout próprio, busca por títulos, links/âncoras/ativos conferidos; preview
+local/artifact não é chamado de documentação hospedada.</li>
+<li><a href="migration-0.3.html">Migração</a>: três exemplos executáveis SVG/PDF, ambos imports,
+edição, componente opcional, animação finita/atlas. <a href="api-stability.html">Estabilidade</a>
+separa contratos públicos, experimentais e internos; CHANGELOG consolidado.</li>
+<li><a href="gallery-0.3.html">Galeria atual</a>: seis categorias, 18 exports PNG/SVG/PDF,
+hashes de scripts/runtime/arquivos, origem sintética/Natural Earth/fontes/paletas.
+Texto/font notice preservado. Links antigos a arquivos locais de <code>gallery/</code>
+foram convertidos em referências de reprodução; não viraram URLs públicas falsas.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/tools/baselines/release030/README.md">Baselines próprios</a>: styles/cells/depth,
+geometria/layout arredondados, duas tolerâncias de pixels, trabalho limitado,
+tempos quentes e geodésica equatorial analítica; sem promessa de FPS/RSS/GPU.</li>
+<li>Gate CI agora exige 28 identidades/SHAs/resultados exatos (15 suites, 6 accelerator,
+3 Tk, 3 Qt e documentação); 11 regressões rejeitam falsos positivos de URLs, matriz antiga, duplicatas,
+SHA antigo, jobs cancelados/skipped e publicação estável sem checklist/version.
+Configuração não é resultado hospedado. O upload PyPI continua manual separado,
+e candidatos de desenvolvimento/aceite incompleto são bloqueados.</li>
+<li>Licenças/privacidade/packaging e instalação core isolada conferidos no build dev;
+docs extra usa markdown-it-py/mdurl MIT externos, não vendorizados. Recursos
+anteriores mantêm seus termos/hashes; crédito Carlito permanece voluntário.</li>
+<li><a href="future-versions.html">Novas propostas</a>: Sol/Lua ligados à Terra, corpos planetários
+e órbitas cumulativas, com modelos/precisão/unidades/proveniência e critérios
+científicos explícitos. Nenhuma implementação celeste ou prazo prometido.</li>
+</ul>
+<p>Os relatórios antigos são snapshots preservados. A versão permanece <strong>0.3.0.dev0</strong>;
+este lote não autoriza uma publicação automática 0.3.0 nem trata CI como aceite
+humano Linux/macOS. Contagem final e evidência hospedada serão registradas ao
+passar seus gates, sem reescrever resultados anteriores.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/release-progress-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,120 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dependencies and distribution boundaries · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="dependencies-and-distribution-boundaries">Dependencies and distribution boundaries</h1>
+<p>The core has no mandatory third-party Python dependency. The declared build
+and optional requirements are in <code>pyproject.toml</code>. Versions are not locked:
+dependency licenses and binary payloads must be reviewed for each combined
+application or installer that redistributes them.</p>
+<table>
+<thead>
+<tr>
+<th>Group</th>
+<th>Components</th>
+<th>Terms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Optional rendering</td>
+<td>Pillow; aggdraw, including AGG 2.0</td>
+<td>MIT-CMU/PIL-style permissive notices; AGG's specific notice</td>
+</tr>
+<tr>
+<td>Optional arrays/compiler</td>
+<td>NumPy; Numba; llvmlite; LLVM</td>
+<td>BSD, additional bundled notices, Apache-2.0 with LLVM exception</td>
+</tr>
+<tr>
+<td>Build and validation</td>
+<td>setuptools, build, wheel, pytest, twine, packaging, PyYAML, tomli</td>
+<td>MIT/BSD/Apache as applicable; preserve component notices if redistributing the tools themselves</td>
+</tr>
+<tr>
+<td>Comparisons and font preparation</td>
+<td>Matplotlib, fontTools, cycler, contourpy</td>
+<td>Matplotlib's agreement; MIT; BSD. No runtime backend or vendored implementation</td>
+</tr>
+<tr>
+<td>GUI/browser comparisons</td>
+<td>Playwright/browser</td>
+<td>Playwright Apache-2.0; browser terms vary. Not included in the wheel</td>
+</tr>
+<tr>
+<td>Hosted CI</td>
+<td>GitHub checkout/setup-python/upload-artifact actions; Xvfb/xauth</td>
+<td>Separate CI tooling; no action implementation is shipped in Azimlib</td>
+</tr>
+<tr>
+<td>Local history remediation</td>
+<td>git-filter-repo 2.47.0</td>
+<td>MIT; external one-off tool, not vendored or required by Azimlib</td>
+</tr>
+</tbody>
+</table>
+<h2 id="relevant-transitive-packages">Relevant transitive packages</h2>
+<p>Packaging tools can install pyproject_hooks, requests, urllib3,
+charset-normalizer, idna, certifi, keyring, jaraco.classes/context/functools,
+more-itertools, rich, markdown-it-py, mdurl, nh3, Pygments, docutils,
+requests-toolbelt, rfc3986 and id. Comparators can install python-dateutil,
+six, pyparsing, kiwisolver and tornado. Conditional dependencies include
+SecretStorage, jeepney, cryptography, cffi, pycparser, importlib-metadata,
+zipp, pluggy, iniconfig and exceptiongroup.</p>
+<p>Most use permissive MIT/BSD/Apache terms, but certifi is MPL-2.0. Some tool
+distributions include additional files: setuptools can include LGPL-licensed
+autocommand; Docutils includes separately licensed editor integration. Their
+presence in a build environment does not mean they are embedded in the wheel.
+Do not summarize the entire development environment as exclusively BSD/MIT.</p>
+<p>Pillow binaries can include FreeType, HarfBuzz, Brotli, Little CMS, libavif,
+libjpeg-turbo, libpng, libwebp, OpenJPEG, TIFF, XZ and zlib-ng. NumPy binaries can
+include OpenBLAS, LAPACK and a GCC runtime under GPL with its runtime exception.
+Check complete bundled licenses and the exception for the exact binary shipped.
+Do not infer a license only from the top-level project's package metadata.</p>
+<p>No package-level third-party license is replaced by Azimlib's BSD-3-Clause.
+Materials actually shipped by Azimlib are inventoried in
+<a href="../THIRD_PARTY_LICENSES.html">THIRD_PARTY_LICENSES</a>.</p>
+<p>The <a href="dependency-license-inventory.json">observed development inventory</a> records
+versions, declared requirements and hashes of available installed license files.
+It is evidence of that environment, not a lockfile or a license clearance for
+future binaries. <code>tools/inventory_dependency_licenses.py</code> regenerates it without
+publishing home-directory paths.</p>
+<h2 id="geographic-numeric-comparison-development-only">Geographic numeric comparison — development only</h2>
+<p>Stage3 uses an isolated pyproj 3.8.0/GeographicLib 2.1 environment exclusively as
+black-box numerical oracles. Neither package is imported by runtime or required
+by tests; no source code or upstream test dataset is vendored. Recorded numeric
+outputs and versions are in <a href="geodesy.html">the core guide</a>. These tools are not
+included in wheel/sdist or package requirements. Redistributing an oracle
+environment would require reviewing its own licenses and binary dependencies.</p>
+<h2 id="optional-ui-integration-in-03-development">Optional UI integration in 0.3 development</h2>
+<p>The <code>qt</code> extra requires Pillow and PySide6-Essentials &gt;=6.5; shiboken6 is its
+binding dependency. Local 6.11.2 metadata declares LGPL-3.0-only OR GPL-2.0-only
+OR GPL-3.0-only; Qt's proprietary commercial route is separate. Only QtCore,
+QtGui and QtWidgets are used. Code/binaries/modules/licenses from this dependency
+are not bundled into Azimlib's wheel/sdist. A frozen or combined application that
+redistributes Qt must comply with its chosen license and the exact binary's
+third-party terms; declaring the application BSD does not cancel those duties.
+See <a href="../THIRD_PARTY_LICENSES.html">material boundaries</a>.</p>
+<p>The <code>notebook</code> extra uses IPython &gt;=8, public display_id/update and post_run_cell
+hooks. IPython 9.17.1 has BSD-3-Clause metadata. Its transitive traitlets and
+prompt_toolkit retain BSD notices; jedi/parso retain MIT; Pygments BSD-2-Clause;
+asttokens, executing, pure-eval, decorator, stack-data, wcwidth, colorama/pexpect
+and conditional typing/exception packages must be reviewed at their resolved
+versions when bundling. None are vendored. Both extras are absent from core
+installation/imports. Stdlib HTTP/threading/JSON supply the local live bridge.
+Node is a development-only executable for the own client-protocol fixture.</p>
+<p>The <a href="interaction-dependencies-0.3.json">observed optional dependency closure</a>
+records actual Windows versions, declared requirements and license-file hashes
+for the two new extras. It is not a lockfile or permission to redistribute an
+entire Qt binary installation without reviewing its complete notices.</p>
+<h2 id="optional-development-pdf-check">Optional development PDF check</h2>
+<p><code>tools/audit_atlas_pdf.py</code> may use a separately installed <strong>pypdf</strong> (BSD-3-Clause)
+for an independent strict read of page trees/content streams/font attachments.
+Poppler (GPL terms for its exact build) may render development previews outside
+the project. Neither pypdf nor Poppler is required, embedded or invoked by the
+Azimlib runtime/PDF writer, and neither binary/implementation is distributed in
+Python archives. Their own licenses remain applicable if they are redistributed.
+The writer and generated gallery are independently produced by Azimlib; a reader
+check does not import/reproduce the reader's implementation into the project.</p>
+<h2 id="optional-documentation-build">Optional documentation build</h2>
+<p>The <code>docs</code> extra installs markdown-it-py (MIT) and mdurl (MIT) as a generic
+Markdown parser for the original static documentation builder. They are not
+vendored, copied into the HTML, required by map runtime or bundled in wheel/sdist.
+Resolved license files must be preserved if redistributing those packages.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/dependencies.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

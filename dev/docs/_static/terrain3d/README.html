@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Galeria 3D original da Azimlib · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../../../site.css"><body data-root="../../../"><header><a href="../../../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../../../docs/index.html">Overview</a><a href="../../../docs/getting-started.html">Getting started</a><a href="../../../docs/migration-0.3.html">Migration</a><a href="../../../docs/gallery-0.3.html">Gallery</a><a href="../../../docs/api.html">API reference</a><a href="../../../docs/api-stability.html">Compatibility policy</a><a href="../../../docs/release-progress-0.3.html">Release progress</a><a href="../../../docs/roadmap.html">Roadmap</a></aside><main><h1 id="galeria-3d-original-da-azimlib">Galeria 3D original da Azimlib</h1>
+<p><img src="terrain3d.png" alt="Superfícies próprias em perspectiva e ortográfica" /></p>
+<p>Relevo e plantas são totalmente sintéticos, definidos em
+<a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/terrain3d.py">examples/terrain3d.py</a>.
+Sem DEM externo, dados urbanos baixados ou renderer cartográfico de terceiros.
+Pillow apenas codifica/compõe pixels; Azimlib calcula câmera, clipping e oclusão.</p>
+<p>Reproduzir no ambiente instalado de desenvolvimento:</p>
+<pre><code class="language-bash">python examples/terrain3d.py --output outputs/terrain3d
+python examples/terrain3d.py --output outputs/terrain3d --show
+</code></pre>
+<p>Os textos, colorbar e eixos são editáveis pela API. SVG/PDF usam a camada de
+terreno raster; HTML offline é estático para a câmera. Veja <a href="../../terrain3d.html">contrato 3D</a>.
+Inspeção da imagem e provas nativas programáticas Windows não equivalem a
+aceite humano Linux/macOS. Nenhuma publicação remota faz parte destas evidências.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../../../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/_static/terrain3d/README.md">Source</a>.</footer></main><script src="../../../site.js"></script></body></html>

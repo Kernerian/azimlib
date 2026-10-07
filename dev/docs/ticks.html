@@ -1,0 +1,176 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ticks, locators e formatters · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="ticks-locators-e-formatters">Ticks, locators e formatters</h1>
+<p>Veja também <a href="text-rotation.html">rotação e alinhamento</a>: <code>labelrotation</code> usa a
+caixa após girar; <code>labelrotation_mode</code> seleciona default/anchor/xtick/ytick em
+major/minor, inclusive na colorbar. Os valores de ticks fixos são preservados.</p>
+<p>A API separa <strong>posição</strong> de <strong>texto</strong>, seguindo o contrato de
+<a href="https://matplotlib.org/stable/api/ticker_api.html">matplotlib.ticker</a>.
+Os algoritmos são próprios e usam apenas a biblioteca padrão do Python.
+Esta versão implementa ticks maiores e menores. Eixos geográficos
+logarítmicos e offsets científicos ainda não estão disponíveis.</p>
+<h2 id="coordenadas-geográficas">Coordenadas geográficas</h2>
+<pre><code class="language-python">from azimlib.ticker import MultipleLocator, LongitudeFormatter, LatitudeFormatter
+
+ax.xaxis.set_major_locator(MultipleLocator(2))
+ax.yaxis.set_major_locator(MultipleLocator(2))
+ax.xaxis.set_major_formatter(LongitudeFormatter())
+ax.yaxis.set_major_formatter(LatitudeFormatter())
+ax.grid(labels=False, linestyle='--', linewidth=.5)
+</code></pre>
+<p>O locator trabalha com longitude/latitude em graus, antes da projeção. Passo
+<code>2</code> significa dois graus, não dois metros nem dois pixels. Os ticks fora da
+vista podem fazer parte de <code>get_xticks()</code>/<code>get_yticks()</code>, como nos locators
+do Matplotlib; o renderer desenha apenas os que atingem os limites visíveis.
+Mudar a vista na janela Tk recalcula posições e textos com os mesmos objetos.</p>
+<p><code>LongitudeFormatter(dms=True)</code> e <code>LatitudeFormatter(dms=True)</code> produzem
+rótulos como <code>46°30′W</code> ou <code>23°33′1.8″S</code>. Há controle de <code>degree_symbol</code>,
+<code>number_format</code>, <code>direction_label</code>, <code>zero_direction_label</code> e
+<code>dateline_direction_label</code>. DMS trata o arredondamento para o minuto/grau
+seguinte; ainda não oculta automaticamente campos repetidos entre ticks.
+Esses dois formatters são extensões cartográficas próprias da Azimlib,
+não classes fornecidas pelo Matplotlib.</p>
+<p>Sem objetos explícitos, a seleção automática anterior foi preservada,
+incluindo o passo e os rótulos geográficos sugeridos por <code>grid(labels=True)</code>.
+Um formatter explícito prevalece sobre o formato sugerido pela grade.
+Com <code>grid(step=None)</code>, os ticks do grupo escolhido definem a posição da grade.
+<code>grid(step=5)</code> continua sendo a extensão cartográfica para uma graticule
+independente, de passo fixo. A grade permanece opcional.</p>
+<h2 id="objetos-disponíveis">Objetos disponíveis</h2>
+<table>
+<thead>
+<tr>
+<th>Posição</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoLocator()</code></td>
+<td>seleção de passo decimal conforme espaço disponível</td>
+</tr>
+<tr>
+<td><code>AutoMinorLocator(n=None)</code></td>
+<td>subdivisões de intervalos uniformes entre ticks maiores</td>
+</tr>
+<tr>
+<td><code>MaxNLocator(nbins=5, integer=False, prune=None)</code></td>
+<td>controle do número de intervalos e das extremidades</td>
+</tr>
+<tr>
+<td><code>MultipleLocator(base=2, offset=0)</code></td>
+<td>espaçamento constante e origem deslocada</td>
+</tr>
+<tr>
+<td><code>FixedLocator([-54, -50, -46])</code></td>
+<td>posições explicitamente fornecidas</td>
+</tr>
+<tr>
+<td><code>NullLocator()</code></td>
+<td>nenhum tick</td>
+</tr>
+<tr>
+<td><code>LogLocator(base=10, subs=(1,))</code></td>
+<td>potências/subdivisões para dados positivos de colorbar</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Texto</th>
+<th>Função</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ScalarFormatter()</code></td>
+<td>números simples; sem texto de offset científico</td>
+</tr>
+<tr>
+<td><code>StrMethodFormatter('{x:.1f} km')</code></td>
+<td>campos Python <code>x</code> e <code>pos</code></td>
+</tr>
+<tr>
+<td><code>FormatStrFormatter('%.1f')</code></td>
+<td>formato com operador <code>%</code></td>
+</tr>
+<tr>
+<td><code>FuncFormatter(function)</code></td>
+<td>função Python <code>(value, position)</code></td>
+</tr>
+<tr>
+<td><code>FixedFormatter(['A', 'B'])</code></td>
+<td>texto por posição, preferencialmente com FixedLocator</td>
+</tr>
+<tr>
+<td><code>NullFormatter()</code></td>
+<td>oculta rótulos, preservando ticks</td>
+</tr>
+<tr>
+<td><code>LongitudeFormatter()</code>, <code>LatitudeFormatter()</code></td>
+<td>graus e hemisférios, ou DMS</td>
+</tr>
+</tbody>
+</table>
+<p><code>set_major_formatter('{x:.1f}')</code> e <code>set_major_formatter(function)</code> convertem
+automaticamente strings e funções para os formatters correspondentes.
+Subclasses de <code>Locator</code> e <code>Formatter</code> podem implementar <code>tick_values</code> e
+<code>__call__</code>; <code>formatter.set_locs</code> recebe o conjunto antes do desenho.</p>
+<pre><code class="language-python">locator = ax.xaxis.get_major_locator()
+formatter = ax.xaxis.get_major_formatter()
+ax.xaxis.set_major_formatter(lambda value, position: f'{abs(value):.1f}°W')
+locator.set_params(base=1)  # se o locator escolhido for MultipleLocator
+fig.canvas.draw_idle()
+</code></pre>
+<p>Use instâncias separadas por eixo. Diferentemente da religação silenciosa
+do Matplotlib, a Azimlib rejeita tentar anexar a mesma instância a outro eixo:
+locators e formatters podem depender do contexto da vista. Parâmetros inválidos
+e números excessivos de ticks são rejeitados antes de alocar grandes sequências.</p>
+<p><code>set_xticks(..., labels=...)</code> e <code>set_yticks</code> instalam FixedLocator e
+FixedFormatter, preservando os TextArtists editáveis já retornados pela API.
+Substituir o formatter remove esses textos explícitos. <code>ax.clear()</code> restaura
+os controladores automáticos. <code>get_xaxis()</code>/<code>get_yaxis()</code> retornam os mesmos
+objetos que <code>ax.xaxis</code>/<code>ax.yaxis</code>.</p>
+<p>O <a href="minor-ticks.html">guia de ticks menores</a> descreve minorticks_on/off,
+locators/formatters menores, edição por <code>minor=True</code>, estilos separados,
+grade por grupo/eixo, colorbars e navegação portátil.</p>
+<h2 id="colorbars">Colorbars</h2>
+<pre><code class="language-python">from azimlib.ticker import MultipleLocator, StrMethodFormatter
+
+bar = fig.colorbar(layer, orientation='horizontal')
+bar.locator = MultipleLocator(25)
+bar.formatter = StrMethodFormatter('{x:.0f}%')
+bar.update_ticks()
+</code></pre>
+<p>Também é possível editar <code>bar.ax.xaxis</code> para uma barra horizontal ou
+<code>bar.ax.yaxis</code> para uma vertical. Com <code>cax</code>, o próprio eixo fornecido delega
+esses controles à colorbar. O eixo curto não oferece ticks nesta versão;
+tentativas de editá-lo explicitamente geram erro. <code>bar.set_ticks</code> instala
+FixedLocator e aceita textos editáveis, como antes.</p>
+<p>Mudar <code>set_clim()</code> preserva locator/formatter personalizados. Trocar o
+objeto <code>norm</code> restaura os automáticos: a consulta seguinte ou o redraw
+sincroniza a barra. A regra corresponde a
+<a href="https://matplotlib.org/stable/api/colorbar_api.html#matplotlib.colorbar.Colorbar.update_normal">Colorbar.update_normal</a>.
+Trocar a orientação da mesma barra transfere os controles para o eixo longo.
+Ainda não existe um registro completo de callbacks de normalização; editar
+objetos diretamente pode exigir <code>fig.canvas.draw_idle()</code> em uma janela aberta.
+Setters do ScalarFormatter agora invalidam o desenho. Notação científica,
+offsets, prefixos SI e texto editável de offset estão descritos em
+<a href="numeric-formatting.html">formatação numérica</a>; MathText/TeX continuam pendentes.</p>
+<p><code>format='%.1f'</code> e o formato numérico legado <code>format='.2f'</code> continuam aceitos;
+funções legadas atribuídas a <code>bar.formatter</code> recebem só o valor. Para callbacks
+com posição, use <code>FuncFormatter</code> ou <code>bar.ax.xaxis.set_major_formatter(...)</code>.</p>
+<h2 id="exportação-e-validação">Exportação e validação</h2>
+<p>PNG e SVG desenham os mesmos ticks; <code>savefig()</code> continua sem controles de UI.
+A janela Tk recalcula o desenho em Python. O HTML exporta uma cena pronta,
+sem executar callbacks Python. Em Mercator/equiretangular, ele também recalcula
+um subconjunto portátil: Auto/AutoMinor/Multiple/Fixed/NullLocator, Scalar/Fixed/NullFormatter,
+longitude/latitude e DMS. Funções Python, subclasses customizadas, MaxN/Log
+e formatos arbitrários não são executados no HTML; nesses casos, os ticks e
+a grade personalizados são ocultados durante a navegação e restaurados por Home.
+Use Tk para interação completa e controle de todos os estilos desses objetos.</p>
+<p><code>examples/ticks.py</code> gera três exemplos. <code>tools/inspect_ticker.py</code> compara oito
+configurações numéricas e três formatters contra o Matplotlib instalado,
+além da regra de preservação/reset da colorbar. <code>ticker-reference.json</code> registra
+os resultados. Essa comparação controlada não implica equivalência com todas
+as opções de ticker, precisão, offsets, locale ou escalas do Matplotlib.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/ticks.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Integrated 0.3 development gallery · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="integrated-03-development-gallery">Integrated 0.3 development gallery</h1>
+<p>All six compositions below are rendered by Azimlib's own implementations from
+<code>examples/release_atlas.py</code>. They are <strong>unreleased 0.3.0.dev0 examples</strong>.
+<a href="_static/release030/manifest.json">Generation manifest</a> records exact source,
+runtime and export hashes. No Matplotlib images/code are used in this gallery.</p>
+<p><img src="_static/release030/overview.png" alt="Political, physical, urban, scientific, 3D and temporal maps" /></p>
+<table>
+<thead>
+<tr>
+<th>View</th>
+<th>Output</th>
+<th>Data and guide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Political Brazil</td>
+<td><a href="_static/release030/political.png">PNG</a>, <a href="_static/release030/political.svg">SVG</a>, <a href="_static/release030/political.pdf">PDF</a></td>
+<td>Natural Earth public domain; <a href="geodesy.html">geodesy</a></td>
+</tr>
+<tr>
+<td>Physical/hydrographic Brazil</td>
+<td><a href="_static/release030/physical.png">PNG</a>, <a href="_static/release030/physical.svg">SVG</a>, <a href="_static/release030/physical.pdf">PDF</a></td>
+<td>Natural Earth rivers/lakes/boundaries, not navigation data</td>
+</tr>
+<tr>
+<td>Synthetic urban atlas</td>
+<td><a href="_static/release030/urban.png">PNG</a>, <a href="_static/release030/urban.svg">SVG</a>, <a href="_static/release030/urban.pdf">PDF</a></td>
+<td>Original synthetic buildings/streets; <a href="urban.html">urban</a></td>
+</tr>
+<tr>
+<td>Scientific scalar field</td>
+<td><a href="_static/release030/scientific.png">PNG</a>, <a href="_static/release030/scientific.svg">SVG</a>, <a href="_static/release030/scientific.pdf">PDF</a></td>
+<td>Original formula, CC0 Viridis; <a href="scientific-2d.html">scientific 2D</a></td>
+</tr>
+<tr>
+<td>Physical terrain/extrusion 3D</td>
+<td><a href="_static/release030/terrain3d.png">PNG</a>, <a href="_static/release030/terrain3d.svg">SVG</a>, <a href="_static/release030/terrain3d.pdf">PDF</a></td>
+<td>Synthetic metric data, own depth raster; <a href="terrain3d.html">3D</a></td>
+</tr>
+<tr>
+<td>Temporal norms/proportional points</td>
+<td><a href="_static/release030/temporal.png">PNG</a>, <a href="_static/release030/temporal.svg">SVG</a>, <a href="_static/release030/temporal.pdf">PDF</a></td>
+<td>Synthetic data, Natural Earth basemap; <a href="temporal.html">time</a></td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-bash">python examples/release_atlas.py --output .ci-results/gallery030
+</code></pre>
+<p>PNG needs Pillow. All views use bundled DejaVu with its own notice; SVG embeds
+fonts and PDF attaches their license. 3D SVG/PDF explicitly contain raster
+terrain, not searchable text or pure vector terrain. Layout/numerical bounds and
+image tolerances are tested separately from human appearance acceptance.
+Original compositions are BSD-3-Clause; datasets/fonts/palettes retain their
+own licenses. <a href="../THIRD_PARTY_LICENSES.html">Material boundaries</a>.</p>
+<p>See also <a href="scientific-2d.html">scientific maps</a>,
+<a href="_static/finishing/README.html">finishing</a>, <a href="_static/terrain3d/README.html">3D</a>
+and <a href="_static/temporal/README.html">temporal/GIF/atlas</a> collections. Older snapshots
+are identified by their recorded runtime hashes; they are not overwritten.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/gallery-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

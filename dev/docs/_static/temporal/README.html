@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Original temporal geography and regional atlas · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../../../site.css"><body data-root="../../../"><header><a href="../../../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../../../docs/index.html">Overview</a><a href="../../../docs/getting-started.html">Getting started</a><a href="../../../docs/migration-0.3.html">Migration</a><a href="../../../docs/gallery-0.3.html">Gallery</a><a href="../../../docs/api.html">API reference</a><a href="../../../docs/api-stability.html">Compatibility policy</a><a href="../../../docs/release-progress-0.3.html">Release progress</a><a href="../../../docs/roadmap.html">Roadmap</a></aside><main><h1 id="original-temporal-geography-and-regional-atlas">Original temporal geography and regional atlas</h1>
+<p><img src="temporal-atlas.png" alt="Fixed/global colors, per-frame colors and proportional points" /></p>
+<p><a href="climate.gif">Synthetic climate animation</a>, <a href="regions.pdf">own regional multi-page PDF</a>,
+<a href="temporal-atlas.svg">SVG map composition</a> and <a href="manifest.json">manifest</a>.
+Individual <a href="frames/frame-00000.png">PNG frames</a> and regional SVG pages
+(<a href="pages/page-000.svg">South</a>, <a href="pages/page-001.svg">North</a>,
+<a href="pages/page-002.svg">Northeast</a>) are included to inspect/reproduce the export.</p>
+<p>Generated with <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/temporal_atlas.py">examples/temporal_atlas.py</a>
+using the installed Azimlib. Climate values, population indexes and point areas
+are original deterministic synthetic fixtures, Copyright (c) 2026 Kernerian,
+BSD-3-Clause. Boundaries/coastlines use separately credited Natural Earth public-
+domain data; fonts/colormaps retain DejaVu/CC0 notices. No real demographic or
+climate measurements are implied. See <a href="../../temporal.html">contracts</a>.</p>
+<p>Reproduce in a <strong>new</strong> output directory:</p>
+<pre><code class="language-bash">python examples/temporal_atlas.py --output outputs/temporal
+python examples/temporal_atlas.py --output outputs/temporal-live --show
+</code></pre>
+<p>Gallery PNGs and PDF first-page render were inspected. A strict independent PDF
+reader verified three pages and exact attached font notices. Programmatic Tk/Qt
+playback passed in Windows; this does not mark Linux/macOS or human fluency as
+validated. No video encoder is bundled or actual codec claimed by this example.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../../../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/_static/temporal/README.md">Source</a>.</footer></main><script src="../../../site.js"></script></body></html>

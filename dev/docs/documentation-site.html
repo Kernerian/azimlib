@@ -1,0 +1,22 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Versioned documentation site · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="versioned-documentation-site">Versioned documentation site</h1>
+<p>The Markdown sources are the source of truth. <code>tools/build_documentation.py</code>
+builds an offline static site with version banners, original light layout,
+sidebar, heading anchors, tables, local assets and a title search index.
+<code>markdown-it-py</code> is a generic <strong>development-only</strong> parser (MIT); neither its
+code nor its dependencies are vendored in the package. Runtime has no change.</p>
+<pre><code class="language-bash">python -m pip install &quot;azimlib[docs]&quot;
+python tools/build_documentation.py --output .ci-results/site --ref dev/0.3.0
+python tools/check_documentation_site.py --site .ci-results/site
+</code></pre>
+<p>The output must be a new directory; it is written atomically. Existing output
+is never recursively removed. Sources/assets are allowlisted from docs and root
+public policy files. Links to Python source become GitHub links for the selected
+ref. Markdown links become HTML links; local binary/PDF/SVG assets preserve exact
+bytes and legal notices. Raw HTML is disabled in Markdown rendering. No tracking,
+external font, remote script or parser implementation is shipped with the site.</p>
+<p><code>docs.yml</code> builds/audits an artifact for development. Deployment is a separate future manual step and requires the GitHub Pages
+environment/source to be configured. This preview workflow does not deploy. Development docs belong under <code>dev/</code>; stable docs belong under their
+version (<code>0.2.0/</code>, later <code>0.3.0/</code>), never silently overwriting another version.
+A hosted URL is not claimed until an actual successful deployment and HTTP check.
+PyPI publication remains a separate manual action after all release gates.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/documentation-site.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,173 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Cores, colorbars, hachuras e campos geográficos · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="cores-colorbars-hachuras-e-campos-geográficos">Cores, colorbars, hachuras e campos geográficos</h1>
+<p>Este guia inclui as extensões científicas de <code>dev/0.3.0</code>; a versão estável
+publicada permanece 0.2.0. Veja <a href="scientific-2d.html">raster RGB, resampling, contourf e campos
+irregulares</a> para contratos e exemplos completos.</p>
+<h2 id="uma-escala-compartilhada">Uma escala compartilhada</h2>
+<pre><code class="language-python">import azimlib.pyplot as plt
+from azimlib.colors import Normalize
+
+fig, ax = plt.subplots(projection='mercator')
+points = ax.scatter([-46.63, -43.17], [-23.55, -22.90],
+                    c=[.4, 1.8], s=[40, 80], cmap='viridis',
+                    norm=Normalize(0, 2.2))
+cbar = fig.colorbar(points, ax=ax, label='Intensidade')
+cbar.set_ticks([0, .5, 1, 1.5, 2])
+cbar.ax.tick_params(labelsize=9, direction='out')
+cbar.set_label('Intensidade (unidades arbitrárias)', fontsize=10, labelpad=4)
+cbar.outline.set_linewidth(.8)
+
+points.set_clim(0, 3)       # mapa e barra usam a mesma normalização
+points.set_cmap('plasma')
+fig.canvas.draw_idle()     # atualiza uma janela desktop já aberta
+fig.savefig('indicador.svg')
+plt.show()
+</code></pre>
+<p><code>fig.colorbar</code>, <code>plt.colorbar</code> e <code>ax.colorbar</code> retornam um objeto <code>Colorbar</code>.
+A orientação padrão é vertical, à direita. <code>orientation='horizontal'</code> usa a
+parte inferior. Também há <code>location='left'/'top'</code>, <code>fraction</code>, <code>pad</code>, <code>aspect</code>,
+<code>shrink</code>, <code>alpha</code>, <code>extend='min'/'max'/'both'</code>, <code>extendfrac</code>, <code>spacing</code>, <code>drawedges</code>,
+<code>format</code> (formato numérico, string printf ou callable) e ticks explícitos.</p>
+<p>Edite o rótulo com <code>set_label</code>, os ticks com <code>set_ticks(ticks, labels=...)</code>,
+<code>set_ticklabels</code>, a aparência dos ticks com <code>cbar.ax.tick_params</code>, a borda com
+<code>cbar.outline</code>, e a visibilidade com <code>set_visible</code>. <code>remove</code> devolve ao mapa
+a área reservada à barra. <code>update_normal(outro_mappable)</code> troca sua fonte de
+cores; ao trocar o objeto de normalização, ticks/formatador customizados são
+resetados. Alterar apenas clim/paleta preserva os ticks explícitos.</p>
+<p><code>Normalize</code>, <code>NoNorm</code>, <code>LogNorm</code>, <code>TwoSlopeNorm</code>, <code>BoundaryNorm</code>, <code>Colormap</code>,
+<code>ListedColormap</code> e <code>cm.ScalarMappable</code> são implementações próprias. Use <code>None</code>
+ou NaN para dados ausentes. Normalizadores podem ser compartilhados entre
+camadas. Limites fixos facilitam comparar regiões/instantes. Use <code>norm</code> <strong>ou</strong>
+<code>vmin/vmax</code>. Na escala logarítmica, valores não positivos não são representados.</p>
+<pre><code class="language-python">from azimlib.cm import ScalarMappable
+from azimlib.colors import BoundaryNorm, ListedColormap
+m = ScalarMappable(BoundaryNorm([0, 10, 50, 100], 3),
+                   ListedColormap(['#eff3ff', '#6baed6', '#08519c']))
+cbar = fig.colorbar(m, ax=ax, spacing='proportional', drawedges=True)
+</code></pre>
+<p>Coropléticos permanecem classificados por padrão (<code>bins=5</code>). <code>bins=None</code> usa
+cores contínuas. <code>set_array</code> modifica os valores; <code>set_clim</code>, <code>set_cmap</code>,
+<code>set_norm</code>, <code>get_clim</code>, <code>get_cmap</code> e <code>get_array</code> seguem o vocabulário familiar.
+Tabelas CC0 de Viridis/Plasma/Inferno/Magma têm 256 amostras RGB8 iguais às
+referências quantizadas; as outras paletas da Azimlib são interpoladas.
+Veja <code>NOTICE_COLORMAPS</code> para origem e licença.</p>
+<h2 id="hachuras">Hachuras</h2>
+<p>Todos estes padrões existem no Matplotlib. Repetir um caractere aumenta a
+densidade; combinar caracteres combina padrões:</p>
+<table>
+<thead>
+<tr>
+<th>String Python</th>
+<th>Efeito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>'////'</code></td>
+<td>diagonais ascendentes</td>
+</tr>
+<tr>
+<td><code>r'\\\\'</code></td>
+<td>diagonais no outro sentido</td>
+</tr>
+<tr>
+<td><code>'xxxx'</code></td>
+<td>diagonais cruzadas</td>
+</tr>
+<tr>
+<td><code>'....'</code></td>
+<td>pontos preenchidos</td>
+</tr>
+<tr>
+<td><code>'----'</code></td>
+<td>horizontais</td>
+</tr>
+<tr>
+<td>`'</td>
+<td></td>
+</tr>
+<tr>
+<td><code>'++'</code></td>
+<td>horizontais + verticais</td>
+</tr>
+<tr>
+<td><code>'o'</code>, <code>'O'</code>, <code>'*'</code></td>
+<td>círculos pequenos/grandes e estrelas</td>
+</tr>
+<tr>
+<td><code>'/.'</code></td>
+<td>diagonais + pontos</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-python">ax.state('SP', facecolor='white', edgecolor='black', hatch='////',
+         hatch_color='#315c84', hatch_linewidth=.6, hatch_spacing=12)
+</code></pre>
+<p>A Azimlib recorta as hachuras contra a geometria projetada usando a regra
+even-odd; respeita buracos e multipolígonos. A mesma geometria vetorial é
+usada no PNG e no SVG, e aparece nos símbolos da legenda. <code>hatch_spacing</code>
+e <code>hatch_linewidth</code> usam pontos; <code>hatch_color</code> e esses dois controles são
+extensões explícitas da Azimlib. A densidade também responde à repetição.
+No HTML exportado, a navegação escala os espaçamentos da cena; o desktop
+recalcula-os em tamanho físico a cada redraw.</p>
+<h2 id="campos-relevo-e-vetores">Campos, relevo e vetores</h2>
+<pre><code class="language-python">image = ax.imshow(values, extent=(-70, -40, -35, 5), origin='lower',
+                  cmap='terrain', vmin=0, vmax=3000)
+contours = ax.contour(lon_centers, lat_centers, values,
+                      levels=[500, 1000, 1500], colors='black', linewidth=.6)
+ax.clabel(contours, fmt='%g', fontsize=8)
+fig.colorbar(image, label='Elevação (m)')
+ax.quiver(lon, lat, eastward, northward, scale=25, color='black')
+</code></pre>
+<p><code>imshow</code> aceita matrizes escalares ou RGB/RGBA e exige extent geográfico. <code>pcolormesh</code>
+aceita vetores 1D de bordas lon/lat, com <code>Z.shape=(len(lat)-1,len(lon)-1)</code> e
+<code>shading='flat'</code>. <code>read_geotiff</code> e <code>ax.raster</code> usam o <a href="formats.html">leitor próprio</a>;
+RGB/RGBA e resampling são explícitos no <a href="scientific-2d.html">guia 2D</a>.
+<code>antialiased=False</code> é o padrão da malha para evitar frestas entre células;
+<code>True</code> ativa cobertura fracionária dos preenchimentos.
+Cada célula é projetada como quadrilátero; é uma representação geográfica
+vetorial, não resampling de raster com metadados georreferenciados.</p>
+<p><code>contour</code> usa marching squares próprio, liga segmentos e resolve células
+de sela pelo decider bilinear. Valores ausentes interrompem isolinhas.
+<code>clabel</code> posiciona rótulos e evita colisões; inline=True recorta o caminho
+sob o texto sem modificar sua fonte geográfica. Não faz texto curvo ao longo dela.
+<code>contourf</code> agora tem bandas preenchidas próprias, com contratos distintos
+para interpolação/máscaras; veja <a href="scientific-2d.html">guia 2D</a>. Ainda não há
+compatibilidade com todo <code>ContourSet</code> do Matplotlib.
+contour retorna ContourSet próprio com cores/linhas editáveis por nível;
+clabel retorna uma lista de handles de texto editáveis. Veja os
+<a href="lines-contours.html">contratos de contornos e rótulos</a>, inclusive inline_spacing,
+visibilidade/remoção e valores por nível. fig.colorbar(contours) mostra linhas
+coloridas sólidas, sem gradiente, em orientação horizontal ou vertical.</p>
+<p><code>fields.hillshade(Z, dx=..., dy=..., azdeg=315, altdeg=45, vert_exag=1)</code> usa
+gradientes e iluminação Lambertiana própria. dx, dy e altitude devem ter
+unidades consistentes, normalmente metros; linhas de Z seguem sul→norte.
+Não calcula espaçamento em metros automaticamente a partir de graus.</p>
+<p><code>quiver</code> interpreta u/v como componentes leste/norte e calcula a direção
+na projeção por uma derivada esférica. <code>scale</code> representa unidades dos dados
+por largura do Axes; escala maior produz setas menores. A posição é lon/lat.
+Pode receber C e colormap/normalização para cores. Não há todos os parâmetros
+de Quiver, quiverkey/barbs/streamplot nem campos volumétricos 3D.</p>
+<p>Os handles são editáveis: ScalarImage.set_data/set_extent, MeshCollection.set_array
+e VectorCollection.set_UVC/set_offsets/set_scale. Arrays de imagem podem mudar
+de forma mantendo o extent; matrizes de mesh preservam as bordas. Consulte
+<a href="field-editing.html">edição de campos 2D</a> para exemplos, ordem de origin e os
+contratos específicos de get_array/set_array e atualização da vista.</p>
+<h2 id="compatibilidade-que-ainda-falta">Compatibilidade que ainda falta</h2>
+<p>Colorbar tem uma API editável concreta, mas não toda a classe Matplotlib:
+há barras compartilhadas entre vários Axes e eixos explícitos <code>cax</code>, descritos
+no <a href="composition.html">guia de composição</a>. Locator/Formatter como objetos já
+estão disponíveis no <a href="ticks.html">guia de ticks</a>. Eixo secundário, extendrect,
+todos os callbacks da referência e todas as opções de layout ainda não estão
+disponíveis. Matrizes/cores mascaradas possuem o contrato explícito do guia 2D. Sem <code>cax</code>, <code>cbar.ax</code>
+é uma fachada para ticks/rótulo/visibilidade; com <code>cax</code>, é o próprio eixo
+reservado. <code>Normalize</code> não devolve ndarray/MaskedArray; <code>ScalarMappable.to_rgba</code> devolve
+tuplas/listas de canais RGBA.</p>
+<p>Uma janela Tk aberta usa os objetos Python vivos. O HTML é uma exportação:
+mudar <code>set_clim</code> em Python exige reexportar/reabrir o HTML. Alterações por
+código podem ser ligadas a callbacks no desktop; não há editor de propriedades
+de colorbar no toolbar, nem promessa de compatibilidade integral com cada
+backend Matplotlib.</p>
+<p>Referências diretas: <a href="https://matplotlib.org/stable/api/colorbar_api.html">Colorbar</a>,
+<a href="https://matplotlib.org/stable/api/cm_api.html">ScalarMappable</a> e
+<a href="https://matplotlib.org/stable/gallery/shapes_and_collections/hatch_style_reference.html">hachuras</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/scientific.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

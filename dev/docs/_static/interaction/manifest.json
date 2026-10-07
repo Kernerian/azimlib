@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "version": "0.3.0.dev0",
+  "generator": "examples/interactive_layers.py",
+  "generator_sha256": "528373ebde6082e2828a5a906addffb9b940da4a9843e880578de8e7e6fcbdad",
+  "files": {
+    "interaction-controls.png": "10fd6fe1711af2039edb765700a0a01ad08842a1748dcff5343ab4c6c48d2040",
+    "interaction-map.png": "1768f4c819b0cd7ef14f8ec08eafab45ae4d968ad7489a4a4c152c491ebc9724"
+  },
+  "provenance": [
+    "Original synthetic routes/stations and composition, BSD-3-Clause",
+    "Natural Earth administrative geography, public domain",
+    "Bundled DejaVu; retained font license"
+  ],
+  "scope": "Own scene export with/without opt-in controls; not native browser or cross-platform visual acceptance"
+}

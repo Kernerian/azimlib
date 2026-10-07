@@ -1,0 +1,111 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Layout e margens automáticas · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="layout-e-margens-automáticas">Layout e margens automáticas</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, ax = azl.subplots(figsize=(7, 6), layout=&quot;constrained&quot;)
+ax.state(&quot;SP&quot;, facecolor=&quot;#eeeeee&quot;, linewidth=0.6)
+ax.set_title(&quot;São Paulo\nFoco regional&quot;)
+ax.set_xlabel(&quot;Longitude&quot;, labelpad=6)
+ax.set_ylabel(&quot;Latitude&quot;, labelpad=6)
+fig.savefig(&quot;estado.svg&quot;)
+azl.show()
+</code></pre>
+<p><code>azl</code> é apenas um alias Python. Também funciona <code>import azimlib.pyplot as plt</code>.
+Matplotlib não é necessário para nenhuma dessas chamadas.</p>
+<h2 id="modos-e-unidades">Modos e unidades</h2>
+<table>
+<thead>
+<tr>
+<th>Chamada</th>
+<th>Comportamento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>azl.subplots()</code></td>
+<td>Margens familiares fixas; nenhuma otimização automática</td>
+</tr>
+<tr>
+<td><code>fig.tight_layout(pad=1.08, w_pad=None, h_pad=None, rect=None)</code></td>
+<td>Mede e ajusta uma vez; deixa um engine inativo</td>
+</tr>
+<tr>
+<td><code>azl.subplots(layout=&quot;tight&quot;)</code></td>
+<td>Recalcula antes de cada desenho/exportação</td>
+</tr>
+<tr>
+<td><code>azl.subplots(layout=&quot;constrained&quot;)</code></td>
+<td>Recalcula com padding em polegadas; inclui suptitle e colorbars</td>
+</tr>
+<tr>
+<td><code>fig.set_layout_engine(&quot;none&quot;)</code></td>
+<td>Para o cálculo; preserva a política de ajuste do engine anterior</td>
+</tr>
+<tr>
+<td><code>fig.set_layout_engine(None)</code></td>
+<td>Remove completamente o engine; permite ajuste manual</td>
+</tr>
+</tbody>
+</table>
+<p>Em tight, pad/w_pad/h_pad são frações do tamanho de fonte global;
+<code>rect=(left,bottom,right,top)</code>. Em constrained, w_pad/h_pad são polegadas
+(padrão 3/72), wspace/hspace são proporcionais e
+<code>rect=(left,bottom,width,height)</code>. <code>pad=0</code> é aceito, mas pode faltar folga para
+diferenças de rasterização. <code>labelpad</code> dos rótulos X/Y usa pontos a partir
+dos limites reais dos ticks, substituindo offsets fixos.
+Rotação pública positiva é anti-horária, como no Matplotlib: <code>labelrotation=25</code>
+inclina os números para cima à direita. A conversão para SVG/PNG, cujas
+coordenadas têm Y para baixo, inverte o sinal internamente.</p>
+<pre><code class="language-python">fig.get_layout_engine().set(w_pad=0.06, h_pad=0.06)
+fig.canvas.draw_idle()
+fig.set_layout_engine(None)
+fig.subplots_adjust(left=0.15, right=0.85, top=0.88, bottom=0.13)
+</code></pre>
+<p>Como na referência instalada, subplots_adjust avisa e não altera posições
+quando constrained ou seu placeholder está ativo. Tight permite ajustes,
+mas seu próximo desenho automático pode recalculá-los.</p>
+<h2 id="medição-e-componentes">Medição e componentes</h2>
+<p>O solver próprio usa as mesmas primitivas exportadas, com limites de glifos,
+rotação, texto multilinha e bordas. Preserva a proporção da projeção; mapas
+podem ocupar apenas parte do retângulo alocado, deixando espaço branco.
+As medições não projetam novamente camadas de dados. A heurística de
+<code>legend(loc=&quot;best&quot;)</code> pode, separadamente, analisar geometria para escolher posição.</p>
+<p>No Tk, resize, mudanças de limites e edição de textos usam o engine no redraw.
+PNG e SVG compartilham composição; mudar DPI preserva dimensões físicas.
+HTML recebe o layout na exportação; não executa o solver Python ao navegar.</p>
+<pre><code class="language-python">legend = ax.legend(loc=&quot;center left&quot;, bbox_to_anchor=(1.02, 0.5))
+legend.set_in_layout(False)  # continua visível, mas não reserva margem
+legend.set_visible(False)   # deixa de ser desenhada
+fig.canvas.draw_idle()
+</code></pre>
+<p>Títulos, rótulos, legendas, Axes e componentes oferecem set/get_in_layout.
+<code>fig.suptitle/supxlabel/supylabel</code> reservam bordas da Figure conforme o engine;
+suas posições/estilos são editáveis. Veja <a href="figure-labels.html">rótulos globais</a>.
+Um Axes excluído mantém sua posição. Camadas são recortadas ao viewport e
+não exigem margem externa. Layout não adiciona grid, escala, norte ou minimapa.
+Colorbars compartilhadas entram na medição junto à união dos subplots.</p>
+<p><code>add_axes()</code> e <code>cax</code> explícito mantêm posições manuais. Na 0.3 em
+desenvolvimento, textos livres e cax próximos das bordas podem reservar faixas
+quando in_layout=True; objetos interiores continuam exigindo reserva manual.
+Veja <a href="transforms-composition.html">contratos de composição</a>.</p>
+<h2 id="limites-e-verificação">Limites e verificação</h2>
+<p>Suporta hierarquias GridSpec com spans e pesos; veja
+<a href="gridspec.html">composição com spans</a> e <a href="nested-layout.html">grids/mosaicos aninhados</a>.
+Na 0.3 em desenvolvimento, também aceita raízes independentes em regiões
+explicitamente disjuntas, SubFigure e compressed em grids completos sem spans.
+Hierarquias/spans mantêm a solução constrained. Não inclui alinhamento geral
+de rótulos entre mapas com proporções diferentes nem colisão universal de textos. Não resolve colisões
+internas entre legenda, escala, norte e dados. Até 16 medições em grids simples
+ou 32 em hierarquias fazem reservas
+conservadoras. Sem espaço/convergência, avisa e restaura posições anteriores;
+aumente figsize ou reduza fontes/padding. Não reduz fontes silenciosamente.</p>
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/layout.py">exemplo</a> gera atlas com colorbar compartilhada e legenda
+externa. A comparação visual (<code>gallery/layout-reference.png</code>, generated locally) usa os mesmos
+dados/tamanho/estilos em Matplotlib/Agg e Azimlib/Pillow. layout-reference.json
+verifica regras de engines e limites no canvas, sem declarar igualdade de pixels
+ou equivalência completa dos solvers.</p>
+<p>Referências: <a href="https://matplotlib.org/stable%3Clocal%3E/tight_layout_guide.html">tight layout</a>
+e <a href="https://matplotlib.org/stable%3Clocal%3E/constrainedlayout_guide.html">constrained layout</a>.
+Matplotlib permanece somente no ambiente de desenvolvimento.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/layout.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

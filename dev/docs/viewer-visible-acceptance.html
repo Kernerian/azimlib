@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Verificação visual e funcional do viewer · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="verificação-visual-e-funcional-do-viewer">Verificação visual e funcional do viewer</h1>
+<p>Referência técnica do viewer Windows em 2026-10-03. A observação visual e os
+testes programáticos são evidências diferentes; não houve captura automatizada
+da janela. Este registro não valida a aparência nativa de Linux/macOS.</p>
+<h2 id="controles-e-contratos">Controles e contratos</h2>
+<ul>
+<li>Título Figure, canvas, margens e área branca coerentes com a referência.</li>
+<li>Sete ícones próprios, tooltips legíveis, Pan/Zoom exclusivos e seleção visível.</li>
+<li>Coordenadas dentro dos Axes; fora deles o indicador é limpo.</li>
+<li>Pan e zoom retangular; Home restaura a vista e Back/Forward percorrem o histórico.</li>
+<li>Resize mantém canvas, toolbar e textos utilizáveis.</li>
+<li>Subplots edita margens, oferece Reset, Tight layout e Export values.</li>
+<li>Salvar exporta PNG/SVG estático; cancelar não cria um arquivo.</li>
+<li>Ornamentos permanecem opcionais; fechamento não deixa diálogos órfãos.</li>
+</ul>
+<h2 id="correções-e-limites">Correções e limites</h2>
+<p>Subplots pertence ao grupo Pan/Zoom. Tooltips aparecem à direita do controle.
+Ticks e limites acompanham o pan, mantendo a moldura do mapa fixa. O renderer
+temporário preserva a espessura; o release restaura a qualidade final. Gestos
+com release perdido terminam na última posição pressionada e frames antigos
+são invalidados para evitar saltos ao sair e retornar ao canvas.</p>
+<p><a href="pan-interaction.html">Contratos e comparação</a>, <a href="pan-responsiveness.html">medições</a>
+e <a href="visual-differences.html">diferenças</a> conservam dados técnicos e limitações.
+Onze checks Tk source/wheel cobrem bordas/navegação; seis casos verificam
+coordenadas contra a Scene completa. O snapshot histórico é
+<code>tools/baselines/viewer-accepted-3-08</code>. A observação visual não é medição de
+latência física nem equivalência de FPS. Os critérios 3.08–3.10 cobrem o escopo
+da <a href="release-progress.html">checklist</a>, não toda a API Matplotlib.</p>
+<p>Ícones, raster, métricas e Tk/ttk são próprios ou separadamente licenciados.
+Zoom pela roda é uma conveniência; nomes permanentes são opcionais por
+<code>viewer.set_toolbar_labels(True)</code>. Não se promete aparência Qt ou pixels iguais.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/viewer-visible-acceptance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

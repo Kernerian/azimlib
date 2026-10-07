@@ -1,0 +1,55 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Reutilização do viewport e descarte conservador · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="reutilização-do-viewport-e-descarte-conservador">Reutilização do viewport e descarte conservador</h1>
+<p>O desenho mantém os mesmos dados e Artists. Não simplifica coordenadas nem
+muda fonte, estilo, DPI ou distância da escala.</p>
+<h2 id="limites-reutilizáveis">Limites reutilizáveis</h2>
+<p>Geometry e FeatureCollection, imutáveis, calculam seus limites uma vez, quando
+solicitados. Edição de uma linha cria outra geometria/coleção e recebe outros
+limites. A serialização GeoJSON, igualdade e campos públicos não mudam.</p>
+<p>Viewport reutiliza a mesma amostragem dos limites projetados, com cache de
+128 combinações projeção/extent. O tamanho/posição do canvas não entra na chave:
+escala e offsets continuam sendo calculados para cada box. Parâmetros diferentes
+de projeção e novas extensões têm entradas distintas; evicção recalcula o resultado.
+Somente as seis classes internas exatas e imutáveis participam. Projeções
+customizadas/subclasses continuam chamando forward a cada construção.</p>
+<p>Este cache guarda quatro limites. Separadamente, o <a href="projected-paths.html">cache de paths projetados</a>
+reutiliza vértices de linhas/polígonos em armazenamento limitado; nenhum guarda cenas.</p>
+<h2 id="descarte-por-vista">Descarte por vista</h2>
+<p><code>fig.to_scene(cull=True)</code> pode omitir linhas/polígonos inteiramente fora do
+viewport em Mercator e equiretangular. O teste usa uma caixa projetada
+conservadora, com folga para espessura, caps/junções e rasterização. Linhas
+atravessando o mapa e polígonos que o contêm continuam sendo desenhados, mesmo
+que nenhum vértice esteja dentro da vista. Buracos e hachuras permanecem iguais.</p>
+<p>Não descartamos automaticamente geometrias com envelopes ambíguos no
+antimeridiano, amplitude longitudinal de 180° ou mais, projeções diferentes,
+curvas, arrowheads, marcadores ou símbolos. Scatter, campos, vetores e labels
+continuam pelo caminho existente. GeometryCollection examina seus filhos.
+As chamadas de feature_style e os índices originais de cores não são alterados.</p>
+<p>Há agora um <a href="spatial-index.html">índice espacial próprio</a> para coleções elegíveis
+com pelo menos 64 features. Ele consulta caixas projetadas e mantém a varredura
+nos casos de callback/estilo/projeção que exigem o caminho completo. Listas de
+overrides ainda são examinadas para determinar a folga. Em bases densas com
+muitas features visíveis, os gargalos podem continuar no raster.</p>
+<h2 id="exportação-e-navegação">Exportação e navegação</h2>
+<p>savefig utiliza o descarte conservador; um override de DPI menor que o da
+Figure conserva a cena completa para evitar diferenças na folga raster.
+O desktop recompõe os dados na nova extensão e usa culling em cada desenho.
+Histórico, escala, rosa/seta, insets e foco do minimapa seguem o estado dos Axes.</p>
+<p><code>to_scene()</code> mantém <code>cull=False</code> por padrão, e <code>to_html()</code> usa a cena completa.
+O HTML portátil transforma uma cena exportada sem consultar novamente os dados;
+omitir geometria nessa cena faria áreas desaparecerem durante o pan. O caminho
+<code>to_svg()</code>/repr inline também continua completo; o SVG de savefig pode ter menos
+paths invisíveis com a mesma área pintada.</p>
+<h2 id="validação-e-reprodução">Validação e reprodução</h2>
+<p>As regressões comparam PNG completo/otimizado, cruzamentos, polígonos envolventes,
+buracos/hachuras, overscan, antimeridiano, longitude não normalizada, subclasses,
+parâmetros/resize, evicção, callbacks, cores por feature, edição, histórico,
+insets e minimapa. A referência anterior do próprio viewport é mantida somente
+no tool de desenvolvimento, fora do runtime/wheel.</p>
+<pre><code class="language-bash">python tools/compare_composition.py --repeats 4 --output composition.json
+</code></pre>
+<p>Os três modos são alternados: viewport anterior sem cache, cache com cena
+completa e cache com descarte. Todos usam os limites imutáveis atuais e o mesmo
+renderer. A medição inclui layout/composição; PNG é comparado depois das amostras.
+O caso dense é uma malha de 2.501 polígonos sintéticos, sem validade territorial.
+Não mede latência real da GUI nem memória nativa. Veja <a href="performance.html">resultados</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/viewport-performance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

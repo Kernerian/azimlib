@@ -1,0 +1,30 @@
+{
+  "library": "matplotlib",
+  "figure_pixels": [
+    640,
+    480
+  ],
+  "duration_seconds": 2.0122736000012083,
+  "motion_events": 63,
+  "held_frames": 62,
+  "held_frames_per_second": 30.810919548893736,
+  "first_held_frame_ms": 28.425600001355633,
+  "motion_handler_max_ms": 0.8388000023842324,
+  "heartbeat_max_gap_ms": 46.49720000088564,
+  "heartbeat_median_gap_ms": 31.45760000188602,
+  "settle_after_release_ms": 42.192199998680735,
+  "initial_extent": [
+    -76.0,
+    -32.0,
+    -36.0,
+    8.0
+  ],
+  "final_extent": [
+    -90.28571428571429,
+    -46.285714285714285,
+    -33.02380952380952,
+    10.976190476190482
+  ],
+  "errors": [],
+  "scope": "Withdrawn actual Tk widgets, timed synthetic handlers, real raster/PhotoImage delivery. Not physical-input or visible-monitor latency."
+}

@@ -1,0 +1,119 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Eixos compartilhados e rótulos externos · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="eixos-compartilhados-e-rótulos-externos">Eixos compartilhados e rótulos externos</h1>
+<p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
+For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
+<p>A implementação é própria. Matplotlib 3.11.2/Agg serve somente como referência
+de desenvolvimento; não é importado pelo núcleo nem pelos exemplos.</p>
+<pre><code class="language-python">import azimlib as azl
+
+fig, axs = azl.subplots(2, 2, sharex=True, sharey=True)
+for ax in axs.flat:
+    ax.map(&quot;brazil&quot;, fit=False)
+axs[0, 0].set_extent((-58, -38, -34, -16))
+axs[1, 1].set_xlim(-54, -42)  # todos os mapas recebem estes limites
+fig.savefig(&quot;atlas.svg&quot;)
+azl.show()                  # viewer Tk próprio, com vistas vinculadas
+</code></pre>
+<p>Os mapas mantêm camadas, projeções, cores, títulos, legendas, grades e
+ornamentos independentes. Compartilhar longitude/latitude não adiciona grade,
+legenda, colorbar, seta de norte ou minimapa. Esses componentes continuam opcionais.</p>
+<h2 id="grupos-e-ajuste-dos-dados">Grupos e ajuste dos dados</h2>
+<p><code>azl.subplots</code>, <code>Figure.subplots</code> e <code>GridSpec.subplots</code> aceitam os mesmos modos:</p>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Grupo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>False</code>, <code>'none'</code></td>
+<td>cada mapa independente</td>
+</tr>
+<tr>
+<td><code>True</code>, <code>'all'</code></td>
+<td>todos os mapas</td>
+</tr>
+<tr>
+<td><code>'row'</code></td>
+<td>um grupo por linha</td>
+</tr>
+<tr>
+<td><code>'col'</code></td>
+<td>um grupo por coluna</td>
+</tr>
+</tbody>
+</table>
+<p><code>subplot_mosaic(..., sharex=True, sharey=True)</code> aceita booleanos e inclui
+mapas de grids filhos no mesmo grupo, como o Matplotlib. <code>subgridspec(...).subplots</code>
+cria grupos locais ao grid filho; seu vizinho no grid pai permanece independente.</p>
+<p>Também é possível usar <code>ax.sharex(other)</code>, <code>ax.sharey(other)</code>,
+<code>fig.add_subplot(..., sharex=other)</code>, <code>fig.add_axes(..., sharey=other)</code> ou
+<code>azimlib.pyplot.subplot(..., sharex=other)</code>. A criação copia os limites e a
+flag de autoescala do eixo indicado. Não há operação pública para desfazer
+o vínculo ou trocar o destino de um eixo já compartilhado.</p>
+<p><code>get_shared_x_axes()</code> e <code>get_shared_y_axes()</code> retornam uma consulta somente
+leitura: <code>joined(a, b)</code> e <code>get_siblings(ax)</code>.</p>
+<p><code>set_xlim</code>, <code>set_ylim</code>, <code>set_extent</code>, pan e zoom Python/Tk propagam as dimensões
+compartilhadas. A autoescala considera a união dos dados daquele grupo, mantendo
+a outra dimensão independente. <code>relim()</code> continua recalculando apenas os dados
+locais; <code>autoscale_view()</code> usa esses limites na união. Os dados de fundo com
+<code>fit=False</code> continuam excluídos. Margens são locais; o eixo que solicita o ajuste
+aplica suas margens ao intervalo comum, sujeito aos limites geográficos.</p>
+<p>Como no Matplotlib, <code>set_autoscalex_on</code>/<code>set_autoscaley_on</code> editam a flag local.
+<code>set_xlim(..., auto=False)</code> desliga a autoescala no grupo; <code>auto=None</code> preserva
+as flags individuais. <code>emit=False</code> evita propagação e callbacks, permitindo
+uma vista local temporariamente diferente. A navegação guarda/restaura vistas
+e flags individuais sem sobrescrever entradas posteriores do histórico.</p>
+<p><code>ax.callbacks.connect('xlim_changed', func)</code> e <code>'ylim_changed'</code> recebem o
+MapAxes alterado. A alteração do grupo é confirmada antes dessas notificações;
+<code>callbacks.disconnect(cid)</code> remove a conexão. Erros de limites não propagam.</p>
+<h2 id="tickers-compartilhados-estilo-local">Tickers compartilhados, estilo local</h2>
+<p>Locators e formatters maiores/menores são os mesmos objetos dentro do grupo.
+Editar um deles ou chamar <code>set_xticks</code>/<code>set_yticks</code> atualiza os demais eixos.
+Os tickers automáticos usam a área nominal do eixo ao qual estão anexados,
+com proporção cartográfica, para evitar depender da ordem de desenho.</p>
+<p>A fonte, rotação, cor e visibilidade dos textos continuam locais. Por exemplo:</p>
+<pre><code class="language-python">axs[1, 1].set_xticks([-54, -50, -46, -42])  # posições compartilhadas
+axs[0, 0].tick_params(axis=&quot;x&quot;, labelbottom=True, labelcolor=&quot;red&quot;)
+</code></pre>
+<p>Não use um mesmo ticker em eixos independentes. Reatribuir o objeto a um
+irmão do grupo é permitido. <code>clear()</code> conserva o vínculo; remover um MapAxes
+o retira dos grupos e mantém os tickers dos mapas restantes operacionais.
+O contexto copiado para um overview não participa do grupo do mapa principal.</p>
+<h2 id="label_outer"><code>label_outer()</code></h2>
+<p>Ao compartilhar x com <code>'all'</code>/<code>'col'</code>, os ticks mantêm os rótulos de baixo
+somente na última linha; ao compartilhar y com <code>'all'</code>/<code>'row'</code>, os rótulos
+da esquerda ficam na primeira coluna. Ticks internos continuam visíveis.</p>
+<p><code>ax.label_outer()</code> aplica essa regra explicitamente às duas dimensões, inclusive
+sem compartilhar eixos. <code>remove_inner_ticks=True</code> oculta também os ticks internos,
+maiores e menores. Os rótulos superiores/laterais respeitam a primeira linha/
+última coluna quando ativados com <code>tick_params</code>. Os títulos dos eixos x/y
+atualmente têm posição fixa embaixo/à esquerda. <code>label_outer()</code> limpa os títulos
+internos dessas posições; <code>tick_params(labelbottom=True)</code> pode reativar rótulos.</p>
+<p>Grids aninhados seguem o SubplotSpec <strong>local</strong>, como na referência: o primeiro
+mapa de um grupo filho pode exibir latitude mesmo com um mapa vizinho no pai.
+Eixos criados por <code>add_axes</code> sem SubplotSpec não são alterados por <code>label_outer</code>.</p>
+<h2 id="exemplo-validação-e-limites">Exemplo, validação e limites</h2>
+<p><a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/shared_axes.py">shared_axes.py</a> produz antes (<code>gallery/shared-axes-before.png</code>, generated locally)
+e depois (<code>gallery/shared-axes-after.png</code>, generated locally) em PNG/SVG: político, hidrografia,
+coroplético e rotas com uma vista comum e colorbar adicionada explicitamente.
+Os valores regionais e a rota são demonstrativos. A
+comparação lado a lado (<code>gallery/shared-axes-reference.png</code>, generated locally) usa os mesmos
+dados, limites, ticks, DPI e estilos em Agg/Azimlib.</p>
+<p>O oracle <code>shared-axes-reference.json</code> registra 36 combinações de grupos e
+rótulos, união dos dados, flags e um mosaico aninhado de Matplotlib 3.11.2.
+As regressões também cobrem remoção do eixo principal, figuras distintas,
+overview isolado, tamanhos diferentes, redraw repetido e histórico.</p>
+<p>O vínculo funciona em Python e no modelo usado pelo viewer Tk. O teste GUI
+real continua pendente: este ambiente não tem <code>init.tcl</code> funcional. O HTML
+portátil sincroniza grupos em Mercator/equiretangular contínuas, preservando
+aspecto e histórico da Figure; não recompõe toda a cena Python. Veja
+<a href="portable-navigation.html">navegação portátil</a> e seus exemplos interativos.
+O exemplo shared_axes.py original continua exportando somente PNG/SVG.</p>
+<p>Latitude/longitude permanecem em graus, com intervalos crescentes dentro dos
+limites terrestres; não há inversão de eixos, escalas cartesianas arbitrárias,
+grafo de transformações ou unidades compartilhadas completo. Compartilhar
+eixos de colorbar com mapas é rejeitado. A compatibilidade e a igualdade visual
+com Matplotlib continuam parciais.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/shared-axes.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

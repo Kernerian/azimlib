@@ -1,0 +1,764 @@
+{
+  "matplotlib": "3.11.2",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "contracts": [
+    {
+      "name": "text-0",
+      "annotation": false,
+      "operations": [],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -48,
+          -22
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "text-1",
+      "annotation": false,
+      "operations": [
+        {
+          "method": "set_position",
+          "args": [
+            [
+              -46,
+              -20
+            ]
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -46,
+          -20
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "text-2",
+      "annotation": false,
+      "operations": [
+        {
+          "method": "set",
+          "kwargs": {
+            "position": [
+              -46,
+              -20
+            ],
+            "text": "Edited",
+            "fontsize": 14,
+            "color": "red",
+            "ha": "center",
+            "va": "top",
+            "rotation": 25
+          }
+        }
+      ],
+      "state": {
+        "text": "Edited",
+        "position": [
+          -46,
+          -20
+        ],
+        "color": "red",
+        "fontsize": 14.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "center",
+        "va": "top",
+        "rotation": 25.0,
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "text-3",
+      "annotation": false,
+      "operations": [
+        {
+          "method": "set_x",
+          "args": [
+            -45
+          ]
+        },
+        {
+          "method": "set_y",
+          "args": [
+            -19
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -45,
+          -19
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "text-4",
+      "annotation": false,
+      "operations": [
+        {
+          "method": "set_horizontalalignment",
+          "args": [
+            "right"
+          ]
+        },
+        {
+          "method": "set_verticalalignment",
+          "args": [
+            "bottom"
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -48,
+          -22
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "right",
+        "va": "bottom",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "text-5",
+      "annotation": false,
+      "operations": [
+        {
+          "method": "set_fontstyle",
+          "args": [
+            "italic"
+          ]
+        },
+        {
+          "method": "set_weight",
+          "args": [
+            "bold"
+          ]
+        },
+        {
+          "method": "set_size",
+          "args": [
+            13
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -48,
+          -22
+        ],
+        "color": "black",
+        "fontsize": 13.0,
+        "weight": "bold",
+        "fontstyle": "italic",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "text-6",
+      "annotation": false,
+      "operations": [
+        {
+          "method": "set_rotation",
+          "args": [
+            -25
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -48,
+          -22
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 335.0,
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "text-7",
+      "annotation": false,
+      "operations": [
+        {
+          "method": "set_visible",
+          "args": [
+            false
+          ]
+        },
+        {
+          "method": "set_in_layout",
+          "args": [
+            false
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -48,
+          -22
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": false,
+        "in_layout": false
+      }
+    },
+    {
+      "name": "annotation-0",
+      "annotation": true,
+      "operations": [],
+      "state": {
+        "text": "Initial",
+        "position": [
+          12,
+          8
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          12,
+          8
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation-1",
+      "annotation": true,
+      "operations": [
+        {
+          "method": "set_position",
+          "args": [
+            [
+              -46,
+              -20
+            ]
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -46,
+          -20
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          -46,
+          -20
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation-2",
+      "annotation": true,
+      "operations": [
+        {
+          "method": "set",
+          "kwargs": {
+            "position": [
+              -46,
+              -20
+            ],
+            "text": "Edited",
+            "fontsize": 14,
+            "color": "red",
+            "ha": "center",
+            "va": "top",
+            "rotation": 25
+          }
+        }
+      ],
+      "state": {
+        "text": "Edited",
+        "position": [
+          -46,
+          -20
+        ],
+        "color": "red",
+        "fontsize": 14.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "center",
+        "va": "top",
+        "rotation": 25.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          -46,
+          -20
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation-3",
+      "annotation": true,
+      "operations": [
+        {
+          "method": "set_x",
+          "args": [
+            -45
+          ]
+        },
+        {
+          "method": "set_y",
+          "args": [
+            -19
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -45,
+          -19
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          -45,
+          -19
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation-4",
+      "annotation": true,
+      "operations": [
+        {
+          "method": "set_horizontalalignment",
+          "args": [
+            "right"
+          ]
+        },
+        {
+          "method": "set_verticalalignment",
+          "args": [
+            "bottom"
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          12,
+          8
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "right",
+        "va": "bottom",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          12,
+          8
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation-5",
+      "annotation": true,
+      "operations": [
+        {
+          "method": "set_fontstyle",
+          "args": [
+            "italic"
+          ]
+        },
+        {
+          "method": "set_weight",
+          "args": [
+            "bold"
+          ]
+        },
+        {
+          "method": "set_size",
+          "args": [
+            13
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          12,
+          8
+        ],
+        "color": "black",
+        "fontsize": 13.0,
+        "weight": "bold",
+        "fontstyle": "italic",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          12,
+          8
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation-6",
+      "annotation": true,
+      "operations": [
+        {
+          "method": "set_rotation",
+          "args": [
+            -25
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          12,
+          8
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 335.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          12,
+          8
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation-7",
+      "annotation": true,
+      "operations": [
+        {
+          "method": "set_visible",
+          "args": [
+            false
+          ]
+        },
+        {
+          "method": "set_in_layout",
+          "args": [
+            false
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          12,
+          8
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": false,
+        "in_layout": false,
+        "xy": [
+          -48,
+          -22
+        ],
+        "xyann": [
+          12,
+          8
+        ],
+        "anncoords": "offset points"
+      }
+    },
+    {
+      "name": "annotation coords data",
+      "annotation": true,
+      "operations": [
+        {
+          "attribute": "xy",
+          "value": [
+            -46,
+            -21
+          ]
+        },
+        {
+          "attribute": "xyann",
+          "value": [
+            -46,
+            -20
+          ]
+        },
+        {
+          "method": "set_anncoords",
+          "args": [
+            "data"
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          -46,
+          -20
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -46,
+          -21
+        ],
+        "xyann": [
+          -46,
+          -20
+        ],
+        "anncoords": "data"
+      }
+    },
+    {
+      "name": "annotation coords axes fraction",
+      "annotation": true,
+      "operations": [
+        {
+          "attribute": "xy",
+          "value": [
+            -46,
+            -21
+          ]
+        },
+        {
+          "attribute": "xyann",
+          "value": [
+            0.4,
+            0.6
+          ]
+        },
+        {
+          "method": "set_anncoords",
+          "args": [
+            "axes fraction"
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          0.4,
+          0.6
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -46,
+          -21
+        ],
+        "xyann": [
+          0.4,
+          0.6
+        ],
+        "anncoords": "axes fraction"
+      }
+    },
+    {
+      "name": "annotation coords offset points",
+      "annotation": true,
+      "operations": [
+        {
+          "attribute": "xy",
+          "value": [
+            -46,
+            -21
+          ]
+        },
+        {
+          "attribute": "xyann",
+          "value": [
+            30,
+            12
+          ]
+        },
+        {
+          "method": "set_anncoords",
+          "args": [
+            "offset points"
+          ]
+        }
+      ],
+      "state": {
+        "text": "Initial",
+        "position": [
+          30,
+          12
+        ],
+        "color": "black",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "fontstyle": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 0.0,
+        "visible": true,
+        "in_layout": true,
+        "xy": [
+          -46,
+          -21
+        ],
+        "xyann": [
+          30,
+          12
+        ],
+        "anncoords": "offset points"
+      }
+    }
+  ],
+  "own_source_sha256": {
+    "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+    "components.py": "6044c64cd1d8d6d3edd8c5b4bf96a0c80fdbe02468b65970292056f3e13c39fa",
+    "axes.py": "f6723434f2051d20138acbc313b5b689696686338a837c77201d5e258eabedfa",
+    "render_map.py": "5a0b6aa1bece73750cc264043f157407e40cdc1c0b06cadec9e0a9d9cd371ab3",
+    "colorbar.py": "b9e3ddccda2532ed8fe7acbb1d83698228890b9d0aba25830d40ad6bc8ea691d"
+  },
+  "notes": [
+    "Matplotlib is a development reference only; text states are compared in runtime-independent tests.",
+    "MapText positions are lon/lat or Axes fractions; annotation.xy is geographic, xyann follows anncoords.",
+    "offset points uses physical points and positive y upward. Legacy offset pixels remains logical 100-DPI screen units with positive y downward.",
+    "Independent Axes composition/fonts/arrows/clipping can differ; example images are not pixel-equality fixtures.",
+    "Generic transforms, annotation arrowprops/FancyArrowPatch and rotation_mode for map layers are not implemented."
+  ]
+}

@@ -1,0 +1,203 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progresso verificável rumo à 0.2.0 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="progresso-verificável-rumo-à-020">Progresso verificável rumo à 0.2.0</h1>
+<blockquote>
+<p>Evidência histórica: resultados CI, tempos e hashes abaixo pertencem aos
+snapshots originais. A preparação BSD/licenças/privacidade altera arquivos;
+os checks atuais e a relação de hashes publicados estão em
+<a href="publication-readiness.html">preparação de publicação</a>. Esses resultados não são uma nova execução CI.</p>
+</blockquote>
+<p><strong>Azimlib 0.2.0 pronta no corte documentado. Passos 1–5 encerrados.</strong> Publicação 0.2.0 no PyPI concluída; aceite visual Windows e CI nos três sistemas, sem conferência humana nativa Linux/macOS.
+As 16 frentes são o roteiro geral; não são o contador desta versão.</p>
+<h2 id="checklist-completa-do-corte-020">Checklist completa do corte 0.2.0</h2>
+<p>Esta é a lista de execução dos <strong>54 subpassos conhecidos deste corte</strong>, agrupados
+pelos cinco critérios. Os IDs são fixos: os próximos lotes devem informar quais
+IDs avançaram e atualizar esta seção. <code>[x]</code> significa entregue com a evidência
+indicada; <code>[ ]</code> significa pendente. Um item parcialmente feito permanece aberto.
+Os cinco itens de aceite também entram no total, mas não são novas funcionalidades.</p>
+<p>Fotografia de 2026-10-04: <strong>54 concluídos / 0 pendentes</strong>, incluindo os cinco
+aceites dos passos. A contagem corresponde ao corte encerrado; não é uma
+estimativa de esforço, prazo ou percentual de compatibilidade com Matplotlib.
+Uma nova necessidade material deve entrar no registro de mudanças de escopo,
+com ID e motivo, em vez de mudar silenciosamente o significado de um item.</p>
+<h3 id="passo-1-núcleo-e-edição-de-artists-2d">Passo 1 — Núcleo e edição de Artists 2D</h3>
+<ul>
+<li>[x] <strong>1.01</strong> Manter geometrias, GeoJSON, CRS, projeções e composição próprios, sem backend geoespacial externo. Evidência: <a href="architecture.html">arquitetura</a>, tests/test_core.py e tests/test_datasets.py.</li>
+<li>[x] <strong>1.02</strong> Oferecer <code>import azimlib as azl</code>, subplots, séries/matrizes, data, estilos/ciclos e aliases já auditados. Evidência: <a href="series-styles.html">séries</a>, tests/test_series_styles.py e tests/test_style_aliases.py.</li>
+<li>[x] <strong>1.03</strong> Integrar ownership, stale, callbacks, visibilidade, remoção e clear; handles descartados não invalidam figuras antigas. Evidência: <a href="artists.html">Artists</a>, <a href="component-lifecycle.html">lifecycle</a> e seus testes.</li>
+<li>[x] <strong>1.04</strong> Editar dados/estilos de linhas e posições/tamanhos/cores de scatter, respeitando limites manuais. Evidência: tests/test_lines_contours.py e tests/test_scatter_collection.py.</li>
+<li>[x] <strong>1.05</strong> Editar imagens escalares, meshes e vetores pelos handles existentes; compartilhar norm/cmap/clim/array com colorbars. Evidência: <a href="field-editing.html">campos</a>, tests/test_field_artists.py e tests/test_mappable_batches.py.</li>
+<li>[x] <strong>1.06</strong> Editar contornos por nível, rótulos individuais e cortes inline reversíveis; preservar a topologia original. Evidência: <a href="lines-contours.html">contornos</a>, tests/test_lines_contours.py e tests/test_contour_refinement.py.</li>
+<li>[x] <strong>1.07</strong> Prevalidar estilos numéricos, fontes, tracejados, bordas/escala/ticks e lotes selecionados; verificar sucesso/falha no Tk instalado. Evidência: <a href="artist-validation.html">validação</a>, 12 regressões/52 subtests e sete checks Tk.</li>
+<li>[x] <strong>1.08</strong> Fixar um catálogo de famílias/propriedades cobertas pela 0.2.0, com aliases, setters, referências e diferenças explícitas; toda a API Matplotlib não entra neste aceite. Evidência: <a href="artist-scope-0.2.html">catálogo do corte</a>, ligado às implementações/testes de cada família; auditoria transversal restante em 1.11.</li>
+<li>[x] <strong>1.09</strong> Auditar limites dos contornos existentes: campo constante, níveis inválidos/fora do campo, células ausentes, saddle e integração com labels/colorbar/exports; corrigir falhas encontradas e registrar diferenças da referência. Evidência: <a href="contour-boundaries.html">limites</a>, dez casos Matplotlib/Agg e sete regressões/44 subtests em tests/test_contour_boundaries.py.</li>
+<li>[x] <strong>1.10</strong> Validar um mapa integrado com geometria temática, scatter, mesh, vetores e contornos compartilhando normas: edição, ocultação, remoção, callback e limites manuais em PNG/SVG/Tk. Evidência: <a href="artist-acceptance.html">aceite</a>, seis mappables, PNG/SVG em 100/200 DPI, 14 checks Tk source/wheel e correção de imshow respeitando limites manuais.</li>
+<li>[x] <strong>1.11</strong> Auditar rejeição de propriedades/aliases não suportados nas famílias do catálogo; corrigir divergências materiais antes de editar dados ou controles e registrar limites sem prometer rollback entre vários Artists. Evidência: 28 handles auditados, aliases de bordas/getp, rejeição antecipada de alinhamento e estilos incompatíveis de texto, choropleth prevalido e referência direta em <a href="artist-acceptance.html">1.11</a>.</li>
+<li>[x] <strong>1.12</strong> <strong>Aceite do passo 1:</strong> concluir 1.08–1.11, executar regressões pertinentes e documentar limitações remanescentes do corte. Evidência: 608 testes/14.184 subtests; dez regressões novas também no wheel instalado, integração Tk source/wheel e <a href="artist-acceptance.html">limites explícitos</a>. Aceite deste catálogo 2D, não da API integral Matplotlib.</li>
+</ul>
+<h3 id="passo-2-layout-textos-e-componentes">Passo 2 — Layout, textos e componentes</h3>
+<ul>
+<li>[x] <strong>2.01</strong> Compor subplots, GridSpec com spans/pesos/filhos e mosaicos aninhados. Evidência: <a href="gridspec.html">GridSpec</a>, <a href="nested-layout.html">layout aninhado</a> e seus testes.</li>
+<li>[x] <strong>2.02</strong> Integrar tight/constrained próprios, eixos compartilhados, label_outer, insets e posições manuais. Evidência: tests/test_layout.py, tests/test_shared_axes.py e tests/test_nested_layout.py.</li>
+<li>[x] <strong>2.03</strong> Medir fontes/multilinhas e aplicar padding físico de títulos, nomes dos eixos e ticks. Evidência: <a href="sizing-composition.html">composição</a>, tests/test_sizing_titles.py e tests/test_text_edits.py.</li>
+<li>[x] <strong>2.04</strong> Oferecer ticks major/minor, formatos numéricos/offsets e rótulos globais editáveis. Evidência: <a href="ticks.html">ticks</a>, <a href="numeric-formatting.html">formatação</a> e tests/test_figure_labels.py.</li>
+<li>[x] <strong>2.05</strong> Manter legenda, grid, escala, norte, rosa dos ventos, overview, colorbar e annotations opcionais; norte/rosa separados e foco do overview preto. Evidência: <a href="components.html">componentes</a> e tests/test_component_lifecycle.py.</li>
+<li>[x] <strong>2.06</strong> Adaptar caixa/números/unidades da escala em tamanhos pequenos e preservar edição/visibilidade; usar halo nos labels cartográficos. Evidência: tests/test_scale_labels.py, tests/test_component_frames.py e tests/test_label_placement.py.</li>
+<li>[x] <strong>2.07</strong> Integrar colorbar vertical/horizontal, cax/barra compartilhada, legenda/atlas e componentes em 12 combinações de tamanho/DPI/orientação. Evidência: tests/test_composition_components.py e <a href="larger-batch.html">lote integrado</a>.</li>
+<li>[x] <strong>2.08</strong> Conferir atlas e mapa regional em figuras estreitas, fonte grande e 200 DPI: título, ticks rotacionados, supxlabel/supylabel, legenda e colorbar; ajustar colisões de layout automático mantendo posições manuais. Evidência: <a href="layout-acceptance.html">24 cenas e limites</a>, padding físico e <a href="text-rotation.html">768 caixas Matplotlib/1.536 planos Python–JavaScript</a>; 16 regressões novas source/wheel.</li>
+<li>[x] <strong>2.09</strong> Regenerar a matriz final de componentes/atlas após os ajustes; conferir PNG/SVG, toggles, resize e restauração Home no viewer instalado. Evidência: seis conjuntos PNG/SVG/HTML em 200 DPI, matriz anterior de 54 casos regenerada, 30 checks/18 frames Tk source/wheel e nove scripts anteriores repetidos no wheel; <a href="layout-acceptance.html">relatórios</a>.</li>
+<li>[x] <strong>2.10</strong> <strong>Aceite do passo 2:</strong> encerrar 2.08–2.09 e registrar casos que ainda exigem ajuste manual, conforme a distinção Matplotlib entre layout e textos posicionados livremente. Evidência: 624 testes/16.577 subtests, <a href="layout-acceptance.html">limites automáticos/manuais</a>, ticks fixos preservados e regras de rotação conferidas; aparência/input da janela visível continua no item 3.08.</li>
+</ul>
+<h3 id="passo-3-fidelidade-visual-e-exportação">Passo 3 — Fidelidade visual e exportação</h3>
+<ul>
+<li>[x] <strong>3.01</strong> Separar savefig estático de show interativo e manter toolbar/canvas próprios inspirados na referência instalada. Evidência: <a href="viewer-validation.html">viewer</a>, tests/test_renderers.py e smokes Tk.</li>
+<li>[x] <strong>3.02</strong> Usar fontes embarcadas, métricas e unidades físicas consistentes em PNG/SVG, incluindo rotação/halos e margens. Evidência: <a href="image-quality.html">qualidade</a>, tests/test_text_edits.py e tests/test_sizing_titles.py.</li>
+<li>[x] <strong>3.03</strong> Implementar traços, caps/joins, dashes, marcadores, alpha e zorder próprios, com referências selecionadas. Evidência: <a href="style-quality.html">estilos</a> e tests/test_lines_contours.py.</li>
+<li>[x] <strong>3.04</strong> Implementar hachuras combináveis, repetição/densidade e recortes de áreas. Evidência: tests/test_scientific.py e tests/test_cartographic_rendering.py.</li>
+<li>[x] <strong>3.05</strong> Comparar nove pares de mapas completos e nove pares de estilos/recortes em 100/150/200 DPI. Evidência: <a href="complete-map-quality.html">mapas completos</a> e <a href="style-quality.html">estilos</a>; isso não declara igualdade de todos os pixels com Agg.</li>
+<li>[x] <strong>3.06</strong> Corrigir strokes coincidentes sem apagar marcadores, preservando caminhos vizinhos e exportação/viewer. Evidência: 18 contratos Agg e tests/test_degenerate_strokes.py.</li>
+<li>[x] <strong>3.07</strong> Atualizar baselines finais dos exemplos Brasil/componentes, estado/foco, séries, colorbars, contornos, terreno e globo; conferir texto, marcador, stroke, clipping e ornamentos em PNG/SVG. Evidência: <a href="release-gallery.html">38 cenas/19 exemplos</a>, PNGs inspecionados, SVG/XML/textos/recortes e unidades compartilhadas conferidos, 19 reproduções exatas no wheel, oito pares nativos e cinco pares same-Scene/Agg; 117 regressões/2.696 subtests. Inspeção de SVG em viewer externo e Tk visível não é declarada.</li>
+<li>[x] <strong>3.08</strong> Comparar janela Tk visível com a referência Matplotlib: toolbar/ícones, canvas/margens, coordenação de cursor, fonte e comportamento de resize. Verificação visual Windows de textos/toolbar/resize/Subplots/Salvar, espessura e continuidade do pan. <a href="viewer-visible-acceptance.html">Registro</a>, <a href="toolbar.html">quatro escalas Tk</a> e snapshot do backend aceito. não houve captura automatizada da janela.</li>
+<li>[x] <strong>3.09</strong> Corrigir diferenças materiais encontradas em 3.07–3.08 e publicar diferenças aceitas de rasterização/layout/backend. <a href="visual-differences.html">Registro</a>: ícones próprios, toolbar/Subplots/tooltips, redraw ao vivo de ticks com moldura fixa, espessura preservada e release perdido nas bordas. <a href="pan-interaction.html">60 gestos da referência e onze checks Tk source/wheel</a>; <a href="pan-responsiveness.html">raster temporário/processo/limites</a>. Sem equivalência completa de API, pixel ou aparência Qt.</li>
+<li>[x] <strong>3.10</strong> <strong>Aceite do passo 3:</strong> 3.07–3.09 encerrados com <a href="release-gallery.html">galeria</a>, regressões e verificação visual Windows; <a href="visual-differences.html">diferenças explícitas</a>. Raster preciso ainda ~1 s após soltar; desempenho detalhado, latência física medida e multiplataforma permanecem nos passos 4–5.</li>
+</ul>
+<h3 id="passo-4-desempenho-e-navegação">Passo 4 — Desempenho e navegação</h3>
+<ul>
+<li>[x] <strong>4.01</strong> Separar medições de preparação, composição, raster/encoding e memória, com hashes e cenários reproduzíveis. Evidência: <a href="performance.html">desempenho</a> e tools/benchmark_maps.py.</li>
+<li>[x] <strong>4.02</strong> Reduzir buffers raster com tiles/bandas e cobertura própria mantendo os pixels selecionados. Evidência: tests/test_raster_buffers.py, tests/test_raster_bands.py e relatórios associados.</li>
+<li>[x] <strong>4.03</strong> Indexar/cortar geometrias cilíndricas e reusar paths projetados com retenção limitada; fallback seguro. Evidência: <a href="spatial-index.html">índice</a>, <a href="projected-paths.html">paths</a> e seus testes.</li>
+<li>[x] <strong>4.04</strong> Integrar RGBA direto e cache limitado de vistas Tk, cópias independentes e limpeza ao fechar. Evidência: tests/test_raster_cache.py e oito checks source/wheel.</li>
+<li>[x] <strong>4.05</strong> Medir a base municipal da API IBGE (645 features/222.324 posições), quatro vistas e seis operações Tk, sem redistribuir os dados. Evidência: relatórios real-geojson-benchmark-* e <a href="real-geojson-provenance.json">proveniência</a>.</li>
+<li>[x] <strong>4.06</strong> Reduzir cálculos de discos/limites/áreas e verificar quatro vistas municipais sem simplificação. Evidência: <a href="municipal-raster.html">cobertura municipal</a>, 16 renders source e oito no wheel.</li>
+<li>[x] <strong>4.07</strong> Ampliar kernels de áreas pequenas e medir onze cenários em 100/200 DPI; integrar globo/terreno/foco/Home/resize Tk. Evidência: <a href="stroke-kernels.html">kernels</a>, 44 renders source, 22 wheel e 12 checks Tk.</li>
+<li>[x] <strong>4.08</strong> Perfil original de 645 municípios/892.336 posições, mesh/contornos/1.200 pontos; cobertura própria compilável opcional e LRU de paths de 16 MiB. Oito pares finais RGBA/PNG idênticos, redução local de 42–63% no raster e pan novo de 9,09 para 0,41 s na composição. <a href="performance-acceptance.html">Medições e memória</a>, pico WSS/commit e custo frio explícitos.</li>
+<li>[x] <strong>4.09</strong> Janela Brasil: 1.606 eventos nativos/246 pinturas idle, pan/zoom/Home/histórico e verificação visual Windows de navegação e fechamento. Janela detalhada: pan novo/retorno Home por API, canvas mapeado e pausas medidas; não é input humano. <a href="performance-acceptance.html">Telemetria, latência, vistas frias/revisitadas e limites</a>. Idle Tk não mede monitor/compositor; base detalhada não tem aceite de pan contínuo fluido.</li>
+<li>[x] <strong>4.10</strong> <strong>Aceite local do passo 4:</strong> 4.08–4.09 concluídos com <a href="performance-acceptance.html">evidências reproduzíveis</a>, regressões e limites de tamanho/latência/memória. Primeira preparação ainda em segundos, raster denso em dezenas de segundos e compilador opcional aumenta memória. Cache de retorno não representa primeira vista; outras plataformas permanecem no passo 5.</li>
+</ul>
+<h3 id="passo-5-validação-documentação-e-pacote-020">Passo 5 — Validação, documentação e pacote 0.2.0</h3>
+<ul>
+<li>[x] <strong>5.01</strong> Manter núcleo sem dependências obrigatórias e render/viewer opcionais; runtime não importa Matplotlib/GIS. Extra png: Pillow; gui: Tk + Pillow/aggdraw/NumPy genéricos para raster, sem delegar cartografia. Evidência: pyproject.toml, tools/smoke_installed_package.py e <a href="pan-responsiveness.html">navegação</a>.</li>
+<li>[x] <strong>5.02</strong> Incluir fontes/dados embarcados, avisos/licenças e documentação de proveniência existentes. Evidência: tests/test_distribution.py e auditoria de distribuição 0.1.0.</li>
+<li>[x] <strong>5.03</strong> Construir e auditar wheel/sdist/ZIP 0.1.0; instalar offline em ambiente novo e executar smokes Tk no wheel. Evidência: <a href="validation.html">validação</a> e relatórios locais.</li>
+<li>[x] <strong>5.04</strong> Configurar CI Windows/Linux/macOS, Python 3.10–3.14 e 13 scripts desktop em 24 jobs, com logs/JSON retidos mesmo em falha. Evidência: .github/workflows/tests.yml e <a href="ci-setup.html">guia de CI</a>; configurado não significa executado.</li>
+<li>[x] <strong>5.05</strong> Consolidar README, instalação/extras, referências de API, exemplos/galeria e equivalências/diferenças Matplotlib → Azimlib para o catálogo final; verificar links e reprodução dos exemplos do corte. Evidência: <a href="getting-started.html">guia executável</a>, <a href="release-gallery.html">catálogo de reprodução</a>, referência de API regenerada incluindo textos/escala/projeções/EngFormatter, links locais auditados e três snippets SVG idênticos em source/core novo/gui instalado; 19 exemplos do catálogo reproduzidos no wheel sem Matplotlib/GIS. <a href="visual-differences.html">Limites registrados</a>.</li>
+<li>[x] <strong>5.06</strong> CI efetiva corrigida: 24/24 jobs Windows/Linux/macOS, Python 3.10–3.14, suítes instaladas/build/twine/auditoria/core, compilador e 13 scripts desktop por sistema. <a href="ci-portability-fix.json">Resultado remoto</a> e <a href="release-acceptance.html">análise</a>. <a href="ci-0.2.0.json">Matriz 0.2.0</a> também 24/24; todos os mapas de SHA dos módulos instalados coincidem com o runtime entregue.</li>
+<li>[x] <strong>5.07</strong> Aceite visual/input Windows dos passos 3/4, integração Tk e limites separados por plataforma. O escopo documentado combina observação visual Windows e CI nos três sistemas. Linux/macOS tiveram Tk real oculto, sem conferência humana nativa. <a href="release-acceptance.html">Limitação explícita</a>.</li>
+<li>[x] <strong>5.08</strong> Reauditar nome/distribuição, dependências, assets/licenças, exclusão de dados externos e metadados deste corte. <a href="distribution-acceptance.html">Auditoria</a>: lookup PyPI 404 sem reserva; METADATA/extras/SPDX/RECORD, seis camadas/quatro fontes/21 ícones, arquivos exatos e twine strict. Conta/URL/publicação não configuradas; repetir nos futuros bytes 0.2.0.</li>
+<li>[x] <strong>5.09</strong> Suíte instalada core/gui e exemplos de instalação conferidos. <a href="release-validation-local.json">Resultados locais</a>: 675 testes por Python 3.11/3.14, skips Numba explícitos cobertos por 11 contratos/5.470 subtests; 13 scripts Tk por versão. Timeout inicial de layout retido e retry aprovado sem mudar runtime/assertions. Core offline novo, snippets SVG iguais e galeria instalada preservada; sem Matplotlib/GIS.</li>
+<li>[x] <strong>5.10</strong> Changelog/version 0.2.0 preparados após o aceite anterior; wheel/sdist/ZIP fonte produzidos e twine strict aprovado. Metadados usam o repositório real. <a href="release-acceptance.html">Aceite</a>, auditoria de archives ao lado dos artefatos.</li>
+<li>[x] <strong>5.11</strong> <a href="release020-local-validation.json">Instalações 0.2.0 core/gui novas</a>, core offline sem opcionais/GIS, PNG/SVG/Tk próprios, 19 exemplos idênticos ao catálogo anterior, versões e 111 recursos/runtime exatos. <a href="ci-0.2.0.json">CI 0.2.0</a>: pacote instalado nos três sistemas, build/metadados/RECORD/fontes/dados/ícones auditados.</li>
+<li>[x] <strong>5.12</strong> <strong>Aceite do passo 5:</strong> <a href="release-acceptance.html">resultados, critérios e limites finais</a> registrados, 54 IDs fechados, Azimlib 0.2.0 pronta nos artefatos entregues. Sem upload PyPI; conferência nativa Linux/macOS e expansões ficam posteriores.</li>
+</ul>
+<h3 id="ordem-de-execução-e-mudanças-de-escopo">Ordem de execução e mudanças de escopo</h3>
+<p><strong>Corte 0.2.0 encerrado: 54/54.</strong> Próximos lotes seguem o roteiro posterior (urbano, 3D/tempo e demais frentes), além da conferência visual nativa Linux/macOS; publicação 0.2.0 no PyPI concluída.</p>
+<p>Escopo de plataforma em <strong>2026-10-04</strong>: observação visual Windows e CI nos três sistemas. A conferência física Linux/macOS fica documentada fora do aceite 0.2.0; nenhum ID foi criado/removido e testes ocultos não são descritos como input humano.</p>
+<p>Esta seção contém todo o trabalho atualmente previsto para <strong>este corte</strong>,
+não todo o inventário de crescimento. Urbano (cidades/bairros/ruas/construções),
+3D/tempo, Qt, novos formatos, transformações completas, MathText/TeX e demais
+expansões seguem <a href="pending.html">as 16 frentes</a> após a 0.2.0. Não passam a bloquear
+esta versão por aparecerem naquele inventário. Nenhum subpasso novo foi
+acrescentado desde a criação desta checklist; adições terão ID, data e motivo.</p>
+<p>Lotes de 2026-10-03: concluídos <strong>1.08–1.12, 2.08–2.10, 3.07–3.10, 4.08–4.10, 5.05 e 5.08–5.09</strong>. Campo constante, contornos,
+catálogo, integração de seis camadas e propriedades/aliases documentados e
+verificados; passos 1–4 aceitos no escopo. Suíte completa atual: <strong>675 testes / 22.192
+subtests</strong>, sem falhas. O lote da toolbar/editor acrescentou sete regressões/23 subtests;
+widgets reais comparados em quatro escalas Tk, 28 checks source/wheel e correções
+de Pan/Zoom, hover, ícones, Subplots e cursor. A conferência visual Windows está registrada em <a href="viewer-visible-acceptance.html">3.08</a>. O lote visual/documentação repetiu 117 dos testes anteriores
+(2.696 subtests), sem falhas; não são testes adicionais à suíte. Todos os 54 itens deste corte estão encerrados. As 16 frentes seguem como inventário de crescimento, sem reabrir ou alterar esse contador. Para auditar IDs, totais e
+links locais: <code>python tools/check_release_progress.py</code> na raiz do projeto.</p>
+<h2 id="subpassos-recentes-encerrados">Subpassos recentes encerrados</h2>
+<table>
+<thead>
+<tr>
+<th>Subpasso</th>
+<th>Estado</th>
+<th>Evidência</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Validar/normalizar estilos numéricos e fontes antes de editar o conjunto auditado de Artists</td>
+<td>Concluído no escopo documentado</td>
+<td>tests/test_artist_validation.py, docs/artist-validation-reference.json</td>
+</tr>
+<tr>
+<td>Garantir tracejados próprios estáveis e edições prevalidadas de bordas/escala/ticks</td>
+<td>Concluído no escopo documentado</td>
+<td>12 regressões/52 subtests do lote, suite cumulativa</td>
+</tr>
+<tr>
+<td>Integrar sucesso/falha de edições combinadas com Tk e exportação</td>
+<td>Concluído localmente</td>
+<td>sete verificações reais Tk source/wheel, exemplo antes/depois PNG/SVG/HTML</td>
+</tr>
+<tr>
+<td>Resolver aliases antes dos defaults e rejeitar grafias ambíguas no conjunto auditado</td>
+<td>Concluído no escopo selecionado</td>
+<td>13 pares registrados de Matplotlib, tests/test_style_aliases.py</td>
+</tr>
+<tr>
+<td>Combinar componentes opcionais, atlas e colorbar em tamanhos/DPI/orientações diferentes</td>
+<td>Concluído nos cenários selecionados</td>
+<td>matriz de 12 combinações + visibilidade, norm, posições e exports em tests/test_composition_components.py</td>
+</tr>
+<tr>
+<td>Reusar raster de vistas visitadas no Tk com retenção limitada e pixels preservados</td>
+<td>Concluído localmente</td>
+<td>tests/test_raster_cache.py; oito verificações Tk source/wheel</td>
+</tr>
+<tr>
+<td>Medir dados municipais reais com equivalência de índice/cenas/PNG e navegação</td>
+<td>Concluído na base da API descrita</td>
+<td>645 municípios/222.324 posições; quatro vistas e seis operações Tk; relatórios real-geojson-benchmark-*</td>
+</tr>
+<tr>
+<td>Reduzir cálculos repetidos na cobertura de discos/limites/áreas sem simplificar a geometria</td>
+<td>Concluído no escopo medido</td>
+<td>quatro vistas, 16 renders RGBA/PNG idênticos; tests/test_municipal_stroke.py; docs/municipal-raster.md</td>
+</tr>
+<tr>
+<td>Ampliar kernels de áreas pequenas preservando a ordem/bits da soma</td>
+<td>Concluído no escopo auditado</td>
+<td>tests/test_stroke_kernels.py; onze cenários/44 renders em 100/200 DPI</td>
+</tr>
+<tr>
+<td>Corrigir traços totalmente coincidentes sem interferir em marcadores</td>
+<td>Concluído nos casos selecionados</td>
+<td>18 contratos Agg, tests/test_degenerate_strokes.py; PNG/SVG e edições no Tk</td>
+</tr>
+<tr>
+<td>Integrar globo/terreno, foco/Home e 200 DPI com raster/exportação estática</td>
+<td>Concluído localmente</td>
+<td>12 verificações source/wheel em tools/smoke_stroke_kernels_tk.py; nono script CI configurado</td>
+</tr>
+</tbody>
+</table>
+<p>Esses subpassos não prometem a API integral, parsing completo de cores/fontes,
+transação entre vários Artists ou comportamento idêntico em todas as plataformas.
+Limites: <a href="artist-validation.html">auditoria de Artists</a>.</p>
+<h2 id="estado-dos-cinco-critérios">Estado dos cinco critérios</h2>
+<ol>
+<li><strong>Artists: aceito</strong> no <a href="artist-scope-0.2.html">catálogo 2D</a>, com
+<a href="artist-acceptance.html">integração, auditoria e limites</a>. Expansões da API
+permanecem no roteiro futuro, sem reabrir o corte por inferência.</li>
+<li><strong>Composição: aceita</strong> nos <a href="layout-acceptance.html">cenários e limites</a>: textos,
+componentes/atlas, 200 DPI, posição manual, toggles/resize/Home source/wheel.</li>
+<li><strong>Visual: aceito</strong> no corte, com <a href="release-gallery.html">galeria</a>, correções e
+<a href="viewer-visible-acceptance.html">verificação visual Windows</a>; diferenças de
+raster/fontes/toolkit registradas, sem equivalência pixel a pixel.</li>
+<li><strong>Desempenho: aceito localmente</strong> com <a href="performance-acceptance.html">base original/camadas, input humano, pintura Tk e limites</a>. Pixels preservados, composição de pan novo acelerada e raster opcional próprio compilado; não promete rapidez arbitrária, latência do monitor ou outras plataformas.</li>
+<li><strong>Release:</strong> CI efetiva aprovada nos três sistemas; aceite visual Windows e limites nativos Linux/macOS explícitos, no escopo de plataforma documentado. Build/instalação/auditoria 0.2.0 concluídos nos artefatos locais; publicação 0.2.0 no PyPI concluída.</li>
+</ol>
+<p>Este registro complementa <a href="release-0.2.html">os critérios</a>; não os substitui.
+Urbano, 3D, Qt e novos formatos ficam depois. Não há percentual/data estimados;
+novos subpassos só serão encerrados com evidência. Publicação PyPI é separada.</p>
+<p>Lote maior de 2026-10-02: <a href="larger-batch.html">entregas, reprodução e limites</a>.
+Suíte cumulativa atual: 675 testes/22.192 subtests. O lote de consolidação
+acrescentou 21 regressões/61 subtests e oito verificações Tk source/wheel;
+o lote seguinte de <a href="municipal-raster.html">cobertura municipal</a> acrescentou
+quatro regressões/1.087 subtests e repetiu os oito scripts Tk no wheel instalado.</p>
+<p>O <a href="stroke-kernels.html">lote de contornos e integração</a> acrescentou oito
+regressões/5.887 subtests, 18 contratos Agg e 12 novas verificações Tk
+source/wheel; os oito scripts anteriores passaram novamente no wheel.</p>
+<p>A <a href="release-publication-0.2.0.html">publicação verificada da 0.2.0</a> registra o
+commit publicado, a CI, os hashes e a instalação isolada do pacote do PyPI.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/release-progress.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

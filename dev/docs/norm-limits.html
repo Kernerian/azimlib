@@ -1,0 +1,82 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Normalização compartilhada e limites de vista · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="normalização-compartilhada-e-limites-de-vista">Normalização compartilhada e limites de vista</h1>
+<p>Normalize, ScalarMappable e os limites geográficos são implementações próprias.
+O script de desenvolvimento <code>tools/inspect_norm_limits.py</code> usa Matplotlib
+3.11.2/Agg como referência e gera <a href="norm-limits-reference.json">os casos comparados</a>.
+Matplotlib não é dependência da biblioteca.</p>
+<h2 id="cores-compartilhadas">Cores compartilhadas</h2>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.colors import Normalize
+
+fig, axes = azl.subplots(1, 2)
+norm = Normalize(0, 100)
+left = axes[0].scatter(lon=[-46.63], lat=[-23.55], c=[60], norm=norm)
+right = axes[1].scatter(lon=[-43.17], lat=[-22.90], c=[90], norm=norm)
+bar = fig.colorbar(left, ax=axes, orientation='horizontal')
+norm.vmax = 200  # Atualiza as duas camadas e a barra.
+fig.canvas.draw_idle()
+fig.savefig('cores.svg')
+</code></pre>
+<p>As propriedades <code>vmin</code>, <code>vmax</code>, <code>clip</code> e <code>TwoSlopeNorm.vcenter</code> notificam seus
+mappables. Reatribuir o mesmo valor não emite uma alteração. O sinal
+<code>norm.callbacks.connect('changed', callback)</code> chama o callback sem argumentos;
+o sinal correspondente do mappable passa o próprio mappable. A ligação usa
+métodos fracos e desconecta a norm antiga ao substituí-la.</p>
+<p>Alterar limites da mesma norm preserva locators e formatters customizados da
+colorbar. Substituir a identidade da norm reinicializa seus ticks. Remover a
+colorbar desconecta sua inscrição. Uma norm pode servir camadas de várias figuras.</p>
+<p><code>mappable.set_clim(low, high)</code> valida e altera o par antes de notificar, inclusive
+quando ambos os novos limites ultrapassam o intervalo antigo. <code>autoscale()</code>
+recalcula os dois limites pelos dados válidos; <code>autoscale_None()</code> preenche somente
+os ausentes. Uma operação sobre dados válidos comunica o intervalo final, sem
+publicar os limites intermediários. A atribuição isolada de vmin/vmax pode deixar
+um intervalo temporariamente invertido; o mapeamento rejeita esse intervalo.
+Prefira set_clim para substituir um par.</p>
+<p>Limites explícitos NaN/infinito são rejeitados; valores não finitos nos dados são
+ignorados. LogNorm usa dados positivos para autoescala. <code>norm.scaled()</code> indica
+que ambos os limites estão definidos. Uma ScalarMappable independente sem dados
+permite uma barra linear inicial 0–1. Os intervalos provisórios próprios de
+LogNorm e TwoSlopeNorm são respectivamente 1–10 e center±1; não são promessas de
+igualdade de todos os casos vazios do Matplotlib. Uma Layer sem dados numéricos
+exige limites explícitos para criar uma colorbar.</p>
+<p>Normalizações contínuas retornam floats: o extremo cortado <code>1.0</code> corresponde à
+última cor da paleta. BoundaryNorm mantém seus índices inteiros discretos.
+Mutações internas de arrays, dicionários ou Colormap não notificam: use setters
+ou <code>mappable.changed()</code>. Reclassificação de quantis e regeneração de legendas
+temáticas discretas ainda precisam de trabalho adicional.</p>
+<h2 id="dados-e-vista-são-controles-distintos">Dados e vista são controles distintos</h2>
+<pre><code class="language-python">fig, ax = azl.subplots()
+line, = ax.plot([-52, -48], [-25, -21], 'o--')
+line.set_data([-54, -43], [-28, -18])
+ax.relim()             # Recompõe os limites dos dados; conserva a vista atual.
+ax.autoscale_view()    # Ajusta somente os eixos com autoescala habilitada.
+ax.set_xlim(-55, -42)  # Fixa longitude; latitude pode continuar automática.
+ax.autoscale(axis='x', tight=True)  # Reabilita X e remove sua margem.
+</code></pre>
+<p>Edição de dados não move a vista por si só. <code>set_extent</code> fixa ambos os eixos;
+<code>set_xlim</code>/<code>set_ylim</code> fixam apenas o respectivo eixo, com <code>auto=False</code> por padrão.
+<code>auto=True</code> reabilita e <code>auto=None</code> preserva o estado. Há getters/setters
+<code>get_autoscalex_on</code>, <code>get_autoscaley_on</code> e <code>get_autoscale_on</code> e seus pares set.
+<code>autoscale(enable=False)</code> desabilita; <code>enable=None</code> mantém os estados atuais.
+Home/voltar/avançar restauram também os estados de autoescala da vista registrada.</p>
+<p><code>ax.margins()</code> consulta as margens sem invalidar a figura. O padrão é 5% por
+eixo, configurável por <code>axes.xmargin</code>/<code>axes.ymargin</code>. <code>ax.margins(.1)</code> muda ambos;
+<code>ax.margins(x=.1, y=-.1)</code> admite recorte com margens negativas maiores que -0.5.
+Os limites manuais continuam fixos. As políticas explícitas de map/state são
+preservadas. Sem dados novos, relim/autoscale_view conservam a vista.</p>
+<p><code>relim(visible_only=True)</code> exclui camadas ocultas. A recomposição inclui
+geometrias, pontos de scatter, bordas de mesh e origens de vetores; ignora
+texto, ornamentos, insets e camadas com <code>fit=False</code>. Assim, um mapa de fundo não
+impede a autoescala de uma rota. A inclusão dessas coleções geográficas é uma
+extensão própria: o relim do Matplotlib tem restrições para Collections.</p>
+<h2 id="limites-desta-implementação">Limites desta implementação</h2>
+<p>Os limites são longitude/latitude em graus. O domínio ordinário é ±180°/±90°;
+na 0.3.0 em desenvolvimento, extents cilíndricos cruzados estabelecem um ramo
+contínuo de 360°, descrito em <a href="geodesy.html">geodesia/antimeridiano</a>. Um dado singular
+recebe expansão inicial de ±0.5° antes da margem, uma regra geográfica própria.
+Vistas invertidas, sticky_edges, round_numbers e unidades automáticas de Axis
+continuam fora deste corte. Shared axes já propagam limites/tickers. <code>tight</code>
+controla a política de dados/margens disponível; fit circular é optativo.</p>
+<p>Veja o <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/examples/norm_limits.py">exemplo antes/depois</a>, o
+<a href="artists.html">ciclo de vida de Artists</a> e as <a href="pending.html">pendências</a>. O HTML é
+uma cena exportada: alterações posteriores no processo Python exigem nova exportação.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/norm-limits.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

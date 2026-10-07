@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Security Policy · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="site.css"><body data-root=""><header><a href="docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="docs/index.html">Overview</a><a href="docs/getting-started.html">Getting started</a><a href="docs/migration-0.3.html">Migration</a><a href="docs/gallery-0.3.html">Gallery</a><a href="docs/api.html">API reference</a><a href="docs/api-stability.html">Compatibility policy</a><a href="docs/release-progress-0.3.html">Release progress</a><a href="docs/roadmap.html">Roadmap</a></aside><main><h1 id="security-policy">Security Policy</h1>
+<h2 id="supported-versions">Supported Versions</h2>
+<p>Security maintenance currently covers the latest patch release in the Azimlib
+0.2 series. Reports affecting that series are accepted for triage; users should
+upgrade to the latest available patch. Older versions do not receive maintained
+security fixes.</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Supported</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0.2.x</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>&lt; 0.2.0</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<p>These are <strong>Azimlib versions</strong>, not Python versions. The published package
+requires Python 3.10 or newer; release CI covers CPython 3.10–3.14 on Windows,
+Linux and macOS. Interpreter compatibility is separate from this security policy.</p>
+<h2 id="reporting-a-vulnerability">Reporting a Vulnerability</h2>
+<p>Use <strong>Security → Report a vulnerability</strong> on
+<a href="https://github.com/Kernerian/azimlib/security">the GitHub repository</a>.
+Private vulnerability reporting is enabled. Do not disclose exploitable details,
+tokens or private datasets in public issues or pull requests.</p>
+<p>Include the affected Azimlib/Python versions, operating system, a minimal
+reproduction and the expected impact. Geographic parsers, archives, HTML/SVG
+output and denial-of-service concerns are relevant security reports.</p>
+<p>If the private reporting channel is unavailable, contact a maintainer through
+their published GitHub profile to arrange a private channel before sharing
+details. Azimlib does not use a third-party security coordinator. No response
+deadline, guaranteed fix or bug bounty is promised.</p>
+<p>Ordinary rendering defects can be reported through GitHub Issues without
+sensitive material. Coordinate any public vulnerability disclosure privately.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/SECURITY.md">Source</a>.</footer></main><script src="site.js"></script></body></html>
