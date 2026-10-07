@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progresso da Azimlib 0.3.0 · Azimlib 0.3.0.dev0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0.dev0 · development documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="progresso-da-azimlib-030">Progresso da Azimlib 0.3.0</h1>
 <p>Status: <strong>em desenvolvimento, não publicada</strong>. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O <a href="release-progress.html">registro da 0.2.0</a> permanece separado.</p>
-<p><strong>76 concluídos / 4 pendentes</strong>. Contagem por subpassos, não por frentes amplas.</p>
+<p><strong>78 concluídos / 2 pendentes</strong>. Contagem por subpassos, não por frentes amplas.</p>
 <h2 id="regras-de-conclusão">Regras de conclusão</h2>
 <p>Marcar um subpasso somente após implementação, testes de contrato/regressão e documentação.
 Recursos visuais exigem exemplo reproduzível e exportação inspecionada. Novos formatos/datasets
@@ -118,11 +118,11 @@ A numeração não impede corrigir uma regressão imediatamente.</p>
 </ul>
 <h2 id="10-documentação-compatibilidade-e-entrega">10. Documentação, compatibilidade e entrega</h2>
 <ul>
-<li>[ ] <strong>10.01</strong> Documentação versionada/hospedada e guias de migração Matplotlib → Azimlib.</li>
+<li>[x] <strong>10.01</strong> Documentação versionada/hospedada e guias de migração Matplotlib → Azimlib.</li>
 <li>[x] <strong>10.02</strong> Galeria política/física/urbana/científica/3D/temporal com scripts e proveniência.</li>
 <li>[x] <strong>10.03</strong> Contrato de compatibilidade/semver, API experimental e changelog completo.</li>
 <li>[x] <strong>10.04</strong> Auditoria de licenças/proveniência/privacidade de todas as novas fontes e assets.</li>
-<li>[ ] <strong>10.05</strong> CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.</li>
+<li>[x] <strong>10.05</strong> CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.</li>
 <li>[x] <strong>10.06</strong> Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.</li>
 <li>[x] <strong>10.07</strong> Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.</li>
 <li>[ ] <strong>10.08</strong> Aceite final e publicação 0.3.0 somente após gates; nenhuma publicação automática deste desenvolvimento.</li>
@@ -605,9 +605,8 @@ lançamento 0.3.0 neste lote. Budgets/limites da API inicial estão no guia; nã
 animação infinita, compilador de vídeo incorporado nem compatibilidade integral
 com todos os escritores/encoders/callbacks de outro framework.</p>
 <h3 id="lote-10-documentação-e-gates-de-entrega-030dev0">Lote 10 — documentação e gates de entrega (0.3.0.dev0)</h3>
-<p><strong>10.02, 10.03, 10.04, 10.06 e 10.07 concluídos para os artefatos de desenvolvimento.</strong>
-10.01 (hospedagem verificada), 10.05 (CI hospedada do estado novo) e 10.08
-(aceite/publicação final) permanecem pendentes, assim como 7.08.</p>
+<p><strong>10.01–10.07 concluídos para os artefatos de desenvolvimento.</strong>
+10.08 (aceite/publicação final) permanece pendente, assim como 7.08.</p>
 <ul>
 <li><a href="documentation-site.html">Site versionado</a> com parser Markdown genérico opcional,
 layout próprio, busca por títulos, links/âncoras/ativos conferidos; preview
@@ -623,7 +622,7 @@ foram convertidos em referências de reprodução; não viraram URLs públicas f
 geometria/layout arredondados, duas tolerâncias de pixels, trabalho limitado,
 tempos quentes e geodésica equatorial analítica; sem promessa de FPS/RSS/GPU.</li>
 <li>Gate CI agora exige 28 identidades/SHAs/resultados exatos (15 suites, 6 accelerator,
-3 Tk, 3 Qt e documentação); 11 regressões rejeitam falsos positivos de URLs, matriz antiga, duplicatas,
+3 Tk, 3 Qt e documentação); 14 regressões rejeitam falsos positivos de URLs, matriz antiga, duplicatas,
 SHA antigo, jobs cancelados/skipped e publicação estável sem checklist/version.
 Configuração não é resultado hospedado. O upload PyPI continua manual separado,
 e candidatos de desenvolvimento/aceite incompleto são bloqueados.</li>
@@ -638,4 +637,24 @@ científicos explícitos. Nenhuma implementação celeste ou prazo prometido.</l
 este lote não autoriza uma publicação automática 0.3.0 nem trata CI como aceite
 humano Linux/macOS. Contagem final e evidência hospedada serão registradas ao
 passar seus gates, sem reescrever resultados anteriores.</p>
+<p>Documentação de desenvolvimento <a href="https://kernerian.github.io/azimlib/dev/">hospedada por HTTPS</a>:
+<a href="documentation-hosting-0.3.json">prova de hospedagem</a>, 389 arquivos revisados,
+9 PDFs decodificados e 33 metadados de imagens examinados; nenhum caminho
+pessoal, marcador de conversa ou credencial encontrado no escopo verificado.
+Amostras HTTPS conferidas byte a byte contra o site auditado. Dois relatórios
+antigos preservam versões/testes e usam caminhos portáveis de ambiente.
+O repositório principal e a versão PyPI permanecem inalterados.</p>
+<p>A comparação raster conserva os hashes exatos de geometria/texto/estilo. Somente
+caixas de texto têm comparação bidirecional com vizinhança de dois pixels, para
+variações RAQM/FreeType. Diferenças brutas são registradas; desaparecimento de
+texto, mudança de cor e tolerância fora de textos têm regressões negativas.</p>
+<p>CI hospedada <a href="https://github.com/Kernerian/azimlib/actions/runs/37662358024">28/28 aprovada</a>:
+<a href="delivery-ci-0.3.json">auditoria dos 28 artefatos</a>, 1.000 testes em cada um dos
+15 jobs de Python/sistema, 19 integrações Tk por sistema, Qt 2D/3D/temporal e
+notebook em três sistemas, seis jobs com acelerador e documentação executável.
+Hashes instalados conferidos contra os blobs exatos do commit testado; as
+diferenças locais registradas são somente transporte LF/CRLF. Logs ZIP/CRC e
+report hashes foram conferidos, incluindo licenças/privacidade/distribuição.</p>
+<p><strong>Restam 2 subpassos: 7.08 e 10.08.</strong> CI programática nativa não substitui
+conferência visual/input humana Linux/macOS. Não houve publicação 0.3.0 no PyPI.</p>
 <footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/dev/0.3.0/docs/release-progress-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
