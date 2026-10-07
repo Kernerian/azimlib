@@ -29,7 +29,8 @@ def contour_levels(valid,levels):
 
 def grid_data(x,y,z):
     x,y=tuple(float(v) for v in x),tuple(float(v) for v in y)
-    values=tuple(tuple(None if v is None or not math.isfinite(float(v)) else float(v) for v in row) for row in z)
+    from .scientific import scalar
+    values=tuple(tuple(scalar(v) for v in row) for row in z)
     if len(x)<2 or len(y)<2 or len(values)!=len(y) or any(len(row)!=len(x) for row in values):raise ValueError('Z must have shape (len(y), len(x)); at least 2 by 2')
     if any(not math.isfinite(v) for v in x+y) or any(a>=b for a,b in zip(x,x[1:])) or any(a>=b for a,b in zip(y,y[1:])):raise ValueError('x/y must be finite and strictly increasing')
     if y[0]<-90 or y[-1]>90:raise ValueError('Latitude must be in [-90,90]')
@@ -78,7 +79,8 @@ def _stitch(segments):
 
 def hillshade(z,*,dx=1,dy=1,azdeg=315,altdeg=45,vert_exag=1):
     """Lambertian illumination; dx/dy and elevation use consistent units."""
-    z=[list(row) for row in z]
+    from .scientific import scalar
+    z=[[scalar(v) for v in row] for row in z]
     if len(z)<2 or len(z[0])<2 or any(len(row)!=len(z[0]) for row in z):raise ValueError('Rectangular terrain grid required')
     if dx<=0 or dy<=0 or not all(math.isfinite(v) for v in (dx,dy,azdeg,altdeg,vert_exag)):raise ValueError('Invalid terrain spacing/light')
     if not 0<=altdeg<=90:raise ValueError('altdeg must be in [0,90]')
@@ -89,7 +91,7 @@ def hillshade(z,*,dx=1,dy=1,azdeg=315,altdeg=45,vert_exag=1):
         for i,value in enumerate(row):
             left,right=max(0,i-1),min(len(row)-1,i+1);bottom,top=max(0,j-1),min(len(z)-1,j+1)
             neighbors=(z[j][left],z[j][right],z[bottom][i],z[top][i])
-            if any(v is None or not math.isfinite(v) for v in neighbors):result.append(None);continue
+            if value is None or any(v is None for v in neighbors):result.append(None);continue
             gx=(neighbors[1]-neighbors[0])/((right-left)*dx)*vert_exag
             gy=(neighbors[3]-neighbors[2])/((top-bottom)*dy)*vert_exag
             result.append(max(0,(-gx*light[0]-gy*light[1]+light[2])/math.sqrt(gx*gx+gy*gy+1)))

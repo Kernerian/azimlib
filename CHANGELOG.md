@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.0 development — scientific 2D batch
+
+- Legend HandlerSymbol now fits/centers reusable paths uniformly in both wide
+  and narrow handle boxes; rotation does not flatten the station triangle.
+- Scalar/RGB/RGBA GeoRaster and ColorImage, masks/alpha and own inverse-affine
+  nearest/bilinear sampling with explicit coverage/CRS/NoData policy.
+- Own contourf polygons with holes and editable levels; filled colorbars and
+  live thematic legends. Own bounded regional Delaunay, barycentric sampling,
+  tripcolor and tricontourf with explicit degeneracy/mask contracts.
+- Weighted heatmaps/histograms/density, mass-conserving smoothing, angular
+  normalization, geodesic flow widths/legends, vector magnitude proxies,
+  hypsometric terrain and correctly oriented own hillshade.
+- ScalarMappable RGBA conversion and choropleth class/norm/cmap/NoData edits.
+  Synthetic scientific gallery, numerical regressions, installed/core/Tk
+  checks. No publication or new remote CI claimed by this local batch.
+
 ## 0.3.0 development — transforms and composition batch
 
 - Own composable/invertible transforms, physical offsets, mixed-coordinate

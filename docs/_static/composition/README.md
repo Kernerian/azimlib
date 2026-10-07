@@ -8,3 +8,7 @@ Natural Earth boundary data remain public domain, with provenance in the
 Original example code is BSD-3-Clause (Kernerian). No Matplotlib code/assets
 are used to produce these images. The manifest records exact export hashes;
 PNG/SVG/HTML artifacts are retained separately for local validation.
+
+The atlas is regenerated in the scientific batch with uniformly scaled custom
+legend symbols. The current manifest supersedes the earlier atlas export hashes;
+the stage-4 numeric report remains a historical installed capture.

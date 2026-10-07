@@ -1050,7 +1050,7 @@ class MapAxes(AxisComponents):
         layer = self.geojson(collection, **_defaults(kwargs, edgecolor="white", linewidth=.7, zorder=2))
         layer.options.update(feature_styles=feature_styles, color_scale=dict(vmin=low, vmax=high, cmap=cmap, edges=edges, colors=colors))
         layer._apply_set(prepared)
-        layer.options.update(mapped=True,continuous=continuous,missing_color=missing_color,bins=count,scheme=scheme)
+        layer.options.update(mapped=True,continuous=continuous,missing_color=missing_color,bins=count,requested_bins=bins,scheme=scheme)
         layer.legend_entries = [(f"{edges[i]:,.3g} – {edges[i+1]:,.3g}", dict(facecolor=colors[i], edgecolor="none"), "polygon") for i in range(count)]
         if any(x is None for x in numeric):
             layer.legend_entries.append(("Sem dados", dict(facecolor=missing_color, edgecolor="none"), "polygon"))
@@ -1087,11 +1087,15 @@ class MapAxes(AxisComponents):
         layer.legend_entries = [(name, dict(facecolor=color, edgecolor="none"), "polygon") for name, color in color_map.items()]
         return layer
 
-    def density(self, lon, lat, *, bins=24, smoothing=1, cmap="sunset", **kwargs):
+    def density(self, lon, lat, *, bins=24, smoothing=1, cmap="sunset", weights=None, extent=None, normalization=None, **kwargs):
         """A regular lon/lat count grid with optional Gaussian cell smoothing.
 
         Values are weighted counts per angular cell, not people per km².
         """
+        if weights is not None or extent is not None or normalization is not None or not isinstance(bins,int):
+            from .scientific import histogram
+            x,y,z=histogram(lon,lat,weights=weights,bins=bins,extent=extent,smoothing=smoothing,normalization=normalization or 'count')
+            return self.pcolormesh(x,y,z,cmap=cmap,**kwargs)
         coordinates = _zip_coordinates(lon, lat)
         _collection("MultiPoint", coordinates)
         if not coordinates:
@@ -1164,9 +1168,25 @@ class MapAxes(AxisComponents):
         return layer
 
     def imshow(self,values,*,extent,origin='upper',cmap='viridis',norm=None,vmin=None,vmax=None,**kwargs):
-        """Scalar geographic image; extent=(west,east,south,north)."""
+        """Scalar or RGB/RGBA geographic image; extent=(west,east,south,north)."""
         if origin not in ('upper','lower'):raise ValueError('origin must be upper or lower')
-        rows=scalar_rows(values);extent=image_extent(extent)
+        from .scientific import is_color,color_rows
+        values=tuple(tuple(row) for row in values)
+        extent=image_extent(extent)
+        if is_color(values):
+            from .scientific_artists import ColorImage
+            if norm is not None or vmin is not None or vmax is not None:raise ValueError('RGB/RGBA has no scalar norm')
+            rows=color_rows(values)
+            style=style_dict(_defaults(kwargs,edgecolor='none',linewidth=0,zorder=1,antialiased=False))
+            layer=ColorImage('color_image',rows,style,dict(origin=origin,image_extent=extent))
+            automatic=dict(self._autoscale_on)
+            self._fit(_collection('MultiPoint',[(extent[0],extent[2]),(extent[1],extent[3])]))
+            layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+            if automatic['x'] and automatic['y']:self.set_extent(extent)
+            elif automatic['x']:self.set_xlim(extent[0],extent[1])
+            elif automatic['y']:self.set_ylim(extent[2],extent[3])
+            return layer
+        rows=scalar_rows(values)
         x,y=image_edges(extent,len(rows[0]),len(rows))
         if origin=='upper':rows=rows[::-1]
         automatic=dict(self._autoscale_on)
@@ -1179,7 +1199,7 @@ class MapAxes(AxisComponents):
         return layer
 
     def raster(self, data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs):
-        """Draw an explicit GeoRaster or read a locally georeferenced scalar image.
+        """Draw an explicit GeoRaster or read a locally georeferenced scalar or RGB/RGBA image.
 
         Use the same editable MeshCollection/norm/colorbar contract as
         pcolormesh. Source CRS/georeferencing are never inferred from filenames.
@@ -1193,9 +1213,146 @@ class MapAxes(AxisComponents):
         else:
             raster = read_raster(data, crs=crs, world_file=world_file, extent=extent, nodata=nodata)
         lon, lat, rows = raster.geographic_mesh()
-        layer = self.pcolormesh(lon, lat, rows, **kwargs)
+        layer = self.imshow(rows,extent=(lon[0],lon[-1],lat[0],lat[-1]),origin='lower',**kwargs) if raster.color_mode=='rgba' else self.pcolormesh(lon, lat, rows, **kwargs)
         layer.options['georaster'] = raster
         return layer
+
+    def _filled_contour(self,triangles,levels,*,cmap='viridis',norm=None,vmin=None,vmax=None,colors=None,**kwargs):
+        from .scientific import filled_levels
+        from .scientific_artists import FilledContourSet,filled_features
+        from .colors import Normalize,NoNorm,ListedColormap
+        from .contours import _colors
+        if norm is not None and (vmin is not None or vmax is not None):raise ValueError('Use norm or vmin/vmax')
+        triangles=tuple(tuple(p for p in t) for t in triangles)
+        valid=[p[2] for t in triangles for p in t if p[2] is not None]
+        if not valid:raise ValueError('No valid filled contour triangles')
+        levels=filled_levels(valid,levels);explicit=_colors(colors)
+        if explicit:
+            cmap=ListedColormap([explicit[i%len(explicit)] for i in range(len(levels)-1)],'filled_colors')
+            norm=NoNorm(levels[0],levels[-1]);values=list(range(len(levels)-1))
+        else:
+            values=[a/2+b/2 for a,b in zip(levels,levels[1:])]
+            norm=norm if norm is not None else Normalize(levels[0] if vmin is None else vmin,levels[-1] if vmax is None else vmax)
+        data=filled_features(triangles,levels)
+        style=style_dict(_defaults(kwargs,edgecolor='none',linewidth=0,zorder=1,antialiased=False))
+        layer=FilledContourSet('geometry',data,style,dict(contour=True,filled=True,levels=levels,triangles=triangles))
+        layer.set(norm=norm,cmap=cmap,array=values)
+        self._fit(_collection('MultiPoint',[(p[0],p[1]) for t in triangles for p in t]))
+        layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+        return layer
+
+    def contourf(self,lon,lat,values,levels=7,**kwargs):
+        """Own filled scalar bands; whole cells adjoining missing nodes are masked.
+
+        Each quadrilateral is divided along SW–NE and interpolated linearly.
+        Explicit levels define intervals; values outside them are not filled.
+        """
+        from .fields import grid_data
+        from .scientific import grid_triangles
+        x,y,z=grid_data(lon,lat,values)
+        return self._filled_contour(grid_triangles(x,y,z),levels,**kwargs)
+
+    def tricontourf(self,triangulation,values,levels=7,**kwargs):
+        """Fill an own regional Triangulation; masks exclude whole triangles."""
+        from .tri import Triangulation
+        if not isinstance(triangulation,Triangulation):raise TypeError('Require an Azimlib Triangulation')
+        return self._filled_contour(triangulation.field(values),levels,**kwargs)
+
+    def tripcolor(self,triangulation,values,*,cmap='viridis',norm=None,vmin=None,vmax=None,shading='flat',**kwargs):
+        """Flat triangle colors from nodal means; masked nodes/triangles omitted."""
+        from .tri import Triangulation
+        if not isinstance(triangulation,Triangulation):raise TypeError('Require an Azimlib Triangulation')
+        if shading!='flat':raise ValueError('tripcolor currently supports shading=flat')
+        triangles=triangulation.field(values)
+        if not triangles:raise ValueError('No valid field triangles')
+        features=[];array=[]
+        for t in triangles:
+            ring=[p[:2] for p in t];features.append(Feature(Geometry('Polygon',ring and [ring+[ring[0]]])))
+            array.append(sum(p[2]/3 for p in t))
+        style=style_dict(_defaults(kwargs,edgecolor='none',linewidth=0,zorder=1,antialiased=False))
+        norm,cmap=_field_mapping(array,cmap,norm,vmin,vmax)
+        layer=Layer('geometry',FeatureCollection(features),style,dict(mapped=True,continuous=True))
+        layer.set(norm=norm,cmap=cmap,array=array)
+        self._fit(layer.data);layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+        return layer
+
+    def heatmap(self,values,*,extent,origin='lower',**kwargs):
+        """Scalar geographic heatmap with imshow's editable image/colorbar contract."""
+        return self.imshow(values,extent=extent,origin=origin,**kwargs)
+
+    def hist2d(self,lon,lat,*,weights=None,bins=24,extent=None,density=False,**kwargs):
+        """Weighted histogram; returns (counts,xedges,yedges,mesh).
+
+        density=True integrates to one in square degrees, not km².
+        """
+        from .scientific import histogram
+        x,y,z=histogram(lon,lat,weights=weights,bins=bins,extent=extent,normalization='density' if density else 'count')
+        mesh=self.pcolormesh(x,y,z,**kwargs)
+        return [list(row) for row in z],x,y,mesh
+
+    def flow(self,origins,destinations,values,*,geodesic=True,ellipsoid=None,steps=32,minwidth=.5,maxwidth=4,cmap='viridis',norm=None,vmin=None,vmax=None,**kwargs):
+        """Own batched geodesic flows: scalar colors, widths in physical points.
+
+        values are nonnegative. set_array/set_clim recolor/rewidth routes and
+        thematic legend entries; recomputing endpoints requires a new flow.
+        """
+        from .scientific import scalar
+        from .scientific_artists import FlowCollection
+        origins,destinations=tuple(origins),tuple(destinations);values=[scalar(v) for v in values]
+        if not values or len(origins)!=len(destinations) or len(values)!=len(origins):raise ValueError('Flow endpoints/values must match and be nonempty')
+        if any(v is not None and v<0 for v in values):raise ValueError('Flow values must be nonnegative')
+        if not isinstance(steps,int) or isinstance(steps,bool) or not 1<=steps<=4096:raise ValueError('steps must be in [1,4096]')
+        minwidth,maxwidth=float(minwidth),float(maxwidth)
+        if not math.isfinite(minwidth+maxwidth) or not 0<=minwidth<=maxwidth:raise ValueError('Invalid flow widths')
+        if ellipsoid is not None and not geodesic:raise ValueError('ellipsoid requires geodesic routes')
+        from .geodesy import Geodesic
+        solver=Geodesic(ellipsoid) if ellipsoid is not None else None
+        features=[]
+        for index,(a,b) in enumerate(zip(origins,destinations)):
+            endpoints=_collection('LineString',[a,b])[0].geometry.coordinates
+            line=tuple(solver.line(*endpoints,steps=steps) if solver else great_circle(*endpoints,steps=steps)) if geodesic else endpoints
+            features.append(Feature(Geometry('LineString',line),{'flow':index}))
+        norm,cmap=_field_mapping(values,cmap,norm,vmin,vmax)
+        if not norm.scaled():raise ValueError('Flow needs finite values or explicit norm limits')
+        style=style_dict(_defaults(kwargs,arrow=True,zorder=3))
+        layer=FlowCollection('geometry',FeatureCollection(features),style,dict(flow=True,minwidth=minwidth,maxwidth=maxwidth))
+        layer.set(norm=norm,cmap=cmap,array=values)
+        self._fit(layer.data);layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+        return layer
+
+    def hillshade(self,values,*,extent,dx=1,dy=1,azdeg=315,altdeg=45,vert_exag=1,origin='lower',**kwargs):
+        """Own Lambertian hillshade; spacing and height must use consistent units."""
+        from .fields import hillshade
+        if origin not in ('lower','upper'):raise ValueError('origin must be lower or upper')
+        rows=scalar_rows(values)
+        shading=hillshade(rows[::-1] if origin=='upper' else rows,dx=dx,dy=dy,azdeg=azdeg,altdeg=altdeg,vert_exag=vert_exag)
+        if origin=='upper':shading=shading[::-1]
+        return self.imshow(shading,extent=extent,origin=origin,**_defaults(kwargs,cmap='gray',vmin=0,vmax=1))
+
+    def terrain(self,values,*,extent,dx,dy,azdeg=315,altdeg=45,vert_exag=1,origin='lower',cmap='terrain',norm=None,vmin=None,vmax=None,shade=.65,**kwargs):
+        """Hypsometric RGB illumination plus a separate elevation ScalarMappable.
+
+        Returns (color_image,elevation_mappable). The true-color raster is a
+        snapshot; recompute terrain when changing elevation/lighting. A scalar
+        colorbar belongs to the returned elevation mappable, not RGB pixels.
+        """
+        from .fields import hillshade
+        from .colors import to_rgba
+        from .cm import ScalarMappable
+        shade=float(shade)
+        if not math.isfinite(shade) or not 0<=shade<=1:raise ValueError('shade must be in [0,1]')
+        rows=scalar_rows(values);flat=[v for row in rows for v in row]
+        if not any(v is not None for v in flat):raise ValueError('Terrain requires finite elevation')
+        if origin not in ('lower','upper'):raise ValueError('origin must be lower or upper')
+        illumination=hillshade(rows[::-1] if origin=='upper' else rows,dx=dx,dy=dy,azdeg=azdeg,altdeg=altdeg,vert_exag=vert_exag)
+        if origin=='upper':illumination=illumination[::-1]
+        norm,cmap=_field_mapping(flat,cmap,norm,vmin,vmax);mapped=ScalarMappable(norm,cmap);mapped.set_array(flat)
+        pixels=[]
+        for row,lightrow in zip(rows,illumination):
+            pixels.append([tuple(channel*(1-shade+shade*light) for channel in to_rgba(mapped.to_color(value))[:3])+(1.,) if value is not None and light is not None else (0.,0.,0.,0.) for value,light in zip(row,lightrow)])
+        image=self.imshow(pixels,extent=extent,origin=origin,**kwargs)
+        image.options['elevation_mappable']=mapped
+        return image,mapped
 
     def contour(self,lon,lat,values,levels=7,*,cmap='viridis',norm=None,vmin=None,vmax=None,colors=None,linewidths=None,linestyles=None,**kwargs):
         if norm is not None and (vmin is not None or vmax is not None):raise ValueError('Use norm or vmin/vmax')

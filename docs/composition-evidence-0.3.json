@@ -4688,5 +4688,6 @@
       "sha256": "59e522914d96c126c28f8f54eed5e23d7a107b1fde2da3c6784c1214f589e443"
     }
   ],
-  "scope": "Own installed transform roundtrips at three bearings/two DPI in nine projections; sampled intersections inside frame; structural export checks. Not an external accuracy oracle, pixel equality or human desktop approval."
+  "scope": "Own installed transform roundtrips at three bearings/two DPI in nine projections; sampled intersections inside frame; structural export checks. Not an external accuracy oracle, pixel equality or human desktop approval.",
+  "capture_note": "Historical stage-4 installed capture. The stage-5 uniform legend-handler correction regenerates composition-atlas; current file hashes are in docs/_static/composition/manifest.json. Numeric stage-4 capture is unchanged."
 }

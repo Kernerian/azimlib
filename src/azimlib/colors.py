@@ -188,3 +188,31 @@ def get_cmap(value='viridis'):
         if value in _tables():return ListedColormap(_tables()[value],value)
         return get_cmap(value[:-2]).reversed() if value.endswith('_r') else Colormap(value)
     return Colormap('custom',value)
+
+def to_rgba(color,alpha=None):
+    """Dependency-free basic CSS/hex or normalized RGB(A) conversion.
+
+    Accept #RGB/#RGBA/#RRGGBB/#RRGGBBAA and the basic HTML color names.
+    alpha overrides source alpha; 'none' always stays fully transparent.
+    """
+    if isinstance(color,str):
+        names={'black':'000000','white':'ffffff','red':'ff0000','green':'008000',
+               'blue':'0000ff','yellow':'ffff00','cyan':'00ffff','aqua':'00ffff',
+               'magenta':'ff00ff','fuchsia':'ff00ff','gray':'808080','grey':'808080',
+               'silver':'c0c0c0','maroon':'800000','olive':'808000','lime':'00ff00',
+               'teal':'008080','navy':'000080','purple':'800080','orange':'ffa500'}
+        color=color.lower().strip()
+        if color=='none':return (0.,0.,0.,0.)
+        value=names.get(color,color.removeprefix('#'))
+        if len(value) in (3,4):value=''.join(v*2 for v in value)
+        if len(value) not in (6,8):raise ValueError('Use a basic HTML color or hexadecimal RGB(A)')
+        try:values=tuple(int(value[i:i+2],16)/255 for i in range(0,len(value),2))
+        except ValueError as exc:raise ValueError('Invalid hexadecimal color') from exc
+    else:values=tuple(float(v) for v in color)
+    if len(values) not in (3,4) or any(not math.isfinite(v) or not 0<=v<=1 for v in values):raise ValueError('RGBA requires normalized channels')
+    result=values[:3]+(values[3] if len(values)==4 else 1.,)
+    if alpha is not None:
+        alpha=float(alpha)
+        if not math.isfinite(alpha) or not 0<=alpha<=1:raise ValueError('alpha must be in [0,1]')
+        result=result[:3]+(alpha,)
+    return result

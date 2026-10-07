@@ -13,14 +13,14 @@ terreno. Os exemplos científicos usam dados sintéticos identificados.
 | Pontos | scatter, marcadores/símbolos, textos e labels |
 | Bolhas proporcionais | scatter(s=valores): área do marcador em pt² |
 | Rotas | line/plot/route, curvas e setas |
-| Rotas geodésicas | route(geodesic=True), esfera própria |
+| Rotas geodésicas | route(geodesic=True), esfera ou elipsoide próprios |
 | Heatmap | imshow/pcolormesh com intensidade fornecida |
-| Density map | density: contagem + suavização em grade angular |
-| Flow map | quiver para vetores; rotas com larguras fornecidas; sem grafo/OD especializado |
-| Isolinhas | contour e clabel, marching squares próprio |
-| Raster | campo escalar matricial por imshow; GeoTIFF/RGB/satélite/resampling planejados |
-| Relevo/hipsometria | cmap terrain + campo de altitude fornecido |
-| Hillshade | fields.hillshade + imshow; unidades físicas explícitas |
+| Density map | density/hist2d: pesos + suavização e normalização angular |
+| Flow map | flow: rotas geodésicas, magnitude/cores/larguras e legenda; quiver leste/norte; sem grafo/OD especializado |
+| Isolinhas | contour/clabel e contourf; tricontourf/tripcolor em malha regional própria |
+| Raster | scalar/RGB/RGBA por imshow/GeoRaster, GeoTIFF próprio e resampling nearest/bilinear explícito |
+| Relevo/hipsometria | terrain + elevação fornecida, com iluminação e ScalarMappable separado |
+| Hillshade | fields.hillshade/ax.hillshade + imshow; unidades físicas explícitas |
 | Topográfico | combinação de campo, hillshade, contour, rios e labels |
 | Climático | campo escalar, coroplético ou vetores com dados externos |
 | Hidrográfico | rios/lagos offline + bacias/drenagem externa; sem algoritmo hidrológico |
@@ -47,3 +47,6 @@ Exemplos executáveis: [scientific.py](../examples/scientific.py),
 e [gallery.py](../examples/gallery.py) (thematic/density/projections/hydrography).
 O [catálogo do corte](release-gallery.md) fornece reprodução conjunta, fontes
 e limites das visualizações.
+
+As extensões de campos científicos acima pertencem ao desenvolvimento 0.3,
+com [limites e exemplos explícitos](scientific-2d.md); não mudam o PyPI 0.2.0.

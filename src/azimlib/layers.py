@@ -1,6 +1,7 @@
 """Mutable artist handles over immutable geographic inputs."""
 from __future__ import annotations
 from dataclasses import dataclass, field
+import math
 from .styles import style_dict,validate_text_properties
 from .cm import ScalarMappable,_UNSET
 from .components import LayoutArtist
@@ -22,6 +23,36 @@ class Layer(ScalarMappable,LayoutArtist):
         Artist.__init__(self,self._axes)
         ScalarMappable.__init__(self)
 
+    def changed(self):
+        if self.options.get('mapped') and 'bins' in self.options and self.norm.scaled():
+            low,high=self.get_clim();count=self.options['bins']
+            valid=sorted(v for v in (self._array or []) if v is not None and math.isfinite(v))
+            from .colors import BoundaryNorm
+            if isinstance(self.norm,BoundaryNorm):edges=list(self.norm.boundaries);count=len(edges)-1
+            elif self.options.get('scheme')=='quantile' and valid:
+                requested=self.options.setdefault('requested_bins',count)
+                edges=sorted(set([low]+[max(low,min(high,valid[round(i*(len(valid)-1)/requested)])) for i in range(1,requested)]+[high]))
+                if len(edges)==1:edges*=2
+                count=len(edges)-1
+            else:edges=[low*(1-i/count)+high*i/count for i in range(count+1)]
+            self.options['bins']=count
+            colors=[self.to_color(a/2+b/2) for a,b in zip(edges,edges[1:])] if isinstance(self.norm,BoundaryNorm) else [self.cmap((i+.5)/count) for i in range(count)]
+            self.options['color_scale']=dict(vmin=low,vmax=high,edges=edges,colors=colors,cmap=self.cmap.name)
+            self.legend_entries=[] if self.options.get('continuous') else [(f'{a:,.3g} – {b:,.3g}',dict(facecolor=color,edgecolor='none'),'polygon') for a,b,color in zip(edges,edges[1:],colors)]
+            if any(v is None or not math.isfinite(v) for v in self._array or []):self.legend_entries.append(('Sem dados',dict(facecolor=self.options.get('missing_color',self.cmap.bad),edgecolor='none'),'polygon'))
+        super().changed()
+
+    @artist_mutation
+    def set_classes(self,bins=5,*,scheme='equal_interval'):
+        """Reclassify an own choropleth; geometry/feature IDs remain unchanged."""
+        from .colors import BoundaryNorm
+        if not self.options.get('mapped') or 'bins' not in self.options:raise TypeError('set_classes requires a choropleth')
+        if isinstance(self.norm,BoundaryNorm):raise ValueError('BoundaryNorm owns its classes; replace norm instead')
+        if bins is not None and (isinstance(bins,bool) or not isinstance(bins,int) or not 1<=bins<=20):raise ValueError('bins must be in [1,20] or None')
+        if scheme not in ('equal_interval','quantile'):raise ValueError('Unknown classification scheme')
+        self.options.update(bins=bins or 256,requested_bins=bins or 256,continuous=bins is None,scheme=scheme)
+        self.changed();return self
+
     @property
     def axes(self):return self._axes
     @property
@@ -39,7 +70,8 @@ class Layer(ScalarMappable,LayoutArtist):
         if values is not None and self.kind in ('geometry','scatter') and len(values)!=len(self.data):raise ValueError('Values must match features or points')
         if values is not None and self.kind=='vectors' and len(values)!=len(self.data):raise ValueError('Values must match vectors')
         if values is not None and self.kind=='mesh' and len(values)!=(len(self.data[0])-1)*(len(self.data[1])-1):raise ValueError('Values must match mesh cells')
-        return None if values is None else [None if v is None else float(v) for v in values]
+        from .scientific import scalar
+        return None if values is None else [scalar(v) for v in values]
 
     def set_array(self,values):return self.set(array=values)
 

@@ -111,3 +111,7 @@ retain the existing bounded 16/32 measurement limits and failure rollback.
 See [layout](layout.md), [rotation and recommended light view](visual-style.md),
 [runnable atlas](../examples/composition_atlas.py) and
 [27 integration tests](../tests/test_transforms_composition.py).
+
+Custom `HandlerSymbol` fits the finite path bounds uniformly and centres it in
+the handle box, preserving aspect ratio across handle width/height and DPI.
+Empty symbols and nonpositive handle sizes fail explicitly.

@@ -288,7 +288,7 @@ class RasterTests(unittest.TestCase):
             with self.assertRaises(ValueError): azl.read_geotiff(invalid, crs=4326)
         with self.assertRaises(ValueError): azl.read_geotiff(raw)
         stream = io.BytesIO(); Image.new('RGB', (1, 1)).save(stream, format='TIFF', tiffinfo=info)
-        with self.assertRaises(ValueError): azl.read_geotiff(stream.getvalue(), crs=4326)
+        self.assertEqual(azl.read_geotiff(stream.getvalue(), crs=4326).color_mode, 'rgba')
 
 
 class CatalogTests(unittest.TestCase):

@@ -72,8 +72,9 @@ def entries(legend):
         explicit=options['labels'][i] if options['labels'] is not None else None
         if isinstance(layer,tuple):
             if explicit is not None:items.append((str(explicit),[symbol(h,legend) for h in layer]))
-        elif getattr(layer,'legend_entries',None) and explicit is None:
-            items.extend((str(label),[(style,kind)]) for label,style,kind in layer.legend_entries)
+        elif explicit is None and (getattr(layer,'get_legend_entries',None) or getattr(layer,'legend_entries',None)):
+            data=layer.get_legend_entries() if hasattr(layer,'get_legend_entries') else layer.legend_entries
+            items.extend((str(label),[(style,kind)]) for label,style,kind in data)
         elif explicit is not None or getattr(layer,'style',{}).get('label'):
             label=str(explicit if explicit is not None else layer.style['label'])
             if explicit is None and label.startswith('_'):continue

@@ -42,4 +42,14 @@ class HandlerSymbol(HandlerBase):
         from .patches import Symbol
         from .transforms import Affine2D
         if not isinstance(orig_handle,Symbol):raise TypeError('HandlerSymbol requires Symbol')
-        return [orig_handle.patch(transform=Affine2D().scale(width,height)+transform,**self.style)]
+        import math
+        points=[p for line,closed in orig_handle.path.to_polylines() for p in line]
+        if not points:raise ValueError('Legend symbol needs finite vertices')
+        if not all(math.isfinite(v) and v>0 for v in (width,height)):raise ValueError('Legend handle size must be positive')
+        xmin,xmax=min(p[0] for p in points),max(p[0] for p in points)
+        ymin,ymax=min(p[1] for p in points),max(p[1] for p in points)
+        scales=[available/span for available,span in ((width,xmax-xmin),(height,ymax-ymin)) if span>0]
+        factor=min(scales) if scales else 1.
+        dx=-xdescent+width/2-factor*(xmin+xmax)/2
+        dy=-ydescent+height/2-factor*(ymin+ymax)/2
+        return [orig_handle.patch(transform=Affine2D().scale(factor).translate(dx,dy)+transform,**self.style)]

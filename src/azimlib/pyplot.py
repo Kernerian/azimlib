@@ -96,3 +96,11 @@ def subplots_adjust(**kwargs):
 
 def margins(*args,**kwargs):return gca().margins(*args,**kwargs)
 def autoscale(enable=True,axis='both',tight=None):return gca().autoscale(enable,axis,tight)
+
+# Scientific 2D maps use the same current-Axes state as ordinary plotting.
+def contourf(*args,**kwargs):return gca().contourf(*args,**kwargs)
+def tricontourf(*args,**kwargs):return gca().tricontourf(*args,**kwargs)
+def tripcolor(*args,**kwargs):return gca().tripcolor(*args,**kwargs)
+def hist2d(*args,**kwargs):return gca().hist2d(*args,**kwargs)
+def heatmap(*args,**kwargs):return gca().heatmap(*args,**kwargs)
+def flow(*args,**kwargs):return gca().flow(*args,**kwargs)

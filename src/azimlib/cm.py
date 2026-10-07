@@ -41,7 +41,8 @@ class ScalarMappable:
             if not self._change_depth and self._change_pending:
                 self._change_pending=False;self.changed()
     def set_array(self,values):
-        values=None if values is None else [None if v is None else float(v) for v in values]
+        from .scientific import scalar
+        values=None if values is None else [scalar(v) for v in values]
         self._apply_mapping(self._prepare_mapping({},array=values))
     def get_array(self):return None if self._array is None else list(self._array)
     def set_cmap(self,value):
@@ -62,6 +63,43 @@ class ScalarMappable:
     def autoscale(self):self.norm.autoscale(self._array or [])
     def autoscale_None(self):self.norm.autoscale_None(self._array or [])
     def to_color(self,value):return self.cmap(self.norm(value))
+
+    def to_rgba(self,values,alpha=None,bytes=False,norm=True):
+        """Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+        Missing/nonfinite/masked scalar values use cmap.bad; image masks use
+        transparent pixels. bytes=True returns integer channels in 0..255.
+        """
+        from numbers import Real,Integral
+        from .scientific import scalar,is_color,color_rows
+        from .colors import to_rgba
+        def is_scalar(value):return value is None or isinstance(value,Real) or getattr(value,'ndim',None)==0
+        scalar_input=is_scalar(values)
+        def rgba_scalar(value):
+            result=scalar(value)
+            return int(value) if result is not None and isinstance(value,Integral) else result
+        if scalar_input:data=rgba_scalar(values)
+        else:
+            values=list(values)
+            nested=bool(values) and not is_scalar(values[0])
+            if nested:
+                rows=tuple(tuple(row) for row in values)
+                if is_color(rows):
+                    pixels=color_rows(rows)
+                    if alpha is not None:
+                        a=to_rgba('white',alpha)[3]
+                        pixels=tuple(tuple(p[:3]+(a if p[3] else 0.,) for p in row) for row in pixels)
+                    return [[tuple(round(v*255) for v in p) if bytes else p for p in row] for row in pixels]
+                data=[[rgba_scalar(v) for v in row] for row in rows]
+            else:data=[rgba_scalar(v) for v in values]
+        flat=[data] if scalar_input else [v for row in data for v in row] if nested else data
+        if norm:self.norm.autoscale_None(flat)
+        def convert(value):
+            p=to_rgba(self.cmap(self.norm(value) if norm else value),alpha)
+            if value is None:p=p[:3]+(0.,) if self.cmap.bad in ('none','#00000000') else to_rgba(self.cmap.bad)
+            return tuple(round(v*255) for v in p) if bytes else p
+        if scalar_input:return convert(data)
+        return [[convert(v) for v in row] for row in data] if nested else [convert(v) for v in data]
 
     def _prepare_mapping(self,options,*,array=_UNSET):
         """Validate a final batch on an isolated normalizer preview.

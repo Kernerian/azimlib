@@ -125,7 +125,7 @@ não um MapAxes completo. [Cores e colorbars](scientific.md),
 | `extent` | `(west, east, south, north)` em graus, também para campos escalares; limites crescentes |
 | Projeção | Seis projeções esféricas próprias; não se entrega um objeto Cartopy/pyproj |
 | Aspecto do mapa | A projeção preserva proporção espacial; o quadro visível pode ocupar menos que o espaço alocado |
-| `imshow(Z)` | Campo escalar 2D geográfico; ainda não RGB/RGBA, GeoTIFF ou imagem de satélite pronta |
+| `imshow(Z)` | Campo escalar 2D; no desenvolvimento 0.3 também RGB/RGBA, GeoTIFF e resampling explícito ([guia](scientific-2d.md)) |
 | `quiver(U,V)` | Componentes leste/norte; a direção é calculada na projeção |
 | Densidade | Contagem suavizada em células angulares, não pessoas/km² nem KDE geodésico |
 | Escala | Distância esférica local na latitude/posição da barra, não uma escala uniforme de toda a projeção |

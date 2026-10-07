@@ -74,3 +74,7 @@ __all__.append('SubFigure')
 
 from . import legend_handler
 __all__.append('legend_handler')
+
+from .tri import Triangulation,LinearTriInterpolator
+from .scientific_artists import ColorImage,FilledContourSet,FlowCollection
+__all__.extend(('Triangulation','LinearTriInterpolator','ColorImage','FilledContourSet','FlowCollection'))

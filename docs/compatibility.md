@@ -159,3 +159,13 @@ sampled curved graticule intersections, SubFigure, disjoint root layouts,
 bounded compressed layout and custom PathPatch legend handlers are available.
 See [precise contracts and unsupported cases](transforms-composition.md).
 Map rotation is opt-in; [local north behavior and portable limits](visual-style.md).
+
+## Scientific 2D in 0.3 development
+
+Own color raster/alpha, inverse-affine nearest/bilinear sampling, filled scalar
+bands/inner rings, regional planar triangulation, weighted angular density,
+geodesic flow Artists and illuminated terrain are available. Colorbar follows
+filled intervals; thematic legends follow mapping/class edits. Triangles in
+custom legend handles keep uniform aspect ratio. See [scope, masks, units,
+editing and unsupported cases](scientific-2d.md). No Matplotlib/GIS code or new
+scientific dependency is incorporated; published 0.2.0 is unchanged.

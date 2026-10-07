@@ -9,7 +9,8 @@ from .cm import _UNSET
 
 def scalar_rows(values):
     if isinstance(values,(str,bytes)):raise ValueError('Expected a rectangular scalar matrix')
-    rows=tuple(tuple(None if v is None else float(v) for v in row) for row in values)
+    from .scientific import scalar
+    rows=tuple(tuple(scalar(v) for v in row) for row in values)
     if not rows or not rows[0] or any(len(row)!=len(rows[0]) for row in rows):
         raise ValueError('Expected a nonempty rectangular scalar matrix')
     return rows
@@ -44,7 +45,9 @@ class MeshCollection(Layer):
             rows=scalar_rows(values)
             if len(rows)!=ny or len(rows[0])!=nx:raise ValueError('Array shape must match mesh cells')
             values=[v for row in rows for v in row]
-        else:values=[None if v is None else float(v) for v in values]
+        else:
+            from .scientific import scalar
+            values=[scalar(v) for v in values]
         if len(values)!=nx*ny:raise ValueError('Array size must match mesh cells')
         return values
 
@@ -126,6 +129,21 @@ class VectorCollection(Layer):
         value=float(value)
         if not math.isfinite(value) or value<=0:raise ValueError('scale must be finite and positive')
         return value
+
+    def legend_elements(self,num=3):
+        """Own magnitude proxies: fixed arrow markers, labels in vector units.
+
+        Handles are a snapshot; regenerate after editing U/V. Colors use the
+        vector style, not the separate C scalar (which belongs to a colorbar).
+        """
+        from .geometry import Feature,FeatureCollection,Geometry
+        if not isinstance(num,int) or isinstance(num,bool) or not 1<=num<=20:raise ValueError('num must be in [1,20]')
+        magnitudes=[math.hypot(p[2],p[3]) for p in self.data]
+        if not magnitudes:return [],[]
+        low,high=min(magnitudes),max(magnitudes)
+        values=[low] if num==1 or low==high else [low+(high-low)*i/(num-1) for i in range(num)]
+        handles=[Layer('geometry',FeatureCollection([Feature(Geometry('LineString',[(0,0),(1,0)]))]),dict(color=self.style.get('color','#444444'),linewidth=self.style.get('linewidth',.8),marker='^',rotation=-90,markersize=3+4*(v/high if high else 0))) for v in values]
+        return handles,[f'{v:g}' for v in values]
 
     def get_offsets(self):return [list(p[:2]) for p in self.data]
     def set_offsets(self,values):self.set(offsets=values)

@@ -1,5 +1,9 @@
 # Cores, colorbars, hachuras e campos geográficos
 
+Este guia inclui as extensões científicas de `dev/0.3.0`; a versão estável
+publicada permanece 0.2.0. Veja [raster RGB, resampling, contourf e campos
+irregulares](scientific-2d.md) para contratos e exemplos completos.
+
 ## Uma escala compartilhada
 
 ```python
@@ -99,9 +103,10 @@ fig.colorbar(image, label='Elevação (m)')
 ax.quiver(lon, lat, eastward, northward, scale=25, color='black')
 ```
 
-`imshow` aceita matrizes **escalares** e exige extent geográfico. `pcolormesh`
+`imshow` aceita matrizes escalares ou RGB/RGBA e exige extent geográfico. `pcolormesh`
 aceita vetores 1D de bordas lon/lat, com `Z.shape=(len(lat)-1,len(lon)-1)` e
-`shading='flat'`. Não lê GeoTIFF, imagens RGB ou imagens de satélite ainda.
+`shading='flat'`. `read_geotiff` e `ax.raster` usam o [leitor próprio](formats.md);
+RGB/RGBA e resampling são explícitos no [guia 2D](scientific-2d.md).
 `antialiased=False` é o padrão da malha para evitar frestas entre células;
 `True` ativa cobertura fracionária dos preenchimentos.
 Cada célula é projetada como quadrilátero; é uma representação geográfica
@@ -111,7 +116,9 @@ vetorial, não resampling de raster com metadados georreferenciados.
 de sela pelo decider bilinear. Valores ausentes interrompem isolinhas.
 `clabel` posiciona rótulos e evita colisões; inline=True recorta o caminho
 sob o texto sem modificar sua fonte geográfica. Não faz texto curvo ao longo dela.
-Ainda não há `contourf` nem compatibilidade com todo `ContourSet` do Matplotlib.
+`contourf` agora tem bandas preenchidas próprias, com contratos distintos
+para interpolação/máscaras; veja [guia 2D](scientific-2d.md). Ainda não há
+compatibilidade com todo `ContourSet` do Matplotlib.
 contour retorna ContourSet próprio com cores/linhas editáveis por nível;
 clabel retorna uma lista de handles de texto editáveis. Veja os
 [contratos de contornos e rótulos](lines-contours.md), inclusive inline_spacing,
@@ -141,10 +148,11 @@ Colorbar tem uma API editável concreta, mas não toda a classe Matplotlib:
 há barras compartilhadas entre vários Axes e eixos explícitos `cax`, descritos
 no [guia de composição](composition.md). Locator/Formatter como objetos já
 estão disponíveis no [guia de ticks](ticks.md). Eixo secundário, extendrect,
-callbacks completos, múltiplos arrays mascarados
-e todas as opções de layout ainda não estão disponíveis. Sem `cax`, `cbar.ax`
+todos os callbacks da referência e todas as opções de layout ainda não estão
+disponíveis. Matrizes/cores mascaradas possuem o contrato explícito do guia 2D. Sem `cax`, `cbar.ax`
 é uma fachada para ticks/rótulo/visibilidade; com `cax`, é o próprio eixo
-reservado. Normalize não devolve ndarray/MaskedArray/RGBA.
+reservado. `Normalize` não devolve ndarray/MaskedArray; `ScalarMappable.to_rgba` devolve
+tuplas/listas de canais RGBA.
 
 Uma janela Tk aberta usa os objetos Python vivos. O HTML é uma exportação:
 mudar `set_clim` em Python exige reexportar/reabrir o HTML. Alterações por

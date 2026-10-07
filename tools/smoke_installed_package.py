@@ -12,6 +12,19 @@ import venv
 from pathlib import Path
 
 CHECK=r'''
+import azimlib as azl
+from azimlib.colors import Normalize
+r=azl.GeoRaster([[1,2],[3,4]],(1,0,0,0,1,0))
+assert r.sample(1,1,method='bilinear')==2.5
+assert r.resample((2,2)).values==r.values
+tri=azl.Triangulation([0,1,0],[0,0,1])
+assert abs(azl.LinearTriInterpolator(tri,[0,1,1])(.2,.2)-.4)<1e-12
+f,a=azl.subplots();a.set_extent((0,2,0,2))
+b=a.contourf([0,1,2],[0,1],[[0,1,2]]*2,levels=[0,1,2]);f.colorbar(b)
+a.imshow([[(255,0,0,128)]],extent=(0,1,0,1));a.legend()
+assert '#ff000080' in f.to_svg();b.set_levels([0,.5,1,2]);assert len(b.cvalues)==3
+assert azl.cm.ScalarMappable(Normalize(0,1),'gray').to_rgba(None)[-1]==0
+azl.close(f)
 from datetime import datetime,timezone
 import azimlib as azl
 from azimlib.transforms import Affine2D

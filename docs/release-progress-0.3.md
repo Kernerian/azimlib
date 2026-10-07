@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**32 concluídos / 48 pendentes**. Contagem por subpassos, não por frentes amplas.
+**40 concluídos / 40 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -71,14 +71,14 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 5. Raster, terreno e mapas científicos 2D
 
-- [ ] **5.01** Raster RGB/RGBA, máscaras/NoData e exportação consistente.
-- [ ] **5.02** Resampling nearest/bilinear de campos geográficos com cobertura e NoData.
-- [ ] **5.03** contourf próprio, níveis discretos, holes e ligação a ScalarMappable/colorbar.
-- [ ] **5.04** Campos irregulares e triangulação inicial própria com degenerações explícitas.
-- [ ] **5.05** Heatmaps/densidade, normalização, amostras ponderadas e controles de resolução.
-- [ ] **5.06** Fluxos/vetores geográficos e rotas geodésicas com legendas temáticas.
-- [ ] **5.07** Hipsometria/hillshade/topográfico: composição raster + contornos + hidrografia.
-- [ ] **5.08** Colorbars/legendas: máscaras, atualização de classes, norm/RGBA e edição vinculada.
+- [x] **5.01** Raster RGB/RGBA, máscaras/NoData e exportação consistente.
+- [x] **5.02** Resampling nearest/bilinear de campos geográficos com cobertura e NoData.
+- [x] **5.03** contourf próprio, níveis discretos, holes e ligação a ScalarMappable/colorbar.
+- [x] **5.04** Campos irregulares e triangulação inicial própria com degenerações explícitas.
+- [x] **5.05** Heatmaps/densidade, normalização, amostras ponderadas e controles de resolução.
+- [x] **5.06** Fluxos/vetores geográficos e rotas geodésicas com legendas temáticas.
+- [x] **5.07** Hipsometria/hillshade/topográfico: composição raster + contornos + hidrografia.
+- [x] **5.08** Colorbars/legendas: máscaras, atualização de classes, norm/RGBA e edição vinculada.
 
 ## 6. Acabamento visual, texto e exportação
 
@@ -329,6 +329,69 @@ norte/rosa seguem a direção local da projeção e mantêm componentes independ
 HTML rotacionado/curvo continua snapshot sem recomposição Python, conforme
 [limites do viewer](visual-style.md); ponte viva permanece em 7.03.
 
-O próximo lote é **5.01–5.08**: raster/terreno e mapas científicos 2D.
+O lote seguinte a este registro foi **5.01–5.08**: raster/terreno e mapas científicos 2D.
 3D, animação, Qt e demais IDs permanecem pendentes; versão estável/main 0.2.0
 preservada. Nenhum push, release ou upload PyPI é parte deste lote.
+
+
+### Lote 5 — raster, terreno e mapas científicos 2D (0.3.0.dev0)
+
+**5.01–5.08 concluídos no corte documentado.** [Contratos, unidades e limites](scientific-2d.md).
+Implementações próprias em `scientific.py`, `scientific_artists.py`, `tri.py`,
+`raster.py`, campos/axes/cores e integração renderer/colorbar/legenda existente.
+
+- **5.01:** GeoRaster escalar/RGB/RGBA, máscara imutável, alpha e NoData;
+  ColorImage editável, codecs genéricos limitados e mesma cena projetada PNG/SVG.
+- **5.02:** inverse-affine/CRS e centros de pixels; nearest/bilinear,
+  cobertura semiaberta, strict/renormalize e alpha premultiplicado.
+- **5.03:** contourf com recorte linear por triângulos, união de fronteiras,
+  furos/ilhas, FilledContourSet, níveis/cores editáveis e barras preenchidas.
+- **5.04:** Delaunay regional próprio, interpolação baricêntrica, tripcolor/
+  tricontourf, máscaras e erros de degeneração explícitos.
+- **5.05:** heatmap, hist2d e density ponderado com resolução, extent,
+  gaussiana que conserva massa e count/probability/density angular.
+- **5.06:** FlowCollection de rotas geodésicas esféricas/elipsoidais,
+  magnitude/cores/larguras e legenda temática; proxies de magnitude quiver.
+- **5.07:** terrain RGB iluminado com ScalarMappable de elevação separado,
+  hillshade próprio e composição com contornos/hidrografia sintética.
+- **5.08:** RGBA com tipos de índices/máscaras, classes/norm/cmap/NoData
+  vinculados a legendas/colorbars, incluindo edição de níveis preenchidos.
+- Correção adicional: HandlerSymbol usa fator uniforme e centralização
+  por bounds reais; triângulo do atlas deixou de se achatar na legenda.
+
+[36 testes novos](../tests/test_scientific_foundation.py) verificam planos
+analíticos, triângulos/circumcírculos, áreas/furos, conservação de pesos, alpha
+e pixels exportados, edição sem mutação inválida, máscaras, classes e lifecycle.
+[Wheel instalado](scientific-validation-0.3.json): **827 testes / 18.757
+subtests**, zero falhas/erros; os mesmos cinco skips opcionais/permissionais
+nomeados do lote anterior. Runtime e runner conferidos por hash contra a fonte.
+Windows/CPython 3.14.4, Pillow/NumPy, sem aggdraw/Numba nem importação de
+Matplotlib/GIS. Resultado local, não uma CI nova de três plataformas.
+
+[Desktop instalado](scientific-desktop-0.3.json): dois smokes reais Tk em
+janelas ocultas, incluindo novas edições científicas e composição rotacionada;
+input sintético, sem novo aceite visual/input humano. O runner da futura CI
+inclui o novo smoke. Instalação offline nova sem extras também executa SVG,
+RGB/contourf/interpolação/resampling e preserva os contratos anteriores.
+[503 casos próprios](scientific-evidence-0.3.json) de interpolação/conservação
+e exportação estrutural; erro máximo observado 1,78e-15 nas fixtures, não um
+oracle externo nem tolerância universal. [Galeria sintética](../examples/scientific_atlas.py)
+em PNG/SVG/HTML, PNGs instalados inspecionados e [manifests/proveniência](_static/scientific/README.md).
+Atlas de composição regenerado com a legenda corrigida.
+
+Wheel/sdist de desenvolvimento reconstruídos; notices, recursos upstream,
+licenças, exclusão do dado ODbL opcional, conteúdo/metadata, twine strict,
+documentação e scanner de privacidade/refs locais fazem parte dos gates do lote.
+Nenhuma nova base/font/ícone/paleta de terceiros foi incorporada.
+
+Limites: representação por células vetoriais, não textura GPU; amostragem
+in-memory; triangulação planar regional limitada e sem constrained/spherical
+mesh. contourf é linear SW–NE, não idêntico ao interpolador bilinear de contour.
+Density em graus², não população/km². Terreno iluminado é snapshot 2D, não
+3D; recompute para mudar iluminação/elevação. Malha curvilínea direta, mosaico,
+satélite volumoso, hidrologia, graph routing e flow bundling não fazem parte
+deste corte. Níveis exteriores de contourf não são preenchidos implicitamente.
+
+Próximo lote: **6.01–6.08**, acabamento visual, texto e exportação. Os passos
+6–10 permanecem pendentes (**40 subpassos**); main/estável 0.2.0 preservados.
+Nenhum push, release ou upload PyPI é parte deste lote.

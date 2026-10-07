@@ -98,7 +98,7 @@ Read a path, JSON string, mapping, text stream or __geo_interface__.
 
 ### `read_geotiff(source, *, crs=None, nodata=None, max_pixels=16000000)`
 
-Classic single-band TIFF, GeoKeys and affine georeference interpreted here.
+Classic scalar/RGB/RGBA TIFF, GeoKeys and affine georeference interpreted here.
 
 ### `read_kml(source)`
 
@@ -110,7 +110,7 @@ Interpret local OSM 0.6 nodes/ways and multipolygon relations strictly.
 
 ### `read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=16000000)`
 
-Scalar image with an explicit extent/world-file, or embedded GeoTIFF.
+Scalar or RGB/RGBA image with an explicit extent/world-file, or embedded GeoTIFF.
 
 ### `read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)`
 
@@ -192,6 +192,8 @@ Close current, numbered/named/explicit figure, or 'all', without creation.
 
 ### `contour(*args, **kwargs)`
 
+### `contourf(*args, **kwargs)`
+
 ### `cycler(*args, **kwargs)`
 
 Create zipped properties or combine cycles with + (zip) / * (product).
@@ -206,6 +208,8 @@ Create zipped properties or combine cycles with + (zip) / * (product).
 
 Create/reactivate an own figure by number, label or managed Figure.
 
+### `flow(*args, **kwargs)`
+
 ### `gca()`
 
 ### `gcf()`
@@ -217,6 +221,10 @@ Create/reactivate an own figure by number, label or managed Figure.
 ### `getp(artist, property=None)`
 
 ### `grid(*args, **kwargs)`
+
+### `heatmap(*args, **kwargs)`
+
+### `hist2d(*args, **kwargs)`
 
 ### `imshow(*args, **kwargs)`
 
@@ -286,6 +294,10 @@ Return (figure, dict of named axes) for a rectangular or nested mosaic.
 
 ### `title(label, **kwargs)`
 
+### `tricontourf(*args, **kwargs)`
+
+### `tripcolor(*args, **kwargs)`
+
 ### `xlabel(label, **kwargs)`
 
 ### `xlim(*args, **kwargs)`
@@ -303,6 +315,10 @@ Return (figure, dict of named axes) for a rectangular or nested mosaic.
 ### `get_cmap(value='viridis')`
 
 ### `sample_color(cmap, t)`
+
+### `to_rgba(color, alpha=None)`
+
+Dependency-free basic CSS/hex or normalized RGB(A) conversion.
 
 ## azimlib.cm
 
@@ -338,7 +354,7 @@ Read a path, JSON string, mapping, text stream or __geo_interface__.
 
 ### `read_geotiff(source, *, crs=None, nodata=None, max_pixels=16000000)`
 
-Classic single-band TIFF, GeoKeys and affine georeference interpreted here.
+Classic scalar/RGB/RGBA TIFF, GeoKeys and affine georeference interpreted here.
 
 ### `read_kml(source)`
 
@@ -350,7 +366,7 @@ Interpret local OSM 0.6 nodes/ways and multipolygon relations strictly.
 
 ### `read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=16000000)`
 
-Scalar image with an explicit extent/world-file, or embedded GeoTIFF.
+Scalar or RGB/RGBA image with an explicit extent/world-file, or embedded GeoTIFF.
 
 ### `read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)`
 
@@ -518,6 +534,562 @@ Wrap longitude into the central meridian's closed +/-180° interval.
 
 ### `get_handler(mapping, handle)`
 
+## azimlib.tri
+
+### `scalar(value)`
+
+Normalize missing/nonfinite/masked scalars without importing NumPy.
+
+## azimlib.scientific_artists.ColorImage
+
+`ColorImage(kind: 'str', data: 'object', style: 'dict' = <factory>, options: 'dict' = <factory>, visible: 'bool' = True, legend_entries: 'list' = <factory>, _axes: 'object' = None) -> None`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_extent()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_rotation()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
+### `set_clim(*args, **kwargs)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(values)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_extent(extent)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_rotation(value)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.scientific_artists.FilledContourSet
+
+`FilledContourSet(kind: 'str', data: 'object', style: 'dict' = <factory>, options: 'dict' = <factory>, visible: 'bool' = True, legend_entries: 'list' = <factory>, _axes: 'object' = None) -> None`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_legend_entries()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_rotation()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_levels(levels)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_rotation(value)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.scientific_artists.FlowCollection
+
+`FlowCollection(kind: 'str', data: 'object', style: 'dict' = <factory>, options: 'dict' = <factory>, visible: 'bool' = True, legend_entries: 'list' = <factory>, _axes: 'object' = None) -> None`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_legend_entries()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_rotation()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_rotation(value)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.tri.Triangulation
+
+`Triangulation(x, y, triangles=None, mask=None)`
+
+### `field(values)`
+
+### `set_mask(mask)`
+
+## azimlib.tri.LinearTriInterpolator
+
+`LinearTriInterpolator(triangulation, z)`
+
 ## azimlib.path.Path
 
 `Path(vertices, codes=None)`
@@ -630,6 +1202,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -695,6 +1271,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -814,6 +1394,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -885,6 +1469,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -1306,13 +1894,21 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ## azimlib.raster.GeoRaster
 
-`GeoRaster(values: tuple, affine: tuple, crs: object = 'EPSG:4326', nodata: float | None = None, pixel_type: str = 'area') -> None`
+`GeoRaster(values: tuple, affine: tuple, crs: object = 'EPSG:4326', nodata: float | None = None, pixel_type: str = 'area', color_mode: str = 'auto', mask: object = None) -> None`
 
 ### `coordinate(column, row, *, center=False)`
 
 ### `geographic_mesh()`
 
 Return lon/lat edges and south-to-north rows for the own mesh Artist.
+
+### `resample(shape, *, extent=None, affine=None, crs=None, method='nearest', missing='strict')`
+
+Own inverse-affine/CRS sampling at destination pixel centres.
+
+### `sample(x, y, *, crs=None, method='nearest', missing='strict')`
+
+Sample one coordinate; outside coverage is missing/transparent.
 
 ## azimlib.catalog.DatasetCatalog
 
@@ -1696,9 +2292,13 @@ Add an eight-point compass rose independently of the north arrow.
 
 ### `contour(lon, lat, values, levels=7, *, cmap='viridis', norm=None, vmin=None, vmax=None, colors=None, linewidths=None, linestyles=None, **kwargs)`
 
+### `contourf(lon, lat, values, levels=7, **kwargs)`
+
+Own filled scalar bands; whole cells adjoining missing nodes are masked.
+
 ### `countries(**kwargs)`
 
-### `density(lon, lat, *, bins=24, smoothing=1, cmap='sunset', **kwargs)`
+### `density(lon, lat, *, bins=24, smoothing=1, cmap='sunset', weights=None, extent=None, normalization=None, **kwargs)`
 
 A regular lon/lat count grid with optional Gaussian cell smoothing.
 
@@ -1709,6 +2309,10 @@ A regular lon/lat count grid with optional Gaussian cell smoothing.
 ### `fit_extent(data=None, *, margin=0.05)`
 
 Fit point samples using the shortest circular longitude interval.
+
+### `flow(origins, destinations, values, *, geodesic=True, ellipsoid=None, steps=32, minwidth=0.5, maxwidth=4, cmap='viridis', norm=None, vmin=None, vmax=None, **kwargs)`
+
+Own batched geodesic flows: scalar colors, widths in physical points.
 
 ### `geojson(data, *, style=None, fit=True, crs=None, **kwargs)`
 
@@ -1792,9 +2396,21 @@ Toggle with no arguments; styling arguments imply visible=True.
 
 Toggle with no arguments; styling arguments imply visible=True.
 
+### `heatmap(values, *, extent, origin='lower', **kwargs)`
+
+Scalar geographic heatmap with imshow's editable image/colorbar contract.
+
+### `hillshade(values, *, extent, dx=1, dy=1, azdeg=315, altdeg=45, vert_exag=1, origin='lower', **kwargs)`
+
+Own Lambertian hillshade; spacing and height must use consistent units.
+
+### `hist2d(lon, lat, *, weights=None, bins=24, extent=None, density=False, **kwargs)`
+
+Weighted histogram; returns (counts,xedges,yedges,mesh).
+
 ### `imshow(values, *, extent, origin='upper', cmap='viridis', norm=None, vmin=None, vmax=None, **kwargs)`
 
-Scalar geographic image; extent=(west,east,south,north).
+Scalar or RGB/RGBA geographic image; extent=(west,east,south,north).
 
 ### `info_box(text, *, position=(0.025, 0.975), **kwargs)`
 
@@ -1866,7 +2482,7 @@ East/north vectors; scale is data units per axes width.
 
 ### `raster(data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs)`
 
-Draw an explicit GeoRaster or read a locally georeferenced scalar image.
+Draw an explicit GeoRaster or read a locally georeferenced scalar or RGB/RGBA image.
 
 ### `relim(visible_only=False)`
 
@@ -1970,6 +2586,10 @@ Draw supplied street lines, with linewidth in points, not metres.
 
 ### `subtitle(text, **kwargs)`
 
+### `terrain(values, *, extent, dx, dy, azdeg=315, altdeg=45, vert_exag=1, origin='lower', cmap='terrain', norm=None, vmin=None, vmax=None, shade=0.65, **kwargs)`
+
+Hypsometric RGB illumination plus a separate elevation ScalarMappable.
+
 ### `text(lon, lat, text, *, transform='data', **kwargs)`
 
 ### `tick_params(axis='both', which='major', **kwargs)`
@@ -1981,6 +2601,14 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `title(text, **kwargs)`
 
 Fluent geographic shorthand; set_title returns the text artist.
+
+### `tricontourf(triangulation, values, levels=7, **kwargs)`
+
+Fill an own regional Triangulation; masks exclude whole triangles.
+
+### `tripcolor(triangulation, values, *, cmap='viridis', norm=None, vmin=None, vmax=None, shading='flat', **kwargs)`
+
+Flat triangle colors from nodal means; masked nodes/triangles omitted.
 
 ### `update(props)`
 
@@ -2096,6 +2724,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -2159,6 +2791,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -2268,6 +2904,10 @@ Edit points, areas and color data together before notifying observers.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -2335,6 +2975,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -2442,6 +3086,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -2505,6 +3153,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -2614,6 +3266,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -2679,6 +3335,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -2772,6 +3432,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_zorder()`
 
+### `legend_elements(num=3)`
+
+Own magnitude proxies: fixed arrow markers, labels in vector units.
+
 ### `pchanged()`
 
 ### `properties()`
@@ -2791,6 +3455,10 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_antialiased(value)`
 
 ### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
 
 ### `set_clim(vmin=None, vmax=None)`
 
@@ -2859,6 +3527,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -2972,6 +3644,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -3041,6 +3717,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -3150,6 +3830,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -3217,6 +3901,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -3562,6 +4250,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -3649,6 +4341,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -3782,6 +4478,10 @@ Edit supported data/text, styles and colors after batch validation.
 
 ### `set_array(values)`
 
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
 ### `set_clim(vmin=None, vmax=None)`
 
 ### `set_clip_on(value)`
@@ -3869,6 +4569,10 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_zorder(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `update(props)`
 
@@ -4423,6 +5127,10 @@ Enable subdivisions on the long axis; the short axis remains empty.
 ### `set_norm(value)`
 
 ### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ## azimlib.colors.Normalize
 

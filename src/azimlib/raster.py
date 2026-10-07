@@ -12,7 +12,7 @@ from .geometry import _number
 
 @dataclass(frozen=True)
 class GeoRaster:
-    """Immutable scalar rows and corner affine (a,b,c,d,e,f) in source CRS.
+    """Immutable scalar or RGB/RGBA rows and corner affine (a,b,c,d,e,f) in source CRS.
 
     x=a*column+b*row+c, y=d*column+e*row+f, at pixel CORNERS. Rows follow file
     order. Values equal to NoData, NaN and +/-inf become None. Coordinate
@@ -23,6 +23,8 @@ class GeoRaster:
     crs: object = 'EPSG:4326'
     nodata: float | None = None
     pixel_type: str = 'area'
+    color_mode: str = 'auto'
+    mask: object = None
 
     def __post_init__(self):
         if self.pixel_type not in ('area', 'point'): raise ValueError('pixel_type must be area or point')
@@ -32,16 +34,22 @@ class GeoRaster:
         nodata = None if self.nodata is None else float(self.nodata)
         if nodata is not None and not (isfinite(nodata) or isnan(nodata)):
             raise ValueError('NoData must be finite or NaN')
-        rows = []
-        for row in self.values:
-            output = []
-            for value in row:
-                if value is None: output.append(None); continue
-                number = float(value)
-                output.append(None if not isfinite(number) or nodata is not None and number == nodata else number)
-            rows.append(tuple(output))
-        if not rows or not rows[0] or any(len(row) != len(rows[0]) for row in rows):
-            raise ValueError('Raster requires a nonempty rectangular scalar matrix')
+        from .scientific import scalar,color_rows,is_color
+        raw=tuple(tuple(row) for row in self.values)
+        if not raw or not raw[0] or any(len(row)!=len(raw[0]) for row in raw):
+            raise ValueError('Raster requires a nonempty rectangular matrix')
+        mask=None if self.mask is None else tuple(tuple(bool(v) for v in row) for row in self.mask)
+        if mask is not None and (len(mask)!=len(raw) or any(len(row)!=len(raw[0]) for row in mask)):
+            raise ValueError('Raster mask must match pixels')
+        if self.color_mode not in ('auto','scalar','rgba'):raise ValueError('color_mode must be auto, scalar or rgba')
+        color=self.color_mode=='rgba' or self.color_mode=='auto' and is_color(raw)
+        if mask is not None:raw=tuple(tuple(None if mask[j][i] else v for i,v in enumerate(row)) for j,row in enumerate(raw))
+        if color:
+            if nodata is not None:raise ValueError('RGB/RGBA uses alpha/mask, not scalar NoData')
+            rows=color_rows(raw)
+        else:rows=tuple(tuple(None if (v:=scalar(value)) is None or nodata is not None and v==nodata else v for value in row) for row in raw)
+        object.__setattr__(self,'color_mode','rgba' if color else 'scalar')
+        object.__setattr__(self,'mask',tuple(tuple(v[3]==0 if color else v is None for v in row) for row in rows))
         object.__setattr__(self, 'values', tuple(rows))
         object.__setattr__(self, 'affine', affine)
         object.__setattr__(self, 'crs', CRS.from_user_input(self.crs))
@@ -72,7 +80,7 @@ class GeoRaster:
 
         Axis-aligned EPSG:4326/3857 only in this initial renderer integration.
         Rotated/sheared affines remain representable, but plotting rejects them
-        until curvilinear meshes are supported. No resampling is performed.
+        until curvilinear meshes are supported. No resampling is implicit; use resample() for an explicit target grid.
         """
         a, b, c, d, e, f = self.affine
         if self.crs.zone:
@@ -86,6 +94,51 @@ class GeoRaster:
         if a < 0: x = x[::-1]; rows = tuple(row[::-1] for row in rows)
         if e < 0: y = y[::-1]; rows = rows[::-1]
         return x, y, rows
+
+
+    def sample(self,x,y,*,crs=None,method='nearest',missing='strict'):
+        """Sample one coordinate; outside coverage is missing/transparent."""
+        from .scientific import interpolate
+        x,y=_number(x),_number(y)
+        if crs is not None:x,y=transform(x,y,crs,self.crs)
+        a,b,c,d,e,f=self.affine;det=a*e-b*d
+        column=(e*(x-c)-b*(y-f))/det;row=(-d*(x-c)+a*(y-f))/det
+        return interpolate(self.values,column,row,method,missing,color=self.color_mode=='rgba')
+
+    def resample(self,shape,*,extent=None,affine=None,crs=None,method='nearest',missing='strict'):
+        """Own inverse-affine/CRS sampling at destination pixel centres.
+
+        shape=(ny,nx). extent is in destination CRS. Without an explicit grid,
+        keep source coverage/shear. Strict NoData is default; renormalize uses
+        only valid neighbors. Bilinear color interpolation is premultiplied.
+        """
+        from numbers import Integral
+        from .scientific import interpolate
+        shape=tuple(shape)
+        if len(shape)!=2 or any(isinstance(v,bool) or not isinstance(v,Integral) or v<1 for v in shape) or shape[0]*shape[1]>16_000_000:
+            raise ValueError('shape requires positive (ny,nx), at most 16 million pixels')
+        if method not in ('nearest','bilinear') or missing not in ('strict','renormalize'):raise ValueError('Invalid resampling policy')
+        chosen=self.crs if crs is None else CRS.from_user_input(crs)
+        ny,nx=shape
+        if affine is not None and extent is not None:raise ValueError('Use affine or extent, not both')
+        if affine is None:
+            if extent is None:
+                if chosen!=self.crs:raise ValueError('Changing CRS requires an explicit destination grid')
+                a,b,c,d,e,f=self.affine;sy,sx=self.shape
+                affine=a*sx/nx,b*sy/ny,c,d*sx/nx,e*sy/ny,f
+            else:
+                w,e,s,n=tuple(_number(v) for v in extent)
+                if w>=e or s>=n:raise ValueError('Destination extent must increase')
+                affine=(e-w)/nx,0,w,0,(s-n)/ny,n
+        prototype=GeoRaster([[None]],affine,chosen)
+        rows=[]
+        for j in range(ny):
+            row=[]
+            for i in range(nx):
+                x,y=prototype.coordinate(i,j,center=True)
+                row.append(self.sample(x,y,crs=chosen,method=method,missing=missing))
+            rows.append(row)
+        return GeoRaster(rows,affine,chosen,color_mode=self.color_mode)
 
 
 def read_world_file(source):
@@ -114,12 +167,16 @@ def _pixels(raw, max_pixels):
     with Image.open(io.BytesIO(raw)) as image:
         if image.width*image.height > max_pixels: raise ValueError('Raster exceeds pixel limit')
         if getattr(image, 'n_frames', 1) != 1: raise ValueError('Only single-image rasters are supported')
-        if image.mode not in ('L', 'I', 'F', 'I;16', 'I;16B', 'I;16L'):
-            raise ValueError('Initial raster reader supports scalar grayscale/integer/float images, not RGB/palettes')
-        image.load()
-        # Avoid flattening an entire image through a second optional numerical engine.
-        rows = tuple(tuple(image.getpixel((i, j)) for i in range(image.width)) for j in range(image.height))
-        return rows, image.size
+        if image.mode not in ('L', 'I', 'F', 'I;16', 'I;16B', 'I;16L','RGB','RGBA','P'):
+            raise ValueError('Unsupported pixel mode; use scalar, RGB or RGBA')
+        decoded=image.convert('RGBA') if image.mode=='P' else image
+        try:
+            decoded.load()
+            # Pixel decoding only: no external georeference or sampling engine.
+            rows=tuple(tuple(decoded.getpixel((i,j)) for i in range(decoded.width)) for j in range(decoded.height))
+            return rows,decoded.size
+        finally:
+            if decoded is not image:decoded.close()
 
 
 def _tiff_tags(raw):
@@ -151,11 +208,11 @@ def _tiff_tags(raw):
 
 
 def read_geotiff(source, *, crs=None, nodata=None, max_pixels=16_000_000):
-    """Classic single-band TIFF, GeoKeys and affine georeference interpreted here.
+    """Classic scalar/RGB/RGBA TIFF, GeoKeys and affine georeference interpreted here.
 
     TIFF pixels/codecs are decoded by Pillow, not a cartography library. Support
     EPSG:4326/3857, PixelIsArea/Point, PixelScale+Tiepoint or 4x4 affine matrix;
-    reject ambiguous CRS, orientation, extra images/bands and unsupported tags.
+    reject ambiguous CRS, orientation, extra images/unsupported bands and unsupported tags.
     Raster coordinates are always normalized to pixel corners.
     """
     raw = binary(source); tags = _tiff_tags(raw)
@@ -163,9 +220,12 @@ def read_geotiff(source, *, crs=None, nodata=None, max_pixels=16_000_000):
         value = tags.get(tag, (default,))
         if not isinstance(value, tuple) or len(value) != 1: raise ValueError(f'Invalid TIFF scalar tag {tag}')
         return value[0]
-    if scalar(277, 1) != 1 or scalar(274, 1) != 1 or scalar(284, 1) != 1:
-        raise ValueError('Only one-band, top-left oriented contiguous GeoTIFF is supported')
-    if scalar(262, 1) != 1: raise ValueError('Only black-is-zero scalar GeoTIFF is supported')
+    samples=scalar(277,1)
+    if samples not in (1,3,4) or scalar(274,1)!=1 or scalar(284,1)!=1:
+        raise ValueError('Require scalar/RGB/RGBA, top-left oriented contiguous GeoTIFF')
+    if scalar(262,1)!=(1 if samples==1 else 2):raise ValueError('Unsupported GeoTIFF photometric interpretation')
+    if samples>1 and (tags.get(258)!=(8,)*samples or samples==4 and tags.get(338)!=(2,)):
+        raise ValueError('RGB GeoTIFF requires 8-bit channels and unassociated RGBA alpha')
     keys = {}; directory = tags.get(34735)
     if directory is not None:
         if not isinstance(directory, tuple) or len(directory) < 4 or directory[:2] != (1, 1) or directory[2] not in (0, 1) or len(directory) != 4+4*directory[3]:
@@ -214,7 +274,7 @@ def read_geotiff(source, *, crs=None, nodata=None, max_pixels=16_000_000):
 
 
 def read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=16_000_000):
-    """Scalar image with an explicit extent/world-file, or embedded GeoTIFF.
+    """Scalar or RGB/RGBA image with an explicit extent/world-file, or embedded GeoTIFF.
 
     Extent is (west,east,south,north) in the supplied source CRS. Local paths
     discover .tfw/.pgw/.jgw, full-extension-w, or .wld. No .prj guessing; no

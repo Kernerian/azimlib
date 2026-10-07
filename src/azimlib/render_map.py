@@ -91,7 +91,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     style.update(layer.options["feature_styles"][index])
                 if layer.options.get('mapped') and layer._array is not None:
                     style['facecolor']=layer.to_color(layer._array[index])
-                if layer.options.get('contour'):
+                if layer.options.get('contour') or layer.options.get('flow'):
                     style=layer._feature_style(index,feature,style)
                 callback = layer.options.get("feature_style")
                 if callback is not None:
@@ -122,10 +122,21 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
             for j,row in enumerate(rows):
                 for i,_ in enumerate(row):
                     value=layer._array[j*len(row)+i]
-                    if value is None or not math.isfinite(value):continue
-                    style=dict(layer.style,facecolor=layer.to_color(value))
+                    color=layer.to_color(value)
+                    if color in ('none','#00000000'):continue
+                    style=dict(layer.style,facecolor=color)
                     ring=[(lon[i],lat[j]),(lon[i+1],lat[j]),(lon[i+1],lat[j+1]),(lon[i],lat[j+1]),(lon[i],lat[j])]
                     _polygon([ring],style,vp,scene)
+        elif layer.kind=='color_image':
+            from .scientific import color_hex
+            from .field_artists import image_edges
+            rows=layer.data[::-1] if layer.options['origin']=='upper' else layer.data
+            lon,lat=image_edges(layer.get_extent(),len(rows[0]),len(rows))
+            for j,row in enumerate(rows):
+                for i,pixel in enumerate(row):
+                    if pixel[3]==0:continue
+                    ring=[(lon[i],lat[j]),(lon[i+1],lat[j]),(lon[i+1],lat[j+1]),(lon[i],lat[j+1]),(lon[i],lat[j])]
+                    _polygon([ring],dict(layer.style,facecolor=color_hex(pixel)),vp,scene)
         elif layer.kind=='vectors':
             _vectors(layer,vp,scene)
         elif layer.kind == "text":

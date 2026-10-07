@@ -44,7 +44,11 @@ def render_colorbar(bar,box,scene):
     if norm is not bar._norm:bar.update_normal(mapped)
     alpha=bar['alpha']
     count=256
-    if contour:
+    if contour and getattr(mapped,'filled',False):
+        levels=mapped.levels
+        stops=[i/(len(levels)-1) for i in range(len(levels))] if bar['spacing']=='uniform' else [(v-levels[0])/(levels[-1]-levels[0]) for v in levels]
+        colors=[mapped._mapped_color(i) for i in range(len(levels)-1)]
+    elif contour:
         # Unfilled ContourSet uses colored solid lines, not a gradient image.
         stops=[];colors=[]
         from .config import rcParams

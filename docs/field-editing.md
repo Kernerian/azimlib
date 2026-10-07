@@ -23,7 +23,8 @@ fig.savefig('campo.svg')
 `ScalarImage.set_data(Z)` aceita matriz retangular escalar não vazia; a forma
 pode mudar. As bordas das células são recalculadas no mesmo extent geográfico.
 `get_data()` devolve cópia na ordem original da matriz. origin='upper' mantém
-a primeira linha ao norte; lower a mantém ao sul. RGB/RGBA e arrays mascarados
+a primeira linha ao norte; lower a mantém ao sul. No desenvolvimento 0.3, RGB/RGBA e arrays mascarados possuem
+[contratos próprios](scientific-2d.md). Arrays curvilíneos
 de NumPy ainda não têm contrato próprio.
 
 `get_extent()` e `set_extent((west,east,south,north))` controlam a geografia da
@@ -47,7 +48,7 @@ pares longitude/latitude das bordas. Sem NumPy, essas consultas usam listas.
 
 `mesh.set_array(None)` suspende o desenho das células, preservando sua geometria;
 não é um preenchimento automático com facecolors previamente calculados.
-None/NaN/infinito em células são lacunas. Não há resampling ou rasterização
+None/NaN/infinito em células são lacunas. O desenvolvimento 0.3 oferece resampling explícito de GeoRaster; não há rasterização
 georreferenciada implícita: cada célula continua um quadrilátero projetado.
 
 ## Vetores
@@ -105,4 +106,5 @@ O [exemplo antes/depois](../examples/field_editing.py) usa dados sintéticos.
 de imagem, dois de mesh e quatro de vetores efetivos com Matplotlib 3.11.2/Agg.
 Contornos e clabel têm [handles de estilo/texto editáveis](lines-contours.md),
 mas sua geometria não é recalculada implicitamente ao editar outro campo;
-animação, blitting, RGB/máscaras e novas coordenadas de mesh continuam pendentes.
+animação, blitting e novas coordenadas de mesh continuam pendentes.
+RGB/máscaras e resampling explícito foram adicionados no [lote científico 2D](scientific-2d.md).
