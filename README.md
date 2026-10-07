@@ -223,3 +223,5 @@ provenance-aware symbols/patterns and own vector PDF](docs/finishing.md),
 with an [original reproducible gallery](docs/_static/finishing/README.md).
 
 Development 0.3.0 adds [optional picking, widgets, live/local viewers, Qt and notebook updates](docs/interaction.md). These are not part of published 0.2.0.
+
+Development also includes [experimental own 3D terrain and building extrusion](docs/terrain3d.md), with explicit metric units, camera/depth rendering, export policy and performance limits. [Original 3D gallery](docs/_static/terrain3d/README.md).

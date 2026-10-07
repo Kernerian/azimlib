@@ -9,18 +9,23 @@ class Navigation:
         self.history=[self.snapshot()]
         self._autoscale_history=[self._autoscale_snapshot()]
         self._projection_history=[self._projection_snapshot()]
+        self._camera_history=[self._camera_snapshot()]
         self.index=0
 
     def snapshot(self):
-        return tuple(None if ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None) else ax.get_extent() for ax in self.figure.axes)
+        return tuple(None if ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None) or getattr(ax,'_terrain3d',False) else ax.get_extent() for ax in self.figure.axes)
+
+    def _camera_snapshot(self):return tuple(ax.camera if getattr(ax,'_terrain3d',False) else None for ax in self.figure.axes)
 
     def _projection_snapshot(self):return tuple((ax.projection,ax._longitude_wrap,ax.get_bearing()) for ax in self.figure.axes)
 
     def _autoscale_snapshot(self):
-        return tuple(None if ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None) else (ax.get_autoscalex_on(),ax.get_autoscaley_on()) for ax in self.figure.axes)
+        return tuple(None if ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None) or getattr(ax,'_terrain3d',False) else (ax.get_autoscalex_on(),ax.get_autoscaley_on()) for ax in self.figure.axes)
 
     def _apply(self,index):
         with self.figure._mutation():
+            for ax,camera in zip(self.figure.axes,self._camera_history[index]):
+                if camera is not None:ax.set_camera(camera)
             for ax,(projection,wrapped,bearing) in zip(self.figure.axes,self._projection_history[index]):ax.projection=projection;ax._longitude_wrap=wrapped;ax._bearing=bearing
             for ax,extent,flags in zip(self.figure.axes,self.history[index],self._autoscale_history[index]):
                 if extent is not None and ax._colorbar_artist is None:
@@ -36,11 +41,12 @@ class Navigation:
 
     def push(self):
         current=self.snapshot()
-        flags=self._autoscale_snapshot();projections=self._projection_snapshot()
-        if current!=self.history[self.index] or flags!=self._autoscale_history[self.index] or projections!=self._projection_history[self.index]:
+        flags=self._autoscale_snapshot();projections=self._projection_snapshot();cameras=self._camera_snapshot()
+        if current!=self.history[self.index] or flags!=self._autoscale_history[self.index] or projections!=self._projection_history[self.index] or cameras!=self._camera_history[self.index]:
             self.history=self.history[:self.index+1]+[current]
             self._autoscale_history=self._autoscale_history[:self.index+1]+[flags]
             self._projection_history=self._projection_history[:self.index+1]+[projections]
+            self._camera_history=self._camera_history[:self.index+1]+[cameras]
             self.index+=1
 
     def restore(self,index):
@@ -71,6 +77,9 @@ def bounded_extent(west,east,south,north,*,longitude_center=0):
 
 
 def viewport_from_metadata(projection,meta):
+    if meta.get('terrain3d'):
+        from .terrain3d import TerrainViewport
+        return TerrainViewport(meta['box'])
     from .viewport import Viewport
     viewport=object.__new__(Viewport)
     viewport.projection=projection

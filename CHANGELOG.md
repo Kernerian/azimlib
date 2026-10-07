@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 development — experimental terrain 3D
+
+- Own metric surface meshes, explicit regional WGS84 frame and source elevation units/reference.
+- Own orthographic/perspective camera, homogeneous clipping and per-pixel triangle depth buffer; optional NumPy acceleration of the same equations.
+- Editable ScalarMappable surface Artists, flat physical lighting, masks and bounded concave building extrusion with explicit height/base.
+- Independent camera orbit/zoom/history on Tk/Qt/live, kept separate from 2D geographic navigation.
+- PNG and explicit embedded-raster SVG/PDF policy, original gallery, numerical/native Windows checks and bounded performance proofs.
+- Experimental limits remain explicit; 7.08 Linux/macOS native verification is pending. No release/publication is claimed.
+
 ## 0.3.0 development — finishing batch
 
 - Independent feature picking, pixel tolerance, optional selectors/layer controls/sliders.

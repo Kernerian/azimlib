@@ -16,7 +16,7 @@ def render_html(scene, title="Figure 1"):
         from dataclasses import replace
         scene=replace(scene,background="white")
     svg=render_svg(scene)
-    metadata=json.dumps(getattr(scene,"maps",[]),ensure_ascii=True,allow_nan=False).replace("<","\\u003c")
+    metadata=json.dumps([m for m in getattr(scene,"maps",[]) if not m.get("terrain3d")],ensure_ascii=True,allow_nan=False).replace("<","\\u003c")
     root=files(__package__).joinpath("assets")
     css=root.joinpath("viewer.css").read_text(encoding="utf-8")
     js=root.joinpath("viewer.js").read_text(encoding="utf-8")

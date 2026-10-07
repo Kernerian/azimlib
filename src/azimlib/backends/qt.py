@@ -47,6 +47,7 @@ class QtCanvas(FigureCanvas):
                 buttons=[v for k,v in ((C.Qt.MouseButton.LeftButton,1),(C.Qt.MouseButton.MiddleButton,2),(C.Qt.MouseButton.RightButton,3)) if hasattr(event,'buttons') and event.buttons()&k]
                 payload=owner.controller.event(name,position.x()*ratio,position.y()*ratio,button=button,buttons=buttons,guiEvent=event)
                 if payload.xdata is not None:owner.status.setText(f'x={payload.xdata:.3g} y={payload.ydata:.3g}')
+                else:owner.status.setText('')
             def mousePressEvent(self,event):self._event('button_press_event',event)
             def mouseMoveEvent(self,event):self._event('motion_notify_event',event)
             def mouseReleaseEvent(self,event):self._event('button_release_event',event)

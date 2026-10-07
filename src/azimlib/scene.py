@@ -63,7 +63,22 @@ class Rect:
     clip: Clip | None = None
 
 
-Primitive = Path | Text | Circle | Rect
+@dataclass(frozen=True)
+class Raster3D:
+    """Own homogeneous triangles, rasterized with depth at output resolution."""
+    x: float
+    y: float
+    width: float
+    height: float
+    triangles: tuple
+    style: Style = field(default_factory=dict)
+    clip: Clip | None = None
+
+    def __post_init__(self):
+        object.__setattr__(self,'triangles',tuple((tuple(tuple(p) for p in points),tuple(color)) for points,color in self.triangles))
+
+
+Primitive = Path | Text | Circle | Rect | Raster3D
 
 
 @dataclass
@@ -95,7 +110,7 @@ class Scene:
 
     def add(self, item: Primitive) -> Primitive:
         """Append a primitive in painting order and return it."""
-        if not isinstance(item, (Path, Text, Circle, Rect)):
+        if not isinstance(item, (Path, Text, Circle, Rect, Raster3D)):
             raise TypeError("A scene accepts only Path, Text, Circle, or Rect primitives")
         if isinstance(item,Text):
             from .mathtext import has_math,primitives
@@ -124,6 +139,8 @@ class Scene:
                 new = Text(item.x*factor,item.y*factor,item.text,style,clip)
             elif isinstance(item, Circle):
                 new = Circle(item.x*factor,item.y*factor,item.r*factor,style,clip)
+            elif isinstance(item, Raster3D):
+                new = Raster3D(item.x*factor,item.y*factor,item.width*factor,item.height*factor,item.triangles,style,clip)
             else:
                 new = Rect(item.x*factor,item.y*factor,item.width*factor,item.height*factor,style,clip)
             result.add(new)

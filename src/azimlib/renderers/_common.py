@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import math
 
-from ..scene import Circle, Path, Rect, Scene, Text
+from ..scene import Circle, Path, Rect, Scene, Text, Raster3D
 
 SHAPE_STYLE = {
     "fill", "stroke", "stroke_width", "opacity", "dash", "linecap",
@@ -31,6 +31,7 @@ def validate(scene: Scene, *, _path_validator=None) -> None:
         if unknown:
             raise ValueError(f"Unsupported {type(item).__name__} style: {', '.join(sorted(unknown))}")
         s = item.style
+        if isinstance(item,Raster3D) and s.get('opacity',1)!=1:raise ValueError('3D transparency must be specified as hidden faces, not primitive opacity')
         if s.get('shape_rendering','auto') not in ('auto','crispEdges'):raise ValueError('Invalid shape rendering hint')
         for key in ("opacity", "fill_opacity", "stroke_opacity"):
             value = s.get(key, 1)
@@ -82,7 +83,7 @@ def validate(scene: Scene, *, _path_validator=None) -> None:
                 number(value)
             if item.r < 0:
                 raise ValueError("Circle radius cannot be negative")
-        elif isinstance(item, Rect):
+        elif isinstance(item, (Rect,Raster3D)):
             for value in (item.x, item.y, item.width, item.height):
                 number(value)
             if item.width < 0 or item.height < 0:

@@ -7,7 +7,7 @@ no coordinate quantization or approximate image rescaling on a cache hit.
 from collections import OrderedDict
 import hashlib
 from numbers import Integral
-from ..scene import Text,Path,Circle
+from ..scene import Text,Path,Circle,Raster3D
 from ..renderers._common import validate
 from ..typography import font_path
 
@@ -28,6 +28,7 @@ def scene_key(scene):
             path=font_path(item.style)
             if path is not None:fonts.add(path)
         elif isinstance(item,Circle):add((item.x,item.y,item.r))
+        elif isinstance(item,Raster3D):add((item.x,item.y,item.width,item.height,item.triangles))
         else:add((item.x,item.y,item.width,item.height))
     for path in sorted(fonts):
         add(str(path))

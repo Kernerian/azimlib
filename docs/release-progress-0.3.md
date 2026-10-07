@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**55 concluídos / 25 pendentes**. Contagem por subpassos, não por frentes amplas.
+**63 concluídos / 17 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -104,14 +104,14 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 8. Terreno 3D experimental verdadeiro
 
-- [ ] **8.01** Contrato de coordenadas de elevação/unidades; separar altura física de exagero vertical.
-- [ ] **8.02** Câmera própria ortográfica/perspectiva e transforms mundo/view/clip/display.
-- [ ] **8.03** Clipping 3D, raster de triângulos e depth buffer próprios, incluindo oclusão.
-- [ ] **8.04** Artist de superfície/terreno com cores/norm, iluminação e máscaras.
-- [ ] **8.05** Extrusão inicial de plantas de construções com altitude/base explícitas.
-- [ ] **8.06** Órbita/zoom da câmera e reset, mantendo separada a navegação de mapas 2D.
-- [ ] **8.07** PNG 3D e política explícita para exportação SVG/PDF com camada raster.
-- [ ] **8.08** Galeria, testes de câmera/profundidade e limites de desempenho da API experimental.
+- [x] **8.01** Contrato de coordenadas de elevação/unidades; separar altura física de exagero vertical.
+- [x] **8.02** Câmera própria ortográfica/perspectiva e transforms mundo/view/clip/display.
+- [x] **8.03** Clipping 3D, raster de triângulos e depth buffer próprios, incluindo oclusão.
+- [x] **8.04** Artist de superfície/terreno com cores/norm, iluminação e máscaras.
+- [x] **8.05** Extrusão inicial de plantas de construções com altitude/base explícitas.
+- [x] **8.06** Órbita/zoom da câmera e reset, mantendo separada a navegação de mapas 2D.
+- [x] **8.07** PNG 3D e política explícita para exportação SVG/PDF com camada raster.
+- [x] **8.08** Galeria, testes de câmera/profundidade e limites de desempenho da API experimental.
 
 ## 9. Mapas temporais e atlas
 
@@ -503,3 +503,51 @@ nativos. A CI foi estendida com Qt/IPython e fixture Node (27 jobs expandidos),
 mas não foi executada remotamente neste lote. Windows programático/pintura está
 validado; não equivale a novo aceite humano de fluidez em três sistemas. Nenhuma
 publicação, push ou mudança do `main`/versão estável 0.2.0 faz parte deste lote.
+
+### Lote 8 — terreno 3D experimental (0.3.0.dev0)
+
+**8.01–8.08 concluídos no contrato experimental; 7.08 continua pendente.**
+[Guia e limites](terrain3d.md), [galeria original](_static/terrain3d/README.md),
+[37 contratos](../tests/test_terrain3d.py) e [auditor das evidências](../tools/audit_terrain3d.py).
+
+- Unidades físicas m/km/ft/Unit, Z físico separado do exagero; GeoRaster com
+  affine completa usa centros de pixels e referencial horizontal local WGS84
+  explícito, até 250 km da origem. Não inventa/converte datum vertical.
+- Câmera ortográfica/perspectiva, matrizes, seis planos de clipping homogêneo,
+  triângulos, cobertura top-left e depth buffer próprios. Triângulos cruzados
+  verificam oclusão por pixel, sem ordenar faces pelo centro. Equações NumPy e
+  fallback próprio conferidos; cancelamento e limites antes das grandes alocações.
+- SurfaceArtist com scalar array/norm/cmap/clim/colorbar editáveis, visibilidade,
+  remoção e iluminação plana. Máscaras retiram células; cores são escalares médios
+  por face. Construções simples côncavas recebem piso/teto/paredes, IDs e base/altura
+  explícitas. Sem transparência parcial, holes, picking 3D ou altura urbana inferida.
+- Órbita e zoom separados dos limites geográficos 2D; Home/Back/Forward guardam
+  Camera. [Tk Windows](terrain3d-tk-0.3.json) e [Qt Windows](terrain3d-qt-0.3.json)
+  programáticos com pintura, mudança de pixels e cleanup; não equivalem a aceite
+  humano ou nativo Linux/macOS. Cache inclui triângulos para não reusar pose antiga. Sharing físico/geográfico
+  é rejeitado antes de alterar grupos, inclusive em chamadas diretas.
+  [Regressões Tk selecionadas](terrain3d-desktop-0.3.json) e
+  [Qt 2D](terrain3d-qt-2d-0.3.json) passam no mesmo runtime.
+- PNG estático próprio; SVG embute PNG, PDF usa RGB comprimido com soft mask,
+  preservando textos/eixos vetoriais. Pixel/alpha/orientação dos streams conferidos;
+  exportação inspecionada por PNG e figura Qt. HTML offline é snapshot 3D, não órbita.
+  Diferenças de antialiasing são declaradas; nenhuma exportação de modelo/GPU prometida.
+- [Suíte instalada](terrain3d-validation-0.3.json): **933 testes / 19,963 subtests**,
+  zero falhas/erros. [Sem aggdraw/Numba](terrain3d-core-validation-0.3.json):
+  **933 testes / 19,947 subtests**, zero falhas/erros. Skips opcionais nomeados,
+  todos os módulos conferidos por SHA-256; zero imports de Matplotlib/GIS externo.
+- [Benchmark](terrain3d-benchmark-0.3.json): raster 320×240, três amostras após
+  warmup; 450 triângulos sem NumPy ~46 ms, 1,922 com NumPy ~93 ms e 7,938 ~453 ms
+  medianos. Exclui composição/GUI, RSS, GPU e latência humana/FPS. Budget: 50 mil
+  vértices por malha, 20 mil triângulos por axes, 8M pixels e 64M testes bbox por
+  rasterização; PNG conta supersampling. Não existe LOD automático ou terreno global.
+- Instalação core offline sem extras também verifica câmera/raster fallback/PDF 3D
+  e falha explícita do encoder SVG opcional. Wheel/sdist dev reconstruídos e conferidos
+  por bytes/RECORD/licenças; documentação, privacidade e refs locais auditados.
+  Termos de DejaVu/ColorBrewer/CC0/Natural Earth preservados. Nenhum novo material
+  de terceiros foi vendorizado. CI preparada para smoke 3D, não executada remotamente.
+
+Relatórios das etapas anteriores são snapshots preservados de seus runtimes;
+nunca recebem hashes falsamente atualizados. A referência corrente desta etapa
+é verificada por `audit_terrain3d.py`. **Restam 17 subpassos:** 7.08 e etapas
+9–10. Nenhuma publicação, push, mudança do main ou lançamento 0.3.0 neste lote.

@@ -6,7 +6,7 @@ PDF is one static page; no UI, external resources, TeX or cartographic backend.
 """
 import math
 from pathlib import Path as FilePath
-from ..scene import Path,Text,Circle,Rect
+from ..scene import Path,Text,Circle,Rect,Raster3D
 from ..colors import to_rgba
 from ..font_outline import text_commands
 from ._common import validate
@@ -60,6 +60,7 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100):
                 control,end=cmd[1:];a=tuple(current[i]+2*(control[i]-current[i])/3 for i in range(2));b=tuple(end[i]+2*(control[i]-end[i])/3 for i in range(2))
                 out.append(' '.join(n(v) for p in (a,b,end) for v in p)+' c');current=end
         return out
+    images=[]
     ratio=72/dpi
     commands.append(f'{n(ratio)} 0 0 {n(-ratio)} 0 {n(scene.height*ratio)} cm')
     items=list(scene.items)
@@ -67,6 +68,21 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100):
     for item in items:
         commands.append('q')
         if item.clip is not None:commands.append(' '.join(n(v) for v in item.clip)+' re W n')
+        if isinstance(item,Raster3D):
+            import zlib
+            from ..terrain3d import rasterize
+            rw,rh=max(1,round(item.width)),max(1,round(item.height))
+            image=rasterize(item.triangles,rw,rh)
+            rgb=bytes(c for i,c in enumerate(image.rgba) if i%4!=3);alpha=image.rgba[3::4]
+            def image_object(data,space,mask=''):
+                compressed=zlib.compress(data)
+                header=f'<< /Type /XObject /Subtype /Image /Width {rw} /Height {rh} /ColorSpace /{space} /BitsPerComponent 8 /Filter /FlateDecode {mask} /Length {len(compressed)} >>\nstream\n'.encode()
+                return object(header+compressed+b'\nendstream')
+            mask=image_object(alpha,'DeviceGray')
+            ref=image_object(rgb,'DeviceRGB',f'/SMask {mask} 0 R')
+            name=f'Im{len(images)}';images.append((name,ref))
+            commands.append(f'{n(item.width)} 0 0 {n(-item.height)} {n(item.x)} {n(item.y+item.height)} cm /{name} Do')
+            commands.append('Q');continue
         if isinstance(item,Text):
             if item.style.get('background'):
                 from ..typography import text_bounds
@@ -99,7 +115,8 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100):
     objects[0]=f'<< /Type /Catalog /Pages 2 0 R /Names << /EmbeddedFiles << /Names [{names}] >> >> >>'.encode()
     objects[1]=b'<< /Type /Pages /Kids [3 0 R] /Count 1 >>'
     resources=' '.join(f'/{name} {ref} 0 R' for name,ref in states.values())
-    objects[2]=f'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 {n(scene.width*ratio)} {n(scene.height*ratio)}] /Resources << /ExtGState << {resources} >> >> /Contents {content} 0 R >>'.encode()
+    image_resources=(' /XObject << '+' '.join(f'/{name} {ref} 0 R' for name,ref in images)+' >>') if images else ''
+    objects[2]=f'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 {n(scene.width*ratio)} {n(scene.height*ratio)}] /Resources << /ExtGState << {resources} >>{image_resources} >> /Contents {content} 0 R >>'.encode()
     info=object(b'<< /Producer (Azimlib independent PDF writer) /Subject (Vector text outlines; DejaVu notice attached) >>')
     out=bytearray(b'%PDF-1.4\n%\xe2\xe3\xcf\xd3\n');offsets=[0]
     for index,data in enumerate(objects,1):

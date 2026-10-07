@@ -3,6 +3,7 @@ import argparse
 import gzip
 import hashlib
 import json
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -31,6 +32,7 @@ def audit(history=False, archives=()):
         check(name, (ROOT / name).read_bytes())
     blobs = 0
     commits = 0
+    unreferenced = []
     if history:
         objects = git('rev-list', '--objects', '--all', '--reflog').decode().splitlines()
         for row in objects:
@@ -42,10 +44,23 @@ def audit(history=False, archives=()):
             elif kind == b'commit':
                 commits += 1
                 check('commit:' + oid, git('cat-file', 'commit', oid))
-        fsck = subprocess.run(['git', 'fsck', '--full', '--no-reflogs'], cwd=ROOT,
+        fsck = subprocess.run(['git', 'fsck', '--full', '--unreachable', '--no-reflogs'], cwd=ROOT,
                               capture_output=True, text=True)
-        if fsck.returncode or fsck.stdout.strip() or fsck.stderr.strip():
-            problems.append({'file': '.git', 'kind': 'integrity-or-unreachable-object'})
+        if fsck.returncode or fsck.stderr.strip():
+            problems.append({'file': '.git', 'kind': 'integrity-or-unreadable-object'})
+        for line in fsck.stdout.splitlines():
+            match = re.fullmatch(r'(?:unreachable|dangling) (blob|commit|tree|tag) ([0-9a-f]{40,64})', line)
+            if match is None:
+                problems.append({'file': '.git', 'kind': 'unexpected-fsck-output'})
+                continue
+            kind, oid = match.groups()
+            # Normal staging can leave valid blobs unreferenced. Inspect them,
+            # never prune them or confuse their presence with Git corruption.
+            body = git('cat-file', kind, oid)
+            if kind in ('blob', 'commit', 'tag'):
+                if body.startswith(b'\x1f\x8b'): body = gzip.decompress(body)
+                check('unreferenced:' + oid, body)
+            unreferenced.append({'oid': oid, 'type': kind, 'bytes': len(body)})
     checked_archives = []
     for path in archives:
         if path.name.endswith(('.whl', '.zip')):
@@ -61,7 +76,7 @@ def audit(history=False, archives=()):
                         check(path.name + ':' + member.name, archive.extractfile(member).read())
         checked_archives.append({'file': path.name, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()})
     return {'tracked_files': len(tracked), 'historical_blobs': blobs,
-            'historical_commits': commits, 'local_refs': git('for-each-ref', '--format=%(refname)').decode().splitlines(),
+            'historical_commits': commits, 'unreferenced_objects_checked': unreferenced, 'local_refs': git('for-each-ref', '--format=%(refname)').decode().splitlines(),
             'archives': checked_archives, 'findings': problems, 'passed': not problems,
             'scope': 'Pattern-based technical scan of named local files/refs/archives; not exhaustive secret detection or remote GitHub erasure.'}
 

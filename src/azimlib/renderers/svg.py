@@ -4,7 +4,7 @@ from __future__ import annotations
 from html import escape
 import base64
 
-from ..scene import Circle, Path, Rect, Scene, Text
+from ..scene import Circle, Path, Rect, Scene, Text, Raster3D
 from ._common import number as n, validate
 
 
@@ -80,6 +80,10 @@ def render_svg(scene: Scene) -> str:
             out.append(f'<circle cx="{n(item.x)}" cy="{n(item.y)}" r="{n(item.r)}"{_paint(item.style)}{clip}/>')
         elif isinstance(item, Rect):
             out.append(f'<rect x="{n(item.x)}" y="{n(item.y)}" width="{n(item.width)}" height="{n(item.height)}"{_paint(item.style)}{clip}/>')
+        elif isinstance(item,Raster3D):
+            from ..terrain3d import png_bytes
+            data=base64.b64encode(png_bytes(item)).decode('ascii')
+            out.append(f'<image x="{n(item.x)}" y="{n(item.y)}" width="{n(item.width)}" height="{n(item.height)}" href="data:image/png;base64,{data}"{clip}/>')
         elif isinstance(item, Text):
             s = item.style
             attrs = _paint(s, text=True)

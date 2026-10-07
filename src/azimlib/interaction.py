@@ -24,7 +24,7 @@ class Interaction:
         self.canvas._dispatch(name,event)
         if name=='button_press_event':
             if not self.mode:self.canvas.pick(event)
-            if self.mode and ax is not None:self.drag=(ax,vp,(x,y),ax.get_extent(),button)
+            if self.mode and ax is not None:self.drag=(ax,vp,(x,y),ax.camera if getattr(ax,'_terrain3d',False) else ax.get_extent(),button)
         elif name=='motion_notify_event' and self.drag:
             if buttons is not None and self.drag[-1] not in buttons:self.navigation.push();self.drag=None
             elif self.mode=='pan':self._drag(x,y)
@@ -33,10 +33,18 @@ class Interaction:
             self.navigation.push();self.drag=None;self.canvas.draw_idle()
         elif name=='scroll_event' and ax is not None:
             if self.drag:self.navigation.push();self.drag=None
-            ax.set_extent(zoom_extent(ax,1.25**max(-20,min(20,step)),coord));self.navigation.push();self.canvas.draw_idle()
+            factor=1.25**max(-20,min(20,step))
+            if getattr(ax,'_terrain3d',False):
+                from .terrain3d import camera_zoom
+                camera_zoom(ax,factor)
+            else:ax.set_extent(zoom_extent(ax,factor,coord))
+            self.navigation.push();self.canvas.draw_idle()
         return event
     def _drag(self,x,y):
         ax,vp,start,extent,button=self.drag
+        if getattr(ax,'_terrain3d',False):
+            from .terrain3d import camera_drag
+            camera_drag(ax,extent,start,(x,y),vp.box,mode=self.mode,button=button);self.canvas.draw_idle();return
         result=drag_extent(ax,vp,start,(x,y),mode=self.mode,button=button,initial_extent=extent)
         if result is not None and result!=ax.get_extent():ax.set_extent(result);self.canvas.draw_idle()
     def command(self,name):

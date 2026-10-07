@@ -353,6 +353,7 @@ class FigureWindow:
     def _viewport(self,index):
         meta=next(m for m in self._metadata() if m['axes_index']==index)
         ax=self.figure.axes[index]
+        if getattr(ax,'_terrain3d',False):return viewport_from_metadata(ax.projection,meta)
         if tuple(ax._get_extent())!=tuple(meta['extent']) or ax.get_bearing()!=meta.get('bearing',0):
             from ..viewport import Viewport,_geometry_projected_bounds
             box=meta.get('navigation_box',meta['box'])
@@ -387,7 +388,7 @@ class FigureWindow:
         elif not self.drag:self.message.set(self.mode)
         if self.drag:
             d=self.drag
-            if self.mode=='zoom':
+            if self.mode=='zoom' and not getattr(self.figure.axes[d['index']],'_terrain3d',False):
                 self.widget.delete('rubberband')
                 x0,y0=d['start'];x1,y1=event.x,event.y
                 bx,by,bw,bh=d['viewport'].box
@@ -396,7 +397,7 @@ class FigureWindow:
                 if self.constraint=='y':x0,x1=bx,bx+bw
                 self.widget.create_rectangle(x0,y0,x1,y1,outline='black',tags='rubberband')
                 self.widget.create_rectangle(x0,y0,x1,y1,outline='white',dash=(3,3),tags='rubberband')
-            elif self.mode=='pan':
+            elif self.mode in ('pan','zoom'):
                 # Change the view, never translate a clipped bitmap (and its
                 # spines). Each idle draw includes ticks, grid and components.
                 self._pan_to(event)
@@ -412,6 +413,10 @@ class FigureWindow:
     def _pan_to(self,event):
         d=self.drag
         ax=self.figure.axes[d['index']]
+        if getattr(ax,'_terrain3d',False):
+            from ..terrain3d import camera_drag
+            camera_drag(ax,d['camera'],d['start'],(event.x,event.y),d['viewport'].box,mode=self.mode,button=d['button'])
+            self.draw_idle();return None
         extent=drag_extent(ax,d['viewport'],d['start'],(event.x,event.y),
                            mode='pan',button=d['button'],constraint=self._drag_constraint(event),
                            initial_extent=d['extent'])
@@ -465,7 +470,7 @@ class FigureWindow:
             self._pan_raster.clear();self._pan_prefetched=False
             if self.mode=='pan':self._async_pan=True
         self.drag=dict(index=index,start=(event.x,event.y),button=button,
-                       viewport=self._viewport(index),extent=self.figure.axes[index].get_extent())
+                       viewport=self._viewport(index),extent=self.figure.axes[index].get_extent(),camera=getattr(self.figure.axes[index],'camera',None))
 
     def release(self,event):
         self.widget.delete('rubberband')
@@ -473,7 +478,7 @@ class FigureWindow:
             self._emit('button_release_event',event,self._hit(event.x,event.y))
             return
         d=self.drag
-        if self.mode=='pan':
+        if self.mode=='pan' or getattr(self.figure.axes[d['index']],'_terrain3d',False):
             self._pan_to(event)
             self.navigation.push()
         elif self.mode=='zoom':
@@ -495,7 +500,10 @@ class FigureWindow:
         if index is not None and step:
             self.active=index
             ax=self.figure.axes[index]
-            ax.set_extent(zoom_extent(ax,1.2**step,self._viewport(index).inverse(event.x,event.y)))
+            if getattr(ax,'_terrain3d',False):
+                from ..terrain3d import camera_zoom
+                camera_zoom(ax,1.2**max(-20,min(20,step)))
+            else:ax.set_extent(zoom_extent(ax,1.2**step,self._viewport(index).inverse(event.x,event.y)))
             self.navigation.push()
             if hasattr(self,'_pan_raster'):
                 self._pan_raster.interrupt_exact()

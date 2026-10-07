@@ -208,6 +208,17 @@ for name in ('stereographic','azimuthal_equidistant','transverse_mercator'):
     p=azl.get_projection(name);point=p.inverse(*p.forward(1,2))
     assert abs(point[0]-1)<1e-8 and abs(point[1]-2)<1e-8
 assert not any(name.split('.')[0] in ('geographiclib','pyproj','matplotlib','PIL','numpy') for name in sys.modules)
+from azimlib.terrain3d import Camera,rasterize
+fig,ax=azl.subplots(subplot_kw={'projection':'3d'})
+surface=ax.plot_surface([0,1],[0,1],[[0,1],[1,2]])
+ax.set_proj_type('ortho');assert ax.camera.projection=='ortho'
+tri=((-.8,-.8,0,1),(.8,-.8,0,1),(0,.8,0,1))
+assert any(rasterize(((tri,(255,0,0,255)),),8,8,accelerate=False).rgba)
+try:fig.to_svg()
+except ImportError:pass
+else:raise AssertionError('3D SVG image encoding requires optional Pillow')
+buf=io.BytesIO();fig.savefig(buf,format='pdf');assert b'/Subtype /Image' in buf.getvalue()
+azl.close(fig)
 print('Installed wheel: SVG/HTML, data/fonts, artists, styles/aliases, scientific text and prevalidated edits; no optional/GIS/reference libraries.')
 '''
 

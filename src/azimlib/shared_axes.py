@@ -27,6 +27,7 @@ def sharing_mode(value):
 def share(owner,other,name):
     from .axes import MapAxes
     if not isinstance(other,MapAxes):raise TypeError('Sharing requires a MapAxes')
+    if getattr(owner,'_terrain3d',False) or getattr(other,'_terrain3d',False):raise ValueError('Experimental 3D physical limits cannot share geographic axes')
     if owner._colorbar_artist is not None or other._colorbar_artist is not None:
         raise ValueError('Colorbar axes cannot share geographic coordinates')
     previous=getattr(owner,'_share'+name)

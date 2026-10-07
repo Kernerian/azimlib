@@ -64,7 +64,11 @@ class Figure(Artist):
         for other in (sharex,sharey):
             if other is not None and not isinstance(other,MapAxes):raise TypeError('Sharing requires a MapAxes')
             if other is not None and other._colorbar_artist is not None:raise ValueError('Cannot share a colorbar axis')
-        ax=MapAxes(self,rect,projection,projection_kw)
+        if projection=='3d':
+            if sharex is not None or sharey is not None:raise ValueError('Experimental 3D axes do not share geographic limits')
+            from .terrain_axes import TerrainAxes
+            ax=TerrainAxes(self,rect,**(projection_kw or {}))
+        else:ax=MapAxes(self,rect,projection,projection_kw)
         if sharex is not None:ax.sharex(sharex)
         if sharey is not None:ax.sharey(sharey)
         self.axes.append(ax)
@@ -408,12 +412,15 @@ class Figure(Artist):
             shared.append((bar,barbox))
         from .render_map import prepare_transforms
         for ax in self.axes:
-            if ax._colorbar_artist is None and not getattr(ax,'_widget_owner',None):prepare_transforms(ax,boxes[id(ax)])
+            if ax._colorbar_artist is None and not getattr(ax,'_widget_owner',None) and not getattr(ax,'_terrain3d',False):prepare_transforms(ax,boxes[id(ax)])
         for ax in self.axes:
             if not ax.get_visible() or ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None):continue
             allocated=boxes[id(ax)]
             scene._layout_scales[ax]=(allocated[2]/(ax.position[2]*width),allocated[3]/(ax.position[3]*height))
-            render_axes(ax,scene,boxes[id(ax)],measure_layout=measure_layout,cull=cull)
+            if getattr(ax,'_terrain3d',False):
+                from .terrain_axes import render_terrain
+                render_terrain(ax,scene,boxes[id(ax)])
+            else:render_axes(ax,scene,boxes[id(ax)],measure_layout=measure_layout,cull=cull)
         for bar,box in shared:
             first=len(scene.items)
             with scene.layout_artist(bar):render_colorbar(bar,box,scene)

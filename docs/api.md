@@ -566,6 +566,554 @@ Iterative Douglas-Peucker; bounds each input vertex against its kept chord.
 
 ### `simplify_path(points, tolerance)`
 
+## azimlib.terrain_axes.TerrainAxes
+
+`TerrainAxes(figure, position, *, elev=35, azim=-60, roll=0, proj_type='persp', vertical_exaggeration=1)`
+
+### `add_callback(func)`
+
+### `add_collection(*args, **kwargs)`
+
+### `add_geometries(data, *, style=None, fit=True, crs=None, **kwargs)`
+
+Read GeoJSON; style(feature) can override appearance per feature.
+
+### `add_patch(patch)`
+
+### `annotate(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `autoscale(enable=True, axis='both', tight=None)`
+
+### `autoscale_view(tight=None, scalex=True, scaley=True)`
+
+Fit data bounds on automatic axes; explicit limits remain fixed.
+
+### `borders(**kwargs)`
+
+### `buildings(data, *, height, base=0, coordinates='world', unit='m', color='#aab1b8', shade=True)`
+
+Draw supplied building footprints; heights do not imply extrusion.
+
+### `callout(text, xy, xytext=None, *, textcoords='offset pixels', arrow=True, **kwargs)`
+
+### `categorical(data, values, *, key=None, colors=None, missing_color='#dce1e0', **kwargs)`
+
+### `choropleth(data, values, *, key=None, cmap='ocean', vmin=None, vmax=None, bins=5, scheme='equal_interval', missing_color='#dce1e0', norm=None, **kwargs)`
+
+### `cities(data=None, *, where=None, crs=None, **kwargs)`
+
+Draw supplied city/POI centres, not administrative boundaries.
+
+### `clabel(contour, levels=None, *, fmt='%g', **kwargs)`
+
+Return editable line-label handles; inline=True cuts the displayed path.
+
+### `clear()`
+
+Remove artists and decoration while preserving projection and position.
+
+### `coastlines(**kwargs)`
+
+### `colorbar(layer, **kwargs)`
+
+### `compass(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `compass_rose(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `contains(mouseevent)`
+
+### `contour(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `contourf(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `countries(**kwargs)`
+
+### `density(lon, lat, *, bins=24, smoothing=1, cmap='sunset', weights=None, extent=None, normalization=None, **kwargs)`
+
+A regular lon/lat count grid with optional Gaussian cell smoothing.
+
+### `fill(lon, lat, **kwargs)`
+
+### `findobj(match=None, include_self=True)`
+
+### `fit_extent(data=None, *, margin=0.05)`
+
+Fit point samples using the shortest circular longitude interval.
+
+### `flow(origins, destinations, values, *, geodesic=True, ellipsoid=None, steps=32, minwidth=0.5, maxwidth=4, cmap='viridis', norm=None, vmin=None, vmax=None, **kwargs)`
+
+Own batched geodesic flows: scalar colors, widths in physical points.
+
+### `geojson(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `get_autoscale_on()`
+
+### `get_autoscalex_on()`
+
+### `get_autoscaley_on()`
+
+### `get_axisbelow()`
+
+### `get_bearing()`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_extent()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_gridspec()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_legend()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_projection()`
+
+### `get_shared_x_axes()`
+
+### `get_shared_y_axes()`
+
+### `get_subplotspec()`
+
+Return the cell selection, or None for manually positioned axes.
+
+### `get_title(loc='center')`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_world_bounds()`
+
+### `get_xaxis()`
+
+### `get_xlabel()`
+
+### `get_xlim()`
+
+Return (west, east) geographic longitude limits in degrees.
+
+### `get_xmargin()`
+
+### `get_xscale()`
+
+### `get_xticks(*, minor=False)`
+
+### `get_yaxis()`
+
+### `get_ylabel()`
+
+### `get_ylim()`
+
+Return (south, north) geographic latitude limits in degrees.
+
+### `get_ymargin()`
+
+### `get_yscale()`
+
+### `get_yticks(*, minor=False)`
+
+### `get_zlim()`
+
+### `graticule(visible=None, which='major', axis='both', *, step=None, labels=None, **kwargs)`
+
+Toggle with no arguments; styling arguments imply visible=True.
+
+### `grid(visible=None, **kwargs)`
+
+Toggle with no arguments; styling arguments imply visible=True.
+
+### `heatmap(values, *, extent, origin='lower', **kwargs)`
+
+Scalar geographic heatmap with imshow's editable image/colorbar contract.
+
+### `hillshade(values, *, extent, dx=1, dy=1, azdeg=315, altdeg=45, vert_exag=1, origin='lower', **kwargs)`
+
+Own Lambertian hillshade; spacing and height must use consistent units.
+
+### `hist2d(lon, lat, *, weights=None, bins=24, extent=None, density=False, **kwargs)`
+
+Weighted histogram; returns (counts,xedges,yedges,mesh).
+
+### `imshow(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `info_box(text, *, position=(0.025, 0.975), **kwargs)`
+
+### `inset(bounds=(0.68, 0.66, 0.28, 0.28), *, projection='equirectangular', projection_kw=None)`
+
+### `inset_axes(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `label_outer(remove_inner_ticks=False)`
+
+Hide inner labels; optionally hide ticks, using the local SubplotSpec.
+
+### `labels(data, field='name', *, avoid_overlap=True, padding=2, offsets=None, leader=False, placement='auto', repeat=None, priority_field='priority', min_span=0, max_span=None, **kwargs)`
+
+Place feature labels with collision avoidance and local line tangents.
+
+### `lakes(**kwargs)`
+
+### `legend(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `line(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `map(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `margins(*margins, x=None, y=None, tight=True)`
+
+### `minorticks_off()`
+
+### `minorticks_on()`
+
+Enable automatic minor ticks without enabling any grid.
+
+### `municipalities(data=None, **kwargs)`
+
+### `neighborhoods(data=None, *, where=None, crs=None, **kwargs)`
+
+Draw supplied neighborhood polygons; where filters properties.
+
+### `north_arrow(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `ocean(color='#e5f1f4')`
+
+### `overview(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `pan(dlon, dlat)`
+
+Move the geographic viewport in degrees, preserving its size.
+
+### `pchanged()`
+
+### `pcolormesh(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `pick(mouseevent)`
+
+### `plot(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `plot_surface(X, Y, Z, *, horizontal_unit='m', vertical_unit='m', cmap='terrain', norm=None, color=None, shade=True, light=(1, -1, 2), elevation_reference='unspecified')`
+
+### `polygon(coordinates, *, holes=None, **kwargs)`
+
+### `properties()`
+
+### `quiver(lon, lat, u, v, C=None, *, scale=None, cmap='viridis', norm=None, vmin=None, vmax=None, **kwargs)`
+
+East/north vectors; scale is data units per axes width.
+
+### `raster(data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs)`
+
+Draw an explicit GeoRaster or read a locally georeferenced scalar or RGB/RGBA image.
+
+### `relim(visible_only=False)`
+
+Recompute geographic data bounds without moving the current view.
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `rivers(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `roads(data=None, **kwargs)`
+
+### `route(coordinates, *, geodesic=True, steps=64, ellipsoid=None, **kwargs)`
+
+### `scale_bar(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `scatter(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `set(**kwargs)`
+
+### `set_autoscale_on(value)`
+
+### `set_autoscalex_on(value)`
+
+### `set_autoscaley_on(value)`
+
+### `set_axis_off()`
+
+### `set_axis_on()`
+
+### `set_axisbelow(value)`
+
+### `set_bearing(angle)`
+
+### `set_camera(camera)`
+
+### `set_clip_on(value)`
+
+### `set_extent(*args, **kwargs)`
+
+Set (west, east, south, north), matching common map plotting APIs.
+
+### `set_facecolor(color='#e5f1f4')`
+
+### `set_in_layout(value)`
+
+### `set_label(label)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_proj_type(proj_type, *, fov=None)`
+
+### `set_projection(*args, **kwargs)`
+
+Replace projection after domain checks; keep geographic view/data/bearing.
+
+### `set_prop_cycle(*args, **kwargs)`
+
+Set future line/scatter defaults; does not restyle existing Artists.
+
+### `set_title(text, fontdict=None, loc=None, pad=None, **kwargs)`
+
+Set one of three independent titles; pad is measured in points.
+
+### `set_transform(transform)`
+
+### `set_vertical_exaggeration(value)`
+
+### `set_visible(visible)`
+
+### `set_xlabel(text, **style)`
+
+Set the horizontal geographic axis label.
+
+### `set_xlim(left, right=None, **kwargs)`
+
+Set longitude limits; accept ``(left, right)`` or separate values.
+
+### `set_xmargin(value)`
+
+### `set_xscale(value, **kwargs)`
+
+### `set_xticks(ticks, labels=None, *, minor=False, **kwargs)`
+
+### `set_ylabel(text, **style)`
+
+Set the vertical geographic axis label.
+
+### `set_ylim(bottom, top=None, **kwargs)`
+
+Set latitude limits; accept ``(bottom, top)`` or separate values.
+
+### `set_ymargin(value)`
+
+### `set_yscale(value, **kwargs)`
+
+### `set_yticks(ticks, labels=None, *, minor=False, **kwargs)`
+
+### `set_zlabel(text, **style)`
+
+### `set_zlim(bottom, top=None)`
+
+### `sharex(other)`
+
+### `sharey(other)`
+
+### `state(name, **kwargs)`
+
+Draw and fit one Brazilian state by name, postal code or BR-XX.
+
+### `states(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `streets(data=None, *, where=None, crs=None, **kwargs)`
+
+Draw supplied street lines, with linewidth in points, not metres.
+
+### `subtitle(text, **kwargs)`
+
+### `terrain(raster, *, origin, elevation_unit='m', elevation_reference='unspecified', **style)`
+
+Hypsometric RGB illumination plus a separate elevation ScalarMappable.
+
+### `text(*args, **kwargs)`
+
+Add a north arrow without replacing the compass rose.
+
+### `tick_params(axis='both', which='major', **kwargs)`
+
+### `ticklabel_format(*, axis='both', style=None, scilimits=None, useOffset=None, useLocale=None, useMathText=None)`
+
+Configure ScalarFormatter on the requested major axes atomically.
+
+### `title(text, **kwargs)`
+
+Fluent geographic shorthand; set_title returns the text artist.
+
+### `tricontourf(triangulation, values, levels=7, **kwargs)`
+
+Fill an own regional Triangulation; masks exclude whole triangles.
+
+### `tripcolor(triangulation, values, *, cmap='viridis', norm=None, vmin=None, vmax=None, shading='flat', **kwargs)`
+
+Flat triangle colors from nodal means; masked nodes/triangles omitted.
+
+### `update(props)`
+
+### `view_init(elev=None, azim=None, roll=None)`
+
+### `zoom(factor=2, center=None)`
+
+Zoom geographic limits by a positive factor (>1 zooms in).
+
+## azimlib.terrain_axes.SurfaceArtist
+
+`SurfaceArtist(mesh, *, norm=None, cmap='terrain', color=None, shade=True, light=(1, -1, 2), elevation_reference='unspecified')`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `faces(camera, bounds, aspect, exaggeration)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_norm()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_array(values)`
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_in_layout(value)`
+
+### `set_norm(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_shade(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.terrain3d.Camera
+
+`Camera(elev: float = 35, azim: float = -60, roll: float = 0, projection: str = 'persp', zoom: float = 1, fov: float = 35, near: float = 0.1, far: float = 100) -> None`
+
+### `matrix(bounds, aspect=1, vertical_exaggeration=1)`
+
+## azimlib.terrain3d.Mesh
+
+`Mesh(vertices: tuple, triangles: tuple) -> None`
+
+## azimlib.terrain3d.LocalFrame
+
+`LocalFrame(lon: float, lat: float) -> None`
+
+### `horizontal(lon, lat)`
+
 ## azimlib.widgets.AxesWidget
 
 `AxesWidget(ax, *, occupy=True)`
