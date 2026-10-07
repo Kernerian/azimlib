@@ -24,3 +24,12 @@ environment/source to be configured. This preview workflow does not deploy. Deve
 version (`0.2.0/`, later `0.3.0/`), never silently overwriting another version.
 A hosted URL is not claimed until an actual successful deployment and HTTP check.
 PyPI publication remains a separate manual action after all release gates.
+
+## Hosted development documentation
+
+The reviewed development site is available at
+[kernerian.github.io/azimlib/dev/](https://kernerian.github.io/azimlib/dev/).
+A separate `gh-pages` branch preserves version directories.
+[Hosting evidence](documentation-hosting-0.3.json) records public HTTPS byte checks
+and the privacy inspection scope. The source branch remains `dev/0.3.0`;
+this deployment does not release 0.3.0 or change the stable package.

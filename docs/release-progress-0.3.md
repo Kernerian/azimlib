@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**76 concluídos / 4 pendentes**. Contagem por subpassos, não por frentes amplas.
+**78 concluídos / 2 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -126,11 +126,11 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 10. Documentação, compatibilidade e entrega
 
-- [ ] **10.01** Documentação versionada/hospedada e guias de migração Matplotlib → Azimlib.
+- [x] **10.01** Documentação versionada/hospedada e guias de migração Matplotlib → Azimlib.
 - [x] **10.02** Galeria política/física/urbana/científica/3D/temporal com scripts e proveniência.
 - [x] **10.03** Contrato de compatibilidade/semver, API experimental e changelog completo.
 - [x] **10.04** Auditoria de licenças/proveniência/privacidade de todas as novas fontes e assets.
-- [ ] **10.05** CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.
+- [x] **10.05** CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.
 - [x] **10.06** Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.
 - [x] **10.07** Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.
 - [ ] **10.08** Aceite final e publicação 0.3.0 somente após gates; nenhuma publicação automática deste desenvolvimento.
@@ -612,9 +612,8 @@ com todos os escritores/encoders/callbacks de outro framework.
 
 ### Lote 10 — documentação e gates de entrega (0.3.0.dev0)
 
-**10.02, 10.03, 10.04, 10.06 e 10.07 concluídos para os artefatos de desenvolvimento.**
-10.01 (hospedagem verificada), 10.05 (CI hospedada do estado novo) e 10.08
-(aceite/publicação final) permanecem pendentes, assim como 7.08.
+**10.01–10.07 concluídos para os artefatos de desenvolvimento.**
+10.08 (aceite/publicação final) permanece pendente, assim como 7.08.
 
 - [Site versionado](documentation-site.md) com parser Markdown genérico opcional,
   layout próprio, busca por títulos, links/âncoras/ativos conferidos; preview
@@ -630,7 +629,7 @@ com todos os escritores/encoders/callbacks de outro framework.
   geometria/layout arredondados, duas tolerâncias de pixels, trabalho limitado,
   tempos quentes e geodésica equatorial analítica; sem promessa de FPS/RSS/GPU.
 - Gate CI agora exige 28 identidades/SHAs/resultados exatos (15 suites, 6 accelerator,
-  3 Tk, 3 Qt e documentação); 11 regressões rejeitam falsos positivos de URLs, matriz antiga, duplicatas,
+  3 Tk, 3 Qt e documentação); 14 regressões rejeitam falsos positivos de URLs, matriz antiga, duplicatas,
   SHA antigo, jobs cancelados/skipped e publicação estável sem checklist/version.
   Configuração não é resultado hospedado. O upload PyPI continua manual separado,
   e candidatos de desenvolvimento/aceite incompleto são bloqueados.
@@ -645,3 +644,27 @@ Os relatórios antigos são snapshots preservados. A versão permanece **0.3.0.d
 este lote não autoriza uma publicação automática 0.3.0 nem trata CI como aceite
 humano Linux/macOS. Contagem final e evidência hospedada serão registradas ao
 passar seus gates, sem reescrever resultados anteriores.
+
+Documentação de desenvolvimento [hospedada por HTTPS](https://kernerian.github.io/azimlib/dev/):
+[prova de hospedagem](documentation-hosting-0.3.json), 389 arquivos revisados,
+9 PDFs decodificados e 33 metadados de imagens examinados; nenhum caminho
+pessoal, marcador de conversa ou credencial encontrado no escopo verificado.
+Amostras HTTPS conferidas byte a byte contra o site auditado. Dois relatórios
+antigos preservam versões/testes e usam caminhos portáveis de ambiente.
+O repositório principal e a versão PyPI permanecem inalterados.
+
+A comparação raster conserva os hashes exatos de geometria/texto/estilo. Somente
+caixas de texto têm comparação bidirecional com vizinhança de dois pixels, para
+variações RAQM/FreeType. Diferenças brutas são registradas; desaparecimento de
+texto, mudança de cor e tolerância fora de textos têm regressões negativas.
+
+CI hospedada [28/28 aprovada](https://github.com/Kernerian/azimlib/actions/runs/37662358024):
+[auditoria dos 28 artefatos](delivery-ci-0.3.json), 1.000 testes em cada um dos
+15 jobs de Python/sistema, 19 integrações Tk por sistema, Qt 2D/3D/temporal e
+notebook em três sistemas, seis jobs com acelerador e documentação executável.
+Hashes instalados conferidos contra os blobs exatos do commit testado; as
+diferenças locais registradas são somente transporte LF/CRLF. Logs ZIP/CRC e
+report hashes foram conferidos, incluindo licenças/privacidade/distribuição.
+
+**Restam 2 subpassos: 7.08 e 10.08.** CI programática nativa não substitui
+conferência visual/input humana Linux/macOS. Não houve publicação 0.3.0 no PyPI.

@@ -1,7 +1,7 @@
 {
   "passed": true,
   "version": "0.3.0.dev0",
-  "tool_sha256": "fa12851f004964d38d1fd42e91a52d6ba1c0d47f13e1f6aa86e37cfb757c0d9b",
+  "tool_sha256": "cf934e7f8d893c5e9be9e34b837218035bac82b2b5be777edb5d1959e97974d0",
   "runtime_sha256": {
     "__init__.py": "c2d17c32efa0c1539a6a5a76f903062ef20f7106c3d3926f23883eac54275390",
     "_readers.py": "65a4ff9249f277d7f84e3dca9763ea14eb66928d832a8e99322ddff664283ffd",
@@ -129,17 +129,20 @@
       "scene_sha256": "72357c0b4dada3ef115e7a362d5573596675d92c8db4571d12211625d46218a4",
       "primitives": 48,
       "warm_seconds": [
-        0.15515589999995427,
-        0.180250999999771,
-        0.1692431999999826
+        0.1821681000001263,
+        0.18791930000043067,
+        0.18000539999957255
       ],
-      "median_seconds": 0.1692431999999826,
+      "median_seconds": 0.1821681000001263,
       "max_frame_seconds": 30,
       "visual": {
         "rms": 0.0,
         "fraction_channels_over_24": 0.0,
+        "raw_rms": 0.0,
+        "raw_fraction_channels_over_24": 0.0,
         "tolerance_rms": 3,
-        "tolerance_fraction": 0.025
+        "tolerance_fraction": 0.025,
+        "text_neighbourhood_pixels": 2
       },
       "png_sha256": "ed1a260294532d1ea6db3420df9f953a50a7a881a3339adacaf799ce10181a43"
     },
@@ -152,17 +155,20 @@
       "scene_sha256": "07a4485b4637444002d5e3b5671dc05bdda7a6d4823c89f1e04087d4db29dbfb",
       "primitives": 304,
       "warm_seconds": [
-        0.10571479999998701,
-        0.09766929999932472,
-        0.09856849999960104
+        0.1313164000002871,
+        0.09541499999977532,
+        0.09072390000073938
       ],
-      "median_seconds": 0.09856849999960104,
+      "median_seconds": 0.09541499999977532,
       "max_frame_seconds": 30,
       "visual": {
         "rms": 0.0,
         "fraction_channels_over_24": 0.0,
+        "raw_rms": 0.0,
+        "raw_fraction_channels_over_24": 0.0,
         "tolerance_rms": 3,
-        "tolerance_fraction": 0.025
+        "tolerance_fraction": 0.025,
+        "text_neighbourhood_pixels": 2
       },
       "png_sha256": "68b92374eaa4f1dc8cc74b1d1cc7e0d1fa8fe8dc04024c229228b0b20946a6a7"
     },
@@ -175,17 +181,20 @@
       "scene_sha256": "8273477d0958f16dace701796c7bd37a58bf47eb10d378e011bf7c6e4daf85f2",
       "primitives": 14,
       "warm_seconds": [
-        0.05810800000108429,
-        0.06849540000075649,
-        0.05982190000031551
+        0.05913680000048771,
+        0.06343329999981506,
+        0.07365609999942535
       ],
-      "median_seconds": 0.05982190000031551,
+      "median_seconds": 0.06343329999981506,
       "max_frame_seconds": 30,
       "visual": {
         "rms": 0.0,
         "fraction_channels_over_24": 0.0,
+        "raw_rms": 0.0,
+        "raw_fraction_channels_over_24": 0.0,
         "tolerance_rms": 3,
-        "tolerance_fraction": 0.025
+        "tolerance_fraction": 0.025,
+        "text_neighbourhood_pixels": 2
       },
       "png_sha256": "dcb1c2bcaf1627a3d0c3f838e7aa705e14988bd79f09af7afc3a5b97a79279b4"
     }

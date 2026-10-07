@@ -1,5 +1,5 @@
 """Verify actual downloaded current CI jobs/artifacts, never configured/local substitutes."""
-import argparse,ast,hashlib,json,sys,zipfile
+import argparse,ast,hashlib,json,subprocess,sys,zipfile
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 from ci_contract import verify_jobs
@@ -12,7 +12,32 @@ def audit(folder,expected_sha):
     assert run['status']=='completed' and run['conclusion']=='success'
     jobs=read(folder/'jobs.json')['jobs'];count=verify_jobs(jobs,expected_sha)
     artifacts=read(folder/'artifacts.json')['artifacts'];assert len(artifacts)==count and not any(a['expired'] for a in artifacts)
-    current={p.relative_to(ROOT/'src/azimlib').as_posix():sha(p.read_bytes()) for p in sorted((ROOT/'src/azimlib').rglob('*.py'))}
+    # Verify installed bytes against the tested Git commit, not Windows checkout
+    # CRLF transport. A working-tree implementation edit is never ignored.
+    current={};line_endings=[]
+    files=sorted((ROOT/'src/azimlib').rglob('*.py'))
+    request=''.join(expected_sha+':'+p.relative_to(ROOT).as_posix()+'\n' for p in files)
+    raw=subprocess.check_output(['git','cat-file','--batch'],cwd=ROOT,input=request.encode())
+    index=0
+    for path in files:
+        end=raw.index(b'\n',index);header=raw[index:end].split()
+        assert len(header)==3 and header[1]==b'blob'
+        size=int(header[2]);blob=raw[end+1:end+1+size];assert raw[end+1+size:end+2+size]==b'\n'
+        index=end+2+size;relative=path.relative_to(ROOT/'src/azimlib').as_posix()
+        local=path.read_bytes();assert local.replace(b'\r\n',b'\n')==blob.replace(b'\r\n',b'\n'),relative
+        if local!=blob:line_endings.append(relative)
+        current[relative]=sha(blob)
+    assert index==len(raw)
+    tool_cache={}
+    def source_sha(path):
+        name=path.relative_to(ROOT).as_posix()
+        if name not in tool_cache:
+            blob=subprocess.check_output(['git','show',expected_sha+':'+name],cwd=ROOT)
+            local=path.read_bytes()
+            assert local.replace(b'\r\n',b'\n')==blob.replace(b'\r\n',b'\n'),name
+            if local!=blob:line_endings.append(name)
+            tool_cache[name]=sha(blob)
+        return tool_cache[name]
     expected={'documentation'}
     for job in jobs:
         name=job['name']
@@ -33,12 +58,12 @@ def audit(folder,expected_sha):
             elif name.startswith('qt-'):
                 for file,tool in (('qt/result.json','smoke_interaction_qt.py'),('terrain3d/result.json','smoke_terrain3d.py'),('temporal/result.json','smoke_temporal.py'),('notebook/result.json','smoke_notebook.py')):
                     proof=json.loads(archive.read(file));assert proof['passed'] and proof['runtime_sha256']==current and proof['version']=='0.3.0.dev0'
-                    assert proof['tool_sha256']==sha((ROOT/'tools'/tool).read_bytes());verified.append(tool)
+                    assert proof['tool_sha256']==source_sha(ROOT/'tools'/tool);verified.append(tool)
             else:
                 kind='unit' if name.startswith('test-') else 'accelerator' if name.startswith('accelerator-') else 'desktop'
                 proof=json.loads(archive.read(kind+'/result.json'));assert proof['passed'] and proof['runtime_sha256']==current and proof['version']=='0.3.0.dev0' and not proof['forbidden_imports']
                 assert proof['execution_context']=='github-actions' and proof['github']['GITHUB_RUN_ID']==str(run['id']) and proof['github']['GITHUB_SHA']==expected_sha
-                assert proof['tool_sha256']==sha((ROOT/'tools/run_release_checks.py').read_bytes())
+                assert proof['tool_sha256']==source_sha(ROOT/'tools/run_release_checks.py')
                 if kind!='desktop':
                     u=proof['unittest'];assert not u['failures'] and not u['errors'] and u['log_sha256']==sha(archive.read(kind+'/unittest.log'))
                     if kind=='unit':assert u['tests']==1000
@@ -48,7 +73,7 @@ def audit(folder,expected_sha):
                     required=next(ast.literal_eval(n.value) for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='DESKTOP' for t in n.targets))
                     assert {row['tool'] for row in proof['scripts']}==set(required)
                     for row in proof['scripts']:
-                        assert row['returncode']==0 and row['sha256']==sha((ROOT/'tools'/row['tool']).read_bytes())
+                        assert row['returncode']==0 and row['sha256']==source_sha(ROOT/'tools'/row['tool'])
                         assert row['log_sha256']==sha(archive.read(kind+'/'+Path(row['tool']).stem+'.log'))
                         if 'report_file' in row:assert row['report_sha256']==sha(archive.read(kind+'/'+row['report_file']))
                 if kind=='unit':
@@ -57,7 +82,7 @@ def audit(folder,expected_sha):
                     item=json.loads(archive.read('distribution.json'));assert item['version']=='0.3.0.dev0' and not item['mandatory_dependencies'] and item['license_expression'].startswith('BSD-3-Clause AND ')
                 verified.append(kind)
         rows.append(dict(name=name,archive_sha256=sha(path.read_bytes()),verified=verified))
-    return dict(passed=True,run_url=run['html_url'],run_id=run['id'],head_sha=expected_sha,verified_jobs=count,artifacts=rows,runtime_files=len(current),scope='Actual hosted 28-job installed/build/audit/core/Tk/Qt/notebook/docs validation; not human Linux/macOS visual acceptance, PyPI publication or docs hosting')
+    return dict(passed=True,run_url=run['html_url'],run_id=run['id'],head_sha=expected_sha,verified_jobs=count,artifacts=rows,runtime_files=len(current),source_bytes='Exact blobs at the tested Git SHA',working_tree_line_ending_differences=line_endings,scope='Actual hosted 28-job installed/build/audit/core/Tk/Qt/notebook/docs validation; not human Linux/macOS visual acceptance, PyPI publication or docs hosting')
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('--folder',type=Path,required=True);p.add_argument('--sha',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();result=audit(a.folder,a.sha)
     a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(result,indent=2)+'\n',encoding='utf8',newline='\n');print(json.dumps({k:result[k] for k in ('passed','run_url','head_sha','verified_jobs','runtime_files')},indent=2))
