@@ -37,14 +37,52 @@ def primitive_key(scene):
     rows=[dict(type=type(item).__name__,value=normalize(item)) for item in scene.items]
     return hashlib.sha256(json.dumps(rows,sort_keys=True,ensure_ascii=False).encode()).hexdigest()
 
-def pixels(actual,expected):
-    from PIL import ImageChops
+def text_mask(scene, size):
+    """Only font ink boxes may tolerate optional FreeType/RAQM raster differences."""
+    from PIL import Image, ImageDraw
+    from azimlib.typography import text_bounds, text_rotation_offset
+    mask=Image.new('L',size);draw=ImageDraw.Draw(mask)
+    for item in scene.items:
+        if type(item).__name__!='Text':continue
+        x,y,w,h=text_bounds(item.text,item.style)
+        angle=math.radians(item.style.get('rotation',0));c,s=math.cos(angle),math.sin(angle)
+        dx,dy=text_rotation_offset(item.text,item.style)
+        points=[(item.x+dx+px*c-py*s,item.y+dy+px*s+py*c) for px,py in ((x,y),(x+w,y),(x+w,y+h),(x,y+h))]
+        draw.rectangle((math.floor(min(p[0] for p in points)-4),math.floor(min(p[1] for p in points)-4),math.ceil(max(p[0] for p in points)+4),math.ceil(max(p[1] for p in points)+4)),fill=255)
+    return mask
+
+
+def pixels(actual,expected,mask=None):
+    from PIL import Image,ImageChops
     assert actual.size==expected.size,'Baseline dimensions changed'
-    diff=ImageChops.difference(actual.convert('RGB'),expected.convert('RGB'));hist=diff.histogram();n=actual.width*actual.height*3
-    rms=math.sqrt(sum((i%256)**2*v for i,v in enumerate(hist))/n)
-    changed=sum(v for i,v in enumerate(hist) if i%256>24)/n
+    a,b=actual.convert('RGB'),expected.convert('RGB')
+    raw=ImageChops.difference(a,b);n=actual.width*actual.height*3
+    def metrics(diff):
+        hist=diff.histogram()
+        return (math.sqrt(sum((i%256)**2*v for i,v in enumerate(hist))/n),sum(v for i,v in enumerate(hist) if i%256>24)/n)
+    diff=raw
+    if mask is not None:
+        # Both directions catch erased/new text. Geometry and all text/style
+        # properties still require the independent exact primitive hash gate.
+        def nearest(left,right):
+            best=ImageChops.difference(left,right)
+            for dx in range(-2,3):
+                for dy in range(-2,3):
+                    shifted=Image.new('RGB',right.size,'white');shifted.paste(right,(dx,dy))
+                    candidate=ImageChops.difference(left,shifted)
+                    updated=ImageChops.darker(best,candidate)
+                    best.close();shifted.close();candidate.close();best=updated
+            return best
+        forward,reverse=nearest(a,b),nearest(b,a)
+        symmetric=ImageChops.lighter(forward,reverse)
+        diff=Image.composite(symmetric,raw,mask)
+        forward.close();reverse.close();symmetric.close()
+    rms,changed=metrics(diff);raw_rms,raw_changed=metrics(raw)
+    a.close();b.close()
+    if diff is not raw:diff.close()
+    raw.close()
     assert rms<=3 and changed<=.025,('Visual regression',rms,changed)
-    return dict(rms=rms,fraction_channels_over_24=changed,tolerance_rms=3,tolerance_fraction=.025)
+    return dict(rms=rms,fraction_channels_over_24=changed,raw_rms=raw_rms,raw_fraction_channels_over_24=raw_changed,tolerance_rms=3,tolerance_fraction=.025,text_neighbourhood_pixels=2 if mask is not None else 0)
 
 def main():
     from PIL import Image
@@ -69,7 +107,7 @@ def main():
             image.save(BASE/(name+'.png'));comparison=dict(recorded=True)
         else:
             assert key==reference['cases'][name]['scene_sha256'],('Numeric/layout regression',name,key)
-            with Image.open(BASE/(name+'.png')) as expected_image:comparison=pixels(image,expected_image)
+            with Image.open(BASE/(name+'.png')) as expected_image:comparison=pixels(image,expected_image,text_mask(scene,image.size))
         rows.append(dict(name=name,pixels=list(image.size),scene_sha256=key,primitives=len(scene.items),warm_seconds=samples[1:],median_seconds=statistics.median(samples[1:]),max_frame_seconds=30,visual=comparison,png_sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
         image.close();azl.close(fig)
     tool_sha=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()

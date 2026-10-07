@@ -2949,7 +2949,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": null,
@@ -3065,7 +3065,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -3243,7 +3243,7 @@
         "platform": "Windows-10-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.10.11\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.3.19",
@@ -3421,7 +3421,7 @@
         "platform": "Windows-10-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.11.9\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -3599,7 +3599,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.3.19",
@@ -3777,7 +3777,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.14.7/x64/lib/python3.14/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": null,
@@ -3893,7 +3893,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": null,
@@ -4009,7 +4009,7 @@
         "platform": "Windows-10-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.10.11\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": null,
@@ -4125,7 +4125,7 @@
         "platform": "Windows-2025Server-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.14.7\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": null,
@@ -4241,7 +4241,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.14.7/x64/lib/python3.14/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -4419,7 +4419,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -4645,7 +4645,7 @@
         "platform": "Windows-2025Server-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -4871,7 +4871,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.10.21/x64/lib/python3.10/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": null,
@@ -4987,7 +4987,7 @@
         "platform": "Windows-2025Server-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.14.7\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -5165,7 +5165,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.13.15/x64/lib/python3.13/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -5343,7 +5343,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.14/lib/python3.14/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -5521,7 +5521,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -5699,7 +5699,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -5877,7 +5877,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.10/lib/python3.10/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.3.19",
@@ -6055,7 +6055,7 @@
         "platform": "Windows-2025Server-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.13.15\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -6233,7 +6233,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -6411,7 +6411,7 @@
         "platform": "macOS-26.6.2-arm64-arm-64bit",
         "machine": "arm64",
         "version": "0.1.0",
-        "runtime_origin": "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -6637,7 +6637,7 @@
         "platform": "Windows-2025Server-10.0.26100-SP0",
         "machine": "AMD64",
         "version": "0.1.0",
-        "runtime_origin": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\Lib\\site-packages\\azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",
@@ -6815,7 +6815,7 @@
         "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
         "machine": "x86_64",
         "version": "0.1.0",
-        "runtime_origin": "/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/azimlib",
+        "runtime_origin": "<environment>/site-packages/azimlib",
         "optional_packages": {
           "Pillow": "12.3.0",
           "aggdraw": "1.4.1",

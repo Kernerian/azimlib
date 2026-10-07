@@ -10,6 +10,11 @@ The checked manifest records original PNGs and rounded primitive hashes, not
 reference-library output. `check_release_baselines.py --output NEW_DIRECTORY`
 checks dimensions, geometry/layout (5-decimal screen rounding), RMS <=3 and <=2.5%
 of RGB channels changing by more than 24. Both pixel conditions must hold.
+Text boxes alone allow a symmetric two-pixel nearest-neighbour comparison for
+optional Pillow RAQM/FreeType rasterization differences. Raw RMS is retained.
+Non-text regions remain strict. Exact scene hashes still include text, fonts,
+positions, rotations and styles; missing text or changed colors must fail.
+This tolerance was reviewed against real Linux output, not reference-library images.
 Exact payload/resource hashes are checked independently by distribution audits.
 
 It also checks a one-degree equatorial geodesic against aπ/180 within 10 micrometres,

@@ -41,6 +41,27 @@ class ReleaseGateTests(unittest.TestCase):
             with self.subTest(value=value):
                 self.assertIn('personal-home-path',privacy.findings(value.encode()))
                 self.assertNotEqual(privacy.sanitize_text(value),value)
+    def test_raster_tolerance_remains_strict_outside_text(self):
+        from PIL import Image,ImageDraw
+        baseline=load('check_release_baselines')
+        expected=Image.new('RGB',(40,40),'white');ImageDraw.Draw(expected).rectangle((5,5,15,15),fill='black')
+        actual=Image.new('RGB',(40,40),'white');ImageDraw.Draw(actual).rectangle((7,5,17,15),fill='black')
+        mask=Image.new('L',expected.size)
+        with self.assertRaises(AssertionError):baseline.pixels(actual,expected,mask)
+        ImageDraw.Draw(mask).rectangle((3,3,20,20),fill=255)
+        self.assertEqual(baseline.pixels(actual,expected,mask)['rms'],0)
+    def test_raster_tolerance_rejects_missing_text(self):
+        from PIL import Image,ImageDraw
+        baseline=load('check_release_baselines')
+        expected=Image.new('RGB',(40,40),'white');ImageDraw.Draw(expected).rectangle((5,5,15,15),fill='black')
+        mask=Image.new('L',expected.size,255)
+        with self.assertRaises(AssertionError):baseline.pixels(Image.new('RGB',expected.size,'white'),expected,mask)
+    def test_raster_tolerance_rejects_color_change(self):
+        from PIL import Image,ImageDraw
+        baseline=load('check_release_baselines')
+        expected=Image.new('RGB',(40,40),'white');ImageDraw.Draw(expected).rectangle((5,5,15,15),fill='black')
+        actual=Image.new('RGB',expected.size,'white');ImageDraw.Draw(actual).rectangle((5,5,15,15),fill='red')
+        with self.assertRaises(AssertionError):baseline.pixels(actual,expected,Image.new('L',expected.size,255))
     def test_documentation_path_escape_rejected(self):
         docs=load('build_documentation')
         with self.assertRaises(ValueError):docs.link_target(ROOT/'docs/index.md','../../../../secret.txt','dev/0.3.0')

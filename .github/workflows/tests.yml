@@ -120,7 +120,13 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y xvfb xauth libegl1 libxkbcommon-x11-0 libxcb-cursor0
+          sudo apt-get install -y xvfb xauth libegl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-xinerama0
+      - name: Verify Qt platform shared libraries on Linux
+        if: runner.os == 'Linux'
+        run: |
+          plugin=$(python -c "from PySide6.QtCore import QLibraryInfo; print(QLibraryInfo.path(QLibraryInfo.LibraryPath.PluginsPath) + '/platforms/libqxcb.so')")
+          ldd "$plugin" | tee qt-shared-libraries.log
+          if grep -q 'not found' qt-shared-libraries.log; then exit 1; fi
       - name: Real Qt widget integration on Linux
         if: runner.os == 'Linux'
         run: xvfb-run -a python -I tools/smoke_interaction_qt.py --output .ci-results/qt/result.json --image .ci-results/qt/widget.png
