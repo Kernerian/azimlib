@@ -1,5 +1,8 @@
 # Navegação compartilhada no HTML portátil
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 O viewer exportado usa um modelo JavaScript próprio, sem DOM no núcleo e sem
 framework cartográfico. O HTML contém dados, fontes, SVG e scripts; pode ser
 aberto offline, sem servidor ou processo Python. Matplotlib é somente a
@@ -88,12 +91,12 @@ com Tcl/Tk funcional; os testes headless não substituem essa validação.
 
 ## Exemplos e verificação reproduzível
 
-[Atlas vinculado](../gallery/linked-navigation.html) reúne político, rios,
+Atlas vinculado (`gallery/linked-navigation.html`, generated locally) reúne político, rios,
 valores sintéticos e rotas; adiciona colorbar e overview explicitamente.
-[Grupos por linha/coluna](../gallery/linked-groups.html) mostra a alteração
+Grupos por linha/coluna (`gallery/linked-groups.html`, generated locally) mostra a alteração
 independente das dimensões. O código está em
 [portable_navigation.py](../examples/portable_navigation.py).
-O [exemplo de componentes](../gallery/portable-components.html) mostra escala,
+O exemplo de componentes (`gallery/portable-components.html`, generated locally) mostra escala,
 norte e rosa independentes em dois mapas vinculados, com km e milhas; veja
 [portable_components.py](../examples/portable_components.py).
 

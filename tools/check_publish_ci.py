@@ -1,4 +1,8 @@
 """Require the full successful hosted test matrix for the exact release commit."""
+import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
+from ci_contract import verify_jobs
 import argparse
 import json
 import os
@@ -27,11 +31,8 @@ def main():
     run = exact[0]
     assert run['status'] == 'completed' and run['conclusion'] == 'success', 'Release CI is not successful'
     jobs = get('/actions/runs/' + str(run['id']) + '/jobs?per_page=100')['jobs']
-    assert len(jobs) == 24 and all(j['conclusion'] == 'success' for j in jobs), 'Require all 24 CI jobs'
-    assert sum(j['name'].startswith('test (') for j in jobs) == 15
-    assert sum(j['name'].startswith('accelerator (') for j in jobs) == 6
-    assert sum(j['name'].startswith('desktop (') for j in jobs) == 3
-    print('Release CI verified:', run['html_url'], '24/24 successful jobs at', args.sha)
+    count=verify_jobs(jobs,args.sha)
+    print('Release CI verified:',run['html_url'],f'{count}/{count} successful jobs at',args.sha)
 
 
 if __name__ == '__main__':

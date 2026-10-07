@@ -1,5 +1,8 @@
 # Layout e margens automáticas
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 ```python
 import azimlib as azl
 
@@ -92,7 +95,7 @@ conservadoras. Sem espaço/convergência, avisa e restaura posições anteriores
 aumente figsize ou reduza fontes/padding. Não reduz fontes silenciosamente.
 
 O [exemplo](../examples/layout.py) gera atlas com colorbar compartilhada e legenda
-externa. A [comparação visual](../gallery/layout-reference.png) usa os mesmos
+externa. A comparação visual (`gallery/layout-reference.png`, generated locally) usa os mesmos
 dados/tamanho/estilos em Matplotlib/Agg e Azimlib/Pillow. layout-reference.json
 verifica regras de engines e limites no canvas, sem declarar igualdade de pixels
 ou equivalência completa dos solvers.

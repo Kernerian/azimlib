@@ -171,6 +171,10 @@ acceptance currently covers Windows.
 
 ## Development toward 0.3.0
 
+[Development documentation](docs/index.md) · [Migration guide](docs/migration-0.3.md) ·
+[Integrated gallery](docs/gallery-0.3.md) · [API stability](docs/api-stability.md)
+
+
 The published package is 0.2.0. Unreleased work follows an
 [80-item checklist](docs/release-progress-0.3.md), covering urban workflows,
 formats/CRS, composition, scientific maps, interaction, experimental 3D terrain

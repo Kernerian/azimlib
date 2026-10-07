@@ -26,6 +26,7 @@ jobs:
           RELEASE_SHA: ${{ github.sha }}
         run: python -I tools/check_publish_ci.py --repository "$RELEASE_REPOSITORY" --sha "$RELEASE_SHA"
       - run: python -m pip install '.[dev]'
+      - run: python -I tools/check_release_candidate.py
       - run: python -I tools/audit_licenses.py --report .ci-results/licenses.json
       - run: python -I tools/audit_publication_privacy.py --report .ci-results/privacy-source.json
       - run: python -m build

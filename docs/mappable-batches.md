@@ -1,5 +1,8 @@
 # Edição agrupada de cores e dados
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 Layer, ScatterCollection, MeshCollection, ScalarImage e VectorCollection
 aceitam `norm`, `cmap`, `clim` e `array` por `set()` e `azl.setp()`, combinados
 com seus dados/estilos já editáveis. O núcleo e o desenho continuam próprios.
@@ -70,4 +73,4 @@ lote e setters dedicados. Não entregamos aqui edição completa de contornos,
 reclassificação/regeneração automática de legendas temáticas ou RGBA/máscaras.
 
 Veja o [exemplo](../examples/mappable_batches.py),
-[antes](../gallery/mapping-before.png) e [depois](../gallery/mapping-after.png).
+antes (`gallery/mapping-before.png`, generated locally) e depois (`gallery/mapping-after.png`, generated locally).

@@ -1,5 +1,8 @@
 # Rotação e alinhamento de textos
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 O alinhamento padrão usa a caixa completa **depois da rotação**, seguindo a
 referência instalada Matplotlib 3.11.2. `rotation_mode='anchor'` alinha antes de
 girar. `xtick` e `ytick` ajustam o alinhamento conforme o ângulo, como os modos
@@ -39,7 +42,7 @@ referência. Annotations/textos livres não recebem um solver universal de colis
 
 ## Verificação direta
 
-- [Comparação visual](../gallery/text-rotation-comparison.png): mesmos dados,
+- Comparação visual (`gallery/text-rotation-comparison.png`, generated locally): mesmos dados,
   posições, fontes e estilos em 0°, 35°, −35° e 90°; Azimlib/Pillow e Matplotlib/Agg.
 - [Referência numérica](text-rotation-reference.json): 768 combinações de quatro
   modos, oito ângulos, três alinhamentos horizontais, quatro verticais e uma/duas

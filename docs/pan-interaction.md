@@ -1,5 +1,8 @@
 # Pan ao vivo e toolbar Tk
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 O arrasto agora altera os limites durante o movimento e pede um redraw completo
 no próximo idle do Tk. A composição permanece na thread da interface, mas a
 rasterização roda em um worker próprio, sem chamar Tk, sobre primitivas
@@ -54,9 +57,9 @@ descarta quadros atrasados do anterior. Isso evita restaurar uma vista obsoleta.
 Uma regressão do poll garante que o início de um job aguardando não desative
 o estado assíncrono e descarte o quadro final.
 
-![Antes do pan](../gallery/pan-live-before.png)
-![Enquanto o botão ainda está pressionado](../gallery/pan-live-during.png)
-![Depois do release, mantendo a mesma vista](../gallery/pan-live-after.png)
+Local preview: Antes do pan (`gallery/pan-live-before.png`, generated locally)
+Local preview: Enquanto o botão ainda está pressionado (`gallery/pan-live-during.png`, generated locally)
+Local preview: Depois do release, mantendo a mesma vista (`gallery/pan-live-after.png`, generated locally)
 
 ## Toolbar
 

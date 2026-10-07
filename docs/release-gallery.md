@@ -1,5 +1,8 @@
 # Galeria do corte 0.2.0: reprodução e referências
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 > Evidência histórica: resultados CI, tempos e hashes abaixo pertencem aos
 > snapshots originais. A preparação BSD/licenças/privacidade altera arquivos;
 > os checks atuais e a relação de hashes publicados estão em
@@ -37,30 +40,30 @@ dependências opcionais e o wheel GUI também executaram os três snippets do
 `python tools/audit_release_gallery.py --wheel-gallery CAMINHO` confere os
 hashes dos artefatos/source e os relatórios de reprodução instalados.
 
-![Catálogo visual](../gallery/release-overview.png)
+Local preview: Catálogo visual (`gallery/release-overview.png`, generated locally)
 
 ## Exemplos e componentes
 
 | Exemplo a 200 DPI | Código | O que demonstra |
 |---|---|---|
-| [Brasil: componentes](../gallery/release-components-200.png) | [components.py](../examples/components.py) | Países, estados, rios, três estilos de linha/marcador, legenda, rosa, escala, annotation com halo |
-| [Brasil inteiro](../gallery/release-brazil-200.png) | [regions.py](../examples/regions.py) | Extensão completa, componentes adicionados explicitamente |
-| [Estado](../gallery/release-state-200.png) / [foco](../gallery/release-focus-200.png) | [regions.py](../examples/regions.py) | São Paulo isolado, zoom, overview sombreado com borda preta |
-| [Séries claras](../gallery/release-series-light-200.png) / [escuras](../gallery/release-series-dark-200.png) | [series_styles.py](../examples/series_styles.py) | Séries por coluna, data=, ciclo, edição de losangos D, legenda explícita |
-| [Colorbar vertical](../gallery/release-colorbar-200.png) / [horizontal](../gallery/release-colorbar-horizontal-200.png) | [scientific.py](../examples/scientific.py) | Coroplético contínuo e barra vinculada ao mappable |
-| [Hachuras](../gallery/release-hatch-catalog-200.png) | [scientific.py](../examples/scientific.py) | Dez padrões básicos, repetições e combinações; polígonos com buracos |
-| [Contornos antes](../gallery/release-contours-before-200.png) / [depois](../gallery/release-contours-after-200.png) | [contour_refinement.py](../examples/contour_refinement.py) | Estilos por nível, rótulos inline editáveis, barras de linhas |
-| [Terreno](../gallery/release-terrain-200.png) | [scientific.py](../examples/scientific.py) | Campo escalar sintético, hillshade, isolinhas, costa e colorbar |
-| [Globo](../gallery/release-globe-200.png) | [scientific.py](../examples/scientific.py) | Ortográfica, graticule, rotas esféricas e vetores; não uma câmera 3D |
-| [Formatação vertical](../gallery/release-numeric-vertical-200.png) / [horizontal](../gallery/release-numeric-horizontal-200.png) | [numeric_formatting.py](../examples/numeric_formatting.py) | Notação científica, offset aditivo e eixos editáveis de colorbar |
-| [Temático](../gallery/release-thematic-200.png) | [gallery.py](../examples/gallery.py) | Valores por estado, bolhas proporcionais, rotas e inset |
-| [Densidade](../gallery/release-density-200.png) | [gallery.py](../examples/gallery.py) | Eventos com seed fixo, contagem suavizada em grade angular |
-| [Projeções](../gallery/release-projections-200.png) | [gallery.py](../examples/gallery.py) | Seis projeções próprias do mesmo território |
-| [Atlas](../gallery/release-atlas-200.png) | [gridspec_atlas.py](../examples/gridspec_atlas.py) | GridSpec/spans, colorbar compartilhada, mapas e ornamentos independentes |
+| Brasil: componentes (`gallery/release-components-200.png`, generated locally) | [components.py](../examples/components.py) | Países, estados, rios, três estilos de linha/marcador, legenda, rosa, escala, annotation com halo |
+| Brasil inteiro (`gallery/release-brazil-200.png`, generated locally) | [regions.py](../examples/regions.py) | Extensão completa, componentes adicionados explicitamente |
+| Estado (`gallery/release-state-200.png`, generated locally) / foco (`gallery/release-focus-200.png`, generated locally) | [regions.py](../examples/regions.py) | São Paulo isolado, zoom, overview sombreado com borda preta |
+| Séries claras (`gallery/release-series-light-200.png`, generated locally) / escuras (`gallery/release-series-dark-200.png`, generated locally) | [series_styles.py](../examples/series_styles.py) | Séries por coluna, data=, ciclo, edição de losangos D, legenda explícita |
+| Colorbar vertical (`gallery/release-colorbar-200.png`, generated locally) / horizontal (`gallery/release-colorbar-horizontal-200.png`, generated locally) | [scientific.py](../examples/scientific.py) | Coroplético contínuo e barra vinculada ao mappable |
+| Hachuras (`gallery/release-hatch-catalog-200.png`, generated locally) | [scientific.py](../examples/scientific.py) | Dez padrões básicos, repetições e combinações; polígonos com buracos |
+| Contornos antes (`gallery/release-contours-before-200.png`, generated locally) / depois (`gallery/release-contours-after-200.png`, generated locally) | [contour_refinement.py](../examples/contour_refinement.py) | Estilos por nível, rótulos inline editáveis, barras de linhas |
+| Terreno (`gallery/release-terrain-200.png`, generated locally) | [scientific.py](../examples/scientific.py) | Campo escalar sintético, hillshade, isolinhas, costa e colorbar |
+| Globo (`gallery/release-globe-200.png`, generated locally) | [scientific.py](../examples/scientific.py) | Ortográfica, graticule, rotas esféricas e vetores; não uma câmera 3D |
+| Formatação vertical (`gallery/release-numeric-vertical-200.png`, generated locally) / horizontal (`gallery/release-numeric-horizontal-200.png`, generated locally) | [numeric_formatting.py](../examples/numeric_formatting.py) | Notação científica, offset aditivo e eixos editáveis de colorbar |
+| Temático (`gallery/release-thematic-200.png`, generated locally) | [gallery.py](../examples/gallery.py) | Valores por estado, bolhas proporcionais, rotas e inset |
+| Densidade (`gallery/release-density-200.png`, generated locally) | [gallery.py](../examples/gallery.py) | Eventos com seed fixo, contagem suavizada em grade angular |
+| Projeções (`gallery/release-projections-200.png`, generated locally) | [gallery.py](../examples/gallery.py) | Seis projeções próprias do mesmo território |
+| Atlas (`gallery/release-atlas-200.png`, generated locally) | [gridspec_atlas.py](../examples/gridspec_atlas.py) | GridSpec/spans, colorbar compartilhada, mapas e ornamentos independentes |
 
 Cada PNG tem SVG e HTML com o mesmo nome-base. Por exemplo:
-[components SVG](../gallery/release-components-200.svg) e
-[components HTML](../gallery/release-components-200.html).
+components SVG (`gallery/release-components-200.svg`, generated locally) e
+components HTML (`gallery/release-components-200.html`, generated locally).
 A [matriz de layout](layout-acceptance.md) acrescenta 24 composições, fontes
 grandes e ticks rotacionados. [Aceite de Artists](artist-acceptance.md) cobre
 edições integradas de geometria, scatter, mesh, vetores e contornos. Os exemplos
@@ -82,10 +85,10 @@ Há duas comparações diferentes:
    A referência tem eixos geográficos comuns com aspecto igual. Escala/norte
    são extensões da Azimlib e aparecem apenas no seu painel de séries.
 
-Exemplos: [séries, API/layout nativos](../gallery/release-series-light-200-native-comparison.png),
-[colorbars horizontais, API/layout nativos](../gallery/release-numeric-horizontal-200-native-comparison.png),
-[componentes, mesmo Scene](../gallery/release-components-100-raster-comparison.png).
-Contornos também têm uma [referência nativa específica](../gallery/contour-reference.png).
+Exemplos: séries, API/layout nativos (`gallery/release-series-light-200-native-comparison.png`, generated locally),
+colorbars horizontais, API/layout nativos (`gallery/release-numeric-horizontal-200-native-comparison.png`, generated locally),
+componentes, mesmo Scene (`gallery/release-components-100-raster-comparison.png`, generated locally).
+Contornos também têm uma referência nativa específica (`gallery/contour-reference.png`, generated locally).
 Regras de rotação foram comparadas em [768 caixas de texto nativas](text-rotation.md).
 Diferenças restantes estão no [registro visual](visual-differences.md).
 

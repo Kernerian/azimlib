@@ -21,3 +21,9 @@ geocodificação/roteamento completos e TeX/shaping completos ficam reservados �
 Runtime cartográfico independente; novas bases de terceiros conservam suas
 próprias licenças. Não há downloads implícitos nem promessa de compatibilidade
 integral com todos os toolkits do Matplotlib.
+
+## Proposed additions for 0.4–0.6
+
+See [terrestrial Sun/Moon, Beyond Earth and Orbits](future-versions.md) for the
+new cumulative proposals and accuracy/licensing gates. Existing reserved work
+above remains in scope; version assignments are provisional, not delivery promises.

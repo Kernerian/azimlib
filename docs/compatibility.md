@@ -3,7 +3,7 @@
 A referência é a organização documentada de
 [pyplot](https://matplotlib.org/stable/api/pyplot_summary.html),
 [Axes.plot](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html)
-e da [navegação interativa](https://matplotlib.org/stable<local>/interactive.html).
+e da [navegação interativa](https://matplotlib.org/stable/api/backend_bases_api.html#matplotlib.backend_bases.NavigationToolbar2).
 O código não depende desses módulos e a semântica cartográfica pertence à Azimlib.
 
 Use também `import azimlib as azl`: subplots, figure, show, savefig e os
@@ -12,7 +12,7 @@ explica unidades, dados/projeção, handles e exemplos completos; o
 [catálogo de reprodução](release-gallery.md) e o [registro visual](visual-differences.md)
 separam evidência de API/layout de diferenças do rasterizador.
 
-| Padrão conhecido | Azimlib 0.1 |
+| Padrão conhecido | Azimlib supported subset |
 |---|---|
 | `import matplotlib.pyplot as plt` | `import azimlib.pyplot as plt` |
 | `fig, ax = plt.subplots()` | Mesmo padrão de chamada e desempacotamento |
@@ -180,3 +180,11 @@ simple inline mathematical expressions, declared-provenance external SVG
 symbols/custom line tiles and vector PDF are available. See [exact contracts,
 font strategy and exclusions](finishing.md). This is not general MathText,
 OpenType shaping, a complete SVG reader or a multipage/PDF-A backend.
+
+## Temporal maps, atlas and API policy
+
+Own finite FuncAnimation, TemporalSeries and PdfPages/Atlas are available in
+0.3 development. [Migration guide](migration-0.3.md), [stability policy](api-stability.md)
+and [temporal contracts](temporal.md) distinguish supported subsets/experimental
+APIs from the full Matplotlib surface. Multipage PDF is now supported for our
+own figure output; arbitrary PDF merging, PDF-A and searchable text are not.

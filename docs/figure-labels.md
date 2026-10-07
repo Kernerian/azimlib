@@ -1,5 +1,8 @@
 # Rótulos globais e textos da Figure
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 `suptitle`, `supxlabel` e `supylabel` pertencem à Figure e servem a todos os
 mapas de um atlas. São opcionais e devolvem um Artist próprio editável:
 
@@ -84,14 +87,14 @@ composto; não executa esse solver Python ao navegar no browser.
 
 ## Exemplo e validação
 
-O [atlas](../gallery/figure-labels-atlas.png) combina os três rótulos globais,
+O atlas (`gallery/figure-labels-atlas.png`, generated locally) combina os três rótulos globais,
 dois mapas, ticks rotacionados, colorbar horizontal, legenda, escala e norte.
 Seu [código](../examples/figure_labels.py) usa apenas Azimlib.
 
 Comparações com Axes/layout independentes do Matplotlib:
-[tight](../gallery/figure-labels-tight-comparison.png),
-[constrained](../gallery/figure-labels-constrained-comparison.png) e
-[hierarquia](../gallery/figure-labels-nested-comparison.png). São exemplos com
+tight (`gallery/figure-labels-tight-comparison.png`, generated locally),
+constrained (`gallery/figure-labels-constrained-comparison.png`, generated locally) e
+hierarquia (`gallery/figure-labels-nested-comparison.png`, generated locally). São exemplos com
 os mesmos dados/tamanhos/estilos, não imagens iguais. Há diferenças de fontes,
 reservas, aspecto e comprimento da colorbar; os solvers não são equivalentes.
 O caso tight não tem colorbar; os casos constrained demonstram barras

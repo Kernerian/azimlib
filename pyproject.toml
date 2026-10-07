@@ -29,6 +29,7 @@ Documentation = "https://github.com/Kernerian/azimlib/blob/main/docs/getting-sta
 Changelog = "https://github.com/Kernerian/azimlib/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
+docs = ["markdown-it-py>=3,<5"]
 accelerate = ["numpy>=1.24", "numba>=0.63"]
 png = ["Pillow>=10"]
 qt = ["Pillow>=10", "PySide6-Essentials>=6.5"]

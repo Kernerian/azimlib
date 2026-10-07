@@ -1,5 +1,8 @@
 # Aceite de Artists 2D: checklist 1.10–1.12
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 O passo 1 é aceito no [catálogo do corte](artist-scope-0.2.md), após a
 integração/auditoria descritas aqui. Isso não encerra layout, fidelidade visual,
 desempenho ou validação multiplataforma dos outros quatro passos da 0.2.0.
@@ -43,8 +46,8 @@ ou `ax.autoscale()` para escolher a política da vista; essa diferença não fic
 escondida no aceite.
 
 [Exemplo](../examples/artist_acceptance.py),
-[antes](../gallery/artist-acceptance-before.png) e
-[depois](../gallery/artist-acceptance-after.png), também em SVG/HTML.
+antes (`gallery/artist-acceptance-before.png`, generated locally) e
+depois (`gallery/artist-acceptance-after.png`, generated locally), também em SVG/HTML.
 O HTML é uma exportação: edições posteriores em Python exigem reexportação.
 
 ## 1.11 — Auditoria de propriedades e aliases

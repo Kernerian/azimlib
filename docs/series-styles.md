@@ -1,5 +1,8 @@
 # Séries, ciclos e folhas de estilo
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 ## Uma chamada, vários traçados
 
 ```python
@@ -146,10 +149,10 @@ Há 21 regressões/44 subtests adicionais; NumPy é opcional no teste de arrays.
 
 [Exemplo](../examples/series_styles.py): fronteiras reais Natural Earth,
 trajetos/estações sintéticos, temas claros e escuros,
-[antes/depois](../gallery/series-light-after.png),
-[escuro](../gallery/series-dark-after.png) e comparações independentes com
-[Agg claro](../gallery/series-light-comparison.png) e
-[Agg escuro](../gallery/series-dark-comparison.png). Escala/norte são adicionados
+antes/depois (`gallery/series-light-after.png`, generated locally),
+escuro (`gallery/series-dark-after.png`, generated locally) e comparações independentes com
+Agg claro (`gallery/series-light-comparison.png`, generated locally) e
+Agg escuro (`gallery/series-dark-comparison.png`, generated locally). Escala/norte são adicionados
 explicitamente pela Azimlib e não têm equivalente direto no núcleo Matplotlib.
 PNG/SVG são estáticos, HTML separado; métricas/layout ainda diferem.
 A legenda consulta estilos atuais dos handles. Desde o lote de

@@ -1,5 +1,8 @@
 # Toolbar: contratos Tk e verificação visual
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 A auditoria do passo 3 encontrou e corrigiu diferenças na toolbar:
 
 - Pan/Zoom agora são Checkbuttons sem indicador, com seleção sincronizada
@@ -27,7 +30,7 @@ sequência de seleção Pan/Zoom coincidem nos estados medidos; hover plano é
 uma diferença de apresentação documentada. Isso usa Tk
 8.6/Windows e Matplotlib 3.11.2 no ambiente separado de desenvolvimento.
 
-![Ícones originais da Azimlib](../gallery/toolbar-icon-assets.png)
+Local preview: Ícones originais da Azimlib (`gallery/toolbar-icon-assets.png`, generated locally)
 
 A imagem contém apenas os PhotoImages gerados pela Azimlib, **não é uma
 screenshot de janela**. Os símbolos têm função/proporções familiares, mas

@@ -1,5 +1,8 @@
 # Dimensões, títulos e integração de composição
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 ```python
 import azimlib as azl
 
@@ -67,10 +70,10 @@ Matplotlib não fornece equivalentes diretos. Não se declara igualdade de pixel
 
 O teste usa polígonos e valores sintéticos. A [galeria](../examples/composition_matrix.py)
 usa divisões reais Natural Earth embarcadas, com valores de estações sintéticos:
-[mapa](../gallery/composition-single.png), [atlas](../gallery/composition-atlas.png)
-e [aninhado](../gallery/composition-nested.png). PNG/SVG são estáticos; HTML é
-separado. Compare [mapa](../gallery/composition-single-comparison.png) e
-[atlas](../gallery/composition-atlas-comparison.png) lado a lado com Agg.
+mapa (`gallery/composition-single.png`, generated locally), atlas (`gallery/composition-atlas.png`, generated locally)
+e aninhado (`gallery/composition-nested.png`, generated locally). PNG/SVG são estáticos; HTML é
+separado. Compare mapa (`gallery/composition-single-comparison.png`, generated locally) e
+atlas (`gallery/composition-atlas-comparison.png`, generated locally) lado a lado com Agg.
 Os layouts permanecem diferentes; textos livres e obstáculos posicionados
 explicitamente não ganham uma garantia universal de ausência de colisão.
 

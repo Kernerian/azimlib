@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**71 concluídos / 9 pendentes**. Contagem por subpassos, não por frentes amplas.
+**76 concluídos / 4 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -127,12 +127,12 @@ A numeração não impede corrigir uma regressão imediatamente.
 ## 10. Documentação, compatibilidade e entrega
 
 - [ ] **10.01** Documentação versionada/hospedada e guias de migração Matplotlib → Azimlib.
-- [ ] **10.02** Galeria política/física/urbana/científica/3D/temporal com scripts e proveniência.
-- [ ] **10.03** Contrato de compatibilidade/semver, API experimental e changelog completo.
-- [ ] **10.04** Auditoria de licenças/proveniência/privacidade de todas as novas fontes e assets.
+- [x] **10.02** Galeria política/física/urbana/científica/3D/temporal com scripts e proveniência.
+- [x] **10.03** Contrato de compatibilidade/semver, API experimental e changelog completo.
+- [x] **10.04** Auditoria de licenças/proveniência/privacidade de todas as novas fontes e assets.
 - [ ] **10.05** CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.
-- [ ] **10.06** Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.
-- [ ] **10.07** Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.
+- [x] **10.06** Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.
+- [x] **10.07** Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.
 - [ ] **10.08** Aceite final e publicação 0.3.0 somente após gates; nenhuma publicação automática deste desenvolvimento.
 
 ## Evidências por lote
@@ -608,3 +608,40 @@ e [auditor corrente](../tools/audit_temporal.py).
 lançamento 0.3.0 neste lote. Budgets/limites da API inicial estão no guia; não é
 animação infinita, compilador de vídeo incorporado nem compatibilidade integral
 com todos os escritores/encoders/callbacks de outro framework.
+
+
+### Lote 10 — documentação e gates de entrega (0.3.0.dev0)
+
+**10.02, 10.03, 10.04, 10.06 e 10.07 concluídos para os artefatos de desenvolvimento.**
+10.01 (hospedagem verificada), 10.05 (CI hospedada do estado novo) e 10.08
+(aceite/publicação final) permanecem pendentes, assim como 7.08.
+
+- [Site versionado](documentation-site.md) com parser Markdown genérico opcional,
+  layout próprio, busca por títulos, links/âncoras/ativos conferidos; preview
+  local/artifact não é chamado de documentação hospedada.
+- [Migração](migration-0.3.md): três exemplos executáveis SVG/PDF, ambos imports,
+  edição, componente opcional, animação finita/atlas. [Estabilidade](api-stability.md)
+  separa contratos públicos, experimentais e internos; CHANGELOG consolidado.
+- [Galeria atual](gallery-0.3.md): seis categorias, 18 exports PNG/SVG/PDF,
+  hashes de scripts/runtime/arquivos, origem sintética/Natural Earth/fontes/paletas.
+  Texto/font notice preservado. Links antigos a arquivos locais de `gallery/`
+  foram convertidos em referências de reprodução; não viraram URLs públicas falsas.
+- [Baselines próprios](../tools/baselines/release030/README.md): styles/cells/depth,
+  geometria/layout arredondados, duas tolerâncias de pixels, trabalho limitado,
+  tempos quentes e geodésica equatorial analítica; sem promessa de FPS/RSS/GPU.
+- Gate CI agora exige 28 identidades/SHAs/resultados exatos (15 suites, 6 accelerator,
+  3 Tk, 3 Qt e documentação); 11 regressões rejeitam falsos positivos de URLs, matriz antiga, duplicatas,
+  SHA antigo, jobs cancelados/skipped e publicação estável sem checklist/version.
+  Configuração não é resultado hospedado. O upload PyPI continua manual separado,
+  e candidatos de desenvolvimento/aceite incompleto são bloqueados.
+- Licenças/privacidade/packaging e instalação core isolada conferidos no build dev;
+  docs extra usa markdown-it-py/mdurl MIT externos, não vendorizados. Recursos
+  anteriores mantêm seus termos/hashes; crédito Carlito permanece voluntário.
+- [Novas propostas](future-versions.md): Sol/Lua ligados à Terra, corpos planetários
+  e órbitas cumulativas, com modelos/precisão/unidades/proveniência e critérios
+  científicos explícitos. Nenhuma implementação celeste ou prazo prometido.
+
+Os relatórios antigos são snapshots preservados. A versão permanece **0.3.0.dev0**;
+este lote não autoriza uma publicação automática 0.3.0 nem trata CI como aceite
+humano Linux/macOS. Contagem final e evidência hospedada serão registradas ao
+passar seus gates, sem reescrever resultados anteriores.

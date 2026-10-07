@@ -136,3 +136,10 @@ dependent LGPL/GPL and possible patent obligations; embedding or distributing
 an encoder requires an audit of that exact build. The Azimlib writer is original
 BSD code; it does not grant codec rights. GIF encoding uses the optional Pillow
 installation already listed above.
+
+### Optional documentation parser
+
+markdown-it-py and mdurl retain their upstream MIT terms. The docs extra/build
+uses these separately installed development tools; their implementations are
+not distributed in Azimlib or copied into generated site assets. Preserve their
+license notices if bundling their packages. See docs/dependencies.md.

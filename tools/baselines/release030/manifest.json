@@ -1,0 +1,31 @@
+{
+  "composition": "Original synthetic Azimlib regression cases",
+  "license": "BSD-3-Clause; DejaVu text retains bundled font terms; Viridis CC0",
+  "tool_sha256": "fa12851f004964d38d1fd42e91a52d6ba1c0d47f13e1f6aa86e37cfb757c0d9b",
+  "cases": {
+    "styles": {
+      "pixels": [
+        320,
+        280
+      ],
+      "scene_sha256": "72357c0b4dada3ef115e7a362d5573596675d92c8db4571d12211625d46218a4",
+      "png_sha256": "ed1a260294532d1ea6db3420df9f953a50a7a881a3339adacaf799ce10181a43"
+    },
+    "cells": {
+      "pixels": [
+        320,
+        280
+      ],
+      "scene_sha256": "07a4485b4637444002d5e3b5671dc05bdda7a6d4823c89f1e04087d4db29dbfb",
+      "png_sha256": "68b92374eaa4f1dc8cc74b1d1cc7e0d1fa8fe8dc04024c229228b0b20946a6a7"
+    },
+    "depth": {
+      "pixels": [
+        320,
+        280
+      ],
+      "scene_sha256": "8273477d0958f16dace701796c7bd37a58bf47eb10d378e011bf7c6e4daf85f2",
+      "png_sha256": "dcb1c2bcaf1627a3d0c3f838e7aa705e14988bd79f09af7afc3a5b97a79279b4"
+    }
+  }
+}

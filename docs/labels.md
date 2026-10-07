@@ -1,5 +1,8 @@
 # Rótulos cartográficos
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 `ax.labels` é uma extensão cartográfica da Azimlib. Retorna uma camada editável,
 com `set(...)`, `set_visible(...)`, `get_visible()` e `remove()`. Não é uma
 alegação de que Matplotlib ofereça esse mesmo posicionador geográfico.
@@ -97,9 +100,9 @@ altere os limites em Python e exporte novamente.
 
 ## Exemplos e limites
 
-`python examples/labels.py` gera [Brasil](../gallery/labels-brazil.png),
-[Amazônia](../gallery/labels-amazon.png), [foco](../gallery/labels-focus.png)
-e [obstáculos](../gallery/label-obstacles.png), com versões SVG e HTML.
+`python examples/labels.py` gera Brasil (`gallery/labels-brazil.png`, generated locally),
+Amazônia (`gallery/labels-amazon.png`, generated locally), foco (`gallery/labels-focus.png`, generated locally)
+e obstáculos (`gallery/label-obstacles.png`, generated locally), com versões SVG e HTML.
 Limites e hidrografia são dados Natural Earth generalizados; o exemplo não
 atribui classes de navegabilidade. Pontos de teste e a posição aproximada
 de Manaus são identificados no código/figuras.

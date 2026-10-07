@@ -24,3 +24,7 @@ recursive-include docs/_static/temporal *.svg *.pdf *.gif
 
 # Optional derivative databases retain separate licenses outside Python archives.
 prune optional-data
+
+include .github/workflows/docs.yml
+recursive-include docs/_static/release030 *.svg *.pdf
+recursive-include tools/baselines/release030 *.json *.png

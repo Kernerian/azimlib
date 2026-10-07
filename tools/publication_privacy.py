@@ -3,7 +3,7 @@ from pathlib import Path
 import re
 
 
-HOME_PATH = re.compile(r"(?i)(?:[A-Z]:[\\/](?:Users|Documents and Settings)[\\/]|/Users/|/home/)[A-Za-z0-9_.-]+[\\/][^\s\"'<>\r\n]+")
+HOME_PATH = re.compile(r"(?i)(?:[A-Z]:[\\/](?:Users|Documents and Settings)[\\/]|(?<![A-Za-z0-9_/])(?:file://)?/(?:Users|home)/)[A-Za-z0-9_.-]+[\\/][^\s\"'<>\r\n]+")
 PRIVATE_CONTEXT = re.compile(
     r"(?i)<(?:send_user_message_question_reply|user_request|assistant_response)>|"
     r"(?:pedido|solicitação|autorização|feedback|retorno direto|decisão) (?:do|pelo) usuário|"

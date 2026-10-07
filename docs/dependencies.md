@@ -92,3 +92,10 @@ Azimlib runtime/PDF writer, and neither binary/implementation is distributed in
 Python archives. Their own licenses remain applicable if they are redistributed.
 The writer and generated gallery are independently produced by Azimlib; a reader
 check does not import/reproduce the reader's implementation into the project.
+
+## Optional documentation build
+
+The `docs` extra installs markdown-it-py (MIT) and mdurl (MIT) as a generic
+Markdown parser for the original static documentation builder. They are not
+vendored, copied into the HTML, required by map runtime or bundled in wheel/sdist.
+Resolved license files must be preserved if redistributing those packages.

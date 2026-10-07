@@ -1,5 +1,8 @@
 # Texto, marcadores e formatação numérica
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 O núcleo e os renderizadores continuam próprios. Matplotlib 3.11.2 foi usado
 somente como referência de desenvolvimento, inclusive para medir as caixas de
 texto e os paths normalizados dos marcadores.
@@ -108,9 +111,9 @@ use o viewer Tk.
 
 ## Exemplos e verificações
 
-- [Traçados e textos versus Agg](../gallery/series-light-comparison.png).
-- [Colorbars verticais](../gallery/numeric-vertical-comparison.png).
-- [Colorbars horizontais](../gallery/numeric-horizontal-comparison.png).
+- Traçados e textos versus Agg (`gallery/series-light-comparison.png`, generated locally).
+- Colorbars verticais (`gallery/numeric-vertical-comparison.png`, generated locally).
+- Colorbars horizontais (`gallery/numeric-horizontal-comparison.png`, generated locally).
 - [Referência numérica, paths e 96 caixas de texto](numeric-formatting-reference.json).
 - [Exemplo reproduzível](../examples/numeric_formatting.py).
 - [Smoke Tk](../tools/smoke_numeric_tk.py), com dez verificações em widgets reais

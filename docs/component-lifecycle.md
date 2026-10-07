@@ -1,5 +1,8 @@
 # Visibilidade, substituição e ciclo de vida de componentes
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 O protocolo próprio de Artist continua preservando handles editáveis, stale,
 callbacks e o caminho separado de exportação estática/viewer. Este lote corrige
 referências descartadas e o momento de registrar uma nova colorbar, sem usar
@@ -96,8 +99,8 @@ o primeiro draw: callbacks e canvas são registrados antes dele, com recuperaç�
 de erro e fechamento reentrante. Veja [integração de composição](sizing-composition.md).
 
 O [exemplo](../examples/component_lifecycle.py) gera
-[antes](../gallery/component-lifecycle-before.png) e
-[depois](../gallery/component-lifecycle-after.png), com PNG/SVG estáticos e
+antes (`gallery/component-lifecycle-before.png`, generated locally) e
+depois (`gallery/component-lifecycle-after.png`, generated locally), com PNG/SVG estáticos e
 HTML separado. Todos os componentes são adicionados explicitamente.
 
 ```bash

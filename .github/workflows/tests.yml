@@ -25,6 +25,7 @@ jobs:
       - run: python -m pip install '.[dev]'
       - run: python -I tools/check_release_progress.py
       - run: python -I tools/check_release_progress_030.py
+      - run: python -I tools/check_ci_configuration.py
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -33,6 +34,7 @@ jobs:
       - run: python -I tools/audit_licenses.py --report .ci-results/licenses.json
       - run: python -I tools/audit_publication_privacy.py --report .ci-results/privacy-source.json
       - run: python -I tools/run_release_checks.py --kind unit --output .ci-results/unit
+      - run: python -I tools/check_release_baselines.py --output .ci-results/baselines
       - run: python -m build
       - run: python -m twine check --strict dist/*
       - shell: bash
@@ -142,6 +144,27 @@ jobs:
         if: always()
         with:
           name: qt-${{ matrix.os }}
+          path: .ci-results/
+          include-hidden-files: true
+          if-no-files-found: error
+
+  documentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[docs,dev]'
+      - run: python -I tools/check_documentation.py --output .ci-results/snippets --report .ci-results/documentation.json
+      - run: python -I tools/check_migration.py --output .ci-results/migration
+      - run: python -I tools/build_documentation.py --output .ci-results/site --ref "${{ github.head_ref || github.ref_name }}"
+      - run: python -I tools/check_documentation_site.py --site .ci-results/site --output .ci-results/site-check.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: documentation
           path: .ci-results/
           include-hidden-files: true
           if-no-files-found: error

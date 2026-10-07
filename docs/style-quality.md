@@ -1,5 +1,8 @@
 # Estilos e recortes: Azimlib × Matplotlib/Agg
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 Nove pares em 100/150/200 DPI comparam a mesma Scene própria, fontes e tamanhos
 físicos em dois rasterizadores. Matplotlib 3.11.2/Agg é usado somente na ferramenta
 de desenvolvimento; o pacote e seus renderizadores continuam independentes.
@@ -10,9 +13,9 @@ de desenvolvimento; o pacote e seus renderizadores continuam independentes.
   texto rotacionado com halo/fundo, marcadores e sobreposição com alpha.
 - Hachuras: catálogo público com dez padrões básicos, repetição/composição e buracos.
 
-Inspeção visual dos painéis [traços/100 DPI](../gallery/style-quality-strokes-100-comparison.png),
-[recortes/100 DPI](../gallery/style-quality-clipping-100-comparison.png) e
-[hachuras/200 DPI](../gallery/style-quality-hatches-200-comparison.png) não identificou
+Inspeção visual dos painéis traços/100 DPI (`gallery/style-quality-strokes-100-comparison.png`, generated locally),
+recortes/100 DPI (`gallery/style-quality-clipping-100-comparison.png`, generated locally) e
+hachuras/200 DPI (`gallery/style-quality-hatches-200-comparison.png`, generated locally) não identificou
 defeito material adicional nestes exemplos. Persistem diferenças pequenas de
 suavização, hinting de fonte e cobertura dos traços; os pixels não são idênticos.
 Cada par também tem PNG separado, SVG próprio e imagem de diferença na galeria.

@@ -1,5 +1,8 @@
 # Eixos compartilhados e rótulos externos
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 A implementação é própria. Matplotlib 3.11.2/Agg serve somente como referência
 de desenvolvimento; não é importado pelo núcleo nem pelos exemplos.
 
@@ -98,11 +101,11 @@ Eixos criados por `add_axes` sem SubplotSpec não são alterados por `label_oute
 
 ## Exemplo, validação e limites
 
-[shared_axes.py](../examples/shared_axes.py) produz [antes](../gallery/shared-axes-before.png)
-e [depois](../gallery/shared-axes-after.png) em PNG/SVG: político, hidrografia,
+[shared_axes.py](../examples/shared_axes.py) produz antes (`gallery/shared-axes-before.png`, generated locally)
+e depois (`gallery/shared-axes-after.png`, generated locally) em PNG/SVG: político, hidrografia,
 coroplético e rotas com uma vista comum e colorbar adicionada explicitamente.
 Os valores regionais e a rota são demonstrativos. A
-[comparação lado a lado](../gallery/shared-axes-reference.png) usa os mesmos
+comparação lado a lado (`gallery/shared-axes-reference.png`, generated locally) usa os mesmos
 dados, limites, ticks, DPI e estilos em Agg/Azimlib.
 
 O oracle `shared-axes-reference.json` registra 36 combinações de grupos e

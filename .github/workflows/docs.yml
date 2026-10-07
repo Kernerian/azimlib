@@ -1,0 +1,23 @@
+name: documentation-preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[docs]'
+      - run: python -I tools/build_documentation.py --output .ci-results/site --ref "${{ github.ref_name }}"
+      - run: python -I tools/check_documentation_site.py --site .ci-results/site --output .ci-results/site-check.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: versioned-documentation-preview
+          path: .ci-results/
+          include-hidden-files: true
+          if-no-files-found: error

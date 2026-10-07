@@ -1,5 +1,8 @@
 # Ticks menores e grade menor
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 ```python
 import azimlib as azl
 from azimlib.ticker import MultipleLocator, AutoMinorLocator
@@ -95,9 +98,9 @@ precisam do desktop para recomposição completa. Textos com estilo individual
 e transforms/fontes fora do subconjunto podem diferir após navegar no HTML.
 Veja também as [restrições de ticker](ticks.md).
 
-`examples/minor_ticks.py` gera [São Paulo](../gallery/minor-grid.png),
-[colorbar horizontal](../gallery/minor-colorbar-horizontal.png) e
-[LogNorm](../gallery/minor-colorbar-log.png), todos com SVG e HTML.
+`examples/minor_ticks.py` gera São Paulo (`gallery/minor-grid.png`, generated locally),
+colorbar horizontal (`gallery/minor-colorbar-horizontal.png`, generated locally) e
+LogNorm (`gallery/minor-colorbar-log.png`, generated locally), todos com SVG e HTML.
 O campo colorido é sintético e não representa uma medida geográfica real.
 
 `tools/inspect_minor_ticks.py` compara seis configurações de AutoMinorLocator

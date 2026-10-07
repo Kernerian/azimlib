@@ -1,5 +1,8 @@
 # Edição de textos do mapa e annotations
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 `ax.text()` devolve um `MapText` e `ax.annotate()` devolve uma `Annotation`
 própria. Ambos continuam subclasses de Layer/Artist, com visibilidade,
 remoção, callbacks, invalidação e estilo usados pela mesma composição.
@@ -96,11 +99,11 @@ ocorrem após o commit e não desfazem a edição, como no protocolo Artist exis
 ## Exemplos e validação
 
 O [exemplo](../examples/text_edits.py) exporta
-[antes](../gallery/component-text-edits-before.png) e
-[depois](../gallery/component-text-edits-after.png), incluindo mapa, texto,
+antes (`gallery/component-text-edits-before.png`, generated locally) e
+depois (`gallery/component-text-edits-after.png`, generated locally), incluindo mapa, texto,
 annotation, legenda, escala e colorbar horizontal, sem Matplotlib.
-Os [comparativos antes](../gallery/text-edits-before-comparison.png) e
-[depois](../gallery/text-edits-after-comparison.png) usam Axes/layout
+Os comparativos antes (`gallery/text-edits-before-comparison.png`, generated locally) e
+depois (`gallery/text-edits-after-comparison.png`, generated locally) usam Axes/layout
 independentes no Matplotlib instalado e as mesmas coordenadas/estilos.
 Fontes, clipping de texto, composição e setas apresentam diferenças; não há
 igualdade de pixels ou implementação completa do sistema Text/Annotation.

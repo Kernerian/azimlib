@@ -1,5 +1,8 @@
 # GridSpec, proporções e painéis com spans
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 `GridSpec` próprio separa a alocação das células da projeção/renderização de
 cada mapa. `SubplotSpec` descreve um retângulo de células, com a mesma forma
 de chamada familiar de Matplotlib:
@@ -123,7 +126,7 @@ barra de escala, colorbar, minimapa, seta de norte ou rosa dos ventos.
 - HTML é uma cena exportada: não recalcula esse solver ao navegar.
 
 [Exemplo completo](../examples/gridspec_atlas.py) e
-[atlas renderizado](../gallery/gridspec-atlas.png).
+atlas renderizado (`gallery/gridspec-atlas.png`, generated locally).
 `tools/inspect_gridspec.py` registra 24 seleções, seis estados de edição e três
 seleções numéricas do Matplotlib 3.11.2/Agg em `gridspec-reference.json`.
 Os testes comparam a alocação manual em frações de Figure; não exigem

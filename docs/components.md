@@ -1,5 +1,8 @@
 # Componentes, regiões e visibilidade
 
+Outputs under `gallery/` are local generated previews, not distributed assets.
+For versioned current images, see the [0.3 gallery](gallery-0.3.md).
+
 ## Convenções familiares
 
 O Matplotlib aceita `ax.legend(title='Legenda')`. O título é opcional: `ax.legend()`
@@ -99,7 +102,7 @@ pan/zoom, preservam as métricas de fonte e reancoram norte/rosa sem esticá-los
 Uma escala explícita que não cabe é ocultada com aviso; Home restaura os
 componentes iniciais. Outras projeções ainda ocultam esses ornamentos após
 navegar. Veja [contratos](portable-navigation.md) e o
-[exemplo interativo](../gallery/portable-components.html).
+exemplo interativo (`gallery/portable-components.html`, generated locally).
 
 ## Catálogo resumido de componentes
 
@@ -196,7 +199,7 @@ exportação e mantém suas limitações de navegação descritas acima.
 O padding protege o texto dentro da caixa e entra no cálculo da distância na
 posição final. Um comprimento explicitamente maior que o espaço geográfico
 disponível continua gerando erro; não é encurtado silenciosamente.
-Veja [três larguras](../gallery/scale-labels.png) e
+Veja três larguras (`gallery/scale-labels.png`, generated locally) e
 [o exemplo](../examples/scale_labels.py).
 
 `plt.show()` abre a janela Tk independente com toolbar e eventos; `savefig()`

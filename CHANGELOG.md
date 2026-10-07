@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0 development — documentation and delivery gates
+
+- Add version-labelled offline documentation, migration examples, API stability policy
+  and an integrated six-category original PNG/SVG/PDF gallery.
+- Add reviewed synthetic visual/numeric/work budgets and a 28-job exact-commit CI
+  contract covering optional Qt/notebook and documentation.
+- Guard stable publication against development versions and incomplete release gates.
+- Record terrestrial Sun/Moon, planetary bodies and orbital visualization as future
+  proposals with accuracy/licensing criteria; existing reserved work remains.
+- Packaging/release validation remains separate from final human acceptance and
+  hosted documentation; no 0.3.0 publication is claimed by this development entry.
+
 ## 0.3.0 development — experimental terrain 3D
 
 - Add own finite temporal frames/bindings, optional native playback controls,
