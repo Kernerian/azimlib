@@ -310,6 +310,10 @@ def _render_image(scene: Scene, scale: float = 1, *, _interactive=False, _path_c
 
     for item in scene.items:
         if _control is not None:_control.check()
+        if _interactive and isinstance(item,Circle):
+            # Preview-only phases: <=1/32 supersample pixel displacement; never resize symbols/strokes.
+            from dataclasses import replace
+            item=replace(item,x=round(item.x*factor*16)/(factor*16),y=round(item.y*factor*16)/(factor*16))
         style = item.style
         if isinstance(item, Circle) and item.r == 0:
             continue
@@ -390,6 +394,26 @@ def _render_image(scene: Scene, scale: float = 1, *, _interactive=False, _path_c
                 origin=(left,top);text_offset=None
             cacheable=True
             layer=tile
+        elif isinstance(item,Circle) and not style.get('dash') and style.get('shape_rendering')!='crispEdges':
+            from ._circle_coverage import disk_mask
+            cx,cy,r=item.x*factor,item.y*factor,item.r*factor
+            margin=max(2,stroke_width/2+1)
+            bounds=(math.floor(cx-r-margin),math.floor(cy-r-margin),math.ceil(cx+r+margin),math.ceil(cy+r+margin))
+            left,top,right,bottom=bounds
+            cacheable=_tile_cache is not None and (right-left)*(bottom-top)*4<=_tile_cache.max_item_bytes
+            if not cacheable:
+                left,top=max(0,left),max(0,top);right,bottom=min(size[0],right),min(size[1],bottom)
+                if item.clip:
+                    x,y,w,h=item.clip;left=max(left,math.ceil(x*factor));top=max(top,math.ceil(y*factor));right=min(right,math.ceil((x+w)*factor));bottom=min(bottom,math.ceil((y+h)*factor))
+            if left>=right or top>=bottom:continue
+            origin=(left,top);tile_size=(right-left,bottom-top);layer=Image.new('RGBA',tile_size);empty=True
+            check=_control.check if _control is not None else None
+            if fill not in (None,'none'):
+                mask=disk_mask(Image,tile_size,cx-left,cy-top,r,check=check)
+                empty=not paint(layer,mask,fill,style.get('fill_opacity',1),empty=empty);mask.close()
+            if stroke not in (None,'none') and stroke_width>0:
+                mask=disk_mask(Image,tile_size,cx-left,cy-top,r+stroke_width/2,inner=max(0,r-stroke_width/2),check=check)
+                paint(layer,mask,stroke,style.get('stroke_opacity',1),empty=empty);mask.close()
         else:
             if isinstance(item, Path):
                 paths=item.paths

@@ -101,6 +101,17 @@ class MapAxes(AxisComponents):
         from .transforms import AxesTransform
         return AxesTransform(self,'projected')
 
+    def get_projection(self):return self.projection
+    @artist_mutation
+    def set_projection(self,projection,**parameters):
+        """Replace projection after domain checks; keep geographic view/data/bearing."""
+        from .viewport import Viewport
+        candidate=get_projection(projection,**parameters)
+        if self._longitude_wrap and not isinstance(candidate,(Equirectangular,Mercator)):raise ValueError('Unwrap the extent before choosing a noncylindrical projection')
+        if any(len(self._shared_axes[name].members)>1 for name in ('x','y')):raise ValueError('Change projections before sharing axes')
+        Viewport(candidate,self._get_extent(),(0,0,400,400),bearing=self.get_bearing())
+        self.projection=candidate
+
     def _axes_path(self):
         parent=getattr(self,'_parent_axes',None)
         return parent._axes_path()+[parent.insets.index(self)] if parent is not None else [self.figure.axes.index(self) if self.figure is not None and self in self.figure.axes else -1]

@@ -2,6 +2,7 @@
 import importlib.util
 import io
 from pathlib import Path as FilePath
+from _raster_reference import legacy_circles
 import unittest
 from unittest.mock import patch
 from azimlib.renderers import pillow
@@ -21,7 +22,7 @@ def baseline():
 class RasterBufferTests(unittest.TestCase):
     def compare(self,scene,scale=1):
         a,b=io.BytesIO(),io.BytesIO()
-        pillow.render_png(scene,a,scale);baseline().render_png(scene,b,scale)
+        pillow.render_png(legacy_circles(scene,scale),a,scale);baseline().render_png(scene,b,scale)
         self.assertFalse(a.closed);self.assertFalse(b.closed)
         self.assertEqual(a.getvalue(),b.getvalue())
 

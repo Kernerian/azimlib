@@ -3,6 +3,7 @@ import importlib.util
 import io
 from pathlib import Path as FilePath
 import random
+from _raster_reference import legacy_circles
 import unittest
 from unittest.mock import patch
 from azimlib.renderers import pillow
@@ -99,8 +100,17 @@ class RasterBandTests(unittest.TestCase):
                         background='#dddddd88',stroke='white',stroke_width=1,opacity=.8),clip=(12.1,9.6,73.3,54.7)))
                     a,b=io.BytesIO(),io.BytesIO();old.render_png(scene,a,scale)
                     with patch.object(pillow,'_BOX_BAND_BYTES',2048),patch.object(pillow,'_COMPOSITE_BAND_BYTES',2048):
-                        pillow.render_png(scene,b,scale)
+                        pillow.render_png(legacy_circles(scene,scale),b,scale)
                     self.assertEqual(a.getvalue(),b.getvalue());self.assertFalse(b.closed)
+
+    def test_analytic_circle_matches_full_composition_with_tiny_bands(self):
+        scene=Scene(47,39,'#33445544');scene.add(Circle(21.2,18.7,8.3,dict(fill='#12345680',stroke='red',stroke_width=1.2),clip=(10.2,8.8,19.7,23.1)))
+        for scale in (.6,1,1.5,2):
+            with self.subTest(scale=scale):
+                a,b=io.BytesIO(),io.BytesIO()
+                with patch.object(pillow,'_BAND_THRESHOLD_BYTES',1024*1024*1024):pillow.render_png(scene,a,scale)
+                with patch.object(pillow,'_BOX_BAND_BYTES',256),patch.object(pillow,'_COMPOSITE_BAND_BYTES',256):pillow.render_png(scene,b,scale)
+                self.assertEqual(a.getvalue(),b.getvalue())
 
     def test_working_bands_are_bounded_and_wide_single_row_falls_back_safely(self):
         source=Image.new('RGBA',(300,99),'#01234567');destination=Image.new('RGBA',source.size)

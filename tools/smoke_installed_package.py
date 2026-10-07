@@ -12,6 +12,17 @@ import venv
 from pathlib import Path
 
 CHECK=r'''
+from types import SimpleNamespace
+from azimlib.simplify import simplify_path
+from azimlib.widgets import Slider
+import azimlib as azl
+assert simplify_path([(0,0),(1,0),(2,0)],.1)==((0,0),(2,0))
+f,a=azl.subplots(figsize=(4,3));a.set_extent((-1,1,-1,1));p=a.scatter([0],[0]);p.set_picker(True)
+scene=f.canvas.draw();box=scene.maps[0]['box'];x,y,w,h=box;events=[];f.canvas.mpl_connect('pick_event',events.append)
+f.canvas.pick(SimpleNamespace(canvas=f.canvas,x=x+w/2,y=scene.height-y-h/2));assert events[0].ind==[0]
+s=Slider(f.add_axes((.2,.02,.5,.08)),'Control',0,10,2);s.set_val(5);assert s.val==5
+assert 'Control' not in f.to_svg();f.close()
+'''+r'''
 import io
 import azimlib as azl
 f,a=azl.subplots();a.set_title(r'$\frac{x_0^2}{2}$')

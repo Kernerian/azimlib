@@ -135,8 +135,11 @@ ornamentos dependentes da vista continuam ocultos após navegar até Home.
 Para exportar mapa final com todos os ornamentos recalculados, defina os limites
 com `ax.set_extent`, `set_xlim` ou `set_ylim` e chame `fig.savefig` em Python.
 
-Ainda sem backend Qt, todos os eventos/objetos Artist do Matplotlib, atualização live de artistas após abrir HTML,
-vínculo geográfico geral no HTML para projeções não cilíndricas/rotacionadas, eixos
+O HTML offline permanece um snapshot. No desenvolvimento 0.3.0, os backends
+Qt/notebook e browser-live, picking e controles opcionais estão disponíveis; veja
+[contratos e diferenças](interaction.md). Ainda não há todos os eventos/objetos
+Artist do Matplotlib, vínculo geográfico geral no HTML offline para projeções
+não cilíndricas/rotacionadas, eixos
 geográficos logarítmicos, todas as opções de legendas ou todos os rcParams. Opções desconhecidas
 não são aceitas silenciosamente. A compatibilidade é ampliável, não total.
 

@@ -31,6 +31,8 @@ Changelog = "https://github.com/Kernerian/azimlib/blob/main/CHANGELOG.md"
 [project.optional-dependencies]
 accelerate = ["numpy>=1.24", "numba>=0.63"]
 png = ["Pillow>=10"]
+qt = ["Pillow>=10", "PySide6-Essentials>=6.5"]
+notebook = ["IPython>=8"]
 gui = ["Pillow>=10", "aggdraw>=1.3.19", "numpy>=1.24"]
 dev = ["Pillow>=10", "aggdraw>=1.3.19", "numpy>=1.24", "build>=1", "pytest>=8", "twine>=6", "packaging>=24", "PyYAML>=6", "tomli>=2; python_version < '3.11'"]
 

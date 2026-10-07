@@ -83,3 +83,7 @@ from .scientific_artists import ColorImage,FilledContourSet,FlowCollection
 __all__.extend(('Triangulation','LinearTriInterpolator','ColorImage','FilledContourSet','FlowCollection'))
 
 __all__.extend(('Provenance','HatchPattern','read_svg_symbol'))
+from . import widgets
+__all__.append('widgets')
+from .simplify import simplify_path,simplify_boundaries
+__all__.extend(('simplify_path','simplify_boundaries'))

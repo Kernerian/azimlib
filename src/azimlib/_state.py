@@ -122,9 +122,17 @@ def cla():return gca().clear()
 def show(*,block=True,backend='tk',open_browser=True):
     """Show own viewers; desktop event loop blocks only when requested."""
     result=tuple(fig.show(backend=backend,block=False,open_browser=open_browser) for fig in tuple(_figures))
-    if backend=='tk' and block:
-        from .backends.tk import mainloop
-        mainloop()
+    if backend in ('tk','qt') and block:
+        from importlib import import_module
+        import_module('.backends.'+backend,__package__).mainloop()
+    elif backend=='browser-live' and block:
+        import time
+        try:
+            while any(not viewer.closed for viewer in result):
+                for viewer in result:viewer.flush_events()
+                time.sleep(.015)
+        except KeyboardInterrupt:
+            for viewer in result:viewer.close()
     return result
 
 

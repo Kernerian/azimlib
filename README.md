@@ -221,3 +221,5 @@ these additions are not in the published 0.2.0 package.
 Development 0.3.0 also adds [visual finishing, curved labels, simple equations,
 provenance-aware symbols/patterns and own vector PDF](docs/finishing.md),
 with an [original reproducible gallery](docs/_static/finishing/README.md).
+
+Development 0.3.0 adds [optional picking, widgets, live/local viewers, Qt and notebook updates](docs/interaction.md). These are not part of published 0.2.0.

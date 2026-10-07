@@ -198,6 +198,13 @@ class Layer(ScalarMappable,LayoutArtist):
     def get_alpha(self):return self.style.get("alpha")
     def set_label(self,value):return self.set(label=value)
     def get_label(self):return self.style.get("label","")
+    def get_simplify(self):return self.options.get('simplify',0.)
+    @artist_mutation
+    def set_simplify(self,tolerance):
+        from .simplify import _tolerance
+        if self.kind!='geometry' or any(f.geometry and f.geometry.type not in ('LineString','MultiLineString') for f in self.data):raise TypeError('Per-layer simplification requires plain line geometry; use simplify_boundaries for polygons')
+        self.options['simplify']=_tolerance(tolerance)
+
     def set_zorder(self,value):return self.set(zorder=value)
     def get_zorder(self):return self.zorder
     def get_visible(self):return self.visible

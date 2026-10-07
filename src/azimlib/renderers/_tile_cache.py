@@ -28,7 +28,7 @@ def _signature(item,factor):
         revision=font.stat() if font is not None else None
         phase=(round(item.x*3)%3,round(item.y*3)%3) if factor==1 else None
         shape=(item.text, (revision.st_mtime_ns,revision.st_size) if revision else None,phase)
-    elif isinstance(item,Circle):shape=round(item.r,3)
+    elif isinstance(item,Circle):shape=(round(item.r,3),round(item.x*factor*16)%16,round(item.y*factor*16)%16)
     else:shape=round(item.width,3),round(item.height,3)
     return type(item),factor,repr(sorted(item.style.items())),shape
 
@@ -43,7 +43,9 @@ class TileCache:
     object overhead is not included in either payload budget.
     """
     max_item_bytes=8*1024*1024
-    def __init__(self):
+    def __init__(self,*,max_entries=128):
+        if isinstance(max_entries,bool) or not isinstance(max_entries,int) or max_entries<1:raise ValueError('Positive integer tile entry capacity required')
+        self.max_entries=max_entries
         self.entries=OrderedDict();self.bytes=0;self.hits=self.misses=0
         self._lock=RLock();self.closed=False
         self._prepared={};self._prepared_bytes=0
@@ -123,7 +125,7 @@ class TileCache:
             if size>16*1024*1024:return
             previous=self.entries.pop(key,None)
             if previous is not None:self.bytes-=previous[4];previous[1].close()
-            while self.entries and (len(self.entries)>=128 or self.bytes+size>16*1024*1024):
+            while self.entries and (len(self.entries)>=self.max_entries or self.bytes+size>16*1024*1024):
                 _,entry=self.entries.popitem(last=False);self.bytes-=entry[4];entry[1].close()
             self.entries[key]=(snapshot,image.copy(),origin,text_offset,size,arrays);self.bytes+=size
 

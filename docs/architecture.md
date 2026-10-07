@@ -138,8 +138,9 @@ e precisão, recalcula estilos/coordenadas de tela e não mantém a fonte viva.
 - `viewport.py`: bearing isotrópico e inversa; `render_map.py` prepara viewports
   antes de desenhar para transforms entre eixos sem reentrada de composição.
 
-Veja [limites e contratos](transforms-composition.md); ponte viva para HTML,
-câmera 3D e conversores gerais de unidades continuam em passos posteriores.
+Veja [limites e contratos](transforms-composition.md); câmera 3D e conversores
+gerais de unidades continuam em passos posteriores. A ponte viva é um backend
+explícito separado do snapshot HTML, descrito em [interação](interaction.md).
 
 ## Acabamento e exportação vetorial
 

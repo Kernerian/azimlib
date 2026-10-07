@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**48 concluídos / 32 pendentes**. Contagem por subpassos, não por frentes amplas.
+**55 concluídos / 25 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -93,13 +93,13 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 7. Interação, integração e desempenho
 
-- [ ] **7.01** Picking de features e seleção com tolerância em pixels e callbacks.
-- [ ] **7.02** Seletores, controle de camadas e sliders próprios, sem componentes obrigatórios.
-- [ ] **7.03** Ponte viva Python/viewer portátil para atualização/reprojeção em todas as projeções suportadas.
-- [ ] **7.04** Integração notebook com lifecycle/event loop e atualização de Figures.
-- [ ] **7.05** Backend Qt opcional próprio usando o mesmo canvas/renderer e comandos de navegação.
-- [ ] **7.06** Simplificação por erro em pixels, compartilhamento de fronteiras e caches incrementais.
-- [ ] **7.07** Benchmarks urbanos/densos: primeira pintura, pan, labels, memória e exportação.
+- [x] **7.01** Picking de features e seleção com tolerância em pixels e callbacks.
+- [x] **7.02** Seletores, controle de camadas e sliders próprios, sem componentes obrigatórios.
+- [x] **7.03** Ponte viva Python/viewer portátil para atualização/reprojeção em todas as projeções suportadas.
+- [x] **7.04** Integração notebook com lifecycle/event loop e atualização de Figures.
+- [x] **7.05** Backend Qt opcional próprio usando o mesmo canvas/renderer e comandos de navegação.
+- [x] **7.06** Simplificação por erro em pixels, compartilhamento de fronteiras e caches incrementais.
+- [x] **7.07** Benchmarks urbanos/densos: primeira pintura, pan, labels, memória e exportação.
 - [ ] **7.08** Validação nativa Tk/Qt por plataforma e manutenção da fluidez/espessura física de linhas.
 
 ## 8. Terreno 3D experimental verdadeiro
@@ -441,3 +441,65 @@ simples não são TeX/MathText completo; hinting subpixel/shaping generalizado,
 SVG completo e fonts variáveis não são prometidos. Curved names simples,
 prioridade/colisão conservadoras, budget interior e snapshot HTML documentados.
 Etapas 7–10 permanecem pendentes: **32 subpassos**; nenhum ID foi eliminado.
+
+### Lote 7 — interação, integração e desempenho (0.3.0.dev0)
+
+**7.01–7.07 concluídos no corte documentado; 7.08 permanece pendente por
+plataforma.** Implementação própria em `picking.py`, `widgets.py`,
+`interaction.py`, `simplify.py`, `backends/live.py`, `backends/qt.py` e
+`backends/notebook.py`. [Guia e limites](interaction.md),
+[galeria original inspecionada](_static/interaction/README.md),
+[auditor de evidências](../tools/audit_interaction.py).
+
+- Picking por feature/ponto com IDs/índices, tolerância física em pixels,
+  holes/clipping, callbacks e picking individual; seletores/layers/sliders
+  opcionais. [36 contratos](../tests/test_interaction_integration.py), incluindo
+  mutação inválida sem efeito, desligamento/clear, navegação e visibilidade externa.
+- Ponte Python `browser-live` explícita: snapshots SVG e recomposição Python nas
+  nove projeções internas, callbacks na thread proprietária, fila e corpo limitados,
+  token/Host/Origin local, timeout de conexão e encerramento com cliente incompleto.
+  Cliente próprio verificado com [fixture Node/DOM](../tools/check_live_viewer.js).
+  Não houve aceite em navegador real; a inspeção automatizada do navegador estava
+  indisponível. Este backend inicial tem Home/Back/Forward/Pan/Zoom e downloads
+  PNG/SVG; não declara o editor Subplots/PDF dos viewers nativos.
+- Notebook: display_id/update e post_run_cell reais em IPython 9.17.1, atualização
+  e cleanup; [evidência](interaction-notebook-0.3.json). SVG atualizável, não widget
+  DOM com mouse; nenhuma equivalência a todos os frontends Jupyter foi declarada.
+- Qt opcional: QWidget/toolbar próprios sobre o mesmo Pillow/scene, sem toolkit
+  cartográfico externo, QTest nativo Windows/PySide6-Essentials 6.11.2 com picking,
+  pan/histórico, widgets, largura física e fechamento. [Evidência](interaction-qt-0.3.json).
+  Tk mantém os contratos anteriores e passa os dois smokes do runtime final,
+  [relatório](interaction-desktop-0.3.json). As 17 integrações Tk amplas passaram
+  [antes](interaction-desktop-regression-0.3.json) do último ajuste exclusivamente
+  HTTP; o auditor verifica que somente `backends/live.py` difere nesse relatório.
+  Os relatórios são preservados sem substituir hashes de execuções anteriores.
+- Simplificação de linhas optativa por erro projetado em pixels, markers originais,
+  exportação estática com geometria integral; cache de 4 MiB. Fronteiras regionais
+  com edges exatamente coincidentes compartilhadas uma vez, IDs/anéis preservados
+  e rejeição explícita de topologia/vertexização não suportada. Sem snapping/overlay.
+- [Benchmark reproduzível](interaction-benchmark-0.3.json): 400 ruas/20 labels e
+  5000 pontos sintéticos, 640×480, quatro amostras. Pan completo mediano cerca de
+  261/309 ms; primeira pintura cerca de seis segundos. Mede Python/caches, não
+  memória nativa/RSS/FPS/latência humana. SVG/PDF/PNG registrados por bytes/hash.
+  Círculos sólidos usam área analítica, alpha/clipping e annulus próprios; preview
+  quantiza centro até 1/32 pixel para cache, mantendo tamanho/espessura. Settled e
+  exports são exatos. Baselines legados congelados conservam comparação exata para
+  sua geometria poligonal; novos círculos têm testes matemáticos e de bands/PNG.
+- [Suíte instalada com aggdraw](interaction-validation-0.3.json):
+  **896 testes / 19,957 subtests**, zero falhas/erros.
+  [Suíte instalada sem aggdraw/Numba](interaction-core-validation-0.3.json):
+  **896 testes / 19,941 subtests**, zero falhas/erros.
+  Skips opcionais nomeados; todos os módulos instalados conferidos por hash contra
+  o source, nenhum import de referência/GIS. Core também instalado offline sem
+  extras, com picking/simplificação/SVG e imports públicos verificados.
+- Extras Qt/IPython resolvidos separadamente, com avisos e
+  [inventário observado](interaction-dependencies-0.3.json); nenhum binário/código
+  dessas dependências foi vendorizado. BSD e termos próprios de Natural Earth,
+  DejaVu/ColorBrewer/CC0 permanecem. O gate de distribuição confere bytes, RECORD,
+  metadata/licenças; documentação/API, privacidade e Git conferidos localmente.
+
+**Falta em 7.08:** executar Tk/Qt em Linux e macOS e registrar seus resultados
+nativos. A CI foi estendida com Qt/IPython e fixture Node (27 jobs expandidos),
+mas não foi executada remotamente neste lote. Windows programático/pintura está
+validado; não equivale a novo aceite humano de fluidez em três sistemas. Nenhuma
+publicação, push ou mudança do `main`/versão estável 0.2.0 faz parte deste lote.

@@ -81,7 +81,7 @@ def _main():
     from azimlib.renderers import render_image
     from azimlib.renderers._tile_cache import TileCache
     from azimlib.renderers._interactive import InteractivePathCache
-    tiles=TileCache();paths=InteractivePathCache()
+    tiles=TileCache(max_entries=512);paths=InteractivePathCache()
     incoming,outgoing=sys.stdin.buffer,sys.stdout.buffer
     _send(outgoing,'ready')
     try:

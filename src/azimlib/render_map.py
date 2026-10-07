@@ -84,6 +84,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
             candidates=_geometry_candidates(layer,vp,pixel_padding) if cull else None
             features=enumerate(layer.data) if candidates is None else ((i,layer.data[i]) for i in candidates)
             for index, feature in features:
+                pick_start=len(scene.items)
                 if feature.geometry is None:
                     continue
                 style = dict(layer.style)
@@ -98,19 +99,26 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     style.update(style_dict(callback(feature)))
                 if getattr(layer,'_transform',None) is not None:
                     _transformed_geometry(feature.geometry,style,layer.get_transform(),ax.figure,vp,scene)
+                    scene._pick_records.append((layer,index,pick_start,len(scene.items)))
                     continue
+                style['_simplify']=layer.options.get('simplify',0)*100/getattr(ax.figure,'dpi',100) if getattr(ax.figure,'_simplify_enabled',True) else 0
                 _geometry(feature.geometry, style, vp, scene, cull=cull,
                           pixel_padding=pixel_padding,cuts=cuts.get((id(layer),index)))
+                scene._pick_records.append((layer,index,pick_start,len(scene.items)))
         elif layer.kind in ('path','line_collection'):
+            pick_start=len(scene.items)
             _transformed_paths(layer,vp,scene)
+            scene._pick_records.append((layer,0,pick_start,len(scene.items)))
         elif layer.kind == "scatter":
             for i, coordinate in enumerate(layer.data):
+                pick_start=len(scene.items)
                 size=layer._scatter_size(i)
                 if size==0:continue
                 from .transforms import scene_point
                 p = scene_point(layer.get_transform(),coordinate,ax.figure) if getattr(layer,'_transform',None) is not None else vp.project(*coordinate)
                 if p:
                     _marker(p, math.sqrt(size), layer._scatter_style(i), scene, mapbox)
+                    scene._pick_records.append((layer,i,pick_start,len(scene.items)))
         elif layer.kind == "grid":
             first = len(scene.items)
             metadata['grid_specs'].extend(_grid(layer, vp, scene))
@@ -407,7 +415,11 @@ def _line(coordinates,style,vp,scene,*,projected=None,cuts=None):
         if paths:scene.add(Path(paths,False,path_style(style),vp.box))
         rendered.append(points)
     if projected is not None:
-        for group in projected:add(screen_points(group,vp))
+        for group in projected:
+            if style.get('_simplify') and not style.get('curved') and not style.get('arrow') and style.get('linestyle','-')=='-' and not cuts:
+                from .simplify import _simplified
+                group=_simplified.path(group,vp.scale,style['_simplify'])
+            add(screen_points(group,vp))
     else:
         _line_uncached(coordinates,vp,add)
     # Arrowheads belong to the actual route endpoints, never a clipping seam.

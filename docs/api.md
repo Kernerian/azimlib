@@ -148,6 +148,12 @@ Set properties on an artist or nested sequence of artists.
 
 Show own viewers; desktop event loop blocks only when requested.
 
+### `simplify_boundaries(data, transform, tolerance)`
+
+Simplify exact shared chains once; preserve IDs/properties/ring direction.
+
+### `simplify_path(points, tolerance)`
+
 ### `subplot(*args, **kwargs)`
 
 Select/reuse a subplot; explicit projection options can create another.
@@ -544,6 +550,396 @@ Wrap longitude into the central meridian's closed +/-180° interval.
 
 Normalize missing/nonfinite/masked scalars without importing NumPy.
 
+## azimlib.widgets
+
+## azimlib.simplify
+
+### `segment_distance(p, a, b)`
+
+### `simplify_boundaries(data, transform, tolerance)`
+
+Simplify exact shared chains once; preserve IDs/properties/ring direction.
+
+### `simplify_indices(points, tolerance)`
+
+Iterative Douglas-Peucker; bounds each input vertex against its kept chord.
+
+### `simplify_path(points, tolerance)`
+
+## azimlib.widgets.AxesWidget
+
+`AxesWidget(ax, *, occupy=True)`
+
+### `add_callback(func)`
+
+### `connect_event(name, callback)`
+
+### `contains(mouseevent)`
+
+### `disconnect_events()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_active()`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_active(value)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `update(props)`
+
+## azimlib.widgets.Slider
+
+`Slider(ax, label, valmin, valmax, valinit=None, *, valstep=None, orientation='horizontal')`
+
+### `add_callback(func)`
+
+### `connect_event(name, callback)`
+
+### `contains(mouseevent)`
+
+### `disconnect(cid)`
+
+### `disconnect_events()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_active()`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `on_changed(callback)`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove_callback(oid)`
+
+### `reset()`
+
+### `set(**kwargs)`
+
+### `set_active(value)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_transform(transform)`
+
+### `set_val(value)`
+
+### `set_visible(value)`
+
+### `update(props)`
+
+## azimlib.widgets.CheckButtons
+
+`CheckButtons(ax, labels, actives=None)`
+
+### `add_callback(func)`
+
+### `connect_event(name, callback)`
+
+### `contains(mouseevent)`
+
+### `disconnect(cid)`
+
+### `disconnect_events()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_active()`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_status()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `on_clicked(callback)`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_active(index)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `update(props)`
+
+## azimlib.widgets.LayerControl
+
+`LayerControl(ax, layers, labels=None)`
+
+### `add_callback(func)`
+
+### `connect_event(name, callback)`
+
+### `contains(mouseevent)`
+
+### `disconnect(cid)`
+
+### `disconnect_events()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_active()`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_status()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `on_clicked(callback)`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_active(index)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `update(props)`
+
+## azimlib.widgets.RectangleSelector
+
+`RectangleSelector(ax, onselect, *, minspanx=0, minspany=0)`
+
+### `add_callback(func)`
+
+### `connect_event(name, callback)`
+
+### `contains(mouseevent)`
+
+### `disconnect_events()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_active()`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_active(value)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `update(props)`
+
+## azimlib.widgets.FeatureSelector
+
+`FeatureSelector(ax, layer, onselect=None, *, tolerance=5)`
+
+### `add_callback(func)`
+
+### `connect_event(name, callback)`
+
+### `contains(mouseevent)`
+
+### `disconnect_events()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_active()`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_features()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_selection()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_active(value)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_selection(indices)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `update(props)`
+
 ## azimlib.patterns.Provenance
 
 `Provenance(source: str, license: str, copyright: str, attribution: str = '', sha256: str = '', license_text: str = '') -> None`
@@ -563,6 +959,8 @@ Normalize missing/nonfinite/masked scalars without importing NumPy.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -620,7 +1018,13 @@ Normalize missing/nonfinite/masked scalars without importing NumPy.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -639,6 +1043,8 @@ Normalize missing/nonfinite/masked scalars without importing NumPy.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -706,7 +1112,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -743,6 +1155,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -800,7 +1214,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -819,6 +1239,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -886,7 +1308,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -923,6 +1351,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -980,7 +1410,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -999,6 +1435,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -1064,7 +1502,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -1122,6 +1566,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `changed()`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_alpha()`
@@ -1178,7 +1624,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_path()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -1197,6 +1649,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -1264,7 +1718,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_path(path)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -1307,6 +1767,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -1368,9 +1830,15 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
 
 ### `get_segments()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -1389,6 +1857,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -1460,9 +1930,15 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
 
 ### `set_segments(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -1504,6 +1980,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `colorbar(mappable, *, ax=None, **kwargs)`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_children()`
@@ -1516,11 +1994,17 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_in_layout()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_size_inches()`
 
 ### `get_transform()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -1531,6 +2015,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `set_clip_on(value)`
 
 ### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
 
 ### `set_transform(transform)`
 
@@ -1944,6 +2432,8 @@ Return detached metadata; editing it does not change the catalog.
 
 ### `add_callback(func)`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_children()`
@@ -1954,9 +2444,15 @@ Return detached metadata; editing it does not change the catalog.
 
 ### `get_in_layout()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_transform()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -1967,6 +2463,10 @@ Return detached metadata; editing it does not change the catalog.
 ### `set_clip_on(value)`
 
 ### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
 
 ### `set_transform(transform)`
 
@@ -2022,6 +2522,8 @@ Detach contents, retaining size, DPI, identity and layout engine.
 
 ### `colorbar(mappable, *, ax=None, cax=None, **kwargs)`
 
+### `contains(mouseevent)`
+
 ### `delaxes(ax)`
 
 ### `findobj(match=None, include_self=True)`
@@ -2046,6 +2548,10 @@ Detach contents, retaining size, DPI, identity and layout engine.
 
 ### `get_layout_engine()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_size_inches()`
 
 ### `get_suptitle()`
@@ -2057,6 +2563,8 @@ Detach contents, retaining size, DPI, identity and layout engine.
 ### `get_transform()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -2089,6 +2597,10 @@ Select an existing axes without changing Figure.axes creation order.
 ### `set_label(label)`
 
 ### `set_layout_engine(layout=None, **kwargs)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
 
 ### `set_size_inches(w, h=None, forward=True)`
 
@@ -2130,7 +2642,7 @@ Adjust once using measured decoration bounds; padding is font units.
 
 ### `to_html(title=None)`
 
-### `to_scene(*, cull=False)`
+### `to_scene(*, cull=False, interactive=False, simplify=True)`
 
 Compose a scene; optionally omit safely invisible geometry.
 
@@ -2248,6 +2760,8 @@ Subdivide this rectangular selection using independent child tracks.
 
 ### `mpl_disconnect(cid)`
 
+### `pick(mouseevent)`
+
 ## azimlib.axes.MapAxes
 
 `MapAxes(figure, position, projection='equirectangular', projection_kw=None)`
@@ -2301,6 +2815,8 @@ Remove artists and decoration while preserving projection and position.
 ### `compass(*, loc='upper left', size=36, color='black')`
 
 Add an eight-point compass rose independently of the north arrow.
+
+### `contains(mouseevent)`
 
 ### `contour(lon, lat, values, levels=7, *, cmap='viridis', norm=None, vmin=None, vmax=None, colors=None, linewidths=None, linestyles=None, **kwargs)`
 
@@ -2357,6 +2873,12 @@ Read GeoJSON; style(feature) can override appearance per feature.
 ### `get_label()`
 
 ### `get_legend()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_projection()`
 
 ### `get_shared_x_axes()`
 
@@ -2480,6 +3002,8 @@ Move the geographic viewport in degrees, preserving its size.
 
 Lon/lat edges and scalar cells; own projected quadrilateral mesh.
 
+### `pick(mouseevent)`
+
 ### `plot(*args, data=None, **kwargs)`
 
 Plot one/many lon/lat series, columns and named data; return handles.
@@ -2541,6 +3065,14 @@ Set (west, east, south, north), matching common map plotting APIs.
 ### `set_in_layout(value)`
 
 ### `set_label(label)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_projection(projection, **parameters)`
+
+Replace projection after domain checks; keep geographic view/data/bearing.
 
 ### `set_prop_cycle(*args, **kwargs)`
 
@@ -2646,6 +3178,8 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 
 ### `changed()`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_alpha()`
@@ -2700,7 +3234,13 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -2719,6 +3259,8 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -2784,7 +3326,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -2821,6 +3369,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -2878,7 +3428,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_offsets()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_sizes()`
 
@@ -2899,6 +3455,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -2966,7 +3524,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_offsets(values)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_sizes(sizes, dpi=72.0)`
 
@@ -3005,6 +3569,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -3062,7 +3628,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -3081,6 +3653,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -3146,7 +3720,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -3183,6 +3763,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -3242,7 +3824,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -3261,6 +3849,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -3328,7 +3918,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -3365,6 +3961,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -3424,9 +4022,15 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_offsets()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
 
 ### `get_scale()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -3449,6 +4053,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 Own magnitude proxies: fixed arrow markers, labels in vector units.
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -3518,9 +4124,15 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_offsets(values)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
 
 ### `set_scale(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -3559,6 +4171,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `changed()`
 
 ### `clabel(levels=None, **kwargs)`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -3620,7 +4234,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -3639,6 +4259,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -3710,7 +4332,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -3747,6 +4375,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -3806,7 +4436,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
+
+### `get_simplify()`
 
 ### `get_solid_capstyle()`
 
@@ -3825,6 +4461,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -3894,7 +4532,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_solid_capstyle(value)`
 
@@ -3976,6 +4620,8 @@ Remove first occurrence of value.
 
 ### `add_callback(func)`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_children()`
@@ -3985,6 +4631,10 @@ Remove first occurrence of value.
 ### `get_figure(root=False)`
 
 ### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
 
 ### `get_transform()`
 
@@ -4008,6 +4658,8 @@ Enable automatic minor ticks without enabling any grid.
 
 ### `pchanged()`
 
+### `pick(mouseevent)`
+
 ### `properties()`
 
 ### `remove_callback(oid)`
@@ -4021,6 +4673,10 @@ Enable automatic minor ticks without enabling any grid.
 ### `set_clip_on(value)`
 
 ### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
 
 ### `set_transform(transform)`
 
@@ -4041,6 +4697,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 `TextArtist(text='', _owner=None, _slot=None, **style)`
 
 ### `add_callback(func)`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4068,6 +4726,10 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_in_layout()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_rotation()`
 
 ### `get_rotation_mode()`
@@ -4087,6 +4749,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `get_weight()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4115,6 +4779,10 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `set_horizontalalignment(value)`
 
 ### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
 
 ### `set_rotation(value)`
 
@@ -4147,6 +4815,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4210,11 +4880,17 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_position()`
 
 ### `get_rotation()`
 
 ### `get_rotation_mode()`
+
+### `get_simplify()`
 
 ### `get_size()`
 
@@ -4245,6 +4921,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4318,11 +4996,17 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_position(value)`
 
 ### `set_rotation(value)`
 
 ### `set_rotation_mode(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_size(value)`
 
@@ -4371,6 +5055,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `autoscale_None()`
 
 ### `changed()`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4436,11 +5122,17 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_norm()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_position()`
 
 ### `get_rotation()`
 
 ### `get_rotation_mode()`
+
+### `get_simplify()`
 
 ### `get_size()`
 
@@ -4471,6 +5163,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_zorder()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4546,11 +5240,17 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_norm(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_position(value)`
 
 ### `set_rotation(value)`
 
 ### `set_rotation_mode(value)`
+
+### `set_simplify(tolerance)`
 
 ### `set_size(value)`
 
@@ -4594,6 +5294,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `add_callback(func)`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_alpha()`
@@ -4620,6 +5322,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_in_layout()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_position()`
 
 ### `get_rotation()`
@@ -4645,6 +5351,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_y()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4673,6 +5381,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `set_horizontalalignment(value)`
 
 ### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
 
 ### `set_position(value)`
 
@@ -4712,6 +5424,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `add_callback(func)`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_children()`
@@ -4722,11 +5436,17 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_in_layout()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_transform()`
 
 ### `get_visible()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4740,6 +5460,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_in_layout(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_transform(transform)`
 
 ### `set_visible(value)`
@@ -4749,6 +5473,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 `Spine(visible: bool = True, color: str = 'black', linewidth: float = 0.8) -> None`
 
 ### `add_callback(func)`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4766,11 +5492,17 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_linewidth()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_transform()`
 
 ### `get_visible()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4788,6 +5520,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_linewidth(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_transform(transform)`
 
 ### `set_visible(value)`
@@ -4799,6 +5535,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 `Legend(**options)`
 
 ### `add_callback(func)`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4814,6 +5552,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_in_layout()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_texts()`
 
 ### `get_title()`
@@ -4823,6 +5565,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_visible()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4844,6 +5588,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_ncols(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_title(text, **kwargs)`
 
 ### `set_transform(transform)`
@@ -4855,6 +5603,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 `LegendFrame(legend)`
 
 ### `add_callback(func)`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4874,11 +5624,17 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_linewidth()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_transform()`
 
 ### `get_visible()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4898,6 +5654,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_linewidth(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_transform(transform)`
 
 ### `set_visible(value)`
@@ -4909,6 +5669,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 `OrientationIndicator(*, axes, slot, loc, size, color, compass=False)`
 
 ### `add_callback(func)`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4926,6 +5688,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_loc()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_size()`
 
 ### `get_transform()`
@@ -4933,6 +5699,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_visible()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -4950,6 +5718,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_loc(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_size(value)`
 
 ### `set_transform(transform)`
@@ -4961,6 +5733,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 `ScaleBar(*, axes=None, slot=None, **options)`
 
 ### `add_callback(func)`
+
+### `contains(mouseevent)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -4982,6 +5756,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_loc()`
 
+### `get_picker()`
+
+### `get_pickradius()`
+
 ### `get_transform()`
 
 ### `get_units()`
@@ -4989,6 +5767,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_visible()`
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -5016,6 +5796,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_loc(value)`
 
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
 ### `set_transform(transform)`
 
 ### `set_units(value)`
@@ -5028,6 +5812,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `add_callback(func)`
 
+### `contains(mouseevent)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `get_children()`
@@ -5037,6 +5823,10 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_figure(root=False)`
 
 ### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
 
 ### `get_ticks(*, minor=False)`
 
@@ -5051,6 +5841,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 Enable subdivisions on the long axis; the short axis remains empty.
 
 ### `pchanged()`
+
+### `pick(mouseevent)`
 
 ### `properties()`
 
@@ -5067,6 +5859,10 @@ Enable subdivisions on the long axis; the short axis remains empty.
 ### `set_in_layout(value)`
 
 ### `set_label(text, *, labelpad=None, loc=None, **kwargs)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
 
 ### `set_ticklabels(labels, *, minor=False, **kwargs)`
 

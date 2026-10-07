@@ -12,12 +12,12 @@ class Navigation:
         self.index=0
 
     def snapshot(self):
-        return tuple(None if ax._colorbar_artist is not None else ax.get_extent() for ax in self.figure.axes)
+        return tuple(None if ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None) else ax.get_extent() for ax in self.figure.axes)
 
     def _projection_snapshot(self):return tuple((ax.projection,ax._longitude_wrap,ax.get_bearing()) for ax in self.figure.axes)
 
     def _autoscale_snapshot(self):
-        return tuple(None if ax._colorbar_artist is not None else (ax.get_autoscalex_on(),ax.get_autoscaley_on()) for ax in self.figure.axes)
+        return tuple(None if ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None) else (ax.get_autoscalex_on(),ax.get_autoscaley_on()) for ax in self.figure.axes)
 
     def _apply(self,index):
         with self.figure._mutation():

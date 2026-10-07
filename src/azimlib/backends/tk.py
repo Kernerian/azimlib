@@ -27,6 +27,7 @@ def _imports():
 
 def show(figure,*,block=True):
     viewer=getattr(figure,'_viewer',None)
+    if viewer is not None and not viewer.closed and not isinstance(viewer,FigureWindow):raise RuntimeError('Close the current viewer before changing backend')
     if viewer is None or viewer.closed:
         old_canvas=figure.canvas
         viewer=FigureWindow(figure,initial_draw=False)
@@ -163,7 +164,7 @@ class FigureWindow:
         from ..renderers._interactive import InteractivePathCache
         from ..renderers._tile_cache import TileCache
         path_cache=InteractivePathCache()
-        self._pan_tiles=TileCache();self._pan_warmed=False
+        self._pan_tiles=TileCache(max_entries=512);self._pan_warmed=False
         self._pixel_process=None
         try:import aggdraw
         except ImportError:pass
@@ -226,7 +227,7 @@ class FigureWindow:
         self._pan_raster.clear();self._async_pan=False;self._pan_waiting=False
         self._drawing=True
         try:
-            scene=self.figure.to_scene(cull=True)
+            scene=self.figure.to_scene(cull=True,interactive=True)
             if not self._pan_warmed:
                 # Warm the child while the precise first frame is rasterized;
                 # the first mouse gesture should not pay process/font startup.
@@ -269,7 +270,7 @@ class FigureWindow:
             self._pan_prefetched=True
         self._pan_waiting=False
         preview=(self.drag is not None and self.mode=='pan') or self._wheel_pending is not None
-        scene=self.figure.to_scene(cull=True)
+        scene=self.figure.to_scene(cull=True,interactive=True)
         key=image=None
         if not preview:
             try:key,image=self._raster_cache.lookup(scene)
@@ -676,6 +677,9 @@ class FigureWindow:
             payload.button='up' if step>0 else 'down' if step<0 else None
         if name=='motion_notify_event':self._axes_transition(payload,event)
         self._dispatch(name,payload)
+        if name=='button_press_event' and not self.mode:
+            from ..picking import pick
+            pick(self,payload)
         return payload
 
     def _axes_transition(self,payload,event):

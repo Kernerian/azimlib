@@ -85,3 +85,30 @@ dataset from either project is vendored. The package does not redistribute
 these libraries or depend on them. New geodesy, TM, topology and clipping code
 is independently written under the original-code BSD 3-Clause license; published
 mathematical references and numeric limits are listed in `docs/geodesy.md`.
+
+
+## Optional UI / notebook dependencies (0.3 development)
+
+The independently written Qt backend imports **PySide6-Essentials** (QtCore,
+QtGui, QtWidgets) and its **shiboken6** binding dependency dynamically; it does
+not vendor their code/binaries, Qt examples or icons. Installed 6.11.2 metadata
+declares `LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only`; Qt also offers a
+commercial licensing route. These terms are **not replaced by Azimlib BSD**.
+The Python archives declare an optional requirement only, not a combined Qt
+installer. If bundling/freezing Qt/bindings, review the exact Qt build/modules,
+third-party notices, license copies, source availability, user replacement and
+modification/debugging rights required by the chosen LGPL/commercial terms.
+No GPL-only Qt add-on module is imported by this backend. See [Qt's licensing
+documentation](https://doc.qt.io/qtforpython-6/commercial/index.html),
+[open-source obligations](https://www.qt.io/development/open-source-lgpl-obligations)
+and [the dependency inventory](docs/dependencies.md). UI text uses the already
+licensed bundled DejaVu font; no new font or toolbar artwork is copied.
+
+The notebook adapter imports **IPython** through public display/event interfaces.
+IPython 9.17.1 metadata declares BSD-3-Clause; copyright belongs to the IPython
+Development Team. No IPython/Jupyter implementation is vendored. Optional
+transitive packages retain their own notices: traitlets (IPython Development
+Team, BSD), prompt_toolkit (Jonathan Slenders, BSD), jedi/parso (MIT), Pygments
+(BSD-2-Clause), plus other version-dependent dependencies. Preserve their
+actual notices if distributing these packages in a combined application.
+Neither their licenses nor authorship become exclusive Azimlib property.

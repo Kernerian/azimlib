@@ -45,6 +45,7 @@ class Figure(Artist):
         self._gridspecs=[]
         self._layout_engine=None
         self.subplotpars=dict(left=.125,bottom=.11,right=.9,top=.88,wspace=.2,hspace=.2)
+        self._widgets=[]
         self.canvas=FigureCanvas(self)
         from .transforms import FigureTransform,PhysicalTransform
         self.transFigure=FigureTransform(self)
@@ -79,7 +80,7 @@ class Figure(Artist):
 
     def _forward_size(self):
         viewer=getattr(self,'_viewer',None)
-        if viewer is not None and not viewer.closed:
+        if viewer is not None and not viewer.closed and hasattr(viewer,'resize_figure'):
             viewer.resize_figure(*(round(v*self.dpi) for v in self.figsize))
 
     @artist_mutation
@@ -109,7 +110,9 @@ class Figure(Artist):
     def set_label(self,label):
         self._label='' if label is None else str(label)
         viewer=getattr(self,'_viewer',None)
-        if viewer and not viewer.closed:viewer.window.title(self._window_title())
+        if viewer and not viewer.closed and hasattr(viewer,'window'):
+            if hasattr(viewer.window,'title'):viewer.window.title(self._window_title())
+            else:viewer.window.setWindowTitle(self._window_title())
 
     def _window_title(self):
         number=self.number if self.number is not None else 1
@@ -135,6 +138,7 @@ class Figure(Artist):
     @artist_mutation
     def clear(self):
         """Detach contents, retaining size, DPI, identity and layout engine."""
+        for widget in tuple(self._widgets):widget.disconnect_events()
         bars=list(self._colorbars)+[a._colorbar for a in self.axes if a._colorbar is not None]
         for bar in bars:bar.remove()
         for ax in tuple(self.axes):ax.clear();ax.remove()
@@ -347,7 +351,7 @@ class Figure(Artist):
                 artist.set(text=text,position=(x,y),**defaults);artist._autopos=autopos
         return artist
 
-    def to_scene(self,*,cull=False):
+    def to_scene(self,*,cull=False,interactive=False,simplify=True):
         """Compose a scene; optionally omit safely invisible geometry.
 
         Keep cull=False for consumers that transform the scene to other views,
@@ -355,16 +359,20 @@ class Figure(Artist):
         recomposition path can discard wholly invisible cylindrical geometry.
         """
         previous=self._composing;self._composing=True
+        previous_simplify=getattr(self,"_simplify_enabled",True);self._simplify_enabled=bool(simplify)
         try:
             if self._layout_engine is not None:self._layout_engine.execute(self)
             scene=self._compose_scene(cull=cull)
+            if interactive:
+                for widget in tuple(self._widgets):
+                    if widget.get_visible():widget._render(scene)
             return scene.scaled(self.dpi/100) if self.dpi!=100 else scene
         finally:
             def clear_viewport(ax):
                 ax._active_viewport=None
                 for child in ax.insets:clear_viewport(child)
             for ax in self.axes:clear_viewport(ax)
-            self._composing=previous
+            self._composing=previous;self._simplify_enabled=previous_simplify
 
     def get_children(self):
         return [*self.axes,*self._colorbars,*[a for _,_,a in self._texts],*self._figure_labels(),*self.subfigs]
@@ -400,9 +408,9 @@ class Figure(Artist):
             shared.append((bar,barbox))
         from .render_map import prepare_transforms
         for ax in self.axes:
-            if ax._colorbar_artist is None:prepare_transforms(ax,boxes[id(ax)])
+            if ax._colorbar_artist is None and not getattr(ax,'_widget_owner',None):prepare_transforms(ax,boxes[id(ax)])
         for ax in self.axes:
-            if not ax.get_visible() or ax._colorbar_artist is not None:continue
+            if not ax.get_visible() or ax._colorbar_artist is not None or getattr(ax,'_widget_owner',None):continue
             allocated=boxes[id(ax)]
             scene._layout_scales[ax]=(allocated[2]/(ax.position[2]*width),allocated[3]/(ax.position[3]*height))
             render_axes(ax,scene,boxes[id(ax)],measure_layout=measure_layout,cull=cull)
@@ -433,7 +441,7 @@ class Figure(Artist):
 
     def to_svg(self):
         from .renderers import render_svg
-        return render_svg(self.to_scene())
+        return render_svg(self.to_scene(simplify=False))
 
     @artist_mutation
     def colorbar(self,mappable,*,ax=None,cax=None,**kwargs):
@@ -454,7 +462,7 @@ class Figure(Artist):
 
     def to_html(self, title=None):
         from .viewer import render_html
-        return render_html(self.to_scene(), title=self._window_title() if title is None else title)
+        return render_html(self.to_scene(simplify=False), title=self._window_title() if title is None else title)
 
     def _repr_svg_(self):
         """Automatic inline display in notebooks, without an IPython dependency."""
@@ -474,7 +482,7 @@ class Figure(Artist):
             raise ValueError("dpi must be finite and positive")
         # A smaller export DPI widens raster overscan relative to logical units;
         # retain the complete scene rather than guessing that safety margin.
-        scene=self.to_scene(cull=dpi is None or dpi>=self.dpi)
+        scene=self.to_scene(cull=dpi is None or dpi>=self.dpi,simplify=False)
         from .renderers import render_svg,render_png,render_pdf
         def write(target):
             if fmt=="svg":
@@ -510,10 +518,16 @@ class Figure(Artist):
         Figure.show is non-blocking by default, matching the object-oriented
         desktop convention. pyplot.show() runs the native GUI event loop.
         """
-        if backend not in ("tk","browser"):
-            raise ValueError("Interactive backends: tk or browser")
+        if backend not in ("tk","browser","browser-live","notebook","qt"):
+            raise ValueError("Interactive backends: tk, browser, browser-live, notebook or qt")
         if path is not None and backend!="browser":
             raise ValueError("An HTML path requires show(backend='browser', path=...)")
+        if backend in ('qt','notebook','browser-live'):
+            from importlib import import_module
+            module=import_module('.backends.'+('live' if backend=='browser-live' else backend),__package__)
+            kwargs=dict(block=block)
+            if backend=='browser-live':kwargs['open_browser']=open_browser
+            return module.show(self,**kwargs)
         if backend=="tk":
             from .backends.tk import show
             return show(self,block=block)
@@ -559,7 +573,8 @@ class FigureCanvas:
         if getattr(self,'_drawing',False):return None
         self._drawing=True
         try:
-            scene=self.figure.to_scene()
+            scene=self.figure.to_scene(interactive=True)
+            self._pick_scene=scene
             self.figure._draw_complete()
             from types import SimpleNamespace
             event=SimpleNamespace(name='draw_event',canvas=self,renderer=scene)
@@ -575,6 +590,13 @@ class FigureCanvas:
         self._idle_drawing=True
         try:return self.draw()
         finally:self._idle_drawing=False
+
+    def _dispatch(self,name,event):
+        for channel,callback in tuple(self._callbacks.values()):
+            if channel==name:callback(event)
+    def pick(self,mouseevent):
+        from .picking import pick
+        return pick(self,mouseevent)
 
     def mpl_connect(self,event,callback):
         if not callable(callback):raise TypeError("callback must be callable")

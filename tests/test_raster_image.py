@@ -1,4 +1,5 @@
 """Direct RGBA buffers preserve own PNG baseline and resource ownership."""
+from _raster_reference import legacy_circles
 import importlib.util,io,math,unittest
 from pathlib import Path as FilePath
 from unittest.mock import Mock,patch
@@ -30,11 +31,12 @@ class RasterImageTests(unittest.TestCase):
                         scene.add(Circle(61.2,39.3,8.1,dict(fill='#ff334488',stroke='blue',stroke_width=.7)))
                         scene.add(Text(42,55,'São 20°',dict(fill='black',font_size=10,rotation=rotation,anchor='middle',stroke='white',stroke_width=1)))
                         before=io.BytesIO();old.render_png(scene,before,scale)
-                        after=io.BytesIO();render_png(scene,after,scale)
+                        after=io.BytesIO();render_png(legacy_circles(scene,scale),after,scale)
                         self.assertEqual(before.getvalue(),after.getvalue());self.assertFalse(after.closed)
+                        after=io.BytesIO();render_png(scene,after,scale)
                         image=render_image(scene,scale)
                         try:
-                            with Image.open(before) as decoded:
+                            with Image.open(after) as decoded:
                                 self.assertEqual(image.mode,'RGBA');self.assertEqual(image.size,decoded.size)
                                 self.assertEqual(image.tobytes(),decoded.convert('RGBA').tobytes())
                         finally:image.close()

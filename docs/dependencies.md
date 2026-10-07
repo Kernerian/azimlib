@@ -11,7 +11,7 @@ application or installer that redistributes them.
 | Optional arrays/compiler | NumPy; Numba; llvmlite; LLVM | BSD, additional bundled notices, Apache-2.0 with LLVM exception |
 | Build and validation | setuptools, build, wheel, pytest, twine, packaging, PyYAML, tomli | MIT/BSD/Apache as applicable; preserve component notices if redistributing the tools themselves |
 | Comparisons and font preparation | Matplotlib, fontTools, cycler, contourpy | Matplotlib's agreement; MIT; BSD. No runtime backend or vendored implementation |
-| GUI/browser comparisons | PySide6/Qt; Playwright/browser | Qt LGPL/GPL/commercial component terms; Playwright Apache-2.0; browser terms vary. Not included in the wheel |
+| GUI/browser comparisons | Playwright/browser | Playwright Apache-2.0; browser terms vary. Not included in the wheel |
 | Hosted CI | GitHub checkout/setup-python/upload-artifact actions; Xvfb/xauth | Separate CI tooling; no action implementation is shipped in Azimlib |
 | Local history remediation | git-filter-repo 2.47.0 | MIT; external one-off tool, not vendored or required by Azimlib |
 
@@ -55,3 +55,29 @@ by tests; no source code or upstream test dataset is vendored. Recorded numeric
 outputs and versions are in [the core guide](geodesy.md). These tools are not
 included in wheel/sdist or package requirements. Redistributing an oracle
 environment would require reviewing its own licenses and binary dependencies.
+
+
+## Optional UI integration in 0.3 development
+
+The `qt` extra requires Pillow and PySide6-Essentials >=6.5; shiboken6 is its
+binding dependency. Local 6.11.2 metadata declares LGPL-3.0-only OR GPL-2.0-only
+OR GPL-3.0-only; Qt's proprietary commercial route is separate. Only QtCore,
+QtGui and QtWidgets are used. Code/binaries/modules/licenses from this dependency
+are not bundled into Azimlib's wheel/sdist. A frozen or combined application that
+redistributes Qt must comply with its chosen license and the exact binary's
+third-party terms; declaring the application BSD does not cancel those duties.
+See [material boundaries](../THIRD_PARTY_LICENSES.md).
+
+The `notebook` extra uses IPython >=8, public display_id/update and post_run_cell
+hooks. IPython 9.17.1 has BSD-3-Clause metadata. Its transitive traitlets and
+prompt_toolkit retain BSD notices; jedi/parso retain MIT; Pygments BSD-2-Clause;
+asttokens, executing, pure-eval, decorator, stack-data, wcwidth, colorama/pexpect
+and conditional typing/exception packages must be reviewed at their resolved
+versions when bundling. None are vendored. Both extras are absent from core
+installation/imports. Stdlib HTTP/threading/JSON supply the local live bridge.
+Node is a development-only executable for the own client-protocol fixture.
+
+The [observed optional dependency closure](interaction-dependencies-0.3.json)
+records actual Windows versions, declared requirements and license-file hashes
+for the two new extras. It is not a lockfile or permission to redistribute an
+entire Qt binary installation without reviewing its complete notices.

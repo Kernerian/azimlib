@@ -2,6 +2,12 @@
 
 ## 0.3.0 development — finishing batch
 
+- Independent feature picking, pixel tolerance, optional selectors/layer controls/sliders.
+- Explicit owner-thread loopback live viewer, updatable notebook SVG display and optional own Qt widget canvas.
+- Opt-in bounded line/shared-chain polygon simplification and incremental pixel caches.
+- Analytic circle/annulus raster coverage, bounded preview phase tiles and reproducible urban/dense benchmarks.
+- Native Windows Tk/Qt, protocol and IPython checks; cross-platform new-backend gates remain explicit.
+
 - Own adaptive Beziers and physical clipping/caps/joins across PNG/SVG/PDF.
 - Shared subpixel text metrics/hinting audit and own bundled TrueType outlines.
 - Bounded projected interior anchors, priorities/obstacles and leaders ending

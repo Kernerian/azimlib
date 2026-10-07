@@ -134,6 +134,28 @@ class Artist:
                 self._mutation_pending = False
                 self._changed()
 
+    def get_picker(self):return getattr(self,'_picker',None)
+    @artist_mutation
+    def set_picker(self,value):
+        import math
+        if value is not None and not callable(value) and not isinstance(value,bool):
+            value=float(value)
+            if not math.isfinite(value) or value<0:raise ValueError('picker radius must be finite nonnegative pixels')
+        self._picker=value
+    def get_pickradius(self):return getattr(self,'_pickradius',5.)
+    @artist_mutation
+    def set_pickradius(self,value):
+        import math
+        value=float(value)
+        if not math.isfinite(value) or value<0:raise ValueError('pickradius must be finite nonnegative pixels')
+        self._pickradius=value
+    def contains(self,mouseevent):
+        from .picking import contains
+        return contains(self,mouseevent)
+    def pick(self,mouseevent):
+        from .picking import pick
+        return pick(mouseevent.canvas,mouseevent,only=self)
+
     def get_clip_on(self):return getattr(self,'_clip_on',True)
     @artist_mutation
     def set_clip_on(self,value):self._clip_on=bool(value)
