@@ -496,6 +496,748 @@ Validate and freeze a two- or three-dimensional geographic position.
 
 Wrap longitude into the central meridian's closed +/-180° interval.
 
+## azimlib.transforms
+
+### `blended_transform_factory(x_transform, y_transform)`
+
+### `offset_copy(transform, fig=None, x=0, y=0, units='inches')`
+
+### `scene_point(transform, p, figure)`
+
+## azimlib.dates
+
+### `date2num(value)`
+
+### `num2date(value, tz=datetime.timezone.utc)`
+
+## azimlib.scale
+
+### `scale_factory(name, **kwargs)`
+
+## azimlib.legend_handler
+
+### `get_handler(mapping, handle)`
+
+## azimlib.path.Path
+
+`Path(vertices, codes=None)`
+
+### `to_polylines(steps=24)`
+
+### `transformed(transform)`
+
+## azimlib.patches.PathPatch
+
+`PathPatch(path, **kwargs)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_path()`
+
+### `get_rotation()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_path(path)`
+
+### `set_rotation(value)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `update(props)`
+
+## azimlib.patches.Symbol
+
+`Symbol(path)`
+
+### `patch(**kwargs)`
+
+## azimlib.collections.LineCollection
+
+`LineCollection(segments, *, colors=None, linewidths=None, linestyles=None, transform=None, **kwargs)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_colors()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_linestyle()`
+
+### `get_linestyles()`
+
+### `get_linewidth()`
+
+### `get_linewidths()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_rotation()`
+
+### `get_segments()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_colors(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linestyles(value)`
+
+### `set_linewidth(value)`
+
+### `set_linewidths(value)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_rotation(value)`
+
+### `set_segments(value)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `update(props)`
+
+## azimlib.subfigure.SubFigure
+
+`SubFigure(figure, position, parent=None)`
+
+### `add_axes(rect=(0.125, 0.11, 0.775, 0.77), **kwargs)`
+
+### `add_callback(func)`
+
+### `add_gridspec(nrows=1, ncols=1, **kwargs)`
+
+### `add_subplot(*args, **kwargs)`
+
+### `clear()`
+
+### `colorbar(mappable, *, ax=None, **kwargs)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_dpi()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_size_inches()`
+
+### `get_transform()`
+
+### `pchanged()`
+
+### `properties()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_transform(transform)`
+
+### `subfigures(*args, **kwargs)`
+
+### `subplots(nrows=1, ncols=1, *, gridspec_kw=None, width_ratios=None, height_ratios=None, **kwargs)`
+
+### `suptitle(text, **kwargs)`
+
+### `supxlabel(text, **kwargs)`
+
+### `supylabel(text, **kwargs)`
+
+### `text(x, y, text, **kwargs)`
+
+### `update(props)`
+
+## azimlib.transforms.Transform
+
+`Transform()`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(point)`
+
+## azimlib.transforms.CompositeTransform
+
+`CompositeTransform(first, second)`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.transforms.AxesTransform
+
+`AxesTransform(axes, space='axes')`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.transforms.FigureTransform
+
+`FigureTransform(figure)`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.transforms.OffsetTransform
+
+`OffsetTransform(source, figure, x, y, unit)`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.transforms.IdentityTransform
+
+`IdentityTransform()`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.transforms.Affine2D
+
+`Affine2D(matrix=None)`
+
+### `clear()`
+
+### `get_matrix()`
+
+### `inverted()`
+
+### `owners()`
+
+### `rotate(theta)`
+
+### `rotate_deg(degrees)`
+
+### `rotate_deg_around(x, y, degrees)`
+
+### `scale(sx, sy=None)`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+### `translate(tx, ty)`
+
+## azimlib.transforms.PhysicalTransform
+
+`PhysicalTransform(figure, unit='inches')`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.transforms.BlendedTransform
+
+`BlendedTransform(x_transform, y_transform)`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.dates.DateFormatter
+
+`DateFormatter(fmt='%Y-%m-%d', tz=datetime.timezone.utc)`
+
+### `fix_minus(text)`
+
+### `format_data(value)`
+
+### `format_data_short(value)`
+
+### `format_ticks(values)`
+
+### `get_offset()`
+
+### `set_axis(axis)`
+
+### `set_locs(locs)`
+
+## azimlib.dates.DayLocator
+
+`DayLocator(interval=1)`
+
+### `raise_if_exceeds(locs)`
+
+### `set_axis(axis)`
+
+### `tick_values(vmin, vmax)`
+
+## azimlib.dates.MonthLocator
+
+`MonthLocator(interval=1)`
+
+### `raise_if_exceeds(locs)`
+
+### `set_axis(axis)`
+
+### `tick_values(vmin, vmax)`
+
+## azimlib.dates.AutoDateLocator
+
+`AutoDateLocator(maxticks=9)`
+
+### `raise_if_exceeds(locs)`
+
+### `set_axis(axis)`
+
+### `tick_values(vmin, vmax)`
+
+## azimlib.scale.ScaleTransform
+
+`ScaleTransform(scale, inverse=False)`
+
+### `inverted()`
+
+### `owners()`
+
+### `transform(values)`
+
+### `transform_point(p)`
+
+## azimlib.scale.LinearScale
+
+`LinearScale()`
+
+### `forward(value)`
+
+### `get_transform()`
+
+### `inverse(value)`
+
+## azimlib.scale.LogScale
+
+`LogScale(base=10)`
+
+### `forward(value)`
+
+### `get_transform()`
+
+### `inverse(value)`
+
+## azimlib.scale.SymLogScale
+
+`SymLogScale(base=10, linthresh=1)`
+
+### `forward(value)`
+
+### `get_transform()`
+
+### `inverse(value)`
+
+## azimlib.legend_handler.HandleBox
+
+`HandleBox(legend, scene, box)`
+
+### `add_artist(artist)`
+
+### `get_transform()`
+
+## azimlib.legend_handler.HandlerBase
+
+`HandlerBase()`
+
+### `create_artists(legend, orig_handle, xdescent, ydescent, width, height, fontsize, transform)`
+
+### `legend_artist(legend, orig_handle, fontsize, handlebox)`
+
+## azimlib.legend_handler.HandlerSymbol
+
+`HandlerSymbol(**style)`
+
+### `create_artists(legend, orig_handle, xdescent, ydescent, width, height, fontsize, transform)`
+
+### `legend_artist(legend, orig_handle, fontsize, handlebox)`
+
+## azimlib.ticker.LogFormatter
+
+`LogFormatter(base=10, labelOnlyBase=False)`
+
+### `fix_minus(text)`
+
+### `format_data(value)`
+
+### `format_data_short(value)`
+
+### `format_ticks(values)`
+
+### `get_offset()`
+
+### `set_axis(axis)`
+
+### `set_locs(locs)`
+
+## azimlib.ticker.LogFormatterExponent
+
+`LogFormatterExponent(base=10, labelOnlyBase=False)`
+
+### `fix_minus(text)`
+
+### `format_data(value)`
+
+### `format_data_short(value)`
+
+### `format_ticks(values)`
+
+### `get_offset()`
+
+### `set_axis(axis)`
+
+### `set_locs(locs)`
+
+## azimlib.ticker.LogFormatterSciNotation
+
+`LogFormatterSciNotation(base=10, labelOnlyBase=False)`
+
+### `fix_minus(text)`
+
+### `format_data(value)`
+
+### `format_data_short(value)`
+
+### `format_ticks(values)`
+
+### `get_offset()`
+
+### `set_axis(axis)`
+
+### `set_locs(locs)`
+
 ## azimlib.geodesy.Unit
 
 `Unit(name: str, symbol: str, to_si: float, quantity: str = 'length') -> None`
@@ -598,9 +1340,13 @@ Return detached metadata; editing it does not change the catalog.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_figure(root=False)`
 
 ### `get_in_layout()`
+
+### `get_transform()`
 
 ### `pchanged()`
 
@@ -610,7 +1356,11 @@ Return detached metadata; editing it does not change the catalog.
 
 ### `set(**kwargs)`
 
+### `set_clip_on(value)`
+
 ### `set_in_layout(value)`
+
+### `set_transform(transform)`
 
 ### `update(props)`
 
@@ -672,6 +1422,8 @@ Detach contents, retaining size, DPI, identity and layout engine.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_dpi()`
 
 ### `get_figheight()`
@@ -694,6 +1446,8 @@ Detach contents, retaining size, DPI, identity and layout engine.
 
 ### `get_supylabel()`
 
+### `get_transform()`
+
 ### `pchanged()`
 
 ### `properties()`
@@ -714,6 +1468,8 @@ Select an existing axes without changing Figure.axes creation order.
 
 ### `set(**kwargs)`
 
+### `set_clip_on(value)`
+
 ### `set_dpi(val)`
 
 ### `set_figheight(val, forward=True)`
@@ -730,9 +1486,13 @@ Select an existing axes without changing Figure.axes creation order.
 
 Set physical figure size; optionally resize an existing desktop canvas.
 
+### `set_transform(transform)`
+
 ### `show(*, backend='tk', block=False, open_browser=True, path=None)`
 
 Display a native figure, or explicitly request the browser viewer.
+
+### `subfigures(*args, **kwargs)`
 
 ### `subplot_mosaic(mosaic, *, projection='equirectangular', projection_kw=None, empty_sentinel='.', subplot_kw=None, per_subplot_kw=None, gridspec_kw=None, width_ratios=None, height_ratios=None, sharex=False, sharey=False)`
 
@@ -886,9 +1646,13 @@ Subdivide this rectangular selection using independent child tracks.
 
 ### `add_callback(func)`
 
+### `add_collection(collection, autolim=True)`
+
 ### `add_geometries(data, *, style=None, fit=True, crs=None, **kwargs)`
 
 Read GeoJSON; style(feature) can override appearance per feature.
+
+### `add_patch(patch)`
 
 ### `annotate(text, xy, xytext=None, *, textcoords='offset pixels', arrow=True, **kwargs)`
 
@@ -938,6 +1702,8 @@ Add an eight-point compass rose independently of the north arrow.
 
 A regular lon/lat count grid with optional Gaussian cell smoothing.
 
+### `fill(lon, lat, **kwargs)`
+
 ### `findobj(match=None, include_self=True)`
 
 ### `fit_extent(data=None, *, margin=0.05)`
@@ -956,7 +1722,11 @@ Read GeoJSON; style(feature) can override appearance per feature.
 
 ### `get_axisbelow()`
 
+### `get_bearing()`
+
 ### `get_children()`
+
+### `get_clip_on()`
 
 ### `get_extent()`
 
@@ -982,6 +1752,8 @@ Return the cell selection, or None for manually positioned axes.
 
 ### `get_title(loc='center')`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xaxis()`
@@ -994,6 +1766,8 @@ Return (west, east) geographic longitude limits in degrees.
 
 ### `get_xmargin()`
 
+### `get_xscale()`
+
 ### `get_xticks(*, minor=False)`
 
 ### `get_yaxis()`
@@ -1005,6 +1779,8 @@ Return (west, east) geographic longitude limits in degrees.
 Return (south, north) geographic latitude limits in degrees.
 
 ### `get_ymargin()`
+
+### `get_yscale()`
 
 ### `get_yticks(*, minor=False)`
 
@@ -1036,7 +1812,7 @@ Place feature labels with collision avoidance and local line tangents.
 
 ### `lakes(**kwargs)`
 
-### `legend(handles=None, labels=None, *, title=None, loc=None, fontsize=None, frameon=True, facecolor=None, edgecolor=None, framealpha=None, title_fontsize=None, borderpad=0.4, labelspacing=0.5, handlelength=2, handletextpad=0.8, borderaxespad=0.5, ncols=None, ncol=None, columnspacing=2, bbox_to_anchor=None, bbox_transform='axes', mode=None)`
+### `legend(handles=None, labels=None, *, title=None, loc=None, fontsize=None, frameon=True, facecolor=None, edgecolor=None, framealpha=None, title_fontsize=None, borderpad=0.4, labelspacing=0.5, handlelength=2, handletextpad=0.8, borderaxespad=0.5, ncols=None, ncol=None, columnspacing=2, bbox_to_anchor=None, bbox_transform='axes', mode=None, handler_map=None)`
 
 ### `line(coordinates, **kwargs)`
 
@@ -1124,6 +1900,10 @@ Recompute geographic data bounds without moving the current view.
 
 ### `set_axisbelow(value)`
 
+### `set_bearing(angle)`
+
+### `set_clip_on(value)`
+
 ### `set_extent(extent)`
 
 Set (west, east, south, north), matching common map plotting APIs.
@@ -1142,6 +1922,8 @@ Set future line/scatter defaults; does not restyle existing Artists.
 
 Set one of three independent titles; pad is measured in points.
 
+### `set_transform(transform)`
+
 ### `set_visible(visible)`
 
 ### `set_xlabel(label, *, labelpad=None, **kwargs)`
@@ -1154,6 +1936,8 @@ Set longitude limits; accept ``(left, right)`` or separate values.
 
 ### `set_xmargin(value)`
 
+### `set_xscale(value, **kwargs)`
+
 ### `set_xticks(ticks, labels=None, *, minor=False, **kwargs)`
 
 ### `set_ylabel(label, *, labelpad=None, **kwargs)`
@@ -1165,6 +1949,8 @@ Set the vertical geographic axis label.
 Set latitude limits; accept ``(bottom, top)`` or separate values.
 
 ### `set_ymargin(value)`
+
+### `set_yscale(value, **kwargs)`
 
 ### `set_yticks(ticks, labels=None, *, minor=False, **kwargs)`
 
@@ -1232,6 +2018,8 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 
 ### `get_clim()`
 
+### `get_clip_on()`
+
 ### `get_cmap()`
 
 ### `get_color()`
@@ -1280,6 +2068,8 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xdata()`
@@ -1307,6 +2097,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -1356,6 +2148,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_text(value)`
 
+### `set_transform(transform)`
+
 ### `set_visible(visible)`
 
 ### `set_xdata(value)`
@@ -1391,6 +2185,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_children()`
 
 ### `get_clim()`
+
+### `get_clip_on()`
 
 ### `get_cmap()`
 
@@ -1444,6 +2240,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xdata()`
@@ -1471,6 +2269,8 @@ Edit points, areas and color data together before notifying observers.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -1524,6 +2324,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_text(value)`
 
+### `set_transform(transform)`
+
 ### `set_visible(visible)`
 
 ### `set_xdata(value)`
@@ -1559,6 +2361,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_children()`
 
 ### `get_clim()`
+
+### `get_clip_on()`
 
 ### `get_cmap()`
 
@@ -1610,6 +2414,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xdata()`
@@ -1637,6 +2443,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -1686,6 +2494,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_text(value)`
 
+### `set_transform(transform)`
+
 ### `set_visible(visible)`
 
 ### `set_xdata(value)`
@@ -1721,6 +2531,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_children()`
 
 ### `get_clim()`
+
+### `get_clip_on()`
 
 ### `get_cmap()`
 
@@ -1774,6 +2586,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xdata()`
@@ -1801,6 +2615,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -1852,6 +2668,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_text(value)`
 
+### `set_transform(transform)`
+
 ### `set_visible(visible)`
 
 ### `set_xdata(value)`
@@ -1889,6 +2707,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_children()`
 
 ### `get_clim()`
+
+### `get_clip_on()`
 
 ### `get_cmap()`
 
@@ -1942,6 +2762,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xdata()`
@@ -1971,6 +2793,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -2024,6 +2848,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_text(value)`
 
+### `set_transform(transform)`
+
 ### `set_visible(visible)`
 
 ### `set_xdata(value)`
@@ -2061,6 +2887,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_children()`
 
 ### `get_clim()`
+
+### `get_clip_on()`
 
 ### `get_cmap()`
 
@@ -2116,6 +2944,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xdata()`
@@ -2143,6 +2973,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -2198,6 +3030,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_text(value)`
 
+### `set_transform(transform)`
+
 ### `set_visible(visible)`
 
 ### `set_xdata(value)`
@@ -2233,6 +3067,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_children()`
 
 ### `get_clim()`
+
+### `get_clip_on()`
 
 ### `get_cmap()`
 
@@ -2286,6 +3122,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_visible()`
 
 ### `get_xdata()`
@@ -2313,6 +3151,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -2365,6 +3205,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_solid_joinstyle(value)`
 
 ### `set_text(value)`
+
+### `set_transform(transform)`
 
 ### `set_visible(visible)`
 
@@ -2438,9 +3280,13 @@ Remove first occurrence of value.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_figure(root=False)`
 
 ### `get_in_layout()`
+
+### `get_transform()`
 
 ### `get_xaxis()`
 
@@ -2472,7 +3318,11 @@ Enable automatic minor ticks without enabling any grid.
 
 ### `set_axis_on()`
 
+### `set_clip_on(value)`
+
 ### `set_in_layout(value)`
+
+### `set_transform(transform)`
 
 ### `set_xticks(ticks, labels=None, *, minor=False, **kwargs)`
 
@@ -2497,6 +3347,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `get_alpha()`
 
 ### `get_children()`
+
+### `get_clip_on()`
 
 ### `get_color()`
 
@@ -2524,6 +3376,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_va()`
 
 ### `get_verticalalignment()`
@@ -2543,6 +3397,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `set(**kwargs)`
 
 ### `set_alpha(value)`
+
+### `set_clip_on(value)`
 
 ### `set_color(value)`
 
@@ -2567,6 +3423,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `set_size(value)`
 
 ### `set_text(value)`
+
+### `set_transform(transform)`
 
 ### `set_va(value)`
 
@@ -2601,6 +3459,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `get_children()`
 
 ### `get_clim()`
+
+### `get_clip_on()`
 
 ### `get_cmap()`
 
@@ -2664,6 +3524,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_va()`
 
 ### `get_verticalalignment()`
@@ -2701,6 +3563,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -2763,6 +3627,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_solid_joinstyle(value)`
 
 ### `set_text(value)`
+
+### `set_transform(transform)`
 
 ### `set_va(value)`
 
@@ -2812,6 +3678,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_clim()`
 
+### `get_clip_on()`
+
 ### `get_cmap()`
 
 ### `get_color()`
@@ -2874,6 +3742,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_va()`
 
 ### `get_verticalalignment()`
@@ -2913,6 +3783,8 @@ Edit supported data/text, styles and colors after batch validation.
 ### `set_array(values)`
 
 ### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
 
 ### `set_cmap(value)`
 
@@ -2976,6 +3848,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_text(value)`
 
+### `set_transform(transform)`
+
 ### `set_va(value)`
 
 ### `set_verticalalignment(value)`
@@ -3010,6 +3884,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_color()`
 
 ### `get_figure(root=False)`
@@ -3038,6 +3914,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_text()`
 
+### `get_transform()`
+
 ### `get_va()`
 
 ### `get_verticalalignment()`
@@ -3061,6 +3939,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set(**kwargs)`
 
 ### `set_alpha(value)`
+
+### `set_clip_on(value)`
 
 ### `set_color(value)`
 
@@ -3087,6 +3967,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_size(value)`
 
 ### `set_text(value)`
+
+### `set_transform(transform)`
 
 ### `set_va(value)`
 
@@ -3118,9 +4000,13 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_figure(root=False)`
 
 ### `get_in_layout()`
+
+### `get_transform()`
 
 ### `get_visible()`
 
@@ -3134,7 +4020,11 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set(**kwargs)`
 
+### `set_clip_on(value)`
+
 ### `set_in_layout(value)`
+
+### `set_transform(transform)`
 
 ### `set_visible(value)`
 
@@ -3148,6 +4038,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_color()`
 
 ### `get_edgecolor()`
@@ -3157,6 +4049,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_in_layout()`
 
 ### `get_linewidth()`
+
+### `get_transform()`
 
 ### `get_visible()`
 
@@ -3168,6 +4062,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set(**kwargs)`
 
+### `set_clip_on(value)`
+
 ### `set_color(value)`
 
 ### `set_edgecolor(value)`
@@ -3175,6 +4071,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_in_layout(value)`
 
 ### `set_linewidth(value)`
+
+### `set_transform(transform)`
 
 ### `set_visible(value)`
 
@@ -3190,6 +4088,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_figure(root=False)`
 
 ### `get_frame()`
@@ -3201,6 +4101,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_texts()`
 
 ### `get_title()`
+
+### `get_transform()`
 
 ### `get_visible()`
 
@@ -3216,6 +4118,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_bbox_to_anchor(value, transform=None)`
 
+### `set_clip_on(value)`
+
 ### `set_frame_on(value)`
 
 ### `set_in_layout(value)`
@@ -3225,6 +4129,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_ncols(value)`
 
 ### `set_title(text, **kwargs)`
+
+### `set_transform(transform)`
 
 ### `set_visible(value)`
 
@@ -3240,6 +4146,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_edgecolor()`
 
 ### `get_facecolor()`
@@ -3249,6 +4157,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_in_layout()`
 
 ### `get_linewidth()`
+
+### `get_transform()`
 
 ### `get_visible()`
 
@@ -3262,6 +4172,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_alpha(value)`
 
+### `set_clip_on(value)`
+
 ### `set_edgecolor(value)`
 
 ### `set_facecolor(value)`
@@ -3269,6 +4181,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_in_layout(value)`
 
 ### `set_linewidth(value)`
+
+### `set_transform(transform)`
 
 ### `set_visible(value)`
 
@@ -3282,7 +4196,11 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `findobj(match=None, include_self=True)`
 
+### `get_angle()`
+
 ### `get_children()`
+
+### `get_clip_on()`
 
 ### `get_color()`
 
@@ -3293,6 +4211,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `get_loc()`
 
 ### `get_size()`
+
+### `get_transform()`
 
 ### `get_visible()`
 
@@ -3306,6 +4226,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set(**kwargs)`
 
+### `set_clip_on(value)`
+
 ### `set_color(value)`
 
 ### `set_in_layout(value)`
@@ -3313,6 +4235,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_loc(value)`
 
 ### `set_size(value)`
+
+### `set_transform(transform)`
 
 ### `set_visible(value)`
 
@@ -3325,6 +4249,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `findobj(match=None, include_self=True)`
 
 ### `get_children()`
+
+### `get_clip_on()`
 
 ### `get_color()`
 
@@ -3340,6 +4266,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_loc()`
 
+### `get_transform()`
+
 ### `get_units()`
 
 ### `get_visible()`
@@ -3353,6 +4281,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `remove_callback(oid)`
 
 ### `set(**kwargs)`
+
+### `set_clip_on(value)`
 
 ### `set_color(value)`
 
@@ -3370,6 +4300,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_loc(value)`
 
+### `set_transform(transform)`
+
 ### `set_units(value)`
 
 ### `set_visible(value)`
@@ -3384,11 +4316,15 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `get_children()`
 
+### `get_clip_on()`
+
 ### `get_figure(root=False)`
 
 ### `get_in_layout()`
 
 ### `get_ticks(*, minor=False)`
+
+### `get_transform()`
 
 ### `get_visible()`
 
@@ -3410,6 +4346,8 @@ Enable subdivisions on the long axis; the short axis remains empty.
 
 ### `set_alpha(value)`
 
+### `set_clip_on(value)`
+
 ### `set_in_layout(value)`
 
 ### `set_label(text, *, labelpad=None, loc=None, **kwargs)`
@@ -3417,6 +4355,8 @@ Enable subdivisions on the long axis; the short axis remains empty.
 ### `set_ticklabels(labels, *, minor=False, **kwargs)`
 
 ### `set_ticks(ticks, labels=None, *, minor=False, **kwargs)`
+
+### `set_transform(transform)`
 
 ### `set_visible(value)`
 
@@ -3987,3 +4927,13 @@ Signed cosine of angular distance to the view centre (>=0 visible).
 ### `execute(figure)`
 
 ### `get()`
+
+## azimlib.layout_engine.CompressedLayoutEngine
+
+`CompressedLayoutEngine(*, w_pad=0.041666666666666664, h_pad=0.041666666666666664, wspace=0.02, hspace=0.02, rect=(0, 0, 1, 1))`
+
+### `execute(figure)`
+
+### `get()`
+
+### `set(**kwargs)`

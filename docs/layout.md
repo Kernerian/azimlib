@@ -73,17 +73,19 @@ Um Axes excluído mantém sua posição. Camadas são recortadas ao viewport e
 não exigem margem externa. Layout não adiciona grid, escala, norte ou minimapa.
 Colorbars compartilhadas entram na medição junto à união dos subplots.
 
-`add_axes()` e `cax` explícito mantêm posições manuais; não são obstáculos
-reposicionados automaticamente. Reserve espaço para eles com rect, por exemplo:
-`fig.set_layout_engine("tight", rect=(0,0,0.85,1))`.
+`add_axes()` e `cax` explícito mantêm posições manuais. Na 0.3 em
+desenvolvimento, textos livres e cax próximos das bordas podem reservar faixas
+quando in_layout=True; objetos interiores continuam exigindo reserva manual.
+Veja [contratos de composição](transforms-composition.md).
 
 ## Limites e verificação
 
-Suporta uma hierarquia com um GridSpec raiz, com spans e pesos; veja
+Suporta hierarquias GridSpec com spans e pesos; veja
 [composição com spans](gridspec.md) e [grids/mosaicos aninhados](nested-layout.md).
-Ainda não inclui múltiplos grids raiz independentes em modo automático,
-subfigures, compressed layout ou alinhamento de rótulos entre mapas com proporções
-diferentes. Textos livres da Figure exigem reserva manual. Não resolve colisões
+Na 0.3 em desenvolvimento, também aceita raízes independentes em regiões
+explicitamente disjuntas, SubFigure e compressed em grids completos sem spans.
+Hierarquias/spans mantêm a solução constrained. Não inclui alinhamento geral
+de rótulos entre mapas com proporções diferentes nem colisão universal de textos. Não resolve colisões
 internas entre legenda, escala, norte e dados. Até 16 medições em grids simples
 ou 32 em hierarquias fazem reservas
 conservadoras. Sem espaço/convergência, avisa e restaura posições anteriores;

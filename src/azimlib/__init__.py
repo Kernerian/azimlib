@@ -35,6 +35,10 @@ from . import colors,cm,ticker
 from .artist import Artist,setp,getp,ion,ioff,isinteractive
 from .cycles import cycler,Cycler
 
+from . import transforms,dates,scale
+from .path import Path
+from .patches import PathPatch,Symbol
+
 __version__="0.3.0.dev0"
 __all__=["Artist","setp","getp","ion","ioff","isinteractive","Figure","GridSpec","SubplotSpec","MapAxes","AxesGrid","Layer","ScatterCollection","MeshCollection","ScalarImage","VectorCollection","ContourSet","ContourLabel","ContourLabels","Geometry","Feature","FeatureCollection",
          "Projection","Equirectangular","Mercator","EqualEarth","Orthographic","LambertConformalConic",
@@ -59,3 +63,14 @@ __all__.extend(('Unit','METRE','KILOMETRE','DEGREE','RADIAN','Ellipsoid','Datum'
 from .topology import (orientation, segment_intersection, ring_orientation, validate_ring, validate_geometry, Intersection, ValidationIssue, TopologyReport)
 from .geometry import longitude_bounds, clip_orthographic_line, clip_orthographic_polygon
 __all__.extend(('orientation','segment_intersection','ring_orientation','validate_ring','validate_geometry','Intersection','ValidationIssue','TopologyReport','longitude_bounds','clip_orthographic_line','clip_orthographic_polygon'))
+
+__all__.extend(('transforms','dates','scale','Path','PathPatch','Symbol'))
+
+from .collections import LineCollection
+__all__.append('LineCollection')
+
+from .subfigure import SubFigure
+__all__.append('SubFigure')
+
+from . import legend_handler
+__all__.append('legend_handler')

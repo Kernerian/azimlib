@@ -80,7 +80,7 @@ class SeriesStylesTests(unittest.TestCase):
     def test_invalid_later_groups_are_atomic_and_do_not_consume_cycle(self):
         self.ax.set_prop_cycle(color=['red','blue']);self.fig.canvas.draw()
         before=(tuple(self.ax.layers),self.ax.get_extent(),self.ax._bounds,self.ax._plot_index)
-        bad=[(X,A,X,[1,2]),(X,A,X,[1,91,3]),(X,A,X,[1,float('nan'),3]),
+        bad=[(X,A,X,[1,2]),(X,A,X,[1,91,3]),(X,A,X,[1,float('inf'),3]),
              (X,A,X,[[1,2],[3],[4,5]]),(X,A,[[1,2],[3,4],[5,6]],[[1,2,3]]*3),
              (X,A,X,[[[1]]]*3),(X,A,'r--','invalid'),(X,A,42)]
         events=[];self.ax.add_callback(lambda artist:events.append(artist))

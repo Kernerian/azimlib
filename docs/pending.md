@@ -8,9 +8,9 @@ As 16 frentes abaixo são categorias, não a contagem de tarefas faltantes.
 | --- | --- | --- |
 | 1. Visual e exportação | 6, 10 | Raster/subpixel, PDF e baselines. |
 | 2. Axis/ticks/escalas/unidades | 3, 4 | Unidades, formatos, datas e bordas curvas. |
-| 3. Layout | 4 | SubFigure, múltiplos grids e compressed. |
-| 4. Artists/API | 4, 5 | Transforms, gaps, Paths e contourf editável. |
-| 5. Transforms | 3, 4, 8 | Composição, inversas, unidades e câmera. |
+| 3. Layout | 4 | Corte implementado: SubFigure, raízes disjuntas e compressed limitado; [contratos](transforms-composition.md). |
+| 4. Artists/API | 4, 5 | Transforms, gaps e Paths implementados; contourf permanece no passo 5. |
+| 5. Transforms | 3, 4, 8 | Composição/inversas/unidades implementadas; câmera no passo 8. |
 | 6. Legendas/colorbars | 4, 5, 9 | Handlers, máscaras, classes e vínculo temporal. |
 | 7. Labels/texto | 6 | Âncoras, curvas, colisões e tipografia. |
 | 8. Estilos/símbolos/coleções | 1, 4, 6 | Ciclos, regras, ícones/padrões próprios ou licenciados. |

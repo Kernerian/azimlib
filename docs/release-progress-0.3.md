@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**24 concluídos / 56 pendentes**. Contagem por subpassos, não por frentes amplas.
+**32 concluídos / 48 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -60,14 +60,14 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 4. Transforms, Artists, escalas e composição
 
-- [ ] **4.01** Transforms composáveis geo/projetado/axes/figure/display com inversas e unidades físicas.
-- [ ] **4.02** Transforms mistos e vínculo de objetos existentes sem quebrar coordenadas geográficas.
-- [ ] **4.03** Linhas com gaps NaN/máscaras, Paths públicos e coleções editáveis em lotes.
-- [ ] **4.04** Locators/formatters de datas e logs; contrato de escalas separado de CRS/latitude.
-- [ ] **4.05** Ticks de graticules em bordas curvas e offsets científicos consistentes.
-- [ ] **4.06** SubFigure e solver para múltiplos GridSpecs raiz, preservando posições explícitas.
-- [ ] **4.07** Layout compressed, obstáculos de textos livres/cax e critérios de convergência.
-- [ ] **4.08** Ciclos de estilo nas demais famílias, símbolos reutilizáveis e handlers de legenda personalizados.
+- [x] **4.01** Transforms composáveis geo/projetado/axes/figure/display com inversas e unidades físicas.
+- [x] **4.02** Transforms mistos e vínculo de objetos existentes sem quebrar coordenadas geográficas.
+- [x] **4.03** Linhas com gaps NaN/máscaras, Paths públicos e coleções editáveis em lotes.
+- [x] **4.04** Locators/formatters de datas e logs; contrato de escalas separado de CRS/latitude.
+- [x] **4.05** Ticks de graticules em bordas curvas e offsets científicos consistentes.
+- [x] **4.06** SubFigure e solver para múltiplos GridSpecs raiz, preservando posições explícitas.
+- [x] **4.07** Layout compressed, obstáculos de textos livres/cax e critérios de convergência.
+- [x] **4.08** Ciclos de estilo nas demais famílias, símbolos reutilizáveis e handlers de legenda personalizados.
 
 ## 5. Raster, terreno e mapas científicos 2D
 
@@ -280,3 +280,55 @@ ou modificação de main/0.2.0 foi feito. Checklist: **24/80**, **56 pendentes**
 Estas reservas não substituem urbano, 3D e tempo: os três estão no corte 0.3.0.
 Não há data prometida; 80 subpassos representam trabalho substancial. Novas funções
 só serão anunciadas como disponíveis quando passarem pelos respectivos gates.
+
+### Lote 4 — transforms, Artists, escalas e composição (0.3.0.dev0)
+
+**4.01–4.08 concluídos no corte documentado.** Implementações próprias em
+`transforms.py`, `path.py`, `patches.py`, `collections.py`, `dates.py`,
+`scale.py`, `subfigure.py`, `legend_handler.py`, viewport/render/layout.
+Veja [contratos e limites](transforms-composition.md) e a
+[recomendação de visualização clara](visual-style.md).
+
+- [27 testes de integração](../tests/test_transforms_composition.py): inversas,
+  DPI/unidades, transforms mistos/insets/ownership, gaps/máscaras, paths/holes,
+  edição atômica de coleções, datas/logs, bordas curvas/offsets, SubFigure,
+  rollback entre raízes, compressed, obstáculos e handlers/ciclos.
+- [Wheel instalado](composition-validation-0.3.json): **791 testes / 17.499
+  subtests**, zero falhas/erros. Cinco skips explicitados: dois Numba, dois
+  aggdraw e um symlink sem permissão. Hashes dos módulos do runtime conferidos
+  contra o código-fonte final. Windows/CPython 3.14.4, Pillow/NumPy; nenhuma
+  importação de Matplotlib/Cartopy/GeoPandas/Shapely/pyproj. Resultado local,
+  sem atualizar o aceite de CI/plataformas da release.
+- [Desktop instalado](composition-desktop-0.3.json): três smokes reais de Tk
+  em janelas ocultas e input sintético — pan/lifecycle, viewer e nova composição
+  com bearing/norte/rosa/history. Não é aceite visual/input humano. O novo
+  smoke integra o runner utilizado pelas futuras execuções de CI.
+- [Matriz própria](composition-evidence-0.3.json): 486 roundtrips em nove
+  projeções, três bearings e dois DPI; 108 casos de interseções amostradas
+  dentro do frame. Erros máximos registrados por espaço. Não é oracle externo
+  nem promessa de exatidão analítica para qualquer projeção/borda.
+- Exemplos [mapa limpo](../examples/clean_map.py) e
+  [atlas](../examples/composition_atlas.py): PNG/SVG/HTML exportados, PNGs
+  inspecionados e SVG/XML validado; [hashes e proveniência](_static/composition/README.md).
+  Natural Earth permanece domínio público; rotas e símbolos são sintéticos.
+- Instalação nova offline sem extras preserva SVG/HTML, dados/fontes e os
+  novos contratos de transform/composição. Wheel/sdist reconstruídos, conteúdo
+  e metadata BSD-3-Clause auditados, twine strict e notices conferidos.
+- Integração corrigida para eixos isolados sem Figure, contextos de overview,
+  transforms entre eixos/insets e cursor antes da pintura em vistas rotacionadas.
+  A antiga entrada inválida NaN do teste de séries passou a infinity: NaN agora
+  é gap suportado; a validação atômica de dados realmente inválidos permanece.
+
+Limites explícitos: inversas mistas exigem separabilidade; Beziers usam
+flattening determinístico, não adaptativo. Layout múltiplo exige regiões
+disjuntas; compressed compacta grids completos sem spans/aninhamento. Textos
+livres/cax reservam faixas de borda, sem solver universal de colisões interiores.
+Datas/logs são números escalares, não eixos de latitude logarítmica. Handlers
+customizados desenham PathPatch próprios. Bearing é rotação 2D isotrópica;
+norte/rosa seguem a direção local da projeção e mantêm componentes independentes.
+HTML rotacionado/curvo continua snapshot sem recomposição Python, conforme
+[limites do viewer](visual-style.md); ponte viva permanece em 7.03.
+
+O próximo lote é **5.01–5.08**: raster/terreno e mapas científicos 2D.
+3D, animação, Qt e demais IDs permanecem pendentes; versão estável/main 0.2.0
+preservada. Nenhum push, release ou upload PyPI é parte deste lote.

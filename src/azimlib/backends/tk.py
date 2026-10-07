@@ -352,11 +352,11 @@ class FigureWindow:
     def _viewport(self,index):
         meta=next(m for m in self._metadata() if m['axes_index']==index)
         ax=self.figure.axes[index]
-        if tuple(ax._get_extent())!=tuple(meta['extent']):
+        if tuple(ax._get_extent())!=tuple(meta['extent']) or ax.get_bearing()!=meta.get('bearing',0):
             from ..viewport import Viewport,_geometry_projected_bounds
             box=meta.get('navigation_box',meta['box'])
             extent=ax._get_extent()
-            bounds=_geometry_projected_bounds(ax.projection,extent)
+            bounds=_geometry_projected_bounds(ax.projection,extent) if not ax.get_bearing() else None
             if bounds is not None:
                 # Monotonic cylindrical bounds need only their endpoints.
                 # Cursor callbacks run before a new Scene is painted; sampling
@@ -370,10 +370,10 @@ class FigureWindow:
                     extent=extent,box=(bx,by,width,height),projected_bounds=bounds,
                     scale=scale,ox=bx+(width-(px1-px0)*scale)/2-px0*scale,
                     oy=by+(height-(py1-py0)*scale)/2+py1*scale))
-            vp=Viewport(ax.projection,ax._get_extent(),box)
+            vp=Viewport(ax.projection,ax._get_extent(),box,bearing=ax.get_bearing())
             x,y,w,h=box;px0,py0,px1,py1=vp.projected_bounds
             width,height=(px1-px0)*vp.scale,(py1-py0)*vp.scale
-            return Viewport(ax.projection,ax._get_extent(),(x+(w-width)/2,y+(h-height)/2,width,height))
+            return Viewport(ax.projection,ax._get_extent(),(x+(w-width)/2,y+(h-height)/2,width,height),bearing=ax.get_bearing())
         return viewport_from_metadata(self.figure.axes[index].projection,meta)
 
     def motion(self,event):

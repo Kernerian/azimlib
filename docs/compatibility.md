@@ -136,8 +136,8 @@ Para exportar mapa final com todos os ornamentos recalculados, defina os limites
 com `ax.set_extent`, `set_xlim` ou `set_ylim` e chame `fig.savefig` em Python.
 
 Ainda sem backend Qt, todos os eventos/objetos Artist do Matplotlib, atualização live de artistas após abrir HTML,
-vínculo geográfico geral no HTML para projeções não cilíndricas, gaps NaN/máscaras em séries, eixos
-logarítmicos, todas as opções de legendas ou todos os rcParams. Opções desconhecidas
+vínculo geográfico geral no HTML para projeções não cilíndricas/rotacionadas, eixos
+geográficos logarítmicos, todas as opções de legendas ou todos os rcParams. Opções desconhecidas
 não são aceitas silenciosamente. A compatibilidade é ampliável, não total.
 
 Múltiplos grupos e matrizes em plot, nomes via data, ciclos próprios e folhas
@@ -151,3 +151,11 @@ The development branch adds explicit ellipsoid/UTM, regional TM, two spherical
 azimuthal projections, cylindrical seam viewports and opt-in planar topology.
 These are geographic contracts, not a Matplotlib datum/topology API. See
 [scope and numeric tolerances](geodesy.md); published 0.2.0 is unchanged.
+
+## Composition in 0.3 development
+
+Own transforms, plot gaps, Paths/LineCollection, numeric date/log tickers,
+sampled curved graticule intersections, SubFigure, disjoint root layouts,
+bounded compressed layout and custom PathPatch legend handlers are available.
+See [precise contracts and unsupported cases](transforms-composition.md).
+Map rotation is opt-in; [local north behavior and portable limits](visual-style.md).

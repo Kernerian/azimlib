@@ -124,7 +124,7 @@ function setMode(value){flushWheel();cancelDrag();mode=mode===value?'':value;can
 function restore(){flushWheel();cancelDrag();attempt(()=>navigation.home());}
 function navigate(delta){flushWheel();cancelDrag();attempt(()=>navigation.navigate(delta));}
 function coordinate(s,p){const m=s.meta,pr=m.projection, R=pr.radius||6371008.8;
- const xx=((p.x-s.tx)/s.k-m.ox)/m.scale,yy=(m.oy-(p.y-s.ty)/s.k)/m.scale;
+ let xx=((p.x-s.tx)/s.k-m.ox)/m.scale,yy=(m.oy-(p.y-s.ty)/s.k)/m.scale; if(m.bearing){const a=m.bearing*Math.PI/180,c=Math.cos(a),n=Math.sin(a),x=xx;xx=x*c-yy*n;yy=x*n+yy*c;}
  if(['equirectangular','mercator'].includes(pr.name)){
   const result=AzimlibNavigation.inverse(pr,xx,yy);
   return result.every(Number.isFinite)&&result[0]>=(m.longitude_wrap?(pr.central_longitude||0)-180:-180)-.000001&&result[0]<=(m.longitude_wrap?(pr.central_longitude||0)+180:180)+.000001&&Math.abs(result[1])<=90.000001?result:null;
@@ -163,7 +163,7 @@ function portableLabel(formatter,value,index,step){
 function dynamicTicks(s){
  s.dynamic.replaceChildren();s.dynamicGrid.replaceChildren();
  const home=navigation.isHome(s.index),pr=s.meta.projection;
- const cylindrical=['equirectangular','mercator'].includes(pr.name);
+ const cylindrical=['equirectangular','mercator'].includes(pr.name)&&!s.meta.bearing;
  s.gridNodes.forEach(n=>n.style.display=s.gridVisible&&(home||!cylindrical&&!s.meta.custom_ticks)?'':'none');
  if(home||!cylindrical||s.meta.custom_ticks&&!s.meta.portable_ticks)return;
  const[x,y,w,h]=s.view.box,a=coordinate(s,{x,y:y+h}),b=coordinate(s,{x:x+w,y});

@@ -76,6 +76,7 @@ class Scene:
     _layout_excluded: set[int] = field(default_factory=set, repr=False)
     _layout_groups: list = field(default_factory=list, repr=False)
     _layout_bars: list = field(default_factory=list, repr=False)
+    _layout_free: list = field(default_factory=list, repr=False)
     _layout_scales: dict = field(default_factory=dict, repr=False)
     _text_blocks: list = field(default_factory=list, repr=False)
     _layout_suptitle: tuple | None = field(default=None, repr=False)
@@ -137,6 +138,7 @@ class Scene:
         result._layout_excluded=set(self._layout_excluded)
         result._layout_groups=[(owners,start,end,tuple(v*factor for v in slot)) for owners,start,end,slot in self._layout_groups]
         result._layout_bars=[(bar,start,end) for bar,start,end in self._layout_bars]
+        result._layout_free=list(self._layout_free)
         result._layout_scales=dict(self._layout_scales)
         result._text_blocks=[(start,end,tuple(v*factor for v in box),
                              tuple(v*factor for v in clip) if clip is not None else None)

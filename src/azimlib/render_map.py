@@ -14,26 +14,33 @@ from .hatches import add_hatches
 from .projected_paths import _paths, screen_points
 
 
+def axes_viewport(ax,box,*,inset=False):
+    """Prepare equal-aspect display bounds without rendering any Artists."""
+    from .colorbar_render import colorbar_layout
+    mapbox,barbox=colorbar_layout(ax._colorbar,box) if ax._colorbar else (box,None)
+    x,y,w,h=mapbox;navigation_box=mapbox;minimum=1 if inset else 30
+    if w<minimum or h<minimum:raise ValueError('Figure is too small for its titles, subplots, and color bars')
+    vp=Viewport(ax.projection,ax._get_extent(),mapbox,bearing=ax.get_bearing())
+    px0,py0,px1,py1=vp.projected_bounds
+    aw,ah=(px1-px0)*vp.scale,(py1-py0)*vp.scale
+    mapbox=(x+(w-aw)/2,y+(h-ah)/2,aw,ah)
+    return Viewport(ax.projection,ax._get_extent(),mapbox,bearing=ax.get_bearing()),mapbox,barbox,navigation_box
+
+def prepare_transforms(ax,box,*,inset=False):
+    vp,mapbox,_,_=axes_viewport(ax,box,inset=inset);ax._active_viewport=vp
+    x,y,w,h=mapbox
+    for child in ax.insets:
+        ix,iy,iw,ih=child.position
+        prepare_transforms(child,(x+ix*w,y+(1-iy-ih)*h,iw*w,ih*h),inset=True)
+
+
 def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
     layout_start=len(scene.items)
-    x,y,w,h = box
-    # Like equal-aspect Matplotlib axes, shrink the axes box (not the content
-    # inside a larger frame). Titles occupy the surrounding figure margin.
-    title_height = len(ax._title[0].splitlines()) * ax._title[1].get("fontsize",12) * 100/72 * 1.2 if ax._title else 0
     subtitle_height = len(ax._subtitle[0].splitlines()) * ax._subtitle[1].get("fontsize",11) * 100/72 * 1.2 + 4 if ax._subtitle else 0
-    bottom=0
-    from .colorbar_render import colorbar_layout,render_colorbar
-    mapbox,barbox=colorbar_layout(ax._colorbar,box) if ax._colorbar else (box,None)
-    x,y,w,h=mapbox
-    navigation_box=mapbox
-    minimum=1 if inset else 30
-    if mapbox[2] < minimum or mapbox[3] < minimum:
-        raise ValueError("Figure is too small for its titles, subplots, and color bars")
-    vp = Viewport(ax.projection, ax._get_extent(), mapbox)
-    px0,py0,px1,py1=vp.projected_bounds
-    actual_w,actual_h=(px1-px0)*vp.scale,(py1-py0)*vp.scale
-    mapbox=(x+(w-actual_w)/2,y+(h-bottom-actual_h)/2,actual_w,actual_h)
-    vp=Viewport(ax.projection,ax._get_extent(),mapbox)
+    x,y,w,h = box
+    from .colorbar_render import render_colorbar
+    vp,mapbox,barbox,navigation_box=axes_viewport(ax,box,inset=inset)
+    ax._active_viewport=vp
     x,y,w,h=mapbox
     background_index=len(scene.items)
     scene.add(Rect(*mapbox, dict(fill=ax.facecolor)))
@@ -41,7 +48,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     frame_indices={},anchor_ranges=[],start=len(scene.items),extent=vp.extent,
                     projected_bounds=vp.projected_bounds,ox=vp.ox,oy=vp.oy,scale=vp.scale,
                     projection=dict(asdict(ax.projection),name=ax.projection.name),
-                    longitude_wrap=ax._longitude_wrap,
+                    longitude_wrap=ax._longitude_wrap,bearing=ax.get_bearing(),
                     overview=getattr(ax,"_overview",False) or False,tick_indices=[],static_indices=[],grid_indices=[],grid_specs=[],
                     ticks=bool(ax._frame),inset=inset,pixel_ratio=1,degree_ticks=bool(ax._grid_format and ax._grid_format['labels']),
                     custom_ticks=any(a.locator_explicit or a.formatter_explicit or a.minor_locator_explicit or a.minor_formatter_explicit for a in (ax.xaxis,ax.yaxis)),
@@ -51,6 +58,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     grid_format=ax._grid_format,
                     tick_rotation={name:ax._tick_params[name]['rotation'] for name in ('x','y')},
                     axes_index=ax.figure.axes.index(ax) if ax.figure and ax in ax.figure.axes else -1)
+    metadata['axes_path']=ax._axes_path()
     scene.maps.append(metadata)
     figure_axes=ax.figure.axes if ax.figure is not None else []
     metadata['shared_axes']={name:sorted(figure_axes.index(member) for member in ax._shared_axes[name].members
@@ -68,7 +76,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
     planned=plan_labels(ax,vp) if not measure_layout and any(l.kind=='labels' and l.visible for l in ax.layers) else {}
     from .contour_inline import label_cuts
     cuts=label_cuts(ax,planned) if planned else {}
-    for layer in (() if measure_layout else sorted(ax.layers, key=lambda a:a.zorder)):
+    for layer in (sorted((l for l in ax.layers if l.kind in ("text","annotation")),key=lambda a:a.zorder) if measure_layout else sorted(ax.layers, key=lambda a:a.zorder)):
         if not layer.visible:
             continue
         if layer.kind == "geometry":
@@ -88,13 +96,19 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                 callback = layer.options.get("feature_style")
                 if callback is not None:
                     style.update(style_dict(callback(feature)))
+                if getattr(layer,'_transform',None) is not None:
+                    _transformed_geometry(feature.geometry,style,layer.get_transform(),ax.figure,vp,scene)
+                    continue
                 _geometry(feature.geometry, style, vp, scene, cull=cull,
                           pixel_padding=pixel_padding,cuts=cuts.get((id(layer),index)))
+        elif layer.kind in ('path','line_collection'):
+            _transformed_paths(layer,vp,scene)
         elif layer.kind == "scatter":
             for i, coordinate in enumerate(layer.data):
                 size=layer._scatter_size(i)
                 if size==0:continue
-                p = vp.project(*coordinate)
+                from .transforms import scene_point
+                p = scene_point(layer.get_transform(),coordinate,ax.figure) if getattr(layer,'_transform',None) is not None else vp.project(*coordinate)
                 if p:
                     _marker(p, math.sqrt(size), layer._scatter_style(i), scene, mapbox)
         elif layer.kind == "grid":
@@ -116,10 +130,11 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
             _vectors(layer,vp,scene)
         elif layer.kind == "text":
             lon,lat,text = layer.data
-            p = _axes_xy(lon,lat,mapbox) if layer.options["transform"] == "axes" else vp.project(lon,lat)
+            from .transforms import scene_point
+            p = scene_point(layer.get_transform(),(lon,lat),ax.figure) if getattr(layer,'_transform',None) is not None else _axes_xy(lon,lat,mapbox) if layer.options["transform"] == "axes" else vp.project(lon,lat)
             if p:
                 first = len(scene.items)
-                _text(scene,*p, text, text_style(layer.style), mapbox)
+                _text(scene,*p, text, text_style(layer.style), mapbox if layer.get_clip_on() else None)
                 if layer.options["transform"] == "axes":
                     metadata["static_indices"].extend(range(first,len(scene.items)))
         elif layer.kind == "annotation":
@@ -653,18 +668,20 @@ def _axis_tick_group(vp,scene,ax,*,minor,label_indices=None):
             else:
                 custom={}
                 label=str(formatter(value,index))
+            curved=vp.projection.name not in ('equirectangular','mercator') or getattr(vp,'bearing',0)
+            border=graticule_intersections(vp,axis,value) if curved else None
             for side in ('bottom','top') if axis=='x' else ('left','right'):
                 if axis=='x':
-                    p=vp.project(value,south if side=='bottom' else north)
+                    p=(border[side][0] if border[side] else None) if curved else vp.project(value,south if side=='bottom' else north)
                     if p is None or not x-1e-6<=p[0]<=x+w+1e-6:continue
-                    base=y+h if side=='bottom' else y;sign=1 if side=='bottom' else -1
+                    base=p[1] if curved else y+h if side=='bottom' else y;sign=1 if side=='bottom' else -1
                     segment=[(p[0],base-sign*inward),(p[0],base+sign*outward)]
                     tx,ty=p[0],base+sign*(outward+settings['pad']*POINT)
                     alignment=dict(ha='center',va='top' if sign==1 else 'bottom')
                 else:
-                    p=vp.project(west if side=='left' else east,value)
+                    p=(border[side][0] if border[side] else None) if curved else vp.project(west if side=='left' else east,value)
                     if p is None or not y-1e-6<=p[1]<=y+h+1e-6:continue
-                    base=x if side=='left' else x+w;sign=-1 if side=='left' else 1
+                    base=p[0] if curved else x if side=='left' else x+w;sign=-1 if side=='left' else 1
                     segment=[(base-sign*inward,p[1]),(base+sign*outward,p[1])]
                     tx,ty=base+sign*(outward+settings['pad']*POINT),p[1]
                     alignment=dict(ha='right' if sign==-1 else 'left',va='center')
@@ -701,9 +718,12 @@ def _grid(layer,vp,scene):
         first=len(scene.items)
         for value in values:
             if axis=='x':
-                if w<=value<=e:_line([(value,s),(value,n)],config['style'],vp,scene)
+                if w<=value<=e:
+                    low,high=((-80,84) if vp.projection.name=='transverse_mercator' else (-89.999,89.999)) if vp.projection.name not in ('equirectangular','mercator') or vp.bearing else (s,n)
+                    _line([(value,low),(value,high)],config['style'],vp,scene)
             elif s<=value<=n:
-                _line([(w+(e-w)*i/90,value) for i in range(91)],config['style'],vp,scene)
+                low,high=(vp.projection.central_longitude-180,vp.projection.central_longitude+180) if vp.projection.name not in ('equirectangular','mercator') or vp.bearing else (w,e)
+                _line([(low+(high-low)*i/180,value) for i in range(181)],config['style'],vp,scene)
         specs.append(dict(axis=axis,which='minor' if minor else 'major',step=config['step'],style=path_style(config['style']),indices=list(range(first,len(scene.items)))))
     return specs
 
@@ -715,21 +735,25 @@ def _ticks(low,high,step):
 
 def _annotation(layer,vp,scene):
     xy,xytext,text=layer.data
-    target=vp.project(*xy)
+    from .transforms import scene_point
+    transform=getattr(layer,'_transform',None)
+    target=scene_point(transform,xy,layer.axes.figure) if transform is not None else vp.project(*xy)
     if target is None:
         return
     coords=layer.options["textcoords"]
     p=((target[0]+xytext[0],target[1]+xytext[1]) if coords=='offset pixels' else
        (target[0]+xytext[0]*POINT,target[1]-xytext[1]*POINT) if coords=='offset points' else
-       _axes_xy(*xytext,vp.box) if coords in ('axes','axes fraction') else vp.project(*xytext))
+       _axes_xy(*xytext,vp.box) if coords in ('axes','axes fraction') else
+       scene_point(transform,xytext,layer.axes.figure) if transform is not None else vp.project(*xytext))
     if p is None:
         return
     if layer.style.get("arrow"):
         style=dict(layer.style)
         line=[p,target]
-        scene.add(Path([line],False,path_style(style),vp.box))
-        _arrowhead(p,target,style,scene,vp.box)
-    _text(scene,*p,text,text_style(layer.style),vp.box)
+        clip=vp.box if layer.get_clip_on() else None
+        scene.add(Path([line],False,path_style(style),clip))
+        _arrowhead(p,target,style,scene,clip)
+    _text(scene,*p,text,text_style(layer.style),vp.box if layer.get_clip_on() else None)
 
 
 def _labels(layer,vp,scene,planned):
@@ -911,12 +935,7 @@ def _north(options,vp,scene):
     labelpad=13*POINT
     x,y=_anchor(vp.box,options['loc'],size+2*labelpad,size+2*labelpad,pad=10)
     cx,cy=x+size/2+labelpad,y+size/2+labelpad
-    geo=vp.inverse(cx,cy)
-    angle=0.
-    if geo and abs(geo[1])<89.9:
-        north=vp.project(geo[0],min(89.99,geo[1]+.1))
-        if north:
-            angle=math.atan2(north[0]-cx,-(north[1]-cy))
+    angle=orientation_angle(vp,cx,cy)
     def point(dx,dy):
         return cx+dx*math.cos(angle)-dy*math.sin(angle),cy+dx*math.sin(angle)+dy*math.cos(angle)
     if options["compass"]:
@@ -940,3 +959,94 @@ def _north(options,vp,scene):
         _text(scene,*point(0,-size/2-labelpad*.65),'N',text_style(dict(fontsize=11,fontweight='bold',ha='center',va='center',color=options['color'])))
 
 
+
+def _transformed_geometry(geometry,style,transform,figure,vp,scene):
+    from .transforms import scene_point
+    if geometry.type=='GeometryCollection':
+        for g in geometry.geometries:_transformed_geometry(g,style,transform,figure,vp,scene)
+        return
+    c=geometry.coordinates
+    if geometry.type in ('Point','MultiPoint'):
+        for p in (c,) if geometry.type=='Point' else c:
+            q=scene_point(transform,p,figure)
+            if q is not None:_marker(q,style.get('markersize',6),style,scene,vp.box)
+        return
+    polygons=(c,) if geometry.type=='Polygon' else c if geometry.type=='MultiPolygon' else None
+    if polygons is not None:
+        for rings in polygons:
+            parts=[[scene_point(transform,p,figure) for p in ring] for ring in rings]
+            if any(p is None for part in parts for p in part):raise ValueError('Transformed polygon crosses singularity')
+            scene.add(Path(parts,True,path_style(style,True),vp.box));add_hatches(scene,parts,style,vp.box)
+    else:
+        for line in (c,) if geometry.type=='LineString' else c:
+            part=[]
+            for p in line:
+                q=scene_point(transform,p,figure)
+                if q is None:
+                    if len(part)>1:scene.add(Path([part],False,path_style(style),vp.box))
+                    part=[]
+                else:part.append(q)
+            if len(part)>1:scene.add(Path([part],False,path_style(style),vp.box))
+
+def _transformed_paths(layer,vp,scene):
+    from .transforms import scene_point
+    from .path import Path as PublicPath
+    paths=(layer.data,) if layer.kind=='path' else layer.data
+    closed=[]
+    for i,path in enumerate(paths):
+        style=layer._segment_style(i) if layer.kind=='line_collection' else layer.style
+        for points,isclosed in path.to_polylines():
+            part=[]
+            for p in points:
+                q=scene_point(layer.get_transform(),p,layer.figure)
+                if q is None:
+                    if isclosed:raise ValueError('Path crosses projection singularity')
+                    if len(part)>1:scene.add(Path([part],False,path_style(style),vp.box))
+                    part=[]
+                else:part.append(q)
+            if part:
+                if isclosed:closed.append((part,style))
+                else:scene.add(Path([part],False,path_style(style),vp.box))
+    if closed:
+        # A patch's compound rings retain even-odd holes.
+        parts=[p for p,s in closed];style=closed[0][1]
+        scene.add(Path(parts,True,path_style(style,True),vp.box));add_hatches(scene,parts,style,vp.box)
+
+def graticule_intersections(vp,axis,value):
+    """Sample own projected graticules and intersect the rectangular frame."""
+    x,y,w,h=vp.box;west,south,east,north=vp.extent
+    low,high=(-80,84) if vp.projection.name=='transverse_mercator' else (-89.999,89.999)
+    west,east=vp.projection.central_longitude-180,vp.projection.central_longitude+180
+    points=[vp.project(value,low+(high-low)*i/360) if axis=='x' else vp.project(west+(east-west)*i/360,value) for i in range(361)]
+    result={'bottom':[],'top':[],'left':[],'right':[]}
+    for a,b in zip(points,points[1:]):
+        if a is None or b is None:continue
+        for side,dim,edge in (('bottom',1,y+h),('top',1,y),('left',0,x),('right',0,x+w)):
+            delta=b[dim]-a[dim]
+            if abs(delta)<1e-12:continue
+            t=(edge-a[dim])/delta
+            if not -1e-10<=t<=1+1e-10:continue
+            p=(a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1]))
+            other=p[1-dim];lo,hi=(x,x+w) if dim==1 else (y,y+h)
+            if lo-1e-7<=other<=hi+1e-7 and not any(math.dist(p,q)<.1 for q in result[side]):result[side].append((min(x+w,max(x,p[0])),min(y+h,max(y,p[1]))))
+    # Horizon endpoints of an orthographic graticule lie on the curved limb,
+    # even when that limb is inside its rectangular frame.
+    if vp.projection.name=='orthographic':
+        from .geometry import clip_orthographic_line
+        geographic=[(value,-89.999),(value,89.999)] if axis=='x' else [(west+(east-west)*i/180,value) for i in range(181)]
+        parts=clip_orthographic_line(geographic,vp.projection)
+        for part in parts:
+            for q in (part[0],part[-1]):
+                if abs(math.hypot(*q)-vp.projection.radius)>10:continue
+                p=vp.xy(*q)
+                if not vp.inside(p):continue
+                side=('top' if p[1]<y+h/2 else 'bottom') if axis=='x' else ('left' if p[0]<x+w/2 else 'right')
+                if not any(math.dist(p,q)<.1 for q in result[side]):result[side].append(p)
+    return {side:sorted(v,key=lambda p:p[0] if axis=='x' else p[1]) for side,v in result.items()}
+
+def orientation_angle(vp,cx,cy):
+    geo=vp.inverse(cx,cy)
+    if geo and abs(geo[1])<89.9:
+        north=vp.project(geo[0],min(89.99,geo[1]+.001))
+        if north and math.hypot(north[0]-cx,north[1]-cy)>1e-10:return math.atan2(north[0]-cx,-(north[1]-cy))
+    return math.radians(getattr(vp,'bearing',0))

@@ -134,6 +134,28 @@ class Artist:
                 self._mutation_pending = False
                 self._changed()
 
+    def get_clip_on(self):return getattr(self,'_clip_on',True)
+    @artist_mutation
+    def set_clip_on(self,value):self._clip_on=bool(value)
+
+    def get_transform(self):
+        from .transforms import IdentityTransform
+        explicit=getattr(self,'_transform',None)
+        if explicit is not None:return explicit
+        axes=getattr(self,'axes',None)
+        if axes is not None:
+            options=getattr(self,'options',{})
+            return axes.transAxes if options.get('transform')=='axes' else axes.transData
+        return IdentityTransform()
+
+    @artist_mutation
+    def set_transform(self,transform):
+        from .transforms import Transform
+        if not isinstance(transform,Transform):raise TypeError('Require an Azimlib Transform')
+        figure=self.get_figure(root=True)
+        if figure is not None and any(owner is not figure for owner in transform.owners()):raise ValueError('Transform belongs to another figure')
+        self._transform=transform
+
     def set_in_layout(self, value):
         self._in_layout = bool(value)
         self._changed()

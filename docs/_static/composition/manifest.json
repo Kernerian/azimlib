@@ -1,0 +1,27 @@
+{
+  "source": "Original Azimlib renderer; Natural Earth public-domain boundaries; synthetic original paths and symbols",
+  "original_code_license": "BSD-3-Clause",
+  "copyright": "Copyright (c) 2026 Kernerian",
+  "files": [
+    {
+      "file": "clean-map.png",
+      "sha256": "16c2c8b59a26eb7e4b6bc981f238f485d849e3afb582faee48ee1e3b5cde3a9b",
+      "pixels": [
+        960,
+        900
+      ],
+      "generator": "examples/clean_map.py",
+      "generator_sha256": "6facf81c15a9c413817bce6eb2715d7438cca2478c9e696ed8283e5339941c31"
+    },
+    {
+      "file": "composition-atlas.png",
+      "sha256": "ad1f613be1eb09e92d661cbb1c735addad7bfcc9a30995a5dea73294db24f9ae",
+      "pixels": [
+        1560,
+        754
+      ],
+      "generator": "examples/composition_atlas.py",
+      "generator_sha256": "acf0a8d9a96ba885677c3fe2f72b23c9c2a62d166c2cc72008e6e5b078c0a389"
+    }
+  ]
+}

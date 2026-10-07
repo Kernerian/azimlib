@@ -7,6 +7,7 @@ def columns(value):
     if isinstance(value,Real):return [[value]]
     if isinstance(value,(str,bytes,Mapping)) or value is None:raise ValueError('Line data must be numeric sequences')
     rows=list(value)
+    rows=[float('nan') if getattr(v,'ndim',0)==0 and bool(getattr(v,'mask',False)) else v for v in rows]
     if not rows:return [[]]
     if all(isinstance(v,Real) for v in rows):return [rows]
     if any(isinstance(v,(str,bytes,Mapping,Real)) for v in rows):raise ValueError('Line matrices must be rectangular and at most 2D')
@@ -60,3 +61,20 @@ def labels(value,count):
     values=list(value)
     if len(values)!=count:raise ValueError('label must be scalar or have one entry per series in each argument group')
     return values
+
+def plot_collection(x,y,feature=None):
+    import math
+    from .geometry import Geometry,Feature,FeatureCollection,position
+    if len(x)!=len(y):raise ValueError('x and y must have the same length')
+    runs=[];run=[];raw=[]
+    for a,b in zip(x,y):
+        a,b=float(a),float(b);raw.append((a,b))
+        if math.isinf(a) or math.isinf(b):raise ValueError('Infinite plot coordinates are invalid')
+        if math.isnan(a) or math.isnan(b):
+            if run:runs.append(run);run=[]
+        else:run.append(position((a,b)))
+    if run:runs.append(run)
+    geometries=[Geometry('MultiPoint' if len(r)==1 else 'LineString',tuple(r)) for r in runs]
+    geometry=geometries[0] if len(geometries)==1 else Geometry('GeometryCollection',geometries=tuple(geometries))
+    collection=FeatureCollection((Feature(geometry,feature.properties if feature else {},feature.id if feature else None),))
+    return collection,tuple(raw)

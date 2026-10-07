@@ -57,26 +57,47 @@ def _geometry_projected_bounds(projection, bounds):
     return min(a[0],b[0]),min(a[1],b[1]),max(a[0],b[0]),max(a[1],b[1])
 
 
+def _rotated_bounds(projection,extent,bearing):
+    west,south,east,north=extent;c,s=math.cos(math.radians(bearing)),math.sin(math.radians(bearing));points=[]
+    for i in range(49):
+        for j in range(25):
+            p=projection.forward(west+(east-west)*i/48,south+(north-south)*j/24)
+            if p is not None and all(math.isfinite(v) for v in p):points.append((p[0]*c+p[1]*s,-p[0]*s+p[1]*c))
+    if not points:raise ValueError('Extent is outside projection')
+    return min(p[0] for p in points),min(p[1] for p in points),max(p[0] for p in points),max(p[1] for p in points)
+_cached_rotated_bounds=lru_cache(maxsize=128)(_rotated_bounds)
+
 class Viewport:
-    def __init__(self, projection, extent, box):
+    def __init__(self, projection, extent, box, *, bearing=0):
         self.projection, self.extent, self.box = projection, extent, box
         bounds = _cached_bounds if type(projection) in _BUILTINS else _projected_bounds
+        self.bearing=float(bearing)%360
+        self._cos,self._sin=math.cos(math.radians(self.bearing)),math.sin(math.radians(self.bearing))
         self.projected_bounds = bounds(projection, tuple(extent))
+        if self.bearing:
+            rb=_cached_rotated_bounds if type(projection) in _BUILTINS else _rotated_bounds
+            self.projected_bounds=rb(projection,tuple(extent),self.bearing)
         x0,y0,x1,y1 = self.projected_bounds
         bx, by, bw, bh = box
         self.scale = min(bw/(x1-x0), bh/(y1-y0))
         self.ox = bx + (bw-(x1-x0)*self.scale)/2 - x0*self.scale
         self.oy = by + (bh-(y1-y0)*self.scale)/2 + y1*self.scale
 
+    def _rotate(self,x,y):return x*self._cos+y*self._sin,-x*self._sin+y*self._cos
     def xy(self, x, y):
+        if getattr(self,'bearing',0):x,y=self._rotate(x,y)
         return self.ox+x*self.scale, self.oy-y*self.scale
+    def projected_inverse(self,px,py):
+        x,y=(px-self.ox)/self.scale,(self.oy-py)/self.scale
+        if getattr(self,'bearing',0):return x*self._cos-y*self._sin,x*self._sin+y*self._cos
+        return x,y
 
     def project(self, lon, lat):
         point = self.projection.forward(lon, lat)
         return self.xy(*point) if point is not None else None
 
     def inverse(self, px, py):
-        return self.projection.inverse((px-self.ox)/self.scale, (self.oy-py)/self.scale)
+        return self.projection.inverse(*self.projected_inverse(px,py))
 
     def inside(self, point):
         x, y, w, h = self.box
@@ -89,6 +110,7 @@ class Viewport:
         The projected rectangle (including overscan), not the geographic input
         extent, defines visibility. An enclosing polygon must remain visible.
         """
+        if getattr(self,'bearing',0):return True
         envelope = _geometry_projected_bounds(self.projection,bounds)
         if envelope is None:
             return True
@@ -101,6 +123,9 @@ class Viewport:
     def _query_bounds(self,padding):
         """Projected query envelope with roundoff overscan for an index."""
         x,y,w,h = self.box
+        if getattr(self,'bearing',0):
+            points=[self.projected_inverse(px,py) for px,py in ((x-padding,y-padding),(x+w+padding,y-padding),(x-padding,y+h+padding),(x+w+padding,y+h+padding))]
+            return min(p[0] for p in points)-1e-6,min(p[1] for p in points)-1e-6,max(p[0] for p in points)+1e-6,max(p[1] for p in points)+1e-6
         bounds=((x-padding-self.ox)/self.scale,(self.oy-y-h-padding)/self.scale,
                 (x+w+padding-self.ox)/self.scale,(self.oy-y+padding)/self.scale)
         epsilon=max(1e-9,1e-12*max(abs(v) for v in bounds))

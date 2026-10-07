@@ -3,7 +3,7 @@ import inspect
 from pathlib import Path
 import azimlib
 from azimlib import pyplot,colors,cm,fields,components,colorbar,geometry,io,projections,crs,datasets,ticker,geodesy,topology,transverse
-from azimlib import GeoRaster, DatasetCatalog, DBFRecord
+from azimlib import GeoRaster, DatasetCatalog, DBFRecord, transforms, dates, scale, legend_handler, Path as AzPath, PathPatch, Symbol, LineCollection, SubFigure
 from azimlib.axis import Axis
 from azimlib.artist import Artist
 from azimlib.callbacks import CallbackRegistry
@@ -18,10 +18,10 @@ from azimlib.figure_text import FigureTextArtist
 from azimlib.cycles import Cycler
 from azimlib.gridspec import GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox
 from azimlib.spatial import BoundsIndex
-from azimlib.layout_engine import LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine
+from azimlib.layout_engine import LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine,CompressedLayoutEngine
 
-modules=(azimlib,pyplot,colors,cm,fields,io,projections,crs,datasets,geodesy,topology,transverse)
-classes=(geodesy.Unit,geodesy.Ellipsoid,geodesy.Datum,geodesy.Geodesic,geodesy.GeodesicResult,topology.Intersection,topology.TopologyReport,topology.ValidationIssue,projections.TransverseMercator,projections.Stereographic,projections.AzimuthalEquidistant,GeoRaster,DatasetCatalog,DBFRecord,Artist,CallbackRegistry,BoundsIndex,Figure,GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox,FigureCanvas,MapAxes,AxesGrid,Layer,ScatterCollection,MeshCollection,ScalarImage,VectorCollection,ContourSet,ContourLabel,ContourLabels,Axis,components.AxisComponents,components.TextArtist,MapText,Annotation,FigureTextArtist,Cycler,
+modules=(azimlib,pyplot,colors,cm,fields,io,projections,crs,datasets,geodesy,topology,transverse,transforms,dates,scale,legend_handler)
+classes=(AzPath,PathPatch,Symbol,LineCollection,SubFigure,transforms.Transform,transforms.CompositeTransform,transforms.AxesTransform,transforms.FigureTransform,transforms.OffsetTransform,transforms.IdentityTransform,transforms.Affine2D,transforms.PhysicalTransform,transforms.BlendedTransform,dates.DateFormatter,dates.DayLocator,dates.MonthLocator,dates.AutoDateLocator,scale.ScaleTransform,scale.LinearScale,scale.LogScale,scale.SymLogScale,legend_handler.HandleBox,legend_handler.HandlerBase,legend_handler.HandlerSymbol,ticker.LogFormatter,ticker.LogFormatterExponent,ticker.LogFormatterSciNotation,geodesy.Unit,geodesy.Ellipsoid,geodesy.Datum,geodesy.Geodesic,geodesy.GeodesicResult,topology.Intersection,topology.TopologyReport,topology.ValidationIssue,projections.TransverseMercator,projections.Stereographic,projections.AzimuthalEquidistant,GeoRaster,DatasetCatalog,DBFRecord,Artist,CallbackRegistry,BoundsIndex,Figure,GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox,FigureCanvas,MapAxes,AxesGrid,Layer,ScatterCollection,MeshCollection,ScalarImage,VectorCollection,ContourSet,ContourLabel,ContourLabels,Axis,components.AxisComponents,components.TextArtist,MapText,Annotation,FigureTextArtist,Cycler,
          components.MapComponent,components.Spine,components.Legend,components.LegendFrame,
          components.OrientationIndicator,components.ScaleBar,
          colorbar.Colorbar,colorbar.ColorbarAxes,cm.ScalarMappable,
@@ -36,7 +36,7 @@ classes=(geodesy.Unit,geodesy.Ellipsoid,geodesy.Datum,geodesy.Geodesic,geodesy.G
          ticker.LongitudeFormatter,ticker.LatitudeFormatter,
          projections.Projection,projections.Equirectangular,projections.Mercator,
          projections.EqualEarth,projections.Orthographic,projections.LambertConformalConic,
-         projections.AlbersEqualArea,LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine)
+         projections.AlbersEqualArea,LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine,CompressedLayoutEngine)
 
 def signature(obj):
     try:return str(inspect.signature(obj))

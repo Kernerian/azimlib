@@ -88,6 +88,10 @@ coordinates. A separate portable HTML viewer is available with
 `fig.show(backend="browser", path="map.html")`; it navigates an exported scene,
 without a live Python connection.
 
+For the recommended plain light figure, see [clean view](docs/visual-style.md)
+and [clean_map.py](examples/clean_map.py). Development 0.3 adds opt-in map
+rotation and composition contracts; these are not features of stable 0.2.0.
+
 ## Add only the components you need
 
 Grid, legend, colorbar, scale bar, north arrow, compass and overview map are

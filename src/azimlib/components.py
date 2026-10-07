@@ -307,6 +307,13 @@ class OrientationIndicator(MapComponent):
         self.update(options)
         return self
 
+    def get_angle(self):
+        from .render_map import orientation_angle,_anchor
+        from .typography import POINT
+        vp=self.axes._transform_viewport();size=self['size']*POINT;pad=13*POINT
+        x,y=_anchor(vp.box,self['loc'],size+2*pad,size+2*pad,pad=10)
+        return math.degrees(orientation_angle(vp,x+size/2+pad,y+size/2+pad))
+
     def get_loc(self):return self['loc']
     def set_loc(self,value):return self.set(loc=value)
     def get_size(self):return self['size']
@@ -325,7 +332,7 @@ class Legend(MapComponent):
         self._text_defaults={'color':rcParams['text.color'],'fontfamily':rcParams['font.family']}
         self.title_artist=TextArtist(self['title'] or '',_owner=self,fontsize=self['title_fontsize'],ha='center',va='top')
         self._texts=[];self._source_labels=None;self._last_box=None;self._last_loc=None
-        self._symbol_visibility={id(layer):layer.get_visible() for entry in
+        self._symbol_visibility={id(layer):getattr(layer,'get_visible',lambda:True)() for entry in
             (self['handles'] if self['handles'] is not None else self.axes.layers)
             for layer in (entry if isinstance(entry,tuple) else (entry,))}
     def _sync_texts(self,labels):

@@ -123,3 +123,20 @@ interseção topológica. Veja [índice](spatial-index.md) e
 [limites desta otimização](viewport-performance.md).
 Veja também [reutilização dos paths](projected-paths.md), que preserva cortes
 e precisão, recalcula estilos/coordenadas de tela e não mantém a fonte viva.
+
+## Composição no desenvolvimento 0.3
+
+- `transforms.py`: composição/inversas próprias, espaços públicos Y-up e
+  adaptação explícita à Scene Y-down; unidades físicas seguem o DPI.
+- `path.py`, `patches.py`, `collections.py`: paths imutáveis, símbolos e
+  lote editável; lacunas de séries não afrouxam o contrato de Geometry.
+- `dates.py`, `scale.py`: números/datas separados de coordenadas geográficas.
+- `subfigure.py`: ownership regional, títulos locais e canvas raiz compartilhado.
+- `legend_handler.py`: callbacks que compõem novos PathPatch próprios.
+- `layout_engine.py`: medição regional, rollback de múltiplas raízes disjuntas,
+  obstáculos de borda e compressed limitado a grids completos sem spans.
+- `viewport.py`: bearing isotrópico e inversa; `render_map.py` prepara viewports
+  antes de desenhar para transforms entre eixos sem reentrada de composição.
+
+Veja [limites e contratos](transforms-composition.md); ponte viva para HTML,
+câmera 3D e conversores gerais de unidades continuam em passos posteriores.

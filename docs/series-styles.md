@@ -46,8 +46,10 @@ série de coordenadas geográficas. No Matplotlib, uma matriz passada sozinha
 representa colunas de Y. Na Azimlib, use os dois argumentos para matrizes de
 séries. Um vetor numérico sozinho usa índices de linha como longitude; essas
 coordenadas ainda são geográficas, sem converters de datas/unidades.
-Coordenadas não finitas, máscaras e gaps NaN não são suportados; latitudes
-fora de ±90° são rejeitadas. A conveniência antiga de formato com apenas
+Na 0.3 em desenvolvimento, NaN e máscaras numéricas abrem lacunas nas séries;
+get_data preserva essas lacunas. Infinity e latitudes finitas fora de ±90°
+são rejeitados; Geometry/GeoJSON continuam exigindo coordenadas finitas.
+Veja [Paths e transforms](transforms-composition.md). A conveniência antiga de formato com apenas
 marcador conserva linewidth zero, uma diferença da Line2D da referência.
 
 Todas as formas, coordenadas, labels e estilos são preparados antes de anexar

@@ -12,6 +12,18 @@ import venv
 from pathlib import Path
 
 CHECK=r'''
+from datetime import datetime,timezone
+import azimlib as azl
+from azimlib.transforms import Affine2D
+from azimlib.dates import date2num
+assert Affine2D().translate(1,2).inverted().transform_point((1,2))==(0.,0.)
+assert date2num(datetime(1970,1,1,tzinfo=timezone.utc))==0
+f=azl.figure(figsize=(10,5));a,b=f.subfigures(1,2)
+x=a.subplots();y=b.subplots();x.set_extent((-54,-42,-28,-16));y.set_extent((-54,-42,-28,-16))
+y.set_bearing(30);y.north_arrow();y.compass()
+x.add_collection(azl.LineCollection([[(-52,-25),(-48,-21)]]))
+assert '<svg' in f.to_svg() and y.get_bearing()==30
+azl.close(f)
 import importlib.util,io,sys
 from pathlib import Path
 import azimlib as azl

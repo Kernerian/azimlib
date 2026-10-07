@@ -19,11 +19,14 @@ def canonical_loc(value):
 
 def validate_options(options):
     from .layers import Layer
+    from .legend_handler import get_handler
+    handlers=options.get('handler_map',{})
+    if any(not callable(getattr(h,'legend_artist',None)) for h in handlers.values()):raise TypeError('Invalid legend handler')
     handles=options['handles'];labels=options['labels']
     if labels is not None and handles is None:raise ValueError('labels requires handles')
     if handles is not None:
         handles=list(handles)
-        if any(not isinstance(h,Layer) and not (isinstance(h,tuple) and h and all(isinstance(v,Layer) for v in h)) for h in handles):raise TypeError('Legend handles must be layers or nonempty tuples of layers')
+        if any(not isinstance(h,Layer) and not (isinstance(h,tuple) and h and all(isinstance(v,Layer) for v in h)) and get_handler(handlers,h) is None for h in handles):raise TypeError('Legend handles must be layers or nonempty tuples of layers')
         options['handles']=handles
     if labels is not None:
         labels=list(labels)
@@ -45,6 +48,9 @@ def validate_options(options):
     return options
 
 def symbol(layer,legend=None):
+    from .legend_handler import get_handler
+    handler=get_handler(legend.get('handler_map',{}),layer) if legend is not None else None
+    if handler is not None:return {'_handler':handler,'_handle':layer},'custom'
     kind='scatter' if layer.kind=='scatter' else 'line'
     if layer.kind=='geometry' and any(f.geometry and f.geometry.type in ('Polygon','MultiPolygon') for f in layer.data):kind='polygon'
     style=layer._scatter_style(0) if kind=='scatter' and layer.data else dict(layer.style)
@@ -66,9 +72,9 @@ def entries(legend):
         explicit=options['labels'][i] if options['labels'] is not None else None
         if isinstance(layer,tuple):
             if explicit is not None:items.append((str(explicit),[symbol(h,legend) for h in layer]))
-        elif layer.legend_entries and explicit is None:
+        elif getattr(layer,'legend_entries',None) and explicit is None:
             items.extend((str(label),[(style,kind)]) for label,style,kind in layer.legend_entries)
-        elif explicit is not None or layer.style.get('label'):
+        elif explicit is not None or getattr(layer,'style',{}).get('label'):
             label=str(explicit if explicit is not None else layer.style['label'])
             if explicit is None and label.startswith('_'):continue
             items.append((label,[symbol(layer,legend)]))
@@ -187,7 +193,10 @@ def render_legend(legend,vp,scene):
             for symbolstyle,kind in symbols:
                 if not symbolstyle.get('_legend_visible',True):continue
                 handle=plan['handle'];fs=legend['fontsize']*POINT
-                if kind=='polygon':
+                if kind=='custom':
+                    from .legend_handler import HandleBox
+                    symbolstyle['_handler'].legend_artist(legend,symbolstyle['_handle'],fs,HandleBox(legend,scene,(cx,center-fs/2,handle,fs)))
+                elif kind=='polygon':
                     scene.add(Rect(cx,center-fs*.35,handle,fs*.7,path_style(symbolstyle,True)))
                     add_hatches(scene,[[(cx,center-fs*.35),(cx+handle,center-fs*.35),(cx+handle,center+fs*.35),(cx,center+fs*.35)]],symbolstyle)
                 elif kind=='scatter':_marker((cx+handle/2,center),symbolstyle.get('markersize',6),symbolstyle,scene,None)

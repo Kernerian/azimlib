@@ -40,6 +40,7 @@ class MapAxes(AxisComponents):
         self._label=''
         self.projection = get_projection(projection, **(projection_kw or {}))
         self._longitude_wrap = False
+        self._bearing=0.;self._family_indices={}
         self.layers = []
         self.insets = []
         self._extent = None
@@ -56,7 +57,7 @@ class MapAxes(AxisComponents):
         self._labelpad={name:rcParams['axes.labelpad'] for name in ('x','y')}
         self._overview = None
         self._plot_index = 0
-        self._scatter_index=0
+        self._scatter_index=0;self._family_indices={};self._bearing=0.
         self._prop_cycle=tuple(rcParams['axes.prop_cycle'])
         self._legend, self._scale_bar, self._north, self._colorbar = None, None, None, None
         self._compass=None
@@ -87,8 +88,81 @@ class MapAxes(AxisComponents):
     @artist_mutation
     def set_label(self,label):self._label='' if label is None else str(label)
 
+    @property
+    def transData(self):
+        from .transforms import AxesTransform
+        return AxesTransform(self,'geo')
+    @property
+    def transAxes(self):
+        from .transforms import AxesTransform
+        return AxesTransform(self,'axes')
+    @property
+    def transProjection(self):
+        from .transforms import AxesTransform
+        return AxesTransform(self,'projected')
+
+    def _axes_path(self):
+        parent=getattr(self,'_parent_axes',None)
+        return parent._axes_path()+[parent.insets.index(self)] if parent is not None else [self.figure.axes.index(self) if self.figure is not None and self in self.figure.axes else -1]
+
+    def _transform_viewport(self):
+        from .viewport import Viewport
+        active=getattr(self,'_active_viewport',None)
+        if active is not None:return active
+        scene=self.figure.to_scene()
+        meta=next(m for m in scene.maps if m['axes_path']==self._axes_path())
+        # Scene is already scaled to public DPI; normalize its metadata.
+        box=tuple(v*100/self.figure.dpi for v in meta['box'])
+        return Viewport(self.projection,self._get_extent(),box,bearing=self.get_bearing())
+
+    def add_patch(self,patch):
+        from .patches import PathPatch
+        if not isinstance(patch,PathPatch):raise TypeError('Require an Azimlib PathPatch')
+        return self.add_collection(patch)
+
+    @artist_mutation
+    def add_collection(self,collection,autolim=True):
+        if not isinstance(collection,Layer):raise TypeError('Require an Azimlib Layer')
+        if collection.axes is not None:raise ValueError('Artist is already attached')
+        from .transforms import Transform
+        explicit=getattr(collection,'_transform',None)
+        if explicit is not None and any(owner is not self.figure for owner in explicit.owners()):raise ValueError('Transform belongs to another figure')
+        family='patch' if collection.kind=='path' else 'collection'
+        index=getattr(self,'_family_indices',{}).get(family,0)
+        row=self._prop_cycle[index%len(self._prop_cycle)]
+        effective=dict(getattr(collection,'_batch_styles',{}),**collection.style)
+        if family=='patch' and 'facecolor' in effective:effective.setdefault('color',effective['facecolor'])
+        consume=any(effective.get(k) is None for k in row)
+        if consume:
+            updates={k:v for k,v in row.items() if effective.get(k) is None}
+            collection.set(**updates)
+            if not hasattr(self,'_family_indices'):self._family_indices={}
+            self._family_indices[family]=(index+1)%len(self._prop_cycle)
+        collection._axes=self;collection._bind_parent(self);self.layers.append(collection)
+        if autolim and collection.kind=='geometry':self._fit(collection.data)
+        return collection
+
+    def get_xscale(self):return 'linear'
+    def get_yscale(self):return 'linear'
+    def set_xscale(self,value,**kwargs):return self._geographic_scale(value,kwargs)
+    def set_yscale(self,value,**kwargs):return self._geographic_scale(value,kwargs)
+    def _geographic_scale(self,value,kwargs):
+        if value!='linear' or kwargs:raise ValueError('Map coordinates remain geographic degrees; use scale transforms or a scalar colorbar for numeric scales')
+        return self
+
+    def get_bearing(self):return getattr(self,'_bearing',0.)
+    @artist_mutation
+    def set_bearing(self,angle):
+        angle=float(angle)
+        if not math.isfinite(angle):raise ValueError('Bearing must be finite')
+        if self._colorbar_artist is not None:raise ValueError('Colorbar is not a geographic view')
+        self._bearing=angle%360
+        return self
+
     @artist_mutation
     def _add(self, kind, data, style=None, **options):
+        style=dict(style or {})
+        controls={key:style.pop(key) for key in ('clip_on','transform') if key in style}
         style=style_dict(style)
         if kind in ('text','labels','annotation'):
             style={'fontfamily':rcParams['font.family'],'fontsize':rcParams['font.size'],'color':rcParams['text.color'],**style}
@@ -96,6 +170,7 @@ class MapAxes(AxisComponents):
              MeshCollection if kind=='mesh' else VectorCollection if kind=='vectors' else
              MapText if kind=='text' else Annotation if kind=='annotation' else Layer)
         layer = cls(kind, data, style, options, _axes=self)
+        if controls:layer.set(**controls)
         self.layers.append(layer)
         return layer
 
@@ -275,6 +350,20 @@ class MapAxes(AxisComponents):
             raise ValueError("Municipal boundaries are not bundled. Supply GeoJSON: ax.municipalities(data)")
         return self.geojson(data, **_defaults(kwargs, facecolor="none", edgecolor="#7a8589", linewidth=.4))
 
+    def fill(self,lon,lat,**kwargs):
+        from .plotting import plot_collection
+        lon,lat=list(lon),list(lat)
+        if len(lon)!=len(lat) or len(lon)<3:raise ValueError('fill requires at least three lon/lat pairs')
+        points=list(zip(lon,lat));points.append(points[0])
+        options=normalize_aliases(kwargs);index=getattr(self,'_family_indices',{}).get('fill',0)
+        row=self._prop_cycle[index%len(self._prop_cycle)];consume=options.get('facecolor',options.get('color')) is None
+        if consume:options['facecolor']=row.get('color','black')
+        layer=self.geojson(_collection('Polygon',[points]),**options)
+        if consume:
+            if not hasattr(self,'_family_indices'):self._family_indices={}
+            self._family_indices['fill']=(index+1)%len(self._prop_cycle)
+        return [layer]
+
     def line(self, coordinates, **kwargs):
         return self.geojson(_collection("LineString", list(coordinates)), **_defaults(kwargs, zorder=2))
 
@@ -283,7 +372,7 @@ class MapAxes(AxisComponents):
         """Set future line/scatter defaults; does not restyle existing Artists."""
         from .cycles import cycler
         cycle=rcParams['axes.prop_cycle'] if args==(None,) and not kwargs else cycler(*args,**kwargs)
-        self._prop_cycle=tuple(cycle);self._plot_index=self._scatter_index=0
+        self._prop_cycle=tuple(cycle);self._plot_index=self._scatter_index=0;self._family_indices={}
 
     @artist_mutation
     def plot(self,*args,data=None,**kwargs):
@@ -337,14 +426,15 @@ class MapAxes(AxisComponents):
                 if name is not None:style['label']=str(name)
                 style.setdefault('zorder',2);style=style_dict(style)
                 coordinates=list(zip(x,y))
-                collection=_collection('MultiPoint' if len(coordinates)==1 else 'LineString',coordinates)
-                prepared.append((collection,style))
+                from .plotting import plot_collection
+                collection,raw=plot_collection(x,y)
+                prepared.append((collection,style,raw))
         # Validate all groups before attaching any handle or consuming the cycle.
         for message in messages:warnings.warn(message,UserWarning,stacklevel=2)
         result=[]
-        for collection,style in prepared:
+        for collection,style,raw in prepared:
             if fit:self._fit(collection)
-            result.append(self._add('geometry',collection,style,feature_style=None,fit=fit))
+            result.append(self._add('geometry',collection,style,feature_style=None,fit=fit,plot_data=raw))
         self._plot_index=index
         return result
 
@@ -399,13 +489,17 @@ class MapAxes(AxisComponents):
         return layer
 
     def text(self, lon, lat, text, *, transform="data", **kwargs):
-        if transform not in ("data", "axes"):
-            raise ValueError("transform must be 'data' or 'axes'")
+        from .transforms import Transform
+        explicit=isinstance(transform,Transform)
+        if not explicit and transform not in ("data", "axes"):raise ValueError("transform must be data, axes or an Azimlib Transform")
+        if explicit and any(owner is not self.figure for owner in transform.owners()):raise ValueError('Transform belongs to another figure')
         if not all(math.isfinite(float(v)) for v in (lon, lat)):
             raise ValueError("Text coordinates must be finite")
         if transform == "data":
             _collection("Point", [lon, lat])
-        return self._add("text", (float(lon), float(lat), str(text)), _defaults(kwargs, zorder=8), transform=transform)
+        artist=self._add("text", (float(lon), float(lat), str(text)), _defaults(kwargs, zorder=8), transform='axes' if explicit else transform)
+        if explicit:artist.set_transform(transform)
+        return artist
 
     def labels(self, data, field="name", *, avoid_overlap=True,padding=2,offsets=None,leader=False,
                placement='auto',priority_field='priority',min_span=0,max_span=None,**kwargs):
@@ -434,11 +528,15 @@ class MapAxes(AxisComponents):
                          placement=placement,priority_field=priority_field,min_span=float(min_span),max_span=None if max_span is None else float(max_span))
 
     def annotate(self, text, xy, xytext=None, *, textcoords="offset pixels", arrow=True, **kwargs):
-        xy=coordinate_pair(xy,True)
+        from .transforms import Transform
+        explicit=kwargs.get('transform')
+        if explicit is not None and not isinstance(explicit,Transform):raise TypeError('Require an Azimlib Transform')
+        if explicit is not None and any(owner is not self.figure for owner in explicit.owners()):raise ValueError('Transform belongs to another figure')
+        xy=coordinate_pair(xy,explicit is None)
         if textcoords not in ANNOTATION_COORDS:
             raise ValueError('Unsupported annotation coordinates')
         xytext = (20, -20) if xytext is None else xytext
-        xytext=coordinate_pair(xytext,textcoords=='data')
+        xytext=coordinate_pair(xytext,textcoords=='data' and explicit is None)
         return self._add("annotation", (tuple(xy), tuple(xytext), str(text)), _defaults(kwargs, zorder=9, arrow=arrow), textcoords=textcoords)
 
     callout = annotate
@@ -825,7 +923,7 @@ class MapAxes(AxisComponents):
                frameon=True, facecolor=None, edgecolor=None, framealpha=None,
                title_fontsize=None, borderpad=.4, labelspacing=.5, handlelength=2,
                handletextpad=.8, borderaxespad=.5,ncols=None,ncol=None,columnspacing=2,
-               bbox_to_anchor=None,bbox_transform='axes',mode=None):
+               bbox_to_anchor=None,bbox_transform='axes',mode=None,handler_map=None):
         loc=rcParams['legend.loc'] if loc is None else loc
         fontsize=rcParams['legend.fontsize'] if fontsize is None else fontsize
         facecolor=rcParams['legend.facecolor'] if facecolor is None else facecolor
@@ -836,13 +934,16 @@ class MapAxes(AxisComponents):
         if labels is not None and handles is None:raise ValueError('labels requires handles')
         handles=list(handles) if handles is not None else None
         labels=list(labels) if labels is not None else None
-        if handles is not None and any(not isinstance(h,Layer) and not (isinstance(h,tuple) and h and all(isinstance(v,Layer) for v in h)) for h in handles):raise TypeError('Legend handles must be layers or nonempty tuples of layers')
+        from .legend_handler import get_handler
+        handler_map=dict(handler_map or {})
+        if any(not callable(getattr(h,'legend_artist',None)) for h in handler_map.values()):raise TypeError('Handler must implement legend_artist')
+        if handles is not None and any(not isinstance(h,Layer) and not (isinstance(h,tuple) and h and all(isinstance(v,Layer) for v in h)) and get_handler(handler_map,h) is None for h in handles):raise TypeError('Unsupported legend handle without handler')
         if labels is not None and len(labels)!=len(handles):raise ValueError('handles and labels must match')
         values=dict(fontsize=fontsize,title_fontsize=title_fontsize or fontsize,borderpad=borderpad,
                     labelspacing=labelspacing,handlelength=handlelength,handletextpad=handletextpad,borderaxespad=borderaxespad)
         if any(not math.isfinite(float(v)) or v<0 for v in values.values()) or fontsize<=0:raise ValueError('Legend dimensions must be nonnegative, fontsize positive')
         if not 0<=framealpha<=1:raise ValueError('framealpha must lie in [0,1]')
-        self._legend = Legend(axes=self,slot='_legend',title=title,loc=loc,handles=handles,labels=labels,
+        self._legend = Legend(handler_map=handler_map,axes=self,slot='_legend',title=title,loc=loc,handles=handles,labels=labels,
             frameon=bool(frameon),facecolor=facecolor,edgecolor=edgecolor,framealpha=framealpha,
             ncols=ncols if ncols is not None else ncol if ncol is not None else 1,columnspacing=columnspacing,
             bbox_to_anchor=bbox_to_anchor,bbox_transform=bbox_transform,mode=mode,linewidth=rcParams['axes.linewidth'],**values)
@@ -1144,7 +1245,13 @@ class MapAxes(AxisComponents):
         if C is not None:
             values=VectorCollection._values(C,count,colors=True)
             prepared_norm,prepared_cmap=_field_mapping(values,cmap,norm,vmin,vmax)
+        consume=False
+        if C is None:
+            index=self._family_indices.get('vectors',0);row=self._prop_cycle[index%len(self._prop_cycle)]
+            consume=any(styles.get(k) is None for k in row)
+            styles=style_dict({**{k:value for k,value in row.items() if styles.get(k) is None},**styles})
         layer=self._add('vectors',tuple((*p,a,b) for p,a,b in zip(origins,u,v)),styles,scale=scale)
+        if consume:self._family_indices['vectors']=(index+1)%len(self._prop_cycle)
         if C is not None:
             layer.set_cmap(prepared_cmap);layer.set_norm(prepared_norm);layer.set_array(values)
         self._fit(bounds);return layer
@@ -1196,7 +1303,7 @@ class MapAxes(AxisComponents):
         self._compass=None
         self._xlabel = self._ylabel = self._overview = None
         self._plot_index = 0
-        self._scatter_index=0
+        self._scatter_index=0;self._family_indices={};self._bearing=0.
         self._prop_cycle=tuple(rcParams['axes.prop_cycle'])
         self._frame = True
         self.visible=True

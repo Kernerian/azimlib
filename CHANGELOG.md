@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0 development — transforms and composition batch
+
+- Own composable/invertible transforms, physical offsets, mixed-coordinate
+  Artists, public immutable Paths, NaN/masked line gaps and editable collections.
+- Numeric date/log tickers/scales stay separate from longitude/latitude CRS.
+  Sampled curved/rotated graticule border ticks retain scientific offsets.
+- SubFigure ownership and disjoint multi-root layouts, edge text/manual-cax
+  obstacles, transactional failure and bounded compressed fixed-aspect layout.
+- Independent family cycles and custom PathPatch/Symbol legend handlers.
+- Opt-in clockwise map bearing; local north/compass orientation and navigation
+  history. Clean light-view recommendation; portable snapshot limits documented.
+
+
 ## 0.3.0 development — geographic core batch
 
 - Immutable ellipsoid/datum/unit models and own ellipsoidal direct/inverse,

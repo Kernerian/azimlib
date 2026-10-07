@@ -46,6 +46,10 @@ class Figure(Artist):
         self._layout_engine=None
         self.subplotpars=dict(left=.125,bottom=.11,right=.9,top=.88,wspace=.2,hspace=.2)
         self.canvas=FigureCanvas(self)
+        from .transforms import FigureTransform,PhysicalTransform
+        self.transFigure=FigureTransform(self)
+        self.dpi_scale_trans=PhysicalTransform(self)
+        self.subfigs=[]
         if layout is not None:self.set_layout_engine(layout)
 
     @artist_mutation
@@ -138,9 +142,16 @@ class Figure(Artist):
             text._owner=None;text._bind_parent(None)
         self._texts.clear();self._suptitle=None;self._supxlabel=None;self._supylabel=None
         self._axes_stack.clear();self._gridspecs.clear();self._grid_shape=None
+        for sf in self.subfigs:sf._bind_parent(None)
+        self.subfigs.clear()
         return self
 
     clf=clear
+
+    @artist_mutation
+    def subfigures(self,*args,**kwargs):
+        from .subfigure import subfigures
+        return subfigures(self,*args,**kwargs)
 
     @artist_mutation
     def add_gridspec(self,nrows=1,ncols=1,**kwargs):
@@ -271,7 +282,7 @@ class Figure(Artist):
 
     @artist_mutation
     def set_layout_engine(self,layout=None,**kwargs):
-        from .layout_engine import LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine
+        from .layout_engine import LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine,CompressedLayoutEngine
         if isinstance(layout,LayoutEngine):
             if kwargs:raise TypeError('Configure the engine object before passing it')
             engine=layout
@@ -280,6 +291,7 @@ class Figure(Artist):
             engine=PlaceHolderLayoutEngine(self._layout_engine.adjust_compatible) if layout=='none' and self._layout_engine is not None else None
         elif layout=='tight':engine=TightLayoutEngine(**kwargs)
         elif layout=='constrained':engine=ConstrainedLayoutEngine(**kwargs)
+        elif layout=='compressed':engine=CompressedLayoutEngine(**kwargs)
         else:raise ValueError('layout must be None, none, tight, constrained or a LayoutEngine')
         self._layout_engine=engine
         return self
@@ -347,10 +359,15 @@ class Figure(Artist):
             if self._layout_engine is not None:self._layout_engine.execute(self)
             scene=self._compose_scene(cull=cull)
             return scene.scaled(self.dpi/100) if self.dpi!=100 else scene
-        finally:self._composing=previous
+        finally:
+            def clear_viewport(ax):
+                ax._active_viewport=None
+                for child in ax.insets:clear_viewport(child)
+            for ax in self.axes:clear_viewport(ax)
+            self._composing=previous
 
     def get_children(self):
-        return [*self.axes,*self._colorbars,*[a for _,_,a in self._texts],*self._figure_labels()]
+        return [*self.axes,*self._colorbars,*[a for _,_,a in self._texts],*self._figure_labels(),*self.subfigs]
 
     def _draw_complete(self):
         for artist in self.findobj():artist.stale=False
@@ -381,6 +398,9 @@ class Figure(Artist):
                                available[1]+(box[1]-top)*available[3]/union[3],
                                box[2]*available[2]/union[2],box[3]*available[3]/union[3])
             shared.append((bar,barbox))
+        from .render_map import prepare_transforms
+        for ax in self.axes:
+            if ax._colorbar_artist is None:prepare_transforms(ax,boxes[id(ax)])
         for ax in self.axes:
             if not ax.get_visible() or ax._colorbar_artist is not None:continue
             allocated=boxes[id(ax)]
@@ -406,7 +426,9 @@ class Figure(Artist):
         for x,y,artist in self._texts:
             if artist.get_visible():
                 x,y,style=artist._scene_text(width,height)
+                first=len(scene.items)
                 with scene.layout_artist(artist):_add_text(scene,x,y,artist.text,style)
+                scene._layout_free.append((artist,first,len(scene.items)))
         return scene
 
     def to_svg(self):

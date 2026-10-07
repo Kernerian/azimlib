@@ -1,7 +1,7 @@
-"""Own font-aware layout for one root grid and nested weighted tracks/spans.
+"""Own font-aware layout for weighted/nested tracks and disjoint root regions.
 
-Measurement uses the export primitives, without projecting data layers again.
-Multiple independent roots and subfigures remain outside this solver.
+Measurement uses export primitives. Fixed edge obstacles reserve strips;
+compressed layout compacts complete unspanned fixed-aspect grids.
 """
 from __future__ import annotations
 import math
@@ -185,7 +185,7 @@ class ConstrainedLayoutEngine(LayoutEngine):
                       max(2*p['h_pad']*100,p['hspace']*h*figure.figsize[1]*100/max(1,rows-1)),automatic_labels=True)
 
 
-def _solve(figure,rect,pad,wpad,hpad,*,automatic_labels=False):
+def _solve_one(figure,rect,pad,wpad,hpad,*,automatic_labels=False):
     axes=figure._subplot_axes()
     def failed(reason):
         warnings.warn('Azimlib layout could not fit decorations: '+reason+'. Previous positions were retained.',UserWarning,stacklevel=3)
@@ -282,3 +282,117 @@ def _solve(figure,rect,pad,wpad,hpad,*,automatic_labels=False):
             for artist,position in original_labels.items():artist._position=position
             for bar,clearance in original_bars:bar._layout_clearance=clearance
             figure.subplotpars.update(pars)
+
+class _RegionalFigure:
+    def __init__(self,figure,axes):
+        self._source,self._axes=figure,axes
+        self.subplotpars=dict(figure.subplotpars)
+        self._suptitle=self._supxlabel=self._supylabel=None
+    def __getattr__(self,name):return getattr(self._source,name)
+    def _subplot_axes(self,**kwargs):return self._axes
+    def _figure_labels(self):return []
+    def _compose_scene(self,**kwargs):
+        scene=self._source._compose_scene(**kwargs)
+        scene._layout_suptitle=scene._layout_supxlabel=scene._layout_supylabel=None
+        return scene
+
+def _obstacle_rect(figure,rect,pad,scene,*,include_labels=False):
+    """Reserve edge strips for fixed free text/manual cax; interior objects stay manual."""
+    W,H=(v*100 for v in figure.figsize);l,b,r,t=rect;px,py=pad if isinstance(pad,tuple) else (pad,pad)
+    boxes=[item_bounds(scene,start,end) for artist,start,end in scene._layout_free if artist.get_in_layout()]
+    boxes += [item_bounds(scene,start,end) for bar,start,end in scene._layout_bars if bar.cax is not None and bar.get_in_layout()]
+    if include_labels:boxes += [box for box in (scene._layout_suptitle,scene._layout_supxlabel,scene._layout_supylabel) if box is not None]
+    for box in boxes:
+        if box is None:continue
+        x,y,w,h=box;cx,cy=x+w/2,y+h/2
+        if x+w<l*W or x>r*W or y+h<(1-t)*H or y>(1-b)*H:continue
+        if cy<(1-t+.12*(t-b))*H:t=min(t,1-(y+h+py)/H)
+        elif cy>(1-b-.12*(t-b))*H:b=max(b,1-(y-py)/H)
+        elif cx<(l+.08*(r-l))*W:l=max(l,(x+w+px)/W)
+        elif cx>(r-.08*(r-l))*W:r=min(r,(x-px)/W)
+    return l,b,r,t
+
+def _solve(figure,rect,pad,wpad,hpad,*,automatic_labels=False):
+    from .gridspec import grid_ancestors
+    axes=figure._subplot_axes();groups={}
+    for ax in axes:groups.setdefault(grid_ancestors(ax.get_gridspec())[-1],[]).append(ax)
+    fixed=bool(figure._texts) or any(bar.cax is not None and bar.get_in_layout() for bar in figure._colorbars)
+    if len(groups)<=1 and not fixed:return _solve_one(figure,rect,pad,wpad,hpad,automatic_labels=automatic_labels)
+    if len(groups)>1:
+        regions=[]
+        for grid in groups:
+            p=grid.get_subplot_params(figure);region=getattr(grid,'_layout_region',(p.left,p.bottom,p.right-p.left,p.top-p.bottom))
+            l,b,w,h=region;regions.append((l,b,l+w,b+h))
+        if any(min(a[2],b[2])-max(a[0],b[0])>1e-8 and min(a[3],b[3])-max(a[1],b[1])>1e-8 for i,a in enumerate(regions) for b in regions[i+1:]):
+            warnings.warn('mixed subplot grids require disjoint explicit regions; previous positions retained',UserWarning,stacklevel=3);return False
+    try:scene=figure._compose_scene(measure_layout=True)
+    except ValueError as error:
+        if str(error)=='Figure is too small for its titles, subplots, and color bars':
+            if len(groups)<=1:return _solve_one(figure,rect,pad,wpad,hpad,automatic_labels=automatic_labels)
+            warnings.warn('Azimlib layout could not fit decorations: insufficient axes area. Previous positions retained.',UserWarning,stacklevel=3);return False
+        raise
+    if len(groups)<=1:
+        # Preserve the legacy solve path if there are no new fixed obstacles.
+        adjusted=_obstacle_rect(figure,rect,pad,scene) if scene._layout_free or any(bar.cax is not None for bar,_,_ in scene._layout_bars) else rect
+        return _solve_one(figure,adjusted,pad,wpad,hpad,automatic_labels=automatic_labels)
+    original={ax:ax.position for ax in figure.axes};original_labels={a:a.get_position() for a in figure._figure_labels()}
+    original_bars=[(bar,getattr(bar,'_layout_clearance',0)) for bar,_,_ in scene._layout_bars]
+    regions=[]
+    for grid,members in groups.items():
+        region=getattr(grid,'_layout_region',None)
+        if region is None:
+            p=grid.get_subplot_params(figure);region=(p.left,p.bottom,p.right-p.left,p.top-p.bottom)
+        l,b,w,h=region;region=(max(rect[0],l),max(rect[1],b),min(rect[2],l+w),min(rect[3],b+h))
+        regions.append((grid,members,region))
+    for i,(_,_,a) in enumerate(regions):
+        if a[0]>=a[2] or a[1]>=a[3] or any(min(a[2],b[2])-max(a[0],b[0])>1e-8 and min(a[3],b[3])-max(a[1],b[1])>1e-8 for _,_,b in regions[i+1:]):
+            warnings.warn('Independent GridSpecs need disjoint explicit regions; previous positions retained',UserWarning,stacklevel=3);return False
+    success=False
+    try:
+        for grid,members,region in regions:
+            region=_obstacle_rect(figure,region,pad,scene,include_labels=True)
+            if not _solve_one(_RegionalFigure(figure,members),region,pad,wpad,hpad,automatic_labels=False):return False
+        success=True
+        return True
+    finally:
+        # Failure is transactional across all roots.
+        import sys
+        if not success:
+            for ax,p in original.items():ax.position=p
+            for artist,p in original_labels.items():artist._position=p
+            for bar,value in original_bars:bar._layout_clearance=value
+
+class CompressedLayoutEngine(ConstrainedLayoutEngine):
+    """Compact fixed-aspect slots in complete unspanned grids after measurement.
+
+    Nested/spanning grids keep the constrained solution. Explicit add_axes and
+    manual cax are never moved. Ratios remain inputs to the constrained solve.
+    """
+    def execute(self,figure):
+        if not super().execute(figure):return False
+        from .gridspec import grid_ancestors
+        axes=figure._subplot_axes();scene=figure._compose_scene(measure_layout=True);groups={}
+        for ax in axes:groups.setdefault(ax.get_gridspec(),[]).append(ax)
+        W,H=(v*100 for v in figure.figsize)
+        for grid,members in groups.items():
+            rows,cols=grid.get_geometry()
+            if len(grid_ancestors(grid))>1 or len(members)!=rows*cols or any(len(a.get_subplotspec().rowspan)!=1 or len(a.get_subplotspec().colspan)!=1 for a in members):continue
+            boxes={a:next(m['box'] for m in scene.maps if m['axes_index']==figure.axes.index(a)) for a in members}
+            widths=[max(boxes[a][2] for a in members if a.get_subplotspec().colspan.start==c) for c in range(cols)]
+            heights=[max(boxes[a][3] for a in members if a.get_subplotspec().rowspan.start==r) for r in range(rows)]
+            ext={a:item_bounds(scene,start,end) for owners,start,end,slot in scene._layout_groups if len(owners)==1 for a in owners if a in members}
+            left=[0.]*cols;right=[0.]*cols;top=[0.]*rows;bottom=[0.]*rows
+            for a in members:
+                x,y,w,h=boxes[a];bx,by,bw,bh=ext[a];r=a.get_subplotspec().rowspan.start;c=a.get_subplotspec().colspan.start
+                left[c]=max(left[c],x-bx);right[c]=max(right[c],bx+bw-x-w);top[r]=max(top[r],y-by);bottom[r]=max(bottom[r],by+bh-y-h)
+            xg=[right[c]+left[c+1]+2*self._params['w_pad']*100 for c in range(cols-1)]
+            yg=[bottom[r]+top[r+1]+2*self._params['h_pad']*100 for r in range(rows-1)]
+            union=union_bounds(boxes.values());tw=sum(widths)+sum(xg);th=sum(heights)+sum(yg)
+            if tw>union[2]+.1 or th>union[3]+.1:continue
+            xs=[union[0]+(union[2]-tw)/2];ys=[union[1]+(union[3]-th)/2]
+            for c in range(cols-1):xs.append(xs[-1]+widths[c]+xg[c])
+            for r in range(rows-1):ys.append(ys[-1]+heights[r]+yg[r])
+            for a in members:
+                r=a.get_subplotspec().rowspan.start;c=a.get_subplotspec().colspan.start;x,y,w,h=boxes[a]
+                a.position=((xs[c]+(widths[c]-w)/2)/W,1-(ys[r]+(heights[r]+h)/2)/H,w/W,h/H)
+        return True

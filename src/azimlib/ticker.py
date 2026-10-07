@@ -345,3 +345,27 @@ def configure_scalar_axes(owner,*,axis='both',style=None,scilimits=None,useOffse
     bar=getattr(owner,'bar',None)
     if bar is not None:bar._changed()
     elif hasattr(owner,'_changed'):owner._changed()
+
+class LogFormatter(Formatter):
+    """Plain-text logarithmic labels; no external MathText renderer."""
+    def __init__(self,base=10,labelOnlyBase=False):
+        self.base=float(base);self.labelOnlyBase=bool(labelOnlyBase)
+        if not math.isfinite(self.base) or self.base<=1:raise ValueError('Invalid logarithmic base')
+    def __call__(self,value,pos=None):
+        value=float(value)
+        if not math.isfinite(value) or value<=0:return ''
+        exponent=math.log(value)/math.log(self.base)
+        if self.labelOnlyBase and not math.isclose(exponent,round(exponent),abs_tol=1e-8):return ''
+        return self.fix_minus(format(value,'.8g'))
+
+class LogFormatterExponent(LogFormatter):
+    def __call__(self,value,pos=None):
+        if not super().__call__(value,pos):return ''
+        return self.fix_minus(format(math.log(float(value))/math.log(self.base),'.8g'))
+
+class LogFormatterSciNotation(LogFormatter):
+    def __call__(self,value,pos=None):
+        if not super().__call__(value,pos):return ''
+        power=math.log(float(value))/math.log(self.base);exponent=round(power) if math.isclose(power,round(power),abs_tol=1e-10) else math.floor(power);coefficient=float(value)/self.base**exponent
+        prefix='' if math.isclose(coefficient,1,rel_tol=1e-8) else f'{coefficient:.5g} × '
+        return self.fix_minus(prefix+f'{self.base:g}^{exponent}')

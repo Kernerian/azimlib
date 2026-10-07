@@ -39,7 +39,7 @@ class Navigation {
  }
  isHome(i){return equal(this.views[i],this.initial[i]);}
  portable(i){
-  const m=this.metadata[i];if(!cylindrical(m.projection))return false;
+  const m=this.metadata[i];if(m.bearing||!cylindrical(m.projection))return false;
   const [w,s,e,n]=m.extent;
   return equal(extentBounds(m.projection,[w,e,s,n]),m.projected_bounds);
  }

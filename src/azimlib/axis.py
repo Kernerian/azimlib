@@ -48,7 +48,7 @@ class Axis:
             from .viewport import Viewport
             ax=self.owner;fig=ax.figure
             width=ax.position[2]*fig.figsize[0]*100;height=ax.position[3]*fig.figsize[1]*100
-            vp=Viewport(ax.projection,ax._get_extent(),(0,0,width,height))
+            vp=Viewport(ax.projection,ax._get_extent(),(0,0,width,height),bearing=ax.get_bearing())
             a,b,c,d=vp.projected_bounds
             pixels=((c-a) if self.name=='x' else (d-b))*vp.scale
         return max(2,int(pixels/(65 if self.name=='x' else 42)))

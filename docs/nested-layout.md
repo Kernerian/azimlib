@@ -83,15 +83,17 @@ Colorbars que abrangem mapas em vários níveis reservam espaço no ancestral
 comum. Colorbars de um grupo filho também funcionam. Insets/ornamentos
 continuam opcionais; componentes internos não participam de uma solução
 universal de colisões dentro de cada mapa. Eixos manuais/cax ou excluídos de
-layout conservam suas posições; o solver não os trata como obstáculos externos.
+layout conservam suas posições; no desenvolvimento 0.3, cax e texto livre
+próximos das bordas reservam faixas, mas objetos interiores continuam manuais.
 Eixos ocultos/removidos deixam de reservar espaço. Texto/pesos/tamanho da
 Figure editados provocam nova medição no próximo desenho.
 
 Se a figura for pequena ou não houver convergência, avisa e restaura todas
 as posições/parâmetros anteriores. Isso não garante que um canvas minúsculo
 possa ser renderizado: o compositor ainda pode rejeitar viewports insuficientes.
-Múltiplos grids raiz independentes em layout automático, SubFigure
-e compressed layout continuam pendentes. sharex/sharey e label_outer já estão
+Na 0.3 em desenvolvimento, raízes independentes disjuntas e SubFigure já
+funcionam; compressed compacta grids completos sem spans/aninhamento.
+Veja [transforms e composição](transforms-composition.md). sharex/sharey e label_outer já estão
 disponíveis; veja [eixos compartilhados](shared-axes.md). HTML é uma cena
 exportada e não recalcula esse layout após navegação.
 

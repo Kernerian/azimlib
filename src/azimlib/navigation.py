@@ -14,14 +14,14 @@ class Navigation:
     def snapshot(self):
         return tuple(None if ax._colorbar_artist is not None else ax.get_extent() for ax in self.figure.axes)
 
-    def _projection_snapshot(self):return tuple((ax.projection,ax._longitude_wrap) for ax in self.figure.axes)
+    def _projection_snapshot(self):return tuple((ax.projection,ax._longitude_wrap,ax.get_bearing()) for ax in self.figure.axes)
 
     def _autoscale_snapshot(self):
         return tuple(None if ax._colorbar_artist is not None else (ax.get_autoscalex_on(),ax.get_autoscaley_on()) for ax in self.figure.axes)
 
     def _apply(self,index):
         with self.figure._mutation():
-            for ax,(projection,wrapped) in zip(self.figure.axes,self._projection_history[index]):ax.projection=projection;ax._longitude_wrap=wrapped
+            for ax,(projection,wrapped,bearing) in zip(self.figure.axes,self._projection_history[index]):ax.projection=projection;ax._longitude_wrap=wrapped;ax._bearing=bearing
             for ax,extent,flags in zip(self.figure.axes,self.history[index],self._autoscale_history[index]):
                 if extent is not None and ax._colorbar_artist is None:
                     # A snapshot may contain emit=False edits and local auto flags.
@@ -76,6 +76,8 @@ def viewport_from_metadata(projection,meta):
     viewport.projection=projection
     for key in ('extent','box','scale','ox','oy','projected_bounds'):
         setattr(viewport,key,meta[key])
+    viewport.bearing=meta.get('bearing',0)
+    viewport._cos,viewport._sin=math.cos(math.radians(viewport.bearing)),math.sin(math.radians(viewport.bearing))
     return viewport
 
 
@@ -109,6 +111,12 @@ def drag_extent(ax,viewport,start,end,*,mode='pan',button=1,constraint=None,init
         dx,up=_pan_delta(dx,-dy,constraint)
         dy=-up
         if dx==dy==0:return original
+        if getattr(viewport,'bearing',0):
+            a,b=viewport.inverse(x+w/2,y+h/2),viewport.inverse(x+w/2-dx,y+h/2-dy)
+            if a is None or b is None:return None
+            west,east,south,north=original
+            dl,dp=wrap_longitude(b[0]-a[0]),b[1]-a[1]
+            return bounded_extent(west+dl,east+dl,south+dp,north+dp,longitude_center=branch)
         corners=[(x-dx,y-dy),(x+w-dx,y-dy),(x-dx,y+h-dy),(x+w-dx,y+h-dy)]
     elif mode=='pan':
         # Equal geographic aspect uses one scale in both projected axes.
@@ -119,6 +127,11 @@ def drag_extent(ax,viewport,start,end,*,mode='pan',button=1,constraint=None,init
         if exponent==0:return original
         if not math.isfinite(exponent) or abs(exponent)>300:return None
         span=10.**exponent
+        if getattr(viewport,'bearing',0):
+            center=viewport.inverse(*start)
+            if center is None:return None
+            cx,cy=center;west,east,south,north=original
+            return bounded_extent(cx+(west-cx)*span,cx+(east-cx)*span,cy+(south-cy)*span,cy+(north-cy)*span,longitude_center=branch)
         cx,cy=start
         corners=[(cx+(px-cx)*span,cy+(py-cy)*span)
                  for px,py in ((x,y),(x+w,y),(x,y+h),(x+w,y+h))]

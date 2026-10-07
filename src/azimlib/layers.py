@@ -79,13 +79,14 @@ class Layer(ScalarMappable,LayoutArtist):
             if len(x)!=len(y):raise ValueError('x and y must have the same length')
             from .geometry import Geometry,Feature,FeatureCollection
             feature=self.data[0]
-            geometry=Geometry('MultiPoint' if len(x)==1 else 'LineString',tuple(zip(x,y)))
-            data=FeatureCollection((Feature(geometry,feature.properties,feature.id),))
+            from .plotting import plot_collection
+            data,raw=plot_collection(x,y,feature)
         if 'text' in options:
             if self.kind not in ('text','annotation'):raise TypeError('This layer is not a text artist')
             data=(*data[:2],str(options.pop('text')))
         prepared=self._prepare_set(options)
         self.data=data
+        if set(kwargs)&{'data','xdata','ydata'}:self.options['plot_data']=raw
         self._apply_set(prepared)
         return self
 
@@ -95,7 +96,13 @@ class Layer(ScalarMappable,LayoutArtist):
             if array is not _UNSET:raise ValueError('Color array specified twice')
             array=self._prepare_array(options.pop('array'))
         mapping=self._prepare_mapping(options,array=array)
-        controls={key:options.pop(key) for key in ('visible','in_layout') if key in options}
+        controls={key:options.pop(key) for key in ('visible','in_layout','transform','clip_on') if key in options}
+        if 'transform' in controls:
+            from .transforms import Transform
+            transform=controls['transform']
+            if not isinstance(transform,Transform):raise TypeError('Require an Azimlib Transform')
+            figure=self.get_figure(root=True)
+            if figure is not None and any(owner is not figure for owner in transform.owners()):raise ValueError('Transform belongs to another figure')
         clear_alpha='alpha' in options and options['alpha'] is None
         if clear_alpha:options.pop('alpha')
         updates=style_dict(options)
@@ -104,6 +111,8 @@ class Layer(ScalarMappable,LayoutArtist):
 
     def _apply_set(self,prepared):
         updates,controls,clear_alpha,mapping=prepared
+        if 'transform' in controls:self._transform=controls['transform']
+        if 'clip_on' in controls:self._clip_on=bool(controls['clip_on'])
         if 'visible' in controls:self.set_visible(controls['visible'])
         if 'in_layout' in controls:self.set_in_layout(controls['in_layout'])
         if clear_alpha:self.style.pop('alpha',None)
@@ -124,12 +133,13 @@ class Layer(ScalarMappable,LayoutArtist):
         return self.data[2]
 
     def _line_geometry(self):
+        if self.kind=='geometry' and 'plot_data' in self.options:return self.data[0].geometry
         if self.kind!='geometry' or len(self.data)!=1 or self.data[0].geometry is None or self.data[0].geometry.type not in ('LineString','MultiPoint'):
             raise TypeError('Data editing requires a single line or plot point series')
         return self.data[0].geometry
 
     def get_data(self):
-        coordinates=self._line_geometry().coordinates
+        coordinates=self.options['plot_data'] if 'plot_data' in self.options else self._line_geometry().coordinates
         return [p[0] for p in coordinates],[p[1] for p in coordinates]
 
     @artist_mutation

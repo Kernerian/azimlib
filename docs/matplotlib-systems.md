@@ -12,22 +12,22 @@ Não há promessa de compatibilidade integral ou igualdade de pixels nesta vers�
 | Sistema do Matplotlib | Fundação atual na Azimlib | Próxima evolução |
 |---|---|---|
 | pyplot e gerenciamento de figuras | seleção por número/nome/sca, subplot/mosaicos, show/close, ion/ioff e conveniências | integração ampliada de event loop |
-| Figure, Axes e composição | GridSpec raiz/filhos/spans/pesos, mosaicos aninhados, compartilhamento, rótulos globais, inset, dimensões/DPI, tight/constrained próprios | múltiplos grids raiz, SubFigure e compressed layout |
+| Figure, Axes e composição | GridSpec raiz/filhos/spans/pesos, mosaicos aninhados, compartilhamento, rótulos globais, inset, dimensões/DPI, tight/constrained, SubFigure, raízes disjuntas e compressed limitado (0.3 dev) | alinhamento global de labels e refinamentos do solver |
 | Artist, Text, Line2D, Patch | Artist próprio, Layer/Text/Spine/Legend, ScatterCollection editável, ownership, stale, callbacks, setp/getp, edição de linhas e relim/autoscale_view | outras classes especializadas, propriedades completas, picking e seleção |
-| Paths, patches e collections | primitivas próprias, polígonos com buracos, paths, círculos e dez hachuras | coleções em lote, símbolos reutilizáveis e padrões customizados |
+| Paths, patches e collections | primitivas próprias, polígonos com buracos, Paths/coleções editáveis, símbolos reutilizáveis, círculos e dez hachuras | padrões e símbolos externos com proveniência |
 | Cores, Normalize e ScalarMappable | normalizadores próprios, tabelas CC0 e callbacks de norm compartilhada/mappable para colorbars | normalizadores adicionais, reclassificação discreta, RGBA e arrays mascarados |
 | rcParams e style sheets | defaults validados, rc_context, arquivos locais, style.use/context empilhados/reset e ciclos próprios condicionais | discovery, rcParams/ciclos de outras classes mais amplos e novos perfis |
 | Axis, ticker e scale | ticks maiores/menores, grades por grupo/eixo, locators/formatters próprios, graus/hemisférios/DMS, labels, spines, tick_params, autoescala/margens, ScalarFormatter científico/offsets editáveis e EngFormatter SI | objetos Tick completos, MathText/TeX, sticky_edges, escalas completas e unidades extensíveis |
-| transforms | projeção forward/inverse, CRS e viewport próprio | grafo componível data/projetado/axes/figure/display e inversas |
-| Grid e coordenadas | graticules opcionais maiores/menores, controle X/Y e formatação N/S/E/W | interseção exata de graticules com bordas curvas |
-| Legend e colorbar | múltiplas colunas, handles compostos, best/bbox_to_anchor, textos/frame editáveis, colorbar compartilhada, cax, tickers e atualização de norm/clim | handlers customizados e regeneração de legendas temáticas |
+| transforms | projeção forward/inverse, CRS, viewport e transforms composáveis próprios (0.3 dev) | invalidação/cache de grafos arbitrários; câmera 3D |
+| Grid e coordenadas | graticules opcionais, controle X/Y, N/S/E/W e interseções amostradas de bordas curvas (0.3 dev) | interseção exata de graticules com bordas curvas |
+| Legend e colorbar | múltiplas colunas, handles compostos, best/bbox_to_anchor, textos/frame editáveis, colorbar compartilhada, cax, tickers, norm/clim e handlers PathPatch/Symbol (0.3 dev) | handlers de famílias adicionais e regeneração de legendas temáticas |
 | Text, fonts e annotations | fontes DejaVu, rotação, multiline, halo, callout, labels na direção local de linhas, colisões com annotations/insets, prioridade por atributo e filtro por extensão | texto curvo por glifo, shaping complexo, posicionamento global otimizado |
 | Eventos e navegação | callbacks de mouse/teclado/desenho, pan/zoom/home/history com estados de autoescala | picking, seleção de features, atualização incremental e eventos padronizados |
 | Backends e canvas | SVG próprio, Pillow próprio, Tk desktop, HTML explícito | backend Qt, PDF e cache de renderização |
 | Widgets | toolbar, configuração de subplots e minimapa opcional | selectors, sliders, botões e controles de camadas |
 | Animation | ainda não implementada | atualização de dados, blitting e exportação temporal |
 | Image, contour, tri e raster | densidade angular, imagens/meshes/vetores editáveis, marching squares e hillshade | raster georreferenciado, RGB/máscaras, triangulação, edição de contornos, contourf e resampling |
-| units, dates e escalas não lineares | graus e CRS explícitos; na 0.3.0 dev, unidades/modelos, geodesia elipsoidal e UTM regional próprios | datas, escalas de Axis e unidades automáticas |
+| units, dates e escalas não lineares | graus e CRS explícitos; na 0.3.0 dev, unidades/modelos, geodesia elipsoidal e UTM regional próprios; datas/log tickers e transforms numéricos (0.3 dev) | conversores automáticos de unidades e escalas adicionais |
 | mplot3d, polar, axisartist e toolkits | fora desta primeira fundação | avaliar por caso; não são pré-requisitos para cartografia 2D |
 | Testes e distribuição | testes numéricos, exportação, independência e componentes | baselines visuais, benchmarks, versões de dados e CI multiplataforma |
 
