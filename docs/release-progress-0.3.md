@@ -3,7 +3,7 @@
 Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**40 concluídos / 40 pendentes**. Contagem por subpassos, não por frentes amplas.
+**48 concluídos / 32 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -82,14 +82,14 @@ A numeração não impede corrigir uma regressão imediatamente.
 
 ## 6. Acabamento visual, texto e exportação
 
-- [ ] **6.01** Curvas/caps/junções e clipping fracionário: testes PNG/SVG no mesmo DPI.
-- [ ] **6.02** Tipografia subpixel e métricas/hinting, com auditoria de todos os tipos de texto.
-- [ ] **6.03** Âncoras interiores de polígonos, prioridade e colisões de labels/leader lines.
-- [ ] **6.04** Textos ao longo de curvas e repetição de nomes em ruas/rios extensos.
-- [ ] **6.05** Expressões matemáticas simples próprias e documentação das limitações de shaping.
-- [ ] **6.06** Símbolos/ícones externos e padrões customizados com proveniência explícita.
-- [ ] **6.07** Exportador PDF vetorial próprio, incluindo transparência e estratégia de fontes/avisos.
-- [ ] **6.08** Galeria comparativa de mapas completos e componentes, sem copiar assets/implementação de referência.
+- [x] **6.01** Curvas/caps/junções e clipping fracionário: testes PNG/SVG no mesmo DPI.
+- [x] **6.02** Tipografia subpixel e métricas/hinting, com auditoria de todos os tipos de texto.
+- [x] **6.03** Âncoras interiores de polígonos, prioridade e colisões de labels/leader lines.
+- [x] **6.04** Textos ao longo de curvas e repetição de nomes em ruas/rios extensos.
+- [x] **6.05** Expressões matemáticas simples próprias e documentação das limitações de shaping.
+- [x] **6.06** Símbolos/ícones externos e padrões customizados com proveniência explícita.
+- [x] **6.07** Exportador PDF vetorial próprio, incluindo transparência e estratégia de fontes/avisos.
+- [x] **6.08** Galeria comparativa de mapas completos e componentes, sem copiar assets/implementação de referência.
 
 ## 7. Interação, integração e desempenho
 
@@ -395,3 +395,49 @@ deste corte. Níveis exteriores de contourf não são preenchidos implicitamente
 Próximo lote: **6.01–6.08**, acabamento visual, texto e exportação. Os passos
 6–10 permanecem pendentes (**40 subpassos**); main/estável 0.2.0 preservados.
 Nenhum push, release ou upload PyPI é parte deste lote.
+
+### Lote 6 — acabamento, texto e exportação (0.3.0.dev0)
+
+**6.01–6.08 concluídos no corte delimitado.** [Contratos completos](finishing.md)
+e [galeria original com proveniência/hashes](_static/finishing/README.md).
+Implementações próprias em `path.py`, `polygon_labels.py`, `curved_text.py`,
+`mathtext.py`, `font_outline.py`, `patterns.py`, `icons.py` e `renderers/pdf.py`.
+PNG/SVG/Tk preservam a arquitetura; savefig PDF estático também integra Save
+nativo. Componentes continuam opcionais e a versão publicada não é alterada.
+
+- [32 testes novos](../tests/test_finishing.py): Bézier analítica/erro,
+  transforms/limites, clipping/caps fracionários, fases subpixel e todos os
+  tipos de texto, expressões/erros/rotação, glifos simples/compostos,
+  tamanho/xref/transparência/avisos/atomicidade e números PDF, anchors/holes,
+  viewport/prioridade, leaders/obstáculos, curva/repetição/visibilidade,
+  SVG limitado/finito/seguro/hash, tile/holes/limites e metadata PNG/SVG/PDF.
+- [Suíte instalada](finishing-validation-0.3.json): **859 testes,
+  19.937 subtests, zero falhas/erros**, skips opcionais/plataforma nomeados.
+  Todos os módulos do wheel conferidos por SHA-256 contra o source final;
+  runtime sem imports cartográficos/de referência externos. Windows local,
+  CPython 3.14.4/Pillow/NumPy, sem aggdraw/Numba; isto não é nova CI remota.
+- [Oráculo de fontes](finishing-font-reference-0.3.json): **22.392 glifos**
+  das quatro faces, comparação com fontTools 4.66.0, diferença de pontos zero.
+  Contornos não hintados; não é teste de shaping/rasterização. Fontes originais
+  e avisos permanecem intactos. fontTools não entra no runtime.
+- [Auditoria instalada](finishing-evidence-0.3.json): **3.003 casos analíticos**
+  em tolerâncias .02/.1/.4 e PNG/SVG/PDF em 100/150/200 DPI. Exportações do
+  atlas completo e SVG/ícone próprio; hashes/scripts registrados.
+- [PDF independente](finishing-pdf-validation-0.3.json): pypdf estrito,
+  Poppler, pagesize, anexo DejaVu exato/proveniência, nove probes de alpha
+  com diferença de canais zero. Imagens finais inspecionadas; não promessa
+  de identidade pixel a pixel entre rasterizadores.
+- [Três smokes Tk](finishing-desktop-0.3.json): novo acabamento e regressões
+  científico/composição aprovados em janelas reais retiradas da tela;
+  edição/rotação/visibilidade/cleanup sintéticos, não aceite humano nativo.
+- Wheel core offline sem extras aprova expressões/PDF/SVG e ambos os imports.
+  Wheel/sdist reconstruídos; auditorias de avisos/assets/links, RECORD,
+  conteúdo exato, privacidade do source/histórico/arquivos e fsck executadas
+  no fechamento. Nenhuma publicação, push ou mudança em main.
+
+Limites explícitos: contornos PDF sem texto pesquisável, uma página, famílias
+DejaVu incorporadas; raster 2D em cells pode gerar PDF grande. Expressões
+simples não são TeX/MathText completo; hinting subpixel/shaping generalizado,
+SVG completo e fonts variáveis não são prometidos. Curved names simples,
+prioridade/colisão conservadoras, budget interior e snapshot HTML documentados.
+Etapas 7–10 permanecem pendentes: **32 subpassos**; nenhum ID foi eliminado.

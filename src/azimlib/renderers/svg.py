@@ -39,6 +39,9 @@ def render_svg(scene: Scene) -> str:
         if item.clip is not None:
             clips.setdefault(tuple(item.clip), f"clip-{len(clips)}")
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{n(scene.width)}" height="{n(scene.height)}" viewBox="0 0 {n(scene.width)} {n(scene.height)}">']
+    if scene._material_notices:
+        import json
+        out.append('<metadata id="azimlib-material-provenance">'+escape(json.dumps(scene._material_notices,ensure_ascii=True,sort_keys=True))+'</metadata>')
     # Embed only used DejaVu faces so standalone SVG/HTML matches desktop
     # typography even on a computer without those fonts installed.
     from ..typography import font_path
@@ -48,6 +51,8 @@ def render_svg(scene: Scene) -> str:
             path=font_path(item.style)
             if path is not None:faces[path]=item.style
     if faces:
+        from ..typography import FONTS
+        out.append('<metadata id="azimlib-font-license">'+escape((FONTS/'LICENSE_DEJAVU').read_text('utf8'))+'</metadata>')
         out.append('<defs><style>')
         for path,style in faces.items():
             data=base64.b64encode(path.read_bytes()).decode('ascii')

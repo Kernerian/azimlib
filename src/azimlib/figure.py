@@ -461,21 +461,21 @@ class Figure(Artist):
         return self.to_svg()
 
     def save(self,path,*,format=None,dpi=None):
-        """Export static .svg or .png without UI; streams require format.
+        """Export static .svg, .png or vector .pdf without UI; streams require format.
 
         dpi changes PNG output resolution without changing the figure layout.
         SVG retains editable text and vector geometry.
         """
         stream=hasattr(path,"write")
         fmt=(format or (Path(path).suffix[1:] if not stream else "")).lower()
-        if fmt not in ("svg","png"):
-            raise ValueError("savefig supports static svg/png only; use show(path=...) for an interactive viewer")
+        if fmt not in ("svg","png","pdf"):
+            raise ValueError("savefig supports static svg/png/pdf only; use show(path=...) for an interactive viewer")
         if dpi is not None and (not math.isfinite(float(dpi)) or dpi<=0):
             raise ValueError("dpi must be finite and positive")
         # A smaller export DPI widens raster overscan relative to logical units;
         # retain the complete scene rather than guessing that safety margin.
         scene=self.to_scene(cull=dpi is None or dpi>=self.dpi)
-        from .renderers import render_svg,render_png
+        from .renderers import render_svg,render_png,render_pdf
         def write(target):
             if fmt=="svg":
                 value=render_svg(scene)
@@ -483,6 +483,8 @@ class Figure(Artist):
                     target.write(value)
                 else:
                     Path(target).write_text(value,encoding="utf-8")
+            elif fmt=="pdf":
+                render_pdf(scene,target,dpi=self.dpi)
             else:
                 render_png(scene,target,scale=(dpi or self.dpi)/self.dpi)
         if stream:

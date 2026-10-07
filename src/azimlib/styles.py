@@ -80,7 +80,10 @@ def style_dict(values=None, **kwargs):
         result['rotation_mode']=result['rotation_mode'] or 'default'
         if result['rotation_mode'] not in ('default','anchor','xtick','ytick'):
             raise ValueError('rotation_mode must be default, anchor, xtick or ytick')
-    if 'hatch' in result and (not isinstance(result['hatch'],str) or set(result['hatch'])-set('/\\|-+x.oO*')):raise ValueError('Invalid hatch pattern')
+    from .patterns import HatchPattern
+    if 'marker' in result:
+        from .patches import Symbol
+    if 'hatch' in result and not isinstance(result['hatch'],HatchPattern) and (not isinstance(result['hatch'],str) or set(result['hatch'])-set('/\\|-+x.oO*')):raise ValueError('Invalid hatch pattern')
     if result.get('hatch_spacing',1)<=0:raise ValueError('hatch_spacing must be positive')
     if 'antialiased' in result and not isinstance(result['antialiased'],bool):raise ValueError('antialiased must be a bool')
     if "linecap" in result and result["linecap"] not in ("butt", "round", "square"):
@@ -93,7 +96,7 @@ def style_dict(values=None, **kwargs):
     for key in ('solid_joinstyle','dash_joinstyle'):
         if key in result and result[key] not in ('miter','round','bevel'):
             raise ValueError(f'{key} must be miter, round, or bevel')
-    if 'marker' in result and result['marker'] not in (None,'None','none','',' ','o','circle','s','square','^','v','D','d','diamond','*','p','h','+','x'):
+    if 'marker' in result and not isinstance(result['marker'],Symbol) and result['marker'] not in (None,'None','none','',' ','o','circle','s','square','^','v','D','d','diamond','*','p','h','+','x'):
         raise ValueError('Unsupported marker; use o,s,^,v,D,*,p,h,+,x or None')
     if "arrowstyle" in result and result["arrowstyle"] not in ("triangle", "open", "stealth"):
         raise ValueError("arrowstyle must be triangle, open, or stealth")

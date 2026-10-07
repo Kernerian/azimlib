@@ -601,7 +601,7 @@ class FigureWindow:
         self.draw_idle()
 
     def save(self):
-        path=self.filedialog.asksaveasfilename(parent=self.window,title='Save the figure',initialfile='Figure_1.png',defaultextension='.png',filetypes=[('Portable Network Graphics','*.png'),('Scalable Vector Graphics','*.svg')])
+        path=self.filedialog.asksaveasfilename(parent=self.window,title='Save the figure',initialfile='Figure_1.png',defaultextension='.png',filetypes=[('Portable Network Graphics','*.png'),('Scalable Vector Graphics','*.svg'),('Portable Document Format','*.pdf')])
         if path:
             try:self.figure.savefig(path)
             except Exception as exc:self.messagebox.showerror('Save failed',str(exc),parent=self.window)

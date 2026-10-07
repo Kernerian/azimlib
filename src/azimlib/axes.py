@@ -502,14 +502,16 @@ class MapAxes(AxisComponents):
         return artist
 
     def labels(self, data, field="name", *, avoid_overlap=True,padding=2,offsets=None,leader=False,
-               placement='auto',priority_field='priority',min_span=0,max_span=None,**kwargs):
+               placement='auto',repeat=None,priority_field='priority',min_span=0,max_span=None,**kwargs):
         """Place feature labels with collision avoidance and local line tangents.
 
-        placement: auto, point or line. min/max_span filter the maximum lon/lat
+        placement: auto, point, line (tangent block), or curve (glyph baselines).
+        repeat is curved-label spacing in points, or None for one accepted name. min/max_span filter the maximum lon/lat
         viewport span in degrees; offsets and padding are logical 100-dpi pixels.
         """
         if not math.isfinite(padding) or padding<0:raise ValueError('padding must be nonnegative')
-        if placement not in ('auto','point','line'):raise ValueError('placement must be auto, point or line')
+        if placement not in ('auto','point','line','curve'):raise ValueError('placement must be auto, point, line or curve')
+        if repeat is not None and (not math.isfinite(float(repeat)) or repeat<=0 or placement!='curve'):raise ValueError('repeat requires positive point spacing and placement=curve')
         if priority_field is not None and not isinstance(priority_field,str):raise TypeError('priority_field must be a field name or None')
         if not math.isfinite(float(min_span)) or min_span<0 or max_span is not None and (not math.isfinite(float(max_span)) or max_span<=0 or max_span<min_span):
             raise ValueError('Require finite 0<=min_span<=max_span, with max_span positive or None')
@@ -517,15 +519,15 @@ class MapAxes(AxisComponents):
             offsets=tuple(tuple(float(v) for v in p) for p in offsets)
             if not offsets or any(len(p)!=2 or any(not math.isfinite(v) for v in p) for p in offsets):raise ValueError('offsets must be finite screen pairs')
         collection = read_geojson(data.data if isinstance(data, Layer) else data)
-        if placement=='line' and any(f.geometry and f.geometry.type not in ('LineString','MultiLineString') for f in collection):
-            raise ValueError('placement=line requires line geometries')
+        if placement in ('line','curve') and any(f.geometry and f.geometry.type not in ('LineString','MultiLineString') for f in collection):
+            raise ValueError('placement=line/curve requires line geometries')
         if priority_field is not None:
             for feature in collection:
                 value=feature.properties.get(priority_field)
                 if value is not None and not math.isfinite(float(value)):raise ValueError('Feature label priority must be finite')
         return self._add("labels", collection, _defaults(kwargs, fontsize=10, ha="center", va="center", halo="white", zorder=8),
                          field=field, avoid_overlap=bool(avoid_overlap),padding=padding,offsets=offsets,leader=bool(leader),
-                         placement=placement,priority_field=priority_field,min_span=float(min_span),max_span=None if max_span is None else float(max_span))
+                         placement=placement,repeat=repeat,priority_field=priority_field,min_span=float(min_span),max_span=None if max_span is None else float(max_span))
 
     def annotate(self, text, xy, xytext=None, *, textcoords="offset pixels", arrow=True, **kwargs):
         from .transforms import Transform

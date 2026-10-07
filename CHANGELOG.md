@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 development — finishing batch
+
+- Own adaptive Beziers and physical clipping/caps/joins across PNG/SVG/PDF.
+- Shared subpixel text metrics/hinting audit and own bundled TrueType outlines.
+- Bounded projected interior anchors, priorities/obstacles and leaders ending
+  at label footprints; upright curved/repeated names with Latin kerning.
+- Own limited inline expressions (scripts, Greek, fractions and roots),
+  with explicit shaping/TeX limitations.
+- Safe local SVG geometry symbols and periodic custom line tiles carrying
+  explicit provenance into PNG/SVG/PDF metadata/notices.
+- Independent one-page PDF writer, transparency, physical page sizing and
+  vector outlined DejaVu text with full attached font notice.
+- Original cartographic atlas and separately generated development reference;
+  tests/installed/core/Tk/packaging audits. No release or remote CI claimed.
+
 ## 0.3.0 development — scientific 2D batch
 
 - Legend HandlerSymbol now fits/centers reusable paths uniformly in both wide

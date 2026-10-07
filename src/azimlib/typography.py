@@ -23,6 +23,11 @@ def _metrics():return json.loads((FONTS/'metrics.json').read_text(encoding='utf-
 
 def text_width(text,style):
     """Advance width in scene units; Latin kerning, no complex-script shaping."""
+    from .mathtext import has_math,layout
+    if has_math(text):return max(layout(line,style).width for line in str(text).split('\n'))
+    return _plain_text_width(text,style)
+
+def _plain_text_width(text,style):
     path=font_path(style)
     size=style.get('font_size',10*POINT)
     if path is None:return max((len(line)*size*.62 for line in str(text).splitlines()),default=0)
@@ -87,6 +92,12 @@ def _font_vertical_metrics(path):
 
 def text_line_metrics(text,style,*,multiline=False):
     """Font line box including accents/descenders beyond the standard metrics."""
+    from .mathtext import has_math,layout
+    if has_math(text):
+        box=layout(text,style);return -box.top,box.bottom
+    return _plain_text_line_metrics(text,style,multiline=multiline)
+
+def _plain_text_line_metrics(text,style,*,multiline=False):
     size=style.get('font_size',10*POINT);path=font_path(style)
     a,d,g=_font_vertical_metrics(path) if path is not None else (.8,.2,.2)
     low,high=text_vertical_bounds(text,style)

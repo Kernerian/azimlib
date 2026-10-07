@@ -13,7 +13,7 @@ FeatureCollection → Geometry → recorte e densificação
            ↓
   Scene (paths/text/circles/rects em pixels)
            ↓
-     SVG / RGBA próprio → PNG ou Tk / HTML interativo
+     SVG / PDF vetorial próprio / RGBA próprio → PNG ou Tk / HTML interativo
 ```
 
 ## Fronteiras dos módulos
@@ -140,3 +140,12 @@ e precisão, recalcula estilos/coordenadas de tela e não mantém a fonte viva.
 
 Veja [limites e contratos](transforms-composition.md); ponte viva para HTML,
 câmera 3D e conversores gerais de unidades continuam em passos posteriores.
+
+## Acabamento e exportação vetorial
+
+`font_outline.py` interpreta contornos TrueType de fontes incorporadas;
+`mathtext.py` expande expressões simples em primitives antes dos backends.
+`curved_text.py` e `polygon_labels.py` planejam posições sem mudar geometrias.
+`icons.py` lê um subset SVG local seguro; `patterns.py` conserva proveniência
+e expande tiles lineares recortados. `renderers/pdf.py` escreve objetos/xref
+e transparência PDF diretamente. Veja [contratos e limites](finishing.md).

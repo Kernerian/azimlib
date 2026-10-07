@@ -499,10 +499,15 @@ def _render_image(scene: Scene, scale: float = 1, *, _interactive=False, _path_c
 def render_png(scene: Scene, path_or_stream, scale: float = 1) -> None:
     """Write the same raster image as PNG; leave caller-owned streams open."""
     canvas=render_image(scene,scale)
+    metadata=None
+    if scene._material_notices:
+        import json
+        from PIL.PngImagePlugin import PngInfo
+        metadata=PngInfo();metadata.add_itxt('Azimlib material provenance',json.dumps(scene._material_notices,ensure_ascii=True,sort_keys=True))
     try:
         if isinstance(path_or_stream, (str, FilePath)):
-            canvas.save(str(path_or_stream), format="PNG")
+            canvas.save(str(path_or_stream), format="PNG",pnginfo=metadata)
         else:
-            canvas.save(path_or_stream, format="PNG")
+            canvas.save(path_or_stream, format="PNG",pnginfo=metadata)
     finally:
         canvas.close()

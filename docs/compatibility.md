@@ -43,7 +43,7 @@ separam evidência de API/layout de diferenças do rasterizador.
 | `plt.rcParams`, `plt.rc_context`, `plt.style.context` | Subconjunto validado; opções desconhecidas geram erro |
 | `ax.set_xlim`, `ax.set_ylim` | Limites geográficos em graus; inversão não suportada |
 | `ax.grid`, `ax.legend`, `ax.text`, `ax.annotate` | Subconjunto explícito de parâmetros |
-| `fig.savefig` | SVG e PNG estáticos, sem UI; PDF ainda não |
+| `fig.savefig` | SVG/PNG estáticos; PDF vetorial na 0.3.0 development, com contornos DejaVu e sem texto pesquisável |
 | `plt.show()` | Janela desktop Tk própria; bloqueia até fechar, como pyplot |
 | `plt.show(block=False)` | Abre sem bloquear; event loop deve continuar ativo |
 | `fig.show()` | Janela desktop própria, não bloqueia por padrão |
@@ -99,7 +99,7 @@ as propriedades/classes nem replica contagens internas de callbacks. Veja
 
 No desktop, o histórico guarda limites geográficos de todos os subplots.
 Pan/zoom atualizam esses limites e redesenham com o núcleo da Azimlib;
-`savefig()` exporta a vista corrente sem controles. O diálogo Save oferece PNG/SVG.
+`savefig()` exporta a vista corrente sem controles. O diálogo nativo Save oferece PNG/SVG/PDF na 0.3.0 development; o HTML permanece PNG/SVG.
 Restrições X/Y são suportadas no arraste; mapas mantêm proporção espacial.
 O minimapa só existe visualmente se `ax.overview()` for chamado.
 Ele é parte da composição exportada e usa a mesma base no desktop e no HTML.
@@ -169,3 +169,11 @@ filled intervals; thematic legends follow mapping/class edits. Triangles in
 custom legend handles keep uniform aspect ratio. See [scope, masks, units,
 editing and unsupported cases](scientific-2d.md). No Matplotlib/GIS code or new
 scientific dependency is incorporated; published 0.2.0 is unchanged.
+
+## Visual finishing in 0.3 development
+
+Own adaptive Beziers, projected interior anchors, curved/repeated line names,
+simple inline mathematical expressions, declared-provenance external SVG
+symbols/custom line tiles and vector PDF are available. See [exact contracts,
+font strategy and exclusions](finishing.md). This is not general MathText,
+OpenType shaping, a complete SVG reader or a multipage/PDF-A backend.

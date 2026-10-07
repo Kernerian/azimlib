@@ -116,6 +116,10 @@ Scalar or RGB/RGBA image with an explicit extent/world-file, or embedded GeoTIFF
 
 Read SHP plus optional SHX/DBF; source CRS is always explicit.
 
+### `read_svg_symbol(path, *, provenance)`
+
+Read a local SVG geometry subset; caller supplies legal provenance.
+
 ### `read_world_file(source)`
 
 Convert six world-file values A,D,B,E,C,F (pixel centres) to corner affine.
@@ -539,6 +543,14 @@ Wrap longitude into the central meridian's closed +/-180° interval.
 ### `scalar(value)`
 
 Normalize missing/nonfinite/masked scalars without importing NumPy.
+
+## azimlib.patterns.Provenance
+
+`Provenance(source: str, license: str, copyright: str, attribution: str = '', sha256: str = '', license_text: str = '') -> None`
+
+## azimlib.patterns.HatchPattern
+
+`HatchPattern(paths: tuple, provenance: azimlib.patterns.Provenance) -> None`
 
 ## azimlib.scientific_artists.ColorImage
 
@@ -1094,7 +1106,7 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 `Path(vertices, codes=None)`
 
-### `to_polylines(steps=24)`
+### `to_polylines(steps=24, *, tolerance=None, transform=None, max_depth=16)`
 
 ### `transformed(transform)`
 
@@ -2052,11 +2064,11 @@ Detach contents, retaining size, DPI, identity and layout engine.
 
 ### `save(path, *, format=None, dpi=None)`
 
-Export static .svg or .png without UI; streams require format.
+Export static .svg, .png or vector .pdf without UI; streams require format.
 
 ### `savefig(path, *, format=None, dpi=None)`
 
-Export static .svg or .png without UI; streams require format.
+Export static .svg, .png or vector .pdf without UI; streams require format.
 
 ### `sca(ax)`
 
@@ -2422,7 +2434,7 @@ Scalar or RGB/RGBA geographic image; extent=(west,east,south,north).
 
 Hide inner labels; optionally hide ticks, using the local SubplotSpec.
 
-### `labels(data, field='name', *, avoid_overlap=True, padding=2, offsets=None, leader=False, placement='auto', priority_field='priority', min_span=0, max_span=None, **kwargs)`
+### `labels(data, field='name', *, avoid_overlap=True, padding=2, offsets=None, leader=False, placement='auto', repeat=None, priority_field='priority', min_span=0, max_span=None, **kwargs)`
 
 Place feature labels with collision avoidance and local line tangents.
 

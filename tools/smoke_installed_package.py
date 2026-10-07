@@ -12,6 +12,12 @@ import venv
 from pathlib import Path
 
 CHECK=r'''
+import io
+import azimlib as azl
+f,a=azl.subplots();a.set_title(r'$\frac{x_0^2}{2}$')
+b=io.BytesIO();f.savefig(b,format='pdf');assert b.getvalue().startswith(b'%PDF-1.4')
+assert b'DejaVu-license.txt' in b.getvalue();azl.close(f)
+
 import azimlib as azl
 from azimlib.colors import Normalize
 r=azl.GeoRaster([[1,2],[3,4]],(1,0,0,0,1,0))

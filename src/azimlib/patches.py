@@ -20,4 +20,7 @@ class Symbol:
     def __init__(self,path):
         if not isinstance(path,Path):raise TypeError('Require an Azimlib Path')
         self.path=path
-    def patch(self,**kwargs):return PathPatch(self.path,**kwargs)
+    def patch(self,**kwargs):
+        patch=PathPatch(self.path,**kwargs)
+        if hasattr(self,'provenance'):patch.provenance=self.provenance
+        return patch

@@ -73,6 +73,7 @@ class Scene:
     background: str | None = "#ffffff"
     items: list[Primitive] = field(default_factory=list)
     maps: list[dict[str, Any]] = field(default_factory=list)
+    _material_notices: list[dict] = field(default_factory=list, repr=False)
     _layout_excluded: set[int] = field(default_factory=set, repr=False)
     _layout_groups: list = field(default_factory=list, repr=False)
     _layout_bars: list = field(default_factory=list, repr=False)
@@ -95,6 +96,10 @@ class Scene:
         """Append a primitive in painting order and return it."""
         if not isinstance(item, (Path, Text, Circle, Rect)):
             raise TypeError("A scene accepts only Path, Text, Circle, or Rect primitives")
+        if isinstance(item,Text):
+            from .mathtext import has_math,primitives
+            if has_math(item.text):
+                self.items.extend(primitives(item));return item
         self.items.append(item)
         return item
 
@@ -139,6 +144,8 @@ class Scene:
         result._layout_groups=[(owners,start,end,tuple(v*factor for v in slot)) for owners,start,end,slot in self._layout_groups]
         result._layout_bars=[(bar,start,end) for bar,start,end in self._layout_bars]
         result._layout_free=list(self._layout_free)
+        from copy import deepcopy
+        result._material_notices=deepcopy(self._material_notices)
         result._layout_scales=dict(self._layout_scales)
         result._text_blocks=[(start,end,tuple(v*factor for v in box),
                              tuple(v*factor for v in clip) if clip is not None else None)

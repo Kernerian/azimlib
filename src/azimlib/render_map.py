@@ -549,6 +549,24 @@ def _marker(point,size,style,scene,clip):
     if style.get("symbol") is not None:
         _text(scene,x,y,str(style["symbol"]),text_style(dict(style,fontsize=size,ha="center",va="center")),clip)
         return
+    from .patches import Symbol
+    if isinstance(marker,Symbol):
+        from .patterns import register_notice
+        register_notice(scene,getattr(marker,'provenance',None))
+        paths=marker.path.to_polylines(tolerance=.002)
+        points=[p for part,_ in paths for p in part]
+        if not points:raise ValueError('Marker symbol has no finite geometry')
+        x0,x1=min(p[0] for p in points),max(p[0] for p in points);y0,y1=min(p[1] for p in points),max(p[1] for p in points)
+        span=max(x1-x0,y1-y0)
+        if not span:raise ValueError('Marker symbol needs nonzero extent')
+        angle=math.radians(-style.get('rotation',0));c,s=math.cos(angle),math.sin(angle)
+        def pose(p):
+            dx=(p[0]-(x0+x1)/2)*2*radius/span;dy=(p[1]-(y0+y1)/2)*2*radius/span
+            return x+dx*c-dy*s,y+dx*s+dy*c
+        for closed in (True,False):
+            parts=[[pose(p) for p in part] for part,isclosed in paths if isclosed==closed]
+            if parts:scene.add(Path(parts,closed,drawstyle if closed else dict(drawstyle,fill='none'),clip))
+        return
     if marker in ("o","circle"):
         scene.add(Circle(x,y,radius,drawstyle,clip))
         return
@@ -771,9 +789,16 @@ def _labels(layer,vp,scene,planned):
     for i,feature in enumerate(layer.data):
         item=planned.get((id(layer),i))
         if item is None:continue
+        if item.glyphs:
+            for placement in (item,*item.repetitions):
+                for char,p,angle in placement.glyphs:
+                    _text(scene,*p,char,dict(item.style,rotation=angle,rotation_mode='anchor'),vp.box)
+            continue
         p,text,anchor=item.position,item.text,item.anchor
         if layer.options.get('leader') and p!=anchor:
-            scene.add(Path([[anchor,p]],False,dict(stroke=layer.style.get('color','black'),stroke_width=.5*POINT),vp.box))
+            from .polygon_labels import leader_endpoint
+            endpoint=leader_endpoint(anchor,item.box)
+            if endpoint!=anchor:scene.add(Path([[anchor,endpoint]],False,dict(stroke=layer.style.get('color','black'),stroke_width=.5*POINT),vp.box))
         _text(scene,*p,text,item.style,vp.box)
 
 
@@ -1000,13 +1025,15 @@ def _transformed_geometry(geometry,style,transform,figure,vp,scene):
             if len(part)>1:scene.add(Path([part],False,path_style(style),vp.box))
 
 def _transformed_paths(layer,vp,scene):
+    from .patterns import register_notice
+    register_notice(scene,getattr(layer,'provenance',None))
     from .transforms import scene_point
     from .path import Path as PublicPath
     paths=(layer.data,) if layer.kind=='path' else layer.data
     closed=[]
     for i,path in enumerate(paths):
         style=layer._segment_style(i) if layer.kind=='line_collection' else layer.style
-        for points,isclosed in path.to_polylines():
+        for points,isclosed in path.to_polylines(tolerance=.2,transform=lambda p:scene_point(layer.get_transform(),p,layer.figure)):
             part=[]
             for p in points:
                 q=scene_point(layer.get_transform(),p,layer.figure)

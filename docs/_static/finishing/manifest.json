@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "version": "0.3.0.dev0",
+  "copyright": "Copyright (c) 2026 Kernerian",
+  "generators": [
+    "examples/finishing_atlas.py",
+    "tools/compare_finishing.py"
+  ],
+  "data": "Synthetic thematic data/geometry; Natural Earth public-domain context",
+  "fonts": "Bundled DejaVu; original license preserved",
+  "reference": {
+    "schema_version": 1,
+    "reference_version": "3.11.2",
+    "runtime_version": "0.3.0.dev0",
+    "scope": "Common simple cartographic paths, markers, legend, titles, grid and axis labels at 120 DPI; visual comparison, not pixel equality or full API parity.",
+    "provenance": [
+      "Original synthetic routes and composition, BSD-3-Clause",
+      "Natural Earth administrative geometry, public domain",
+      "Bundled DejaVu font; font notice shipped",
+      "Matplotlib used only to generate development reference; no source/assets copied"
+    ],
+    "files": {
+      "finishing-comparison.png": "80eb2b3f7f8e0ea244e94015684f5ba9cf24aa1be7192824bdcea17cf78b4bd6",
+      "azimlib-reference.png": "f3d90c07995caba7e2f87731bc554be8f1841fe6c3f5997a23524880409a8948",
+      "matplotlib-reference.png": "14d58ba45a7f8a7e622fcfc2c143e121e0df7bb25ca8902df7dc1a7f468ccd43"
+    }
+  },
+  "files": {
+    "finishing-atlas.png": "ffa9f60e4909d2045e2ea76b520432d7049279dfcf05dbe6de800f42502c3563",
+    "finishing-comparison.png": "80eb2b3f7f8e0ea244e94015684f5ba9cf24aa1be7192824bdcea17cf78b4bd6"
+  }
+}

@@ -217,3 +217,7 @@ Development 0.3.0: [geodesy, UTM and crossing viewports](docs/geodesy.md), with
 own implementations and explicit numeric limits. See the
 [complete progress checklist](docs/release-progress-0.3.md) for availability;
 these additions are not in the published 0.2.0 package.
+
+Development 0.3.0 also adds [visual finishing, curved labels, simple equations,
+provenance-aware symbols/patterns and own vector PDF](docs/finishing.md),
+with an [original reproducible gallery](docs/_static/finishing/README.md).

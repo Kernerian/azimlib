@@ -7,6 +7,8 @@ from .typography import POINT
 def add_hatches(scene,paths,style,clip=None):
     pattern=style.get('hatch')
     if not pattern:return
+    from .patterns import HatchPattern,add_pattern
+    if isinstance(pattern,HatchPattern):return add_pattern(scene,paths,style,clip)
     points=[p for ring in paths for p in ring]
     if not points:return
     x0,y0,x1,y1=min(p[0] for p in points),min(p[1] for p in points),max(p[0] for p in points),max(p[1] for p in points)

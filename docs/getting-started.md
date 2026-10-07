@@ -134,5 +134,5 @@ não um MapAxes completo. [Cores e colorbars](scientific.md),
 | `plot()` / edição | Retorna lista; `line, = ...`; dados finitos, sem gaps NaN/máscaras ou inversão de eixos neste corte |
 | Navegação | Tk recalcula geografia/ornamentos; HTML navega uma cena exportada e tem limites por projeção |
 
-[Equivalências detalhadas](compatibility.md) · [matemática](math.md) ·
+[Acabamento/PDF na 0.3.0 development](finishing.md) · [Equivalências detalhadas](compatibility.md) · [matemática](math.md) ·
 [tipos de mapas](map-types.md) · [reprodução da galeria](release-gallery.md).

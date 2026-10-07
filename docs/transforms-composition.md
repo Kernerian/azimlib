@@ -43,8 +43,9 @@ Plot inputs preserve NaN gaps in get_data and editing; masked NumPy scalars
 become gaps without making NumPy a core dependency. Infinity is rejected.
 This does not relax strict finite geographic Geometry/GeoJSON validation.
 `Path` has immutable vertices/codes, MOVETO/LINETO/CURVE3/CURVE4/CLOSEPOLY/STOP
-and compound rings. Beziers are flattened deterministically with 24 steps by
-default, not adaptively by an error-in-pixels tolerance.
+and compound rings. Public flattening defaults to 24 steps for compatibility;
+PathPatch/LineCollection rendering now uses bounded adaptive subdivision with
+a .2 logical-pixel tolerance. See [curves and transform limits](finishing.md).
 
 `PathPatch` draws reusable Path geometry under a transform. `Symbol.patch()`
 creates a new patch per use. `LineCollection` batches independent paths,

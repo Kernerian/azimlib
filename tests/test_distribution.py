@@ -49,7 +49,7 @@ class DistributionTests(unittest.TestCase):
             self.assertEqual(target.read_text(encoding="utf-8"),original)
             # Explicit invalid export option leaves an existing file untouched.
             with self.assertRaises(ValueError):
-                fig.savefig(target,format="pdf")
+                fig.savefig(target,format="jpeg")
             self.assertEqual(target.read_text(encoding="utf-8"),original)
             self.assertFalse(list(target.parent.glob(".azimlib-*")))
 
