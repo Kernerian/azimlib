@@ -17,7 +17,7 @@ def link_target(current,target,ref):
     if not source.is_relative_to(ROOT):raise ValueError('Documentation link escapes repository')
     relative=source.relative_to(ROOT).as_posix()
     if not source.exists():raise ValueError(f'Missing documentation link: {current.relative_to(ROOT)} -> {target}')
-    if source.suffix=='.md':parts=parts._replace(path=parts.path[:-3]+'.html')
+    if source.suffix=='.md' and (relative.startswith('docs/') or relative in POLICIES):parts=parts._replace(path=parts.path[:-3]+'.html')
     elif relative.startswith('docs/') or relative.startswith('licenses/') or relative in ('LICENSE','NOTICE_COLORMAPS'):pass
     else:return 'https://github.com/Kernerian/azimlib/'+('tree/' if source.is_dir() else 'blob/')+quote(ref,safe='/')+'/'+quote(relative,safe='/')+(('#'+parts.fragment) if parts.fragment else '')
     return urlunsplit(parts)

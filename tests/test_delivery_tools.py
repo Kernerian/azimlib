@@ -46,6 +46,7 @@ class ReleaseGateTests(unittest.TestCase):
         with self.assertRaises(ValueError):docs.link_target(ROOT/'docs/index.md','../../../../secret.txt','dev/0.3.0')
     def test_documentation_keeps_fragment_and_source_ref(self):
         docs=load('build_documentation')
+        self.assertIn('/blob/dev/0.3.0/tools/baselines/release030/README.md',docs.link_target(ROOT/'docs/index.md','../tools/baselines/release030/README.md','dev/0.3.0'))
         self.assertEqual(docs.link_target(ROOT/'docs/index.md','temporal.md#animation','dev/0.3.0'),'temporal.html#animation')
         self.assertIn('/blob/dev/0.3.0/examples/temporal_atlas.py',docs.link_target(ROOT/'docs/index.md','../examples/temporal_atlas.py','dev/0.3.0'))
 
