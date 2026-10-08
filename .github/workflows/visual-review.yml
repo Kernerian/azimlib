@@ -1,0 +1,51 @@
+name: visual-review-0.3
+on:
+  workflow_dispatch:
+  push:
+    branches: ['dev/0.3.0']
+    paths:
+      - '.github/workflows/visual-review.yml'
+      - 'tools/prepare_visual_review.py'
+      - 'tools/baselines/visual-review030/**'
+permissions:
+  contents: read
+jobs:
+  visual-review:
+    name: visual-review-${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux
+          - os: macos-latest
+            label: macos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[gui,qt,notebook]'
+      - name: Install native display libraries (bounded network requests)
+        if: runner.os == 'Linux'
+        run: |
+          timeout 240s sudo apt-get -o Acquire::Retries=1 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout 240s sudo apt-get -o Acquire::Retries=1 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install -y xvfb xauth libegl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-xinerama0
+      - name: Generate Linux visual packet on native X11
+        if: runner.os == 'Linux'
+        run: xvfb-run -a -s '-screen 0 1920x1440x24' python -I tools/prepare_visual_review.py --native --output visual-review
+      - name: Generate macOS visual packet on native Aqua/Cocoa
+        if: runner.os == 'macOS'
+        run: python -I tools/prepare_visual_review.py --native --output visual-review
+      - run: python -I tools/check_release_progress_030.py
+      - run: python -I tools/audit_licenses.py --report visual-review/license-audit.json
+      - run: python -I tools/audit_publication_privacy.py --report visual-review/source-privacy-audit.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: azimlib-0.3.0-visual-review-${{ matrix.label }}
+          path: visual-review/
+          if-no-files-found: error
+          retention-days: 30

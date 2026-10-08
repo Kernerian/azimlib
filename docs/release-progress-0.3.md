@@ -668,3 +668,12 @@ report hashes foram conferidos, incluindo licenças/privacidade/distribuição.
 
 **Restam 2 subpassos: 7.08 e 10.08.** CI programática nativa não substitui
 conferência visual/input humana Linux/macOS. Não houve publicação 0.3.0 no PyPI.
+
+
+### Rodada visual 7.08 — aguardando aprovação humana
+
+[Procedimento e checklist](visual-review-0.3.md): artifacts separados Ubuntu/macOS,
+14 cenas PNG/SVG, referências próprias Windows, 100/200 dpi e capturas nativas
+Tk/Qt (urban/pan/Home/Subplots/3D/temporal). O workflow gera material de revisão;
+seu sucesso não equivale a aceite humano. **7.08 e 10.08 continuam pendentes.**
+Nenhuma publicação de site, release ou pacote é executada por esse workflow.

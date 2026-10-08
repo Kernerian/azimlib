@@ -28,3 +28,6 @@ prune optional-data
 include .github/workflows/docs.yml
 recursive-include docs/_static/release030 *.svg *.pdf
 recursive-include tools/baselines/release030 *.json *.png
+
+include .github/workflows/visual-review.yml
+recursive-include tools/baselines/visual-review030 *.json *.png
