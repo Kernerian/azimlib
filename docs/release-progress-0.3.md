@@ -1,6 +1,8 @@
 # Progresso da Azimlib 0.3.0
 
-Status: **0.3.0 com aceite final concluído; publicação sujeita aos gates do commit exato**. A disponibilidade dos arquivos é verificada no PyPI após o upload.
+Status: **0.3.0 publicada e verificada no PyPI e GitHub**.
+[Registro final, commit, CI e hashes](release-publication-0.3.0.md).
+As seções de lotes abaixo são snapshots históricos dos respectivos estados.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
 **80 concluídos / 0 pendentes**. Contagem por subpassos, não por frentes amplas.
@@ -133,7 +135,7 @@ A numeração não impede corrigir uma regressão imediatamente.
 - [x] **10.05** CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.
 - [x] **10.06** Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.
 - [x] **10.07** Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.
-- [x] **10.08** Aceite final da 0.3.0 após gates; publicação depende de confirmação explícita e permanece bloqueada.
+- [x] **10.08** Aceite final da 0.3.0 após gates; publicação autorizada, executada e verificada no commit exato registrado.
 
 ## Evidências por lote
 
@@ -722,3 +724,12 @@ sempre com SHA exato e os 28 jobs aprovados. Oito regressões novas elevam a su�
 a 1.008 testes por job; verificações de artifacts/hashes/proveniência permanecem.
 O commit `43a38d5accf87f77731bc2fa4170dc77125e42a7` é candidato anterior.
 O novo estado exige nova CI e pacotes, e permanece aguardando publicação.
+
+### Publicação verificada — 0.3.0
+
+**80/80 mantidos.** O [registro final](release-publication-0.3.0.md) identifica
+o commit `270405cb0030d3cb3a547f01ec78a2e3e728cd88`, a tag anotada `v0.3.0`,
+CI 28/28, Trusted Publishing e os hashes finais. Os arquivos baixados do
+GitHub e do PyPI coincidem byte a byte com os artifacts aprovados. Instalação
+limpa diretamente do PyPI, imports, versão, metadata e smoke passaram.
+Documentação posterior tem revisão própria; não altera tag ou pacotes publicados.

@@ -1,9 +1,10 @@
 # Azimlib 0.3.0
 
-Status: final human acceptance recorded; 80/80 release gates complete.
+Status: **published on 2026-10-08; 80/80 release gates complete**.
 Publication results and distribution files are available through the
 [GitHub Release](https://github.com/Kernerian/azimlib/releases/tag/v0.3.0) and
-[PyPI](https://pypi.org/project/azimlib/0.3.0/). Availability is verified after upload.
+[PyPI](https://pypi.org/project/azimlib/0.3.0/).
+[Post-publication verification and exact hashes](release-publication-0.3.0.md).
 
 Azimlib 0.3.0 expands the independent cartographic engine into urban,
 scientific, temporal and experimental terrain visualization. Neither the
@@ -69,7 +70,7 @@ Original code is BSD 3-Clause, copyright Kernerian. Natural Earth, DejaVu,
 ColorBrewer Blues, CC0 colormaps and wordmark/font credits retain their own terms
 in `LICENSE`, `THIRD_PARTY_LICENSES.md`, `NOTICE_COLORMAPS` and `licenses/`.
 
-## Publication procedure
+## Publication procedure (completed; retained for reproducibility)
 
 After recording final authorization, rebuild/audit the final distributions and
 record their hashes. Promote the validated branch by a

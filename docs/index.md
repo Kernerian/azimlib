@@ -32,6 +32,7 @@ Each development guide states its scope. [Version policy](api-stability.md).
 
 - [Third-party material boundaries](../THIRD_PARTY_LICENSES.md)
 - [Dependency licensing](dependencies.md)
+- [Verified 0.3.0 publication and hashes](release-publication-0.3.0.md)
 - [Release gates and evidence](release-progress-0.3.md)
 - [Roadmap](roadmap.md) and [future proposals](future-versions.md)
 - [Building/versioning the documentation](documentation-site.md)

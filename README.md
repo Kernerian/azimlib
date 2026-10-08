@@ -159,7 +159,7 @@ An orthographic globe is a 2D projection, not a 3D terrain engine.
 - [Architecture](https://github.com/Kernerian/azimlib/blob/main/docs/architecture.md)
 - [Roadmap](https://github.com/Kernerian/azimlib/blob/main/docs/roadmap.md) and [remaining work](https://github.com/Kernerian/azimlib/blob/main/docs/pending.md)
 - [Changelog](https://github.com/Kernerian/azimlib/blob/main/CHANGELOG.md)
-- [Verified 0.2.0 publication](https://github.com/Kernerian/azimlib/blob/main/docs/release-publication-0.2.0.md)
+- [Verified 0.3.0 publication](https://github.com/Kernerian/azimlib/blob/main/docs/release-publication-0.3.0.md)
 
 Azimlib is an early independent cartography library, **not a complete
 replacement for every Matplotlib API**. Read the
@@ -228,6 +228,7 @@ have finite sources, explicit writers and bounded playback.
 Read the [0.3.0 release notes](https://github.com/Kernerian/azimlib/blob/main/docs/release-notes-0.3.0.md),
 [migration guide](https://github.com/Kernerian/azimlib/blob/main/docs/migration-0.3.md), [API policy](https://github.com/Kernerian/azimlib/blob/main/docs/api-stability.md) and
 [release checklist](https://github.com/Kernerian/azimlib/blob/main/docs/release-progress-0.3.md). The hosted
-[development documentation](https://kernerian.github.io/azimlib/dev/) retains
-the version metadata of its recorded snapshots. Published versions are listed
-on [PyPI](https://pypi.org/project/azimlib/).
+[stable documentation](https://kernerian.github.io/azimlib/stable/) and
+[version 0.3.0 documentation](https://kernerian.github.io/azimlib/0.3.0/) identify
+their exact source revision in the site manifest. The [development alias](https://kernerian.github.io/azimlib/dev/)
+currently mirrors 0.3.0. Published versions are listed on [PyPI](https://pypi.org/project/azimlib/).

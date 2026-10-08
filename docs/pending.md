@@ -1,10 +1,13 @@
 # Inventário das frentes após a 0.2.0
 
-A 0.2.0 está publicada e sua checklist encerrou 54/54 itens. A implementação
-posterior segue a [checklist operacional da 0.3.0](release-progress-0.3.md).
+A 0.2.0 encerrou 54/54 itens; a **0.3.0 está publicada com 80/80 concluídos**,
+conforme a [checklist operacional](release-progress-0.3.md) e o
+[registro de publicação](release-publication-0.3.0.md). Esta tabela preserva o
+mapeamento das frentes anteriores para o corte entregue; não é uma lista de
+tarefas ainda pendentes.
 As 16 frentes abaixo são categorias, não a contagem de tarefas faltantes.
 
-| Frente anterior | Passos 0.3.0 | Trabalho do próximo corte |
+| Frente anterior | Passos 0.3.0 | Escopo do corte 0.3.0 entregue |
 | --- | --- | --- |
 | 1. Visual e exportação | 6, 10 | Raster/subpixel, PDF e baselines. |
 | 2. Axis/ticks/escalas/unidades | 3, 4 | Unidades, formatos, datas e bordas curvas. |
@@ -27,4 +30,5 @@ A contagem de concluídos/pendentes fica somente na checklist. As reservas
 para 0.4.0 estão ali motivadas: volumes/GPU, PBF planetário, CRS com grids
 universais, overlay global, roteamento/geocodificação e TeX/shaping completos.
 O restante não desaparece do plano. Novos recursos ainda pendentes não são
-capabilidades anunciadas da versão 0.2.0.
+capacidades anunciadas da versão 0.2.0. O próximo corte ainda exige uma
+checklist própria; não há total fechado de subtarefas da 0.4.0.

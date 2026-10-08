@@ -1,10 +1,11 @@
 # Roteiro da Azimlib
 
-A **0.2.0 está publicada**; seu [registro de entrega](release-publication-0.2.0.md)
-e [checklist concluída](release-progress.md) permanecem separados do desenvolvimento.
+A **0.3.0 está publicada**: [registro de entrega e hashes](release-publication-0.3.0.md).
+A 0.2.0 conserva seu [registro histórico](release-publication-0.2.0.md) e
+[checklist concluída](release-progress.md).
 
 A **[checklist da 0.3.0](release-progress-0.3.md)** é a fonte única de passos,
-subpassos, conclusão e pendências: 10 passos, 80 IDs estáveis. O
+subpassos e evidências: 10 passos, **80/80 concluídos**, 80 IDs estáveis. O
 [inventário](pending.md) liga todas as 16 frentes anteriores a esse corte.
 
 A 0.3.0 amplia urbano/formatos/CRS, Transforms/Artists/layout, raster/campos,
@@ -27,3 +28,10 @@ integral com todos os toolkits do Matplotlib.
 See [terrestrial Sun/Moon, Beyond Earth and Orbits](future-versions.md) for the
 new cumulative proposals and accuracy/licensing gates. Existing reserved work
 above remains in scope; version assignments are provisional, not delivery promises.
+
+## Próximo corte
+
+A 0.4.0 ainda não tem checklist operacional fechada nem contagem de subtarefas.
+As reservas acima e propostas 0.4–0.6 exigem definição de escopo e critérios
+verificáveis antes da implementação. Manutenção cartográfica, urbana e de
+plataformas permanece contínua; propostas celestes não substituem essas frentes.
