@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install '.[gui,qt,notebook]'
+      - run: python -m pip install '.[gui,qt,notebook]' 'Pillow>=12.3'
       - name: Install native display libraries (bounded network requests)
         if: runner.os == 'Linux'
         run: |

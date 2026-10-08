@@ -66,7 +66,7 @@ def specimens(azl):
 
 
 CASES = [
-    ('political', 'Countries, boundaries, scale, north, legend'),
+    ('political', 'Brazil, state boundaries and north arrow'),
     ('physical', 'Rivers, lakes, physical map and legend'),
     ('urban', 'Synthetic streets, buildings, neighbourhoods, symbols'),
     ('scientific', 'Raster / continuous horizontal colorbar'),
@@ -100,7 +100,7 @@ def make(name, azl):
 
 
 def native(output, backend, azl):
-    from PIL import Image, ImageGrab
+    from PIL import Image, ImageGrab, ImageChops, ImageStat
     records = []
     def pump(viewer):
         for _ in range(8):
@@ -123,12 +123,37 @@ def native(output, backend, azl):
             window.update()
             x, y = window.winfo_rootx(), window.winfo_rooty()
             w, h = window.winfo_width(), window.winfo_height()
-            kwargs = {'bbox': (x, y, x+w, y+h)}
-            if platform.system() == 'Linux': kwargs['xdisplay'] = ''
-            if platform.system() == 'Darwin': kwargs['scale_down'] = True
-            # Capture the mapped application rectangle, never the whole desktop.
-            ImageGrab.grab(**kwargs).save(target)
-            mode = 'mapped-native-window-crop'
+            if platform.system() == 'Windows':
+                import ctypes
+                from ctypes import wintypes
+                user32 = ctypes.windll.user32
+                user32.GetAncestor.argtypes = [wintypes.HWND, wintypes.UINT]
+                user32.GetAncestor.restype = wintypes.HWND
+                hwnd = user32.GetAncestor(window.winfo_id(), 2)
+                origin_point = wintypes.POINT(0, 0)
+                if not user32.ClientToScreen(wintypes.HWND(hwnd), ctypes.byref(origin_point)):
+                    raise RuntimeError('Native window bounds unavailable')
+                capture_image = ImageGrab.grab(window=int(hwnd))
+                origin = (origin_point.x, origin_point.y)
+                mode = 'native-window-handle-grab'
+            else:
+                kwargs = {'bbox': (x, y, x+w, y+h)}
+                if platform.system() == 'Linux': kwargs['xdisplay'] = ''
+                if platform.system() == 'Darwin': kwargs['scale_down'] = True
+                # Capture the controlled runner's mapped application rectangle.
+                capture_image = ImageGrab.grab(**kwargs)
+                origin = (x, y)
+                mode = 'mapped-native-window-crop'
+            if window is viewer.window:
+                cx = viewer.widget.winfo_rootx()-origin[0]
+                cy = viewer.widget.winfo_rooty()-origin[1]
+                expected_image = viewer._image.convert('RGB')
+                actual_image = capture_image.crop((cx, cy, cx+expected_image.width, cy+expected_image.height)).convert('RGB')
+                # A different window or an occluded canvas must not pass as a capture.
+                error = ImageStat.Stat(ImageChops.difference(actual_image, expected_image)).mean
+                if max(error) > 5:
+                    raise RuntimeError('Native capture does not show the viewer canvas')
+            capture_image.save(target)
         with Image.open(target) as image:
             image.load()
             if min(image.size) < 100 or image.convert('RGB').getextrema() == ((0, 0),)*3:
@@ -242,6 +267,8 @@ def main():
         finally: azl.close(fig)
         print(f'Rendered {name}', flush=True)
     provenance['images'] = records
+    for forbidden in ('matplotlib', 'cartopy', 'geopandas', 'shapely', 'pyproj'):
+        assert forbidden not in sys.modules, f'Unexpected cartographic backend: {forbidden}'
     if args.record_reference:
         (output / 'manifest.json').write_text(json.dumps(provenance, indent=2)+'\n', encoding='utf8', newline='\n')
         audit_packet(output)

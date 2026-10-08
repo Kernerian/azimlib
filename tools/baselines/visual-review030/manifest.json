@@ -2,7 +2,7 @@
   "version": "0.3.0.dev0",
   "platform": "Windows",
   "python": "3.14.4",
-  "source_commit": "4b4c7f90995690faab18e934af608ca40be61d67",
+  "source_commit": "b9c852648c8ba05a6f555eda141daf2b2993795c",
   "human_approval": "awaiting-human-approval",
   "runtime_sha256": {
     "__init__.py": "c2d17c32efa0c1539a6a5a76f903062ef20f7106c3d3926f23883eac54275390",
@@ -117,7 +117,7 @@
     "widgets.py": "560cd20a6f366818065306517ef83c7e0ecc4401a48745192e1c198643a78e24",
     "xmlio.py": "347e928edbbc8e82d13562156d6e3b0985b93d5bf900dbca8ecf3c1fcf86fbfc"
   },
-  "generator_sha256": "df10cc0f27f5b65c0d859430ec87ab55f01a108a90f6fe50a420d8d0ce88bd26",
+  "generator_sha256": "173d7a2068d2b66f475c6aac793206d74b8073fe7749e6601134250f23330deb",
   "examples_sha256": {
     "artist_acceptance.py": "849f57f78d86c19ff436d8922510ca57e8b9a288c04876b3cdc25c5bf464c223",
     "artist_validation.py": "dffe9090c13dd266b56b504be0290185d9a672013ea94dd33579acc5136ce1b4",
@@ -298,7 +298,7 @@
   "images": [
     {
       "case": "political",
-      "description": "Countries, boundaries, scale, north, legend",
+      "description": "Brazil, state boundaries and north arrow",
       "dpi": 100,
       "file": "political-100dpi.png",
       "sha256": "462c5e27988978fd4b1646a942a7acc3a1de1171ed9e26686ebb693b6fd05231"

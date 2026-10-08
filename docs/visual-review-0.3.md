@@ -44,7 +44,7 @@ be investigated rather than accepted as a font-engine difference.
 
 Fourteen scenes produce 17 PNG/SVG pairs (three scenes also at 200 dpi) and
 twelve native window captures per OS. Source/runtime/reference mismatches,
-privacy findings, native plugin substitution and failed pan/Home checks stop
+privacy findings, occluded Tk canvases, native plugin substitution and failed pan/Home checks stop
 the workflow. A passing job means packet generation passed; it does not mean
 the human review passed. Licenses and third-party notices accompany the ZIP.
 
@@ -57,7 +57,7 @@ commit/run. Only an explicit human acceptance can complete 7.08. The final
 Use a fresh environment with Tk installed by the Python distribution:
 
 ```bash
-python -m pip install '.[gui,qt,notebook]'
+python -m pip install '.[gui,qt,notebook]' 'Pillow>=12.3'
 python -I tools/prepare_visual_review.py --native --output visual-review
 ```
 
@@ -67,3 +67,8 @@ Outputs must go into a new empty directory. References live under
 `tools/baselines/visual-review030`; regenerate deliberately with
 `--record-reference` when the rendered examples or core change, preserving the
 baseline's exact generator and image hashes. A new baseline is not an approval.
+
+Tk captures are checked against the rendered canvas before saving. Windows
+uses an explicit native window handle, with no desktop-crop fallback. The
+review tool requires Pillow 12.3 for the platform capture APIs; this does not
+raise the core library's Pillow requirement.
