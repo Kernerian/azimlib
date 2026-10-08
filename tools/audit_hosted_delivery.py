@@ -6,15 +6,22 @@ from ci_contract import verify_jobs
 ROOT=Path(__file__).resolve().parents[1]
 def sha(data):return hashlib.sha256(data).hexdigest()
 def read(path):return json.loads(path.read_text('utf8'))
-def audit(folder,expected_sha):
-    run=read(folder/'run.json');assert run['repository']['full_name']=='Kernerian/azimlib'
-    assert run['event']=='push' and run['head_branch']=='dev/0.3.0' and run['head_sha']==expected_sha
-    assert run['status']=='completed' and run['conclusion']=='success'
+def verify_delivery_context(run,jobs,expected_sha,*,expected_branch):
+    assert isinstance(expected_branch,str) and expected_branch and expected_branch.strip()==expected_branch,'One explicit expected branch is required'
+    assert run['repository']['full_name']=='Kernerian/azimlib','Unexpected repository'
+    assert run['event']=='push','Hosted release audit requires a push run'
+    assert run['head_branch']==expected_branch,'Actual branch must match the explicit expected branch'
+    assert run['head_sha']==expected_sha,'Run SHA must match the exact audited commit'
+    assert run['status']=='completed' and run['conclusion']=='success','CI run must complete successfully'
+    return verify_jobs(jobs,expected_sha)
+
+def audit(folder,expected_sha,*,expected_branch):
+    run=read(folder/'run.json');jobs=read(folder/'jobs.json')['jobs']
+    count=verify_delivery_context(run,jobs,expected_sha,expected_branch=expected_branch)
     config=subprocess.check_output(['git','show',expected_sha+':pyproject.toml'],cwd=ROOT,text=True)
     versions=re.findall(r'^version\s*=\s*"([^"]+)"\s*$',config,re.M)
     assert len(versions)==1,'Tested commit must declare one package version'
     expected_version=versions[0]
-    jobs=read(folder/'jobs.json')['jobs'];count=verify_jobs(jobs,expected_sha)
     artifacts=read(folder/'artifacts.json')['artifacts'];assert len(artifacts)==count and not any(a['expired'] for a in artifacts)
     # Verify installed bytes against the tested Git commit, not Windows checkout
     # CRLF transport. A working-tree implementation edit is never ignored.
@@ -70,7 +77,7 @@ def audit(folder,expected_sha):
                 assert proof['tool_sha256']==source_sha(ROOT/'tools/run_release_checks.py')
                 if kind!='desktop':
                     u=proof['unittest'];assert not u['failures'] and not u['errors'] and u['log_sha256']==sha(archive.read(kind+'/unittest.log'))
-                    if kind=='unit':assert u['tests']==1000
+                    if kind=='unit':assert u['tests']==1008
                     else:assert proof['optional_packages']['numba'] and not u['skipped'] and u['tests']>=11
                 else:
                     tree=ast.parse((ROOT/'tools/run_release_checks.py').read_text('utf8'))
@@ -86,7 +93,7 @@ def audit(folder,expected_sha):
                     item=json.loads(archive.read('distribution.json'));assert item['version']==expected_version and not item['mandatory_dependencies'] and item['license_expression'].startswith('BSD-3-Clause AND ')
                 verified.append(kind)
         rows.append(dict(name=name,archive_sha256=sha(path.read_bytes()),verified=verified))
-    return dict(passed=True,run_url=run['html_url'],run_id=run['id'],head_sha=expected_sha,version=expected_version,verified_jobs=count,artifacts=rows,runtime_files=len(current),source_bytes='Exact blobs at the tested Git SHA',working_tree_line_ending_differences=line_endings,scope='Actual hosted 28-job installed/build/audit/core/Tk/Qt/notebook/docs validation; not human Linux/macOS visual acceptance, PyPI publication or docs hosting')
+    return dict(passed=True,run_url=run['html_url'],run_id=run['id'],head_sha=expected_sha,head_branch=run['head_branch'],expected_branch=expected_branch,version=expected_version,verified_jobs=count,artifacts=rows,runtime_files=len(current),source_bytes='Exact blobs at the tested Git SHA',working_tree_line_ending_differences=line_endings,scope='Actual hosted 28-job installed/build/audit/core/Tk/Qt/notebook/docs validation; not human Linux/macOS visual acceptance, PyPI publication or docs hosting')
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--folder',type=Path,required=True);p.add_argument('--sha',required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();result=audit(a.folder,a.sha)
-    a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(result,indent=2)+'\n',encoding='utf8',newline='\n');print(json.dumps({k:result[k] for k in ('passed','run_url','head_sha','verified_jobs','runtime_files')},indent=2))
+    p=argparse.ArgumentParser();p.add_argument('--folder',type=Path,required=True);p.add_argument('--sha',required=True);p.add_argument('--expected-branch',required=True,help='Exact branch for this context: dev/0.3.0 before promotion; main after promotion');p.add_argument('--output',type=Path,required=True);a=p.parse_args();result=audit(a.folder,a.sha,expected_branch=a.expected_branch)
+    a.output.parent.mkdir(parents=True,exist_ok=True);a.output.write_text(json.dumps(result,indent=2)+'\n',encoding='utf8',newline='\n');print(json.dumps({k:result[k] for k in ('passed','run_url','head_sha','expected_branch','head_branch','verified_jobs','runtime_files')},indent=2))

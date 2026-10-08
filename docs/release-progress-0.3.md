@@ -712,3 +712,13 @@ Os mesmos bytes auditados serão entregues na GitHub Release e no PyPI.
 Uma falha interrompe o fluxo antes da próxima ação externa; nenhum gate é
 automaticamente contornado. A documentação pública tem validação de links,
 conteúdo e privacidade própria antes do deploy.
+
+
+### Correção do gate contextual de release
+
+A checklist permanece **80/80**. [Contrato do auditor](release-tooling-0.3.md):
+branch esperada obrigatória, `dev/0.3.0` antes da promoção e `main` após ela,
+sempre com SHA exato e os 28 jobs aprovados. Oito regressões novas elevam a suíte
+a 1.008 testes por job; verificações de artifacts/hashes/proveniência permanecem.
+O commit `43a38d5accf87f77731bc2fa4170dc77125e42a7` é candidato anterior.
+O novo estado exige nova CI e pacotes, e permanece aguardando publicação.

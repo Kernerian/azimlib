@@ -15,6 +15,9 @@
   separately from preserved development evidence.
 - Final human acceptance recorded for 10.08; all 80 release checklist items
   are complete. Publication requires the exact final commit CI and audited bytes.
+- Hosted release auditor now requires one explicit expected branch for candidate
+  and main contexts, preserving exact SHA, all 28 jobs and artifact integrity.
+  Eight new gate regressions raise the full unit suite to 1,008 tests.
 - [Release notes, limits and publication procedure](docs/release-notes-0.3.0.md).
 
 ## 0.3.0 development — documentation and delivery gates
