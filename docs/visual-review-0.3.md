@@ -1,6 +1,9 @@
 # Visual review for 0.3.0
 
-Checklist item **7.08 remains pending human approval** on Linux and macOS.
+Checklist item **7.08 is complete** following explicit human visual acceptance
+on Linux and macOS. The [acceptance record](visual-acceptance-0.3.json) identifies
+the reviewed commit, CI run and artifact hashes. The packets retain their original
+pre-review pending status; their bytes and historical metadata were not rewritten.
 The review workflow does not approve a release, change the stable version,
 deploy documentation or upload a package.
 
@@ -54,9 +57,14 @@ commit/run. Only an explicit human acceptance can complete 7.08. The final
 
 ## Reproduction
 
-Use a fresh environment with Tk installed by the Python distribution:
+For exact reproduction of the accepted historical packets, use a fresh
+checkout at the reviewed commit with Tk installed by the Python distribution.
+A later version/source mismatch intentionally invalidates these baselines:
 
 ```bash
+git clone https://github.com/Kernerian/azimlib.git azimlib-visual-review
+cd azimlib-visual-review
+git checkout --detach 1420e74ea3337f3a74cdc90e6cba9a6707c2152f
 python -m pip install '.[gui,qt,notebook]' 'Pillow>=12.3'
 python -I tools/prepare_visual_review.py --native --output visual-review
 ```

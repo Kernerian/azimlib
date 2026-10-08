@@ -42,7 +42,7 @@ from .patches import PathPatch,Symbol
 from .patterns import Provenance,HatchPattern
 from .icons import read_svg_symbol
 
-__version__="0.3.0.dev0"
+__version__="0.3.0"
 __all__=["Artist","setp","getp","ion","ioff","isinteractive","Figure","GridSpec","SubplotSpec","MapAxes","AxesGrid","Layer","ScatterCollection","MeshCollection","ScalarImage","VectorCollection","ContourSet","ContourLabel","ContourLabels","Geometry","Feature","FeatureCollection",
          "Projection","Equirectangular","Mercator","EqualEarth","Orthographic","LambertConformalConic",
          "AlbersEqualArea","get_projection","register_projection","CRS","Transformer","transform",

@@ -31,3 +31,5 @@ recursive-include tools/baselines/release030 *.json *.png
 
 include .github/workflows/visual-review.yml
 recursive-include tools/baselines/visual-review030 *.json *.png
+
+include .github/workflows/release-candidate.yml

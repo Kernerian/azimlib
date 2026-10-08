@@ -1,9 +1,9 @@
 # Progresso da Azimlib 0.3.0
 
-Status: **em desenvolvimento, não publicada**. A versão estável publicada é 0.2.0.
+Status: **candidato 0.3.0 em preparação, não publicado**. A versão estável publicada é 0.2.0.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**78 concluídos / 2 pendentes**. Contagem por subpassos, não por frentes amplas.
+**79 concluídos / 1 pendente**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -100,7 +100,7 @@ A numeração não impede corrigir uma regressão imediatamente.
 - [x] **7.05** Backend Qt opcional próprio usando o mesmo canvas/renderer e comandos de navegação.
 - [x] **7.06** Simplificação por erro em pixels, compartilhamento de fronteiras e caches incrementais.
 - [x] **7.07** Benchmarks urbanos/densos: primeira pintura, pan, labels, memória e exportação.
-- [ ] **7.08** Validação nativa Tk/Qt por plataforma e manutenção da fluidez/espessura física de linhas.
+- [x] **7.08** Validação nativa Tk/Qt por plataforma e manutenção da fluidez/espessura física de linhas.
 
 ## 8. Terreno 3D experimental verdadeiro
 
@@ -133,7 +133,7 @@ A numeração não impede corrigir uma regressão imediatamente.
 - [x] **10.05** CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.
 - [x] **10.06** Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.
 - [x] **10.07** Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.
-- [ ] **10.08** Aceite final e publicação 0.3.0 somente após gates; nenhuma publicação automática deste desenvolvimento.
+- [ ] **10.08** Aceite final da 0.3.0 após gates; publicação depende de confirmação explícita e permanece bloqueada.
 
 ## Evidências por lote
 
@@ -677,3 +677,22 @@ conferência visual/input humana Linux/macOS. Não houve publicação 0.3.0 no P
 Tk/Qt (urban/pan/Home/Subplots/3D/temporal). O workflow gera material de revisão;
 seu sucesso não equivale a aceite humano. **7.08 e 10.08 continuam pendentes.**
 Nenhuma publicação de site, release ou pacote é executada por esse workflow.
+
+
+### Aceite humano 7.08 — Linux e macOS
+
+**7.08 concluído.** [Registro técnico de aceite](visual-acceptance-0.3.json)
+identifica o commit `1420e74ea3337f3a74cdc90e6cba9a6707c2152f`, a
+[CI visual 2/2](https://github.com/Kernerian/azimlib/actions/runs/37708818971),
+os dois artifacts e seus hashes. Revisão humana de PNG/SVG e capturas nativas
+Tk/Qt em Linux/macOS: nenhuma regressão visual impeditiva identificada.
+O escopo é visual; não registra medição física de latência do mouse.
+
+A [CI geral do mesmo commit](https://github.com/Kernerian/azimlib/actions/runs/37708818985)
+passou **28/28**. Relatórios anteriores são snapshots dos respectivos lotes.
+O candidato com metadata `0.3.0` será validado em um novo commit; isso não
+transforma o pacote publicado `0.2.0` em uma nova versão.
+
+**Resta somente 10.08:** resumo final, CI do commit candidato, wheel/sdist
+verificados e autorização final. Nenhuma tag, alteração de main, GitHub Release
+ou upload PyPI está autorizado pelo aceite visual.

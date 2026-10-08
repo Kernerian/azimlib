@@ -1,7 +1,7 @@
 # Azimlib documentation
 
 **Independent cartography in Python.** The stable published package is 0.2.0;
-this documentation checkout includes **0.3.0.dev0**, which is not yet published.
+this documentation checkout includes the **0.3.0 release candidate**, which is not yet published.
 Each development guide states its scope. [Version policy](api-stability.md).
 
 ![Azimlib wordmark](_static/branding/azimlib-wordmark.png)

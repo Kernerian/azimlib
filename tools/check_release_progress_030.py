@@ -12,7 +12,7 @@ def main():
     if len(actual) != len(set(actual)) or set(actual) != expected:
         raise SystemExit('Missing, duplicate or unexpected checklist IDs')
     done = sum(state == 'x' for state, _, _ in entries)
-    declared = re.search(r'\*\*(\d+) concluídos / (\d+) pendentes\*\*', text)
+    declared = re.search(r'\*\*(\d+) concluídos / (\d+) pendentes?\*\*', text)
     if declared is None or tuple(map(int, declared.groups())) != (done, len(entries)-done):
         raise SystemExit('Declared checklist count does not match entries')
     for step in range(1, 11):

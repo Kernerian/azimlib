@@ -1,0 +1,47 @@
+name: release-candidate-0.3
+on:
+  workflow_dispatch:
+  push:
+    branches: ['dev/0.3.0']
+    paths:
+      - '.github/workflows/release-candidate.yml'
+      - 'pyproject.toml'
+      - 'src/azimlib/__init__.py'
+      - 'tools/normalize_release_sdist.py'
+permissions:
+  contents: read
+jobs:
+  candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[dev]'
+      - name: Require an unpublished candidate and pending final acceptance
+        run: |
+          python -I tools/check_release_progress_030.py
+          python -c "from pathlib import Path; import azimlib; p=Path('docs/release-progress-0.3.md').read_text(); assert azimlib.__version__ == '0.3.0'; assert '- [x] **7.08**' in p; assert '- [ ] **10.08**' in p"
+      - name: Establish fixed build timestamp
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+      - run: python -I tools/audit_licenses.py --report candidate-audits/licenses.json
+      - run: python -I tools/audit_publication_privacy.py --report candidate-audits/privacy-source.json
+      - run: python -m build --outdir candidate-dist
+      - shell: bash
+        run: |
+          python -I tools/normalize_release_sdist.py --sdist candidate-dist/azimlib-0.3.0.tar.gz --epoch "$SOURCE_DATE_EPOCH" --output candidate-audits/normalization.json
+          python -m twine check --strict candidate-dist/*
+          python -I tools/audit_distribution.py --wheel candidate-dist/*.whl --sdist candidate-dist/*.tar.gz --output candidate-audits/distribution.json
+          python -I tools/audit_publication_privacy.py --archive candidate-dist/*.whl --archive candidate-dist/*.tar.gz --report candidate-audits/privacy-archives.json
+          sha256sum candidate-dist/* > candidate-audits/SHA256SUMS
+      - run: python -I tools/smoke_installed_package.py --wheel candidate-dist/azimlib-0.3.0-py3-none-any.whl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: azimlib-0.3.0-unpublished-candidate
+          path: |
+            candidate-dist/
+            candidate-audits/
+          if-no-files-found: error
+          retention-days: 30

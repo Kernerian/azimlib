@@ -1,7 +1,7 @@
 # API stability and version policy
 
-The published release is **0.2.0**. This branch is **0.3.0.dev0**, not a released
-0.3.0 and not an instruction to publish. [Release gates](release-progress-0.3.md)
+The published release is **0.2.0**. This branch prepares **0.3.0**, an unpublished release candidate.
+A candidate version is not an instruction to publish. [Release gates](release-progress-0.3.md)
 are tracked separately from implementation milestones.
 
 Azimlib follows a documented pre-1.0 policy: patch releases preserve supported

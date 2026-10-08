@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.3.0 — release candidate, not published
+
+- Independent urban layers and local SHP/DBF/KML/OSM/raster readers with explicit
+  provenance, optional datasets and format limits.
+- Own ellipsoidal geodesy/UTM, crossing viewports, transforms, editable Artists,
+  map bearing and expanded layout/composition.
+- Scientific raster/contour/triangulation/density/flow/terrain views, visual
+  finishing, own PDF and optional native Qt/notebook/live integrations.
+- Experimental regional terrain 3D, building extrusion, finite animations
+  and multipage geographic atlas.
+- Linux/macOS human visual acceptance recorded for 7.08. The 28-job matrix
+  validates exact installed commits; final candidate results are recorded
+  separately from preserved development evidence.
+- Candidate metadata is 0.3.0; 10.08 and publication remain blocked pending
+  explicit final approval. Published 0.2.0/main/PyPI remain unchanged.
+- [Release notes, limits and publication procedure](docs/release-notes-0.3.0.md).
+
 ## 0.3.0 development — documentation and delivery gates
 
 - Add version-labelled offline documentation, migration examples, API stability policy

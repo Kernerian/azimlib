@@ -1,6 +1,6 @@
 # Moving to Azimlib 0.3 development
 
-This guide describes **unreleased 0.3.0.dev0**. Install a reviewed source checkout
+This guide describes the **unpublished 0.3.0 candidate**. Install a reviewed source checkout
 or its locally built wheel; `pip install azimlib` still installs stable 0.2.0.
 See [API stability](api-stability.md) and [precise compatibility](compatibility.md).
 

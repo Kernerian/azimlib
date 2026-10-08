@@ -88,9 +88,9 @@ coordinates. A separate portable HTML viewer is available with
 `fig.show(backend="browser", path="map.html")`; it navigates an exported scene,
 without a live Python connection.
 
-For the recommended plain light figure, see [clean view](docs/visual-style.md)
-and [clean_map.py](examples/clean_map.py). Development 0.3 adds opt-in map
-rotation and composition contracts; these are not features of stable 0.2.0.
+For the recommended plain light figure, see [clean view](https://github.com/Kernerian/azimlib/blob/main/docs/visual-style.md)
+and [clean_map.py](https://github.com/Kernerian/azimlib/blob/main/examples/clean_map.py). Azimlib 0.3 adds opt-in map
+rotation and composition contracts.
 
 ## Add only the components you need
 
@@ -161,25 +161,23 @@ An orthographic globe is a 2D projection, not a 3D terrain engine.
 - [Changelog](https://github.com/Kernerian/azimlib/blob/main/CHANGELOG.md)
 - [Verified 0.2.0 publication](https://github.com/Kernerian/azimlib/blob/main/docs/release-publication-0.2.0.md)
 
-Azimlib 0.2.0 is an early independent cartography library, **not a complete
+Azimlib is an early independent cartography library, **not a complete
 replacement for every Matplotlib API**. Read the
 [compatibility boundaries](https://github.com/Kernerian/azimlib/blob/main/docs/compatibility.md)
 before migrating. Detailed views can still require expensive rasterization.
-Urban data workflows, more file formats, 3D and temporal visualization are
-future work. Automated CI covers Windows, Linux and macOS; native human visual
-acceptance currently covers Windows.
+Automated CI covers Windows, Linux and macOS. The
+[recorded human visual acceptance](https://github.com/Kernerian/azimlib/blob/main/docs/visual-acceptance-0.3.json) also covers
+Linux/macOS native artifacts; screenshots do not establish physical mouse latency.
 
-## Development toward 0.3.0
+## Documentation and validation
 
-[Development documentation](docs/index.md) · [Migration guide](docs/migration-0.3.md) ·
-[Integrated gallery](docs/gallery-0.3.md) · [API stability](docs/api-stability.md)
+[Development documentation](https://github.com/Kernerian/azimlib/blob/main/docs/index.md) · [Migration guide](https://github.com/Kernerian/azimlib/blob/main/docs/migration-0.3.md) ·
+[Integrated gallery](https://github.com/Kernerian/azimlib/blob/main/docs/gallery-0.3.md) · [API stability](https://github.com/Kernerian/azimlib/blob/main/docs/api-stability.md)
 
 
-The published package is 0.2.0. Unreleased work follows an
-[80-item checklist](docs/release-progress-0.3.md), covering urban workflows,
-formats/CRS, composition, scientific maps, interaction, experimental 3D terrain
-and temporal maps. The [urban guide](docs/urban.md) describes the first batch;
-these new APIs are not yet available in the PyPI 0.2.0 package.
+The [80-item checklist](https://github.com/Kernerian/azimlib/blob/main/docs/release-progress-0.3.md) records implementation,
+validation and release acceptance separately. See the [urban guide](https://github.com/Kernerian/azimlib/blob/main/docs/urban.md)
+for cities, neighbourhoods, streets and buildings.
 
 ## Contribute and get help
 
@@ -209,28 +207,27 @@ and [branding assets](https://github.com/Kernerian/azimlib/tree/main/docs/_stati
 The familiar API and navigation are implemented independently; Matplotlib
 artwork and source code are not distributed as Azimlib's implementation.
 
-### Additional readers in 0.3.0 development
+## Azimlib 0.3 capabilities
 
-The development branch adds independent SHP/SHX/DBF, KML, local OSM XML and
-scalar georeferenced raster/GeoTIFF readers. See [formats and limits](docs/formats.md)
-and [versioned optional data](docs/optional-data.md). These are not in the published
-0.2.0 package yet. The real urban OSM example keeps its database license separate
-and is never downloaded implicitly.
+Azimlib 0.3 adds independent SHP/SHX/DBF, KML, local OSM XML and scalar
+georeferenced raster/GeoTIFF readers. See [formats and limits](https://github.com/Kernerian/azimlib/blob/main/docs/formats.md)
+and [versioned optional data](https://github.com/Kernerian/azimlib/blob/main/docs/optional-data.md). The real urban OSM example
+keeps its database license separate and is never downloaded implicitly.
 
-Development 0.3.0: [geodesy, UTM and crossing viewports](docs/geodesy.md), with
-own implementations and explicit numeric limits. See the
-[complete progress checklist](docs/release-progress-0.3.md) for availability;
-these additions are not in the published 0.2.0 package.
+[Geodesy, UTM and crossing viewports](https://github.com/Kernerian/azimlib/blob/main/docs/geodesy.md) use own implementations
+with explicit numerical limits. [Visual finishing](https://github.com/Kernerian/azimlib/blob/main/docs/finishing.md) includes
+curved labels, limited equations, provenance-aware symbols/patterns and own
+vector PDF; see the [original gallery](https://github.com/Kernerian/azimlib/blob/main/docs/_static/finishing/README.md).
 
-Development 0.3.0 also adds [visual finishing, curved labels, simple equations,
-provenance-aware symbols/patterns and own vector PDF](docs/finishing.md),
-with an [original reproducible gallery](docs/_static/finishing/README.md).
+[Interaction](https://github.com/Kernerian/azimlib/blob/main/docs/interaction.md) includes optional picking, widgets, local
+live viewers, Qt and notebook updates. [Experimental own 3D terrain and building
+extrusion](https://github.com/Kernerian/azimlib/blob/main/docs/terrain3d.md) document metric units, camera/depth rendering,
+export policy and performance limits. [Temporal maps and regional atlas](https://github.com/Kernerian/azimlib/blob/main/docs/temporal.md)
+have finite sources, explicit writers and bounded playback.
 
-Development 0.3.0 adds [optional picking, widgets, live/local viewers, Qt and notebook updates](docs/interaction.md). These are not part of published 0.2.0.
-
-Development also includes [experimental own 3D terrain and building extrusion](docs/terrain3d.md), with explicit metric units, camera/depth rendering, export policy and performance limits. [Original 3D gallery](docs/_static/terrain3d/README.md).
-
-Development guide: [temporal maps and regional atlas](docs/temporal.md).
-
-Development guides: [versioned documentation](https://kernerian.github.io/azimlib/dev/).
-These guides describe unreleased 0.3.0.dev0 features.
+Read the [0.3.0 release notes](https://github.com/Kernerian/azimlib/blob/main/docs/release-notes-0.3.0.md),
+[migration guide](https://github.com/Kernerian/azimlib/blob/main/docs/migration-0.3.md), [API policy](https://github.com/Kernerian/azimlib/blob/main/docs/api-stability.md) and
+[release checklist](https://github.com/Kernerian/azimlib/blob/main/docs/release-progress-0.3.md). The hosted
+[development documentation](https://kernerian.github.io/azimlib/dev/) retains
+the version metadata of its recorded snapshots. Published versions are listed
+on [PyPI](https://pypi.org/project/azimlib/).
