@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "raster": [
+    {
+      "view": "whole",
+      "dpi": 100,
+      "before_seconds": 60.42243965000307,
+      "after_seconds": 33.57909819999986,
+      "reduction_percent": 44.42611322133505,
+      "before_peak_mib": 320.05859375,
+      "after_peak_mib": 432.59765625
+    },
+    {
+      "view": "pan",
+      "dpi": 100,
+      "before_seconds": 57.98594674999913,
+      "after_seconds": 31.107940149999195,
+      "reduction_percent": 46.35262181004286,
+      "before_peak_mib": 320.58984375,
+      "after_peak_mib": 433.8984375
+    },
+    {
+      "view": "focus",
+      "dpi": 100,
+      "before_seconds": 20.376724299996567,
+      "after_seconds": 11.812386499997956,
+      "reduction_percent": 42.030002830239276,
+      "before_peak_mib": 266.640625,
+      "after_peak_mib": 353.5859375
+    },
+    {
+      "view": "whole",
+      "dpi": 200,
+      "before_seconds": 90.42904009999984,
+      "after_seconds": 33.42006084999957,
+      "reduction_percent": 63.04277827892189,
+      "before_peak_mib": 486.57421875,
+      "after_peak_mib": 558.625
+    }
+  ],
+  "scene_pixels_exact": true,
+  "human_summary": {
+    "native_events": 1606,
+    "actions": {
+      "press": 26,
+      "motion": 1506,
+      "release": 26,
+      "wheel": 10,
+      "enter": 9,
+      "leave": 10,
+      "home": 3,
+      "back": 12,
+      "forward": 4
+    },
+    "handler_max_ms": 31.06120000302326,
+    "dispatch_age_median_ms": 0,
+    "dispatch_age_max_ms": 63,
+    "heartbeat_max_gap_ms": 108.49669999879552,
+    "paint_idle_records": 246
+  },
+  "matched_latest_extent": {
+    "count": 31,
+    "median_ms": 209.70590000069933,
+    "p95_ms": 550.5985000054352,
+    "max_ms": 782.1882999996888
+  },
+  "scope": "Local Windows observations. No timing pass rerun here. Matched latest extents exclude coalesced views; Tk idle is not monitor latency. Stress model edits are not physical input."
+}

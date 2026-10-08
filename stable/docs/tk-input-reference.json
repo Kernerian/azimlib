@@ -1,0 +1,1407 @@
+{
+  "matplotlib": "3.11.2",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "keyboard": [
+    {
+      "system": "win32",
+      "char": "p",
+      "keysym": "p",
+      "state": 0,
+      "key": "p",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "P",
+      "keysym": "P",
+      "state": 1,
+      "key": "P",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "p",
+      "keysym": "p",
+      "state": 4,
+      "key": "ctrl+p",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "s",
+      "keysym": "s",
+      "state": 4,
+      "key": "ctrl+s",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Return",
+      "state": 0,
+      "key": "enter",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "KP_Enter",
+      "state": 0,
+      "key": "enter",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Prior",
+      "state": 0,
+      "key": "pageup",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Page_Down",
+      "state": 0,
+      "key": "pagedown",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Shift_L",
+      "state": 1,
+      "key": "shift",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Control_R",
+      "state": 4,
+      "key": "control",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Alt_L",
+      "state": 0,
+      "key": "alt",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Meta_L",
+      "state": 8,
+      "key": "meta",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "é",
+      "keysym": "eacute",
+      "state": 0,
+      "key": "é",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "€",
+      "keysym": "EuroSign",
+      "state": 1,
+      "key": "€",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "\u0003",
+      "keysym": "c",
+      "state": 4,
+      "key": "ctrl+c",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "F1",
+      "state": 0,
+      "key": "f1",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "+",
+      "keysym": "plus",
+      "state": 1,
+      "key": "+",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Tab",
+      "state": 1,
+      "key": "shift+tab",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "Escape",
+      "state": 0,
+      "key": "escape",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "win32",
+      "char": "",
+      "keysym": "",
+      "state": 0,
+      "key": "",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "p",
+      "keysym": "p",
+      "state": 0,
+      "key": "p",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "P",
+      "keysym": "P",
+      "state": 1,
+      "key": "P",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "p",
+      "keysym": "p",
+      "state": 4,
+      "key": "ctrl+p",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "s",
+      "keysym": "s",
+      "state": 4,
+      "key": "ctrl+s",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Return",
+      "state": 0,
+      "key": "enter",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "KP_Enter",
+      "state": 0,
+      "key": "enter",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Prior",
+      "state": 0,
+      "key": "pageup",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Page_Down",
+      "state": 0,
+      "key": "pagedown",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Shift_L",
+      "state": 1,
+      "key": "shift",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Control_R",
+      "state": 4,
+      "key": "control",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Alt_L",
+      "state": 0,
+      "key": "alt",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Meta_L",
+      "state": 8,
+      "key": "alt+meta",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "é",
+      "keysym": "eacute",
+      "state": 0,
+      "key": "é",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "€",
+      "keysym": "EuroSign",
+      "state": 1,
+      "key": "€",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "\u0003",
+      "keysym": "c",
+      "state": 4,
+      "key": "ctrl+c",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "F1",
+      "state": 0,
+      "key": "f1",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "+",
+      "keysym": "plus",
+      "state": 1,
+      "key": "+",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Tab",
+      "state": 1,
+      "key": "shift+tab",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "Escape",
+      "state": 0,
+      "key": "escape",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "linux",
+      "char": "",
+      "keysym": "",
+      "state": 0,
+      "key": "",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "p",
+      "keysym": "p",
+      "state": 0,
+      "key": "p",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "P",
+      "keysym": "P",
+      "state": 1,
+      "key": "P",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "p",
+      "keysym": "p",
+      "state": 4,
+      "key": "ctrl+p",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "s",
+      "keysym": "s",
+      "state": 4,
+      "key": "ctrl+s",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Return",
+      "state": 0,
+      "key": "enter",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "KP_Enter",
+      "state": 0,
+      "key": "enter",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Prior",
+      "state": 0,
+      "key": "pageup",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Page_Down",
+      "state": 0,
+      "key": "pagedown",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Shift_L",
+      "state": 1,
+      "key": "shift",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Control_R",
+      "state": 4,
+      "key": "control",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Alt_L",
+      "state": 0,
+      "key": "alt",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Meta_L",
+      "state": 8,
+      "key": "cmd",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "é",
+      "keysym": "eacute",
+      "state": 0,
+      "key": "é",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "€",
+      "keysym": "EuroSign",
+      "state": 1,
+      "key": "€",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "\u0003",
+      "keysym": "c",
+      "state": 4,
+      "key": "ctrl+c",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "F1",
+      "state": 0,
+      "key": "f1",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "+",
+      "keysym": "plus",
+      "state": 1,
+      "key": "+",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Tab",
+      "state": 1,
+      "key": "shift+tab",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "Escape",
+      "state": 0,
+      "key": "escape",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    },
+    {
+      "system": "darwin",
+      "char": "",
+      "keysym": "",
+      "state": 0,
+      "key": "",
+      "modifiers": [],
+      "inaxes": true,
+      "x": 205,
+      "y": 151
+    }
+  ],
+  "modifier_states": [
+    {
+      "system": "win32",
+      "state": 0,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 1,
+      "modifiers": [
+        "shift"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 4,
+      "modifiers": [
+        "ctrl"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 8,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 16,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 64,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 131072,
+      "modifiers": [
+        "alt"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 131165,
+      "modifiers": [
+        "ctrl",
+        "alt",
+        "shift"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 0,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 1,
+      "modifiers": [
+        "shift"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 4,
+      "modifiers": [
+        "ctrl"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 8,
+      "modifiers": [
+        "alt"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 16,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 64,
+      "modifiers": [
+        "super"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 131072,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "linux",
+      "state": 131165,
+      "modifiers": [
+        "ctrl",
+        "alt",
+        "shift",
+        "super"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 0,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 1,
+      "modifiers": [
+        "shift"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 4,
+      "modifiers": [
+        "ctrl"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 8,
+      "modifiers": [
+        "cmd"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 16,
+      "modifiers": [
+        "alt"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 64,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 131072,
+      "modifiers": [],
+      "buttons": []
+    },
+    {
+      "system": "darwin",
+      "state": 131165,
+      "modifiers": [
+        "ctrl",
+        "alt",
+        "shift",
+        "cmd"
+      ],
+      "buttons": []
+    },
+    {
+      "system": "win32",
+      "state": 256,
+      "modifiers": [],
+      "buttons": [
+        1
+      ]
+    },
+    {
+      "system": "win32",
+      "state": 512,
+      "modifiers": [],
+      "buttons": [
+        2
+      ]
+    },
+    {
+      "system": "win32",
+      "state": 1024,
+      "modifiers": [],
+      "buttons": [
+        3
+      ]
+    },
+    {
+      "system": "win32",
+      "state": 7936,
+      "modifiers": [],
+      "buttons": [
+        1,
+        2,
+        3,
+        8,
+        9
+      ]
+    },
+    {
+      "system": "linux",
+      "state": 256,
+      "modifiers": [],
+      "buttons": [
+        1
+      ]
+    },
+    {
+      "system": "linux",
+      "state": 512,
+      "modifiers": [],
+      "buttons": [
+        2
+      ]
+    },
+    {
+      "system": "linux",
+      "state": 1024,
+      "modifiers": [],
+      "buttons": [
+        3
+      ]
+    },
+    {
+      "system": "linux",
+      "state": 7936,
+      "modifiers": [],
+      "buttons": [
+        1,
+        2,
+        3,
+        8,
+        9
+      ]
+    },
+    {
+      "system": "darwin",
+      "state": 256,
+      "modifiers": [],
+      "buttons": [
+        1
+      ]
+    },
+    {
+      "system": "darwin",
+      "state": 512,
+      "modifiers": [],
+      "buttons": [
+        3
+      ]
+    },
+    {
+      "system": "darwin",
+      "state": 1024,
+      "modifiers": [],
+      "buttons": [
+        2
+      ]
+    },
+    {
+      "system": "darwin",
+      "state": 7936,
+      "modifiers": [],
+      "buttons": [
+        1,
+        2,
+        3,
+        8,
+        9
+      ]
+    }
+  ],
+  "pointer": [
+    {
+      "system": "win32",
+      "num": 1,
+      "state": 5,
+      "button": 1,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "win32",
+      "num": 2,
+      "state": 5,
+      "button": 2,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "win32",
+      "num": 3,
+      "state": 5,
+      "button": 3,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "win32",
+      "num": 8,
+      "state": 5,
+      "button": 8,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "win32",
+      "num": 9,
+      "state": 5,
+      "button": 9,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "linux",
+      "num": 1,
+      "state": 5,
+      "button": 1,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "linux",
+      "num": 2,
+      "state": 5,
+      "button": 2,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "linux",
+      "num": 3,
+      "state": 5,
+      "button": 3,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "linux",
+      "num": 8,
+      "state": 5,
+      "button": 8,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "linux",
+      "num": 9,
+      "state": 5,
+      "button": 9,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "darwin",
+      "num": 1,
+      "state": 5,
+      "button": 1,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "darwin",
+      "num": 2,
+      "state": 5,
+      "button": 3,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "darwin",
+      "num": 3,
+      "state": 5,
+      "button": 2,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "darwin",
+      "num": 8,
+      "state": 5,
+      "button": 8,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    },
+    {
+      "system": "darwin",
+      "num": 9,
+      "state": 5,
+      "button": 9,
+      "modifiers": [
+        "ctrl",
+        "shift"
+      ],
+      "dblclick": true,
+      "step": 0
+    }
+  ],
+  "transition_inputs": [
+    [
+      "enter_notify_event",
+      10,
+      10
+    ],
+    [
+      "motion_notify_event",
+      150,
+      150
+    ],
+    [
+      "motion_notify_event",
+      155,
+      150
+    ],
+    [
+      "motion_notify_event",
+      450,
+      150
+    ],
+    [
+      "motion_notify_event",
+      0,
+      0
+    ],
+    [
+      "leave_notify_event",
+      0,
+      0
+    ]
+  ],
+  "transitions": [
+    {
+      "channel": "figure_enter_event",
+      "name": "figure_enter_event",
+      "inaxes": null,
+      "x": 10,
+      "y": 290,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "axes_enter_event",
+      "name": "motion_notify_event",
+      "inaxes": 0,
+      "x": 150,
+      "y": 150,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "motion_notify_event",
+      "name": "motion_notify_event",
+      "inaxes": 0,
+      "x": 150,
+      "y": 150,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "motion_notify_event",
+      "name": "motion_notify_event",
+      "inaxes": 0,
+      "x": 155,
+      "y": 150,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "axes_leave_event",
+      "name": "axes_leave_event",
+      "inaxes": 0,
+      "x": 450,
+      "y": 150,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "axes_enter_event",
+      "name": "motion_notify_event",
+      "inaxes": 1,
+      "x": 450,
+      "y": 150,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "motion_notify_event",
+      "name": "motion_notify_event",
+      "inaxes": 1,
+      "x": 450,
+      "y": 150,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "axes_leave_event",
+      "name": "axes_leave_event",
+      "inaxes": 1,
+      "x": 0,
+      "y": 300,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "motion_notify_event",
+      "name": "motion_notify_event",
+      "inaxes": null,
+      "x": 0,
+      "y": 300,
+      "modifiers": [
+        "shift"
+      ]
+    },
+    {
+      "channel": "figure_leave_event",
+      "name": "figure_leave_event",
+      "inaxes": null,
+      "x": 0,
+      "y": 300,
+      "modifiers": [
+        "shift"
+      ]
+    }
+  ],
+  "grid_cycle": [
+    {
+      "key": "g",
+      "major": [
+        true,
+        false
+      ],
+      "minor": [
+        false,
+        false
+      ]
+    },
+    {
+      "key": "g",
+      "major": [
+        true,
+        true
+      ],
+      "minor": [
+        false,
+        false
+      ]
+    },
+    {
+      "key": "g",
+      "major": [
+        false,
+        true
+      ],
+      "minor": [
+        false,
+        false
+      ]
+    },
+    {
+      "key": "g",
+      "major": [
+        false,
+        false
+      ],
+      "minor": [
+        false,
+        false
+      ]
+    },
+    {
+      "key": "G",
+      "major": [
+        true,
+        false
+      ],
+      "minor": [
+        true,
+        false
+      ]
+    },
+    {
+      "key": "G",
+      "major": [
+        true,
+        true
+      ],
+      "minor": [
+        true,
+        true
+      ]
+    },
+    {
+      "key": "G",
+      "major": [
+        false,
+        true
+      ],
+      "minor": [
+        false,
+        true
+      ]
+    },
+    {
+      "key": "G",
+      "major": [
+        false,
+        false
+      ],
+      "minor": [
+        false,
+        false
+      ]
+    }
+  ],
+  "keymaps": {
+    "keymap.back": [
+      "left",
+      "c",
+      "backspace",
+      "MouseButton.BACK"
+    ],
+    "keymap.forward": [
+      "right",
+      "v",
+      "MouseButton.FORWARD"
+    ],
+    "keymap.fullscreen": [
+      "f",
+      "ctrl+f"
+    ],
+    "keymap.grid": [
+      "g"
+    ],
+    "keymap.grid_minor": [
+      "G"
+    ],
+    "keymap.home": [
+      "h",
+      "r",
+      "home"
+    ],
+    "keymap.pan": [
+      "p"
+    ],
+    "keymap.quit": [
+      "ctrl+w",
+      "cmd+w",
+      "q"
+    ],
+    "keymap.save": [
+      "s",
+      "ctrl+s"
+    ],
+    "keymap.zoom": [
+      "o"
+    ]
+  },
+  "scope": "real withdrawn TkAgg in Windows; other platform normalizer masks substituted, not native OS runs"
+}

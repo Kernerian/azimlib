@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visual review for 0.3.0 · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="visual-review-for-030">Visual review for 0.3.0</h1>
+<p>Checklist item <strong>7.08 is complete</strong> following explicit human visual acceptance
+on Linux and macOS. The <a href="visual-acceptance-0.3.json">acceptance record</a> identifies
+the reviewed commit, CI run and artifact hashes. The packets retain their original
+pre-review pending status; their bytes and historical metadata were not rewritten.
+The review workflow does not approve a release, change the stable version,
+deploy documentation or upload a package.</p>
+<h2 id="review-packets">Review packets</h2>
+<p>The <code>visual-review-0.3</code> workflow runs on native Ubuntu and macOS runners using
+Python 3.12 and the installed development package. It generates two artifacts:</p>
+<ul>
+<li><code>azimlib-0.3.0-visual-review-linux</code></li>
+<li><code>azimlib-0.3.0-visual-review-macos</code></li>
+</ul>
+<p>Extract each ZIP and open <code>index.html</code> locally. Its full-size links show PNG
+and SVG alongside the same Windows reference exported by Azimlib. Reference
+images are comparison aids, not previously approved expected results. Hashes
+identify the generator, examples, fonts, installed code and outputs. Python
+source comparison normalizes only LF/CRLF; raw installed hashes are also kept.
+Platform-specific font rasterization can differ slightly. Missing text,
+clipping, distorted symbols, incorrect widths or overlapping components must
+be investigated rather than accepted as a font-engine difference.</p>
+<h2 id="scope-and-checklist">Scope and checklist</h2>
+<ul>
+<li>Text: accents, bold/italic, rotation, geographic labels, multiline titles,
+ticks, axis spacing, annotations and label collision priorities.</li>
+<li>Strokes: .4/.8/1.5/3-point widths, 100/200-dpi proportions, dashes,
+butt/round/projecting caps, miter/round/bevel joins and cubic curves.</li>
+<li>Symbols: circle, square, diamond and triangle proportions in maps/legends.</li>
+<li>Cartography: boundaries, rivers, lakes, synthetic streets/buildings,
+neighbourhoods, overview focus, spherical/ellipsoidal projections and horizons.</li>
+<li>Scientific views: raster, NoData, contour labels, triangulation, continuous
+colorbars and their labels/layout.</li>
+<li>3D/temporal: perspective and orthographic terrain, extrusions, colors, depth,
+frame 2 and native playback controls.</li>
+<li>Tk and Qt: real mapped windows, toolbars, Subplots dialog, urban view,
+pan and Home restoration. Linux uses native X11 toolkits on Xvfb; macOS uses
+Aqua/Cocoa. Captures contain only the application rectangle. Native toolkit
+chrome need not look identical across operating systems.</li>
+<li>Browser: <code>urban-interactive.html</code> provides the portable offline viewer.
+Screenshots and a local browser do not prove physical mouse latency on a
+remote operating system or substitute for a hardware interaction test.</li>
+</ul>
+<p>Fourteen scenes produce 17 PNG/SVG pairs (three scenes also at 200 dpi) and
+twelve native window captures per OS. Source/runtime/reference mismatches,
+privacy findings, occluded Tk canvases, native plugin substitution and failed pan/Home checks stop
+the workflow. A passing job means packet generation passed; it does not mean
+the human review passed. Licenses and third-party notices accompany the ZIP.</p>
+<p>Approval must identify both operating systems and the reviewed workflow
+commit/run. Only an explicit human acceptance can complete 7.08. The final
+10.08 acceptance and publication preparation remain separate subsequent work.</p>
+<h2 id="reproduction">Reproduction</h2>
+<p>For exact reproduction of the accepted historical packets, use a fresh
+checkout at the reviewed commit with Tk installed by the Python distribution.
+A later version/source mismatch intentionally invalidates these baselines:</p>
+<pre><code class="language-bash">git clone https://github.com/Kernerian/azimlib.git azimlib-visual-review
+cd azimlib-visual-review
+git checkout --detach 1420e74ea3337f3a74cdc90e6cba9a6707c2152f
+python -m pip install '.[gui,qt,notebook]' 'Pillow&gt;=12.3'
+python -I tools/prepare_visual_review.py --native --output visual-review
+</code></pre>
+<p>On Linux run the last command inside <code>xvfb-run</code> with a 1920×1440 screen and the
+Qt X11 shared libraries listed in <code>.github/workflows/visual-review.yml</code>.
+Outputs must go into a new empty directory. References live under
+<code>tools/baselines/visual-review030</code>; regenerate deliberately with
+<code>--record-reference</code> when the rendered examples or core change, preserving the
+baseline's exact generator and image hashes. A new baseline is not an approval.</p>
+<p>Tk captures are checked against the rendered canvas before saving. Windows
+uses an explicit native window handle, with no desktop-crop fallback. The
+review tool requires Pillow 12.3 for the platform capture APIs; this does not
+raise the core library's Pillow requirement.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/visual-review-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

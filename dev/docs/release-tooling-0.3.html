@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Exact branch context for hosted release audits · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="exact-branch-context-for-hosted-release-audits">Exact branch context for hosted release audits</h1>
+<p>The expected branch is mandatory and explicit. Candidate review before promotion
+uses <code>dev/0.3.0</code>; final review after promotion uses <code>main</code>. The auditor compares
+the actual branch exactly with this single argument; it has no default or generic
+allowlist. It also requires the exact SHA, repository, successful push run and
+all 28 expected job identities completed successfully. Artifact names/counts,
+expiration, ZIP CRC, source/installed bytes, tool/log/report hashes, package
+metadata, licensing, privacy and dataset checks remain required.</p>
+<pre><code class="language-bash">python -I tools/audit_hosted_delivery.py --folder candidate-ci --sha COMMIT --expected-branch dev/0.3.0 --output candidate-audit.json
+python -I tools/audit_hosted_delivery.py --folder final-main-ci --sha COMMIT --expected-branch main --output final-audit.json
+</code></pre>
+<p>The 0.3.0 final tooling correction adds eight regression tests (1,008 total unit
+tests per full matrix job). It covers both valid contexts, branch/SHA mismatches,
+incomplete/duplicate/unexpected/failed jobs, failed runs, repository/event
+provenance and missing/invalid branch context. The exact unit count was increased
+from 1,000 to 1,008 to match these additions, without reducing any requirement.</p>
+<p>Commit <code>43a38d5accf87f77731bc2fa4170dc77125e42a7</code> is a previous candidate,
+not the final release commit. Its CI succeeded, but the older auditor rejected
+the main context. No tag, GitHub Release or PyPI upload was made in that round.
+The corrected commit requires its own main CI, branch-specific hosted audit and
+rebuilt/audited wheel/sdist hashes. The 80/80 human acceptance remains recorded;
+it does not replace these exact-commit gates or authorize bypassing a failure.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/release-tooling-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

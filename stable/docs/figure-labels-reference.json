@@ -1,0 +1,1114 @@
+{
+  "matplotlib": "3.11.2",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "own_source_sha256": {
+    "figure.py": "3f19a6ffb95b69411bbbe39a925fcb86f5305b761b9a4bbe22c82d0d369f09f5",
+    "figure_text.py": "46ee6cef48e370c1f8c7ff1dcbe765c9f7db2d36a8773aa1e346be3fb93df439",
+    "layout_engine.py": "066c9a397f29a2345c0da71f8a5aff634edcc1ada7677eceba1a38b54b2efde5",
+    "nested_layout.py": "95f41da38ca0ec7113466a3a5946ba4ec564c85addae79846670f9fbab3dd344",
+    "config.py": "8415994e9dbef84f8abde324269cdfcefb26918e549e80d7396f97fab3764878",
+    "scene.py": "9fd94f6b8a982a8501c89c473289f027549d5cd581bc3759fcf35017b89c6e7f"
+  },
+  "contracts": [
+    {
+      "name": "suptitle defaults",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "suptitle",
+          "text": "Initial",
+          "kwargs": {}
+        }
+      ],
+      "state": {
+        "position": [
+          0.5,
+          0.98
+        ],
+        "text": "Initial",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "center",
+        "va": "top",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "suptitle explicit",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "suptitle",
+          "text": "Initial",
+          "kwargs": {
+            "x": 0.3,
+            "y": 0.2,
+            "size": 15,
+            "weight": "bold",
+            "horizontalalignment": "right",
+            "verticalalignment": "top"
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.3,
+          0.2
+        ],
+        "text": "Initial",
+        "fontsize": 15.0,
+        "weight": "bold",
+        "ha": "right",
+        "va": "top",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "suptitle reuse",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "suptitle",
+          "text": "Initial",
+          "kwargs": {
+            "x": 0.3,
+            "y": 0.2,
+            "size": 15,
+            "weight": "bold"
+          }
+        },
+        {
+          "kind": "call",
+          "method": "suptitle",
+          "text": "Reused",
+          "kwargs": {}
+        }
+      ],
+      "state": {
+        "position": [
+          0.5,
+          0.98
+        ],
+        "text": "Reused",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "center",
+        "va": "top",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "suptitle edit",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "suptitle",
+          "text": "Initial",
+          "kwargs": {}
+        },
+        {
+          "kind": "set",
+          "kwargs": {
+            "position": [
+              0.7,
+              0.3
+            ],
+            "text": "Edited",
+            "rotation": 25,
+            "ha": "right",
+            "va": "bottom"
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.7,
+          0.3
+        ],
+        "text": "Edited",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "right",
+        "va": "bottom",
+        "rotation": 25.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "suptitle hidden/excluded",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "suptitle",
+          "text": "Initial",
+          "kwargs": {}
+        },
+        {
+          "kind": "set",
+          "kwargs": {
+            "visible": false,
+            "in_layout": false
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.5,
+          0.98
+        ],
+        "text": "Initial",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "center",
+        "va": "top",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": false,
+        "in_layout": false
+      }
+    },
+    {
+      "name": "supxlabel defaults",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supxlabel",
+          "text": "Initial",
+          "kwargs": {}
+        }
+      ],
+      "state": {
+        "position": [
+          0.5,
+          0.01
+        ],
+        "text": "Initial",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "center",
+        "va": "bottom",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supxlabel explicit",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supxlabel",
+          "text": "Initial",
+          "kwargs": {
+            "x": 0.3,
+            "y": 0.2,
+            "size": 15,
+            "weight": "bold",
+            "horizontalalignment": "right",
+            "verticalalignment": "top"
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.3,
+          0.2
+        ],
+        "text": "Initial",
+        "fontsize": 15.0,
+        "weight": "bold",
+        "ha": "right",
+        "va": "top",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supxlabel reuse",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supxlabel",
+          "text": "Initial",
+          "kwargs": {
+            "x": 0.3,
+            "y": 0.2,
+            "size": 15,
+            "weight": "bold"
+          }
+        },
+        {
+          "kind": "call",
+          "method": "supxlabel",
+          "text": "Reused",
+          "kwargs": {}
+        }
+      ],
+      "state": {
+        "position": [
+          0.5,
+          0.01
+        ],
+        "text": "Reused",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "center",
+        "va": "bottom",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supxlabel edit",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supxlabel",
+          "text": "Initial",
+          "kwargs": {}
+        },
+        {
+          "kind": "set",
+          "kwargs": {
+            "position": [
+              0.7,
+              0.3
+            ],
+            "text": "Edited",
+            "rotation": 25,
+            "ha": "right",
+            "va": "bottom"
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.7,
+          0.3
+        ],
+        "text": "Edited",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "right",
+        "va": "bottom",
+        "rotation": 25.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supxlabel hidden/excluded",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supxlabel",
+          "text": "Initial",
+          "kwargs": {}
+        },
+        {
+          "kind": "set",
+          "kwargs": {
+            "visible": false,
+            "in_layout": false
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.5,
+          0.01
+        ],
+        "text": "Initial",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "center",
+        "va": "bottom",
+        "rotation": 0.0,
+        "rotation_mode": "default",
+        "visible": false,
+        "in_layout": false
+      }
+    },
+    {
+      "name": "supylabel defaults",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supylabel",
+          "text": "Initial",
+          "kwargs": {}
+        }
+      ],
+      "state": {
+        "position": [
+          0.02,
+          0.5
+        ],
+        "text": "Initial",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "left",
+        "va": "center",
+        "rotation": 90.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supylabel explicit",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supylabel",
+          "text": "Initial",
+          "kwargs": {
+            "x": 0.3,
+            "y": 0.2,
+            "size": 15,
+            "weight": "bold",
+            "horizontalalignment": "right",
+            "verticalalignment": "top"
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.3,
+          0.2
+        ],
+        "text": "Initial",
+        "fontsize": 15.0,
+        "weight": "bold",
+        "ha": "right",
+        "va": "top",
+        "rotation": 90.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supylabel reuse",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supylabel",
+          "text": "Initial",
+          "kwargs": {
+            "x": 0.3,
+            "y": 0.2,
+            "size": 15,
+            "weight": "bold"
+          }
+        },
+        {
+          "kind": "call",
+          "method": "supylabel",
+          "text": "Reused",
+          "kwargs": {}
+        }
+      ],
+      "state": {
+        "position": [
+          0.02,
+          0.5
+        ],
+        "text": "Reused",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "left",
+        "va": "center",
+        "rotation": 90.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supylabel edit",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supylabel",
+          "text": "Initial",
+          "kwargs": {}
+        },
+        {
+          "kind": "set",
+          "kwargs": {
+            "position": [
+              0.7,
+              0.3
+            ],
+            "text": "Edited",
+            "rotation": 25,
+            "ha": "right",
+            "va": "bottom"
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.7,
+          0.3
+        ],
+        "text": "Edited",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "right",
+        "va": "bottom",
+        "rotation": 25.0,
+        "rotation_mode": "default",
+        "visible": true,
+        "in_layout": true
+      }
+    },
+    {
+      "name": "supylabel hidden/excluded",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "supylabel",
+          "text": "Initial",
+          "kwargs": {}
+        },
+        {
+          "kind": "set",
+          "kwargs": {
+            "visible": false,
+            "in_layout": false
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.02,
+          0.5
+        ],
+        "text": "Initial",
+        "fontsize": 12.0,
+        "weight": "normal",
+        "ha": "left",
+        "va": "center",
+        "rotation": 90.0,
+        "rotation_mode": "default",
+        "visible": false,
+        "in_layout": false
+      }
+    },
+    {
+      "name": "Figure text",
+      "operations": [
+        {
+          "kind": "call",
+          "method": "text",
+          "text": "Note",
+          "kwargs": {
+            "x": 0.2,
+            "y": 0.3
+          }
+        },
+        {
+          "kind": "set",
+          "kwargs": {
+            "position": [
+              0.8,
+              0.1
+            ],
+            "color": "red",
+            "rotation": "vertical",
+            "rotation_mode": "anchor"
+          }
+        }
+      ],
+      "state": {
+        "position": [
+          0.8,
+          0.1
+        ],
+        "text": "Note",
+        "fontsize": 10.0,
+        "weight": "normal",
+        "ha": "left",
+        "va": "baseline",
+        "rotation": 90.0,
+        "rotation_mode": "anchor",
+        "visible": true,
+        "in_layout": true
+      }
+    }
+  ],
+  "layouts": [
+    {
+      "example": "figure-labels-tight",
+      "library": "matplotlib",
+      "label_states": {
+        "_suptitle": {
+          "position": [
+            0.5,
+            0.98
+          ],
+          "text": "Atlas regional\nRótulos globais e componentes opcionais",
+          "fontsize": 14.0,
+          "weight": "normal",
+          "ha": "center",
+          "va": "top",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supxlabel": {
+          "position": [
+            0.5,
+            0.01
+          ],
+          "text": "Longitude geográfica",
+          "fontsize": 12.0,
+          "weight": "normal",
+          "ha": "center",
+          "va": "bottom",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supylabel": {
+          "position": [
+            0.02,
+            0.5
+          ],
+          "text": "Latitude geográfica",
+          "fontsize": 12.0,
+          "weight": "normal",
+          "ha": "left",
+          "va": "center",
+          "rotation": 90.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        }
+      },
+      "label_bounds": {
+        "_suptitle": [
+          302.9375,
+          12.0,
+          394.125,
+          46.90104166666663
+        ],
+        "_supxlabel": [
+          410.6484375,
+          575.99609375,
+          178.703125,
+          18.00390625
+        ],
+        "_supylabel": [
+          20.0,
+          218.0,
+          18.003906250000014,
+          164.0
+        ]
+      },
+      "decoration_bounds": [
+        [
+          48.00390625000003,
+          122.3150916037768,
+          379.07554628641697,
+          394.395381502959
+        ],
+        [
+          442.07945253641697,
+          122.3150916037768,
+          542.9231075528214,
+          394.395381502959
+        ]
+      ]
+    },
+    {
+      "example": "figure-labels-tight",
+      "library": "azimlib",
+      "label_states": {
+        "_suptitle": {
+          "position": [
+            0.5,
+            0.98
+          ],
+          "text": "Atlas regional\nRótulos globais e componentes opcionais",
+          "fontsize": 14,
+          "weight": "normal",
+          "ha": "center",
+          "va": "top",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supxlabel": {
+          "position": [
+            0.5,
+            0.01
+          ],
+          "text": "Longitude geográfica",
+          "fontsize": 12,
+          "weight": "normal",
+          "ha": "center",
+          "va": "bottom",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supylabel": {
+          "position": [
+            0.02,
+            0.5
+          ],
+          "text": "Latitude geográfica",
+          "fontsize": 12,
+          "weight": "normal",
+          "ha": "left",
+          "va": "center",
+          "rotation": 90.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        }
+      },
+      "label_bounds": {
+        "_suptitle": [
+          298.93798828125,
+          12.00000000000001,
+          402.1240234375,
+          42.9296875
+        ],
+        "_supxlabel": [
+          411.6292317708333,
+          577.203125,
+          176.74153645833331,
+          16.796875
+        ],
+        "_supylabel": [
+          20.0,
+          218.77848307291669,
+          16.796875000000014,
+          162.44303385416669
+        ]
+      },
+      "decoration_bounds": [
+        [
+          46.796875,
+          119.15591257514606,
+          379.23921440972225,
+          389.3033681491821
+        ],
+        [
+          441.03608940972225,
+          119.15591257514606,
+          541.2750265178274,
+          389.3033681491821
+        ]
+      ]
+    },
+    {
+      "example": "figure-labels-constrained",
+      "library": "matplotlib",
+      "label_states": {
+        "_suptitle": {
+          "position": [
+            0.5,
+            0.993055
+          ],
+          "text": "Atlas regional\nRótulos globais e componentes opcionais",
+          "fontsize": 14.0,
+          "weight": "normal",
+          "ha": "center",
+          "va": "top",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supxlabel": {
+          "position": [
+            0.5,
+            0.006945
+          ],
+          "text": "Longitude geográfica",
+          "fontsize": 12.0,
+          "weight": "normal",
+          "ha": "center",
+          "va": "bottom",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supylabel": {
+          "position": [
+            0.004167,
+            0.5
+          ],
+          "text": "Latitude geográfica",
+          "fontsize": 12.0,
+          "weight": "normal",
+          "ha": "left",
+          "va": "center",
+          "rotation": 90.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        }
+      },
+      "label_bounds": {
+        "_suptitle": [
+          302.9375,
+          4.16700000000003,
+          394.125,
+          46.90104166666663
+        ],
+        "_supxlabel": [
+          410.6484375,
+          577.82909375,
+          178.703125,
+          18.00390625
+        ],
+        "_supylabel": [
+          4.167,
+          218.0,
+          18.003906250000007,
+          164.0
+        ]
+      },
+      "decoration_bounds": [
+        [
+          30.504906250000015,
+          42.206727337677876,
+          395.5752689762439,
+          410.8951041927859
+        ],
+        [
+          436.0801752262439,
+          42.206727337677876,
+          559.7528246964449,
+          410.8951041927859
+        ],
+        [
+          193.95118653259652,
+          498.5296419081179,
+          521.7332381312654,
+          67.40102822600772
+        ]
+      ]
+    },
+    {
+      "example": "figure-labels-constrained",
+      "library": "azimlib",
+      "label_states": {
+        "_suptitle": {
+          "position": [
+            0.5,
+            0.9930555555555556
+          ],
+          "text": "Atlas regional\nRótulos globais e componentes opcionais",
+          "fontsize": 14,
+          "weight": "normal",
+          "ha": "center",
+          "va": "top",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supxlabel": {
+          "position": [
+            0.5,
+            0.006944444444444443
+          ],
+          "text": "Longitude geográfica",
+          "fontsize": 12,
+          "weight": "normal",
+          "ha": "center",
+          "va": "bottom",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supylabel": {
+          "position": [
+            0.004166666666666666,
+            0.5
+          ],
+          "text": "Latitude geográfica",
+          "fontsize": 12,
+          "weight": "normal",
+          "ha": "left",
+          "va": "center",
+          "rotation": 90.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        }
+      },
+      "label_bounds": {
+        "_suptitle": [
+          298.93798828125,
+          4.166666666666652,
+          402.1240234375,
+          42.9296875
+        ],
+        "_supxlabel": [
+          411.6292317708333,
+          579.0364583333334,
+          176.74153645833331,
+          16.796875
+        ],
+        "_supylabel": [
+          4.166666666666666,
+          218.77848307291669,
+          16.796875000000014,
+          162.44303385416669
+        ]
+      },
+      "decoration_bounds": [
+        [
+          25.130208333333346,
+          59.449879284898145,
+          394.1441786681695,
+          404.2083324076295
+        ],
+        [
+          439.27438700150293,
+          59.449879284898145,
+          556.4780900614437,
+          404.2083324076295
+        ],
+        [
+          56.78163038032713,
+          502.8814979383682,
+          788.0107010228523,
+          71.98829372829852
+        ]
+      ]
+    },
+    {
+      "example": "figure-labels-nested",
+      "library": "matplotlib",
+      "label_states": {
+        "_suptitle": {
+          "position": [
+            0.5,
+            0.9940471428571429
+          ],
+          "text": "Atlas regional\nRótulos globais e componentes opcionais",
+          "fontsize": 14.0,
+          "weight": "normal",
+          "ha": "center",
+          "va": "top",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supxlabel": {
+          "position": [
+            0.5,
+            0.0059528571428571425
+          ],
+          "text": "Longitude geográfica",
+          "fontsize": 12.0,
+          "weight": "normal",
+          "ha": "center",
+          "va": "bottom",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supylabel": {
+          "position": [
+            0.004167,
+            0.5
+          ],
+          "text": "Latitude geográfica",
+          "fontsize": 12.0,
+          "weight": "normal",
+          "ha": "left",
+          "va": "center",
+          "rotation": 90.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        }
+      },
+      "label_bounds": {
+        "_suptitle": [
+          302.9375,
+          4.166999999999916,
+          394.125,
+          46.90104166666663
+        ],
+        "_supxlabel": [
+          410.6484375,
+          677.82909375,
+          178.703125,
+          18.00390625
+        ],
+        "_supylabel": [
+          4.167,
+          268.0,
+          18.003906250000007,
+          164.0
+        ]
+      },
+      "decoration_bounds": [
+        [
+          334.86920335032426,
+          59.40204166666649,
+          317.1242388053812,
+          332.44407402192303
+        ],
+        [
+          158.4189570420063,
+          400.1801156885896,
+          181.0243911984615,
+          196.34422641500342
+        ],
+        [
+          644.7467105684509,
+          400.1801156885896,
+          340.9109293631067,
+          196.34422641500342
+        ],
+        [
+          408.74826845830097,
+          614.9699405888828,
+          214.16878263628706,
+          52.022805451258805
+        ]
+      ]
+    },
+    {
+      "example": "figure-labels-nested",
+      "library": "azimlib",
+      "label_states": {
+        "_suptitle": {
+          "position": [
+            0.5,
+            0.9940476190476191
+          ],
+          "text": "Atlas regional\nRótulos globais e componentes opcionais",
+          "fontsize": 14,
+          "weight": "normal",
+          "ha": "center",
+          "va": "top",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supxlabel": {
+          "position": [
+            0.5,
+            0.005952380952380951
+          ],
+          "text": "Longitude geográfica",
+          "fontsize": 12,
+          "weight": "normal",
+          "ha": "center",
+          "va": "bottom",
+          "rotation": 0.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        },
+        "_supylabel": {
+          "position": [
+            0.004166666666666666,
+            0.5
+          ],
+          "text": "Latitude geográfica",
+          "fontsize": 12,
+          "weight": "normal",
+          "ha": "left",
+          "va": "center",
+          "rotation": 90.0,
+          "rotation_mode": "default",
+          "visible": true,
+          "in_layout": true
+        }
+      },
+      "label_bounds": {
+        "_suptitle": [
+          298.93798828125,
+          4.166666666666652,
+          402.1240234375,
+          42.9296875
+        ],
+        "_supxlabel": [
+          411.6292317708333,
+          679.0364583333334,
+          176.74153645833331,
+          16.796875
+        ],
+        "_supylabel": [
+          4.166666666666666,
+          268.7784830729167,
+          16.796875000000014,
+          162.44303385416669
+        ]
+      },
+      "decoration_bounds": [
+        [
+          334.014108591243,
+          51.26302083333336,
+          317.86301756305505,
+          327.9271713025149
+        ],
+        [
+          127.09117676954388,
+          393.1901921358483,
+          214.5568868162623,
+          224.62104055572206
+        ],
+        [
+          592.689426519978,
+          393.1901921358483,
+          373.2990523724982,
+          224.62104055572206
+        ],
+        [
+          25.130208333333343,
+          619.8163999295442,
+          927.1022612196182,
+          55.053391737122524
+        ]
+      ]
+    }
+  ],
+  "notes": [
+    "Independent Matplotlib Axes/layout vs own cartographic engine with same geographic data, sizes and styles.",
+    "Contract states are compared exactly; font/raster/layout bounds are diagnostic, not pixel equality.",
+    "Generic Figure text is not an automatic obstacle. Explicit constrained global label positions are not automatically reserved.",
+    "Tight example has no colorbar; shared colorbars are demonstrated with constrained. Nested comparison shares a bar only within the child grid."
+  ]
+}

@@ -1,0 +1,259 @@
+{
+  "schema_version": 1,
+  "source_suite": {
+    "tests": 675,
+    "subtests": 22192,
+    "seconds": 187.385,
+    "passed": true,
+    "optional_compiler": true,
+    "log_sha256": "66b862d20a8a8de2901ad7a85c84f91782568b5df030df586734013496caf2d2"
+  },
+  "installed_tests": {
+    "scalar": {
+      "tests": 39,
+      "passed": true,
+      "skipped": 2,
+      "log_sha256": "3793e92475ba1036c98b56931c292a313c46491b3906c4c0d953b9cad40fdd8d"
+    },
+    "native": {
+      "tests": 39,
+      "passed": true,
+      "skipped": 0,
+      "log_sha256": "bfe03f4d409e18bac7fdf4a5060683fdb1be001bf212ca84040953640be25e6e"
+    }
+  },
+  "pan_checks": {
+    "source": {
+      "python": "3.14.4",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "checks": [
+        "left motion updates limits and redraws full canvas while button is held, without PNG codecs/bitmap translation",
+        "longitude tick moves 30 pixels with geographic data; frame remains fixed; displayed RGBA is the freshly rendered full Scene",
+        "release keeps the live extent without a jump, restores exact raster quality and creates one history entry for the entire drag",
+        "Back/Forward/Home restore whole views after a live drag",
+        "right-button zoom updates continuously using the frozen cursor anchor and normalized equal-aspect display scale",
+        "lost release outside canvas ends the old drag at its last held view; reentry/motion cannot teleport; exact pixels and Back remain correct",
+        "a genuinely held button continues outside Axes/canvas and reenters using the original frozen anchor",
+        "Tk timer and ten newer motions remain responsive while raster is blocked; bounded active/prepared views plus coalesced newest limits",
+        "six wheel zoom edits coalesce and restore exact full-quality pixels after the 120ms quiet interval",
+        "rectangle zoom rasterizes off the Tk thread and presents exact settled pixels",
+        "closing releases the raster and pending redraw"
+      ],
+      "frames": [
+        {
+          "phase": "before",
+          "extent": [
+            -76.0,
+            -32.0,
+            -36.0,
+            8.0
+          ],
+          "size": [
+            400,
+            300
+          ],
+          "rgba_sha256": "3d8d948dd1f9fcd0e32ff7cd83a6e467f0f650e3247d8eb516d6f0956e19e7e2"
+        },
+        {
+          "phase": "during",
+          "extent": [
+            -81.71428571428572,
+            -37.71428571428572,
+            -33.71428571428572,
+            10.285714285714285
+          ],
+          "size": [
+            400,
+            300
+          ],
+          "rgba_sha256": "a78c2563a5cb084f5a3c86b3bcb2f54fdd01fa2d6b1a2841987cfcceb33b20a9"
+        },
+        {
+          "phase": "after",
+          "extent": [
+            -81.71428571428572,
+            -37.71428571428572,
+            -33.71428571428572,
+            10.285714285714285
+          ],
+          "size": [
+            400,
+            300
+          ],
+          "rgba_sha256": "4d821784a68d955bc96ec7fe75976b97d095d667b8630c2ba32cd25927d7d7fd"
+        }
+      ],
+      "sha256": {
+        "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+        "navigation": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+        "pan_raster": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+        "tool": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879"
+      },
+      "independent_runtime": true,
+      "runtime_origin": "<checkout>/src/azimlib/__init__.py",
+      "scope": "Withdrawn real Tk, synthetic handlers and inspection of our generated canvas buffers only; no desktop screenshot, physical input or presentation-latency claim."
+    },
+    "wheel": {
+      "python": "3.14.4",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "checks": [
+        "left motion updates limits and redraws full canvas while button is held, without PNG codecs/bitmap translation",
+        "longitude tick moves 30 pixels with geographic data; frame remains fixed; displayed RGBA is the freshly rendered full Scene",
+        "release keeps the live extent without a jump, restores exact raster quality and creates one history entry for the entire drag",
+        "Back/Forward/Home restore whole views after a live drag",
+        "right-button zoom updates continuously using the frozen cursor anchor and normalized equal-aspect display scale",
+        "lost release outside canvas ends the old drag at its last held view; reentry/motion cannot teleport; exact pixels and Back remain correct",
+        "a genuinely held button continues outside Axes/canvas and reenters using the original frozen anchor",
+        "Tk timer and ten newer motions remain responsive while raster is blocked; bounded active/prepared views plus coalesced newest limits",
+        "six wheel zoom edits coalesce and restore exact full-quality pixels after the 120ms quiet interval",
+        "rectangle zoom rasterizes off the Tk thread and presents exact settled pixels",
+        "closing releases the raster and pending redraw"
+      ],
+      "frames": [
+        {
+          "phase": "before",
+          "extent": [
+            -76.0,
+            -32.0,
+            -36.0,
+            8.0
+          ],
+          "size": [
+            400,
+            300
+          ],
+          "rgba_sha256": "3d8d948dd1f9fcd0e32ff7cd83a6e467f0f650e3247d8eb516d6f0956e19e7e2"
+        },
+        {
+          "phase": "during",
+          "extent": [
+            -81.71428571428572,
+            -37.71428571428572,
+            -33.71428571428572,
+            10.285714285714285
+          ],
+          "size": [
+            400,
+            300
+          ],
+          "rgba_sha256": "a78c2563a5cb084f5a3c86b3bcb2f54fdd01fa2d6b1a2841987cfcceb33b20a9"
+        },
+        {
+          "phase": "after",
+          "extent": [
+            -81.71428571428572,
+            -37.71428571428572,
+            -33.71428571428572,
+            10.285714285714285
+          ],
+          "size": [
+            400,
+            300
+          ],
+          "rgba_sha256": "4d821784a68d955bc96ec7fe75976b97d095d667b8630c2ba32cd25927d7d7fd"
+        }
+      ],
+      "sha256": {
+        "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+        "navigation": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+        "pan_raster": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+        "tool": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879"
+      },
+      "independent_runtime": true,
+      "runtime_origin": "<environment>/site-packages/azimlib/__init__.py",
+      "scope": "Withdrawn real Tk, synthetic handlers and inspection of our generated canvas buffers only; no desktop screenshot, physical input or presentation-latency claim."
+    }
+  },
+  "toolbar_checks": {
+    "source": {
+      "python": "3.14.4",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "checks": [
+        "96: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "96: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "96: immediate tooltip on the right, matching reference widget and cleanup",
+        "96: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "96: move/selection cursors apply inside the map and clear on margins",
+        "96: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "96: closing releases images and raster cache",
+        "120: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "120: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "120: immediate tooltip on the right, matching reference widget and cleanup",
+        "120: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "120: move/selection cursors apply inside the map and clear on margins",
+        "120: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "120: closing releases images and raster cache",
+        "144: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "144: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "144: immediate tooltip on the right, matching reference widget and cleanup",
+        "144: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "144: move/selection cursors apply inside the map and clear on margins",
+        "144: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "144: closing releases images and raster cache",
+        "192: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "192: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "192: immediate tooltip on the right, matching reference widget and cleanup",
+        "192: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "192: move/selection cursors apply inside the map and clear on margins",
+        "192: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "192: closing releases images and raster cache"
+      ],
+      "sha256": {
+        "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+        "tool": "2e7be04f4c937f0d756b304811f83970fbbc7c8534535b3e876c81d2f2eaf443",
+        "reference": "7770d7f6e4689c8e703d38d976f55dbaf625915006db97d74d70c6a81a5234b2",
+        "subplot_editor": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+        "own_icon_geometry": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823"
+      },
+      "runtime_origin": "<checkout>/src/azimlib/__init__.py",
+      "independent_runtime": true,
+      "scope": "Real withdrawn Tk and synthetic handlers in four physical Tk DPI settings. Not visible appearance or physical input; does not close 3.08."
+    },
+    "wheel": {
+      "python": "3.14.4",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "checks": [
+        "96: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "96: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "96: immediate tooltip on the right, matching reference widget and cleanup",
+        "96: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "96: move/selection cursors apply inside the map and clear on margins",
+        "96: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "96: closing releases images and raster cache",
+        "120: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "120: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "120: immediate tooltip on the right, matching reference widget and cleanup",
+        "120: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "120: move/selection cursors apply inside the map and clear on margins",
+        "120: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "120: closing releases images and raster cache",
+        "144: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "144: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "144: immediate tooltip on the right, matching reference widget and cleanup",
+        "144: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "144: move/selection cursors apply inside the map and clear on margins",
+        "144: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "144: closing releases images and raster cache",
+        "192: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+        "192: Subplots belongs to Pan/Zoom group; Save has a separate group",
+        "192: immediate tooltip on the right, matching reference widget and cleanup",
+        "192: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+        "192: move/selection cursors apply inside the map and clear on margins",
+        "192: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+        "192: closing releases images and raster cache"
+      ],
+      "sha256": {
+        "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+        "tool": "2e7be04f4c937f0d756b304811f83970fbbc7c8534535b3e876c81d2f2eaf443",
+        "reference": "7770d7f6e4689c8e703d38d976f55dbaf625915006db97d74d70c6a81a5234b2",
+        "subplot_editor": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+        "own_icon_geometry": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823"
+      },
+      "runtime_origin": "<environment>/site-packages/azimlib/__init__.py",
+      "independent_runtime": true,
+      "scope": "Real withdrawn Tk and synthetic handlers in four physical Tk DPI settings. Not visible appearance or physical input; does not close 3.08."
+    }
+  },
+  "static_exports_identical_to_previous_distribution": 114,
+  "scope": "Local Windows source/wheel checks. Real withdrawn Tk and synthetic handlers; human visible review is recorded separately. No remote CI or other-platform execution claim."
+}

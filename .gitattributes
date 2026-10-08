@@ -1,1 +1,15 @@
+# Preserve the reviewed publication payload bytes on every platform.
 * -text
+# CR is part of a CRLF line ending; retain the default text whitespace checks.
+* whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+# Binary exports have format-defined offsets, streams and embedded legal notices.
+*.pdf binary
+*.png binary
+*.gif binary
+*.ico binary
+*.jpg binary
+*.jpeg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

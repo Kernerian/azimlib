@@ -1,0 +1,60 @@
+{
+  "version": "0.3.0",
+  "published_date": "2026-10-08",
+  "release_commit": "270405cb0030d3cb3a547f01ec78a2e3e728cd88",
+  "tag": "v0.3.0",
+  "annotated_tag_object": "a893fd348d62e9ebbe269427b6e2326f5860a299",
+  "checklist_completed": 80,
+  "checklist_total": 80,
+  "ci": {
+    "approved_jobs": 28,
+    "tests_per_unit_job": 1008,
+    "run_url": "https://github.com/Kernerian/azimlib/actions/runs/37717760902"
+  },
+  "trusted_publishing": {
+    "passed": true,
+    "run_url": "https://github.com/Kernerian/azimlib/actions/runs/37720613169"
+  },
+  "pypi_files": {
+    "passed": true,
+    "version": "0.3.0",
+    "requires_python": ">=3.10",
+    "license_expression": "BSD-3-Clause AND CC0-1.0 AND LicenseRef-DejaVu AND LicenseRef-ColorBrewer",
+    "files": [
+      {
+        "file": "azimlib-0.3.0-py3-none-any.whl",
+        "sha256": "83b78a6d953cc1cfecce8b3485631d1792fe3d66e33e9674211761ee256a04cf",
+        "bytes": 3317780,
+        "url": "https://files.pythonhosted.org/packages/73/9b/ad3d1776118a0ae1124165ae67479c65ef08fef4af2c92a1fb8110fceb67/azimlib-0.3.0-py3-none-any.whl"
+      },
+      {
+        "file": "azimlib-0.3.0.tar.gz",
+        "sha256": "d334df9a9602f3612279663ee3a6659aaaa01631fc4c052c8a8e49aa4b578af4",
+        "bytes": 22708390,
+        "url": "https://files.pythonhosted.org/packages/a7/55/8246ff8b4fcce4d9d03ca819d4368c7d96584488e96c1b76f32b644f66f8/azimlib-0.3.0.tar.gz"
+      }
+    ],
+    "byte_identical_to_final_artifacts": true
+  },
+  "installed_smoke": {
+    "passed": true,
+    "requested_requirement": "azimlib==0.3.0",
+    "install_origin": "https://pypi.org/simple",
+    "clean_venv": true,
+    "no_cache": true,
+    "optional_dependencies_installed": false,
+    "imports": [
+      "azimlib as azl",
+      "azimlib.pyplot as plt"
+    ],
+    "installed_version": "0.3.0",
+    "scope": "Direct PyPI core install, metadata, SVG/HTML/PDF, own datasets/fonts, artists/scientific/geodesy/3D and temporal core; not a new human GUI acceptance"
+  },
+  "release_url": "https://github.com/Kernerian/azimlib/releases/tag/v0.3.0",
+  "documentation_urls": [
+    "https://kernerian.github.io/azimlib/stable/",
+    "https://kernerian.github.io/azimlib/0.3.0/",
+    "https://kernerian.github.io/azimlib/dev/"
+  ],
+  "documentation_provenance": "Exact source ref and hashes are in each deployed site-manifest.json. Deployment verification is retained separately from immutable package provenance."
+}

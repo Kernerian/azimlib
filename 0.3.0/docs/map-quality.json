@@ -1,0 +1,268 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow": "12.3.0",
+  "matplotlib": "3.11.2",
+  "azimlib": "0.1.0",
+  "notes": [
+    "Same own cartographic Scene sent to both rasterizers; does not compare Axes layout or cartographic algorithms.",
+    "Bundled fonts, physical sizes, clip rectangles, colors, global opacity and simple nested holes preserved.",
+    "Agg uses hinted font rasterization; own renderer uses its existing supersampling; pixel equality is not expected.",
+    "Text halo uses vector outlines beneath hinted fill in this development adapter; complex self-intersecting even-odd paths are not covered.",
+    "Metrics are descriptive diagnostics, not perceptual scores or performance comparisons."
+  ],
+  "cases": [
+    {
+      "name": "state",
+      "dpi": 100,
+      "pixels": [
+        640,
+        480
+      ],
+      "items": 82,
+      "metrics": {
+        "mean_absolute_rgb": 1.7955772569444444,
+        "occupied_mean_absolute_rgb": 2.840368783060597,
+        "occupied_fraction": 0.631181640625,
+        "fraction_pixels_max_difference_gt16": 0.020345052083333332,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689",
+        "agg": "b48adce5f18ef0e4affc7770f568391845933a6f406270d0198abc4699c615a2"
+      },
+      "observed_seconds": {
+        "own": 1.4799179999999978,
+        "agg_adapter": 0.047433799999453186
+      },
+      "files": {
+        "comparison": "map-quality-state-100-comparison.png",
+        "svg": "map-quality-state-100.svg"
+      }
+    },
+    {
+      "name": "state",
+      "dpi": 150,
+      "pixels": [
+        960,
+        720
+      ],
+      "items": 82,
+      "metrics": {
+        "mean_absolute_rgb": 1.7195621141975308,
+        "occupied_mean_absolute_rgb": 2.7435555565825482,
+        "occupied_fraction": 0.6261038773148148,
+        "fraction_pixels_max_difference_gt16": 0.015394965277777778,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "d93b4ad9d18736c239304609bb6c8815cf216467e2dc2346cfbac6ad20b6834f",
+        "agg": "4f2d513e5e54cd6f0fce04cfee41476475d87e1eb205d49748cba53806800853"
+      },
+      "observed_seconds": {
+        "own": 2.625926800000343,
+        "agg_adapter": 0.05758090000017546
+      },
+      "files": {
+        "comparison": "map-quality-state-150-comparison.png",
+        "svg": "map-quality-state-150.svg"
+      }
+    },
+    {
+      "name": "state",
+      "dpi": 200,
+      "pixels": [
+        1280,
+        960
+      ],
+      "items": 82,
+      "metrics": {
+        "mean_absolute_rgb": 1.7518695746527777,
+        "occupied_mean_absolute_rgb": 2.814900699372689,
+        "occupied_fraction": 0.6218758138020833,
+        "fraction_pixels_max_difference_gt16": 0.01358154296875,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be",
+        "agg": "0e898aa262c878d538e0af658484c9fa95d30dff09861fddcfdb416a553214ef"
+      },
+      "observed_seconds": {
+        "own": 3.8591495000000577,
+        "agg_adapter": 0.0784032000001389
+      },
+      "files": {
+        "comparison": "map-quality-state-200-comparison.png",
+        "svg": "map-quality-state-200.svg"
+      }
+    },
+    {
+      "name": "brazil",
+      "dpi": 100,
+      "pixels": [
+        640,
+        480
+      ],
+      "items": 323,
+      "metrics": {
+        "mean_absolute_rgb": 2.4945442708333334,
+        "occupied_mean_absolute_rgb": 11.63294164205912,
+        "occupied_fraction": 0.21386067708333334,
+        "fraction_pixels_max_difference_gt16": 0.03318359375,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e",
+        "agg": "d371f62f494ca2d86fd3ebbf17facb7ac48676f22262aec0622b533d2dbee114"
+      },
+      "observed_seconds": {
+        "own": 5.1245804000000135,
+        "agg_adapter": 0.07598410000082367
+      },
+      "files": {
+        "comparison": "map-quality-brazil-100-comparison.png",
+        "svg": "map-quality-brazil-100.svg"
+      }
+    },
+    {
+      "name": "brazil",
+      "dpi": 150,
+      "pixels": [
+        960,
+        720
+      ],
+      "items": 323,
+      "metrics": {
+        "mean_absolute_rgb": 1.421414448302469,
+        "occupied_mean_absolute_rgb": 7.177407410123111,
+        "occupied_fraction": 0.19731047453703704,
+        "fraction_pixels_max_difference_gt16": 0.02056423611111111,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "6e6cd5dff5729964e4ddb17d2f22d1e0e978d2ae229a901b1658e52d61a85595",
+        "agg": "0bc641c2b1c53a78e2695221e2877d7d69906d9447d78116ff57836d7f3efc7a"
+      },
+      "observed_seconds": {
+        "own": 7.6625622000001385,
+        "agg_adapter": 0.08390369999960967
+      },
+      "files": {
+        "comparison": "map-quality-brazil-150-comparison.png",
+        "svg": "map-quality-brazil-150.svg"
+      }
+    },
+    {
+      "name": "brazil",
+      "dpi": 200,
+      "pixels": [
+        1280,
+        960
+      ],
+      "items": 323,
+      "metrics": {
+        "mean_absolute_rgb": 1.6569675021701389,
+        "occupied_mean_absolute_rgb": 8.641795573021888,
+        "occupied_fraction": 0.19134033203125,
+        "fraction_pixels_max_difference_gt16": 0.017342122395833333,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "dad344ff8d5af1de26b9205e3e6ff0597ce7196601679547ef66d7b51d2f2d31",
+        "agg": "fc617e6a14f5773014fe2e8acc8cdd6e25e07e10912bdf19a372875b80d4db54"
+      },
+      "observed_seconds": {
+        "own": 9.781811599999855,
+        "agg_adapter": 0.11757390000002488
+      },
+      "files": {
+        "comparison": "map-quality-brazil-200-comparison.png",
+        "svg": "map-quality-brazil-200.svg"
+      }
+    },
+    {
+      "name": "atlas",
+      "dpi": 100,
+      "pixels": [
+        1200,
+        800
+      ],
+      "items": 549,
+      "metrics": {
+        "mean_absolute_rgb": 2.670150347222222,
+        "occupied_mean_absolute_rgb": 4.597122564697127,
+        "occupied_fraction": 0.5804020833333333,
+        "fraction_pixels_max_difference_gt16": 0.026408333333333332,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae",
+        "agg": "cbe2fb2833312be7ade5f2f77e50d13da6d8cf04d060831b4b73378f0feaf5cb"
+      },
+      "observed_seconds": {
+        "own": 7.5539639999997235,
+        "agg_adapter": 0.15461469999991095
+      },
+      "files": {
+        "comparison": "map-quality-atlas-100-comparison.png",
+        "svg": "map-quality-atlas-100.svg"
+      }
+    },
+    {
+      "name": "atlas",
+      "dpi": 150,
+      "pixels": [
+        1800,
+        1200
+      ],
+      "items": 549,
+      "metrics": {
+        "mean_absolute_rgb": 1.8800342592592592,
+        "occupied_mean_absolute_rgb": 3.2710560047725386,
+        "occupied_fraction": 0.5742731481481481,
+        "fraction_pixels_max_difference_gt16": 0.01717824074074074,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "939a49df732d64be85b4d42654fc22108cce97c6833970f7203840c88de60e1b",
+        "agg": "17af6a86eb728589adfd51c4b893ac7f7c130b92f273fa4196cb8a258807660d"
+      },
+      "observed_seconds": {
+        "own": 11.44391799999994,
+        "agg_adapter": 0.20856079999975918
+      },
+      "files": {
+        "comparison": "map-quality-atlas-150-comparison.png",
+        "svg": "map-quality-atlas-150.svg"
+      }
+    },
+    {
+      "name": "atlas",
+      "dpi": 200,
+      "pixels": [
+        2400,
+        1600
+      ],
+      "items": 549,
+      "metrics": {
+        "mean_absolute_rgb": 2.226886545138889,
+        "occupied_mean_absolute_rgb": 3.886316704261261,
+        "occupied_fraction": 0.5727450520833334,
+        "fraction_pixels_max_difference_gt16": 0.01546171875,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827",
+        "agg": "252247edc0d7980177ef69c8c68f5386c83af0d039d57475370471cd94589b72"
+      },
+      "observed_seconds": {
+        "own": 15.968571399999746,
+        "agg_adapter": 0.3342711000004783
+      },
+      "files": {
+        "comparison": "map-quality-atlas-200-comparison.png",
+        "svg": "map-quality-atlas-200.svg"
+      }
+    }
+  ]
+}

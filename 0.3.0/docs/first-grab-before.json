@@ -1,0 +1,15 @@
+{
+  "cold_first_frame_ms": 113.38370000157738,
+  "regrab_first_frame_ms": 1081.894300001295,
+  "exact_worker_active_at_regrab": true,
+  "exact_final_frame": true,
+  "figure_pixels": [
+    640,
+    480
+  ],
+  "sha256": {
+    "backend": "1148a43fdeeadb17305dce4973b940d12f412faf822001f545fcf172358693b6",
+    "renderer": "49da76bc13f536a1b81e530e9e02286d75c6dacef5a360e20040ab27e2455d6e"
+  },
+  "scope": "First frame of a cold drag and a new drag during precise raster work.\n\nWithdrawn real Tk widgets and actual renderers; timed synthetic input only.\nNo monitor-presentation or physical-input claim.\n"
+}

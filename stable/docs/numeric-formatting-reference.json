@@ -1,0 +1,1658 @@
+{
+  "matplotlib_version": "3.11.2",
+  "python": "3.14.4",
+  "matplotlib": {
+    "integers": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": ""
+    },
+    "decimals": {
+      "labels": [
+        "−0.50",
+        "−0.25",
+        "0.00",
+        "0.25",
+        "0.50"
+      ],
+      "offset": ""
+    },
+    "million": {
+      "labels": [
+        "0.0",
+        "0.5",
+        "1.0",
+        "1.5",
+        "2.0"
+      ],
+      "offset": "1e6"
+    },
+    "tiny": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": "1e−6"
+    },
+    "positive_offset": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": "+1e5"
+    },
+    "negative_offset": {
+      "labels": [
+        "−8",
+        "−6",
+        "−4",
+        "−2",
+        "0"
+      ],
+      "offset": "−1e5"
+    },
+    "geographic_offset": {
+      "labels": [
+        "−8",
+        "−6",
+        "−4",
+        "−2",
+        "0"
+      ],
+      "offset": "1e−6−4.6e1"
+    },
+    "straddle": {
+      "labels": [
+        "−1.0",
+        "−0.5",
+        "0.0",
+        "0.5",
+        "1.0"
+      ],
+      "offset": "+1e5"
+    },
+    "no_offset": {
+      "labels": [
+        "100000",
+        "100002",
+        "100004",
+        "100006",
+        "100008"
+      ],
+      "offset": ""
+    },
+    "forced_offset": {
+      "labels": [
+        "−0.50",
+        "−0.25",
+        "0.00",
+        "0.25",
+        "0.50"
+      ],
+      "offset": "−4.6e1"
+    },
+    "force_power": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": "1e3"
+    },
+    "plain": {
+      "labels": [
+        "0",
+        "500000",
+        "1000000",
+        "1500000",
+        "2000000"
+      ],
+      "offset": ""
+    },
+    "zero": {
+      "labels": [
+        "0",
+        "0"
+      ],
+      "offset": ""
+    },
+    "small_plain": {
+      "labels": [
+        "0.0000",
+        "0.0002",
+        "0.0004",
+        "0.0006",
+        "0.0008"
+      ],
+      "offset": ""
+    },
+    "engineering": {
+      "None": [
+        "−2 Gm",
+        "0 m",
+        "2 µm",
+        "1 mm",
+        "999.999 m",
+        "1 km",
+        "2 Mm"
+      ],
+      "0": [
+        "−2 Gm",
+        "0 m",
+        "2 µm",
+        "1 mm",
+        "1 km",
+        "1 km",
+        "2 Mm"
+      ],
+      "2": [
+        "−2.00 Gm",
+        "0.00 m",
+        "2.00 µm",
+        "1.00 mm",
+        "1.00 km",
+        "1.00 km",
+        "2.00 Mm"
+      ]
+    }
+  },
+  "azimlib": {
+    "integers": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": ""
+    },
+    "decimals": {
+      "labels": [
+        "−0.50",
+        "−0.25",
+        "0.00",
+        "0.25",
+        "0.50"
+      ],
+      "offset": ""
+    },
+    "million": {
+      "labels": [
+        "0.0",
+        "0.5",
+        "1.0",
+        "1.5",
+        "2.0"
+      ],
+      "offset": "1e6"
+    },
+    "tiny": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": "1e−6"
+    },
+    "positive_offset": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": "+1e5"
+    },
+    "negative_offset": {
+      "labels": [
+        "−8",
+        "−6",
+        "−4",
+        "−2",
+        "0"
+      ],
+      "offset": "−1e5"
+    },
+    "geographic_offset": {
+      "labels": [
+        "−8",
+        "−6",
+        "−4",
+        "−2",
+        "0"
+      ],
+      "offset": "1e−6−4.6e1"
+    },
+    "straddle": {
+      "labels": [
+        "−1.0",
+        "−0.5",
+        "0.0",
+        "0.5",
+        "1.0"
+      ],
+      "offset": "+1e5"
+    },
+    "no_offset": {
+      "labels": [
+        "100000",
+        "100002",
+        "100004",
+        "100006",
+        "100008"
+      ],
+      "offset": ""
+    },
+    "forced_offset": {
+      "labels": [
+        "−0.50",
+        "−0.25",
+        "0.00",
+        "0.25",
+        "0.50"
+      ],
+      "offset": "−4.6e1"
+    },
+    "force_power": {
+      "labels": [
+        "0",
+        "2",
+        "4",
+        "6",
+        "8"
+      ],
+      "offset": "1e3"
+    },
+    "plain": {
+      "labels": [
+        "0",
+        "500000",
+        "1000000",
+        "1500000",
+        "2000000"
+      ],
+      "offset": ""
+    },
+    "zero": {
+      "labels": [
+        "0",
+        "0"
+      ],
+      "offset": ""
+    },
+    "small_plain": {
+      "labels": [
+        "0.0000",
+        "0.0002",
+        "0.0004",
+        "0.0006",
+        "0.0008"
+      ],
+      "offset": ""
+    },
+    "engineering": {
+      "None": [
+        "−2 Gm",
+        "0 m",
+        "2 µm",
+        "1 mm",
+        "999.999 m",
+        "1 km",
+        "2 Mm"
+      ],
+      "0": [
+        "−2 Gm",
+        "0 m",
+        "2 µm",
+        "1 mm",
+        "1 km",
+        "1 km",
+        "2 Mm"
+      ],
+      "2": [
+        "−2.00 Gm",
+        "0.00 m",
+        "2.00 µm",
+        "1.00 mm",
+        "1.00 km",
+        "1.00 km",
+        "2.00 Mm"
+      ]
+    }
+  },
+  "marker_bounds": {
+    "o": [
+      -0.5,
+      -0.5,
+      1.0,
+      1.0
+    ],
+    "s": [
+      -0.5,
+      -0.5,
+      1.0,
+      1.0
+    ],
+    "^": [
+      -0.5,
+      -0.5,
+      1.0,
+      1.0
+    ],
+    "v": [
+      -0.49999999999999994,
+      -0.5,
+      1.0,
+      1.0
+    ],
+    "D": [
+      -0.7071067811865476,
+      -0.7071067811865476,
+      1.4142135623730951,
+      1.4142135623730951
+    ],
+    "d": [
+      -0.4242640687119285,
+      -0.7071067811865476,
+      0.848528137423857,
+      1.4142135623730951
+    ],
+    "*": [
+      -0.47552825814757677,
+      -0.4045084971874738,
+      0.9510565162951536,
+      0.9045084971874737
+    ],
+    "p": [
+      -0.47552825814757677,
+      -0.4045084971874738,
+      0.9510565162951536,
+      0.9045084971874737
+    ],
+    "h": [
+      -0.4330127018922194,
+      -0.5,
+      0.8660254037844389,
+      1.0
+    ],
+    "+": [
+      -0.5,
+      -0.5,
+      1.0,
+      1.0
+    ],
+    "x": [
+      -0.5,
+      -0.5,
+      1.0,
+      1.0
+    ]
+  },
+  "text_layout": [
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -29.0,
+        0.0,
+        58.0,
+        14.336588541666657
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -29.0,
+        -7.168294270833343,
+        58.0,
+        14.336588541666686
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -29.0,
+        -14.336588541666657,
+        58.0,
+        14.336588541666657
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -29.0,
+        -11.0,
+        58.0,
+        14.336588541666657
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -29.0,
+        14.336588541666657,
+        58.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -7.168294270833343,
+        -29.0,
+        14.336588541666686,
+        58.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -14.336588541666657,
+        -29.0,
+        14.336588541666657,
+        58.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -11.0,
+        -29.0,
+        14.336588541666657,
+        58.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -36.0,
+        0.0,
+        72.0,
+        17.336588541666657
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -36.0,
+        -8.668294270833343,
+        72.0,
+        17.336588541666686
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -36.0,
+        -17.336588541666657,
+        72.0,
+        17.336588541666657
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -36.0,
+        -14.0,
+        72.0,
+        17.336588541666657
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -36.0,
+        17.336588541666657,
+        72.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -8.668294270833343,
+        -36.0,
+        17.336588541666686,
+        72.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -17.336588541666686,
+        -36.0,
+        17.336588541666686,
+        72.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -14.0,
+        -36.0,
+        17.336588541666657,
+        72.0
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -57.25,
+        0.0,
+        114.5,
+        34.234157986111114
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -57.25,
+        -17.117078993055543,
+        114.5,
+        34.234157986111086
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -57.25,
+        -34.234157986111114,
+        114.5,
+        34.234157986111114
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -57.25,
+        -29.50732421875,
+        114.5,
+        34.234157986111114
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -57.25,
+        34.234157986111114,
+        114.5
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -17.11707899305557,
+        -57.25,
+        34.23415798611114,
+        114.5
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -34.234157986111114,
+        -57.25,
+        34.234157986111114,
+        114.5
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -29.50732421875,
+        -57.25,
+        34.234157986111114,
+        114.5
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -33.5,
+        0.0,
+        67.0,
+        14.336588541666657
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -33.5,
+        -7.168294270833343,
+        67.0,
+        14.336588541666686
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -33.5,
+        -14.336588541666657,
+        67.0,
+        14.336588541666657
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -33.5,
+        -11.0,
+        67.0,
+        14.336588541666657
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -33.5,
+        14.336588541666657,
+        67.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -7.168294270833343,
+        -33.5,
+        14.336588541666686,
+        67.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -14.336588541666657,
+        -33.5,
+        14.336588541666657,
+        67.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -11.0,
+        -33.5,
+        14.336588541666657,
+        67.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -40.0,
+        0.0,
+        80.0,
+        17.336588541666657
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -40.0,
+        -8.668294270833343,
+        80.0,
+        17.336588541666686
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -40.0,
+        -17.336588541666657,
+        80.0,
+        17.336588541666657
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -40.0,
+        -14.0,
+        80.0,
+        17.336588541666657
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -40.0,
+        17.336588541666657,
+        80.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -8.668294270833343,
+        -40.0,
+        17.336588541666686,
+        80.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -17.336588541666686,
+        -40.0,
+        17.336588541666686,
+        80.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -14.0,
+        -40.0,
+        17.336588541666657,
+        80.0
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -63.21875,
+        0.0,
+        126.4375,
+        34.234157986111114
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -63.21875,
+        -17.117078993055543,
+        126.4375,
+        34.234157986111086
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -63.21875,
+        -34.234157986111114,
+        126.4375,
+        34.234157986111114
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -63.21875,
+        -29.50732421875,
+        126.4375,
+        34.234157986111114
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -63.21875,
+        34.234157986111114,
+        126.4375
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -17.11707899305557,
+        -63.21875,
+        34.23415798611114,
+        126.4375
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -34.234157986111114,
+        -63.21875,
+        34.234157986111114,
+        126.4375
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 10,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -29.50732421875,
+        -63.21875,
+        34.234157986111114,
+        126.4375
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -35.0,
+        0.0,
+        70.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -35.0,
+        -8.501953125,
+        70.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -35.0,
+        -17.00390625,
+        70.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -35.0,
+        -13.0,
+        70.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -35.0,
+        17.00390625,
+        70.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -8.501953125,
+        -35.0,
+        17.00390625,
+        70.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -17.00390625,
+        -35.0,
+        17.00390625,
+        70.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -13.0,
+        -35.0,
+        17.00390625,
+        70.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -43.0,
+        0.0,
+        86.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -43.0,
+        -9.501953125,
+        86.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -43.0,
+        -19.00390625,
+        86.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -43.0,
+        -15.0,
+        86.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -43.0,
+        19.00390625,
+        86.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -9.501953125,
+        -43.0,
+        19.00390625,
+        86.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -19.00390625,
+        -43.0,
+        19.00390625,
+        86.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -15.0,
+        -43.0,
+        19.00390625,
+        86.0
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -66.203125,
+        0.0,
+        132.40625,
+        42.68098958333334
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -66.203125,
+        -21.340494791666657,
+        132.40625,
+        42.680989583333314
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -66.203125,
+        -42.68098958333334,
+        132.40625,
+        42.68098958333334
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -66.203125,
+        -37.0087890625,
+        132.40625,
+        42.68098958333334
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -66.203125,
+        42.68098958333334,
+        132.40625
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -21.340494791666686,
+        -66.203125,
+        42.68098958333337,
+        132.40625
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -42.68098958333334,
+        -66.203125,
+        42.68098958333334,
+        132.40625
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "normal",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -37.0087890625,
+        -66.203125,
+        42.68098958333334,
+        132.40625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -40.0,
+        0.0,
+        80.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -40.0,
+        -8.501953125,
+        80.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -40.0,
+        -17.00390625,
+        80.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -40.0,
+        -13.0,
+        80.0,
+        17.00390625
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -40.0,
+        17.00390625,
+        80.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -8.501953125,
+        -40.0,
+        17.00390625,
+        80.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -17.00390625,
+        -40.0,
+        17.00390625,
+        80.0
+      ]
+    },
+    {
+      "text": "Latitude",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -13.0,
+        -40.0,
+        17.00390625,
+        80.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -48.0,
+        0.0,
+        96.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -48.0,
+        -9.501953125,
+        96.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -48.0,
+        -19.00390625,
+        96.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -48.0,
+        -15.0,
+        96.0,
+        19.00390625
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -48.0,
+        19.00390625,
+        96.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -9.501953125,
+        -48.0,
+        19.00390625,
+        96.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -19.00390625,
+        -48.0,
+        19.00390625,
+        96.0
+      ]
+    },
+    {
+      "text": "Água e gp",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -15.0,
+        -48.0,
+        19.00390625,
+        96.0
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "top",
+      "bounds": [
+        -76.6640625,
+        0.0,
+        153.328125,
+        42.68098958333334
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "center",
+      "bounds": [
+        -76.6640625,
+        -21.340494791666657,
+        153.328125,
+        42.680989583333314
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "bottom",
+      "bounds": [
+        -76.6640625,
+        -42.68098958333334,
+        153.328125,
+        42.68098958333334
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 0,
+      "va": "baseline",
+      "bounds": [
+        -76.6640625,
+        -37.0087890625,
+        153.328125,
+        42.68098958333334
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "top",
+      "bounds": [
+        0.0,
+        -76.6640625,
+        42.68098958333334,
+        153.328125
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "center",
+      "bounds": [
+        -21.340494791666686,
+        -76.6640625,
+        42.68098958333337,
+        153.328125
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "bottom",
+      "bounds": [
+        -42.68098958333334,
+        -76.6640625,
+        42.68098958333334,
+        153.328125
+      ]
+    },
+    {
+      "text": "Título\nFoco geográfico",
+      "fontsize": 12,
+      "fontweight": "bold",
+      "rotation": 90,
+      "va": "baseline",
+      "bounds": [
+        -37.0087890625,
+        -76.6640625,
+        42.68098958333334,
+        153.328125
+      ]
+    }
+  ]
+}

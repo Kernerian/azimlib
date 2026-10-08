@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "item": "10.08",
+  "status": "accepted",
+  "recorded_at_utc": "2026-10-08T01:43:11Z",
+  "review_kind": "Explicit final human release acceptance by the project maintainer",
+  "reviewed_commit": "c85e935661c627c0a3a3e240904cf689c362b76f",
+  "reviewed_ci_run": "https://github.com/Kernerian/azimlib/actions/runs/37712126845",
+  "reviewed_ci_jobs": "28/28 successful",
+  "visual_acceptance": "visual-acceptance-0.3.json",
+  "reviewed_candidate_hashes": {
+    "azimlib-0.3.0-py3-none-any.whl": "61305f1257d0f48a88ed1631c9f3dd47565b9297ab575059c6182db6453ef9ca",
+    "azimlib-0.3.0.tar.gz": "87fad7168810aec30bf717e578d9882f7ecc1e3a3d1375fd554c03e59c437af7"
+  },
+  "publication_authorized": true,
+  "required_sequence": [
+    "Record final acceptance",
+    "Rebuild final wheel and sdist",
+    "Audit and record final hashes",
+    "Fast-forward main",
+    "Require full successful CI at exact main commit",
+    "Create v0.3.0 and GitHub Release",
+    "Trusted Publishing of the audited bytes",
+    "Verify PyPI bytes and metadata",
+    "Clean-environment installation directly from PyPI"
+  ],
+  "failure_policy": "Stop before the next external action on any failed gate or unexpected result",
+  "scope_limit": "Authorization record is not evidence that publication or later CI has already succeeded"
+}

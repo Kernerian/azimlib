@@ -1,0 +1,37 @@
+{
+  "source": "Own Azimlib renderer; original synthetic terrain/pixels/points/flows; Natural Earth public-domain background boundaries in weighted-flows",
+  "original_code_license": "BSD-3-Clause",
+  "copyright": "Copyright (c) 2026 Kernerian",
+  "files": [
+    {
+      "file": "scientific-atlas.png",
+      "sha256": "da922fcaa1ee46499af5ebc16f247800fe7494cc2b50d39893d6bbe603f72691",
+      "pixels": [
+        1560,
+        576
+      ],
+      "generator": "examples/scientific_atlas.py",
+      "generator_sha256": "6f0535f78326d4236fda7b3814a8da8e9df03835bf8e82dc9789ee5d854be275"
+    },
+    {
+      "file": "color-raster.png",
+      "sha256": "2cfe1a1135a2d437be8c8da0cbb940aeceb6013b6115839714ed0e3acc238f01",
+      "pixels": [
+        1440,
+        552
+      ],
+      "generator": "examples/scientific_atlas.py",
+      "generator_sha256": "6f0535f78326d4236fda7b3814a8da8e9df03835bf8e82dc9789ee5d854be275"
+    },
+    {
+      "file": "weighted-flows.png",
+      "sha256": "3b775414e6a41f19b6eb7803b207e34a2774226c391a78c9ec3b5db9d16d18b0",
+      "pixels": [
+        1200,
+        600
+      ],
+      "generator": "examples/scientific_atlas.py",
+      "generator_sha256": "6f0535f78326d4236fda7b3814a8da8e9df03835bf8e82dc9789ee5d854be275"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "matplotlib": "3.11.2",
+  "backend": "Agg",
+  "protocol": {
+    "after_draw": [
+      false,
+      false,
+      false
+    ],
+    "after_edit": [
+      true,
+      true,
+      true
+    ],
+    "after_child_clean": [
+      false,
+      true,
+      true
+    ],
+    "alpha_none": null,
+    "title_reused": true,
+    "removed_figure": true
+  }
+}

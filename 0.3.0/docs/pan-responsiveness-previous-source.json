@@ -1,0 +1,38 @@
+{
+  "library": "azimlib",
+  "figure_pixels": [
+    640,
+    480
+  ],
+  "duration_seconds": 2.008886200001143,
+  "motion_events": 70,
+  "held_frames": 19,
+  "held_frames_per_second": 9.457977261225244,
+  "motion_handler_max_ms": 6.921899999724701,
+  "heartbeat_max_gap_ms": 42.44760000074166,
+  "heartbeat_median_gap_ms": 16.238500000326894,
+  "settle_after_release_ms": 1024.9149999981455,
+  "initial_extent": [
+    -76.0,
+    -32.0,
+    -36.0,
+    8.0
+  ],
+  "final_extent": [
+    -90.28571428571429,
+    -46.285714285714306,
+    -33.023809523809526,
+    10.976190476190474
+  ],
+  "errors": [],
+  "scope": "Withdrawn actual Tk widgets, timed synthetic handlers, real raster/PhotoImage delivery. Not physical-input or visible-monitor latency.",
+  "prepare_max_ms": 35.12550000232295,
+  "raster_median_ms": {
+    "renderer": 930.8692000013252,
+    "preview_renderer": 67.96720000056666
+  },
+  "sha256": {
+    "backend": "1148a43fdeeadb17305dce4973b940d12f412faf822001f545fcf172358693b6",
+    "renderer": "49da76bc13f536a1b81e530e9e02286d75c6dacef5a360e20040ab27e2455d6e"
+  }
+}

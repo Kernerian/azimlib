@@ -1,0 +1,141 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "dpi": 100,
+  "repeats": 4,
+  "points": 1500,
+  "renderer_source_sha256": {
+    "before": {
+      "pillow.py": "c7b0135fa57baab1236eb653e8501f28295a2232f645b3fa2f2211877b8ef13d",
+      "coverage.py": "b081e6507bd45c0cb7652141ccdbf457128c581d1013d71a9d7d346a0535bd79"
+    },
+    "after": {
+      "pillow.py": "0df7334cd8b68bde883611880588d83aa739fe44836f4b2b63139851c8195cfd",
+      "coverage.py": "e213c8dfce22496d0fe1a48253c6c3851c5e20bac326c2693ef8cac07cab965b"
+    }
+  },
+  "policy": "Each pair reverses before/after order; one immutable scene per case; PNG encoding included; no profiling or memory instrumentation.",
+  "cases": [
+    {
+      "name": "state",
+      "items": 137,
+      "samples_seconds": {
+        "before": [
+          1.525735999999597,
+          1.626960899999176,
+          1.6136162999991939,
+          1.7834755999992922
+        ],
+        "after": [
+          1.5110105000003387,
+          1.5830372999989777,
+          1.6326748000010411,
+          1.663732400000299
+        ]
+      },
+      "before_median_seconds": 1.620288599999185,
+      "after_median_seconds": 1.6078560500000094,
+      "reduction_percent": 0.7673046640692127,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "ced87b9dbd78b2bad6ca85e47adf72a4beaeb34ca244b483c881f75df5b616cd"
+        ],
+        "after": [
+          "ced87b9dbd78b2bad6ca85e47adf72a4beaeb34ca244b483c881f75df5b616cd"
+        ]
+      }
+    },
+    {
+      "name": "brazil",
+      "items": 568,
+      "samples_seconds": {
+        "before": [
+          5.87343139999939,
+          5.908283099999608,
+          5.909923699999126,
+          6.082727299999533
+        ],
+        "after": [
+          5.828305099999852,
+          5.851048900000023,
+          5.477310600001147,
+          5.838743500000419
+        ]
+      },
+      "before_median_seconds": 5.909103399999367,
+      "after_median_seconds": 5.8335243000001356,
+      "reduction_percent": 1.279028219395173,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "c3508542ee87e8deb80edd42730aaaf001b2af4c1b896ca6a5534db1746fa291"
+        ],
+        "after": [
+          "c3508542ee87e8deb80edd42730aaaf001b2af4c1b896ca6a5534db1746fa291"
+        ]
+      }
+    },
+    {
+      "name": "atlas",
+      "items": 656,
+      "samples_seconds": {
+        "before": [
+          8.585419800001546,
+          9.011884800000189,
+          8.574133600001005,
+          9.133277599999928
+        ],
+        "after": [
+          8.109369499999957,
+          8.203158999998777,
+          8.133412399998633,
+          9.03300599999966
+        ]
+      },
+      "before_median_seconds": 8.798652300000867,
+      "after_median_seconds": 8.168285699998705,
+      "reduction_percent": 7.164354022741637,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "8f9af81fb924967db2ed7a80a619e85d2be4d451af637a0a812af31b2b7c3c56"
+        ],
+        "after": [
+          "8f9af81fb924967db2ed7a80a619e85d2be4d451af637a0a812af31b2b7c3c56"
+        ]
+      }
+    },
+    {
+      "name": "points",
+      "items": 1619,
+      "samples_seconds": {
+        "before": [
+          2.331719100000555,
+          2.1764528999992763,
+          2.1718513000014354,
+          2.229499399998531
+        ],
+        "after": [
+          1.9971383000010974,
+          1.9740517999998701,
+          2.0334641999997984,
+          2.0109564999984286
+        ]
+      },
+      "before_median_seconds": 2.2029761499989036,
+      "after_median_seconds": 2.004047399999763,
+      "reduction_percent": 9.030000165877405,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "700168d826da88297861fb17c185914dee4d1dcdae883d629f955e640eace509"
+        ],
+        "after": [
+          "700168d826da88297861fb17c185914dee4d1dcdae883d629f955e640eace509"
+        ]
+      }
+    }
+  ]
+}

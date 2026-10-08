@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "installed_runtime_files": 104,
+  "native_windows": true,
+  "hosted_ci_executed": false,
+  "linux_macos_native_gate": "pending",
+  "gallery_files": 2,
+  "earlier_tk_http_only_difference": [
+    "backends/live.py"
+  ],
+  "scope": "Recorded local installed suites, real native Windows Qt/Tk programmatic input/paint, actual IPython shell, mathematical circle/simplification and exports. Not human input/visual approval, browser/Jupyter frontend acceptance or remote/cross-platform CI."
+}

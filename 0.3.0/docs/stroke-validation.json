@@ -1,0 +1,152 @@
+[
+  {
+    "points": 0.5,
+    "angle": 0,
+    "reference_px": 0.698,
+    "azimlib_px": 0.698
+  },
+  {
+    "points": 0.5,
+    "angle": 30,
+    "reference_px": 0.701,
+    "azimlib_px": 0.6942
+  },
+  {
+    "points": 0.5,
+    "angle": 45,
+    "reference_px": 0.7044,
+    "azimlib_px": 0.696
+  },
+  {
+    "points": 0.5,
+    "angle": 75,
+    "reference_px": 0.6974,
+    "azimlib_px": 0.6943
+  },
+  {
+    "points": 0.5,
+    "angle": 90,
+    "reference_px": 0.698,
+    "azimlib_px": 0.698
+  },
+  {
+    "points": 0.8,
+    "angle": 0,
+    "reference_px": 1.1137,
+    "azimlib_px": 1.1137
+  },
+  {
+    "points": 0.8,
+    "angle": 30,
+    "reference_px": 1.1178,
+    "azimlib_px": 1.1112
+  },
+  {
+    "points": 0.8,
+    "angle": 45,
+    "reference_px": 1.1176,
+    "azimlib_px": 1.112
+  },
+  {
+    "points": 0.8,
+    "angle": 75,
+    "reference_px": 1.1193,
+    "azimlib_px": 1.1112
+  },
+  {
+    "points": 0.8,
+    "angle": 90,
+    "reference_px": 1.1137,
+    "azimlib_px": 1.1137
+  },
+  {
+    "points": 1,
+    "angle": 0,
+    "reference_px": 1.3961,
+    "azimlib_px": 1.3882
+  },
+  {
+    "points": 1,
+    "angle": 30,
+    "reference_px": 1.3985,
+    "azimlib_px": 1.3888
+  },
+  {
+    "points": 1,
+    "angle": 45,
+    "reference_px": 1.4003,
+    "azimlib_px": 1.3893
+  },
+  {
+    "points": 1,
+    "angle": 75,
+    "reference_px": 1.3954,
+    "azimlib_px": 1.3889
+  },
+  {
+    "points": 1,
+    "angle": 90,
+    "reference_px": 1.3961,
+    "azimlib_px": 1.3882
+  },
+  {
+    "points": 1.5,
+    "angle": 0,
+    "reference_px": 2.0863,
+    "azimlib_px": 2.0863
+  },
+  {
+    "points": 1.5,
+    "angle": 30,
+    "reference_px": 2.0916,
+    "azimlib_px": 2.0833
+  },
+  {
+    "points": 1.5,
+    "angle": 45,
+    "reference_px": 2.0937,
+    "azimlib_px": 2.0825
+  },
+  {
+    "points": 1.5,
+    "angle": 75,
+    "reference_px": 2.091,
+    "azimlib_px": 2.0833
+  },
+  {
+    "points": 1.5,
+    "angle": 90,
+    "reference_px": 2.0863,
+    "azimlib_px": 2.0863
+  },
+  {
+    "points": 2,
+    "angle": 0,
+    "reference_px": 2.7843,
+    "azimlib_px": 2.7765
+  },
+  {
+    "points": 2,
+    "angle": 30,
+    "reference_px": 2.7886,
+    "azimlib_px": 2.7778
+  },
+  {
+    "points": 2,
+    "angle": 45,
+    "reference_px": 2.7873,
+    "azimlib_px": 2.7813
+  },
+  {
+    "points": 2,
+    "angle": 75,
+    "reference_px": 2.7866,
+    "azimlib_px": 2.7778
+  },
+  {
+    "points": 2,
+    "angle": 90,
+    "reference_px": 2.7843,
+    "azimlib_px": 2.7765
+  }
+]

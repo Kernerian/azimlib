@@ -1,0 +1,82 @@
+{
+  "passed": true,
+  "url": "https://kernerian.github.io/azimlib/dev/",
+  "version": "0.3.0.dev0",
+  "source_commit": "70eaa65bc9c4777a402b9be5890560cb89a48871",
+  "hosting_commit": "9810a99fc6ea5acaf8b60463392028c20de77355",
+  "privacy": {
+    "files_checked": 389,
+    "pdfs_decoded": 9,
+    "images_metadata_checked": 33,
+    "findings": [],
+    "passed": true
+  },
+  "http_exact_byte_checks": [
+    {
+      "path": "docs/index.html",
+      "status": 200,
+      "sha256": "ffea407228179b8f73cf26cbe634ac78c3edc2095a2196980873e5a77ca06385"
+    },
+    {
+      "path": "docs/migration-0.3.html",
+      "status": 200,
+      "sha256": "49e479d6da0219d26fce27a67a6e13d802996d2db49ba1c514d8216aae3b544f"
+    },
+    {
+      "path": "docs/gallery-0.3.html",
+      "status": 200,
+      "sha256": "a68ef077e92acf8518ce1b22f3b29f0793acc90eccc4749f4f6ecc2acf5f56b4"
+    },
+    {
+      "path": "THIRD_PARTY_LICENSES.html",
+      "status": 200,
+      "sha256": "f977c0897eebde82e31d3f132e8cf1dfffc54da203f1945180a4eb2d7bff1154"
+    },
+    {
+      "path": "LICENSE",
+      "status": 200,
+      "sha256": "244d6eb31c080c053161be86edb361987f098be86c3998575ced704db42a42b7"
+    },
+    {
+      "path": "site.css",
+      "status": 200,
+      "sha256": "640abd9426867d4af25b55cbc61b6ff8d4e05414465c5639868a77823806f710"
+    },
+    {
+      "path": "site.js",
+      "status": 200,
+      "sha256": "e902901a0d2c2d794fcd61afbd3e15ee873f40f3642014c4f51653705fd70743"
+    },
+    {
+      "path": "site-manifest.json",
+      "status": 200,
+      "sha256": "13cdd99bf598549bcc85ad81ef5531f0f63f5c5570e8ead436b87207611000d6"
+    },
+    {
+      "path": "docs/ci-0.2.0.json",
+      "status": 200,
+      "sha256": "24e5ab585dd1dba4a3e4aa10808da0b0bb0019093bf6c6d544521eb22be9bdb6"
+    },
+    {
+      "path": "docs/ci-portability-fix.json",
+      "status": 200,
+      "sha256": "8ce7ba610b19fb55e0daf85f47cfefbaed0e7cddd5c1fd7756ff5c8f1cd358fd"
+    },
+    {
+      "path": "docs/_static/release030/political.svg",
+      "status": 200,
+      "sha256": "2befb68e0511b0cba17911107ef2363093cf1ae697793ccb7b31da6db43db989"
+    },
+    {
+      "path": "docs/_static/release030/scientific.pdf",
+      "status": 200,
+      "sha256": "f1490799ea21c3b1a0f6a5e8bb922af679585ce5da279fdcc865065c84ff5f58"
+    },
+    {
+      "path": "docs/_static/release030/terrain3d.png",
+      "status": 200,
+      "sha256": "eb8bf60c92bbc9d85d664392e610c5898dbbff79450271e02c82f7d5c2830c05"
+    }
+  ],
+  "scope": "Reviewed development documentation hosted via gh-pages, HTTPS responses checked against audited local bytes. Pattern/manual checks are not a guarantee of detecting all unknown secrets. No release or repository visibility change."
+}

@@ -1,0 +1,56 @@
+{
+  "reference": "3.11.2",
+  "dpi": 100,
+  "canvas": [
+    640,
+    440
+  ],
+  "ink": [
+    {
+      "radius": 2.5,
+      "measured_area": 19.6,
+      "expected_area": 19.634954084936208,
+      "relative_error": -0.001780196927632427
+    },
+    {
+      "radius": 4,
+      "measured_area": 50.188235294117646,
+      "expected_area": 50.26548245743669,
+      "relative_error": -0.0015367834852565432
+    },
+    {
+      "radius": 7,
+      "measured_area": 153.69411764705882,
+      "expected_area": 153.93804002589985,
+      "relative_error": -0.0015845490744197388
+    },
+    {
+      "radius": 12,
+      "measured_area": 452.16470588235296,
+      "expected_area": 452.3893421169302,
+      "relative_error": -0.000496555099035012
+    },
+    {
+      "rect": [
+        10.23,
+        12.37,
+        13.2,
+        9.6
+      ],
+      "measured_area": 126.72156862745098,
+      "expected_area": 126.71999999999998,
+      "relative_error": 1.2378688849290498e-05
+    },
+    {
+      "rect": [
+        10.2,
+        12.4,
+        0.8,
+        12.7
+      ],
+      "measured_area": 10.156862745098039,
+      "expected_area": 10.16,
+      "relative_error": -0.00030878493129538054
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "item": "7.08",
+  "status": "accepted",
+  "recorded_at_utc": "2026-10-08T01:01:57Z",
+  "reviewed_commit": "1420e74ea3337f3a74cdc90e6cba9a6707c2152f",
+  "ci_run": "https://github.com/Kernerian/azimlib/actions/runs/37708818971",
+  "generation_jobs": "2/2 successful",
+  "review_kind": "Explicit human visual acceptance by the project maintainer",
+  "accepted_platforms": [
+    "Linux",
+    "macOS"
+  ],
+  "scope": [
+    "PNG/SVG scenes",
+    "Native Tk/Qt window captures",
+    "No blocking visual regression identified"
+  ],
+  "scope_limit": "Still-image visual acceptance; no physical mouse-latency measurement is claimed",
+  "artifacts": [
+    {
+      "name": "azimlib-0.3.0-visual-review-macos",
+      "id": 11520454355,
+      "url": "https://github.com/Kernerian/azimlib/actions/runs/37708818971/artifacts/11520454355",
+      "archive_sha256": "0d8dad9ac2dd32246261137998dd18dfc1a0518f14cebec67d2209003a143ac0",
+      "files": 79,
+      "images": 17,
+      "native_captures": 12
+    },
+    {
+      "name": "azimlib-0.3.0-visual-review-linux",
+      "id": 11520238970,
+      "url": "https://github.com/Kernerian/azimlib/actions/runs/37708818971/artifacts/11520238970",
+      "archive_sha256": "b66fc850133959610519559cc6767921b57802475df6fc99a535ee7e7f3f87b4",
+      "files": 79,
+      "images": 17,
+      "native_captures": 12
+    }
+  ],
+  "integrity_and_privacy_checks": {
+    "zip_crc": true,
+    "file_hashes": true,
+    "reference_hashes": true,
+    "local_index_targets": true,
+    "source_runtime_and_font_hashes": true,
+    "privacy_findings": []
+  },
+  "publication_authorized": false
+}

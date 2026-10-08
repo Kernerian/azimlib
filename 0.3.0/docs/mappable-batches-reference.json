@@ -1,0 +1,405 @@
+{
+  "matplotlib": "3.11.2",
+  "cases": [
+    {
+      "kind": "image",
+      "name": "initial",
+      "array": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        10.0
+      ],
+      "cmap": "viridis",
+      "alpha": null,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "image",
+      "name": "mapping-batch",
+      "array": [
+        10,
+        20,
+        30,
+        40
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        50.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": false,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "image",
+      "name": "norm-replaced",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "image",
+      "name": "palette-assigned",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "image",
+      "name": "default-palette",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        2.0,
+        200.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "mesh",
+      "name": "initial",
+      "array": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        10.0
+      ],
+      "cmap": "viridis",
+      "alpha": null,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "mesh",
+      "name": "mapping-batch",
+      "array": [
+        10,
+        20,
+        30,
+        40
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        50.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": false,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "mesh",
+      "name": "norm-replaced",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "mesh",
+      "name": "palette-assigned",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "mesh",
+      "name": "default-palette",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        2.0,
+        200.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "scatter",
+      "name": "initial",
+      "array": [
+        1.0,
+        2.0,
+        3.0,
+        4.0
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        10.0
+      ],
+      "cmap": "viridis",
+      "alpha": null,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "scatter",
+      "name": "mapping-batch",
+      "array": [
+        10,
+        20,
+        30,
+        40
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        50.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": false,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "scatter",
+      "name": "norm-replaced",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "scatter",
+      "name": "palette-assigned",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "scatter",
+      "name": "default-palette",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        2.0,
+        200.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "vectors",
+      "name": "initial",
+      "array": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        10.0
+      ],
+      "cmap": "viridis",
+      "alpha": null,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "vectors",
+      "name": "mapping-batch",
+      "array": [
+        10,
+        20,
+        30,
+        40
+      ],
+      "norm": "Normalize",
+      "clim": [
+        0.0,
+        50.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": false,
+      "bar_norm_shared": true,
+      "locator_retained": true
+    },
+    {
+      "kind": "vectors",
+      "name": "norm-replaced",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "vectors",
+      "name": "palette-assigned",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        1.0,
+        100.0
+      ],
+      "cmap": "plasma",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    },
+    {
+      "kind": "vectors",
+      "name": "default-palette",
+      "array": [
+        1,
+        5,
+        20,
+        80
+      ],
+      "norm": "LogNorm",
+      "clim": [
+        2.0,
+        200.0
+      ],
+      "cmap": "viridis",
+      "alpha": 0.6,
+      "visible": true,
+      "bar_norm_shared": true,
+      "locator_retained": false
+    }
+  ]
+}

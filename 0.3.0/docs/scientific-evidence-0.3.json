@@ -1,0 +1,70 @@
+{
+  "passed": true,
+  "version": "0.3.0.dev0",
+  "analytic_cases": 503,
+  "max_error": 1.7763568394002505e-15,
+  "inner_ring_area": 12,
+  "exports": [
+    {
+      "file": "scientific-atlas.png",
+      "bytes": 108914,
+      "sha256": "da922fcaa1ee46499af5ebc16f247800fe7494cc2b50d39893d6bbe603f72691"
+    },
+    {
+      "file": "scientific-atlas.svg",
+      "bytes": 1356414,
+      "sha256": "8e6d0ed9aa7f9ba7beb6eacf3b2fa9d87b48adb90dbdafd1d3240730fd2bd0b5"
+    },
+    {
+      "file": "scientific-atlas.html",
+      "bytes": 1431148,
+      "sha256": "5a6a7c5a452059f79ebb2d4b0b10b2a154f385e2f37d14360d56ca3286039be1"
+    },
+    {
+      "file": "color-raster.png",
+      "bytes": 57359,
+      "sha256": "2cfe1a1135a2d437be8c8da0cbb940aeceb6013b6115839714ed0e3acc238f01"
+    },
+    {
+      "file": "color-raster.svg",
+      "bytes": 1389503,
+      "sha256": "36828fc79ce098917dcec7fd75de57844c51b48bf390d0e866d559b21e002a96"
+    },
+    {
+      "file": "color-raster.html",
+      "bytes": 1463026,
+      "sha256": "828cea2f09c8e97744ef6838fa7707b555d259f8ccd9cb874b7c9ea56b115e39"
+    },
+    {
+      "file": "weighted-flows.png",
+      "bytes": 96881,
+      "sha256": "3b775414e6a41f19b6eb7803b207e34a2774226c391a78c9ec3b5db9d16d18b0"
+    },
+    {
+      "file": "weighted-flows.svg",
+      "bytes": 2832150,
+      "sha256": "8f143026783f7e8aa7cea8e6451f8537812c879c12b4390e9cdfb7cb58227e0a"
+    },
+    {
+      "file": "weighted-flows.html",
+      "bytes": 3337897,
+      "sha256": "99c0b66e4bfd5e09a202db50b16e6940d0e0f1a7991a470a95160c5ac3c63cb3"
+    },
+    {
+      "file": "composition-atlas.png",
+      "bytes": 198192,
+      "sha256": "1f8b4855877a5e86194e1bdb7cf32fb4d1eec84ab4278125638f0087bc2d7afd"
+    },
+    {
+      "file": "composition-atlas.svg",
+      "bytes": 4061408,
+      "sha256": "339518f99bf08e3ef7ca87896b3cda7dfa445af9bef7315226072c2b21ecb980"
+    },
+    {
+      "file": "composition-atlas.html",
+      "bytes": 4132819,
+      "sha256": "3ed84b358788f2701351224abd0e07a34d28915eb4b09aa4309465214467f6d7"
+    }
+  ],
+  "scope": "Installed own analytic plane/mass/interpolation fixtures and structural PNG/SVG/HTML exports; visual PNG previews inspected. Not an external oracle, benchmark at maximum limits, human desktop approval or new remote CI."
+}

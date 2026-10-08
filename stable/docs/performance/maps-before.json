@@ -1,0 +1,264 @@
+{
+  "schema_version": 1,
+  "azimlib_version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "repeats": 2,
+  "seed": 123,
+  "points": 1500,
+  "notes": [
+    "Measurements are local; no latency or speed guarantee.",
+    "Library/data/font caches remain in-process; setup is not an independent cold-start benchmark.",
+    "PNG includes rasterization and in-memory PNG encoding; SVG includes string serialization.",
+    "zoom_recompose excludes desktop event handling, painting and browser navigation.",
+    "Python memory peak excludes native buffers and is measured separately from timing."
+  ],
+  "cases": [
+    {
+      "name": "state",
+      "dpi": 100,
+      "figsize": [
+        6.4,
+        4.8
+      ],
+      "pixels": [
+        640,
+        480
+      ],
+      "setup_seconds": 0.16859589999876334,
+      "cold_composition_seconds": 0.4486023999997997,
+      "composition": {
+        "samples_seconds": [
+          0.36130840000078024,
+          0.38775820000046224
+        ],
+        "median_seconds": 0.37453330000062124,
+        "min_seconds": 0.36130840000078024,
+        "max_seconds": 0.38775820000046224
+      },
+      "svg": {
+        "samples_seconds": [
+          0.0561706000007689,
+          0.05588569999963511
+        ],
+        "median_seconds": 0.056028150000202004,
+        "min_seconds": 0.05588569999963511,
+        "max_seconds": 0.0561706000007689
+      },
+      "png": {
+        "samples_seconds": [
+          1.794989899999564,
+          1.7373686999999336
+        ],
+        "median_seconds": 1.7661792999997488,
+        "min_seconds": 1.7373686999999336,
+        "max_seconds": 1.794989899999564
+      },
+      "zoom_recompose": {
+        "samples_seconds": [
+          0.34926310000082594,
+          0.34887930000149936
+        ],
+        "median_seconds": 0.34907120000116265,
+        "min_seconds": 0.34887930000149936,
+        "max_seconds": 0.34926310000082594
+      },
+      "python_composition_peak_bytes": 4746992,
+      "items": 137,
+      "primitive_types": {
+        "Rect": 3,
+        "Path": 111,
+        "Text": 23
+      },
+      "path_vertices": 37087,
+      "svg_bytes": 2817062,
+      "png_bytes": 56502,
+      "png_sha256": "ced87b9dbd78b2bad6ca85e47adf72a4beaeb34ca244b483c881f75df5b616cd"
+    },
+    {
+      "name": "brazil",
+      "dpi": 100,
+      "figsize": [
+        6.4,
+        4.8
+      ],
+      "pixels": [
+        640,
+        480
+      ],
+      "setup_seconds": 0.31125040000006265,
+      "cold_composition_seconds": 0.6425239999989572,
+      "composition": {
+        "samples_seconds": [
+          0.6093854000009742,
+          0.6114283999995678
+        ],
+        "median_seconds": 0.610406900000271,
+        "min_seconds": 0.6093854000009742,
+        "max_seconds": 0.6114283999995678
+      },
+      "svg": {
+        "samples_seconds": [
+          0.08551810000062687,
+          0.093926300000021
+        ],
+        "median_seconds": 0.08972220000032394,
+        "min_seconds": 0.08551810000062687,
+        "max_seconds": 0.093926300000021
+      },
+      "png": {
+        "samples_seconds": [
+          5.989283800001431,
+          6.434339200000977
+        ],
+        "median_seconds": 6.211811500001204,
+        "min_seconds": 5.989283800001431,
+        "max_seconds": 6.434339200000977
+      },
+      "zoom_recompose": {
+        "samples_seconds": [
+          0.6163047000009101,
+          0.5648032000008243
+        ],
+        "median_seconds": 0.5905539500008672,
+        "min_seconds": 0.5648032000008243,
+        "max_seconds": 0.6163047000009101
+      },
+      "python_composition_peak_bytes": 7624918,
+      "items": 568,
+      "primitive_types": {
+        "Rect": 3,
+        "Path": 539,
+        "Text": 26
+      },
+      "path_vertices": 61591,
+      "svg_bytes": 3417235,
+      "png_bytes": 95258,
+      "png_sha256": "c3508542ee87e8deb80edd42730aaaf001b2af4c1b896ca6a5534db1746fa291"
+    },
+    {
+      "name": "atlas",
+      "dpi": 100,
+      "figsize": [
+        12.0,
+        8.0
+      ],
+      "pixels": [
+        1200,
+        800
+      ],
+      "setup_seconds": 0.5056004999987636,
+      "cold_composition_seconds": 1.5211341999984143,
+      "composition": {
+        "samples_seconds": [
+          1.5421704000000318,
+          1.447342800000115
+        ],
+        "median_seconds": 1.4947566000000734,
+        "min_seconds": 1.447342800000115,
+        "max_seconds": 1.5421704000000318
+      },
+      "svg": {
+        "samples_seconds": [
+          0.15902620000088064,
+          0.1574062000017875
+        ],
+        "median_seconds": 0.15821620000133407,
+        "min_seconds": 0.1574062000017875,
+        "max_seconds": 0.15902620000088064
+      },
+      "png": {
+        "samples_seconds": [
+          8.729868999998871,
+          8.517566100001204
+        ],
+        "median_seconds": 8.623717550000038,
+        "min_seconds": 8.517566100001204,
+        "max_seconds": 8.729868999998871
+      },
+      "zoom_recompose": {
+        "samples_seconds": [
+          1.2524630999996589,
+          1.287711599999966
+        ],
+        "median_seconds": 1.2700873499998124,
+        "min_seconds": 1.2524630999996589,
+        "max_seconds": 1.287711599999966
+      },
+      "python_composition_peak_bytes": 14974287,
+      "items": 656,
+      "primitive_types": {
+        "Rect": 264,
+        "Path": 335,
+        "Text": 57
+      },
+      "path_vertices": 119875,
+      "svg_bytes": 4729373,
+      "png_bytes": 158063,
+      "png_sha256": "8f9af81fb924967db2ed7a80a619e85d2be4d451af637a0a812af31b2b7c3c56"
+    },
+    {
+      "name": "points",
+      "dpi": 100,
+      "figsize": [
+        6.4,
+        4.8
+      ],
+      "pixels": [
+        640,
+        480
+      ],
+      "setup_seconds": 0.14278569999987667,
+      "cold_composition_seconds": 0.39540739999938523,
+      "composition": {
+        "samples_seconds": [
+          0.39416950000122597,
+          0.39866970000002766
+        ],
+        "median_seconds": 0.3964196000006268,
+        "min_seconds": 0.39416950000122597,
+        "max_seconds": 0.39866970000002766
+      },
+      "svg": {
+        "samples_seconds": [
+          0.06281959999978426,
+          0.06091360000027635
+        ],
+        "median_seconds": 0.0618666000000303,
+        "min_seconds": 0.06091360000027635,
+        "max_seconds": 0.06281959999978426
+      },
+      "png": {
+        "samples_seconds": [
+          2.3534727999995084,
+          2.3036166000001685
+        ],
+        "median_seconds": 2.3285446999998385,
+        "min_seconds": 2.3036166000001685,
+        "max_seconds": 2.3534727999995084
+      },
+      "zoom_recompose": {
+        "samples_seconds": [
+          0.364634899999146,
+          0.36618470000030356
+        ],
+        "median_seconds": 0.3654097999997248,
+        "min_seconds": 0.364634899999146,
+        "max_seconds": 0.36618470000030356
+      },
+      "python_composition_peak_bytes": 5098908,
+      "items": 1619,
+      "primitive_types": {
+        "Rect": 1,
+        "Path": 101,
+        "Circle": 1500,
+        "Text": 17
+      },
+      "path_vertices": 35230,
+      "svg_bytes": 2178307,
+      "png_bytes": 125032,
+      "png_sha256": "700168d826da88297861fb17c185914dee4d1dcdae883d629f955e640eace509"
+    }
+  ]
+}
