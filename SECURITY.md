@@ -3,13 +3,14 @@
 ## Supported Versions
 
 Security maintenance currently covers the latest patch release in the Azimlib
-0.2 series. Reports affecting that series are accepted for triage; users should
+0.3 series. Reports affecting that series are accepted for triage; users should
 upgrade to the latest available patch. Older versions do not receive maintained
 security fixes.
 
 | Version | Supported |
 | --- | --- |
-| 0.2.x | ✅ |
+| 0.3.x | ✅ |
+| 0.2.x | ❌ |
 | < 0.2.0 | ❌ |
 
 These are **Azimlib versions**, not Python versions. The published package

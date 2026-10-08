@@ -1,6 +1,23 @@
 name: publish
 on:
   workflow_dispatch:
+    inputs:
+      build_run_id:
+        description: Successful final distribution build run at current main SHA
+        required: true
+        type: string
+      artifact_id:
+        description: Exact final distribution artifact ID
+        required: true
+        type: string
+      wheel_sha256:
+        description: Audited final wheel SHA-256
+        required: true
+        type: string
+      sdist_sha256:
+        description: Audited final sdist SHA-256
+        required: true
+        type: string
 permissions:
   contents: read
 concurrency:
@@ -29,7 +46,21 @@ jobs:
       - run: python -I tools/check_release_candidate.py
       - run: python -I tools/audit_licenses.py --report .ci-results/licenses.json
       - run: python -I tools/audit_publication_privacy.py --report .ci-results/privacy-source.json
-      - run: python -m build
+      - name: Retrieve the exact final audited distribution bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_REPOSITORY: ${{ github.repository }}
+          RELEASE_SHA: ${{ github.sha }}
+          BUILD_RUN_ID: ${{ inputs.build_run_id }}
+          ARTIFACT_ID: ${{ inputs.artifact_id }}
+          WHEEL_SHA256: ${{ inputs.wheel_sha256 }}
+          SDIST_SHA256: ${{ inputs.sdist_sha256 }}
+        run: >-
+          python -I tools/fetch_release_artifact.py
+          --repository "$RELEASE_REPOSITORY" --sha "$RELEASE_SHA"
+          --run-id "$BUILD_RUN_ID" --artifact-id "$ARTIFACT_ID"
+          --wheel-sha256 "$WHEEL_SHA256" --sdist-sha256 "$SDIST_SHA256"
+          --output dist
       - run: python -m twine check --strict dist/*
       - run: python -I tools/audit_distribution.py --wheel dist/*.whl --sdist dist/*.tar.gz --output .ci-results/distribution.json
       - run: python -I tools/audit_publication_privacy.py --archive dist/*.whl --archive dist/*.tar.gz --report .ci-results/privacy-archives.json

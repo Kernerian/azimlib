@@ -1,9 +1,9 @@
 # Progresso da Azimlib 0.3.0
 
-Status: **candidato 0.3.0 em preparação, não publicado**. A versão estável publicada é 0.2.0.
+Status: **0.3.0 com aceite final concluído; publicação sujeita aos gates do commit exato**. A disponibilidade dos arquivos é verificada no PyPI após o upload.
 Esta é a checklist operacional única; os IDs são estáveis. O [registro da 0.2.0](release-progress.md) permanece separado.
 
-**79 concluídos / 1 pendente**. Contagem por subpassos, não por frentes amplas.
+**80 concluídos / 0 pendentes**. Contagem por subpassos, não por frentes amplas.
 
 ## Regras de conclusão
 
@@ -133,7 +133,7 @@ A numeração não impede corrigir uma regressão imediatamente.
 - [x] **10.05** CI completa nos sistemas/Pythons suportados, incluindo novos readers e backends opcionais.
 - [x] **10.06** Baselines visuais/numericamente verificáveis e gates de desempenho reproduzíveis.
 - [x] **10.07** Atualizar versão/metadata, reconstruir wheel/sdist e testar instalação isolada/imports.
-- [ ] **10.08** Aceite final da 0.3.0 após gates; publicação depende de confirmação explícita e permanece bloqueada.
+- [x] **10.08** Aceite final da 0.3.0 após gates; publicação depende de confirmação explícita e permanece bloqueada.
 
 ## Evidências por lote
 
@@ -696,3 +696,19 @@ transforma o pacote publicado `0.2.0` em uma nova versão.
 **Resta somente 10.08:** resumo final, CI do commit candidato, wheel/sdist
 verificados e autorização final. Nenhuma tag, alteração de main, GitHub Release
 ou upload PyPI está autorizado pelo aceite visual.
+
+
+### Aceite final 10.08 — release 0.3.0
+
+**80/80 concluídos.** [Registro técnico](release-acceptance-0.3.json): aceite
+humano final e autorização explícita de publicação em 2026-10-08 UTC.
+O candidato revisado foi `c85e935661c627c0a3a3e240904cf689c362b76f`, com
+[CI 28/28](https://github.com/Kernerian/azimlib/actions/runs/37712126845)
+e [build auditado](https://github.com/Kernerian/azimlib/actions/runs/37712126951).
+Os hashes desse candidato identificam somente aquela revisão. O estado final
+será reconstruído, auditado e identificado por novos hashes antes de promover
+main; tag/release/upload dependem da CI completa do commit exato em main.
+Os mesmos bytes auditados serão entregues na GitHub Release e no PyPI.
+Uma falha interrompe o fluxo antes da próxima ação externa; nenhum gate é
+automaticamente contornado. A documentação pública tem validação de links,
+conteúdo e privacidade própria antes do deploy.

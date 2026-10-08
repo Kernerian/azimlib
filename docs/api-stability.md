@@ -1,8 +1,8 @@
 # API stability and version policy
 
-The published release is **0.2.0**. This branch prepares **0.3.0**, an unpublished release candidate.
-A candidate version is not an instruction to publish. [Release gates](release-progress-0.3.md)
-are tracked separately from implementation milestones.
+This policy covers **0.3.0**. Published files are listed on
+[PyPI](https://pypi.org/project/azimlib/). [Release gates](release-progress-0.3.md)
+are tracked separately from implementation milestones and publication results.
 
 Azimlib follows a documented pre-1.0 policy: patch releases preserve supported
 public signatures/semantics except necessary security fixes; minor releases may

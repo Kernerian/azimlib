@@ -1,7 +1,7 @@
 # Azimlib documentation
 
-**Independent cartography in Python.** The stable published package is 0.2.0;
-this documentation checkout includes the **0.3.0 release candidate**, which is not yet published.
+**Independent cartography in Python.** This is the **0.3.0 release documentation**.
+Published files and availability are listed on [PyPI](https://pypi.org/project/azimlib/).
 Each development guide states its scope. [Version policy](api-stability.md).
 
 ![Azimlib wordmark](_static/branding/azimlib-wordmark.png)
@@ -9,7 +9,7 @@ Each development guide states its scope. [Version policy](api-stability.md).
 ## Start here
 
 - [First maps, installs and units](getting-started.md)
-- [Migration to the 0.3 development API](migration-0.3.md)
+- [Migration to the 0.3 API](migration-0.3.md)
 - [Matplotlib-style API compatibility and differences](compatibility.md)
 - [Public signatures](api.md)
 - [Integrated 0.3 gallery](gallery-0.3.md)

@@ -1,7 +1,9 @@
 # Azimlib 0.3.0
 
-Status: unpublished release candidate. The current PyPI release remains 0.2.0.
-Final acceptance and publication are separate, explicitly authorized gates.
+Status: final human acceptance recorded; 80/80 release gates complete.
+Publication results and distribution files are available through the
+[GitHub Release](https://github.com/Kernerian/azimlib/releases/tag/v0.3.0) and
+[PyPI](https://pypi.org/project/azimlib/0.3.0/). Availability is verified after upload.
 
 Azimlib 0.3.0 expands the independent cartographic engine into urban,
 scientific, temporal and experimental terrain visualization. Neither the
@@ -59,8 +61,9 @@ remain separately licensed and outside the Python distributions.
 [Human visual acceptance](visual-acceptance-0.3.json) covers Linux/macOS PNG/SVG
 and native Tk/Qt captures at the recorded commit. Final candidate CI and artifact
 hashes belong to the pre-publication review report, not to historical snapshots.
-The [release checklist](release-progress-0.3.md) keeps final acceptance open until
-it is explicitly approved. A successful workflow never constitutes human approval.
+The [release checklist](release-progress-0.3.md) records all 80 items complete;
+[final acceptance](release-acceptance-0.3.json) is recorded separately from the
+publication results. A successful workflow never constitutes human approval.
 
 Original code is BSD 3-Clause, copyright Kernerian. Natural Earth, DejaVu,
 ColorBrewer Blues, CC0 colormaps and wordmark/font credits retain their own terms
@@ -68,15 +71,17 @@ in `LICENSE`, `THIRD_PARTY_LICENSES.md`, `NOTICE_COLORMAPS` and `licenses/`.
 
 ## Publication procedure
 
-Following explicit final authorization, record 10.08 and the approval evidence,
-then rerun the exact-commit release checks. Promote the validated branch by a
+After recording final authorization, rebuild/audit the final distributions and
+record their hashes. Promote the validated branch by a
 fast-forward of `main`, wait for its 28-job CI, create annotated tag `v0.3.0`,
 prepare the GitHub Release with distribution hashes and these notes, and dispatch
 the gated `publish.yml` workflow on `main` for PyPI Trusted Publishing.
-The workflow rechecks current main, complete acceptance, licensing and packaging
-before upload. Verify the published PyPI files against the uploaded bytes.
+The workflow rechecks current main, complete acceptance, exact artifact provenance,
+expected hashes, licensing and packaging before uploading the same audited bytes.
+Verify the published PyPI files against the uploaded bytes and install directly
+from PyPI in a clean environment. Any failed gate stops the publication sequence.
 
-The current candidate hashes identify the reviewed pre-approval snapshot.
+The earlier candidate hashes identify the reviewed pre-approval snapshot.
 Recording final acceptance changes source documentation and therefore requires
 rebuilding/auditing the sdist and recording its final hash; a wheel is also
 rebuilt and rechecked. Candidate hashes are not silently relabelled as hashes

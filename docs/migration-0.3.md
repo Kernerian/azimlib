@@ -1,7 +1,7 @@
-# Moving to Azimlib 0.3 development
+# Moving to Azimlib 0.3
 
-This guide describes the **unpublished 0.3.0 candidate**. Install a reviewed source checkout
-or its locally built wheel; `pip install azimlib` still installs stable 0.2.0.
+This guide describes **Azimlib 0.3.0**. To install the release when available on
+[PyPI](https://pypi.org/project/azimlib/), use `pip install "azimlib==0.3.0"`.
 See [API stability](api-stability.md) and [precise compatibility](compatibility.md).
 
 ## Familiar figure and Artist workflow
