@@ -1,4 +1,4 @@
-"""Explicit, hash-pinned Unicode 15.1 conformance; no bundled test datasets.
+"""Hash-pinned Unicode conformance; no bundled test datasets.
 
 Checks levels AND visual order, without excluding failing cases. The only
 omitted positions are X9 controls marked x by the official test format.
@@ -18,18 +18,46 @@ FIXTURES={
     'BidiTest.txt':('BidiTest.txt',7959974,'23413900dddcd2a246440f1f0cf27a3e1e62b3d0aebfa8f44ce241f5950fe956'),
     'GraphemeBreakTest.txt':('auxiliary/GraphemeBreakTest.txt',188211,'ed9c5e92fd0911ccbeeb63c97cb19c519ea272ff1112ce843abd991582dd848f'),
 }
+GRAPHEMES={
+    '15.0.0':(83691,'0d2080d0def294a4b7660801cc03ddfe5866ff300c789c2cc1b50fd7802b2d97'),
+    '15.1.0':(188211,'ed9c5e92fd0911ccbeeb63c97cb19c519ea272ff1112ce843abd991582dd848f'),
+    '16.0.0':(171927,'ee2b9354d270ac061b29f09662cafea06341d77e704b8cc6bd72aaeeda363cb5'),
+    '17.0.0':(126570,'e2d134d2c52919bace503ebb6a551c1855fe1a1faec18478c78fff254a1793ec'),
+}
+
+
+def fixture_contract(property_version):
+    """Select before testing, by ICU's declared data version, never by results.
+
+    The independent UAX #9 implementation retains the complete 15.1 suite.
+    ICU grapheme rules/properties are versioned together by UAX #29; testing
+    Unicode 17 rules against 15.1 boundaries misclassifies normative changes.
+    Unknown versions fail closed until an official suite is pinned explicitly.
+    """
+    version='.'.join(property_version.split('.')[:3])
+    if version not in GRAPHEMES:raise ValueError('Unpinned Unicode grapheme data version: '+version)
+    specs={name:('15.1.0',*value) for name,value in FIXTURES.items()}
+    specs['GraphemeBreakTest.txt']=(version,'auxiliary/GraphemeBreakTest.txt',*GRAPHEMES[version])
+    return specs
+
+
+def installed_contract():
+    sys.path.insert(0,str(ROOT/'src'))
+    from azimlib._unicode_icu import unicode_data_version
+    return fixture_contract(unicode_data_version())
 
 
 def acquire(directory):
+    specs=installed_contract()
     directory=Path(directory)
     if directory.exists():raise FileExistsError('Unicode acquisition requires a new destination')
     directory.parent.mkdir(parents=True,exist_ok=True)
-    if shutil.disk_usage(directory.parent).free-sum(v[1] for v in FIXTURES.values())<15*1024**3:
+    if shutil.disk_usage(directory.parent).free-sum(v[2] for v in specs.values())<15*1024**3:
         raise OSError('Unicode fixtures would violate the 15 GiB reserve')
     with tempfile.TemporaryDirectory(prefix='azimlib-unicode-',dir=directory.parent) as folder:
         temporary=Path(folder)
-        for name,(relative,size,sha) in FIXTURES.items():
-            with urllib.request.urlopen('https://www.unicode.org/Public/15.1.0/ucd/'+relative,timeout=60) as response:
+        for name,(version,relative,size,sha) in specs.items():
+            with urllib.request.urlopen('https://www.unicode.org/Public/'+version+'/ucd/'+relative,timeout=60) as response:
                 raw=response.read(size+1)
             if len(raw)!=size or hashlib.sha256(raw).hexdigest()!=sha:raise ValueError('Unicode fixture size/hash mismatch')
             (temporary/name).write_bytes(raw)
@@ -41,9 +69,10 @@ def validate(directory):
     sys.path.insert(0,str(ROOT/'src'))
     from azimlib._bidi import resolved_levels,visual_runs,properties
     from azimlib._unicode_icu import graphemes,unicode_version,unicode_data_version
+    specs=fixture_contract(unicode_data_version())
     results=[]
     def lines(name):
-        relative,size,sha=FIXTURES[name];raw=(Path(directory)/name).read_bytes()
+        version,relative,size,sha=specs[name];raw=(Path(directory)/name).read_bytes()
         if len(raw)!=size or hashlib.sha256(raw).hexdigest()!=sha:raise ValueError('Unicode fixture differs from pinned data')
         for line in raw.decode('utf8').splitlines():
             line=line.split('#',1)[0].strip()
@@ -56,9 +85,9 @@ def validate(directory):
                 and all(v=='x' or int(v)==a for v,a in zip(expected_levels,levels)))
         return passed,base
     def record(name,count,errors):
-        relative,size,sha=FIXTURES[name]
+        version,relative,size,sha=specs[name]
         results.append(dict(file=name,cases=count,failures=len(errors),examples=errors[:10],
-                            source='https://www.unicode.org/Public/15.1.0/ucd/'+relative,bytes=size,sha256=sha))
+                            unicode_version=version,source='https://www.unicode.org/Public/'+version+'/ucd/'+relative,bytes=size,sha256=sha))
     errors=[];count=0
     for line in lines('BidiCharacterTest.txt'):
         chars,paragraph,base,levels,order=line.split(';')[:5]
@@ -90,7 +119,7 @@ def validate(directory):
         count+=1
     record('GraphemeBreakTest.txt',count,errors)
     return dict(passed=not any(r['failures'] for r in results),resolver='Azimlib UAX #9 r51',
-                fixture_unicode_version='15.1.0',ICU=unicode_version(),property_unicode_version=unicode_data_version(),results=results,
+                fixture_unicode_version='15.1.0 (bidi); installed data version (graphemes)',ICU=unicode_version(),property_unicode_version=unicode_data_version(),results=results,
                 scope='Pinned official levels, order and grapheme tests; not a proof for every future Unicode property version or visual acceptance')
 
 

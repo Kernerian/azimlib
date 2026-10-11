@@ -33,6 +33,8 @@ jobs:
       - run: python -I tools/acquire_text_fonts.py --output .text-fonts
       - name: Official Unicode levels, ordering and graphemes
         run: python -I tools/validate_unicode_text.py --data .unicode-tests --acquire --output unicode-conformance.json
+      - name: Unicode version contract
+        run: python -m unittest discover -s tests -p test_unicode_fixture_contract_040.py -v
       - name: Shaping and font contracts
         env:
           AZIMLIB_TEXT_FONTS: ${{ github.workspace }}/.text-fonts
