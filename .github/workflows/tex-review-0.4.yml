@@ -34,6 +34,17 @@ jobs:
       - name: Explicit separate native tool installation
         run: conda install -y tectonic=0.17.0 poppler=26.07.0
       - run: python -m pip install '.[tex,png]'
+      - name: Active cache monitoring contracts
+        run: python -m unittest discover -s tests -p test_tex_cache_monitor_040.py -v
+      - name: Isolated installation without typography extras
+        shell: python
+        run: |
+          import pathlib, subprocess, sys
+          subprocess.run([sys.executable,'-m','venv','--without-pip','.tex-core'],check=True)
+          root=pathlib.Path.cwd()
+          executable=root/'.tex-core'/('Scripts/python.exe' if sys.platform=='win32' else 'bin/python')
+          program="import sys,importlib.util;sys.path.insert(0,"+repr(str(root/'src'))+");import azimlib as azl;assert all(importlib.util.find_spec(n) is None for n in ('psutil','fontTools','PIL'));fig,ax=azl.subplots();ax.line([(0,0),(1,1)]);assert '<svg' in fig.to_svg();assert not azl.renderers.get_capabilities('svg').full_tex;azl.close('all')"
+          subprocess.run([str(executable),'-I','-c',program],check=True)
       - name: Explicit bounded resource acquisition
         run: python -I tools/prepare_tex_cache.py --engine tectonic --converter pdftocairo --cache .tex-cache --report acquisition.json --acquire
       - name: Real engine contracts

@@ -9,7 +9,21 @@ import subprocess
 import time
 
 
-def tree_bytes(directory, limit):
+def tree_bytes(directory, limit, *, acquiring=False):
+    """Count a stable scan, retrying only vanished acquisition cache entries.
+
+    Tectonic atomically renames its download temporaries. A missing filename
+    between walk and stat is not a missing executable. Retry the *whole* scan
+    at most three times; never ignore symlinks, oversized files, permission
+    errors or a persistently unstable directory. Offline snapshots stay strict.
+    """
+    for attempt in range(3 if acquiring else 1):
+        try:return _tree_bytes_once(directory,limit)
+        except FileNotFoundError:
+            if not acquiring or attempt==2:raise
+
+
+def _tree_bytes_once(directory, limit):
     total = 0
     count = 0
     for base, folders, names in os.walk(directory, followlinks=False):
@@ -73,7 +87,7 @@ def run_tool(command, directory, config, log_name, *, acquire=False):
                 if acquire:
                     phase = 'acquisition-cache-monitor'
                     import shutil
-                    try: peak_cache=max(peak_cache,tree_bytes(config.cache_dir,config.max_cache_bytes))
+                    try: peak_cache=max(peak_cache,tree_bytes(config.cache_dir,config.max_cache_bytes,acquiring=True))
                     except ValueError as exc: raise TexResourceError(str(exc)) from None
                     if shutil.disk_usage(config.cache_dir).free<15*1024**3:
                         raise TexResourceError('TeX acquisition must preserve 15 GiB free')
