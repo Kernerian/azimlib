@@ -48,12 +48,7 @@ jobs:
       - name: Explicit bounded resource acquisition
         run: python -I tools/prepare_tex_cache.py --engine tectonic --converter pdftocairo --cache .tex-cache --report acquisition.json --acquire
       - name: Real engine contracts
-        shell: python
-        run: |
-          import os, pathlib, shutil, subprocess, sys
-          env=os.environ.copy()
-          env.update(AZIMLIB_TEX_ENGINE=shutil.which('tectonic'), AZIMLIB_TEX_CONVERTER=shutil.which('pdftocairo'), AZIMLIB_TEX_CACHE=str(pathlib.Path('.tex-cache').resolve()))
-          subprocess.run([sys.executable,'-m','unittest','discover','-s','tests','-p','test_tex_040.py','-v'],env=env,check=True)
+        run: python -I tools/run_real_tex_tests.py --cache .tex-cache
       - name: Offline export packet
         run: python -I tools/validate_tex.py --engine tectonic --converter pdftocairo --cache .tex-cache --output tex-review
       - run: python -I tools/audit_licenses.py --report tex-review/licenses.json
