@@ -205,7 +205,7 @@ class VolumeGpu(unittest.TestCase):
         fig=azl.figure(figsize=(2,2));ax=fig.add_subplot(111,projection='3d');ax.plot_volume(field());worker=NavigationProcess(renderer='gpu',gpu_config=self.renderer.config)
         try:
             image=worker.render(fig.to_scene());self.assertEqual(image.size,(200,200));image.close();self.assertEqual(worker.backend_info['renderer'],'gpu')
-            out=io.BytesIO();fig.savefig(out,format='png',renderer='gpu');self.assertTrue(out.getvalue().startswith(b'\x89PNG'))
+            out=io.BytesIO();fig.savefig(out,format='png',renderer='gpu',gpu_config=self.renderer.config);self.assertTrue(out.getvalue().startswith(b'\x89PNG'))
         finally:worker.close()
 
 
