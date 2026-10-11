@@ -46,6 +46,7 @@ def run_tool(command, directory, config, log_name, *, acquire=False):
     process = None
     peak_ram = peak_disk = peak_cache = 0
     known = {}
+    phase = 'process-start'
     try:
         with (directory/log_name).open('wb') as log:
             process = subprocess.Popen(command, cwd=directory, env=env,
@@ -53,6 +54,7 @@ def run_tool(command, directory, config, log_name, *, acquire=False):
                 shell=False, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
             parent = psutil.Process(process.pid)
             while True:
+                phase = 'process-monitor'
                 elapsed = time.monotonic()-start
                 try:
                     children = parent.children(recursive=True)
@@ -63,11 +65,13 @@ def run_tool(command, directory, config, log_name, *, acquire=False):
                 except (psutil.NoSuchProcess, psutil.AccessDenied):
                     ram = 0
                 try:
+                    phase = 'temporary-storage-monitor'
                     disk = tree_bytes(directory, config.max_temp_bytes)
                 except ValueError as exc:
                     raise TexResourceError(str(exc)) from None
                 peak_disk = max(peak_disk, disk)
                 if acquire:
+                    phase = 'acquisition-cache-monitor'
                     import shutil
                     try: peak_cache=max(peak_cache,tree_bytes(config.cache_dir,config.max_cache_bytes))
                     except ValueError as exc: raise TexResourceError(str(exc)) from None
@@ -87,8 +91,11 @@ def run_tool(command, directory, config, log_name, *, acquire=False):
                            '); check syntax, installed packages and font resources')
         return dict(seconds=time.monotonic()-start, peak_ram_bytes=peak_ram,
                     peak_temp_bytes=peak_disk, peak_cache_bytes=peak_cache)
-    except OSError:
-        raise TexError('Cannot start the configured TeX tool; check executable and dependent libraries') from None
+    except OSError as exc:
+        # Exception filenames and compiler output may contain private paths.
+        # The operation and numeric errno distinguish startup from monitoring.
+        raise TexError('TeX system failure during '+phase+' ('+type(exc).__name__+
+                       ', errno='+str(exc.errno)+'); check configured tools and storage') from None
     finally:
         if process is not None:
             # Do not leave runaway descendants after timeout, an exception, or
