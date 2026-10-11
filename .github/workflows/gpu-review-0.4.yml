@@ -1,0 +1,62 @@
+name: gpu-review-0.4
+on:
+  workflow_dispatch:
+  push:
+    branches: [validation/0.4-gpu]
+permissions:
+  contents: read
+jobs:
+  without-gpu:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[png]'
+      - name: Contracts and explicit CPU fallback without graphics packages
+        run: python -m unittest discover -s tests -p test_gpu_040.py -v
+      - name: Volume contracts without graphics packages or NumPy
+        run: python -m unittest discover -s tests -p test_volume_040.py -v
+      - name: Preparation contracts without NumPy
+        run: python -m unittest discover -s tests -p test_gpu_preparation_040.py -v
+      - run: python -m pip install numpy
+      - name: Optional bulk arithmetic without a graphics context
+        run: python -m unittest discover -s tests -p test_gpu_preparation_040.py -v
+      - run: python -I tools/audit_licenses.py
+      - run: python -I tools/audit_publication_privacy.py
+  mesa-reference:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      AZIMLIB_GPU_TEST: '1'
+      AZIMLIB_GPU_CONTEXT: egl
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1-mesa-dri
+      - run: python -m pip install '.[gpu]' numpy
+      - run: python -m unittest discover -s tests -p test_gpu_040.py -v
+      - run: python -m unittest discover -s tests -p test_gpu_preparation_040.py -v
+      - run: python -m unittest discover -s tests -p test_volume_040.py -v
+      - run: python -I tools/validate_gpu.py --context egl --output gpu-review
+      - run: python -I tools/validate_volume.py --context egl --gpu --output volume-review
+      - run: python -I tools/audit_licenses.py --report gpu-review/licenses.json
+      - run: python -I tools/audit_publication_privacy.py --report gpu-review/privacy.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: azimlib-0.4-gpu-mesa-software-reference
+          path: gpu-review/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        with:
+          name: azimlib-0.4-volume-mesa-software-reference
+          path: volume-review/
+          retention-days: 30

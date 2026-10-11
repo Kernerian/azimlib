@@ -172,7 +172,38 @@ and the complete performance/portability gate. Reduce scene composition and
 changed-zoom preparation before claiming fluent GPU interaction; revisit this
 gate before final release. No release/tag/upload is produced by these tools.
 
-## Licensing
+## Follow-up profiling of gate 9.08
+
+[Detailed measurements](gpu-profile-0.4.json) retain the original 33 ms frame
+and 100 ms interaction targets. The fixed map workload uses 24 frames per
+warm/pan/resume/zoom phase, with an independent cold frame. On the identified
+RTX 2060 / NVIDIA 617.42, baseline median pan/zoom were 197/761 ms; the final
+timing-only run measured 69/160 ms. These are sequential scene-to-image
+measurements, not a claim about display FPS.
+
+Profiling identified repeated best-legend collision tests and scalar stroke
+mesh construction. Candidate indexing/bulk collision arithmetic retain exact
+inclusive tests and original tie ordering. Optional NumPy bulk stroke
+arithmetic emits the same quads/circle fans; NumPy absence retains the scalar
+path. Widths, joins, caps, dash rules, supersampling and resource budgets were
+not reduced. CPU/GPU mean channel error remains approximately 1.2/255; this
+does not imply pixel-identical edges.
+
+`python -I tools/profile_gpu_pipeline.py --output NEW_DIRECTORY` reproduces
+the fixed workload. A separate `--diagnostic` run records CPU composition,
+mesh/key preparation and packing, driver buffer submission, GPU draw-command
+timer sums, completion wait/readback and sampled RSS. Synchronous GPU query
+retrieval changes scheduling; its timings must not be used as normal frame
+performance. Draw queries exclude uploads/clears, and buffer submission time
+does not isolate PCIe transfer bandwidth.
+
+Tk/Qt synthetic native event-to-toolkit-paint measurements, first show,
+initial pan, resume, zoom and RSS are recorded separately. Neither toolkit
+consistently met 100 ms; the 33 ms frame goal also remains unmet. Physical
+input-to-photon latency, compositor scanout and driver VRAM are unmeasured.
+**9.08 remains pending.** Performance gains do not waive the gate.
+
+## Dependency notices
 
 [Dependency inventory](gpu-dependencies-0.4.json),
 [third-party notices](../THIRD_PARTY_LICENSES.md),

@@ -174,7 +174,9 @@ def layout(legend,vp):
     loc=legend['loc']
     if loc=='best':
         dataitems=obstacles(legend.axes,vp)
-        loc=min((LOCATIONS[i] for i in range(1,11)),key=lambda l:score((*place(reference,l,width,height,border),width,height),dataitems))
+        from ._legend_index import LegendIndex
+        index=LegendIndex(dataitems)
+        loc=min((LOCATIONS[i] for i in range(1,11)),key=lambda l:index.score((*place(reference,l,width,height,border),width,height)))
     x,y=place(reference,loc,width,height,border)
     return dict(box=(x,y,width,height),columns=columns,pad=pad,gap=gap,colgap=colgap,handle=handle,textgap=textgap,
                 titleheight=titleheight,title=title.text,titlestyle=titlestyle,content=content,loc=loc)

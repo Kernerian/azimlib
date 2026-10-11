@@ -1,5 +1,6 @@
 """Owned bounded screen meshes; no geographic interpretation or foreign tessellator."""
 import math
+from functools import lru_cache
 from array import array
 from dataclasses import dataclass
 from ..scene import Path, Circle, Rect, Text, Raster3D
@@ -27,9 +28,14 @@ def fan(rings, *, signed=False):
     return tuple(output)
 
 
+@lru_cache(maxsize=128)
+def unit_circle(count):
+    return tuple((math.cos(i*2*math.pi/count),math.sin(i*2*math.pi/count)) for i in range(count))
+
+
 def circle(x,y,rx,ry):
     count=max(16,min(2048,math.ceil(math.pi*math.sqrt(max(rx,ry)*8))))
-    return tuple((x+rx*math.cos(i*2*math.pi/count),y+ry*math.sin(i*2*math.pi/count)) for i in range(count))
+    return tuple((x+rx*a,y+ry*b) for a,b in unit_circle(count))
 
 
 class StrokeMesh:
@@ -69,13 +75,18 @@ def drawing(item):
     else:rings=(((item.x,item.y),(item.x+item.width,item.y),(item.x+item.width,item.y+item.height),(item.x,item.y+item.height)),) if item.width and item.height else ()
     result=[]
     def add(vertices,color,rule,opacity):
-        if not vertices or color in (None,'none'):return
+        if not len(vertices) or color in (None,'none'):return
         rgba=to_rgba(color);rgba=(*rgba[:3],rgba[3]*s.get('opacity',1)*opacity)
         if rgba[3]:result.append(Draw(vertices,rgba,rule,item.clip))
     if glyph and s.get('background'):
         from ._shaped_text import _background
         add(fan((_background(item),)),s['background'],0,1)
     def stroke():
+        if not s.get('dash') and s.get('linejoin','round')=='round':
+            from ._gpu_stroke import round_stroke
+            vertices=round_stroke(rings,s.get('stroke_width',1),s.get('linecap','butt'),glyph or not isinstance(item,Path) or item.closed)
+            if vertices is not None:
+                add(vertices,s.get('stroke'),0,s.get('stroke_opacity',1));return
         mesh=StrokeMesh()
         for ring in rings:
             closed=glyph or not isinstance(item,Path) or item.closed
@@ -94,6 +105,11 @@ def drawing(item):
 def packed(vertices):
     """Keep translation out of a float32 VBO; no rounding of physical coordinates."""
     x,y=vertices[0][:2]
+    if hasattr(vertices,'dtype'):
+        import numpy as np
+        values=np.empty(vertices.shape,dtype='f4')
+        np.subtract(vertices[:,0],x,out=values[:,0]);np.subtract(vertices[:,1],y,out=values[:,1]);values[:,2]=vertices[:,2]
+        return values.tobytes(),(float(x),float(y))
     values=array('f',(v for a,b,w in vertices for v in (a-x,b-y,w)))
     return values.tobytes(),(x,y)
 
@@ -123,7 +139,11 @@ class PreparationCache:
         self.misses+=1;value=[];size=0
         for draw in drawing(local):
             raw,origin=packed(draw.vertices)
-            bounds=(min(p[0] for p in draw.vertices),min(p[1] for p in draw.vertices),max(p[0] for p in draw.vertices),max(p[1] for p in draw.vertices))
+            if hasattr(draw.vertices,'dtype'):
+                v=draw.vertices
+                bounds=tuple(map(float,(v[:,0].min(),v[:,1].min(),v[:,0].max(),v[:,1].max())))
+            else:
+                bounds=(min(p[0] for p in draw.vertices),min(p[1] for p in draw.vertices),max(p[0] for p in draw.vertices),max(p[1] for p in draw.vertices))
             value.append((raw,origin,bounds,draw.color,draw.rule,len(draw.vertices)))
             size+=len(raw)+256
         size+=len(repr(key).encode('utf8'));value=tuple(value)
