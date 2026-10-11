@@ -47,7 +47,7 @@ It is evidence of that environment, not a lockfile or a license clearance for
 future binaries. `tools/inventory_dependency_licenses.py` regenerates it without
 publishing home-directory paths.
 
-## Geographic numeric comparison — development only
+## Geographic numeric comparison â€” development only
 
 Stage3 uses an isolated pyproj 3.8.0/GeographicLib 2.1 environment exclusively as
 black-box numerical oracles. Neither package is imported by runtime or required
@@ -99,3 +99,33 @@ The `docs` extra installs markdown-it-py (MIT) and mdurl (MIT) as a generic
 Markdown parser for the original static documentation builder. They are not
 vendored, copied into the HTML, required by map runtime or bundled in wheel/sdist.
 Resolved license files must be preserved if redistributing those packages.
+
+## Optional international text (0.4 source development)
+
+The `text` extra installs uharfbuzz >=0.52,<0.57 (Apache-2.0), fontTools >=4.60,<5
+(MIT) and aggdraw >=1.3.19 (existing PIL/AGG notices). Python's resolver selects a
+fontTools release compatible with the supported Python version. ICU is loaded
+through its public C ABI from the operating system; no native engine is bundled.
+HarfBuzz/ICU/Unicode versions are recorded at shaping/validation time.
+
+The binding, UAX #9 bidi resolver and compositor are original code. ICU supplies character properties/graphemes; its bidi resolver is not used. python-bidi and uniseg were not
+selected as project dependencies and no implementation from them is incorporated.
+Only separately installed generic engines perform typography; geography,
+cartographic labels, composition and rendering remain Azimlib implementations.
+Full notices and exact validation-version hashes are in
+[the text inventory](text-dependencies-0.4.json) and `licenses/`.
+Dependency extras are not a lockfile; binary redistributors must audit the actual
+resolved wheels and their transitive notices. Optional OFL Noto validation fonts
+have a separate hash-pinned acquisition procedure and are excluded from archives.
+See [text coverage, permissions and export policy](international-text-0.4.md).
+
+## Optional GPU (0.4 source development)
+
+The `gpu` extra declares ModernGL >=5.12,<6, glcontext >=3,<4 and Pillow >=10.
+ModernGL and glcontext retain separate MIT copyrights/license texts in
+`licenses/`; Pillow's existing notices remain applicable. The exact locally
+validated versions and license hashes are in
+[the GPU inventory](gpu-dependencies-0.4.json). They are generic low-level
+bindings/context providers; the renderer, GLSL and geometry are original.
+No graphics binary or driver is vendored. Resolved package/driver terms must
+be reviewed when redistributing binaries. [GPU contract](gpu-0.4.md).

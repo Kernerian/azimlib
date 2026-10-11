@@ -105,6 +105,16 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                 _geometry(feature.geometry, style, vp, scene, cull=cull,
                           pixel_padding=pixel_padding,cuts=cuts.get((id(layer),index)))
                 scene._pick_records.append((layer,index,pick_start,len(scene.items)))
+            if getattr(layer,'annotation',None) is not None and getattr(layer,'role',None)=='point':
+                coordinate=layer.annotation_coordinate if hasattr(layer,'annotation_coordinate') else layer.state.subsolar
+                p=vp.project(*coordinate)
+                if p is not None:
+                    labelstyle=text_style({'halo':'white','halo_width':2,'fontsize':9,**layer.annotation_style})
+                    lx,ly=p[0]+8*POINT,p[1]-8*POINT
+                    if 'ha' not in layer.annotation_style and lx+text_width(layer.annotation,labelstyle)>vp.box[0]+vp.box[2]:
+                        labelstyle['anchor']='end';lx=p[0]-8*POINT
+                    if ly-labelstyle['font_size']<vp.box[1]:ly=p[1]+labelstyle['font_size']+4*POINT
+                    _text(scene,lx,ly,layer.annotation,labelstyle,vp.box)
         elif layer.kind in ('path','line_collection'):
             pick_start=len(scene.items)
             _transformed_paths(layer,vp,scene)
@@ -132,6 +142,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     value=layer._array[j*len(row)+i]
                     color=layer.to_color(value)
                     if color in ('none','#00000000'):continue
+                    if hasattr(layer,'_visible_cell') and not layer._visible_cell(vp.projection,lon[i],lon[i+1],lat[j],lat[j+1]):continue
                     style=dict(layer.style,facecolor=color)
                     ring=[(lon[i],lat[j]),(lon[i+1],lat[j]),(lon[i+1],lat[j+1]),(lon[i],lat[j+1]),(lon[i],lat[j])]
                     _polygon([ring],style,vp,scene)

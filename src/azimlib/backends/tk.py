@@ -166,15 +166,20 @@ class FigureWindow:
         path_cache=InteractivePathCache()
         self._pan_tiles=TileCache(max_entries=512);self._pan_warmed=False
         self._pixel_process=None
+        renderer,fallback,config=getattr(figure,'_interactive_renderer',('cpu','raise',None))
         try:import aggdraw
         except ImportError:pass
         else:
             from ._navigation_process import NavigationProcess
-            self._pixel_process=NavigationProcess()
-        self._pan_raster=PanRaster(render_image,
+            self._pixel_process=NavigationProcess(renderer=renderer,gpu_fallback=fallback,gpu_config=config)
+        if renderer=='gpu' and self._pixel_process is None:
+            from ._navigation_process import NavigationProcess
+            self._pixel_process=NavigationProcess(renderer='gpu',gpu_fallback=fallback,gpu_config=config)
+        self._renderer=self._pixel_process.render if renderer=='gpu' else render_image
+        self._pan_raster=PanRaster(self._renderer,
             self._pixel_process.render if self._pixel_process is not None else
                 lambda scene:render_image(scene,_interactive=True,_path_cache=path_cache,_tile_cache=self._pan_tiles),
-            lambda scene,cancel:render_image(scene,_cancel=cancel))
+            (lambda scene,cancel:self._renderer(scene)) if renderer=='gpu' else lambda scene,cancel:render_image(scene,_cancel=cancel))
         self._pan_poll=None;self._async_pan=False;self._pan_generation=0
         self._pan_waiting=False;self._wheel_pending=None
         self._pan_prefetched=False
@@ -235,7 +240,7 @@ class FigureWindow:
             try:key,image=self._raster_cache.lookup(scene)
             except MemoryError:key,image=None,None
             if image is None:
-                image=render_image(scene)
+                image=self._renderer(scene)
                 if key is not None:
                     try:self._raster_cache.store(key,image)
                     except MemoryError:pass  # Retaining an extra frame is optional.

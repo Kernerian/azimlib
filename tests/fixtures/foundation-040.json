@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "license": "BSD-3-Clause",
+  "copyright": "2026 Kernerian",
+  "provenance": "Original analytic fixtures; Decimal 60-digit closed form at 45 degrees. No external dataset or implementation copied.",
+  "constants_source": "https://earth-info.nga.mil/index.php?action=wgs84&dir=wgs84",
+  "geodetic": [
+    {
+      "name": "WGS84 45N 45E 100m analytic",
+      "input": [
+        45,
+        45,
+        100
+      ],
+      "xyz_metres": [
+        3194469.145060574,
+        3194469.145060574,
+        4487419.119544039
+      ]
+    }
+  ]
+}

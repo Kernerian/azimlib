@@ -4,6 +4,10 @@ These APIs belong to `dev/0.3.0`; they are not in the published 0.2.0 package.
 The implementation is Azimlib's own Python code. No PROJ, GeographicLib,
 Matplotlib or other GIS engine is a runtime dependency or backend.
 
+For the 0.4 development additions (versioned catalog, XYZ/height, explicit
+datum/epoch pipelines and spherical LAEA), see the [CRS coverage guide](crs-0.4.md).
+The historical 0.3 contract below does not imply those additions were in 0.3.
+
 ## Models, units and geodesics
 
 ```python

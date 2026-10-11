@@ -90,6 +90,14 @@ def glyph_commands(ring):
 
 def text_commands(item):
     """Yield glyph outlines in screen coordinates, with bundled advances/kerning."""
+    if item.style.get('textengine')=='tex':
+        from .tex import text_commands as tex_commands
+        yield from tex_commands(item)
+        return
+    if item.style.get('textengine')=='harfbuzz':
+        from .text_engine import text_commands as shaped_commands
+        yield from shaped_commands(item)
+        return
     import math
     style=item.style;path=font_path(style)
     if path is None:raise ValueError('PDF vector text requires bundled DejaVu Sans')

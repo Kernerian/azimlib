@@ -1,7 +1,7 @@
 """Experimental physical terrain facade; own meshes, camera and depth raster.
 
-Opaque flat-shaded triangles only. Geographic terrain uses an explicit local
-metric frame; no vertical datum transformation, GPU or external 3D backend.
+Opaque/masked flat-shaded triangles. Geographic terrain uses an explicit local
+metric frame; optional original CPU/GPU painters share these scene primitives.
 """
 import math
 from dataclasses import replace
@@ -9,6 +9,7 @@ from .axes import MapAxes
 from .artist import Artist,artist_mutation
 from .cm import ScalarMappable
 from .terrain3d import Camera,Mesh,LocalFrame,finite,length_unit,cross,normalized,dot,transform_point
+from ._contracts import TERRAIN_MAX_VERTICES,TERRAIN_MAX_TRIANGLES
 from .scene import Raster3D,Rect,Path,Text
 from .styles import text_style
 from .colors import to_rgba
@@ -24,6 +25,7 @@ class SurfaceArtist(ScalarMappable,Artist):
         self.shade=bool(shade);self.light=normalized(tuple(finite(v) for v in light))
         if len(self.light)!=3:raise ValueError('light needs three components')
         self.elevation_reference=str(elevation_reference)
+        self._texture=None;self._uv=None
         used={i for t in mesh.triangles for i in t}
         self.set_array([p[2] if i in used else None for i,p in enumerate(mesh.vertices)])
     def set_array(self,values):
@@ -48,7 +50,22 @@ class SurfaceArtist(ScalarMappable,Artist):
     def remove(self):
         if self.axes is not None:self.axes.layers.remove(self);self.axes._changed()
         self._axes=None;self._bind_parent(None)
-    def faces(self,camera,bounds,aspect,exaggeration):
+    @artist_mutation
+    def set_texture(self,texture,uv=None):
+        if texture is None:self._texture=self._uv=None;return
+        if uv is None:
+            xmin,xmax,ymin,ymax,*_=self.mesh.bounds
+            if xmin==xmax or ymin==ymax:raise ValueError('Degenerate planar UV mapping; supply per-vertex UV')
+            uv=tuple(((x-xmin)/(xmax-xmin),1-(y-ymin)/(ymax-ymin)) for x,y,z in self.mesh.vertices)
+        uv=tuple(tuple(p) for p in uv)
+        if len(uv)!=len(self.mesh.vertices):raise ValueError('Texture UV needs one pair per mesh vertex')
+        if any(len(p)!=2 or not all(math.isfinite(float(v)) and 0<=float(v)<=1 for v in p) for p in uv):raise ValueError('Texture UV needs finite normalized pairs, including unused vertices')
+        from ._texture3d import validate_texture
+        texture,faces=validate_texture(texture,tuple(tuple(uv[i] for i in face) for face in self.mesh.triangles),len(self.mesh.triangles))
+        self._texture=texture;self._uv=tuple(tuple(float(v) for v in p) for p in uv)
+    def get_texture(self):return self._texture
+    def get_texture_uv(self):return self._uv
+    def faces(self,camera,bounds,aspect,exaggeration,*,with_uv=False):
         matrix=camera.matrix(bounds,aspect,exaggeration)
         projected=tuple(transform_point(matrix,v) for v in self.mesh.vertices)
         result=[]
@@ -66,7 +83,8 @@ class SurfaceArtist(ScalarMappable,Artist):
                 if not any(n):continue
                 strength=.35+.65*max(0,dot(normalized(n),self.light))
             rgba=tuple(round(v*strength*255) for v in color[:3])+(255,)
-            result.append((tuple(projected[i] for i in face),rgba))
+            value=(tuple(projected[i] for i in face),rgba)
+            result.append((*value,tuple(self._uv[i] for i in face) if self._uv is not None else None) if with_uv else value)
         return result
 
 def surface_mesh(X,Y,Z,horizontal_unit,vertical_unit):
@@ -74,7 +92,7 @@ def surface_mesh(X,Y,Z,horizontal_unit,vertical_unit):
     rows=tuple(tuple(row) for row in Z)
     if len(rows)<2 or len(rows[0])<2 or any(len(row)!=len(rows[0]) for row in rows):raise ValueError('Z must be a rectangular grid of at least 2 by 2')
     nr,nc=len(rows),len(rows[0])
-    if nr*nc>50000 or 2*(nr-1)*(nc-1)>20000:raise ValueError('Terrain mesh budget exceeded; resample explicitly')
+    if nr*nc>TERRAIN_MAX_VERTICES or 2*(nr-1)*(nc-1)>TERRAIN_MAX_TRIANGLES:raise ValueError('Terrain mesh budget exceeded; resample explicitly')
     def coordinates(data,name,axis):
         values=list(data)
         if values and isinstance(values[0],(int,float)) or values and getattr(values[0],'ndim',None)==0:
@@ -135,17 +153,38 @@ class TerrainAxes(MapAxes):
         if self.vertical_exaggeration<=0:raise ValueError('vertical_exaggeration must be positive')
     def get_projection(self):return '3d'
     def _attach(self,artist):
-        if sum(len(a.mesh.triangles) for a in self.layers)+len(artist.mesh.triangles)>20000:raise ValueError('3D axes triangle budget exceeded')
+        if sum(len(a.mesh.triangles) for a in self.layers if hasattr(a,'mesh'))+len(artist.mesh.triangles)>TERRAIN_MAX_TRIANGLES:raise ValueError('3D axes triangle budget exceeded')
         artist._axes=self;artist._bind_parent(self);self.layers.append(artist);self._changed();return artist
-    def plot_surface(self,X,Y,Z,*,horizontal_unit='m',vertical_unit='m',cmap='terrain',norm=None,color=None,shade=True,light=(1,-1,2),elevation_reference='unspecified'):
+    def plot_volume(self,field,*,region=None,**style):
+        from .volume import VolumeField
+        from .volume_artist import VolumeArtist
+        if not isinstance(field,VolumeField):raise TypeError('Require an Azimlib VolumeField')
+        if region is not None:field=field.select(region)
+        if self.layers and field.frame!=self.local_frame:raise ValueError('Volume and terrain require one explicit local frame')
+        if sum(isinstance(a,VolumeArtist) for a in self.layers)>=4:raise ValueError('3D axes support at most four volume fields')
+        artist=VolumeArtist(field,**style);artist._axes=self;artist._bind_parent(self);self.layers.append(artist);self.local_frame=field.frame;self._changed();return artist
+    def volume_slice(self,field,*,axis='z',position,**style):
+        from .volume_artist import slice_mesh
+        if self.layers and field.frame!=self.local_frame:raise ValueError('Slice and terrain require one local frame')
+        mesh,values=slice_mesh(field,axis,position);style.setdefault('shade',False)
+        artist=SurfaceArtist(mesh,**style);artist.set_array(values);result=self._attach(artist);self.local_frame=field.frame;return result
+    def isosurface(self,field,level,**style):
+        from .volume_artist import isosurface_mesh
+        if self.layers and field.frame!=self.local_frame:raise ValueError('Isosurface and terrain require one local frame')
+        mesh=isosurface_mesh(field,level);artist=SurfaceArtist(mesh,**style);artist.set_array([level]*len(mesh.vertices));result=self._attach(artist);self.local_frame=field.frame;return result
+    def plot_surface(self,X,Y,Z,*,horizontal_unit='m',vertical_unit='m',cmap='terrain',norm=None,color=None,shade=True,light=(1,-1,2),elevation_reference='unspecified',texture=None,uv=None):
         mesh=surface_mesh(X,Y,Z,horizontal_unit,vertical_unit)
-        return self._attach(SurfaceArtist(mesh,norm=norm,cmap=cmap,color=color,shade=shade,light=light,elevation_reference=elevation_reference))
+        artist=SurfaceArtist(mesh,norm=norm,cmap=cmap,color=color,shade=shade,light=light,elevation_reference=elevation_reference)
+        if texture is not None:artist.set_texture(texture,uv)
+        elif uv is not None:raise ValueError('UV requires an explicit texture')
+        return self._attach(artist)
     def terrain(self,raster,*,origin,elevation_unit='m',elevation_reference='unspecified',**style):
         from .raster import GeoRaster
         from .crs import transform
         if not isinstance(raster,GeoRaster) or raster.color_mode!='scalar':raise TypeError('terrain requires a scalar GeoRaster')
-        if raster.shape[0]*raster.shape[1]>50000 or 2*(raster.shape[0]-1)*(raster.shape[1]-1)>20000:raise ValueError('Terrain mesh budget exceeded; resample explicitly')
+        if raster.shape[0]*raster.shape[1]>TERRAIN_MAX_VERTICES or 2*(raster.shape[0]-1)*(raster.shape[1]-1)>TERRAIN_MAX_TRIANGLES:raise ValueError('Terrain mesh budget exceeded; resample explicitly')
         frame=LocalFrame(*origin)
+        if any(getattr(a,'kind',None)=='volume3d' for a in self.layers) and self.local_frame!=frame:raise ValueError('Terrain cannot silently change an existing volume frame')
         if self.local_frame is not None and self.local_frame!=frame:raise ValueError('Use one local frame per 3D axes')
         X=[];Y=[]
         for row in range(raster.shape[0]):
@@ -188,7 +227,7 @@ class TerrainAxes(MapAxes):
             for k,i in enumerate(winding):
                 j=winding[(k+1)%n];a,c=start+i,start+j
                 faces.extend(((a,c,c+n),(a,c+n,a+n)))
-            if len(faces)>20000 or len(vertices)>50000:raise ValueError('Extrusion budget exceeded')
+            if len(faces)>TERRAIN_MAX_TRIANGLES or len(vertices)>TERRAIN_MAX_VERTICES:raise ValueError('Extrusion budget exceeded')
         artist=SurfaceArtist(Mesh(tuple(vertices),tuple(faces)),color=color,shade=shade)
         artist.feature_ids=tuple(f.id for f in collection.features)
         return self._attach(artist)
@@ -205,7 +244,7 @@ class TerrainAxes(MapAxes):
         if value<=0:raise ValueError('vertical_exaggeration must be positive')
         self.vertical_exaggeration=value
     def get_world_bounds(self):
-        bounds=[a.mesh.bounds for a in self.layers if a.get_visible()]
+        bounds=[a.mesh.bounds if hasattr(a,'mesh') else a.field.bounds for a in self.layers if a.get_visible()]
         result=[]
         for k,name in enumerate(('x','y','z')):
             lo=min((b[2*k] for b in bounds),default=0);hi=max((b[2*k+1] for b in bounds),default=1)
@@ -261,8 +300,24 @@ def render_terrain(ax,scene,box):
         render_colorbar(ax._colorbar,barbox,scene)
     scene.add(Rect(*box,dict(fill=ax.facecolor)))
     matrix=ax.camera.matrix(bounds,aspect,ax.vertical_exaggeration)
-    triangles=tuple(face for a in ax.layers if a.get_visible() for face in a.faces(ax.camera,bounds,aspect,ax.vertical_exaggeration))
-    scene.add(Raster3D(*box,triangles,clip=box))
+    from .volume_artist import VolumeArtist
+    volumes=[a for a in ax.layers if a.get_visible() and isinstance(a,VolumeArtist)]
+    visible=[a for a in ax.layers if a.get_visible() and not isinstance(a,VolumeArtist)]
+    solar_light=getattr(ax,'_solar_lighting',None)
+    if solar_light is not None and solar_light.get_visible():solar_light.prepare(visible)
+    else:solar_light=None
+    def faces(artist,*,with_uv=False):
+        if solar_light is not None:return solar_light.faces(artist,ax.camera,bounds,aspect,ax.vertical_exaggeration,with_uv=with_uv)
+        return artist.faces(ax.camera,bounds,aspect,ax.vertical_exaggeration,with_uv=with_uv)
+    volume_layers=tuple(a.layer(matrix) for a in volumes);primitive_index=len(scene.items)
+    if any(a.get_texture() is not None for a in visible):
+        from ._texture3d import atlas
+        triangles,texture,uv=atlas([(a.get_texture(),faces(a,with_uv=True)) for a in visible])
+        scene.add(Raster3D(*box,triangles,clip=box,texture=texture,uv=uv,volumes=volume_layers))
+    else:
+        triangles=tuple(face for a in visible for face in faces(a))
+        scene.add(Raster3D(*box,triangles,clip=box,volumes=volume_layers))
+    for i,a in enumerate(volumes):scene._pick_records.append((a,i,primitive_index,primitive_index+1))
     if ax._frame:
         # Project a metric wire box. Screen decorations are not mesh occluders.
         corners=[(bounds[i],bounds[2+j],bounds[4+k]) for k in (0,1) for j in (0,1) for i in (0,1)]

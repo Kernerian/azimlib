@@ -18,8 +18,8 @@ class Unit:
 
     def __post_init__(self):
         scale = _number(self.to_si, 'unit scale')
-        if not isinstance(self.name,str) or not self.name or not isinstance(self.symbol,str) or not self.symbol or scale <= 0 or self.quantity not in ('length', 'angle'):
-            raise ValueError('Unit requires name, symbol, positive scale and length/angle quantity')
+        if not isinstance(self.name,str) or not self.name or not isinstance(self.symbol,str) or not self.symbol or scale <= 0 or self.quantity not in ('length', 'angle', 'time'):
+            raise ValueError('Unit requires name, symbol, positive scale and length/angle/time quantity')
         object.__setattr__(self, 'to_si', scale)
 
     def convert(self, value, target):
@@ -32,6 +32,8 @@ METRE = Unit('metre', 'm', 1)
 KILOMETRE = Unit('kilometre', 'km', 1000)
 RADIAN = Unit('radian', 'rad', 1, 'angle')
 DEGREE = Unit('degree', 'deg', pi/180, 'angle')
+SECOND = Unit('second', 's', 1, 'time')
+DAY = Unit('day', 'd', 86400, 'time')
 
 
 @dataclass(frozen=True)

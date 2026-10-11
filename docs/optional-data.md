@@ -58,3 +58,32 @@ python tools/audit_optional_data.py
 The sample is frozen and incomplete for navigation; it is a reproducible example,
 not an up-to-date urban service. User-provided OSM tags need their own privacy
 review. See [reader contracts](formats.md) and [third-party notices](../THIRD_PARTY_LICENSES.md).
+
+The 0.4 development reader also supports [versioned OSM PBF catalogs](osm-pbf.md).
+Acquisition is explicit and SHA256-pinned; disk indexing and selected collections
+have separate limits. Real regional validation data is not added to the package.
+
+## Optional datum grids (0.4 development)
+
+The [datum-grid guide](datum-grids.md) describes pinned LINZ NTv2/GTX models,
+explicit acquisition, source/height frames and independent cross-format checks.
+These data retain **CC BY 4.0 / LINZ** attribution and are not distributed in
+Python archives. `DatasetCatalog.grid_operation()` verifies payload and notices
+before creating a transformation; missing grids never trigger an approximate tie.
+
+## Local geocoding indexes (0.4 development)
+
+The [own geocoder](geocoding-0.4.md) builds optional read-only indexes from verified
+vector catalogs or the own streaming PBF index. Source/license hashes, copyright,
+attribution and complete notice text are preserved. OSM-derived databases retain
+ODbL terms; Azimlib's BSD license does not replace them. Address import is opt-in,
+contacts/editor metadata are excluded, and no query history or remote fallback
+is enabled. Generated address/search databases are not included in wheel/sdist.
+
+## Road graphs (0.4 development)
+
+The [own router](routing-0.4.md) imports verified OSM XML/PBF primitives, keeping
+node/way identity, profile, source SHA-256 and complete source notices. Its local
+JSON index and OSM-derived graph data retain their original data license; they
+are not bundled into Python archives. No network request or query logging is
+implicit. Profile-specific access and turn rules have explicit coverage/errors.

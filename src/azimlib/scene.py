@@ -35,6 +35,17 @@ class Text:
     clip: Clip | None = None
 
     def __post_init__(self):
+        if self.style.get('textengine')=='tex':
+            from .tex import TexText,tex_layout
+            layout=tex_layout(self.text,self.style)
+            if layout is None:
+                fallback={k:v for k,v in self.style.items() if k not in ('textengine','texconfig')}
+                object.__setattr__(self,'style',fallback)
+            else:object.__setattr__(self,'text',TexText(str(self.text),layout))
+        if self.style.get('textengine')=='harfbuzz':
+            from .text_engine import ClusterText,shape_text
+            layout=shape_text(self.text,self.style)
+            object.__setattr__(self,'text',ClusterText(str(self.text),layout))
         # Public styles may still request post-rotation alignment. Bake it
         # once so both renderers, clipping and primitive bounds agree.
         if self.style.get('rotation_mode','anchor')!='anchor':
@@ -73,9 +84,22 @@ class Raster3D:
     triangles: tuple
     style: Style = field(default_factory=dict)
     clip: Clip | None = None
+    texture: tuple | None = None  # (pixel_width, pixel_height, immutable RGBA bytes), top row first
+    uv: tuple | None = None  # three UV pairs per input triangle, normalized, top-left origin
+    volumes: tuple = ()  # prepared original VolumeLayer instances sharing this camera
 
     def __post_init__(self):
         object.__setattr__(self,'triangles',tuple((tuple(tuple(p) for p in points),tuple(color)) for points,color in self.triangles))
+        if self.texture is not None:
+            from ._texture3d import validate_texture
+            texture,uv=validate_texture(self.texture,self.uv,len(self.triangles))
+            object.__setattr__(self,'texture',texture);object.__setattr__(self,'uv',uv)
+        elif self.uv is not None:raise ValueError('UV coordinates require an explicit texture')
+        object.__setattr__(self,'volumes',tuple(self.volumes))
+        if self.volumes:
+            from .volume_render import VolumeLayer
+            if len(self.volumes)>4 or any(not isinstance(v,VolumeLayer) for v in self.volumes):raise ValueError('Raster3D supports at most four prepared volume layers')
+            if any(v.inverse!=self.volumes[0].inverse or v.field.frame!=self.volumes[0].field.frame for v in self.volumes):raise ValueError('Volume layers require one shared camera and spatial frame')
 
 
 Primitive = Path | Text | Circle | Rect | Raster3D
@@ -114,7 +138,7 @@ class Scene:
             raise TypeError("A scene accepts only Path, Text, Circle, or Rect primitives")
         if isinstance(item,Text):
             from .mathtext import has_math,primitives
-            if has_math(item.text):
+            if item.style.get('textengine')!='tex' and has_math(item.text):
                 self.items.extend(primitives(item));return item
         self.items.append(item)
         return item
@@ -140,7 +164,7 @@ class Scene:
             elif isinstance(item, Circle):
                 new = Circle(item.x*factor,item.y*factor,item.r*factor,style,clip)
             elif isinstance(item, Raster3D):
-                new = Raster3D(item.x*factor,item.y*factor,item.width*factor,item.height*factor,item.triangles,style,clip)
+                new = Raster3D(item.x*factor,item.y*factor,item.width*factor,item.height*factor,item.triangles,style,clip,item.texture,item.uv,item.volumes)
             else:
                 new = Rect(item.x*factor,item.y*factor,item.width*factor,item.height*factor,style,clip)
             result.add(new)

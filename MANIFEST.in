@@ -8,6 +8,7 @@ recursive-include docs *.md *.json
 recursive-include examples *.py
 recursive-include examples *.mplstyle
 recursive-include tests *.py
+include tests/fixtures/foundation-040.json
 recursive-include src/azimlib/data *.json *.geojson.gz
 recursive-include src/azimlib/assets *.js *.css
 recursive-include src/azimlib/assets/icons *.png *.svg *.json
@@ -33,3 +34,6 @@ include .github/workflows/visual-review.yml
 recursive-include tools/baselines/visual-review030 *.json *.png
 
 include .github/workflows/release-candidate.yml
+include .github/workflows/text-review-0.4.yml
+include .github/workflows/tex-review-0.4.yml
+include .github/workflows/gpu-review-0.4.yml

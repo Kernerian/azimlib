@@ -18,6 +18,10 @@ available through `azimlib` and `azimlib.io`. Caller-owned streams stay open.
 Vector outputs use the same immutable Geometry/Feature/FeatureCollection types
 as GeoJSON, so selection, per-feature styling and urban layers remain reusable.
 
+The 0.4 development [CRS guide](crs-0.4.md) adds explicit 3D GeoJSON input
+conversion for EPSG:4978/4979. An affine raster remains strictly 2D; height is
+never inferred. Other readers retain their documented dimensional contracts.
+
 ## Supported contracts and explicit limits
 
 | Reader | Implemented | Explicit limits |
@@ -69,6 +73,10 @@ PixelIsPoint is normalized by a half-pixel origin shift, not guessed as PixelIsA
 
 ## Independent implementation references
 
+The 0.4 source checkout additionally provides [own OSM PBF streaming](osm-pbf.md),
+disk reference resolution and bounded regional extraction. This development
+capability is not part of the published 0.3.0 package.
+
 The readers were implemented from format descriptions, not ported from another
 reader's source code. Tests generate original binary/XML fixtures, including
 invalid records. An external Natural Earth populated-places SHP/SHX/DBF (243
@@ -85,3 +93,18 @@ vendored. The real OSM example is a separately licensed derivative database.
 
 See [optional data](optional-data.md), [georaster example](../examples/georaster.py)
 and [format tests](../tests/test_formats.py).
+
+## Datum correction grids (0.4 development)
+
+Own readers `read_ntv2()` and `read_gtx()` support the selected binary variants,
+strict interpolation and explicit optional catalogs described in
+[datum grids](datum-grids.md). They return correction fields, not ordinary
+GeoJSON layers or an implicit CRS transformation. Official payloads are optional
+and retain their own licenses; no grid is downloaded by a reader.
+
+## Explicit topology after reading (0.4 development)
+
+Reader collections can opt into `spatial_select()` and `clip()`; source IDs and
+properties are preserved. [Own topology](topology-0.4.md) documents planar
+GeoJSON outputs, spherical reference/interior serialization, precision, invalid
+inputs and explicit repair. Reading does not repair or reinterpret edges.

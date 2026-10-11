@@ -26,7 +26,14 @@ class QtCanvas(FigureCanvas):
         from ..renderers._interactive import InteractivePathCache
         from ..renderers._tile_cache import TileCache
         self._paths=InteractivePathCache();self._tiles=TileCache(max_entries=512)
-        self.worker=PanRaster(render_image,lambda scene:render_image(scene,_interactive=True,_path_cache=self._paths,_tile_cache=self._tiles),lambda scene,cancel:render_image(scene,_cancel=cancel))
+        renderer,fallback,config=getattr(figure,'_interactive_renderer',('cpu','raise',None))
+        self._gpu_process=None;self._renderer=render_image
+        if renderer=='gpu':
+            from ._navigation_process import NavigationProcess
+            self._gpu_process=NavigationProcess(renderer='gpu',gpu_fallback=fallback,gpu_config=config)
+            self._renderer=self._gpu_process.render
+        self.worker=PanRaster(self._renderer,self._renderer if renderer=='gpu' else lambda scene:render_image(scene,_interactive=True,_path_cache=self._paths,_tile_cache=self._tiles),
+            (lambda scene,cancel:self._renderer(scene)) if renderer=='gpu' else lambda scene,cancel:render_image(scene,_cancel=cancel))
         owner=self
         class Window(W.QMainWindow):
             def closeEvent(self,event):owner.close();event.accept()
@@ -105,7 +112,7 @@ class QtCanvas(FigureCanvas):
         self._drawing=True
         try:
             self.worker.clear();self._generation+=1
-            scene=self.figure.to_scene(cull=True,interactive=True);self._dirty=False;self._present(scene,render_image(scene))
+            scene=self.figure.to_scene(cull=True,interactive=True);self._dirty=False;self._present(scene,self._renderer(scene))
         finally:self._drawing=False
     def draw_idle(self):
         if not self.closed:self._dirty=True;self._generation+=1
@@ -153,6 +160,7 @@ class QtCanvas(FigureCanvas):
         self._owner()
         if self.closed:return
         self.closed=True;self.timer.stop();self.resize_timer.stop();self.worker.close();self._tiles.close();self._qimage=self.scene=None
+        if getattr(self,'_gpu_process',None) is not None:self._gpu_process.close()
         try:detach(self)
         finally:
             self.window.hide();self.window.deleteLater()

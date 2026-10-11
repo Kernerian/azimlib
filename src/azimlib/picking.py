@@ -56,6 +56,12 @@ def contains(artist,event,*,tolerance=None):
     tolerance=artist.get_pickradius() if tolerance is None else tolerance
     indices=[]
     for owner,index,start,end in scene._pick_records:
+        if owner is artist and getattr(artist,'kind',None)=='volume3d':
+            from .volume_render import pick_volume
+            for item in scene.items[start:end]:
+                hit=pick_volume(item,*p)
+                if hit is not None and hit['layer']==index:return True,dict(ind=[index],features=[],**hit)
+            continue
         if owner is artist and index not in indices and any(primitive_hit(item,p,tolerance) for item in scene.items[start:end]):indices.append(index)
     features=[artist.data[i] for i in indices] if getattr(artist,'kind',None)=='geometry' else []
     return bool(indices),dict(ind=indices,features=features)

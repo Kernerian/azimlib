@@ -347,7 +347,33 @@ class AzimuthalEquidistant(Projection):
         return _azimuthal_inverse(self,x,y,c)
 
 
+@dataclass(frozen=True)
+class LambertAzimuthalEqualArea(Projection):
+    """Spherical equal-area azimuthal projection; the antipode is excluded.
+
+    Own equations from the spherical mapping geometry (IOGP GN7-2 3.3.2.1).
+    Not an ellipsoidal LAEA or an authority CRS such as ETRS89/LAEA Europe.
+    """
+    name: ClassVar[str] = 'lambert_azimuthal_equal_area'
+
+    def forward(self, lon, lat):
+        l, p = self._angles(lon, lat); p0 = radians(self.central_latitude)
+        u, v = cos(p)*sin(l), cos(p0)*sin(p)-sin(p0)*cos(p)*cos(l)
+        sine = hypot(u, v); dot = sin(p0)*sin(p)+cos(p0)*cos(p)*cos(l)
+        if sine < 1e-14:
+            return (0., 0.) if dot > 0 else None
+        rho = 2*self.radius*sin(atan2(sine, dot)/2)
+        return rho*u/sine, rho*v/sine
+
+    def inverse(self, x, y):
+        x, y = self._xy(x, y); rho = hypot(x, y)
+        if rho >= 2-1e-14:
+            return None
+        return _azimuthal_inverse(self, x, y, 2*asin(rho/2))
+
+
 _REGISTRY = {
+    'lambert_azimuthal_equal_area': LambertAzimuthalEqualArea, 'laea': LambertAzimuthalEqualArea,
     "transverse_mercator": TransverseMercator, "tmerc": TransverseMercator,
     "stereographic": Stereographic, "stereo": Stereographic,
     "azimuthal_equidistant": AzimuthalEquidistant, "aeqd": AzimuthalEquidistant,

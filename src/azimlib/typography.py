@@ -24,10 +24,20 @@ def _metrics():return json.loads((FONTS/'metrics.json').read_text(encoding='utf-
 def text_width(text,style):
     """Advance width in scene units; Latin kerning, no complex-script shaping."""
     from .mathtext import has_math,layout
-    if has_math(text):return max(layout(line,style).width for line in str(text).split('\n'))
+    if style.get('textengine')!='tex' and has_math(text):return max(layout(line,style).width for line in str(text).split('\n'))
     return _plain_text_width(text,style)
 
 def _plain_text_width(text,style):
+    if style.get('textengine')=='tex':
+        from .tex import tex_layout
+        if '\n' in text:
+            return max((_plain_text_width(line,style) for line in text.split('\n')),default=0)
+        result=tex_layout(text,style)
+        if result is not None:return result.width*style.get('font_size',10*POINT)
+        return text_width(text,{k:v for k,v in style.items() if k not in ('textengine','texconfig')})
+    if style.get('textengine')=='harfbuzz':
+        from .text_engine import shape_text
+        return max((shape_text(line,style).width for line in text.split('\n')),default=0)*style.get('font_size',10*POINT)
     path=font_path(style)
     size=style.get('font_size',10*POINT)
     if path is None:return max((len(line)*size*.62 for line in str(text).splitlines()),default=0)
@@ -71,6 +81,15 @@ def _export_metrics(characters, style):
 def text_vertical_bounds(text,style):
     """Ink bounds above the alphabetic baseline, in scene units."""
     size=style.get('font_size',10*POINT)
+    if style.get('textengine')=='tex':
+        from .tex import tex_layout
+        result=tex_layout(text,style)
+        if result is not None:return -result.descent*size,result.ascent*size
+        return text_vertical_bounds(text,{k:v for k,v in style.items() if k not in ('textengine','texconfig')})
+    if style.get('textengine')=='harfbuzz':
+        from .text_engine import shape_text
+        ink=shape_text(text,style).ink
+        return -ink[3]*size,-ink[1]*size
     path=font_path(style)
     if path is None:return (-.2*size,.8*size)
     metrics=_metrics()[path.stem]
@@ -93,11 +112,20 @@ def _font_vertical_metrics(path):
 def text_line_metrics(text,style,*,multiline=False):
     """Font line box including accents/descenders beyond the standard metrics."""
     from .mathtext import has_math,layout
-    if has_math(text):
+    if style.get('textengine')!='tex' and has_math(text):
         box=layout(text,style);return -box.top,box.bottom
     return _plain_text_line_metrics(text,style,multiline=multiline)
 
 def _plain_text_line_metrics(text,style,*,multiline=False):
+    if style.get('textengine')=='tex':
+        from .tex import tex_layout
+        result=tex_layout(text,style);size=style.get('font_size',10*POINT)
+        if result is not None:return result.ascent*size,result.descent*size
+        return text_line_metrics(text,{k:v for k,v in style.items() if k not in ('textengine','texconfig')},multiline=multiline)
+    if style.get('textengine')=='harfbuzz':
+        from .text_engine import shape_text
+        layout=shape_text(text,style);size=style.get('font_size',10*POINT)
+        return layout.ascent*size,layout.descent*size
     size=style.get('font_size',10*POINT);path=font_path(style)
     a,d,g=_font_vertical_metrics(path) if path is not None else (.8,.2,.2)
     low,high=text_vertical_bounds(text,style)
@@ -110,7 +138,8 @@ def text_baseline_offset(text,style):
 
 def text_line_layout(text,style):
     """Baselines of a whole block; baseline alignment anchors the last line."""
-    lines=str(text).replace('\r\n','\n').replace('\r','\n').split('\n')
+    value=text if hasattr(text,'layout') else str(text)
+    lines=value.replace('\r\n','\n').replace('\r','\n').split('\n')
     metrics=[text_line_metrics(line,style,multiline=len(lines)>1) for line in lines]
     total=sum(a+d for a,d in metrics);first=metrics[0][0];last=metrics[-1][1]
     origin={'top':first,'middle':first-total/2,'bottom':first-total,'alphabetic':first-total+last}[style.get('baseline','alphabetic')]
@@ -126,7 +155,11 @@ def text_bounds(text,style):
     for line,y,ascent,descent in text_line_layout(text,style):
         width=text_width(line,style)
         left=-{'start':0,'middle':.5,'end':1}[style.get('anchor','start')]*width
-        boxes.append((left,y-ascent,left+width,y+descent))
+        if style.get('textengine')=='harfbuzz':
+            from .text_engine import shape_text
+            ink=shape_text(line,style).ink;size=style.get('font_size',10*POINT)
+            boxes.append((left+min(0,ink[0]*size),y-ascent,left+max(width,ink[2]*size),y+descent))
+        else:boxes.append((left,y-ascent,left+width,y+descent))
     x0=min(b[0] for b in boxes);y0=min(b[1] for b in boxes)
     return x0,y0,max(b[2] for b in boxes)-x0,max(b[3] for b in boxes)-y0
 

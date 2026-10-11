@@ -12,6 +12,7 @@ SHAPE_STYLE = {
 TEXT_STYLE = (SHAPE_STYLE - {"dash", "linecap", "linejoin"}) | {
     "font_family", "font_size", "font_weight", "font_style", "anchor",
     "baseline", "rotation", "rotation_mode", "background", "multiline",
+    "textengine", "direction", "language", "fontfallback", "fontfeatures", "texconfig",
 }
 
 
@@ -61,6 +62,9 @@ def validate(scene: Scene, *, _path_validator=None) -> None:
                     if len(point) != 2 or not all(math.isfinite(v) for v in point):
                         raise ValueError("Path coordinates must be finite (x, y) pairs")
         elif isinstance(item, Text):
+            from ..text_engine import text_options, is_shaped, shape_text
+            text_options(s)
+            if is_shaped(s):shape_text(item.text,s)
             if not isinstance(s.get('multiline',False),bool):raise ValueError('multiline must be boolean')
             number(item.x)
             number(item.y)

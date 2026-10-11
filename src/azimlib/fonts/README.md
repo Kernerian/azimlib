@@ -10,5 +10,8 @@ derived metrics retain the separate terms above. The same TTF notices remain
 inside fonts embedded in SVG/HTML exports.
 
 metrics.json contains glyph advances and legacy kerning extracted by the
-development-only tools/font_metrics.py using fontTools. The runtime needs
-neither fontTools nor Matplotlib. Complex-script shaping is not implemented.
+development-only tools/font_metrics.py using fontTools. The basic runtime needs
+neither fontTools nor Matplotlib. The optional complex engine is documented in
+[international text](../../../docs/international-text-0.4.md); it uses ICU/HarfBuzz
+and shared positioned outlines without changing these fonts or metrics.
+CJK/Indic validation fonts remain optional and are not bundled.

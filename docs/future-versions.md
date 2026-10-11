@@ -1,10 +1,12 @@
 # Future proposals: terrestrial sky, planetary maps and orbits
 
-These are **proposals for 0.4–0.6**, not implemented features, release dates or
-frozen public API names. They extend the [existing roadmap](roadmap.md); GPU,
-volumes, large OSM PBF, universal grid-based CRS, global overlay/topology,
-geocoding/routing and TeX/complex shaping remain planned and are not displaced.
-Scope must be revisited after 0.3 release evidence and maintenance feedback.
+These are future requirements, not implemented features, release dates or frozen
+public API names. The terrestrial Sun/Moon requirements below are now included in
+the [combined 0.4.0 implementation checklist](release-progress-0.4.md), alongside
+GPU/volumes, large OSM PBF, CRS/grids, global topology, geocoding/routing and
+TeX/complex shaping reserved by 0.3.0. That checklist is the single source of
+0.4 completion counts and dependencies. Beyond Earth (0.5) and Orbits (0.6)
+remain proposals; the [existing roadmap](roadmap.md) preserves their sequence.
 
 ## 0.4 proposal — terrestrial Sun and Moon
 
@@ -23,7 +25,11 @@ Acceptance requires declared ephemeris/model accuracy, validity dates, UTC/time
 scale conversion, reference frame, coordinate units and observer/refraction
 assumptions. Validate against independent authoritative fixtures whose source and
 license are recorded. Renderer light vectors alone do not establish solar/lunar
-positions, shadows or reliable eclipse timing. No model/dataset is selected yet.
+positions, shadows or reliable eclipse timing. The independently implemented
+[solar](solar-0.4.md) and [lunar](lunar-0.4.md) bounded models now exist, together
+with [local physical shadows and synthetic finite-source geometry](lighting-0.4.md).
+Real eclipse path/contact precision remains pending under items 13.06–13.07;
+the independent NASA central-line diagnostic fails the declared precision gate.
 
 ## 0.5 proposal — Beyond Earth cartography
 

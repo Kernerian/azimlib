@@ -219,6 +219,16 @@ class FeatureCollection:
     def __getitem__(self, index):
         return self.features[index]
 
+    def clip(self,region,**kwargs):
+        """Explicit planar overlay; retain source IDs/properties and order."""
+        from .overlay import clip_collection
+        return clip_collection(self,region,**kwargs)
+
+    def spatial_select(self,region,**kwargs):
+        """Select intersecting features without modifying their geometry."""
+        from .overlay import select_collection
+        return select_collection(self,region,**kwargs)
+
     def select(self, where=None, *, predicate=None, geometry_types=None):
         """Return a new collection, preserving feature objects, IDs and order.
 

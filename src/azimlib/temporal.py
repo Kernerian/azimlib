@@ -13,6 +13,14 @@ def bounded(value):
     return not isinstance(value,(str,bytes,Mapping)) and hasattr(value,'__len__') and hasattr(value,'__getitem__')
 
 def freeze(value):
+    from .volume import VolumeField
+    if isinstance(value,VolumeField):return value
+    from .eclipse import EclipseGeometry
+    if isinstance(value,EclipseGeometry):return value
+    from .lunar import MoonPosition,MoonDirection
+    if isinstance(value,(MoonPosition,MoonDirection)):return value
+    from .solar import SunPosition,SunDirection
+    if isinstance(value,(SunPosition,SunDirection)):return value
     if isinstance(value,Mapping):
         if any(not isinstance(k,str) for k in value):raise TypeError('Frame mapping keys must be strings')
         return MappingProxyType({k:freeze(v) for k,v in value.items()})
@@ -72,7 +80,21 @@ class TemporalSeries(Sequence):
         if i==len(self):return i-1
         return i-1 if key-self._keys[i-1]<=self._keys[i]-key else i
     def at(self,time,*,method='nearest'):return self[self.index_at(time,method=method)]
-    def bind(self,artist,*,scale='global',norm=None):return ScalarBinding(self,artist,scale=scale,norm=norm)
+    def bind(self,artist,*,scale='global',norm=None):
+        if getattr(artist,'_lighting_artist',False):
+            from .lighting import LightingBinding
+            return LightingBinding(self,artist,scale=scale,norm=norm)
+        if getattr(artist,'_eclipse_artist',False):
+            from .eclipse_artists import EclipseBinding
+            return EclipseBinding(self,artist,scale=scale,norm=norm)
+        if getattr(artist,'_lunar_artist',False):
+            from .lunar_artists import LunarBinding
+            return LunarBinding(self,artist,scale=scale,norm=norm)
+        if getattr(artist,'_solar_artist',False):
+            from .solar_artists import SolarBinding
+            return SolarBinding(self,artist,scale=scale,norm=norm)
+        from .volume_artist import VolumeArtist,VolumeBinding
+        return VolumeBinding(self,artist,scale=scale,norm=norm) if isinstance(artist,VolumeArtist) else ScalarBinding(self,artist,scale=scale,norm=norm)
 
 def normalizer(template,values,*,rescale):
     from .colors import Normalize,BoundaryNorm

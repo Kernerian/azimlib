@@ -34,6 +34,18 @@ class TextProperties:
     def get_rotation(self):return float(self.style.get('rotation',0))%360
     def set_rotation_mode(self,value):return self.set(rotation_mode=value)
     def get_rotation_mode(self):return self.style.get('rotation_mode','default')
+    def set_textengine(self,value):return self.set(textengine=value)
+    def get_textengine(self):return self.style.get('textengine','basic')
+    def set_texconfig(self,value):return self.set(textengine='tex',texconfig=value)
+    def get_texconfig(self):return self.style.get('texconfig')
+    def set_direction(self,value):return self.set(direction=value)
+    def get_direction(self):return self.style.get('direction','auto')
+    def set_language(self,value):return self.set(language=value)
+    def get_language(self):return self.style.get('language','und')
+    def set_fontfallback(self,value):return self.set(fontfallback=value)
+    def get_fontfallback(self):return self.style.get('fontfallback',())
+    def set_fontfeatures(self,value):return self.set(fontfeatures=value)
+    def get_fontfeatures(self):return self.style.get('fontfeatures',())
 
 class TextArtist(TextProperties,LayoutArtist):
     def __init__(self,text='',_owner=None,_slot=None,**style):
@@ -43,6 +55,8 @@ class TextArtist(TextProperties,LayoutArtist):
         self.visible=True
         self._owner=_owner;self._slot=_slot
         self.style={'fontfamily':rcParams['font.family'],'color':rcParams['text.color'],**style_dict(style)}
+        from .text_engine import scene_options
+        self.style.update(scene_options(self.style))
         validate_text_properties(self.style)
         text_style(self.style)
     def __iter__(self):return iter((self.text,self.style))
