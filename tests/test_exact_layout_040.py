@@ -1,5 +1,6 @@
 """Accelerated layout must preserve scalar coordinates and collision decisions."""
-import random,struct,unittest
+import random,struct,unittest,sys
+from unittest.mock import patch
 from azimlib.projected_paths import screen_points,_pack
 from azimlib.viewport import Viewport
 from azimlib.projections import Mercator
@@ -9,6 +10,13 @@ from azimlib.scene import Path,Rect,Circle
 from azimlib.renderers._gpu_geometry import fan,packed
 
 class ExactLayout(unittest.TestCase):
+    def test_numpy_absent_keeps_original_scalar_fallback(self):
+        vp=Viewport(Mercator(),(-70,-45,-30,20),(0,0,300,500));points=[(i,i/2) for i in range(100)]
+        items=[Path([points],False,{})]
+        with patch.dict(sys.modules,{'numpy':None}):
+            self.assertEqual(screen_points(_pack(points),vp),[vp.xy(*p) for p in points])
+            self.assertEqual(LegendIndex(items).score((10,10,20,20)),score((10,10,20,20),items))
+            self.assertIsInstance(fan([points]),tuple)
     def test_large_fan_packed_bytes_match_scalar_order_and_weights(self):
         rng=random.Random(71);rings=[[(rng.uniform(-300,300),rng.uniform(-300,300)) for _ in range(700)],[(0,0)]*80]
         for signed in (False,True):
