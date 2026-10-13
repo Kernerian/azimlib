@@ -144,4 +144,6 @@ __all__.extend(('LunarModel','MoonPosition','MoonDirection','LunarPath'))
 
 from .lighting import SolarLighting,ShadowBudget
 from .eclipse import EclipseGeometry,ShadowSphere,ShadowCone,Occultation,occultation
+from .solar_disk import SolarDiskConvention,SolarDiskComparison,IAU2015_NOMINAL,NASA_SVS_696000
+__all__.extend(('SolarDiskConvention','SolarDiskComparison','IAU2015_NOMINAL','NASA_SVS_696000'))
 __all__.extend(('SolarLighting','ShadowBudget','EclipseGeometry','ShadowSphere','ShadowCone','Occultation','occultation'))

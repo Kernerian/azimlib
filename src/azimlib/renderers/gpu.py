@@ -82,7 +82,7 @@ class GpuRenderer:
         self.config=config or GpuConfig()
         if not isinstance(self.config,GpuConfig):raise TypeError('config must be GpuConfig')
         self.owner=threading.get_ident();self.closed=False;self.lost=False
-        self._objects=[];self._surfaces=[];self._cache=OrderedDict();self._cache_bytes=0;self._size=None
+        self._objects=[];self._surfaces=[];self._cache=OrderedDict();self._cache_bytes=0;self._size=None;self._stream_digests={}
         self._textures=OrderedDict();self._texture_bytes=0;self._last_plan=None
         from ._gpu_geometry import PreparationCache
         self.prepared=PreparationCache(self.config.max_cache_bytes)
@@ -117,7 +117,7 @@ class GpuRenderer:
     def _dispose(self):
         for _,objects,size in self._cache.values():
             for obj in reversed(objects):obj.release()
-        self._cache.clear();self._cache_bytes=0
+        self._cache.clear();self._cache_bytes=0;self._stream_digests.clear()
         for texture,size in self._textures.values():texture.release()
         self._textures.clear();self._texture_bytes=0
         self.prepared.clear()
@@ -154,26 +154,40 @@ class GpuRenderer:
         self.volume_color=own(self.ctx.texture((w,h),4,dtype='f2'))
         self.volume_low=own(self.ctx.framebuffer([self.volume_color]))
         self.stats['surface_bytes']=size
-    def _buffer(self,data,program,layout,attrs):
+    def _buffer(self,data,program,layout,attrs,*,indices=None,slot=None):
         # Prepared payloads compute SHA-256 once. Retaining only the digest in
         # GPU keys avoids extending the lifetime of evicted CPU mesh payloads.
         # A VAO also belongs to its exact shader and attribute layout.
         digest=getattr(data,'sha256',None)
         if digest is None:digest=hashlib.sha256(data).digest()
-        key=(program.glo,layout,tuple(attrs),digest)
+        key=(program.glo,layout,tuple(attrs),digest) if indices is None else ('indexed-slot',slot,program.glo,layout,tuple(attrs),len(data),indices.sha256)
         if key in self._cache:
-            entry=self._cache[key];self._cache.move_to_end(key);self.stats['cache_hits']+=1;return entry[0]
+            entry=self._cache[key];self._cache.move_to_end(key)
+            if indices is not None and self._stream_digests[key]!=digest:
+                entry[1][0].write(data);self._stream_digests[key]=digest
+                self.stats['buffer_updates']=self.stats.get('buffer_updates',0)+1
+                self.stats['uploaded_bytes']+=len(data)
+            self.stats['cache_hits']+=1;return entry[0]
         # Evict before upload; retained GPU buffer payload has a separate budget.
-        if len(data)>self.config.max_cache_bytes:raise GpuResourceError('GPU mesh exceeds the buffer budget')
-        while self._cache and (self._cache_bytes+len(data)>self.config.max_cache_bytes or len(self._cache)>=2048):
-            _,(_,objects,size)=self._cache.popitem(last=False)
+        size=len(data)+(len(indices) if indices is not None else 0)
+        if size>self.config.max_cache_bytes:raise GpuResourceError('GPU mesh exceeds the buffer budget')
+        while self._cache and (self._cache_bytes+size>self.config.max_cache_bytes or len(self._cache)>=2048):
+            old,(_,objects,old_size)=self._cache.popitem(last=False);self._stream_digests.pop(old,None)
             for obj in reversed(objects):obj.release()
-            self._cache_bytes-=size
+            self._cache_bytes-=old_size
         buffer=self.ctx.buffer(data)
-        try:vao=self.ctx.vertex_array(program,[(buffer,layout,*attrs)])
-        except BaseException:buffer.release();raise
-        self._cache[key]=(vao,(buffer,vao),len(data));self._cache_bytes+=len(data)
-        self.stats['uploads']+=1;self.stats['uploaded_bytes']+=len(data);self.stats['cache_bytes']=self._cache_bytes
+        index_buffer=None
+        try:
+            if indices is not None:index_buffer=self.ctx.buffer(indices)
+            vao=self.ctx.vertex_array(program,[(buffer,layout,*attrs)],index_buffer=index_buffer,index_element_size=4)
+        except BaseException:
+            if index_buffer is not None:index_buffer.release()
+            buffer.release();raise
+        objects=(buffer,index_buffer,vao) if index_buffer is not None else (buffer,vao)
+        self._cache[key]=(vao,objects,size);self._cache_bytes+=size
+        if indices is not None:
+            self._stream_digests[key]=digest;self.stats['index_uploads']=self.stats.get('index_uploads',0)+1
+        self.stats['uploads']+=1;self.stats['uploaded_bytes']+=size;self.stats['cache_bytes']=self._cache_bytes
         return vao
     def _scissor(self,bounds,clip,scale):
         w,h=self._size;x,y,r,b=bounds
@@ -189,7 +203,8 @@ class GpuRenderer:
         bounds=(bounds[0]+ax,bounds[1]+ay,bounds[2]+ax,bounds[3]+ay)
         scissor=self._scissor(bounds,clip,scale)
         if scissor is None:return
-        vao=self._buffer(data,self.mask_program,'3f',('point',))
+        indices=getattr(draw,'indices',None)
+        vao=self._buffer(data,self.mask_program,'3f',('point',),indices=indices,slot=getattr(self,'_draw_slot',0))
         self.mask_fbo.use();self.ctx.scissor=scissor
         self.mask_fbo.clear(0.,viewport=scissor)
         if not self._two_dimensional:
@@ -270,7 +285,7 @@ class GpuRenderer:
                 for draw in draws:
                     if isinstance(draw,Raster3D):cacheable=False
                     else:
-                        count+=draw[-1];payload+=len(draw[0])
+                        count+=draw[-1];payload+=len(draw[0])+len(getattr(draw,'indices',b''))
                         if count>self.config.max_vertices:raise GpuResourceError('GPU frame vertex budget exceeded')
                     plan.append((draw,anchor,clip))
             key=(scene.width,scene.height,scale,scene.background,tuple(signature)) if cacheable and payload<=self.config.max_cache_bytes else None
@@ -282,7 +297,8 @@ class GpuRenderer:
             self.mask_program['size'].value=(scene.width,scene.height)
             r,g,b,a=to_rgba(scene.background or 'none')
             if not reused:self.main.clear(r*a,g*a,b*a,a,depth=1.)
-            for draw,anchor,clip in (() if reused else plan):
+            for slot,(draw,anchor,clip) in enumerate(() if reused else plan):
+                self._draw_slot=slot
                 if cancel is not None and (cancel.is_set() if hasattr(cancel,'is_set') else cancel()):raise GpuCancelled('GPU frame cancelled')
                 if not isinstance(draw,Raster3D):self._draw(draw,scene,scale,anchor,clip)
                 else:

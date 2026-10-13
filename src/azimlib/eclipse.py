@@ -124,8 +124,15 @@ class EclipseGeometry:
     def at(self,point,*,occulter='moon'):
         if occulter not in ('earth','moon'):raise ValueError('Occulter must be earth or moon')
         return occultation(point,self.sun,self.earth if occulter=='earth' else self.moon,uncertainty_degrees=self.angular_uncertainty_degrees)
-    def solar(self,observer):
+    def solar(self,observer,*,solar_disk=None):
         if not isinstance(observer,Observer) or observer.geodetic.fixed!=EARTH_FIXED:raise ValueError('Solar occultation requires a terrestrial observer')
+        if solar_disk is not None:
+            from .solar_disk import SolarDiskConvention
+            if not isinstance(solar_disk,SolarDiskConvention):raise TypeError('Require an explicit SolarDiskConvention')
+            return occultation(observer.fixed_position,ShadowSphere(self.sun.center,solar_disk.radius_m),self.moon,uncertainty_degrees=self.angular_uncertainty_degrees)
         return self.at(observer.fixed_position)
+    def compare_solar_disks(self,observer,conventions):
+        from .solar_disk import compare_disks
+        return compare_disks(lambda model:self.solar(observer,solar_disk=model),conventions)
     def lunar(self):return self.at(self.moon.center,occulter='earth')
     def events(self,*args,**kwargs):raise NotImplementedError('Contact/event prediction is not validated by this bounded ephemeris; stage 13.07 remains pending')

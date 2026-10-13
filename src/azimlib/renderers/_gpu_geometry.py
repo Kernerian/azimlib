@@ -37,7 +37,13 @@ class PackedMesh:
     origin: tuple
     bounds: tuple
     count: int
+    indices: PackedBytes | None = None
     def __len__(self):return self.count
+
+class IndexedPacket(tuple):
+    """Six-field draw packet with a separate immutable index buffer."""
+    def __new__(cls,values,indices):
+        result=super().__new__(cls,values);result.indices=indices;return result
 
 
 def fan(rings, *, signed=False):
@@ -125,8 +131,8 @@ def drawing(item):
         add(fan((_background(item),)),s['background'],0,1)
     def stroke():
         if not s.get('dash') and s.get('linejoin','round')=='round':
-            from ._gpu_stroke import round_stroke
-            vertices=round_stroke(rings,s.get('stroke_width',1),s.get('linecap','butt'),glyph or not isinstance(item,Path) or item.closed,pack=True)
+            from ._gpu_indexed import indexed_stroke
+            vertices=indexed_stroke(rings,s.get('stroke_width',1),s.get('linecap','butt'),glyph or not isinstance(item,Path) or item.closed)
             if vertices is not None:
                 add(vertices,s.get('stroke'),0,s.get('stroke_opacity',1));return
         mesh=StrokeMesh()
@@ -194,14 +200,18 @@ class PreparationCache:
                 bounds=tuple(map(float,(v[:,0].min(),v[:,1].min(),v[:,0].max(),v[:,1].max())))
             else:
                 bounds=(min(p[0] for p in draw.vertices),min(p[1] for p in draw.vertices),max(p[0] for p in draw.vertices),max(p[1] for p in draw.vertices))
-            value.append((raw,origin,bounds,draw.color,draw.rule,len(draw.vertices)))
-            size+=len(raw)+256
+            packet=(raw,origin,bounds,draw.color,draw.rule,len(draw.vertices))
+            indices=getattr(draw.vertices,'indices',None)
+            value.append(IndexedPacket(packet,indices) if indices is not None else packet)
+            size+=len(raw)+(len(indices) if indices is not None else 0)+256
         # A resolved-surface signature must not keep evicted mesh payload alive.
         # Hash each immutable packet once, with unambiguous length delimiters.
         digest=hashlib.sha256()
         for packet in value:
             raw=packet[0];metadata=repr(packet[1:]).encode('utf8')
             digest.update(len(raw).to_bytes(8,'little'));digest.update(raw.sha256)
+            indices=getattr(packet,'indices',None)
+            if indices is not None:digest.update(b'indexed');digest.update(indices.sha256)
             digest.update(len(metadata).to_bytes(8,'little'));digest.update(metadata)
         size+=len(repr(key).encode('utf8'))+32;value=PreparedDraws(tuple(value),digest.digest())
         if size<=self.limit:

@@ -56,7 +56,9 @@ class EclipseState:
         """
         if not isinstance(observer,Observer) or observer.geodetic.fixed!=EARTH_FIXED:
             raise ValueError('Require terrestrial geodetic observer')
-        if solar_limb=='state':sun=self.sun
+        from .solar_disk import SolarDiskConvention
+        if isinstance(solar_limb,SolarDiskConvention):sun=ShadowSphere(self.sun.center,solar_limb.radius_m)
+        elif solar_limb=='state':sun=self.sun
         elif solar_limb=='usno-696000km':
             # Explicit published Solar Eclipse Computer convention. Independent
             # contact comparisons must select it, not fit a radius to residuals.
@@ -72,6 +74,11 @@ class EclipseState:
             moon=ShadowSphere(self.moon.center,6378137.*k)
         else:raise ValueError('Unknown explicit lunar limb convention')
         return occultation(observer.fixed_position,sun,moon)
+
+    def compare_solar_disks(self,observer,conventions,*,lunar_limb='physical-mean'):
+        """Expose model-dependent classification without changing state or clocks."""
+        from .solar_disk import compare_disks
+        return compare_disks(lambda model:self.solar(observer,lunar_limb=lunar_limb,solar_limb=model),conventions)
 
     def central_point(self):
         """Near-side shadow-axis intersection with WGS84; None if axis misses."""
