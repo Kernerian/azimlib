@@ -32,7 +32,7 @@ def run(backend,output):
         from azimlib.renderers.pillow import render_image
         scene=fig.to_scene(cull=True,interactive=True);expected=render_image(scene);actual=v._renderer(scene)
         assert expected.tobytes()==actual.tobytes();expected.close();actual.close()
-        record={'backend':backend,'system':platform.system(),'python':platform.python_version(),'fallback':worker.backend_info,'passed':True,
+        record={'backend':backend,'system':platform.system(),'machine':platform.machine(),'python':platform.python_version(),'fallback':worker.backend_info,'passed':True,
             'contracts':['deferred cache ready','visible provisional change','fixed decoration','content invalidation','authoritative CPU equality'],
             'source_sha256':{p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((ROOT/'src/azimlib').rglob('*.py'))},
             'hardware_performance_claim':False}
