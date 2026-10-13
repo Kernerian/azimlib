@@ -146,5 +146,16 @@ class PreviewContracts(unittest.TestCase):
             self.assertAlmostEqual(b[1]-a[1],0,delta=.1)
         finally:initial.close();moved.close()
 
+    def test_composing_changed_view_does_not_invalidate_base_for_derived_formatter_state(self):
+        self.assertTrue(self.capture())
+        self.ax.set_extent((-56,-44,-27,-13));self.fig.to_scene(cull=True,interactive=True)
+        image=self.preview.render(self.fig)
+        self.assertIsNotNone(image);image.close()
+
+    def test_user_formatter_parameters_still_invalidate(self):
+        self.assertTrue(self.capture())
+        self.ax.xaxis.get_major_formatter().set_useOffset(1000)
+        self.assertIsNone(self.preview.render(self.fig))
+
 
 if __name__=='__main__':unittest.main()

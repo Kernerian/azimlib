@@ -15,8 +15,20 @@ def _ticker_identity(axis):
                  axis.get_minor_locator(),axis.get_minor_formatter())
     # Locator/Formatter parameter edits notify their owner rather than carrying
     # an Artist serial. Exclude the owning Axis reference, retain parameters.
-    return tuple((id(value),repr({k:v for k,v in vars(value).items() if k!='axis'}))
-                 for value in controllers)
+    from ..ticker import Formatter,ScalarFormatter
+    result=[]
+    for value in controllers:
+        ignored={'axis'}
+        # Built-in formatters recalculate these from the view during scene
+        # composition. They are not user configuration edits. FixedLocator's
+        # locs remain part of the key; explicit numeric offsets remain too.
+        if type(value).__module__==Formatter.__module__ and isinstance(value,Formatter):
+            ignored.add('locs')
+            if isinstance(value,ScalarFormatter):
+                ignored.update(('orderOfMagnitude','_digits'))
+                if value.get_useOffset():ignored.add('offset')
+        result.append((id(value),repr({k:v for k,v in vars(value).items() if k not in ignored})))
+    return tuple(result)
 
 
 def _identity(figure):
