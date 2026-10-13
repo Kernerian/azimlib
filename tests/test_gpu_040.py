@@ -91,6 +91,17 @@ class GpuContracts(unittest.TestCase):
 class ActualGpu(unittest.TestCase):
     def setUp(self):self.gpu=GpuRenderer(GpuConfig(context_backend=os.environ.get('AZIMLIB_GPU_CONTEXT')))
     def tearDown(self):self.gpu.close()
+    def test_buffer_reuses_exact_bytes_but_separates_programs(self):
+        from array import array
+        data=array('f',(0,0,1,1,0,1,0,1,1)).tobytes()
+        a=self.gpu._buffer(data,self.gpu.mask_program,'3f',('point',))
+        b=self.gpu._buffer(bytes(bytearray(data)),self.gpu.mask_program,'3f',('point',))
+        self.assertIs(a,b);self.assertEqual(self.gpu.stats['uploads'],1)
+        other=self.gpu.ctx.program(vertex_shader='#version 330\nin vec3 point;void main(){gl_Position=vec4(point,1.);}',fragment_shader='#version 330\nout vec4 color;void main(){color=vec4(1.);}')
+        try:
+            c=self.gpu._buffer(data,other,'3f',('point',))
+            self.assertIsNot(a,c);self.assertEqual(self.gpu.stats['uploads'],2)
+        finally:other.release()
     def test_evenodd_concavity_holes_and_paint_order(self):
         rings=(((5,5),(75,5),(75,75),(5,75)),((25,25),(55,25),(55,55),(25,55)))
         scene=Scene(80,80,items=[Path(rings,True,dict(fill='red')),Circle(40,40,5,dict(fill='blue'))])

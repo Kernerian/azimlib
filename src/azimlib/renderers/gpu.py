@@ -154,9 +154,12 @@ class GpuRenderer:
         self.volume_low=own(self.ctx.framebuffer([self.volume_color]))
         self.stats['surface_bytes']=size
     def _buffer(self,data,program,layout,attrs):
-        key=(layout,hashlib.sha256(data).digest())
+        # bytes caches its own hash; equality still compares the full payload,
+        # so hash collisions never reuse a different mesh. Include the shader
+        # and attribute layout because a VAO belongs to that exact program.
+        key=(program.glo,layout,tuple(attrs),data)
         if key in self._cache:
-            entry=self._cache.pop(key);self._cache[key]=entry;self.stats['cache_hits']+=1;return entry[0]
+            entry=self._cache[key];self._cache.move_to_end(key);self.stats['cache_hits']+=1;return entry[0]
         # Evict before upload; retained GPU buffer payload has a separate budget.
         if len(data)>self.config.max_cache_bytes:raise GpuResourceError('GPU mesh exceeds the buffer budget')
         while self._cache and (self._cache_bytes+len(data)>self.config.max_cache_bytes or len(self._cache)>=2048):
@@ -186,12 +189,18 @@ class GpuRenderer:
         vao=self._buffer(data,self.mask_program,'3f',('point',))
         self.mask_fbo.use();self.ctx.scissor=scissor
         self.mask_fbo.clear(0.,viewport=scissor)
-        self.ctx.enable_only(self.gl.BLEND);self.ctx.blend_func=(self.gl.ONE,self.gl.ONE)
-        self.mask_program['size'].value=(scene.width,scene.height);self.mask_program['origin'].value=origin
+        if not self._two_dimensional:
+            self.ctx.enable_only(self.gl.BLEND);self.mask.use(0)
+            self._two_dimensional=True
+        self.ctx.blend_func=(self.gl.ONE,self.gl.ONE)
+        self._mask_origin.value=origin
         vao.render(self.gl.TRIANGLES)
-        self.main.use();self.ctx.scissor=scissor;self.mask.use(0)
+        self.main.use();self.ctx.scissor=scissor
         self.ctx.blend_func=(self.gl.ONE,self.gl.ONE_MINUS_SRC_ALPHA)
-        self.paint_program['color'].value=color;self.paint_program['rule'].value=rule
+        if self._paint_color_value!=color:
+            self._paint_color.value=color;self._paint_color_value=color
+        if self._paint_rule_value!=rule:
+            self._paint_rule.value=rule;self._paint_rule_value=rule
         self.paint_quad.render(self.gl.TRIANGLES)
     def _terrain(self,item,scale):
         from array import array
@@ -244,6 +253,9 @@ class GpuRenderer:
         start=time.perf_counter();count=0
         try:
             self._resize(w,h);self.main.use();self.ctx.scissor=None
+            self._two_dimensional=False;self._paint_color_value=None;self._paint_rule_value=None
+            self._mask_origin=self.mask_program['origin'];self._paint_color=self.paint_program['color'];self._paint_rule=self.paint_program['rule']
+            self.mask_program['size'].value=(scene.width,scene.height)
             r,g,b,a=to_rgba(scene.background or 'none');self.main.clear(r*a,g*a,b*a,a,depth=1.)
             for item in scene.items:
                 if cancel is not None and (cancel.is_set() if hasattr(cancel,'is_set') else cancel()):raise GpuCancelled('GPU frame cancelled')
@@ -254,6 +266,7 @@ class GpuRenderer:
                         if count>self.config.max_vertices:raise GpuResourceError('GPU frame vertex budget exceeded')
                         self._draw(draw,scene,scale,anchor,item.clip)
                     else:
+                        self._two_dimensional=False;self._paint_color_value=None;self._paint_rule_value=None
                         self._terrain(draw,scale)
                         if draw.volumes:
                             if not hasattr(self,'volume_painter'):

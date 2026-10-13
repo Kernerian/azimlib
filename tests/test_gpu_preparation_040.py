@@ -13,6 +13,15 @@ from azimlib.renderers._gpu_geometry import drawing, circle
 
 
 class PreparationContracts(unittest.TestCase):
+    def test_resolved_text_miss_does_not_repeat_shaping_or_alignment(self):
+        from azimlib.renderers._gpu_geometry import PreparationCache
+        cache=PreparationCache(100000)
+        item=Text(12,15,'resolved',dict(fill='black',font_size=12))
+        with patch.object(Text,'__post_init__',side_effect=AssertionError('resolved twice')):
+            first,anchor=cache.get(item)
+            second,_=cache.get(item)
+        self.assertIs(first,second);self.assertEqual(anchor,(12,15))
+
     def test_index_matches_original_inclusive_degenerate_and_long_segments(self):
         rng=random.Random(90408)
         items=[Path([[(rng.uniform(-400,400),rng.uniform(-400,400)) for _ in range(300)]]),

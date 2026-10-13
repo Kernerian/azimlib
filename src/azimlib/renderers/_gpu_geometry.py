@@ -120,7 +120,7 @@ class PreparationCache:
         from collections import OrderedDict
         self.entries=OrderedDict();self.bytes=0;self.limit=max_bytes;self.hits=0;self.misses=0
     def get(self,item):
-        from dataclasses import replace
+        from copy import copy
         from ..text_engine import cache_token
         import hashlib
         if isinstance(item,Raster3D):return (item,), (0,0)
@@ -129,13 +129,18 @@ class PreparationCache:
             x,y=anchor
             parts=tuple(tuple((a-x,b-y) for a,b in part) for part in item.paths)
             geometry=(item.closed,tuple(len(p) for p in parts),hashlib.sha256(array('d',(v for part in parts for p in part for v in p)).tobytes()).digest())
-            local=replace(item,paths=parts,clip=None)
         else:
-            anchor=(item.x,item.y);local=replace(item,x=0,y=0,clip=None)
+            anchor=(item.x,item.y)
             geometry=(str(item.text),cache_token(item.text,item.style)) if isinstance(item,Text) else (item.r,) if isinstance(item,Circle) else (item.width,item.height)
         key=(type(item),geometry,repr(sorted((k,v) for k,v in item.style.items() if k!='texconfig')))
         if key in self.entries:
             value,size=self.entries.pop(key);self.entries[key]=(value,size);self.hits+=1;return value,anchor
+        # Resolved Text must not be shaped or aligned a second time. Construct
+        # local geometry only on misses; hits already own immutable packets.
+        local=copy(item);object.__setattr__(local,'clip',None)
+        if isinstance(item,Path):object.__setattr__(local,'paths',parts)
+        else:
+            object.__setattr__(local,'x',0);object.__setattr__(local,'y',0)
         self.misses+=1;value=[];size=0
         for draw in drawing(local):
             raw,origin=packed(draw.vertices)
