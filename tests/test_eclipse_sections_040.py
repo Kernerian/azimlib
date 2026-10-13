@@ -67,4 +67,12 @@ class Sections(unittest.TestCase):
         self.assertTrue(any(abs(a-b)>180 for a,b in zip(longitudes,longitudes[1:])))
         self.assertEqual(len(model.components(65)),2)
 
+    def test_isolated_tangent_points_are_not_lost_or_reported_as_absent(self):
+        model=ConeSections((0,5,0),(0,0,1),.75,axes=(4,4,4))
+        curves=model.components(17);self.assertEqual(len(curves),2)
+        self.assertTrue(all(len(c)==1 for c in curves))
+        self.assertTrue(model.isolation['repeated'])
+        expected=((0,3.2,-2.4),(0,3.2,2.4))
+        for point in (c[0] for c in curves):self.assertLess(min(math.dist(point,p) for p in expected),1e-6)
+
 if __name__=='__main__':unittest.main()

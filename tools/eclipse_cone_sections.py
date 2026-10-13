@@ -110,6 +110,17 @@ class ConeSections:
         self.arcs=tuple(arcs)
         self.identically_tangent=isolated['status']=='identically_zero'
 
+    def isolated_tangencies(self):
+        """Retain zero-dimensional components instead of reporting absence."""
+        output=[]
+        if self.identically_tangent:return ()
+        for angle in self.tangencies:
+            other=[abs(math.remainder(angle-b,2*math.pi)) for b in self.tangencies if b!=angle]
+            step=min([.001,*[v/4 for v in other]])
+            signs=[_value(self.polynomial,F(math.tan((angle+d)/2))) for d in (-step,step)]
+            if all(v<0 for v in signs):output.append(self.intersections(angle)[0])
+        return tuple(output)
+
     def intersections(self,phi):
         d=tuple(a+self.slope*(b*math.cos(phi)+c*math.sin(phi)) for a,b,c in zip(self.axis,self.e,self.f))
         u=tuple(a/r for a,r in zip(self.apex,self.axes));v=tuple(a/r for a,r in zip(d,self.axes))
@@ -130,6 +141,7 @@ class ConeSections:
             if hi-lo>=2*math.pi-1e-10:
                 output.extend(tuple(pair[side] for pair in pairs) for side in (0,1))
             else:output.append(tuple([p[0] for p in pairs]+[p[1] for p in reversed(pairs)]))
+        output.extend((point,) for point in self.isolated_tangencies())
         return tuple(output)
 
     def contract(self):
