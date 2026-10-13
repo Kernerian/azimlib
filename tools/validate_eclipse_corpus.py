@@ -23,11 +23,17 @@ def frozen(path,expected):
     record=json.loads(raw)
     if record['limits']!=LIMITS:raise ValueError('Frozen scientific limits changed')
     if len(record['solar'])!=52 or len(record['lunar'])!=30:raise ValueError('Frozen stratified coverage changed')
-    for name in ('corpus-protocol-frozen.json','corpus-selection-frozen.json','solar-local-oracles-v3-frozen.json','lunar-oracles-v2-frozen.json'):
+    for name in ('corpus-protocol-frozen.json','corpus-selection-frozen.json','solar-local-oracles-v4-frozen.json','lunar-oracles-v2-frozen.json','central-oracle-v2-frozen.json'):
         if hashlib.sha256((path.parent/name).read_bytes()).hexdigest()!=record['input_sha256'][name]:raise ValueError('Frozen input changed: '+name)
     selection=json.loads((path.parent/'corpus-selection-frozen.json').read_bytes())
     protocol=json.loads((path.parent/'corpus-protocol-frozen.json').read_bytes())
     if protocol['limits']!=LIMITS:raise ValueError('Protocol limits changed')
+    import importlib.util
+    spec=importlib.util.spec_from_file_location('_owned_central_oracle',ROOT/'tools/validate_eclipse_contract.py')
+    verifier=importlib.util.module_from_spec(spec);spec.loader.exec_module(verifier)
+    corrected=verifier.read_central_oracle(path.parent/'central-oracle-v2-frozen.json')
+    case2023=next(c for c in record['solar'] if c['date']=='2023-10-14')
+    if case2023.get('central_oracle')!=corrected:raise ValueError('Explicit corrected central oracle differs')
     for body in ('solar','lunar'):
         dates=[c['date'] for c in record[body]]
         if dates!=[c['date'] for c in selection[body]['selected']] or len(set(dates))!=len(dates):raise ValueError('Selected event matrix changed')
@@ -55,6 +61,19 @@ def state_function(case,model):
     return at
 
 def clock(value):return sum(float(v)*f for v,f in zip(value.split(':'),(3600,60,1)))
+
+def unwrap_rows(rows,anchor_ut_seconds):
+    """Calendar-day normalization about the external greatest-eclipse epoch."""
+    result=[];previous=None
+    for row in rows:
+        value=row['seconds']
+        if previous is None:
+            while value-anchor_ut_seconds>43200:value-=86400
+            while value-anchor_ut_seconds<-43200:value+=86400
+        else:
+            while value<previous-43200:value+=86400
+        result.append(dict(row,seconds=value));previous=value
+    return result
 
 def timed_rows(raw):
     text=html.unescape(re.sub('<[^>]+>','',raw));rows=[];seen=set()
@@ -126,14 +145,23 @@ def solar(case,model,folder):
         path=(folder/case['path']).resolve()
         if folder.resolve() not in path.parents:raise ValueError('Path reference escapes evidence directory')
         delta,reference=timed_rows(path.read_text('utf8'))
+        reference=unwrap_rows(reference,clock(case['td_greatest'])-delta)
         path_at=state_function(dict(case,delta_t_s=delta),model)
+        override=case.get('central_oracle')
+        if override is not None:
+            corrected={r['ut']:r for r in override['rows']}
+            if len(corrected)!=len(reference) or set(corrected)!={r['ut'] for r in reference}:raise ValueError('Corrected center coverage differs from full source table')
+            center_at=state_function(dict(case,delta_t_s=override['delta_t_seconds']),model)
+        else:center_at=path_at
         for r in reference:
-            nominal=r['seconds'];center=r['points'][2];actual=path_at(nominal).central_point()
+            nominal=r['seconds'];center=r['points'][2]
+            if override is not None:center=(corrected[r['ut']]['longitude'],corrected[r['ut']]['latitude'])
+            actual=center_at(nominal).central_point()
             if center is None:
                 rows.append(dict(quantity='axis_presence',ut=r['ut'],expected=False,actual=actual is not None,passed=actual is None))
             else:
                 error=None if actual is None else Geodesic().inverse(*center,*actual).distance
-                rows.append(dict(quantity='center_m',ut=r['ut'],error=error,reference=center,actual=actual,sun_altitude_degrees=altitude(path_at(nominal),Observer(*center)),passed=error is not None and error<=2000))
+                rows.append(dict(quantity='center_m',ut=r['ut'],ut1_seconds_since_event_date=nominal,error=error,reference=center,actual=actual,oracle_version=2 if override is not None else 1,sun_altitude_degrees=altitude(center_at(nominal),Observer(*center)),passed=error is not None and error<=2000))
             for side,point in zip(('north','south'),r['points'][:2]):
                 if point is None:continue
                 lon,lat=point
@@ -176,7 +204,7 @@ def run(args):
         aggregate[quantity]=statistics([v for v,c,r in pairs])
         if pairs:
             value,c,r=max(pairs,key=lambda x:x[0]);aggregate[quantity]['worst']=dict(date=c['date'],body=c['body'],row=r)
-    report=dict(schema=1,corpus_sha256=args.expected_sha256,kernel_sha256=args.kernel_sha256,limits=LIMITS,cases=results,aggregate=aggregate,all_cases_passed=all(c['passed'] for c in results),accuracy_bound_established=False,canonical_2023_oracle_unchanged=True,limitations=['A stratified corpus is not a continuous uncertainty proof across 1972-2100','Grazing/double roots remain unsupported; missing crossings are failures','Earth orientation reduction and catalog-specific radii require an independent global uncertainty budget','Lunar obscuration has no independent numeric reference in these plates'],implementation_sha256={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ('src/azimlib/_spk.py','src/azimlib/_eclipse_ephemeris.py','tools/validate_eclipse_corpus.py')})
+    report=dict(schema=1,corpus_sha256=args.expected_sha256,kernel_sha256=args.kernel_sha256,limits=LIMITS,cases=results,aggregate=aggregate,all_cases_passed=all(c['passed'] for c in results),accuracy_bound_established=False,central_2023_oracle_version=2,legacy_reference_preserved=True,limitations=['A stratified corpus is not a continuous uncertainty proof across 1972-2100','Grazing/double roots remain unsupported; missing crossings are failures','Earth orientation reduction and catalog-specific radii require an independent global uncertainty budget','Lunar obscuration has no independent numeric reference in these plates'],implementation_sha256={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ('src/azimlib/_spk.py','src/azimlib/_eclipse_ephemeris.py','tools/validate_eclipse_corpus.py','tools/validate_eclipse_contract.py')})
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     return 0 if report['all_cases_passed'] else 3
 

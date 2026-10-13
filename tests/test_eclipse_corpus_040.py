@@ -39,5 +39,10 @@ class CorpusContracts(unittest.TestCase):
     def test_statistics_keep_extreme_cases(self):
         self.assertEqual(tool.statistics([0,1,2,3,1000])['maximum'],1000)
         self.assertEqual(tool.statistics([])['n'],0)
+    def test_midnight_paths_keep_full_civil_day(self):
+        rows=[dict(seconds=23*3600),dict(seconds=60),dict(seconds=120)]
+        self.assertEqual([r['seconds'] for r in tool.unwrap_rows(rows,23.5*3600)],[82800,86460,86520])
+        self.assertEqual([r['seconds'] for r in tool.unwrap_rows(rows,60)],[-3600,60,120])
+        self.assertEqual(rows[1]['seconds'],60)
 
 if __name__=='__main__':unittest.main()
