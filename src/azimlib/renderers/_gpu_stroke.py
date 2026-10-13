@@ -6,7 +6,7 @@ constructor. It changes preparation cost, not width, tessellation or clipping.
 import math
 
 
-def round_stroke(rings, width, cap, closed):
+def round_stroke(rings, width, cap, closed, *, pack=False):
     try: import numpy as np
     except ImportError: return None
     from ._gpu_geometry import unit_circle
@@ -14,15 +14,25 @@ def round_stroke(rings, width, cap, closed):
     radius=width/2
     count=max(16,min(2048,math.ceil(math.pi*math.sqrt(radius*8))))
     unit=np.asarray(unit_circle(count))
-    chunks=[];points=0;vertices=0
+    chunks=[];points=0;vertices=0;origin=None;bounds=None
     def append_triangles(triangles):
-        nonlocal vertices
+        nonlocal vertices,origin,bounds
         flat=triangles.reshape(-1,3,2)
         a=flat[:,1]-flat[:,0];b=flat[:,2]-flat[:,0]
         flat=flat[(a[:,0]*b[:,1]-a[:,1]*b[:,0])!=0].reshape(-1,2)
         vertices+=len(flat)
         if vertices>2000000: raise ValueError('GPU mesh exceeds two million vertices')
-        out=np.ones((len(flat),3));out[:,:2]=flat;chunks.append(out)
+        if pack:
+            if not len(flat):return
+            if origin is None:origin=tuple(map(float,flat[0]))
+            box=tuple(map(float,(flat[:,0].min(),flat[:,1].min(),flat[:,0].max(),flat[:,1].max())))
+            bounds=box if bounds is None else (min(bounds[0],box[0]),min(bounds[1],box[1]),max(bounds[2],box[2]),max(bounds[3],box[3]))
+            out=np.empty((len(flat),3),dtype='f4')
+            np.subtract(flat[:,0],origin[0],out=out[:,0]);np.subtract(flat[:,1],origin[1],out=out[:,1]);out[:,2]=1.
+            if not np.all(np.isfinite(out)):raise ValueError('GPU vertices exceed finite float32 domain')
+            chunks.append(out.tobytes())
+        else:
+            out=np.ones((len(flat),3));out[:,:2]=flat;chunks.append(out)
     for ring in rings:
         p=np.asarray(ring,dtype='f8').reshape(-1,2)
         if len(p)<2: continue
@@ -52,4 +62,7 @@ def round_stroke(rings, width, cap, closed):
                 v=p[i];n=normals[i];extension=directions[i]*radius*sign
                 q=np.asarray((v+n,v+n+extension,v-n+extension,v-n))
                 append_triangles(q[[0,1,2,0,2,3]])
+    if pack:
+        from ._gpu_geometry import PackedMesh,PackedBytes
+        return PackedMesh(PackedBytes(b''.join(chunks)),origin or (0.,0.),bounds or (0.,0.,0.,0.),vertices)
     return np.concatenate(chunks) if chunks else np.empty((0,3))

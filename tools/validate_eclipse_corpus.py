@@ -49,6 +49,52 @@ def statistics(values):
     values=sorted(values)
     return dict(n=len(values),maximum=max(values),p50=values[len(values)//2],p95=values[math.ceil(.95*len(values))-1]) if values else dict(n=0,maximum=None,p50=None,p95=None)
 
+def corrected_centers(corpus, path, expected, original_sha):
+    """Explicit audited whole-event correction; the historical corpus stays intact.
+
+    Acceptance uses external-to-external geometry, never implementation errors.
+    This cannot override the separately resolved 2023 oracle or scientific limits.
+    """
+    import copy
+    path=Path(path).resolve()
+    if ROOT==path or ROOT in path.parents:raise ValueError('Corrections must stay outside checkout')
+    raw=path.read_bytes()
+    if hashlib.sha256(raw).hexdigest()!=expected:raise ValueError('Correction hash mismatch')
+    record=json.loads(raw)
+    if record['schema']!=3 or record['limit_m']!=2000 or record['original_corpus_sha256']!=original_sha:
+        raise ValueError('Correction contract mismatch')
+    if record['previous_2023_oracle_sha256']!=corpus['input_sha256']['central-oracle-v2-frozen.json']:
+        raise ValueError('Resolved 2023 provenance changed')
+    audit_path=path.parent/'center-reference-audit.json'
+    audit_raw=audit_path.read_bytes()
+    if hashlib.sha256(audit_raw).hexdigest()!=record['audit_sha256']:raise ValueError('Independent audit hash mismatch')
+    audit=json.loads(audit_raw);dates=[c['date'] for c in record['cases']]
+    if not dates or len(dates)!=len(set(dates)) or dates!=audit['accepted_dates'] or '2023-10-14' in dates:
+        raise ValueError('Correction event coverage mismatch')
+    result=copy.deepcopy(corpus);events={c['date']:c for c in result['solar']}
+    for change in record['cases']:
+        event=events[change['date']];proof=next(c for c in audit['events'] if c['date']==change['date'])
+        comparisons=proof['comparisons']
+        if not proof['acceptance_independent_of_Azimlib'] or proof['decision']!='Correct whole-event central oracle':
+            raise ValueError('No independent whole-event acceptance')
+        if change['source_sha256']!=event['source_sha256'] or proof['current_source_sha256']!=event['source_sha256']:
+            raise ValueError('Published source provenance mismatch')
+        if change['delta_t_seconds']!=proof['normalized_delta_t_s'] or len(comparisons)!=proof['rows']:
+            raise ValueError('Clock/coverage mismatch')
+        if [r['ut'] for r in change['rows']]!=[r['ut'] for r in comparisons]:raise ValueError('Timed rows differ')
+        for row, external in zip(change['rows'],comparisons):
+            if not external['presence_agrees']:raise ValueError('Independent axis presence disagrees')
+            value=external['nasa_to_DE440_m']
+            if external['nasa_point'] is not None and (value is None or not math.isfinite(value) or value>2000):
+                raise ValueError('Independent center budget failed')
+            for name in ('nasa_to_DE421_m','nasa_to_Horizons_m'):
+                value=external.get(name)
+                if value is not None and (not math.isfinite(value) or value>2000):raise ValueError('Secondary reference budget failed')
+            point=None if row['longitude'] is None and row['latitude'] is None else [row['longitude'],row['latitude']]
+            if point!=external['nasa_point']:raise ValueError('Correction differs from independent audit')
+        event['central_oracle']=dict(change,version=3)
+    return result
+
 def minimum(fn,a,b):
     g=(math.sqrt(5)-1)/2;c=b-g*(b-a);d=a+g*(b-a);fc=fn(c);fd=fn(d)
     for _ in range(34):
@@ -178,13 +224,14 @@ def solar(case,model,folder):
         else:center_at=path_at
         for r in reference:
             nominal=r['seconds'];center=r['points'][2]
-            if override is not None:center=(corrected[r['ut']]['longitude'],corrected[r['ut']]['latitude'])
+            if override is not None:
+                c=corrected[r['ut']];center=None if c['longitude'] is None and c['latitude'] is None else (c['longitude'],c['latitude'])
             actual=center_at(nominal).central_point()
             if center is None:
                 rows.append(dict(quantity='axis_presence',ut=r['ut'],expected=False,actual=actual is not None,passed=actual is None))
             else:
                 error=None if actual is None else Geodesic().inverse(*center,*actual).distance
-                rows.append(dict(quantity='center_m',ut=r['ut'],ut1_seconds_since_event_date=nominal,error=error,reference=center,actual=actual,oracle_version=2 if override is not None else 1,sun_altitude_degrees=altitude(center_at(nominal),Observer(*center)),passed=error is not None and error<=2000))
+                rows.append(dict(quantity='center_m',ut=r['ut'],ut1_seconds_since_event_date=nominal,error=error,reference=center,actual=actual,oracle_version=override.get('version',2) if override is not None else 1,sun_altitude_degrees=altitude(center_at(nominal),Observer(*center)),passed=error is not None and error<=2000))
             for side,point in zip(('north','south'),r['points'][:2]):
                 if point is None:continue
                 def minimized(lon,lat):
@@ -220,7 +267,11 @@ def evaluate(task):
     result['elapsed_s']=time.perf_counter()-start;return result
 
 def run(args):
-    corpus=frozen(args.corpus,args.expected_sha256);tasks=[(body,case,str(args.kernel),args.kernel_sha256,str(args.corpus.parent/'references')) for body in ('solar','lunar') for case in corpus[body]]
+    corpus=frozen(args.corpus,args.expected_sha256)
+    corrections=getattr(args,'central_corrections',None);correction_sha=getattr(args,'central_corrections_sha256',None)
+    if bool(corrections)!=bool(correction_sha):raise ValueError('Both explicit correction path and hash required')
+    if corrections:corpus=corrected_centers(corpus,corrections,correction_sha,args.expected_sha256)
+    tasks=[(body,case,str(args.kernel),args.kernel_sha256,str(args.corpus.parent/'references')) for body in ('solar','lunar') for case in corpus[body]]
     from concurrent.futures import ProcessPoolExecutor
     results=[]
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
@@ -234,8 +285,9 @@ def run(args):
         if pairs:
             value,c,r=max(pairs,key=lambda x:x[0]);aggregate[quantity]['worst']=dict(date=c['date'],body=c['body'],row=r)
     report=dict(schema=2,corpus_sha256=args.expected_sha256,kernel_sha256=args.kernel_sha256,limits=LIMITS,cases=results,aggregate=aggregate,all_cases_passed=all(c['passed'] for c in results),accuracy_bound_established=False,central_2023_oracle_version=2,legacy_reference_preserved=True,domain=EclipseEphemeris.domain_contract(),outside_domain_cases=[dict(date=c['date'],body=c['body'],quantity=c['domain_quantity'],value=c['domain_value']) for c in results if c.get('status')=='outside_experimental_domain'],limitations=['A stratified corpus is not a continuous uncertainty proof across 1972-2100','Surface roots certify local distance, not global nearest branch or a Hausdorff bound','Critical-point splitting detects narrow pairs; double tangencies still need explicit scientific classification','Earth orientation reduction and catalog-specific radii require an independent global uncertainty budget','Lunar obscuration has no independent numeric reference in these plates'],implementation_sha256={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ('src/azimlib/_spk.py','src/azimlib/_eclipse_ephemeris.py','tools/validate_eclipse_corpus.py','tools/validate_eclipse_contract.py','tools/eclipse_spatial_metric.py')})
+    report['explicit_center_corrections_sha256']=correction_sha
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     return 0 if report['all_cases_passed'] else 3
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--corpus',type=Path,required=True);p.add_argument('--expected-sha256',required=True);p.add_argument('--kernel',type=Path,required=True);p.add_argument('--kernel-sha256',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--workers',type=int,choices=range(1,5),default=2);args=p.parse_args();raise SystemExit(run(args))
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--corpus',type=Path,required=True);p.add_argument('--expected-sha256',required=True);p.add_argument('--kernel',type=Path,required=True);p.add_argument('--kernel-sha256',required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--central-corrections',type=Path);p.add_argument('--central-corrections-sha256');p.add_argument('--workers',type=int,choices=range(1,5),default=2);args=p.parse_args();raise SystemExit(run(args))

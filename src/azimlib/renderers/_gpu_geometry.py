@@ -30,6 +30,16 @@ class PackedBytes(bytes):
         result=super().__new__(cls,value);result.sha256=hashlib.sha256(result).digest();return result
 
 
+@dataclass(frozen=True)
+class PackedMesh:
+    """Exact immutable mesh packet, avoiding a concatenated float64 staging copy."""
+    raw: PackedBytes
+    origin: tuple
+    bounds: tuple
+    count: int
+    def __len__(self):return self.count
+
+
 def fan(rings, *, signed=False):
     rings=tuple(rings)
     if any(len(ring)>=64 for ring in rings):
@@ -116,7 +126,7 @@ def drawing(item):
     def stroke():
         if not s.get('dash') and s.get('linejoin','round')=='round':
             from ._gpu_stroke import round_stroke
-            vertices=round_stroke(rings,s.get('stroke_width',1),s.get('linecap','butt'),glyph or not isinstance(item,Path) or item.closed)
+            vertices=round_stroke(rings,s.get('stroke_width',1),s.get('linecap','butt'),glyph or not isinstance(item,Path) or item.closed,pack=True)
             if vertices is not None:
                 add(vertices,s.get('stroke'),0,s.get('stroke_opacity',1));return
         mesh=StrokeMesh()
@@ -136,6 +146,7 @@ def drawing(item):
 
 def packed(vertices):
     """Keep translation out of a float32 VBO; no rounding of physical coordinates."""
+    if isinstance(vertices,PackedMesh):return vertices.raw,vertices.origin
     x,y=vertices[0][:2]
     if hasattr(vertices,'dtype'):
         import numpy as np
@@ -177,7 +188,8 @@ class PreparationCache:
         self.misses+=1;value=[];size=0
         for draw in drawing(local):
             raw,origin=packed(draw.vertices)
-            if hasattr(draw.vertices,'dtype'):
+            if isinstance(draw.vertices,PackedMesh):bounds=draw.vertices.bounds
+            elif hasattr(draw.vertices,'dtype'):
                 v=draw.vertices
                 bounds=tuple(map(float,(v[:,0].min(),v[:,1].min(),v[:,0].max(),v[:,1].max())))
             else:
