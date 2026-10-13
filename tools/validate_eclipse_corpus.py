@@ -23,7 +23,7 @@ def frozen(path,expected):
     record=json.loads(raw)
     if record['limits']!=LIMITS:raise ValueError('Frozen scientific limits changed')
     if len(record['solar'])!=52 or len(record['lunar'])!=30:raise ValueError('Frozen stratified coverage changed')
-    for name in ('corpus-protocol-frozen.json','corpus-selection-frozen.json','solar-local-oracles-v4-frozen.json','lunar-oracles-v2-frozen.json','central-oracle-v2-frozen.json'):
+    for name in ('corpus-protocol-frozen.json','corpus-selection-frozen.json','solar-local-oracles-v5-frozen.json','lunar-oracles-v2-frozen.json','central-oracle-v2-frozen.json'):
         if hashlib.sha256((path.parent/name).read_bytes()).hexdigest()!=record['input_sha256'][name]:raise ValueError('Frozen input changed: '+name)
     selection=json.loads((path.parent/'corpus-selection-frozen.json').read_bytes())
     protocol=json.loads((path.parent/'corpus-protocol-frozen.json').read_bytes())
@@ -71,6 +71,7 @@ def unwrap_rows(rows,anchor_ut_seconds):
             while value-anchor_ut_seconds>43200:value-=86400
             while value-anchor_ut_seconds<-43200:value+=86400
         else:
+            while value>previous+43200:value-=86400
             while value<previous-43200:value+=86400
         result.append(dict(row,seconds=value));previous=value
     return result

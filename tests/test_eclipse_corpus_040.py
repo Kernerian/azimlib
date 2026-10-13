@@ -44,5 +44,7 @@ class CorpusContracts(unittest.TestCase):
         self.assertEqual([r['seconds'] for r in tool.unwrap_rows(rows,23.5*3600)],[82800,86460,86520])
         self.assertEqual([r['seconds'] for r in tool.unwrap_rows(rows,60)],[-3600,60,120])
         self.assertEqual(rows[1]['seconds'],60)
+        previous_day=[dict(seconds=23*3600),dict(seconds=23*3600+60),dict(seconds=60)]
+        self.assertEqual([r['seconds'] for r in tool.unwrap_rows(previous_day,60)],[-3600,-3540,60])
 
 if __name__=='__main__':unittest.main()
