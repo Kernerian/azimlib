@@ -97,6 +97,7 @@ class ActualGpu(unittest.TestCase):
         a=self.gpu._buffer(data,self.gpu.mask_program,'3f',('point',))
         b=self.gpu._buffer(bytes(bytearray(data)),self.gpu.mask_program,'3f',('point',))
         self.assertIs(a,b);self.assertEqual(self.gpu.stats['uploads'],1)
+        self.assertTrue(all(isinstance(key[-1],bytes) and len(key[-1])==32 for key in self.gpu._cache))
         other=self.gpu.ctx.program(vertex_shader='#version 330\nin vec3 point;void main(){gl_Position=vec4(point,1.);}',fragment_shader='#version 330\nout vec4 color;void main(){color=vec4(1.);}')
         try:
             c=self.gpu._buffer(data,other,'3f',('point',))

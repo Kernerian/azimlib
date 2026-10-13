@@ -21,6 +21,14 @@ class PreparationContracts(unittest.TestCase):
             first,anchor=cache.get(item)
             second,_=cache.get(item)
         self.assertIs(first,second);self.assertEqual(anchor,(12,15))
+    def test_surface_signature_does_not_retain_evicted_payload(self):
+        import weakref,gc
+        from azimlib.renderers._gpu_geometry import PreparationCache
+        cache=PreparationCache(100000)
+        packets,_=cache.get(Rect(0,0,10,10,dict(fill='red')))
+        ref=weakref.ref(packets);signature=packets.signature
+        cache.clear();del packets;gc.collect()
+        self.assertIsNone(ref());self.assertEqual(len(signature),32)
 
     def test_index_matches_original_inclusive_degenerate_and_long_segments(self):
         rng=random.Random(90408)

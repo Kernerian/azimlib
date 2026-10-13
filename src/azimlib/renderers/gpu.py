@@ -155,10 +155,12 @@ class GpuRenderer:
         self.volume_low=own(self.ctx.framebuffer([self.volume_color]))
         self.stats['surface_bytes']=size
     def _buffer(self,data,program,layout,attrs):
-        # bytes caches its own hash; equality still compares the full payload,
-        # so hash collisions never reuse a different mesh. Include the shader
-        # and attribute layout because a VAO belongs to that exact program.
-        key=(program.glo,layout,tuple(attrs),data)
+        # Prepared payloads compute SHA-256 once. Retaining only the digest in
+        # GPU keys avoids extending the lifetime of evicted CPU mesh payloads.
+        # A VAO also belongs to its exact shader and attribute layout.
+        digest=getattr(data,'sha256',None)
+        if digest is None:digest=hashlib.sha256(data).digest()
+        key=(program.glo,layout,tuple(attrs),digest)
         if key in self._cache:
             entry=self._cache[key];self._cache.move_to_end(key);self.stats['cache_hits']+=1;return entry[0]
         # Evict before upload; retained GPU buffer payload has a separate budget.
@@ -257,17 +259,21 @@ class GpuRenderer:
             # A repeated exact 2D command stream may reuse the resolved surface.
             # Full content, order, clip, colors, geometry, dimensions and scale
             # participate; no Artist identity or approximate geometry key does.
-            plan=[];payload=0;cacheable=True
+            plan=[];signature=[];payload=0;cacheable=True
             for item in scene.items:
                 if cancel is not None and (cancel.is_set() if hasattr(cancel,'is_set') else cancel()):raise GpuCancelled('GPU frame cancelled')
                 draws,anchor=self.prepared.get(item)
+                clip=tuple(item.clip) if item.clip is not None else None
+                token=getattr(draws,'signature',None)
+                if token is None:cacheable=False
+                else:signature.append((token,anchor,clip))
                 for draw in draws:
                     if isinstance(draw,Raster3D):cacheable=False
                     else:
                         count+=draw[-1];payload+=len(draw[0])
                         if count>self.config.max_vertices:raise GpuResourceError('GPU frame vertex budget exceeded')
-                    plan.append((draw,anchor,tuple(item.clip) if item.clip is not None else None))
-            key=(scene.width,scene.height,scale,scene.background,tuple(plan)) if cacheable and payload<=self.config.max_cache_bytes else None
+                    plan.append((draw,anchor,clip))
+            key=(scene.width,scene.height,scale,scene.background,tuple(signature)) if cacheable and payload<=self.config.max_cache_bytes else None
             reused=key is not None and key==self._last_plan
             self._last_plan=None
             self.main.use();self.ctx.scissor=None

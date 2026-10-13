@@ -1,5 +1,6 @@
 """Owned bounded screen meshes; no geographic interpretation or foreign tessellator."""
 import math
+import hashlib
 from functools import lru_cache
 from array import array
 from dataclasses import dataclass
@@ -12,6 +13,21 @@ class Draw:
     color: tuple
     rule: int  # 0 union, 1 even-odd, 2 nonzero
     clip: tuple | None
+
+
+@dataclass(frozen=True)
+class PreparedDraws:
+    items: tuple
+    signature: bytes
+    def __iter__(self):return iter(self.items)
+    def __len__(self):return len(self.items)
+    def __getitem__(self,index):return self.items[index]
+
+
+class PackedBytes(bytes):
+    """Immutable buffer payload with a once-computed content digest."""
+    def __new__(cls,value):
+        result=super().__new__(cls,value);result.sha256=hashlib.sha256(result).digest();return result
 
 
 def fan(rings, *, signed=False):
@@ -109,9 +125,9 @@ def packed(vertices):
         import numpy as np
         values=np.empty(vertices.shape,dtype='f4')
         np.subtract(vertices[:,0],x,out=values[:,0]);np.subtract(vertices[:,1],y,out=values[:,1]);values[:,2]=vertices[:,2]
-        return values.tobytes(),(float(x),float(y))
+        return PackedBytes(values.tobytes()),(float(x),float(y))
     values=array('f',(v for a,b,w in vertices for v in (a-x,b-y,w)))
-    return values.tobytes(),(x,y)
+    return PackedBytes(values.tobytes()),(x,y)
 
 
 class PreparationCache:
@@ -151,7 +167,14 @@ class PreparationCache:
                 bounds=(min(p[0] for p in draw.vertices),min(p[1] for p in draw.vertices),max(p[0] for p in draw.vertices),max(p[1] for p in draw.vertices))
             value.append((raw,origin,bounds,draw.color,draw.rule,len(draw.vertices)))
             size+=len(raw)+256
-        size+=len(repr(key).encode('utf8'));value=tuple(value)
+        # A resolved-surface signature must not keep evicted mesh payload alive.
+        # Hash each immutable packet once, with unambiguous length delimiters.
+        digest=hashlib.sha256()
+        for packet in value:
+            raw=packet[0];metadata=repr(packet[1:]).encode('utf8')
+            digest.update(len(raw).to_bytes(8,'little'));digest.update(raw.sha256)
+            digest.update(len(metadata).to_bytes(8,'little'));digest.update(metadata)
+        size+=len(repr(key).encode('utf8'))+32;value=PreparedDraws(tuple(value),digest.digest())
         if size<=self.limit:
             while self.entries and (self.bytes+size>self.limit or len(self.entries)>=2048):
                 _,(_,old)=self.entries.popitem(last=False);self.bytes-=old
