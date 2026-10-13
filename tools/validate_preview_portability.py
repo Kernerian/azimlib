@@ -20,7 +20,14 @@ def run(backend,output):
             if time.monotonic()>end:raise TimeoutError('Deferred preview contract timed out')
             pump();time.sleep(.005)
     try:
-        wait(lambda:v._view_preview.meta is not None and not v._preview_builder.busy())
+        def settled():
+            if v._view_preview.meta is None or v._preview_builder.busy():return False
+            if backend=='tk':return v._resize_pending is None and v._pending is None and not v._pan_raster.busy()
+            return not v.resize_timer.isActive() and not v._dirty and not v.worker.busy()
+        # Retina/Qt can schedule a resize after the first exact frame. A view
+        # cache MUST invalidate on resize; only start fixed-size contracts
+        # after the native window and its authoritative frame have settled.
+        wait(settled)
         worker=v._pixel_process if backend=='tk' else v._gpu_process
         assert worker.backend_info['fallback'] is True,'This proof requires absence of a hardware context'
         original=ax.get_extent();ax.set_extent((-59,-39,-30,-10))

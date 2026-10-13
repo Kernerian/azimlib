@@ -33,6 +33,7 @@ jobs:
       - run: python -I tools/validate_preview_portability.py --backend qt --output preview-review
       - run: python -I tools/audit_licenses.py --report preview-review/licenses.json
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: preview-contracts-${{ runner.os }}-${{ runner.arch }}-no-hardware-gpu
           path: preview-review/
