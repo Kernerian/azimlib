@@ -31,6 +31,22 @@ class PackedBytes(bytes):
 
 
 def fan(rings, *, signed=False):
+    rings=tuple(rings)
+    if any(len(ring)>=64 for ring in rings):
+        try:import numpy as np
+        except ImportError:pass
+        else:
+            chunks=[];count=0
+            for ring in rings:
+                if len(ring)<3:continue
+                p=np.asarray(ring,dtype='f8');a=p[0];b=p[1:-1];c=p[2:]
+                cross=(b[:,0]-a[0])*(c[:,1]-a[1])-(b[:,1]-a[1])*(c[:,0]-a[0])
+                valid=cross!=0;n=int(np.count_nonzero(valid));count+=n*3
+                if count>2000000:raise ValueError('GPU mesh exceeds two million vertices')
+                out=np.empty((n,3,3));out[:,0,:2]=a;out[:,1,:2]=b[valid];out[:,2,:2]=c[valid]
+                weights=np.where(cross[valid]<0,-1.,1.) if signed else np.ones(n)
+                out[:,:,2]=weights[:,None];chunks.append(out.reshape(-1,3))
+            return np.concatenate(chunks) if chunks else np.empty((0,3))
     output=[]
     for ring in rings:
         if len(ring)<3:continue
@@ -125,6 +141,7 @@ def packed(vertices):
         import numpy as np
         values=np.empty(vertices.shape,dtype='f4')
         np.subtract(vertices[:,0],x,out=values[:,0]);np.subtract(vertices[:,1],y,out=values[:,1]);values[:,2]=vertices[:,2]
+        if not np.all(np.isfinite(values)):raise ValueError('GPU vertices exceed finite float32 domain')
         return PackedBytes(values.tobytes()),(float(x),float(y))
     values=array('f',(v for a,b,w in vertices for v in (a-x,b-y,w)))
     return PackedBytes(values.tobytes()),(x,y)

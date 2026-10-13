@@ -28,6 +28,9 @@ jobs:
       - run: python -m unittest discover -s tests -p test_gpu_preparation_040.py -v
       - run: python -m unittest discover -s tests -p test_eclipse_corpus_040.py -v
       - run: python -m unittest discover -s tests -p test_eclipse_validation_040.py -v
+      - run: python -m unittest discover -s tests -p test_exact_layout_040.py -v
+      - run: python -m unittest discover -s tests -p test_eclipse_spatial_040.py -v
+      - run: python -m unittest discover -s tests -p test_projected_paths.py -v
       - if: runner.os == 'Linux'
         run: xvfb-run -a python -I tools/validate_preview_portability.py --backend tk --output preview-review
       - if: runner.os != 'Linux'
@@ -58,6 +61,8 @@ jobs:
       - run: python -m unittest discover -s tests -p test_gpu_preparation_040.py -v
       - run: python -m unittest discover -s tests -p test_eclipse_corpus_040.py -v
       - run: python -m unittest discover -s tests -p test_eclipse_validation_040.py -v
+      - run: python -m unittest discover -s tests -p test_exact_layout_040.py -v
+      - run: python -m unittest discover -s tests -p test_eclipse_spatial_040.py -v
       - run: python -m unittest discover -s tests -p test_gpu_040.py -v
       - run: python -I tools/validate_gpu.py --context egl --output mesa-contracts
       - uses: actions/upload-artifact@v4

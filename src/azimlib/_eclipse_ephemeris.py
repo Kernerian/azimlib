@@ -16,6 +16,13 @@ C=299792458.
 ARCSEC=math.pi/(180*3600)
 
 
+class EclipseDomainError(ValueError):
+    """Explicit experimental-domain rejection; never an extrapolated forecast."""
+    def __init__(self,message,quantity,value):
+        super().__init__(message);self.quantity=quantity;self.value=value
+        self.scientific_prediction_valid=False
+
+
 def _rotate(v,axis,angle):
     c,s=math.cos(angle),math.sin(angle);x,y,z=v
     if axis==0:return x,c*y-s*z,s*y+c*z
@@ -100,7 +107,7 @@ class EclipseState:
         return perpendicular-penumbra-r,perpendicular-umbra-r,perpendicular-umbra+r
 
 
-def contact_roots(function,start,end,*,step=60.,tolerance=.01):
+def contact_roots(function,start,end,*,step=60.,tolerance=.01,critical_points=()):
     """Bracketed sign-change contacts; grazing/double roots remain unsupported.
 
     Bounded interval/iterations with no implicit time-scale conversion. A
@@ -108,9 +115,16 @@ def contact_roots(function,start,end,*,step=60.,tolerance=.01):
     """
     if not all(isinstance(v,(int,float)) and math.isfinite(v) for v in (start,end,step,tolerance)) or not start<end or not 0<tolerance<=step or math.ceil((end-start)/step)>3000:
         raise ValueError('Invalid/beyond-budget contact search')
+    # A short negative interval can lie wholly between coarse samples. Explicit
+    # independently computed extrema split that interval, without substituting
+    # reference contact times or changing the bisection accuracy.
+    critical_points=tuple(critical_points)
+    if len(critical_points)>3000 or any(not isinstance(t,(int,float)) or not math.isfinite(t) or not start<=t<=end for t in critical_points):
+        raise ValueError('Invalid/beyond-budget critical points')
+    grid=sorted({start,end,*critical_points,*(min(start+i*step,end) for i in range(1,math.ceil((end-start)/step)))})
     roots=[];a=start;fa=function(a)
-    while a<end:
-        b=min(a+step,end);fb=function(b)
+    for b in grid[1:]:
+        fb=function(b)
         if not math.isfinite(fa) or not math.isfinite(fb):raise ValueError('Contact function must be finite')
         if fa==0 and (not roots or a-roots[-1]>tolerance):roots.append(a)
         if fa*fb<0:
@@ -134,12 +148,25 @@ class EclipseEphemeris:
         if not isinstance(kernel,SpkKernel):raise TypeError('Require our bounded SpkKernel')
         self.kernel=kernel
 
+    @staticmethod
+    def domain_contract():
+        """Development bounds are not a certified scientific accuracy interval.
+
+        Expansion requires independently validated reductions, EOP/UT1 and
+        explicit time uncertainty, kernel coverage and a complete error budget.
+        No certified interval is claimed while the global gate remains open.
+        """
+        return dict(experimental_tt_dates=('1972-01-01','2101-01-01'),
+                    experimental_tt_minus_ut1_s=(0,200),
+                    certified_accuracy_interval=None,accuracy_validated=False,
+                    outside_domain='raise EclipseDomainError; no extrapolation')
+
     def at(self,tt,ut1):
         seconds=_j2000_seconds(tt,'TT');rotation_seconds=_j2000_seconds(ut1,'UT1')
         if not (2441317-2451545)*86400+43200<=seconds<(2488434-2451545)*86400+43200:
-            raise ValueError('Reduction development domain is 1972-2100')
+            raise EclipseDomainError('Reduction development domain is 1972-2100; no certified scientific accuracy interval', 'TT',seconds)
         if not 0<=seconds-rotation_seconds<=200:
-            raise ValueError('Explicit TT-UT1 must lie in 0..200 seconds')
+            raise EclipseDomainError('Explicit TT-UT1 must lie in 0..200 seconds; no extrapolated scientific prediction', 'TT-UT1',seconds-rotation_seconds)
         T=seconds/(86400*36525)
         # Leading periodic TT-to-TDB correction; this is not a relativistic
         # ephemeris time transformation with a certified uncertainty bound.

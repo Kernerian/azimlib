@@ -16,9 +16,15 @@ class LegendIndex:
         try: import numpy as np
         except ImportError: np = None
         self.np = np
+        point_arrays=[]; segment_arrays=[]
         for item in items:
             if isinstance(item, Path):
                 for part in item.paths:
+                    if np is not None:
+                        array=np.asarray(part,dtype='f8').reshape(-1,2)
+                        point_arrays.append(array)
+                        if len(array)>1:segment_arrays.append(np.stack((array[:-1],array[1:]),axis=1))
+                        continue
                     for p in part:
                         if np is None:
                             key = self._cell(*p)
@@ -39,8 +45,10 @@ class LegendIndex:
                        if isinstance(item, Rect) else text_box(item.x, item.y, item.text, item.style))
                 self.boxes.append(box)
         if np is not None:
-            self.points = np.asarray(self.points, dtype='f8').reshape(-1, 2)
-            self.segments = np.asarray(self.segments, dtype='f8').reshape(-1, 2, 2)
+            self.points = np.concatenate(point_arrays) if point_arrays else np.empty((0,2))
+            self.segments = np.concatenate(segment_arrays) if segment_arrays else np.empty((0,2,2))
+            self.segment_low=np.minimum(self.segments[:,0],self.segments[:,1])
+            self.segment_high=np.maximum(self.segments[:,0],self.segments[:,1])
 
     def _cell(self, x, y):
         return math.floor(x/self.cell), math.floor(y/self.cell)
@@ -55,9 +63,14 @@ class LegendIndex:
         from .render_map import _overlap
         x, y, w, h = box; right = x+w; bottom = y+h
         if self.np is not None:
-            np = self.np; points = self.points; a = self.segments[:,0]; b = self.segments[:,1]
+            np = self.np; points = self.points
             result = int(np.count_nonzero((x <= points[:,0]) & (points[:,0] <= right) &
                                          (y <= points[:,1]) & (points[:,1] <= bottom)))
+            # Inclusive bounds remove only segments which cannot intersect.
+            # Original clipping and integer scoring remain authoritative.
+            candidates=((self.segment_low[:,0]<=right)&(self.segment_high[:,0]>=x)&
+                        (self.segment_low[:,1]<=bottom)&(self.segment_high[:,1]>=y))
+            segments=self.segments[candidates];a=segments[:,0];b=segments[:,1]
             dx, dy = b[:,0]-a[:,0], b[:,1]-a[:,1]
             t0 = np.zeros(len(a)); t1 = np.ones(len(a)); valid = np.ones(len(a),dtype=bool)
             for p, q in ((-dx, a[:,0]-x), (dx, right-a[:,0]), (-dy, a[:,1]-y), (dy, bottom-a[:,1])):

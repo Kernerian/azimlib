@@ -8,11 +8,13 @@ from datetime import datetime,timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'src'))
-from azimlib._eclipse_ephemeris import EclipseEphemeris,contact_roots
+sys.path.insert(0,str(ROOT/'tools'))
+from azimlib._eclipse_ephemeris import EclipseEphemeris,EclipseDomainError,contact_roots
 from azimlib._timescales import Instant,JulianCoordinate
 from azimlib._spk import SpkKernel
 from azimlib._frames import Observer
 from azimlib.geodesy import Geodesic
+from eclipse_spatial_metric import boundary_distance
 LIMITS=dict(center_m=2000,boundary_m=3000,solar_contact_s=30,lunar_contact_s=60,magnitude=.001,obscuration=.001)
 
 def frozen(path,expected):
@@ -102,6 +104,20 @@ def altitude(state,observer):
     up=(math.cos(lat)*math.cos(lon),math.cos(lat)*math.sin(lon),math.sin(lat))
     return math.degrees(math.asin(max(-1,min(1,sum(a*b for a,b in zip(v,up))/n))))
 
+def same_boundary_branch(at,t,reference,candidate):
+    """Cross-track side correspondence; ambiguity is never implicit approval."""
+    before,center,after=(at(t+d).central_point() for d in (-.5,0,.5))
+    if before is None or center is None or after is None:
+        return dict(verified=False,reason='No central-axis segment for independent north/south association')
+    geo=Geodesic();heading=geo.inverse(*before,*after).azimuth1
+    def cross(point):
+        v=geo.inverse(*center,*point)
+        return v.distance*math.sin(math.radians(v.azimuth1-heading))
+    a,b=cross(reference),cross(candidate)
+    return dict(verified=abs(a)>.1 and abs(b)>.1 and a*b>0,
+                reference_cross_track_m=a,candidate_cross_track_m=b,
+                reason=None if a*b>0 else 'Candidate is not on the reference cross-track branch')
+
 def lunar(case,model):
     at=state_function(case,model);nominal=case['greatest_ut1_seconds'];rows=[]
     for i,names in enumerate((('P1','P4'),('U1','U4'),('U2','U3'))):
@@ -138,7 +154,13 @@ def solar(case,model,folder):
             required=[n for n in names if n in refs]
             def margin(x):
                 p=disk(x,limb);return p.separation_degrees-(p.source_radius_degrees+p.occulter_radius_degrees if limb=='nasa-canon-external' else abs(p.source_radius_degrees-p.occulter_radius_degrees))
-            roots=contact_roots(margin,start,end,step=30,tolerance=.001)
+            critical=minimum(margin,max(start,t-120),min(end,t+120))
+            roots=contact_roots(margin,start,end,step=30,tolerance=.001,critical_points=(critical,))
+            if case['date'] in ('1986-10-03','1987-03-29') and limb=='nasa-bulletin-internal' and required:
+                rows.append(dict(quantity='contact_detection_diagnostic',passed=True,
+                    legacy_roots=contact_roots(margin,start,end,step=30,tolerance=.001),
+                    refined_roots=roots,critical_time=critical,minimum_margin_degrees=margin(critical),
+                    external_roots=[refs[n]['ut1_seconds'] for n in required],**geometry))
             if len(roots)!=len(required):rows.append(dict(quantity='contact_count',names=names,expected=len(required),actual=len(roots),passed=False,**geometry));continue
             for name,value in zip(required,roots):rows.append(dict(quantity='solar_contact_s',name=name,error=value-refs[name]['ut1_seconds'],passed=abs(value-refs[name]['ut1_seconds'])<=30,**geometry))
         rows.append(dict(quantity='no_event',passed=at(nominal+7*86400).solar(observer).classification=='clear',**geometry))
@@ -165,22 +187,24 @@ def solar(case,model,folder):
                 rows.append(dict(quantity='center_m',ut=r['ut'],ut1_seconds_since_event_date=nominal,error=error,reference=center,actual=actual,oracle_version=2 if override is not None else 1,sun_altitude_degrees=altitude(center_at(nominal),Observer(*center)),passed=error is not None and error<=2000))
             for side,point in zip(('north','south'),r['points'][:2]):
                 if point is None:continue
-                lon,lat=point
-                def minimized(latitude):
-                    observer=Observer(lon,latitude)
+                def minimized(lon,lat):
+                    observer=Observer(lon,lat)
                     def margin(t):
                         p=path_at(t).solar(observer,lunar_limb='nasa-bulletin-internal');return p.separation_degrees-abs(p.source_radius_degrees-p.occulter_radius_degrees)
-                    t=minimum(margin,nominal-900,nominal+900);return margin(t)
-                samples=[(max(-89.99,min(89.99,lat-1+i*.1)),None) for i in range(21)];samples=[(x,minimized(x)) for x,_ in samples]
-                brackets=[(a,b,fa) for (a,fa),(b,fb) in zip(samples,samples[1:]) if fa*fb<=0]
-                if not brackets:rows.append(dict(quantity='boundary_m',ut=r['ut'],side=side,error=None,passed=False,reason='No bracket in fixed +/-1 degree meridian search'));continue
-                lo,hi,flo=min(brackets,key=lambda v:abs((v[0]+v[1])/2-lat))
-                for _ in range(18):
-                    mid=(lo+hi)/2;fm=minimized(mid)
-                    if flo*fm<=0:hi=mid
-                    else:lo=mid;flo=fm
-                error=Geodesic().inverse(lon,lat,lon,(lo+hi)/2).distance
-                rows.append(dict(quantity='boundary_m',ut=r['ut'],side=side,error=error,reference=point,passed=error<=3000))
+                    t=minimum(margin,nominal-900,nominal+900)
+                    return margin(t),t
+                try:
+                    certificate=boundary_distance(point,lambda lon,lat:minimized(lon,lat)[0])
+                    value,closest_time=minimized(*certificate['point'])
+                    interior=nominal-899<closest_time<nominal+899
+                    branch=same_boundary_branch(path_at,closest_time,point,certificate['point'])
+                    error=certificate['distance_m']
+                    rows.append(dict(quantity='boundary_m',ut=r['ut'],side=side,error=error,reference=point,
+                        certificate=certificate,closest_ut1_seconds=closest_time,temporal_minimum_is_interior=interior,
+                        branch=branch,passed=error<=3000 and interior and branch['verified'],
+                        reason=('Temporal minimum is a search-window endpoint; envelope unverified' if not interior else branch['reason'] if not branch['verified'] else None)))
+                except ArithmeticError as exc:
+                    rows.append(dict(quantity='boundary_m',ut=r['ut'],side=side,error=None,reference=point,passed=False,reason=str(exc)))
     return dict(date=case['date'],body='solar',kind=case['kind'],rows=rows,passed=all(r['passed'] for r in rows))
 
 def evaluate(task):
@@ -188,6 +212,10 @@ def evaluate(task):
     try:
         model=EclipseEphemeris(SpkKernel(kernel,sha256=kernel_sha,source='Explicit JPL DE440s validation kernel'))
         result=lunar(case,model) if body=='lunar' else solar(case,model,Path(folder))
+    except EclipseDomainError as exc:
+        result=dict(date=case['date'],body=body,kind=case['kind'],rows=[],passed=False,
+            status='outside_experimental_domain',scientific_prediction_valid=False,
+            domain_quantity=exc.quantity,domain_value=exc.value,error=type(exc).__name__+': '+str(exc))
     except Exception as exc:result=dict(date=case['date'],body=body,kind=case['kind'],rows=[],passed=False,error=type(exc).__name__+': '+str(exc))
     result['elapsed_s']=time.perf_counter()-start;return result
 
@@ -205,7 +233,7 @@ def run(args):
         aggregate[quantity]=statistics([v for v,c,r in pairs])
         if pairs:
             value,c,r=max(pairs,key=lambda x:x[0]);aggregate[quantity]['worst']=dict(date=c['date'],body=c['body'],row=r)
-    report=dict(schema=1,corpus_sha256=args.expected_sha256,kernel_sha256=args.kernel_sha256,limits=LIMITS,cases=results,aggregate=aggregate,all_cases_passed=all(c['passed'] for c in results),accuracy_bound_established=False,central_2023_oracle_version=2,legacy_reference_preserved=True,limitations=['A stratified corpus is not a continuous uncertainty proof across 1972-2100','Grazing/double roots remain unsupported; missing crossings are failures','Earth orientation reduction and catalog-specific radii require an independent global uncertainty budget','Lunar obscuration has no independent numeric reference in these plates'],implementation_sha256={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ('src/azimlib/_spk.py','src/azimlib/_eclipse_ephemeris.py','tools/validate_eclipse_corpus.py','tools/validate_eclipse_contract.py')})
+    report=dict(schema=2,corpus_sha256=args.expected_sha256,kernel_sha256=args.kernel_sha256,limits=LIMITS,cases=results,aggregate=aggregate,all_cases_passed=all(c['passed'] for c in results),accuracy_bound_established=False,central_2023_oracle_version=2,legacy_reference_preserved=True,domain=EclipseEphemeris.domain_contract(),outside_domain_cases=[dict(date=c['date'],body=c['body'],quantity=c['domain_quantity'],value=c['domain_value']) for c in results if c.get('status')=='outside_experimental_domain'],limitations=['A stratified corpus is not a continuous uncertainty proof across 1972-2100','Surface roots certify local distance, not global nearest branch or a Hausdorff bound','Critical-point splitting detects narrow pairs; double tangencies still need explicit scientific classification','Earth orientation reduction and catalog-specific radii require an independent global uncertainty budget','Lunar obscuration has no independent numeric reference in these plates'],implementation_sha256={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ('src/azimlib/_spk.py','src/azimlib/_eclipse_ephemeris.py','tools/validate_eclipse_corpus.py','tools/validate_eclipse_contract.py','tools/eclipse_spatial_metric.py')})
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     return 0 if report['all_cases_passed'] else 3
 

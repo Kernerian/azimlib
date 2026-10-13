@@ -81,6 +81,20 @@ def _payload_size(value):
 
 def screen_points(packed,viewport):
     """Fresh display coordinates using the original float64 affine operations."""
+    from .viewport import Viewport
+    if type(viewport) is Viewport and len(packed)>=1024:
+        try:import numpy as np
+        except ImportError:pass
+        else:
+            points=np.frombuffer(packed,dtype='<f8').reshape(-1,2)
+            x,y=points[:,0],points[:,1]
+            if viewport.bearing:
+                x,y=x*viewport._cos+y*viewport._sin,-x*viewport._sin+y*viewport._cos
+            # Separate ufuncs preserve the scalar operation order, with no
+            # fused multiply/add or float32 conversion. Never cache mutable
+            # display lists or bypass a custom Viewport.xy implementation.
+            x=viewport.ox+x*viewport.scale;y=viewport.oy-y*viewport.scale
+            return list(zip(x.tolist(),y.tolist()))
     return [viewport.xy(x,y) for x,y in _PAIR.iter_unpack(packed)]
 
 
