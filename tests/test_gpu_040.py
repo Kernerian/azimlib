@@ -102,6 +102,21 @@ class ActualGpu(unittest.TestCase):
             c=self.gpu._buffer(data,other,'3f',('point',))
             self.assertIsNot(a,c);self.assertEqual(self.gpu.stats['uploads'],2)
         finally:other.release()
+    def test_exact_surface_reuse_invalidates_content_clip_order_and_resize(self):
+        style=dict(fill='red');clip=[0,0,40,40]
+        scene=Scene(40,40,items=[Rect(0,0,30,30,style,clip),Circle(15,15,5,dict(fill='blue'))])
+        first=self.gpu.render(scene);again=self.gpu.render(scene)
+        try:self.assertEqual(first.tobytes(),again.tobytes())
+        finally:first.close();again.close()
+        self.assertEqual(self.gpu.stats['exact_surface_reuses'],1)
+        for mutate in (lambda:style.update(fill='green'),lambda:clip.__setitem__(2,10),lambda:scene.items.reverse(),lambda:setattr(scene,'background','black'),lambda:setattr(scene,'width',41)):
+            mutate();self.gpu.render(scene).close()
+            self.assertEqual(self.gpu.stats['exact_surface_reuses'],1)
+        event=threading.Event();event.set()
+        with self.assertRaises(GpuCancelled):self.gpu.render(scene,cancel=event)
+        self.gpu.render(scene).close();self.assertEqual(self.gpu.stats['exact_surface_reuses'],2)
+        self.gpu.config=replace(self.gpu.config,max_cache_bytes=1)
+        self.gpu.render(scene).close();self.assertIsNone(self.gpu._last_plan)
     def test_evenodd_concavity_holes_and_paint_order(self):
         rings=(((5,5),(75,5),(75,75),(5,75)),((25,25),(55,25),(55,55),(25,55)))
         scene=Scene(80,80,items=[Path(rings,True,dict(fill='red')),Circle(40,40,5,dict(fill='blue'))])

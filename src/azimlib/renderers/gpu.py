@@ -83,7 +83,7 @@ class GpuRenderer:
         if not isinstance(self.config,GpuConfig):raise TypeError('config must be GpuConfig')
         self.owner=threading.get_ident();self.closed=False;self.lost=False
         self._objects=[];self._surfaces=[];self._cache=OrderedDict();self._cache_bytes=0;self._size=None
-        self._textures=OrderedDict();self._texture_bytes=0
+        self._textures=OrderedDict();self._texture_bytes=0;self._last_plan=None
         from ._gpu_geometry import PreparationCache
         self.prepared=PreparationCache(self.config.max_cache_bytes)
         self._generation=-1;self.stats=dict(frames=0,uploads=0,cache_hits=0,uploaded_bytes=0,surface_bytes=0,cache_bytes=0)
@@ -121,6 +121,7 @@ class GpuRenderer:
         for texture,size in self._textures.values():texture.release()
         self._textures.clear();self._texture_bytes=0
         self.prepared.clear()
+        self._last_plan=None
         for obj in reversed(self._surfaces+self._objects):
             try:obj.release()
             except Exception:pass
@@ -252,32 +253,47 @@ class GpuRenderer:
         w,h=max(1,round(scene.width*scale)),max(1,round(scene.height*scale))
         start=time.perf_counter();count=0
         try:
-            self._resize(w,h);self.main.use();self.ctx.scissor=None
-            self._two_dimensional=False;self._paint_color_value=None;self._paint_rule_value=None
-            self._mask_origin=self.mask_program['origin'];self._paint_color=self.paint_program['color'];self._paint_rule=self.paint_program['rule']
-            self.mask_program['size'].value=(scene.width,scene.height)
-            r,g,b,a=to_rgba(scene.background or 'none');self.main.clear(r*a,g*a,b*a,a,depth=1.)
+            self._resize(w,h)
+            # A repeated exact 2D command stream may reuse the resolved surface.
+            # Full content, order, clip, colors, geometry, dimensions and scale
+            # participate; no Artist identity or approximate geometry key does.
+            plan=[];payload=0;cacheable=True
             for item in scene.items:
                 if cancel is not None and (cancel.is_set() if hasattr(cancel,'is_set') else cancel()):raise GpuCancelled('GPU frame cancelled')
                 draws,anchor=self.prepared.get(item)
                 for draw in draws:
-                    if not isinstance(draw,Raster3D):
-                        count+=draw[-1]
-                        if count>self.config.max_vertices:raise GpuResourceError('GPU frame vertex budget exceeded')
-                        self._draw(draw,scene,scale,anchor,item.clip)
+                    if isinstance(draw,Raster3D):cacheable=False
                     else:
-                        self._two_dimensional=False;self._paint_color_value=None;self._paint_rule_value=None
-                        self._terrain(draw,scale)
-                        if draw.volumes:
-                            if not hasattr(self,'volume_painter'):
-                                from ._gpu_volume import VolumePainter
-                                self.volume_painter=VolumePainter(self)
-                            self.volume_painter.draw(draw,scale)
+                        count+=draw[-1];payload+=len(draw[0])
+                        if count>self.config.max_vertices:raise GpuResourceError('GPU frame vertex budget exceeded')
+                    plan.append((draw,anchor,tuple(item.clip) if item.clip is not None else None))
+            key=(scene.width,scene.height,scale,scene.background,tuple(plan)) if cacheable and payload<=self.config.max_cache_bytes else None
+            reused=key is not None and key==self._last_plan
+            self._last_plan=None
+            self.main.use();self.ctx.scissor=None
+            self._two_dimensional=False;self._paint_color_value=None;self._paint_rule_value=None
+            self._mask_origin=self.mask_program['origin'];self._paint_color=self.paint_program['color'];self._paint_rule=self.paint_program['rule']
+            self.mask_program['size'].value=(scene.width,scene.height)
+            r,g,b,a=to_rgba(scene.background or 'none')
+            if not reused:self.main.clear(r*a,g*a,b*a,a,depth=1.)
+            for draw,anchor,clip in (() if reused else plan):
+                if cancel is not None and (cancel.is_set() if hasattr(cancel,'is_set') else cancel()):raise GpuCancelled('GPU frame cancelled')
+                if not isinstance(draw,Raster3D):self._draw(draw,scene,scale,anchor,clip)
+                else:
+                    self._two_dimensional=False;self._paint_color_value=None;self._paint_rule_value=None
+                    self._terrain(draw,scale)
+                    if draw.volumes:
+                        if not hasattr(self,'volume_painter'):
+                            from ._gpu_volume import VolumePainter
+                            self.volume_painter=VolumePainter(self)
+                        self.volume_painter.draw(draw,scale)
             self.ctx.enable_only(0);self.ctx.scissor=None;self.result.use();self.color.use(0)
-            self.resolve_quad.render(self.gl.TRIANGLES)
+            if not reused:self.resolve_quad.render(self.gl.TRIANGLES)
             raw=self.result.read(components=4,alignment=1)
             if cancel is not None and (cancel.is_set() if hasattr(cancel,'is_set') else cancel()):raise GpuCancelled('GPU frame cancelled before presentation')
             image=Image.frombytes('RGBA',(w,h),raw).transpose(Image.Transpose.FLIP_TOP_BOTTOM)
+            self._last_plan=key
+            self.stats['exact_surface_reuses']=self.stats.get('exact_surface_reuses',0)+int(reused)
             self.stats.update(frames=self.stats['frames']+1,last_vertices=count,last_seconds=time.perf_counter()-start,
                               prepared_hits=self.prepared.hits,prepared_misses=self.prepared.misses,prepared_bytes=self.prepared.bytes,texture_bytes=self._texture_bytes)
             return image
