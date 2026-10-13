@@ -119,5 +119,32 @@ class PreviewContracts(unittest.TestCase):
         self.assertIsNot(frozen.items[0].style,item.style)
         item.style['fill']='red';self.assertEqual(frozen.items[0].style['fill'],'black')
 
+    def test_pixel_aligned_pan_crops_without_resampling(self):
+        from unittest.mock import patch
+        from azimlib.navigation import drag_extent
+        self.assertTrue(self.capture())
+        extent=drag_extent(self.ax,self.preview.original,(100,100),(110,100))
+        self.ax.set_extent(extent)
+        with patch.object(self.preview.ink,'transform',side_effect=AssertionError('Unexpected interpolation')):
+            image=self.preview.render(self.fig)
+        self.assertIsNotNone(image);image.close()
+
+    def test_pan_moves_geographic_ink_by_the_requested_screen_pixels(self):
+        from azimlib.navigation import drag_extent
+        self.line.set_color('red');self.assertTrue(self.capture())
+        def centroid(image):
+            pixels=image.get_flattened_data() if hasattr(image,'get_flattened_data') else image.getdata()
+            points=[(i%image.width,i//image.width) for i,(r,g,b,a) in enumerate(pixels) if r>150 and g<100 and b<100 and a>128]
+            self.assertTrue(points)
+            return tuple(sum(p[i] for p in points)/len(points) for i in (0,1))
+        initial=self.preview.render(self.fig)
+        self.ax.set_extent(drag_extent(self.ax,self.preview.original,(100,100),(110,100)))
+        moved=self.preview.render(self.fig)
+        try:
+            a,b=centroid(initial),centroid(moved)
+            self.assertAlmostEqual(b[0]-a[0],10,delta=.1)
+            self.assertAlmostEqual(b[1]-a[1],0,delta=.1)
+        finally:initial.close();moved.close()
+
 
 if __name__=='__main__':unittest.main()

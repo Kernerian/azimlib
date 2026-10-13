@@ -105,7 +105,9 @@ class ViewPreview:
         # Projection is unchanged, so screen coordinates differ by scale and
         # translation even for non-cylindrical maps. This does not fill newly
         # exposed geography, recompute labels or claim an exact intermediate.
-        vp=Viewport(ax.projection,ax.get_extent(),self.meta['box'],bearing=ax.get_bearing())
+        # Public get_extent is (west,east,south,north); Viewport and the
+        # authoritative map painter use (west,south,east,north).
+        vp=Viewport(ax.projection,ax._get_extent(),self.meta['box'],bearing=ax.get_bearing())
         ratio=vp.scale/self.original.scale
         tx=vp.ox-ratio*self.original.ox;ty=vp.oy-ratio*self.original.oy
         if not math.isfinite(ratio+tx+ty) or not .125<=ratio<=8:return None
@@ -115,8 +117,16 @@ class ViewPreview:
         if not width or not height:return None
         result=self.backing.copy()
         try:
-            patch=self.ink.transform((width,height),Image.Transform.AFFINE,
-                (1/ratio,0,(left-tx)/ratio,0,1/ratio,(top-ty)/ratio),Image.Resampling.BILINEAR)
+            # A pixel-aligned pan changes no sample values: crop directly
+            # instead of interpolating every pixel. Fractional pans and zoom
+            # retain the general transform. This only changes a provisional
+            # frame and never quantizes the authoritative view or geometry.
+            if abs(ratio-1)<1e-12 and abs(tx-round(tx))<1e-9 and abs(ty-round(ty))<1e-9:
+                sx,sy=left-round(tx),top-round(ty)
+                patch=self.ink.crop((sx,sy,sx+width,sy+height))
+            else:
+                patch=self.ink.transform((width,height),Image.Transform.AFFINE,
+                    (1/ratio,0,(left-tx)/ratio,0,1/ratio,(top-ty)/ratio),Image.Resampling.BILINEAR)
             try:result.alpha_composite(patch,(left,top))
             finally:patch.close()
             result.alpha_composite(self.overlay)
