@@ -28,10 +28,14 @@ class QtCanvas(FigureCanvas):
         self._paths=InteractivePathCache();self._tiles=TileCache(max_entries=512)
         renderer,fallback,config=getattr(figure,'_interactive_renderer',('cpu','raise',None))
         self._gpu_process=None;self._renderer=render_image
+        from ._view_preview import ViewPreview
+        self._view_preview=ViewPreview();self._preview_count=0
         if renderer=='gpu':
             from ._navigation_process import NavigationProcess
             self._gpu_process=NavigationProcess(renderer='gpu',gpu_fallback=fallback,gpu_config=config)
             self._renderer=self._gpu_process.render
+        from ._view_preview import PreviewBuilder
+        self._preview_builder=PreviewBuilder(self._renderer)
         self.worker=PanRaster(self._renderer,self._renderer if renderer=='gpu' else lambda scene:render_image(scene,_interactive=True,_path_cache=self._paths,_tile_cache=self._tiles),
             (lambda scene,cancel:self._renderer(scene)) if renderer=='gpu' else lambda scene,cancel:render_image(scene,_cancel=cancel))
         owner=self
@@ -103,7 +107,9 @@ class QtCanvas(FigureCanvas):
         n=self.controller.navigation
         self.buttons['Back'].setEnabled(n.index>0);self.buttons['Forward'].setEnabled(n.index+1<len(n.history))
         for name in ('Pan','Zoom'):self.buttons[name].setChecked(self.mode==name.lower())
-        if complete:self.figure._draw_complete()
+        if complete:
+            self.figure._draw_complete()
+            if self._gpu_process is not None:self._preview_builder.submit(self.figure,scene,self._view_preview)
         self._dispatch('draw_event',SimpleNamespace(name='draw_event',canvas=self,renderer=scene))
     def draw(self):
         self._owner()
@@ -116,18 +122,31 @@ class QtCanvas(FigureCanvas):
         finally:self._drawing=False
     def draw_idle(self):
         if not self.closed:self._dirty=True;self._generation+=1
+    def _preview_navigation(self):
+        if self._gpu_process is None:return
+        image=self._view_preview.render(self.figure)
+        if image is None:return
+        try:
+            self._qimage=self._to_qimage(image);self.widget.update();self._preview_count+=1
+            self._preview_changed_at=__import__('time').monotonic()
+        finally:image.close()
     def _tick(self):
         if self.closed:return
+        candidate=self._preview_builder.take(self.figure)
+        if candidate is not None:
+            self._view_preview.clear();self._view_preview=candidate
         result=self.worker.take()
         if result is not None:
             token,scene,image,error,key=result
             if error:self.status.setText(type(error).__name__)
             elif image is not None:
-                # Held drags may present complete intermediate scenes, never shifted bitmaps.
-                if token==self._generation or self.controller.drag is not None and token>self._last_presented:
-                    self._present(scene,image,complete=token==self._generation);self._last_presented=token
+                # A newer provisional view must never jump back to an old job.
+                if token==self._generation or (self._view_preview.meta is None and self.controller.drag is not None and token>self._last_presented):
+                    self._present(scene,image,complete=token==self._generation and self.controller.drag is None);self._last_presented=token
                 else:image.close()
         if self._dirty and not self.worker.busy():
+            if (self.controller.drag is not None and self._view_preview.meta is not None
+                    and __import__('time').monotonic()-getattr(self,'_preview_changed_at',0)<.048):return
             try:
                 scene=self.figure.to_scene(cull=True,interactive=True);self._dirty=False
                 self.worker.submit(self._generation,scene,preview=self.controller.drag is not None)
@@ -159,7 +178,7 @@ class QtCanvas(FigureCanvas):
     def close(self):
         self._owner()
         if self.closed:return
-        self.closed=True;self.timer.stop();self.resize_timer.stop();self.worker.close();self._tiles.close();self._qimage=self.scene=None
+        self.closed=True;self.timer.stop();self.resize_timer.stop();self.worker.close();self._preview_builder.close();self._tiles.close();self._view_preview.clear();self._qimage=self.scene=None
         if getattr(self,'_gpu_process',None) is not None:self._gpu_process.close()
         try:detach(self)
         finally:

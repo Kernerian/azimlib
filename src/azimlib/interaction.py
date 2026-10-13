@@ -38,6 +38,7 @@ class Interaction:
                 from .terrain3d import camera_zoom
                 camera_zoom(ax,factor)
             else:ax.set_extent(zoom_extent(ax,factor,coord))
+            if hasattr(self.canvas,'_preview_navigation'):self.canvas._preview_navigation()
             self.navigation.push();self.canvas.draw_idle()
         return event
     def _drag(self,x,y):
@@ -46,7 +47,10 @@ class Interaction:
             from .terrain3d import camera_drag
             camera_drag(ax,extent,start,(x,y),vp.box,mode=self.mode,button=button);self.canvas.draw_idle();return
         result=drag_extent(ax,vp,start,(x,y),mode=self.mode,button=button,initial_extent=extent)
-        if result is not None and result!=ax.get_extent():ax.set_extent(result);self.canvas.draw_idle()
+        if result is not None and result!=ax.get_extent():
+            ax.set_extent(result)
+            if hasattr(self.canvas,'_preview_navigation'):self.canvas._preview_navigation()
+            self.canvas.draw_idle()
     def command(self,name):
         if name in ('pan','zoom'):
             if self.drag:self.navigation.push();self.drag=None
