@@ -15,6 +15,7 @@ from azimlib._spk import SpkKernel
 from azimlib._frames import Observer
 from azimlib.geodesy import Geodesic
 from eclipse_spatial_metric import boundary_distance
+from eclipse_global_metric import GlobalGeodesicCurve
 LIMITS=dict(center_m=2000,boundary_m=3000,solar_contact_s=30,lunar_contact_s=60,magnitude=.001,obscuration=.001)
 
 def frozen(path,expected):
@@ -164,6 +165,43 @@ def same_boundary_branch(at,t,reference,candidate):
                 reference_cross_track_m=a,candidate_cross_track_m=b,
                 reason=None if a*b>0 else 'Candidate is not on the reference cross-track branch')
 
+def finalize_boundaries(rows):
+    """Replace seed-local acceptance with a global represented-curve search.
+
+    Local roots are discovery diagnostics only. Their sampled geodesic graph
+    has no proof of physical completeness/interpolation error. Consequently a
+    small global distance to that graph cannot approve a scientific boundary.
+    No guessed north/south association or absent root counts as approval.
+    """
+    boundaries=[r for r in rows if r['quantity']=='boundary_m']
+    if not boundaries:return
+    components=[];geo=Geodesic()
+    for side in ('north','south'):
+        current=[];last_time=None
+        for row in (r for r in boundaries if r['side']==side):
+            certificate=row.get('certificate')
+            feasible=certificate is not None and row.get('temporal_minimum_is_interior') and abs(certificate['residual'])<=1e-9
+            if not feasible:
+                if current:components.append(current);current=[]
+                last_time=None;continue
+            point=certificate['point'];epoch=row['closest_ut1_seconds']
+            if current and (abs(epoch-last_time)>300 or geo.inverse(*current[-1],*point).distance>300000):
+                components.append(current);current=[]
+            current.append(point);last_time=epoch
+        if current:components.append(current)
+    curve=GlobalGeodesicCurve(components)
+    for row in boundaries:
+        row['local_discovery']=dict(error_m=row['error'],accepted_by_previous_local_rule=row['passed'],reason=row.get('reason'))
+        try:certificate=curve.distance(row['reference'],tolerance_m=1.)
+        except ArithmeticError as exc:
+            certificate=dict(status='geodesic_convergence_failure',global_represented_curve_certified=False,distance_m=None,reason=str(exc))
+        row['global_certificate']=certificate
+        row['represented_curve_numeric_pass']=certificate.get('global_represented_curve_certified',False) and certificate['upper_m']<=3000
+        row['error']=certificate.get('distance_m')
+        row['error_scope']='Global minimum to represented geodesic graph; not a certified distance to the complete physical boundary'
+        row['passed']=False
+        row['reason']='Physical branch completeness and interpolation error are not certified; represented-curve proximity alone cannot approve the 3 km scientific gate'
+
 def lunar(case,model):
     at=state_function(case,model);nominal=case['greatest_ut1_seconds'];rows=[]
     for i,names in enumerate((('P1','P4'),('U1','U4'),('U2','U3'))):
@@ -252,6 +290,7 @@ def solar(case,model,folder):
                         reason=('Temporal minimum is a search-window endpoint; envelope unverified' if not interior else branch['reason'] if not branch['verified'] else None)))
                 except ArithmeticError as exc:
                     rows.append(dict(quantity='boundary_m',ut=r['ut'],side=side,error=None,reference=point,passed=False,reason=str(exc)))
+    finalize_boundaries(rows)
     return dict(date=case['date'],body='solar',kind=case['kind'],rows=rows,passed=all(r['passed'] for r in rows))
 
 def evaluate(task):
@@ -286,6 +325,9 @@ def run(args):
             value,c,r=max(pairs,key=lambda x:x[0]);aggregate[quantity]['worst']=dict(date=c['date'],body=c['body'],row=r)
     report=dict(schema=2,corpus_sha256=args.expected_sha256,kernel_sha256=args.kernel_sha256,limits=LIMITS,cases=results,aggregate=aggregate,all_cases_passed=all(c['passed'] for c in results),accuracy_bound_established=False,central_2023_oracle_version=2,legacy_reference_preserved=True,domain=EclipseEphemeris.domain_contract(),outside_domain_cases=[dict(date=c['date'],body=c['body'],quantity=c['domain_quantity'],value=c['domain_value']) for c in results if c.get('status')=='outside_experimental_domain'],limitations=['A stratified corpus is not a continuous uncertainty proof across 1972-2100','Surface roots certify local distance, not global nearest branch or a Hausdorff bound','Critical-point splitting detects narrow pairs; double tangencies still need explicit scientific classification','Earth orientation reduction and catalog-specific radii require an independent global uncertainty budget','Lunar obscuration has no independent numeric reference in these plates'],implementation_sha256={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in ('src/azimlib/_spk.py','src/azimlib/_eclipse_ephemeris.py','tools/validate_eclipse_corpus.py','tools/validate_eclipse_contract.py','tools/eclipse_spatial_metric.py')})
     report['explicit_center_corrections_sha256']=correction_sha
+    report['implementation_sha256']['tools/eclipse_global_metric.py']=hashlib.sha256((ROOT/'tools/eclipse_global_metric.py').read_bytes()).hexdigest()
+    report['boundary_validation']=dict(metric='Global WGS84 distance over all represented components, no seed-local branch acceptance',distance_interval_m=1,physical_representation_complete=False,numeric_checks_pass=sum(r.get('represented_curve_numeric_pass',False) for c in results for r in c['rows']),scientific_boundary_gate_passed=False)
+    report['limitations'][1]='Global distance bounds certify the represented geodesic graph only; physical completeness and interpolation bounds are missing'
     args.output.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     return 0 if report['all_cases_passed'] else 3
 

@@ -47,4 +47,24 @@ class GlobalMetric(unittest.TestCase):
             with self.assertRaises(ValueError):curve.distance((0,0),tolerance_m=value)
         with self.assertRaises(ValueError):curve.distance((0,0),max_evaluations=0)
 
+    def test_local_branch_diagnostics_cannot_approve_global_scientific_gate(self):
+        from validate_eclipse_corpus import finalize_boundaries
+        rows=[dict(quantity='boundary_m',side=side,reference=(0,.02),error=2000.,passed=True,
+                   certificate=dict(point=(x,0),residual=0.),temporal_minimum_is_interior=True,
+                   closest_ut1_seconds=t,branch=dict(verified=False))
+              for side,x,t in (('north',-.01,0),('north',.01,1))]
+        finalize_boundaries(rows)
+        for row in rows:
+            self.assertTrue(row['represented_curve_numeric_pass'])
+            self.assertFalse(row['passed'])
+            self.assertTrue(row['global_certificate']['global_represented_curve_certified'])
+            self.assertFalse(row['branch']['verified'])
+
+    def test_absent_discovered_graph_is_not_physical_absence(self):
+        from validate_eclipse_corpus import finalize_boundaries
+        row=dict(quantity='boundary_m',side='north',reference=(0,0),error=None,passed=False)
+        finalize_boundaries([row])
+        self.assertFalse(row['passed']);self.assertFalse(row['represented_curve_numeric_pass'])
+        self.assertEqual(row['global_certificate']['status'],'no_represented_geometry')
+
 if __name__=='__main__':unittest.main()
