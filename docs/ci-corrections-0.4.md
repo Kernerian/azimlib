@@ -20,3 +20,8 @@ accepted final candidate. Its failures and artifacts remain retained.
 These corrections change validation tooling/fixtures, not delivered rendering,
 light calculations or file readers. The complete new-SHA matrices must rerun;
 no failed prior job or indeterminate deferred check is treated as passed.
+
+The native review exporter preserves each example's designed figure size.
+Forcing six projection panels into 600x400 pixels introduced title overlaps in
+the review packet itself. This correction changes export preparation only; no
+renderer/font layout or human approval is inferred.

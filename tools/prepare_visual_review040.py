@@ -30,7 +30,6 @@ def main():
  figs.append(('pbf-original-fixture',fig))
  try:
   for name,fig in figs:
-   fig.set_size_inches(6,4)
    for kind in ('png','svg','pdf'):fig.savefig(output/f'{name}.{kind}',dpi=100)
    rows.append(f'<section><h2>{name}</h2><a href="{name}.png"><img width="600" src="{name}.png"></a><object type="image/svg+xml" data="{name}.svg" width="600" height="400"></object><p><a href="{name}.pdf">PDF</a></p></section>')
  finally:azl.close('all')
