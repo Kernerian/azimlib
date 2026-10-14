@@ -4,7 +4,7 @@ from pathlib import Path
 import azimlib as azl
 from azimlib.renderers import render_image
 ROOT=Path(__file__).resolve().parents[1]
-BASE=ROOT/'tools/baselines/release030'
+BASE=ROOT/'tools/baselines'/('release040' if azl.__version__.startswith('0.4.') else 'release030')
 
 def create(name):
     fig,ax=azl.subplots(figsize=(3.2,2.8),dpi=100,projection='3d' if name=='depth' else 'equirectangular')
@@ -28,7 +28,16 @@ def create(name):
 def primitive_key(scene):
     # Round geometric results, never font/dataset/PNG bytes, for libm tolerance.
     def normalize(value):
-        if dataclasses.is_dataclass(value):return normalize(dataclasses.asdict(value))
+        if dataclasses.is_dataclass(value):
+            record=dataclasses.asdict(value)
+            if type(value).__name__=='Raster3D':
+                # 0.4 adds optional payloads. Empty payloads paint nothing;
+                # preserve the old exact geometry/layout key. Populated
+                # textures, UVs and volumes still participate in the key.
+                for key in ('texture','uv'):
+                    if record.get(key) is None:record.pop(key,None)
+                if not record.get('volumes'):record.pop('volumes',None)
+            return normalize(record)
         if isinstance(value,dict):return {k:normalize(v) for k,v in value.items()}
         if isinstance(value,(list,tuple)):return [normalize(v) for v in value]
         if isinstance(value,float):return round(value,5)

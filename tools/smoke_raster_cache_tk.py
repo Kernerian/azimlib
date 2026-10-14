@@ -26,19 +26,19 @@ def run():
         with patch.object(tkinter,'Tk',hidden):viewer=backend.FigureWindow(fig)
         fig._viewer=viewer;fig.canvas=viewer;home=ax.get_extent();first=digest(viewer._image)
         events=[];viewer.mpl_connect('draw_event',events.append)
-        with patch.object(renderers,'render_image',wraps=renderers.render_image) as raster:
+        with patch.object(viewer,'_renderer',wraps=viewer._renderer) as raster:
             viewer.draw();viewer.draw()
             assert raster.call_count==0 and len(events)==2 and digest(viewer._image)==first
         checks.append('unchanged redraws reuse exact RGBA while emitting each draw_event')
         for change in (lambda:ax.zoom(1.5),lambda:ax.pan(.3,.2)):
             change();viewer.navigation.push();viewer.draw()
         previous_calls=viewer._raster_cache.hits
-        with patch.object(renderers,'render_image',wraps=renderers.render_image) as raster:
+        with patch.object(viewer,'_renderer',wraps=viewer._renderer) as raster:
             viewer.back();viewer.flush_events();viewer.forward();viewer.flush_events();viewer.home();viewer.flush_events()
             assert raster.call_count==0 and viewer._raster_cache.hits>=previous_calls+3
         assert ax.get_extent()==home and digest(viewer._image)==first
         checks.append('back/forward/home reuse visited frames and restore exact original pixels')
-        with patch.object(renderers,'render_image',wraps=renderers.render_image) as raster:
+        with patch.object(viewer,'_renderer',wraps=viewer._renderer) as raster:
             line.set_color('red');viewer.draw();assert raster.call_count==1
             before=digest(viewer._image);north.set_visible(False);viewer.draw();assert raster.call_count==2
             assert digest(viewer._image)!=before

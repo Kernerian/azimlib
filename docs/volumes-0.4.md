@@ -208,3 +208,11 @@ under the project license. Existing ColorBrewer `blues` attribution, optional
 GPU binding notices and font licenses remain in the third-party inventory;
 the new module does not acquire or embed any external dataset. Local tests
 do not close pending platform/human gates in 7.08, 8.08, 9.08 or 14.
+
+## Backing-file lifetime
+
+Keep AZV backing files immutable while an index/sampler is open. Initial opening
+verifies payload hashes; sampled bricks verify their checksums, and size/mtime
+changes reject the source. Metadata checks alone do not detect an adversarial
+same-size write with restored or unchanged coarse timestamps in unrequested
+bricks. Reopen and verify the expected full SHA-256 after replacing a source.

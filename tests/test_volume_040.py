@@ -63,6 +63,10 @@ class VolumeFields(unittest.TestCase):
             path=write_volume(Path(folder)/'field.azv',field(),brick_size=2);g=read_volume(path);original=path.read_bytes()
             path.write_bytes(original[:-1]+bytes((original[-1]^1,)))
             with self.assertRaises(ValueError):read_volume(path)
+            # A same-size rapid write can retain its timestamp on Windows.
+            # Exercise the documented stat guard deterministically; the read
+            # above independently checked payload corruption by SHA-256.
+            stamp=path.stat();os.utime(path,ns=(stamp.st_atime_ns,g.store.signature[1]+1_000_000_000))
             with self.assertRaises(ValueError):g.sample(0,0,0)
             path.write_bytes(original[:-1])
             with self.assertRaises(ValueError):read_volume(path)

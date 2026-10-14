@@ -42,7 +42,10 @@ class Integrated040(unittest.TestCase):
         light.bind_volume(volume,shadow_steps=2);fig.to_scene();builds=light.geometry_builds;camera=ax.camera;before=light._factors[id(surface)]
         azl.TemporalSeries(times,[model.position(t,observer) for t in times]).bind(light).apply(1)
         fig.to_scene();self.assertIs(ax.camera,camera);self.assertEqual(builds,light.geometry_builds);self.assertNotEqual(before,light._factors[id(surface)])
-        self.assertEqual(light.direction,volume.light.direction)
+        # Independent normalizations may differ by a few representable floats.
+        # This is a dimensionless roundoff bound, not an eclipse tolerance.
+        for a,b in zip(light.direction,volume.light.direction):
+            self.assertLessEqual(abs(a-b),4*max(math.ulp(a),math.ulp(b)))
         pdf=io.BytesIO();fig.savefig(pdf,format='pdf');self.assertTrue(pdf.getvalue().startswith(b'%PDF'))
     def test_seam_global_overlay_and_solar_lunar_layers(self):
         fig,ax=azl.subplots(figsize=(2,2),projection='orthographic',projection_kw={'central_longitude':180})

@@ -62,6 +62,24 @@ class ReleaseGateTests(unittest.TestCase):
         expected=Image.new('RGB',(40,40),'white');ImageDraw.Draw(expected).rectangle((5,5,15,15),fill='black')
         actual=Image.new('RGB',expected.size,'white');ImageDraw.Draw(actual).rectangle((5,5,15,15),fill='red')
         with self.assertRaises(AssertionError):baseline.pixels(actual,expected,Image.new('L',expected.size,255))
+    def test_040_empty_depth_payload_preserves_old_key_but_active_payloads_are_hashed(self):
+        import dataclasses,json
+        from azimlib.scene import Scene,Raster3D
+        from azimlib.volume import VolumeField,_packed
+        from azimlib.volume_render import VolumeLayer
+        baseline=load('check_release_baselines')
+        fig=baseline.create('depth');scene=fig.to_scene()
+        old=json.loads((ROOT/'tools/baselines/release030/manifest.json').read_text())
+        self.assertEqual(baseline.primitive_key(scene),old['cases']['depth']['scene_sha256'])
+        primitive=next(p for p in scene.items if isinstance(p,Raster3D));plain=baseline.primitive_key(Scene(320,280,items=[primitive]))
+        uv=(((0,0),(1,0),(0,1)),)*len(primitive.triangles)
+        textured=dataclasses.replace(primitive,texture=(1,1,bytes((255,0,0,255))),uv=uv)
+        self.assertNotEqual(plain,baseline.primitive_key(Scene(320,280,items=[textured])))
+        data=VolumeField.from_array([[[0,1],[0,1]],[[0,1],[0,1]]])
+        layer=VolumeLayer(data,(1.,0,0,0,0,1.,0,0,0,0,1.,0,0,0,0,1.),_packed([1,0,0,.1]*256),(0,1),False,.5,1)
+        volumetric=dataclasses.replace(primitive,volumes=(layer,))
+        self.assertNotEqual(plain,baseline.primitive_key(Scene(320,280,items=[volumetric])))
+        fig.close()
     def test_documentation_path_escape_rejected(self):
         docs=load('build_documentation')
         with self.assertRaises(ValueError):docs.link_target(ROOT/'docs/index.md','../../../../secret.txt','dev/0.3.0')

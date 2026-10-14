@@ -15,7 +15,7 @@ def fixture(pending=(), *, scoped=False):
 class Delivery040(unittest.TestCase):
     def test_complete_contract(self):
         self.assertEqual(candidate.check('0.4.0',fixture(scoped=True)),'0.4.0');self.assertTrue(progress.check(fixture(),require_complete=True)['release_ready'])
-    def test_each_planet_platform_science_final_gate_blocks(self):
+    def test_unannotated_original_and_active_pending_gates_fail_closed(self):
         for item in ('2.08','7.08','8.08','9.08','13.06','13.07','14.04','14.05','14.07','14.08'):
             with self.subTest(item=item),self.assertRaises(AssertionError):candidate.check('0.4.0',fixture((item,)))
     def test_old_or_empty_checklist_cannot_pass_new_release(self):

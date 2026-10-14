@@ -43,3 +43,5 @@ include .github/workflows/integration-0.4.yml
 include .github/workflows/preview-review-0.4.yml
 include .github/workflows/review-gates-7-8.yml
 recursive-include docs/_static/integration-0.4 *.svg *.pdf *.html
+
+recursive-include tools/baselines/release040 *.json *.png *.md
