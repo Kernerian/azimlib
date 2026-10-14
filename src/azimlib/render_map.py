@@ -41,6 +41,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
     from .colorbar_render import render_colorbar
     vp,mapbox,barbox,navigation_box=axes_viewport(ax,box,inset=inset)
     ax._active_viewport=vp
+    vp._legend_geometry={}
     x,y,w,h=mapbox
     background_index=len(scene.items)
     scene.add(Rect(*mapbox, dict(fill=ax.facecolor)))
@@ -80,6 +81,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
         if not layer.visible:
             continue
         if layer.kind == "geometry":
+            layer_start=len(scene.items)
             pixel_padding=2*max(1,100/ax.figure.dpi) if ax.figure else 2
             candidates=_geometry_candidates(layer,vp,pixel_padding) if cull else None
             features=enumerate(layer.data) if candidates is None else ((i,layer.data[i]) for i in candidates)
@@ -105,6 +107,20 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                 _geometry(feature.geometry, style, vp, scene, cull=cull,
                           pixel_padding=pixel_padding,cuts=cuts.get((id(layer),index)))
                 scene._pick_records.append((layer,index,pick_start,len(scene.items)))
+            # Reuse only an identical, already composed obstacle graph.
+            # Transforms, callbacks, feature styles, cuts, simplification and
+            # display-sized geometry retain the independent legacy path.
+            if (ax._legend and ax._legend['loc']=='best' and not measure_layout and
+                getattr(layer,'_transform',None) is None and not cuts and
+                getattr(layer,'annotation',None) is None and
+                not _display_geometry(layer.style) and not layer.style.get('hatch') and
+                not layer.style.get('_simplify') and
+                not any(layer.options.get(k) for k in ('feature_styles','feature_style','contour','flow','simplify')) and
+                (candidates is None or len(candidates)==len(layer.data)) and
+                all(f.geometry is None or f.geometry.type in ('LineString','MultiLineString','Polygon','MultiPolygon') and
+                    (not cull or vp.may_intersect(f.geometry.bounds,_geometry_padding(layer.style,pixel_padding)))
+                    for f in layer.data)):
+                vp._legend_geometry[id(layer)]=tuple(scene.items[layer_start:])
             if getattr(layer,'annotation',None) is not None and getattr(layer,'role',None)=='point':
                 coordinate=layer.annotation_coordinate if hasattr(layer,'annotation_coordinate') else layer.state.subsolar
                 p=vp.project(*coordinate)
@@ -214,7 +230,11 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
         metadata['components'].append(dict(kind='compass',options=dict(ax._compass),indices=list(range(first,len(scene.items)))))
     metadata["decoration_end"] = len(scene.items)
     if ax._legend:
-        with scene.layout_artist(ax._legend):_legend(ax, vp, scene)
+        try:
+            with scene.layout_artist(ax._legend):_legend(ax, vp, scene)
+        finally:
+            # This is per-composition reuse, never stale Artist identity caching.
+            vp._legend_geometry.clear()
     if ax._colorbar:
         first=len(scene.items)
         with scene.layout_artist(ax._colorbar):render_colorbar(ax._colorbar,barbox,scene)

@@ -78,7 +78,7 @@ class RetainedCompositionTests(unittest.TestCase):
         # Independent expression of the previous scalar outline placement.
         import math
         from azimlib.typography import font_path,_metrics,text_width,text_baseline_offset
-        for value in ('AV To fj','Latitude','Long label 123.45','Título é à'):
+        for value in ('AV To fj','Latitude','Long label 123.45','TÃ­tulo Ã© Ã '):
             for rotation in (0,31,-90):
                 style=dict(font_size=13.7,anchor='middle',baseline='top',rotation=rotation)
                 item=Text(19.3,-4.1,value,style);path=font_path(style);metrics=_metrics()[path.stem]
@@ -101,6 +101,34 @@ class RetainedCompositionTests(unittest.TestCase):
         from azimlib.typography import font_path
         font_outline.glyph_run(font_path({}),'A'*257)
         self.assertEqual(font_outline._cached_glyph_run.cache_info().currsize,0)
+
+    def test_legend_reuses_only_identical_current_geometry_and_clears_it(self):
+        import azimlib as azl
+        from azimlib import legend_layout
+        from azimlib.geometry import Geometry
+        from azimlib.renderers.svg import render_svg
+        fig,ax=azl.subplots(figsize=(5,4))
+        layer=ax.geojson(Geometry('Polygon',[[[-5,-5],[5,-5],[5,5],[-5,5],[-5,-5]]]),
+                         facecolor='white',edgecolor='black',label='Area')
+        ax.legend();ax.set_extent((-10,10,-10,10))
+        original=legend_layout.obstacles;counts=[];viewports=[]
+        def legacy(owner,vp):
+            cached=vp._legend_geometry;counts.append(len(cached));viewports.append(vp);vp._legend_geometry={}
+            try:return original(owner,vp)
+            finally:vp._legend_geometry=cached
+        try:
+            for cull in (False,True):
+                with patch.object(legend_layout,'obstacles',side_effect=legacy):expected=fig.to_scene(cull=cull)
+                actual=fig.to_scene(cull=cull)
+                self.assertEqual(render_svg(actual),render_svg(expected));self.assertTrue(all(not vp._legend_geometry for vp in viewports))
+            self.assertTrue(all(n==1 for n in counts))
+            for option in (dict(hatch='/'),dict(marker='o'),dict(curved=.1)):
+                layer.style.update(option);observed=[]
+                def inspect(owner,vp):
+                    observed.append(len(vp._legend_geometry));return original(owner,vp)
+                with patch.object(legend_layout,'obstacles',side_effect=inspect):fig.to_scene()
+                self.assertEqual(observed,[0]);layer.style.pop(next(iter(option)))
+        finally:azl.close(fig)
 
 
 if __name__=='__main__':unittest.main()

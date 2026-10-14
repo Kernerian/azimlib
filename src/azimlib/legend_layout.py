@@ -104,6 +104,10 @@ def obstacles(ax,vp):
     for layer in ax.layers:
         if not layer.visible:continue
         if layer.kind=='geometry':
+            reused=getattr(vp,'_legend_geometry',{}).get(id(layer))
+            if reused is not None:
+                scene.items.extend(reused)
+                continue
             style=dict(layer.style);style.pop('hatch',None)
             for feature in layer.data:
                 if feature.geometry:_geometry(feature.geometry,style,vp,scene)
