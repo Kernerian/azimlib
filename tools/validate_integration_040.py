@@ -9,11 +9,12 @@ ROOT=Path(__file__).resolve().parents[1]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def load(name):
     spec=importlib.util.spec_from_file_location(name,ROOT/'examples'/f'{name}.py');module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
-def validate(output,*,installed=False,core=False,gpu=False,native=False):
+def validate(output,*,installed=False,core=False,gpu=False,native=False,gpu_context=None):
     output=output.resolve()
     if output.exists():raise FileExistsError('Use a new integration output directory')
     output.parent.mkdir(parents=True,exist_ok=True)
     if shutil.disk_usage(output.parent).free<15_100_000_000:raise RuntimeError('15 GB system reserve required')
+    if gpu_context is not None and not gpu:raise ValueError('GPU context requires explicit --gpu selection')
     if core and (gpu or native):raise ValueError('Core-only trial cannot request optional graphics')
     if not installed:sys.path.insert(0,str(ROOT/'src'))
     sys.path.insert(0,str(ROOT/'tools'))
@@ -32,8 +33,8 @@ def validate(output,*,installed=False,core=False,gpu=False,native=False):
     renderer=None;files=[];captures=[];timings=[];hardware=None
     try:
         if gpu:
-            from azimlib.renderers.gpu import GpuRenderer
-            renderer=GpuRenderer();hardware=renderer.info
+            from azimlib.renderers.gpu import GpuRenderer,GpuConfig
+            renderer=GpuRenderer(GpuConfig(context_backend=gpu_context));hardware=renderer.info
         for name,fig in figures:
             if core:fig.set_size_inches(2,1.5)
             start=time.perf_counter();scene=fig.to_scene(simplify=False);compose=time.perf_counter()-start
@@ -91,5 +92,6 @@ def validate(output,*,installed=False,core=False,gpu=False,native=False):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True,type=Path)
     for option in ('installed','core','gpu','native'):p.add_argument('--'+option,action='store_true')
-    args=p.parse_args();r=validate(args.output,installed=args.installed,core=args.core,gpu=args.gpu,native=args.native)
+    p.add_argument('--gpu-context',choices=('egl',),help='Explicit headless context; no implicit environment selection')
+    args=p.parse_args();r=validate(args.output,installed=args.installed,core=args.core,gpu=args.gpu,native=args.native,gpu_context=args.gpu_context)
     print(json.dumps({k:v for k,v in r.items() if k not in ('source_sha256','files','example_sha256')},indent=2))

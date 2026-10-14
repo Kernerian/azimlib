@@ -25,3 +25,8 @@ The native review exporter preserves each example's designed figure size.
 Forcing six projection panels into 600x400 pixels introduced title overlaps in
 the review packet itself. This correction changes export preparation only; no
 renderer/font layout or human approval is inferred.
+
+The cumulative software-GPU validator initially used the default display context
+on a headless runner. Select `GpuConfig(context_backend="egl")` through an explicit
+`--gpu-context egl` argument. The job still requires actual successful software
+rendering, never an implicit CPU fallback or physical GPU performance claim.

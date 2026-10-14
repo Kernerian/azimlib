@@ -43,6 +43,7 @@ class Delivery040(unittest.TestCase):
         for name in ('native','no-gpu'):
             self.assertEqual(jobs[name]['strategy']['matrix']['os'],jobs['core']['strategy']['matrix']['os'])
         self.assertEqual(jobs['software-gpu']['env']['LIBGL_ALWAYS_SOFTWARE'],'1')
+        self.assertTrue(any('--gpu-context egl' in step.get('run','') for step in jobs['software-gpu']['steps']))
         for prohibited in ('pypa/gh-action-pypi-publish','actions/deploy-pages','git push','gh release','id-token: write'):
             self.assertNotIn(prohibited,text)
     def test_repository_checklist_is_consistent_without_inferred_acceptance(self):

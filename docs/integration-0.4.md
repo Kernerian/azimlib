@@ -91,3 +91,7 @@ gate. Preparation permits only 14.04/14.05/14.07/14.08 to remain open; it is not
 publication approval. Publication requires all 108 active IDs complete, exactly
 the four named deferments still unchecked, and no other unchecked ID. Human
 14.05 and explicit final 14.08 acceptance cannot be inferred from CI.
+
+For explicitly headless Linux Mesa validation, select `--gpu --gpu-context egl`
+(and an installed EGL driver). Desktop default context selection is unchanged;
+the validator does not silently consume a GPU-context environment variable.
