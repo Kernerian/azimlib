@@ -58,9 +58,12 @@ class ScreenCache:
         compiled = (local, digest)
         # Include Python containers/float objects as well as retained source
         # bytes, rather than calling packed payload size a process RAM bound.
+        # The owned affine transform emits float64 pairs as Python float
+        # tuples. Their object sizes are constant; accounting must not walk
+        # every coordinate again or allocate a combined staging tuple.
+        pair_bytes=sys.getsizeof((0.,0.))+2*sys.getsizeof(0.)
         weight = (sys.getsizeof(key)+sys.getsizeof(packed)+sys.getsizeof(points)+
-                  sys.getsizeof(local)+sum(sys.getsizeof(p)+sum(map(sys.getsizeof,p))
-                                          for p in (*points,*local))+512)
+                  sys.getsizeof(local)+(len(points)+len(local))*pair_bytes+512)
         with self.lock:
             if weight <= self.limit and self.max_entries:
                 previous = self.entries.pop(key, None)
