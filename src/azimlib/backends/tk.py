@@ -166,15 +166,24 @@ class FigureWindow:
         path_cache=InteractivePathCache()
         self._pan_tiles=TileCache(max_entries=512);self._pan_warmed=False
         self._pixel_process=None
+        from ._view_preview import ViewPreview
+        self._view_preview=ViewPreview();self._preview_count=0
+        renderer,fallback,config=getattr(figure,'_interactive_renderer',('cpu','raise',None))
         try:import aggdraw
         except ImportError:pass
         else:
             from ._navigation_process import NavigationProcess
-            self._pixel_process=NavigationProcess()
-        self._pan_raster=PanRaster(render_image,
+            self._pixel_process=NavigationProcess(renderer=renderer,gpu_fallback=fallback,gpu_config=config)
+        if renderer=='gpu' and self._pixel_process is None:
+            from ._navigation_process import NavigationProcess
+            self._pixel_process=NavigationProcess(renderer='gpu',gpu_fallback=fallback,gpu_config=config)
+        self._renderer=self._pixel_process.render if renderer=='gpu' else render_image
+        from ._view_preview import PreviewBuilder
+        self._preview_builder=PreviewBuilder(self._renderer);self._preview_poll=None
+        self._pan_raster=PanRaster(self._renderer,
             self._pixel_process.render if self._pixel_process is not None else
                 lambda scene:render_image(scene,_interactive=True,_path_cache=path_cache,_tile_cache=self._pan_tiles),
-            lambda scene,cancel:render_image(scene,_cancel=cancel))
+            (lambda scene,cancel:self._renderer(scene)) if renderer=='gpu' else lambda scene,cancel:render_image(scene,_cancel=cancel))
         self._pan_poll=None;self._async_pan=False;self._pan_generation=0
         self._pan_waiting=False;self._wheel_pending=None
         self._pan_prefetched=False
@@ -235,7 +244,7 @@ class FigureWindow:
             try:key,image=self._raster_cache.lookup(scene)
             except MemoryError:key,image=None,None
             if image is None:
-                image=render_image(scene)
+                image=self._renderer(scene)
                 if key is not None:
                     try:self._raster_cache.store(key,image)
                     except MemoryError:pass  # Retaining an extra frame is optional.
@@ -252,7 +261,11 @@ class FigureWindow:
         self.buttons['Back'].config(state=self.tk.NORMAL if self.navigation.index>0 else self.tk.DISABLED)
         self.buttons['Forward'].config(state=self.tk.NORMAL if self.navigation.index+1<len(self.navigation.history) else self.tk.DISABLED)
         self._draw_overview()
-        if complete:self.figure._draw_complete()
+        if complete:
+            self.figure._draw_complete()
+            if getattr(self.figure,'_interactive_renderer',('cpu',))[0]=='gpu':
+                if self._preview_builder.submit(self.figure,scene,self._view_preview) and self._preview_poll is None:
+                    self._preview_poll=self.window.after(8,self._poll_preview)
         self._emit('draw_event')
 
     def _draw_pan_async(self):
@@ -294,7 +307,7 @@ class FigureWindow:
             # release/Home/resize, only the newest settled view may be painted.
             moving=(self.drag is not None and self.mode=='pan' or self._wheel_pending is not None) and self._async_pan
             current_size=tuple(round(v*self.figure.dpi) for v in self.figure.figsize)
-            usable=token>0 and (latest or moving) and (round(scene.width),round(scene.height))==current_size
+            usable=token>0 and (latest or moving and self._view_preview.meta is None) and (round(scene.width),round(scene.height))==current_size
             if error is not None:
                 if latest:self.message.set(str(error))
             elif image is not None:
@@ -318,10 +331,30 @@ class FigureWindow:
         else:self.widget.itemconfigure(self._image_id,image=self._photo)
         self.widget.tag_lower(self._image_id)
 
+    def _preview_navigation(self):
+        if getattr(self.figure,'_interactive_renderer',('cpu',))[0]!='gpu':return
+        image=self._view_preview.render(self.figure)
+        if image is None:return
+        try:self._display(image);self._preview_count+=1
+        finally:image.close()
+
+    def _poll_preview(self):
+        self._preview_poll=None
+        if self.closed:return
+        candidate=self._preview_builder.take(self.figure)
+        if candidate is not None:
+            self._view_preview.clear();self._view_preview=candidate
+        if self._preview_builder.busy():self._preview_poll=self.window.after(8,self._poll_preview)
+
     def draw_idle(self):
         if getattr(self,'_async_pan',False):self._pan_generation+=1
+        # While a cached view follows the pointer, postpone expensive scene
+        # composition until a short input pause. Release requests an exact draw.
+        defer=bool(self.drag and self._view_preview.meta is not None)
+        if defer and self._pending is not None:
+            self.window.after_cancel(self._pending);self._pending=None
         if not self.closed and self._pending is None:
-            self._pending=self.window.after_idle(self._redraw)
+            self._pending=self.window.after(48,self._redraw) if defer else self.window.after_idle(self._redraw)
 
     def _redraw(self):
         self._pending=None
@@ -398,8 +431,8 @@ class FigureWindow:
                 self.widget.create_rectangle(x0,y0,x1,y1,outline='black',tags='rubberband')
                 self.widget.create_rectangle(x0,y0,x1,y1,outline='white',dash=(3,3),tags='rubberband')
             elif self.mode in ('pan','zoom'):
-                # Change the view, never translate a clipped bitmap (and its
-                # spines). Each idle draw includes ticks, grid and components.
+                # Change authoritative limits; an optional provisional ink
+                # transform keeps fixed decorations separate until refinement.
                 self._pan_to(event)
         self._emit('motion_notify_event',event,index)
 
@@ -422,6 +455,7 @@ class FigureWindow:
                            initial_extent=d['extent'])
         if extent is not None and extent!=ax.get_extent():
             ax.set_extent(extent)
+            self._preview_navigation()
             self.draw_idle()
         return extent
 
@@ -487,6 +521,7 @@ class FigureWindow:
             if extent is not None:
                 ax.set_extent(extent);self.navigation.push()
         self.drag=None
+        self._preview_navigation()
         if hasattr(self,'_pan_raster'):
             self._pan_raster.discard_queued_preview();self._async_pan=True
         self.draw_idle()
@@ -504,6 +539,7 @@ class FigureWindow:
                 from ..terrain3d import camera_zoom
                 camera_zoom(ax,1.2**max(-20,min(20,step)))
             else:ax.set_extent(zoom_extent(ax,1.2**step,self._viewport(index).inverse(event.x,event.y)))
+            self._preview_navigation()
             self.navigation.push()
             if hasattr(self,'_pan_raster'):
                 self._pan_raster.interrupt_exact()
@@ -724,8 +760,10 @@ class FigureWindow:
             self.closed=True
             if hasattr(self,'_pan_raster'):self._pan_raster.close()
             if hasattr(self,'_pan_tiles'):self._pan_tiles.close()
+            if hasattr(self,'_preview_builder'):self._preview_builder.close()
+            if hasattr(self,'_view_preview'):self._view_preview.clear()
             if getattr(self,'_pixel_process',None) is not None:self._pixel_process.close()
-            for token in (self._pending,self._resize_pending,getattr(self,'_pan_poll',None),getattr(self,'_wheel_pending',None)):
+            for token in (self._pending,self._resize_pending,getattr(self,'_pan_poll',None),getattr(self,'_wheel_pending',None),getattr(self,'_preview_poll',None)):
                 if token:self.window.after_cancel(token)
             self._pending=self._resize_pending=None
             self._pan_poll=None

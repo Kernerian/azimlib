@@ -1,7 +1,7 @@
-"""Explicit lon/lat and Web Mercator coordinate-reference transformations.
+"""Own explicit WGS84 conversions; finite catalog, always longitude first.
 
-EPSG:4326, EPSG:3857 and WGS84 UTM EPSG:32601–32660 / 32701–32760
-are implemented. No global datum database or datum shifts are implied.
+Geocentric XYZ and geographic 3D require explicit height. No global datum
+database, realization alignment or implicit epoch/grid operation is implied.
 """
 from __future__ import annotations
 
@@ -15,6 +15,8 @@ from math import atan, degrees, exp, log, pi, radians, tan
 from .geometry import _number, position
 from .geodesy import WGS84_DATUM
 from .transverse import tm_forward, tm_inverse, utm_zone, utm_crs
+from ._crs_catalog import CRSCatalog, CRSDefinition, crs_catalog
+from ._frames import GEODETIC, Coordinates
 
 WEB_MERCATOR_RADIUS = 6_378_137.0
 WEB_MERCATOR_MAX_LATITUDE = 85.0511287798066
@@ -26,22 +28,44 @@ class CRS:
     code: str = "EPSG:4326"
 
     def __post_init__(self):
-        code = str(self.code).strip().upper()
-        if code.isdigit():
-            code = "EPSG:"+code
-        if code in ("WGS84", "WGS 84", "CRS84", "OGC:CRS84"):
-            code = "EPSG:4326"
-        if code not in ("EPSG:4326", "EPSG:3857") and not (code.startswith("EPSG:") and code[5:].isdigit() and (32601<=int(code[5:])<=32660 or 32701<=int(code[5:])<=32760)):
-            raise ValueError(f"unsupported CRS {self.code!r}; supported: EPSG:4326, EPSG:3857, WGS84 UTM zones")
-        object.__setattr__(self, "code", code)
+        object.__setattr__(self, "code", crs_catalog.get(self.code).code)
 
     @classmethod
     def from_user_input(cls, value):
-        return value if isinstance(value, cls) else cls(value)
+        if isinstance(value, cls):
+            return value
+        if isinstance(value, Mapping):
+            return cls.from_dict(value)
+        return cls(value)
+
+    @property
+    def definition(self): return crs_catalog.get(self.code)
+    @property
+    def dimensions(self): return self.definition.dimensions
+    @property
+    def is_geocentric(self): return self.definition.kind == 'geocentric'
+    @property
+    def authority_axis_order(self): return self.definition.authority_axes
+    @property
+    def axis_units(self): return self.definition.axis_units
+    @property
+    def area_of_use(self): return self.definition.area_of_use
+
+    def to_string(self): return self.code
+    def to_dict(self): return self.definition.to_dict()
+
+    @classmethod
+    def from_dict(cls, value):
+        if not isinstance(value, Mapping) or 'code' not in value:
+            raise ValueError('Require the complete azimlib-crs profile')
+        result = cls(value['code'])
+        if dict(value) != result.to_dict():
+            raise ValueError('CRS profile differs from this catalog; do not infer from an embedded identifier')
+        return result
 
     @property
     def is_geographic(self):
-        return self.code == "EPSG:4326"
+        return self.definition.kind == 'geographic'
 
     @property
     def units(self):
@@ -52,7 +76,7 @@ class CRS:
     @property
     def ellipsoid(self): return self.datum.ellipsoid
     @property
-    def axis_order(self): return ('longitude','latitude') if self.is_geographic else ('easting','northing')
+    def axis_order(self): return self.definition.axes
     @property
     def zone(self):
         return int(self.code[5:])%100 if self.code.startswith(('EPSG:326','EPSG:327')) else None
@@ -64,8 +88,8 @@ class CRS:
         if not -80<=lat<=84 or (lat<0 and self.hemisphere=='north') or (lat>0 and self.hemisphere=='south'):
             raise ValueError('Latitude outside UTM hemisphere/domain')
 
-    def transform_to(self, target, x, y):
-        return transform(x, y, self, target)
+    def transform_to(self, target, x, y, z=None):
+        return Transformer(self, target).transform(x, y, z)
 
 
 def transform(x, y, source="EPSG:4326", target="EPSG:3857"):
@@ -75,6 +99,8 @@ def transform(x, y, source="EPSG:4326", target="EPSG:3857"):
     instead of clamping coordinates or silently accepting another datum.
     """
     source, target = CRS.from_user_input(source), CRS.from_user_input(target)
+    if source.dimensions == 3 or target.dimensions == 3:
+        raise ValueError('3D CRS requires explicit z via Transformer.transform(x,y,z)')
     x, y = _number(x, "x"), _number(y, "y")
     if source.is_geographic:
         lon, lat = position((x, y))
@@ -105,14 +131,18 @@ def transform(x, y, source="EPSG:4326", target="EPSG:3857"):
 
 
 def transform_coordinates(coordinates, source="EPSG:4326", target="EPSG:3857"):
-    """Transform a sequence of 2D/3D positions, preserving optional elevation."""
+    """Transform positions; actual XYZ conversion for explicit 3D CRS.
+
+    The legacy 2D-to-2D path preserves optional elevation without datum shifts.
+    Explicit 3D CRSs require three input/output values; no zero height inferred.
+    """
     result = []
+    transformer = Transformer(source, target)
     for point in coordinates:
         values = tuple(point)
         if len(values) not in (2, 3):
             raise ValueError("coordinates require two or three numbers")
-        extra = (_number(values[2], "elevation"),) if len(values) == 3 else ()
-        result.append(transform(values[0], values[1], source, target)+extra)
+        result.append(transformer.transform(*values))
     return tuple(result)
 
 
@@ -190,5 +220,30 @@ class Transformer:
     def from_crs(cls, source, target):
         return cls(source, target)
 
-    def transform(self, x, y):
-        return transform(x, y, self.source, self.target)
+    def transform(self, x, y, z=None):
+        source, target = self.source, self.target
+        if source.dimensions != 3 and target.dimensions != 3:
+            extra = () if z is None else (_number(z, 'elevation'),)
+            return transform(x, y, source, target) + extra
+        if z is None:
+            raise ValueError('3D CRS conversion requires explicit z/ellipsoidal height')
+        x, y, z = _number(x, 'x'), _number(y, 'y'), _number(z, 'z')
+        if source.is_geocentric:
+            lon, lat, height = GEODETIC.from_fixed(Coordinates((x, y, z)))
+        else:
+            if source.is_geographic:
+                lon, lat = position((x, y))
+            else:
+                lon, lat = transform(x, y, source, 4326)
+            height = z
+            GEODETIC.to_fixed(lon, lat, height)  # Validate the full 3D domain.
+        if source == target:
+            return x, y, z
+        if target.is_geocentric:
+            return GEODETIC.to_fixed(lon, lat, height).xyz
+        if target.is_geographic:
+            return lon, lat, height
+        return transform(lon, lat, 4326, target) + (height,)
+
+    def inverse(self):
+        return Transformer(self.target, self.source)

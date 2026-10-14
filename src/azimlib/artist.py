@@ -113,6 +113,7 @@ class Artist:
         if self._mutation_depth:
             self._mutation_pending = True
             return
+        self._change_serial = getattr(self, '_change_serial', 0) + 1
         # Invalidate first so a callback observes the committed dirty figure.
         self.stale = True
         self.pchanged()

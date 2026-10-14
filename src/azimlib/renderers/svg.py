@@ -34,6 +34,8 @@ def render_svg(scene: Scene) -> str:
     faces are embedded; other families are resolved by the SVG viewer.
     """
     validate(scene)
+    from ..text_engine import with_text_notices
+    scene=with_text_notices(scene)
     clips = {}
     for item in scene.items:
         if item.clip is not None:
@@ -47,7 +49,7 @@ def render_svg(scene: Scene) -> str:
     from ..typography import font_path
     faces={}
     for item in scene.items:
-        if isinstance(item,Text):
+        if isinstance(item,Text) and item.style.get('textengine') not in ('harfbuzz','tex'):
             path=font_path(item.style)
             if path is not None:faces[path]=item.style
     if faces:
@@ -85,6 +87,10 @@ def render_svg(scene: Scene) -> str:
             data=base64.b64encode(png_bytes(item)).decode('ascii')
             out.append(f'<image x="{n(item.x)}" y="{n(item.y)}" width="{n(item.width)}" height="{n(item.height)}" href="data:image/png;base64,{data}"{clip}/>')
         elif isinstance(item, Text):
+            if item.style.get('textengine') in ('harfbuzz','tex'):
+                from ._shaped_text import svg_text
+                out.append(svg_text(item,clip))
+                continue
             s = item.style
             attrs = _paint(s, text=True)
             attrs += _attr("font-family", s.get("font_family", "sans-serif"))

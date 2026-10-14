@@ -20,6 +20,8 @@ def n(value):
 def render_pdf(scene,path_or_stream=None,*,dpi=100,_objects=False):
     """Return PDF bytes and optionally write them; dpi defines physical page units."""
     validate(scene)
+    from ..text_engine import with_text_notices
+    scene=with_text_notices(scene)
     if not math.isfinite(dpi) or dpi<=0:raise ValueError('PDF dpi must be positive')
     objects=[None,None,None];states={};commands=[]
     def object(data):objects.append(data);return len(objects)
@@ -56,6 +58,8 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100,_objects=False):
             if cmd[0]=='Z':out.append('h');continue
             if cmd[0] in ('M','L'):
                 current=cmd[1];out.append(f'{n(current[0])} {n(current[1])} '+('m' if cmd[0]=='M' else 'l'))
+            elif cmd[0]=='C':
+                out.append(' '.join(n(v) for p in cmd[1:] for v in p)+' c');current=cmd[-1]
             else:
                 control,end=cmd[1:];a=tuple(current[i]+2*(control[i]-current[i])/3 for i in range(2));b=tuple(end[i]+2*(control[i]-end[i])/3 for i in range(2))
                 out.append(' '.join(n(v) for p in (a,b,end) for v in p)+' c');current=end
@@ -72,7 +76,13 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100,_objects=False):
             import zlib
             from ..terrain3d import rasterize
             rw,rh=max(1,round(item.width)),max(1,round(item.height))
-            image=rasterize(item.triangles,rw,rh)
+            if item.volumes:
+                from ..volume_render import rasterize_volume
+                image=rasterize_volume(item,rw,rh)
+            elif item.texture is not None:
+                from .._texture3d import rasterize_textured
+                image=rasterize_textured(item,rw,rh)
+            else:image=rasterize(item.triangles,rw,rh)
             rgb=bytes(c for i,c in enumerate(image.rgba) if i%4!=3);alpha=image.rgba[3::4]
             def image_object(data,space,mask=''):
                 compressed=zlib.compress(data)
@@ -100,7 +110,11 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100,_objects=False):
                 geometry.append(' '.join(n(v) for pt in (p,q,b) for v in pt)+' c')
             geometry.append('h')
         else:geometry=path_commands(item.paths,item.closed)
-        commands+=paint(item.style,geometry,isinstance(item,Text));commands.append('Q')
+        shaped=isinstance(item,Text) and item.style.get('textengine') in ('harfbuzz','tex')
+        if shaped:commands.append('/Span << /ActualText <FEFF'+str(item.text).encode('utf-16-be').hex().upper()+'> >> BDC')
+        commands+=paint(item.style,geometry,isinstance(item,Text))
+        if shaped:commands.append('EMC')
+        commands.append('Q')
     content=object(stream(('\n'.join(commands)+'\n').encode('ascii')))
     from ..typography import FONTS
     notice=(FONTS/'LICENSE_DEJAVU').read_bytes() if (FONTS/'LICENSE_DEJAVU').exists() else (FONTS/'LICENSE').read_bytes()

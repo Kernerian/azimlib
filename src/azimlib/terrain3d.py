@@ -1,13 +1,18 @@
 """Experimental own metric terrain, homogeneous camera and triangle depth raster.
 
-No globe/volume backend, GIS engine, implicit geoid conversion or transparent
-surface sorting. Numeric operations are own code; NumPy is an optional array
+No GIS engine, implicit geoid conversion or transparent surface sorting.
+Regular volumes are integrated separately through volume_render. Numeric
+operations are own code; NumPy is an optional array
 accelerator. Coordinates and elevations remain physical metres before display.
 """
 from dataclasses import dataclass,replace
 from array import array
+from functools import cached_property
 import math
 from .geodesy import Unit,METRE,WGS84
+from ._frames import GEODETIC,Observer,_geodetic_xyz
+from ._contracts import (TERRAIN_MAX_VERTICES,TERRAIN_MAX_TRIANGLES,
+                         TERRAIN_MAX_PIXELS,TERRAIN_MAX_PIXEL_TESTS)
 
 def finite(value):
     value=float(value)
@@ -48,14 +53,19 @@ class LocalFrame:
     def horizontal(self,lon,lat):
         lon,lat=finite(lon),finite(lat)
         if not -180<=lon<=180 or not -90<=lat<=90:raise ValueError('Geographic coordinates outside domain')
-        lam,phi=map(math.radians,(self.lon,self.lat));l,p=map(math.radians,(lon,lat));a=WGS84.semi_major_axis;e=WGS84.eccentricity_squared
-        def ecef(l,p):
-            n=a/math.sqrt(1-e*math.sin(p)**2)
-            return n*math.cos(p)*math.cos(l),n*math.cos(p)*math.sin(l),n*(1-e)*math.sin(p)
-        source=ecef(l,p);origin=ecef(lam,phi);delta=tuple(s-o for s,o in zip(source,origin))
+        lam,phi=map(math.radians,(self.lon,self.lat));l,p=map(math.radians,(lon,lat));a=WGS84.semi_major_axis
         angular=math.acos(max(-1,min(1,math.sin(phi)*math.sin(p)+math.cos(phi)*math.cos(p)*math.cos(l-lam))))
         if a*angular>250000:raise ValueError('Local terrain must remain within 250 km of its origin')
-        return dot(delta,(-math.sin(lam),math.cos(lam),0)),dot(delta,(-math.sin(phi)*math.cos(lam),-math.sin(phi)*math.sin(lam),math.cos(phi)))
+        # Inputs are validated above. Reuse shared equations/cached basis without
+        # allocating tagged intermediate points for every terrain vertex.
+        source=_geodetic_xyz(lon,lat,0,WGS84)
+        delta=tuple(s-o for s,o in zip(source,self._origin))
+        r=self._to_local.rotation
+        return dot(delta,r[:3]),dot(delta,r[3:6])
+    @cached_property
+    def _to_local(self):return Observer(self.lon,self.lat).to_local
+    @cached_property
+    def _origin(self):return GEODETIC.to_fixed(self.lon,self.lat).xyz
 
 @dataclass(frozen=True)
 class Camera:
@@ -95,7 +105,7 @@ class Mesh:
     triangles:tuple
     def __post_init__(self):
         vertices=tuple(tuple(finite(v) for v in p) for p in self.vertices);triangles=tuple(tuple(p) for p in self.triangles)
-        if not vertices or any(len(p)!=3 for p in vertices) or len(vertices)>50000 or not triangles or len(triangles)>20000:raise ValueError('Mesh requires XYZ vertices and 1..20000 triangles (<=50000 vertices)')
+        if not vertices or any(len(p)!=3 for p in vertices) or len(vertices)>TERRAIN_MAX_VERTICES or not triangles or len(triangles)>TERRAIN_MAX_TRIANGLES:raise ValueError('Mesh requires XYZ vertices and 1..20000 triangles (<=50000 vertices)')
         for face in triangles:
             if len(face)!=3 or any(isinstance(i,bool) or not isinstance(i,int) or not 0<=i<len(vertices) for i in face):raise ValueError('Invalid triangle indices')
         object.__setattr__(self,'vertices',vertices);object.__setattr__(self,'triangles',triangles)
@@ -138,11 +148,11 @@ def rasterize(triangles,width,height,*,accelerate=True,check=None):
     skips coverage/depth. Coincident depth within 1e-7 keeps the first fragment.
     NumPy vectorizes our same edge equations; it is not a raster/3D backend.
     """
-    if any(isinstance(v,bool) or not isinstance(v,int) or v<=0 for v in (width,height)) or width*height>8000000:raise ValueError('3D raster requires positive integer dimensions and <=8M pixels')
+    if any(isinstance(v,bool) or not isinstance(v,int) or v<=0 for v in (width,height)) or width*height>TERRAIN_MAX_PIXELS:raise ValueError('3D raster requires positive integer dimensions and <=8M pixels')
     triangles=tuple(triangles)
     for _,color in triangles:
         if len(color)!=4 or any(isinstance(v,bool) or not isinstance(v,int) or not 0<=v<=255 for v in color):raise ValueError('Triangle colors require integer RGBA channels in 0..255')
-    if len(triangles)>20000:raise ValueError('Raster input limited to 20000 triangles')
+    if len(triangles)>TERRAIN_MAX_TRIANGLES:raise ValueError('Raster input limited to 20000 triangles')
     prepared=[];work=0
     for clip,color in triangles:
         color=tuple(color)
@@ -157,7 +167,7 @@ def rasterize(triangles,width,height,*,accelerate=True,check=None):
             y0=max(0,math.ceil(min(q[1] for q in p)-.5));y1=min(height,math.floor(max(q[1] for q in p)-.5)+1)
             if x0>=x1 or y0>=y1:continue
             work+=(x1-x0)*(y1-y0)
-            if work>64000000:raise ValueError('3D projected work budget exceeded; reduce resolution/mesh density')
+            if work>TERRAIN_MAX_PIXEL_TESTS:raise ValueError('3D projected work budget exceeded; reduce resolution/mesh density')
             prepared.append((p,area,(x0,y0,x1,y1),color))
     np=None
     if accelerate:
@@ -204,6 +214,13 @@ def png_bytes(item):
     except ImportError as exc:raise ImportError('3D SVG export requires azimlib[png] for image encoding') from exc
     from io import BytesIO
     w,h=max(1,round(item.width)),max(1,round(item.height))
-    pixels=rasterize(item.triangles,w,h);out=BytesIO()
+    if item.volumes:
+        from .volume_render import rasterize_volume
+        pixels=rasterize_volume(item,w,h)
+    elif item.texture is not None:
+        from ._texture3d import rasterize_textured
+        pixels=rasterize_textured(item,w,h)
+    else:pixels=rasterize(item.triangles,w,h)
+    out=BytesIO()
     with Image.frombytes('RGBA',(w,h),pixels.rgba) as image:image.save(out,format='PNG')
     return out.getvalue()

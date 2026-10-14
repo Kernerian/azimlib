@@ -30,5 +30,6 @@ A contagem de concluídos/pendentes fica somente na checklist. As reservas
 para 0.4.0 estão ali motivadas: volumes/GPU, PBF planetário, CRS com grids
 universais, overlay global, roteamento/geocodificação e TeX/shaping completos.
 O restante não desaparece do plano. Novos recursos ainda pendentes não são
-capacidades anunciadas da versão 0.2.0. O próximo corte ainda exige uma
-checklist própria; não há total fechado de subtarefas da 0.4.0.
+capacidades anunciadas da versão 0.2.0. A [checklist própria da 0.4.0](release-progress-0.4.md)
+agora reúne essas reservas e Sol/Lua em 14 etapas e 112 subpassos; o progresso atual fica naquela checklist. Esta
+tabela continua sendo o inventário histórico do corte 0.3.0, não sua contagem atual.

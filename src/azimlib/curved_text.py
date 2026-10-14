@@ -7,10 +7,15 @@ from .line_labels import visible_paths
 def curve_candidates(geometry,vp,text,style,repeat=None):
     """Yield glyph poses; repeat is baseline center spacing in physical points."""
     from .mathtext import has_math
+    if style.get('textengine')=='tex':raise ValueError('TeX labels are whole blocks; use placement="line" for tangent alignment')
     if has_math(text) or '\n' in text:raise ValueError('Curved labels require single-line plain text')
     paths=visible_paths(geometry,vp);paths.sort(key=lambda p:-sum(math.dist(a,b) for a,b in zip(p,p[1:])))
-    advances=[];previous=''
-    for char in text:
+    advances=[];previous='';characters=list(text)
+    if style.get('textengine')=='harfbuzz':
+        from .text_engine import cluster_units
+        units=list(cluster_units(text,style));characters=[v[0] for v in units]
+        advances=[v[1:] for v in units]
+    for char in (() if advances else characters):
         # Pair width accounts for bundled Latin kerning in the arc advance.
         char_width=text_width(char,style)
         kern=text_width(previous+char,style)-text_width(previous,style)-char_width
@@ -34,7 +39,7 @@ def curve_candidates(geometry,vp,text,style,repeat=None):
         for center in centers:
             cursor=center-width/2;poses=[]
             if cursor<2 or center+width/2>length-2:continue
-            for char,(advance,kern) in zip(text,advances):
+            for char,(advance,kern) in zip(characters,advances):
                 cursor+=kern;point,angle=at(cursor+advance/2);cursor+=advance
                 if abs(angle)>85:poses=[];break
                 if poses and abs(angle-poses[-1][2])>35:poses=[];break

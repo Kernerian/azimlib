@@ -1,0 +1,159 @@
+# Eclipse status after the 0.4 development rescope
+
+**Experimental scientific use; 13.06/13.07 are deferred, not passed.**
+[Current corpus and observed errors](observed-validation-0.4.md) supersede the
+early diagnostic as a current summary. No physical-envelope completeness,
+global uncertainty certificate or certified prediction domain is claimed.
+The historical 2023 oracle and its formal correction remain preserved; centers
+now pass the frozen corpus. 221 boundary checks and other documented references
+remain unresolved. Targets remain 2 km / 3 km / 30 s / 60 s / 0.001.
+
+`EclipseGeometry`, `occultation`, `ShadowCone`, solar-disk conventions and
+`ax.eclipse_shadow(...)` expose a declared geometric/experimental model, not
+certified forecasts. The private `_eclipse_ephemeris` tooling remains internal;
+unavailable public contact/event methods remain unavailable. Existing opt-in,
+clock/domain checks and `accuracy_validated=False` are not removed.
+
+## Preserved early diagnostic (historical)
+
+The original text and numerical results below are retained as historical
+evidence. They do not describe the current corpus or restore a release blocker
+that has been formally deferred. [Decision and archived criteria](deferred-gates-0.4.md).
+
+# Experimental eclipse precision — 13.06 / 13.07
+
+Both items remain **pending**. This work does not certify real-event predictions
+or expose the experimental ephemeris as a supported public API. Existing
+illustrative APIs still require their explicit approximation opt-in.
+
+The [frozen contract](eclipse-contract-0.4.json) predates implementation and
+comparison. Its SHA-256 is
+`31cddc2f9af5fbd5a93ca294985043f2e220643418cb9921b48a25d0359cc965`.
+No acceptance tolerance or reference case was changed after observing errors.
+
+| Criterion | Fixed target |
+| --- | --- |
+| Central angular separation / model accuracy budget | 0.01 degrees each |
+| Residual visible fraction during totality | 0.001 |
+| Central ground trajectory | 2,000 m, every timed coordinate |
+| Swept ground boundary | 3,000 m, every available coordinate |
+| Absolute solar contacts | 30 s |
+| Lunar contacts | 60 s |
+
+The development domain is 1972–2100, airless geometric occultation with smooth
+limbs. Numerical domain checks are not evidence of uniform accuracy throughout
+that interval. Limb topography, polar motion, refraction, weather and safe
+observing advice are outside this model.
+
+## Implementation and separate conventions
+
+- Own DAF/SPK type 2/3 reader, IEEE little/big endian, explicit local file and
+  SHA-256, maximum 64 MiB, bounded descriptors/degrees/center chains, geometric
+  barycentric ICRF/J2000 states in metres and metres/second at TDB seconds.
+- Explicit TT and UT1 coordinates. Leading periodic TT–TDB conversion,
+  iterative light time, geocentric aberration, IAU-1976 precession, four dominant
+  nutation terms and sidereal rotation. No inferred UTC/UT1 equivalence.
+- Physical disks and near-side shadow-axis intersection with WGS84; spherical
+  finite-source umbra/penumbra/antumbra remain distinct from visual exaggeration.
+- Physical mean lunar radius is the default. The explicitly named NASA bulletin
+  internal/external lunar-limb presets use k=0.272281 / k=0.2725076 respectively;
+  selecting one does not silently change the Sun radius or reproduce every
+  historical catalog convention. Current ground comparison uses physical mean
+  disks and records the convention mismatch as unresolved, rather than fitting
+  constants to the desired result.
+- Lunar contacts separately declare airless mean or NASA Danjon effective
+  mean shadow. The latter uses the published 1.01 Earth-radius convention;
+  it is not a physical atmosphere model or the exact projected Earth ellipsoid.
+- Contact searches are bounded bracket/bisection searches. Grazing/double roots
+  are not covered and cannot be represented as validated missed events.
+
+The short orientation reduction has **no established global accuracy bound**.
+`accuracy_validated` remains false. Kernel quality alone cannot certify the
+reductions, apparent directions, Earth orientation or eclipse geometry.
+
+## Independent evidence and current errors
+
+[Summary and source hashes](eclipse-validation-0.4.json) record maxima, coverage
+and pass/fail status. Full per-coordinate errors are generated externally.
+All **302 timed central coordinates** are compared: 97 in 2017, 107 in 2023,
+98 in 2024. The catalog supplies **601 boundary coordinates**; three northern
+coordinates are explicitly absent near the terrestrial limb. Those rows keep
+their valid center/southern coordinates and are never silently dropped.
+
+| NASA event | Maximum central error | Maximum meridian boundary error |
+| --- | --- | --- |
+| 2017-08-21 total | 494.953 m | 2,148.765 m |
+| 2023-10-14 annular | **4,540.661 m — fails** | **3,364.785 m — fails** |
+| 2024-04-08 total | 461.653 m | 2,579.424 m |
+
+There are 29 failing 2023 boundary coordinates. Boundary comparison minimizes
+the internal-contact margin in a fixed ±15-minute window, then solves latitude
+at the published longitude. Meridian distance is a conservative comparison to
+the swept envelope, not a conversion of angular residual into ground distance.
+Searching the full fixed ±1-degree meridian interval prevents two nearby roots
+from being lost when both interval ends are outside a narrow track.
+
+Lunar P1/U1/U2/U3/U4/P4 contacts: maximum absolute error **1.917 s** for 2022-11-08
+and **3.032 s** for 2025-03-14, both within 60 s using the declared Danjon
+convention. The two clear controls also pass. These sampled successes do not
+establish a global accuracy bound.
+
+Solar internal durations agree within 5.691 s across the 302 locations, but
+duration agreement is **not** validation of absolute C1/C2/C3/C4 times.
+Supplemental Carbondale/Albuquerque/Dallas cases and a 30 s target were fixed
+before attempted USNO acquisition. The official API was inaccessible during
+this run; no substitute contact times or guessed offsets were inserted.
+[The frozen supplemental cases](eclipse-contact-contract-0.4.json) have SHA-256
+`78db9334c988cbd2ce3ed321e92d6e59490b7afa7724c21754cefee277a2cc4f`;
+their 30 s target is unchanged. A later acquisition must record complete
+responses, query URL, retrieval date, SHA-256, native timescale and all events
+before model comparison, preserving a failed or missing event in the report.
+
+The independent jplephem 2.24 reader comparison at ten fixed epochs gives
+maximum position disagreement 0.000061629 m and velocity disagreement
+1.48e-11 m/s. It validates our SPK evaluation against another reader of the
+**same DE440s data**, not the physical ephemeris or Earth-orientation model.
+NASA catalogs use their separately computed eclipse predictions.
+
+## Reproduction and remaining work
+
+Place the six original references and `frozen-contract.json` in a directory
+outside the checkout. URLs, byte counts and SHA-256 are fixed in the contract.
+There is no automatic fetch or runtime fallback:
+
+```sh
+python -I tools/validate_eclipse_contract.py \
+  --reference-dir EXTERNAL_REFERENCES --output EXTERNAL_REPORT.json
+```
+
+The auditor verifies all hashes, rejects incomplete/duplicate timed rows and
+returns **3** for the unpassed scientific gate. Its report separates numerical
+execution from scientific acceptance; successful unit tests cannot override it.
+Raw references and full coordinate comparisons are not included in packages.
+
+Required next work: establish an independently supported Earth-orientation and
+apparent-state error budget; resolve the 2023 trajectory and catalog disk/limb
+conventions without fitting; acquire and compare all fixed absolute solar
+contacts; cover grazing events; then repeat every frozen case. Only after this
+contract is satisfied can precise event visualization conclude 13.06/13.07.
+
+## Provenance
+
+Eclipse Predictions by Fred Espenak, NASA's GSFC.
+[Solar 2017](https://eclipse.gsfc.nasa.gov/SEpath/SEpath2001/SE2017Aug21Tpath.html),
+[solar 2023](https://eclipse.gsfc.nasa.gov/SEpath/SEpath2001/SE2023Oct14Apath.html),
+[solar 2024](https://eclipse.gsfc.nasa.gov/SEhistory/SEpath/SE2024Apr08Tpath.html),
+[lunar 2022](https://eclipse.gsfc.nasa.gov/LEplot/LEplot2001/LE2022Nov08T.pdf),
+[lunar 2025](https://eclipse.gsfc.nasa.gov/LEplot/LEplot2001/LE2025Mar14T.pdf),
+[lunar limb conventions](https://eclipse.gsfc.nasa.gov/SEmono/reference/radius.html),
+[Danjon convention](https://eclipse.gsfc.nasa.gov/LEcat5/shadow.html).
+
+Format definitions:
+[NAIF DAF](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/daf.html),
+[NAIF SPK](https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/spk.html).
+Data: [JPL DE440s](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp).
+Precession/rotation definitions:
+[ESA Navipedia](https://gssc.esa.int/navipedia/index.php/ICRF_to_CEP).
+[USNO API reference](https://aa.usno.navy.mil/data/api).
+No third-party implementation was copied or vendored for these additions;
+external reference data do not become exclusive Azimlib property.

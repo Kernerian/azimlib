@@ -114,13 +114,19 @@ def subplot(*args,**kwargs):
     return fig.add_subplot(*args,projection=projection,**{k:kwargs[k] for k in ('sharex','sharey') if k in kwargs})
 
 
-def savefig(path,**kwargs):return gcf().save(path,**kwargs)
+def savefig(path,**kwargs):
+    """Static export; renderer="gpu" forwards experimental PNG selection."""
+    return gcf().save(path,**kwargs)
 def clf():return gcf().clear()
 def cla():return gca().clear()
 
 
 def show(*,block=True,backend='tk',open_browser=True):
-    """Show own viewers; desktop event loop blocks only when requested."""
+    """Show own CPU viewers; desktop loop blocks only when requested.
+
+    Experimental GPU selection belongs to Figure.show(renderer="gpu"); this
+    stateful helper does not accept a renderer keyword.
+    """
     result=tuple(fig.show(backend=backend,block=False,open_browser=open_browser) for fig in tuple(_figures))
     if backend in ('tk','qt') and block:
         from importlib import import_module

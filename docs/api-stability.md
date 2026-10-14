@@ -1,6 +1,6 @@
 # API stability and version policy
 
-This policy covers **0.3.0**. Published files are listed on
+This policy covers published **0.3.0** and the **unreleased, re-scoped 0.4 development API**. Published files are listed on
 [PyPI](https://pypi.org/project/azimlib/). [Release gates](release-progress-0.3.md)
 are tracked separately from implementation milestones and publication results.
 
@@ -31,3 +31,20 @@ explicitly; physical points/DPI and geographical CRS must not be conflated.
 
 Optional dependencies preserve their own licensing. A release does not grant
 rights to arbitrary user-supplied data, fonts, symbols or external encoders.
+
+## 0.4 development surfaces
+
+| Surface | Status | Supported claim |
+|---|---|---|
+| CPU Figure/MapAxes/root/pyplot | Existing supported subset | Same signatures, units and explicit format/coverage rules |
+| `renderer="gpu"`, `GpuRenderer`, `GpuConfig`, GPU export | Experimental optional GPU backend | Functional declared coverage; no universal 33 ms/100 ms guarantee |
+| `EclipseGeometry`, `occultation`, `ShadowCone`, disk conventions, `eclipse_shadow` | Experimental for astronomical/scientific use | Declared finite-body geometry; observed corpus results, no complete physical envelope or certified forecasts |
+| `_eclipse_ephemeris`, `_spk` and scientific audit internals | Internal/experimental | No promotion to supported public API through examples |
+| PBF public reader/index APIs | Supported within declared format/resource coverage | Regional real validation; planet trial deferred |
+
+Experimental scientific status describes evidence/accuracy limitations; it does
+not erase existing geometric contracts or authorize arbitrary patch breakage.
+0.4.1 preserves supported public signatures and semantics. Deep changes belong
+to a documented minor-version migration. GPU/science experimentation does not
+change CPU defaults, root/pyplot imports or explicit fallback/approximation rules.
+[Measured evidence](observed-validation-0.4.md), [deferred criteria](deferred-gates-0.4.md).

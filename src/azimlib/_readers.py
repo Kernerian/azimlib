@@ -4,14 +4,32 @@ import re
 import xml.etree.ElementTree as ET
 
 
+def _chunks(stream,limit,*,text=False):
+    """Bound reads themselves, including short-reading streams and tiny files."""
+    chunks=[]; total=0; kind=None
+    while True:
+        chunk=stream.read(min(65536,limit-total+1))
+        if not isinstance(chunk,(str,bytes)) or (not text and not isinstance(chunk,bytes)):
+            raise TypeError('Input stream must return bytes' + (' or text' if text else ''))
+        if kind is not None and type(chunk) is not kind: raise TypeError('Input stream changed text/binary type')
+        kind=type(chunk)
+        if not chunk: break
+        raw=chunk.encode('utf8') if isinstance(chunk,str) else chunk
+        total+=len(raw)
+        if total>limit: raise ValueError('Input exceeds reader byte limit')
+        chunks.append(raw)
+    return b''.join(chunks)
+
+
 def binary(source, limit=256 * 1024 * 1024):
+    if isinstance(limit,bool) or not isinstance(limit,int) or limit<0: raise ValueError('Reader limit must be a nonnegative integer')
     if isinstance(source, bytes):
         result = source
     elif hasattr(source, 'read'):
-        result = source.read(limit + 1)
+        result = _chunks(source,limit)
     else:
         with Path(source).open('rb') as stream:
-            result = stream.read(limit + 1)
+            result = _chunks(stream,limit)
     if not isinstance(result, bytes):
         raise TypeError('Binary input requires bytes, a local path or a binary stream')
     if len(result) > limit:
@@ -23,9 +41,7 @@ def xml_root(source):
     if isinstance(source, str) and source.lstrip('\ufeff \r\n\t').startswith('<'):
         raw = source.encode('utf-8')
     elif hasattr(source, 'read'):
-        raw = source.read(64 * 1024 * 1024 + 1)
-        if isinstance(raw, str):
-            raw = raw.encode('utf-8')
+        raw = _chunks(source,64 * 1024 * 1024,text=True)
     else:
         raw = binary(source, 64 * 1024 * 1024)
     if len(raw) > 64 * 1024 * 1024:

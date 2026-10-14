@@ -1,6 +1,5 @@
 """One background raster job plus the newest pending view; never calls Tk."""
-from copy import deepcopy
-from dataclasses import replace
+from copy import copy,deepcopy
 from threading import Condition,Thread,Event
 
 from ..scene import Path,Scene
@@ -12,7 +11,13 @@ def frozen_scene(scene):
     for item in scene.items:
         options=dict(style=deepcopy(dict(item.style)))
         if isinstance(item,Path):options['paths']=tuple(tuple(tuple(point) for point in part) for part in item.paths)
-        result.add(replace(item,**options))
+        # These are already-resolved screen primitives. Re-running dataclass
+        # initialization would shape/compile Text again and can apply layout
+        # adjustments a second time. Copy the resolved value, then own only
+        # its mutable payload; no Figure/Artist reference crosses the worker.
+        frozen=copy(item)
+        for name,value in options.items():object.__setattr__(frozen,name,value)
+        result.add(frozen)
     return result
 
 

@@ -22,6 +22,7 @@ _KEYS = {
     "markerfacecolor", "markeredgecolor", "markeredgewidth",
     "hatch","hatch_color","hatch_linewidth","hatch_spacing","antialiased",
     "solid_capstyle", "dash_capstyle", "solid_joinstyle", "dash_joinstyle",
+    "textengine", "direction", "language", "fontfallback", "fontfeatures", "texconfig",
 }
 _ALIASES = {"lw": "linewidth", "ls": "linestyle", "c": "color", "fc": "facecolor",
             "ec": "edgecolor", "ms": "markersize", "size": "fontsize", "weight": "fontweight",
@@ -105,7 +106,8 @@ def style_dict(values=None, **kwargs):
     if "linestyle" in result:
         pattern=dash_pattern(result["linestyle"])
         if not isinstance(result['linestyle'],str):result['linestyle']=pattern
-    return result
+    from .text_engine import text_options
+    return text_options(result)
 
 
 def dash_pattern(value):
@@ -162,7 +164,11 @@ def text_style(style):
     ha, va = style.get("ha", "left"), style.get("va", "baseline")
     if ha not in anchor or va not in baseline:
         raise ValueError("ha: left/center/right; va: top/center/bottom/baseline")
-    return dict(fill=style.get("color", "black"), opacity=style.get("alpha", 1),
+    from .text_engine import scene_options
+    controls=scene_options(style)
+    from .text_engine import text_options
+    text_options({'textengine':'basic',**controls})
+    return dict(controls, fill=style.get("color", "black"), opacity=style.get("alpha", 1),
                 font_family=style.get("fontfamily", "DejaVu Sans"),
                 font_size=style.get("fontsize", 10)*100/72, font_weight=style.get("fontweight", "normal"),
                 font_style=style.get("fontstyle","normal"),

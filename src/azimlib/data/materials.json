@@ -72,6 +72,12 @@
     {
       "file": "NOTICE_COLORMAPS",
       "sha256": "d6af9eaf4b0e9822736ff196fe3e31e557f47d9ba28f2048617edfdb5ff0ee01"
+    },
+    {
+      "file": "licenses/CC-BY-4.0.txt",
+      "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/main/text/CC-BY-4.0.txt",
+      "sha256": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+      "scope": "Complete license for optional LINZ grids; grid payloads are not shipped"
     }
   ],
   "retired_palette_fingerprints": [

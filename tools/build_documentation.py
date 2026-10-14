@@ -54,7 +54,7 @@ def build(output,ref):
             prefix=os.path.relpath(staging,target.parent).replace('\\','/')+'/'
             if prefix=='./':prefix=''
             title=headings[0] if headings else source.stem
-            nav=''.join(f'<a href="{prefix}docs/{name}.html">{label}</a>' for name,label in (('index','Overview'),('getting-started','Getting started'),('migration-0.3','Migration'),('gallery-0.3','Gallery'),('api','API reference'),('api-stability','Compatibility policy'),('release-progress-0.3','Release progress'),('roadmap','Roadmap')))
+            nav=''.join(f'<a href="{prefix}docs/{name}.html">{label}</a>' for name,label in (('index','Overview'),('getting-started','Getting started'),('migration-0.4','Migration'),('gallery-0.4','Gallery'),('api','API reference'),('api-stability','Compatibility policy'),('release-progress-0.4','Release progress'),('roadmap','Roadmap')))
             body=md.renderer.render(tokens,md.options,{})
             source_url='https://github.com/Kernerian/azimlib/blob/'+quote(ref,safe='/')+'/'+source.relative_to(ROOT).as_posix()
             page=f'<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)} · Azimlib {version}</title><link rel="stylesheet" href="{prefix}site.css"><body data-root="{prefix}"><header><a href="{prefix}docs/index.html">Azimlib</a><span>{version} · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside>{nav}</aside><main>{body}<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="{prefix}THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="{source_url}">Source</a>.</footer></main><script src="{prefix}site.js"></script></body></html>'
@@ -69,5 +69,5 @@ def build(output,ref):
         staging.rename(output)
     return report
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--ref',default='dev/0.3.0');a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--ref',default='validation/0.4-candidate');a=p.parse_args()
     result=build(a.output,a.ref);print(json.dumps({k:v for k,v in result.items() if k!='source_sha256'},indent=2))

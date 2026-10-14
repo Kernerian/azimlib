@@ -15,9 +15,11 @@ tempo/atlas e documentação/distribuição. Começa pela [fundação urbana](ur
 3D e tempo não são nomes para o globo ortográfico 2D existente: exigem câmera,
 oclusão e lifecycle próprios, descritos nos passos 8 e 9.
 
-Volumes/GPU, PBF planetário, CRS universais com grids, overlay topológico global,
-geocodificação/roteamento completos e TeX/shaping completos ficam reservados à
-0.4.0 pelos motivos explicitados na checklist. Nenhuma data é prometida.
+As reservas da 0.3.0 integram o inventário da 0.4.0: volumes/GPU, PBF,
+CRS/grids, topologia, geocodificação/roteamento e TeX/shaping, dentro da cobertura
+documentada. A comprovação planetária, os budgets completos GPU e a certificação
+global de eclipses foram formalmente adiados, sem aprovação dos critérios.
+Nenhuma cobertura universal ou data de conclusão desses gates é prometida.
 
 Runtime cartográfico independente; novas bases de terceiros conservam suas
 próprias licenças. Não há downloads implícitos nem promessa de compatibilidade
@@ -26,12 +28,21 @@ integral com todos os toolkits do Matplotlib.
 ## Proposed additions for 0.4–0.6
 
 See [terrestrial Sun/Moon, Beyond Earth and Orbits](future-versions.md) for the
-new cumulative proposals and accuracy/licensing gates. Existing reserved work
-above remains in scope; version assignments are provisional, not delivery promises.
+new cumulative proposals and accuracy/licensing gates. The original reserved work stays inventoried; four gates are explicitly deferred
+by the [approved development rescope](deferred-gates-0.4.md), not marked passed.
 
 ## Próximo corte
 
-A 0.4.0 ainda não tem checklist operacional fechada nem contagem de subtarefas.
-As reservas acima e propostas 0.4–0.6 exigem definição de escopo e critérios
-verificáveis antes da implementação. Manutenção cartográfica, urbana e de
-plataformas permanece contínua; propostas celestes não substituem essas frentes.
+A [checklist operacional da 0.4.0](release-progress-0.4.md) reúne as seis reservas
+da 0.3.0 e as propostas novas de Sol/Lua: **14 etapas e 112 IDs preservados**.
+Estado: 104 concluídos, quatro adiados e quatro pendentes de entrega/revalidação;
+14.01/14.06 foram revalidados localmente; CI e artifacts exatos permanecem abertos.
+Contagem atual, dependências, evidências por lote e critérios ficam somente nessa
+fonte. A prova planetária de 2.08 permanece pendente. Não há prazo prometido.
+Beyond Earth permanece proposto para 0.5.0;
+Orbits, para 0.6.0. Manutenção cartográfica, urbana e de plataformas é contínua.
+
+0.4.1: correções compatíveis, refinamentos e ensaio planetário se houver
+infraestrutura. 0.5.0 mantém Planetary Cartography / Beyond Earth; renderer e
+ciência podem evoluir como fundações, sem exigir certificação global de eclipses.
+0.6.0 mantém Orbits. [Registro de adiamentos e critérios](deferred-gates-0.4.md).

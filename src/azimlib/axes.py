@@ -252,6 +252,55 @@ class MapAxes(AxisComponents):
 
     add_geometries = geojson
 
+    def solar_light(self,position,**kwargs):
+        from .lighting import attach_light
+        return attach_light(self,position,**kwargs)
+
+    def eclipse_shadow(self,geometry,**kwargs):
+        """Experimental sampled eclipse visualization, not certified event prediction.
+
+        Existing approximation permission, model/domain and resource rules apply;
+        samples do not establish complete physical boundaries or contact discovery.
+        """
+        from .eclipse_artists import attach_eclipse
+        return attach_eclipse(self,geometry,**kwargs)
+
+    def moon(self,position,**kwargs):
+        """Optional sublunar marker, or finite Earth-fixed lunar body in 3D."""
+        from .lunar_artists import attach_moon
+        return attach_moon(self,position,**kwargs)
+
+    def earth_moon(self,position,**kwargs):
+        from .lunar_artists import attach_earth_moon
+        return attach_earth_moon(self,position,**kwargs)
+
+    def moon_path(self,path,**kwargs):
+        from .lunar_artists import attach_path
+        return attach_path(self,path,**kwargs)
+
+    def sun(self,position,**kwargs):
+        """Optional subsolar marker, or explicit local sky marker on 3D axes."""
+        from .solar_artists import attach_sun
+        return attach_sun(self,position,**kwargs)
+
+    def solar_terminator(self,position,**kwargs):
+        from .solar_artists import attach_sun
+        if getattr(self,'_terrain3d',False):raise ValueError('Terminator is a global map layer')
+        return attach_sun(self,position,role='terminator',**kwargs)
+
+    def nightshade(self,position,**kwargs):
+        from .solar_artists import attach_night
+        return attach_night(self,position,**kwargs)
+
+    def sun_path(self,path,**kwargs):
+        from .solar_artists import attach_path
+        return attach_path(self,path,**kwargs)
+
+    def region(self,region,**kwargs):
+        """Optional spherical region, with explicit fill/boundary resolution."""
+        from .overlay import draw_region
+        return draw_region(self,region,**kwargs)
+
     def map(self, region="world", **kwargs):
         collection = read_geojson(datasets.country(region))
         layer = self.geojson(collection, **_defaults(kwargs, facecolor="#e9e7de", edgecolor="#768782", linewidth=.7, zorder=1))
@@ -450,6 +499,10 @@ class MapAxes(AxisComponents):
         return result
 
     def route(self, coordinates, *, geodesic=True, steps=64, ellipsoid=None, **kwargs):
+        from .routing import RoadRoute
+        if isinstance(coordinates,RoadRoute):
+            if ellipsoid is not None: raise ValueError('A RoadRoute already has source network geometry')
+            return self.geojson(coordinates.to_features(),**_defaults(kwargs,arrow=True))
         coordinates = list(coordinates)
         if len(coordinates) < 2:
             raise ValueError("A route needs at least two coordinates")

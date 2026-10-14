@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "decision": "0.4.0 development rescope approved 2026-10-14",
+  "original_total": 112,
+  "current_counts": {
+    "completed": 104,
+    "deferred": 4,
+    "pending_delivery_or_revalidation": 4,
+    "active_total": 108
+  },
+  "historical_completed": 102,
+  "historical_checklist": {
+    "path": "docs/release-progress-0.4-before-rescope.md",
+    "sha256": "b691da412b721859d775cbae49cfa0880aa8d14a9399154690264ae54b4902a8"
+  },
+  "revalidation_required": [],
+  "stage14_started_by_rescope": false,
+  "scientific_limits": {
+    "centers_m": 2000,
+    "boundaries_m": 3000,
+    "solar_contacts_s": 30,
+    "lunar_contacts_s": 60,
+    "magnitude": 0.001,
+    "obscuration": 0.001
+  },
+  "gpu_limits": {
+    "exact_frame_p95_ms": 33,
+    "complete_response_ms": 100,
+    "physical_arm64_gpu_required": true
+  },
+  "historical_contracts": [
+    {
+      "path": "docs/eclipse-contract-0.4.json",
+      "sha256": "31cddc2f9af5fbd5a93ca294985043f2e220643418cb9921b48a25d0359cc965"
+    },
+    {
+      "path": "docs/eclipse-contact-contract-0.4.json",
+      "sha256": "78db9334c988cbd2ce3ed321e92d6e59490b7afa7724c21754cefee277a2cc4f"
+    },
+    {
+      "path": "docs/planet-trial.md",
+      "sha256": "b708f0848d318d6b4c9708f7ef11a4557e395b59f28de913f5297c297017e584"
+    },
+    {
+      "path": "docs/foundation-0.4.md",
+      "sha256": "57a2214132f233f1428eed50ab1f37c86a2c2984671f60a765df1816b2419820"
+    }
+  ],
+  "copied_frozen_contracts": [
+    {
+      "path": "docs/deferred-eclipse-budget-0.4.json",
+      "sha256": "966f22511612a4625ca129c269388dcde27440209c2d5d857b29bc52ab2ff345"
+    },
+    {
+      "path": "docs/deferred-gpu-protocol-0.4.json",
+      "sha256": "dcc56f4a06623c124b66f6b984efabdbe96efcd553b874d33d4b3b9fffa064ae"
+    }
+  ],
+  "external_evidence": [
+    {
+      "evidence_key": "eclipse-global-budget-frozen.json",
+      "sha256": "966f22511612a4625ca129c269388dcde27440209c2d5d857b29bc52ab2ff345",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round8/benchmark-protocol-frozen.json",
+      "sha256": "dcc56f4a06623c124b66f6b984efabdbe96efcd553b874d33d4b3b9fffa064ae",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round8/evidence-manifest.json",
+      "sha256": "b68e28d3ffdae311e2dbaba0f433ec5093dd6a847541adb03c6a32ca848ec925",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round8/border-classification-221.json",
+      "sha256": "abc101b8729b566678e41fe42bb2c2ad9df26e38dfdf33aceb19a13dfea18399",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round8/1986-primary-source-audit.json",
+      "sha256": "8b28b9cf3fea2481f2ed88ec990b6c354a410cacff2b1dfe2a98d68e32635674",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round8/solar-disk-decision-frozen.json",
+      "sha256": "7d0f684188187c7ebbd90ac36065e0cbcaf36b5f3786882e0ab6f1eb5fa2259a",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round8/center-front-preserved.json",
+      "sha256": "2d927efa77f407ae5773f71ac9d13c4614775a6d18ae4c709fe3d7ce491eb940",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round6/corpus-results.json",
+      "sha256": "19010aa5d5dbea963e97e893ae955c758209e3c9a9815fd17beed34733134daa",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round4/corpus-oracles-v4-frozen.json",
+      "sha256": "9ba2d462e02409fd4ab739ac69ec0411a8e794e3e0f336132339322e577d50db",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round4/central-oracle-v2-frozen.json",
+      "sha256": "376238239d1e35e0a5caeb89f4e8940a9d667db7cadc4976443be181422f8ef3",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    },
+    {
+      "evidence_key": "round6/central-oracles-v3-frozen.json",
+      "sha256": "43269cdafff4c50588469556caae19baf4365a984016b0e73e7709ee3a921c4b",
+      "location": "Maintainer evidence archive; raw private artifacts are not bundled"
+    }
+  ],
+  "gates": [
+    {
+      "id": "2.08",
+      "status": "deferred",
+      "completed": false,
+      "original_criterion": "Validar leitor completo no contrato declarado, equivalência com fixtures XML, dados corrompidos, memória e ensaio reproduzível de streaming em escala planetária.",
+      "original_criterion_sha256": "8e1b732bd475db9ed1ed104bc083893bf8b60cad3124fe6a6271bf61d4893ab6",
+      "release_blocking_040": false,
+      "destination": "0.4.1 if suitable infrastructure exists; otherwise deferred",
+      "closure": "Only original quantitative/operational criteria and reviewed evidence can complete this ID; deferment is not acceptance"
+    },
+    {
+      "id": "9.08",
+      "status": "deferred",
+      "completed": false,
+      "original_criterion": "Medir primeira pintura, pan inicial/retomada, FPS/latência, memória e paridade CPU/GPU em hardware identificado; registrar diferenças visuais e CI sem GPU.",
+      "original_criterion_sha256": "64fd08ea0fd66fc5fae7d9920251a83a6b4cc22198de618f1dfc121003b01ab1",
+      "release_blocking_040": false,
+      "destination": "Compatible refinements in 0.4.1; deep renderer foundations for 0.5.0; no closure promised",
+      "closure": "Only original quantitative/operational criteria and reviewed evidence can complete this ID; deferment is not acceptance"
+    },
+    {
+      "id": "13.06",
+      "status": "deferred",
+      "completed": false,
+      "original_criterion": "Visualizar eclipses solares e lunares no contrato de precisão validado, distinguindo localização/instante físicos de escala visual exagerada.",
+      "original_criterion_sha256": "a5db63f8bc99435a32f186a82b469f4b76fdf6de5326d9d258662c2529042c89",
+      "release_blocking_040": false,
+      "destination": "Scientific research track, independent of mandatory 0.5.0 acceptance",
+      "closure": "Only original quantitative/operational criteria and reviewed evidence can complete this ID; deferment is not acceptance"
+    },
+    {
+      "id": "13.07",
+      "status": "deferred",
+      "completed": false,
+      "original_criterion": "Validar eventos e limites espaciais/temporais contra fontes independentes; manter o item pendente se a precisão não sustentar o resultado anunciado.",
+      "original_criterion_sha256": "eaa8c619e85998e044429f2801dfa76543965cdb1743cffb4befbadc50d25e99",
+      "release_blocking_040": false,
+      "destination": "Independent validation track; compatible improvements in 0.4.1; no closure promised",
+      "closure": "Only original quantitative/operational criteria and reviewed evidence can complete this ID; deferment is not acceptance"
+    }
+  ],
+  "publication_authorized": false,
+  "compatibility": "0.4.1 preserves supported public signatures and semantics; no broad experimental patch exception",
+  "future": {
+    "v041": "Compatible fixes and refinements; planet trial only with infrastructure",
+    "v050": "Planetary Cartography / Beyond Earth",
+    "v060": "Orbits",
+    "global_eclipse_certification_required_for_050": false
+  },
+  "counts_at_rescope": {
+    "completed": 100,
+    "deferred": 4,
+    "pending_delivery_or_revalidation": 8,
+    "active_total": 108
+  },
+  "revalidation_context": "14.01/14.06 repeated locally in stage14; exact hosted CI and distributions tracked separately, not final publication acceptance"
+}

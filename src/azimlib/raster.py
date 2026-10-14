@@ -25,6 +25,7 @@ class GeoRaster:
     pixel_type: str = 'area'
     color_mode: str = 'auto'
     mask: object = None
+    height_frame: object = None
 
     def __post_init__(self):
         if self.pixel_type not in ('area', 'point'): raise ValueError('pixel_type must be area or point')
@@ -52,8 +53,15 @@ class GeoRaster:
         object.__setattr__(self,'mask',tuple(tuple(v[3]==0 if color else v is None for v in row) for row in rows))
         object.__setattr__(self, 'values', tuple(rows))
         object.__setattr__(self, 'affine', affine)
-        object.__setattr__(self, 'crs', CRS.from_user_input(self.crs))
+        crs = CRS.from_user_input(self.crs)
+        if crs.dimensions != 2:
+            raise ValueError('Raster affine requires a 2D CRS; a third coordinate cannot be inferred')
+        object.__setattr__(self, 'crs', crs)
         object.__setattr__(self, 'nodata', nodata)
+        if self.height_frame is not None:
+            from .coordinate_operations import CoordinateFrame
+            if not isinstance(self.height_frame,CoordinateFrame) or self.height_frame.kind != 'geographic' or not crs.is_geographic or color or self.height_frame.datum != crs.datum:
+                raise ValueError('height_frame requires scalar geographic raster and CoordinateFrame matching the horizontal CRS datum')
 
     @property
     def shape(self): return len(self.values), len(self.values[0])
@@ -105,6 +113,11 @@ class GeoRaster:
         column=(e*(x-c)-b*(y-f))/det;row=(-d*(x-c)+a*(y-f))/det
         return interpolate(self.values,column,row,method,missing,color=self.color_mode=='rgba')
 
+    def mask_region(self,region,*,domain='planar',invert=False):
+        """Return a geographic region mask sampled at pixel centres; no warp."""
+        from .overlay import mask_raster
+        return mask_raster(self,region,domain=domain,invert=invert)
+
     def resample(self,shape,*,extent=None,affine=None,crs=None,method='nearest',missing='strict'):
         """Own inverse-affine/CRS sampling at destination pixel centres.
 
@@ -119,6 +132,8 @@ class GeoRaster:
             raise ValueError('shape requires positive (ny,nx), at most 16 million pixels')
         if method not in ('nearest','bilinear') or missing not in ('strict','renormalize'):raise ValueError('Invalid resampling policy')
         chosen=self.crs if crs is None else CRS.from_user_input(crs)
+        if self.height_frame is not None and chosen != self.crs:
+            raise ValueError('Height raster reprojection requires an explicit frame operation; cannot discard height reference')
         ny,nx=shape
         if affine is not None and extent is not None:raise ValueError('Use affine or extent, not both')
         if affine is None:
@@ -138,7 +153,7 @@ class GeoRaster:
                 x,y=prototype.coordinate(i,j,center=True)
                 row.append(self.sample(x,y,crs=chosen,method=method,missing=missing))
             rows.append(row)
-        return GeoRaster(rows,affine,chosen,color_mode=self.color_mode)
+        return GeoRaster(rows,affine,chosen,color_mode=self.color_mode,height_frame=self.height_frame)
 
 
 def read_world_file(source):

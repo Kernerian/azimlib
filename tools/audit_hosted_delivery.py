@@ -77,7 +77,9 @@ def audit(folder,expected_sha,*,expected_branch):
                 assert proof['tool_sha256']==source_sha(ROOT/'tools/run_release_checks.py')
                 if kind!='desktop':
                     u=proof['unittest'];assert not u['failures'] and not u['errors'] and u['log_sha256']==sha(archive.read(kind+'/unittest.log'))
-                    if kind=='unit':assert u['tests']==1008
+                    if kind=='unit':
+                        required_tests={'0.3.0':1008,'0.4.0':1479}
+                        assert expected_version in required_tests and u['tests']==required_tests[expected_version]
                     else:assert proof['optional_packages']['numba'] and not u['skipped'] and u['tests']>=11
                 else:
                     tree=ast.parse((ROOT/'tools/run_release_checks.py').read_text('utf8'))

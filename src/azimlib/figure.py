@@ -13,6 +13,7 @@ from .config import rcParams
 from .components import TextArtist
 from .figure_text import FigureTextArtist,label_fontsize
 from .artist import Artist,artist_mutation
+from .text_engine import current_defaults,figure_defaults
 from .gridspec import GridSpec,SubplotSpec,GridSpecFromSubplotSpec,grid_ancestors,_validate_params
 
 
@@ -20,6 +21,7 @@ class Figure(Artist):
     _is_figure=True
     def __init__(self, figsize=None, dpi=None, facecolor=None,layout=None):
         Artist.__init__(self)
+        self._text_defaults=current_defaults()
         self._composing=False
         figsize=rcParams['figure.figsize'] if figsize is None else figsize
         dpi=rcParams['figure.dpi'] if dpi is None else dpi
@@ -355,6 +357,7 @@ class Figure(Artist):
                 artist.set(text=text,position=(x,y),**defaults);artist._autopos=autopos
         return artist
 
+    @figure_defaults
     def to_scene(self,*,cull=False,interactive=False,simplify=True):
         """Compose a scene; optionally omit safely invisible geometry.
 
@@ -384,6 +387,7 @@ class Figure(Artist):
     def _draw_complete(self):
         for artist in self.findobj():artist.stale=False
 
+    @figure_defaults
     def _compose_scene(self,*,measure_layout=False,cull=False):
         from .render_map import render_axes, _add_text
         # Compose in logical 100-dpi pixels, then scale every primitive and
@@ -475,9 +479,11 @@ class Figure(Artist):
         """Automatic inline display in notebooks, without an IPython dependency."""
         return self.to_svg()
 
-    def save(self,path,*,format=None,dpi=None):
+    def save(self,path,*,format=None,dpi=None,renderer='cpu',gpu_fallback='raise',gpu_config=None):
         """Export static .svg, .png or vector .pdf without UI; streams require format.
 
+        renderer="gpu" selects experimental PNG rendering; latency is not guaranteed.
+        CPU remains the default.
         dpi changes PNG output resolution without changing the figure layout.
         SVG retains editable text and vector geometry.
         """
@@ -485,6 +491,8 @@ class Figure(Artist):
         fmt=(format or (Path(path).suffix[1:] if not stream else "")).lower()
         if fmt not in ("svg","png","pdf"):
             raise ValueError("savefig supports static svg/png/pdf only; use show(path=...) for an interactive viewer")
+        if renderer not in ('cpu','gpu') or gpu_fallback not in ('raise','cpu'):raise ValueError('Invalid explicit renderer/fallback')
+        if renderer=='gpu' and fmt!='png':raise ValueError('GPU export is raster PNG; select CPU for SVG/PDF vector export')
         if dpi is not None and (not math.isfinite(float(dpi)) or dpi<=0):
             raise ValueError("dpi must be finite and positive")
         # A smaller export DPI widens raster overscan relative to logical units;
@@ -501,7 +509,10 @@ class Figure(Artist):
             elif fmt=="pdf":
                 render_pdf(scene,target,dpi=self.dpi)
             else:
-                render_png(scene,target,scale=(dpi or self.dpi)/self.dpi)
+                if renderer=='gpu':
+                    from .renderers.gpu import render_gpu_png
+                    render_gpu_png(scene,target,scale=(dpi or self.dpi)/self.dpi,fallback=gpu_fallback,config=gpu_config)
+                else:render_png(scene,target,scale=(dpi or self.dpi)/self.dpi)
         if stream:
             write(path)
             return path
@@ -519,14 +530,23 @@ class Figure(Artist):
 
     savefig=save
 
-    def show(self,*,backend="tk",block=False,open_browser=True,path=None):
+    def show(self,*,backend="tk",block=False,open_browser=True,path=None,renderer='cpu',gpu_fallback='raise',gpu_config=None):
         """Display a native figure, or explicitly request the browser viewer.
 
+        renderer="gpu" selects experimental Tk/Qt rendering, without a guaranteed
+        33 ms exact-frame p95 or 100 ms complete response. CPU remains the default.
         Figure.show is non-blocking by default, matching the object-oriented
         desktop convention. pyplot.show() runs the native GUI event loop.
         """
         if backend not in ("tk","browser","browser-live","notebook","qt"):
             raise ValueError("Interactive backends: tk, browser, browser-live, notebook or qt")
+        if renderer not in ('cpu','gpu') or gpu_fallback not in ('raise','cpu'):raise ValueError('Invalid explicit renderer/fallback')
+        if renderer=='gpu' and backend not in ('tk','qt'):raise ValueError('GPU viewer currently requires Tk or Qt')
+        requested=(renderer,gpu_fallback,gpu_config)
+        viewer=getattr(self,'_viewer',None)
+        if viewer is not None and not viewer.closed and getattr(self,'_interactive_renderer',('cpu','raise',None))!=requested:
+            raise RuntimeError('Close the current viewer before changing renderer')
+        self._interactive_renderer=requested
         if path is not None and backend!="browser":
             raise ValueError("An HTML path requires show(backend='browser', path=...)")
         if backend in ('qt','notebook','browser-live'):

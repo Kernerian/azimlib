@@ -2,6 +2,10 @@ name: publish
 on:
   workflow_dispatch:
     inputs:
+      release_version:
+        description: Exact audited version, matching installed candidate metadata
+        required: true
+        type: string
       build_run_id:
         description: Successful final distribution build run at current main SHA
         required: true
@@ -46,18 +50,23 @@ jobs:
       - run: python -I tools/check_release_candidate.py
       - run: python -I tools/audit_licenses.py --report .ci-results/licenses.json
       - run: python -I tools/audit_publication_privacy.py --report .ci-results/privacy-source.json
+      - name: Explicit version must match the installed candidate
+        env:
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: python -I -c "import os,azimlib; assert os.environ['RELEASE_VERSION'] == azimlib.__version__"
       - name: Retrieve the exact final audited distribution bytes
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_REPOSITORY: ${{ github.repository }}
           RELEASE_SHA: ${{ github.sha }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
           BUILD_RUN_ID: ${{ inputs.build_run_id }}
           ARTIFACT_ID: ${{ inputs.artifact_id }}
           WHEEL_SHA256: ${{ inputs.wheel_sha256 }}
           SDIST_SHA256: ${{ inputs.sdist_sha256 }}
         run: >-
           python -I tools/fetch_release_artifact.py
-          --repository "$RELEASE_REPOSITORY" --sha "$RELEASE_SHA"
+          --repository "$RELEASE_REPOSITORY" --sha "$RELEASE_SHA" --version "$RELEASE_VERSION"
           --run-id "$BUILD_RUN_ID" --artifact-id "$ARTIFACT_ID"
           --wheel-sha256 "$WHEEL_SHA256" --sdist-sha256 "$SDIST_SHA256"
           --output dist

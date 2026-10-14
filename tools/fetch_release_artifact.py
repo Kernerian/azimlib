@@ -19,15 +19,17 @@ class SafeRedirect(urllib.request.HTTPRedirectHandler):
         return redirected
 
 
-def validate(run, artifact, repository, commit, wheel_hash, sdist_hash, payload):
+def validate(run, artifact, repository, commit, wheel_hash, sdist_hash, payload, *, version="0.3.0"):
     assert re.fullmatch(r'[0-9a-f]{40}', commit), 'Invalid commit'
     assert all(re.fullmatch(r'[0-9a-f]{64}', h) for h in (wheel_hash, sdist_hash)), 'Invalid SHA-256'
     assert run['repository']['full_name'] == repository, 'Wrong artifact repository'
     assert run['head_sha'] == commit and run['status'] == 'completed' and run['conclusion'] == 'success', 'Build must succeed at exact final commit'
-    assert run['path'] == '.github/workflows/release-candidate.yml', 'Wrong build workflow'
+    profiles={'0.3.0':'release-candidate.yml','0.4.0':'candidate-0.4.yml'}
+    assert version in profiles, 'Unsupported explicit release artifact version'
+    assert run['path'] == '.github/workflows/'+profiles[version], 'Wrong build workflow'
     assert artifact['workflow_run']['id'] == run['id'] and artifact['workflow_run']['head_sha'] == commit, 'Wrong artifact provenance'
-    assert artifact['name'] == 'azimlib-0.3.0-unpublished-candidate' and not artifact['expired'], 'Wrong or expired artifact'
-    expected = {'azimlib-0.3.0-py3-none-any.whl': wheel_hash, 'azimlib-0.3.0.tar.gz': sdist_hash}
+    assert artifact['name'] == f'azimlib-{version}-unpublished-candidate' and not artifact['expired'], 'Wrong or expired artifact'
+    expected = {f'azimlib-{version}-py3-none-any.whl': wheel_hash, f'azimlib-{version}.tar.gz': sdist_hash}
     files = {}
     with zipfile.ZipFile(io.BytesIO(payload)) as archive:
         assert archive.testzip() is None, 'Corrupt artifact archive'
@@ -38,7 +40,7 @@ def validate(run, artifact, repository, commit, wheel_hash, sdist_hash, payload)
             assert hashlib.sha256(data).hexdigest() == digest, 'Unexpected distribution hash'
             files[name] = data
         distribution = json.loads(archive.read('candidate-audits/distribution.json'))
-        assert distribution['version'] == '0.3.0' and not distribution['mandatory_dependencies']
+        assert distribution['version'] == version and not distribution['mandatory_dependencies']
         assert distribution['license_expression'].startswith('BSD-3-Clause AND ')
         assert {row['file']: row['sha256'] for row in distribution['archives']} == expected, 'Audit hash mismatch'
         for name in ('licenses', 'privacy-source', 'privacy-archives'):
@@ -49,6 +51,7 @@ def validate(run, artifact, repository, commit, wheel_hash, sdist_hash, payload)
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--version', choices=('0.3.0','0.4.0'), required=True)
     parser.add_argument('--repository', required=True)
     parser.add_argument('--sha', required=True)
     parser.add_argument('--run-id', type=int, required=True)
@@ -69,7 +72,7 @@ def main():
     run = json.loads(get('/actions/runs/' + str(args.run_id)))
     artifact = json.loads(get('/actions/artifacts/' + str(args.artifact_id)))
     payload = get('/actions/artifacts/' + str(args.artifact_id) + '/zip')
-    files = validate(run, artifact, args.repository, args.sha, args.wheel_sha256, args.sdist_sha256, payload)
+    files = validate(run, artifact, args.repository, args.sha, args.wheel_sha256, args.sdist_sha256, payload, version=args.version)
     assert not args.output.exists(), 'Output must be new'
     args.output.mkdir(parents=True)
     for name, data in files.items():

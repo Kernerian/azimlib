@@ -1,0 +1,67 @@
+name: tex-review-0.4
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  tex-review:
+    name: real-tex-${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux
+          - os: macos-latest
+            label: macos
+          - os: windows-latest
+            label: windows
+    defaults:
+      run:
+        shell: bash -el {0}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          python-version: '3.12'
+          activate-environment: tex-review
+          auto-activate-base: false
+          channels: conda-forge
+          channel-priority: strict
+      - name: Explicit separate native tool installation
+        run: conda install -y tectonic=0.17.0 poppler=26.07.0
+      - run: python -m pip install '.[tex,png]'
+      - name: Active cache monitoring contracts
+        run: python -m unittest discover -s tests -p test_tex_cache_monitor_040.py -v
+      - name: Isolated installation without typography extras
+        shell: python
+        run: |
+          import pathlib, subprocess, sys
+          subprocess.run([sys.executable,'-m','venv','--without-pip','.tex-core'],check=True)
+          root=pathlib.Path.cwd()
+          executable=root/'.tex-core'/('Scripts/python.exe' if sys.platform=='win32' else 'bin/python')
+          program="import sys,importlib.util;sys.path.insert(0,"+repr(str(root/'src'))+");import azimlib as azl;assert all(importlib.util.find_spec(n) is None for n in ('psutil','fontTools','PIL'));fig,ax=azl.subplots();ax.line([(0,0),(1,1)]);assert '<svg' in fig.to_svg();assert not azl.renderers.get_capabilities('svg').full_tex;azl.close('all')"
+          subprocess.run([str(executable),'-I','-c',program],check=True)
+      - name: Explicit bounded resource acquisition
+        run: python -I tools/prepare_tex_cache.py --engine tectonic --converter pdftocairo --cache .tex-cache --report acquisition.json --acquire
+      - name: Real engine contracts
+        run: python -I tools/run_real_tex_tests.py --cache .tex-cache
+      - name: Offline export packet
+        run: python -I tools/validate_tex.py --engine tectonic --converter pdftocairo --cache .tex-cache --output tex-review
+      - run: python -I tools/audit_licenses.py --report tex-review/licenses.json
+      - run: python -I tools/audit_publication_privacy.py --report tex-review/privacy.json
+      - name: Preserve acquisition identity
+        shell: python
+        run: |
+          import shutil
+          shutil.copyfile('acquisition.json','tex-review/acquisition.json')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: azimlib-0.4-real-tex-${{ matrix.label }}
+          path: tex-review/
+          if-no-files-found: error
+          retention-days: 30

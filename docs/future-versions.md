@@ -1,10 +1,12 @@
 # Future proposals: terrestrial sky, planetary maps and orbits
 
-These are **proposals for 0.4–0.6**, not implemented features, release dates or
-frozen public API names. They extend the [existing roadmap](roadmap.md); GPU,
-volumes, large OSM PBF, universal grid-based CRS, global overlay/topology,
-geocoding/routing and TeX/complex shaping remain planned and are not displaced.
-Scope must be revisited after 0.3 release evidence and maintenance feedback.
+These are future requirements, not implemented features, release dates or frozen
+public API names. The terrestrial Sun/Moon requirements below are now included in
+the [combined 0.4.0 implementation checklist](release-progress-0.4.md), alongside
+GPU/volumes, large OSM PBF, CRS/grids, global topology, geocoding/routing and
+TeX/complex shaping reserved by 0.3.0. That checklist is the single source of
+0.4 inventory counts, explicit deferments and delivery/revalidation dependencies. Beyond Earth (0.5) and Orbits (0.6)
+remain proposals; the [existing roadmap](roadmap.md) preserves their sequence.
 
 ## 0.4 proposal — terrestrial Sun and Moon
 
@@ -23,7 +25,12 @@ Acceptance requires declared ephemeris/model accuracy, validity dates, UTC/time
 scale conversion, reference frame, coordinate units and observer/refraction
 assumptions. Validate against independent authoritative fixtures whose source and
 license are recorded. Renderer light vectors alone do not establish solar/lunar
-positions, shadows or reliable eclipse timing. No model/dataset is selected yet.
+positions, shadows or reliable eclipse timing. The independently implemented
+[solar](solar-0.4.md) and [lunar](lunar-0.4.md) bounded models now exist, together
+with [local physical shadows and synthetic finite-source geometry](lighting-0.4.md).
+Real eclipse certification remains deferred under 13.06–13.07. Centers pass
+the later frozen corpus; boundaries and reference/precision obligations remain
+unresolved. [Observed evidence](observed-validation-0.4.md), [rescope](deferred-gates-0.4.md).
 
 ## 0.5 proposal — Beyond Earth cartography
 
@@ -82,3 +89,14 @@ connections. Adopt compatible internal body/frame/unit/time abstractions before
 0.6 must use the same bodies and scene/Artist/picking/temporal/export mechanisms,
 not parallel representations of planets. Current 3D/temporal APIs remain bounded.
 Celestial work complements urban/cartographic maintenance; it does not replace it.
+
+## Approved development sequence after the 0.4 rescope
+
+0.4.1 is reserved for compatible fixes/refinements and the full-planet trial
+only if infrastructure permits it. No scientific-gate closure is promised.
+0.5.0 remains Planetary Cartography / Beyond Earth as specified above; deep
+renderer/science foundations may support it, but global eclipse certification
+is not an automatic prerequisite. 0.6.0 remains Orbits. Experimental scientific
+APIs are promoted only with adequate evidence, regardless of version number.
+Original 2.08/9.08/13.06/13.07 IDs, criteria and failures remain traceable in
+the [deferred register](deferred-gates-0.4.md); no item was erased or marked passed.

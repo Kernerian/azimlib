@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "parent_contract_sha256": "31cddc2f9af5fbd5a93ca294985043f2e220643418cb9921b48a25d0359cc965",
+  "frozen_before_contact_acquisition_and_model_comparison": true,
+  "tolerance_seconds": 30,
+  "cases": [
+    {
+      "date": "2017-08-21",
+      "latitude": 37.7273,
+      "longitude": -89.2168,
+      "height": 0,
+      "name": "Carbondale"
+    },
+    {
+      "date": "2023-10-14",
+      "latitude": 35.0844,
+      "longitude": -106.6504,
+      "height": 0,
+      "name": "Albuquerque"
+    },
+    {
+      "date": "2024-04-08",
+      "latitude": 32.7767,
+      "longitude": -96.797,
+      "height": 0,
+      "name": "Dallas"
+    }
+  ],
+  "rule": "All contacts returned by USNO; no fitted offsets or ignored events. Unknown reference timescale leaves gate open."
+}

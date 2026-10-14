@@ -1,5 +1,19 @@
 # Third-party materials
 
+## Optional GPU rendering
+
+The `gpu` extra uses ModernGL and glcontext as generic OpenGL/context bindings.
+The tested versions are 5.13.0 and 3.1.0, respectively. Their MIT notices remain
+in [ModernGL.txt](licenses/ModernGL.txt) and [Glcontext.txt](licenses/Glcontext.txt),
+with package/source identity in [gpu-dependencies-0.4.json](docs/gpu-dependencies-0.4.json).
+Their binaries and source implementations are not bundled in Azimlib archives.
+Copyright (c) 2017-2024 Szabolcs Dombi, Einar Forselv (ModernGL); Copyright (c)
+2021 ModernGL Contributors (glcontext). Preserve these notices with any
+redistribution of those components. Azimlib's original shaders, coverage/stroke
+meshes, caches, texture atlas and depth/UV integration remain BSD 3-Clause.
+Graphics drivers/OpenGL implementations are installed separately and retain
+their own terms; Azimlib does not distribute them. Pillow is credited below.
+
 The original Azimlib implementation, documentation and original toolbar artwork
 are licensed under BSD-3-Clause, Copyright (c) 2026 Kernerian. This notice does
 not relicense the materials below or claim exclusive ownership of them.
@@ -143,3 +157,168 @@ markdown-it-py and mdurl retain their upstream MIT terms. The docs extra/build
 uses these separately installed development tools; their implementations are
 not distributed in Azimlib or copied into generated site assets. Preserve their
 license notices if bundling their packages. See docs/dependencies.md.
+
+## Optional official datum grids (0.4 development)
+
+The pinned model descriptions in `src/azimlib/data/optional-grids.json` refer to
+data published by Toitū Te Whenua Land Information New Zealand (LINZ), package
+`proj-datumgrid-nz` version 20200110, upstream commit
+`62ff69da8713f0167d319d0263f1657ac380f273`.
+Only model metadata are bundled; **NTv2/GTX grid payloads are not in wheel/sdist**.
+This does not incorporate PROJ software or its implementation.
+
+Downloaded LINZ data retain [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
+attribution to LINZ, the original upstream notice, and the complete license in
+`licenses/CC-BY-4.0.txt`. The acquisition tool preserves all three with the data.
+Redistributors must retain attribution, link the license and indicate modifications;
+no endorsement is implied. Azimlib's BSD license does not replace these terms.
+See [model provenance and validation](docs/datum-grids.md).
+
+## Own routing implementation and optional graph data (0.4 development)
+
+`routing.py` and `_routing_osm.py` contain original Azimlib graph construction,
+spherical snapping, stateful A*/Dijkstra and OSM tag interpretation. Published
+OSM format/tag facts were consulted; no third-party router implementation,
+code, generated schema or documentation snippet is incorporated. See the
+[coverage and protocol references](docs/routing-0.4.md).
+
+Optional OpenStreetMap-derived graph indexes retain their source ODbL terms,
+copyright, attribution and complete license text in the graph payload. They are
+not bundled into wheel/sdist. Azimlib's BSD 3-Clause license covers its original
+implementation and synthetic fixtures, not exclusive ownership of OSM data.
+
+## Optional complex typography (0.4 development)
+
+The original `text_engine.py` compositor and `_unicode_icu.py` C-API binding use
+separately installed generic text engines, not Matplotlib implementations:
+uharfbuzz (Apache-2.0), HarfBuzz (permissive upstream notices), fontTools (MIT),
+aggdraw (its existing PIL/AGG notices) and the operating system's ICU.
+No engine binary, source, generated Unicode table or third-party Python binding
+is vendored. The `text` extra does not introduce python-bidi or LGPL bidi code.
+`_bidi.py` is an original implementation of the normative UAX #9 rules, using
+ICU character properties rather than ICU's bidi resolver. No bidi implementation
+was copied, translated or ported from another project.
+
+Full reference notices are in `licenses/UHarfBuzz.txt`, `licenses/HarfBuzz.txt`,
+`licenses/FontTools.txt` and `licenses/ICU.txt`; origins/versions/SHA-256 are in
+`docs/text-dependencies-0.4.json`. ICU's notice is a pinned upstream reference,
+not a declaration that all installed ICU releases have identical terms. When
+redistributing engine binaries, preserve the notices for the actual resolved
+version, including transitive notices supplied by its distributor.
+
+Optional Unicode 15.1 conformance datasets are acquired separately, with pinned
+sizes/hashes by `tools/validate_unicode_text.py`. They are not in wheel/sdist.
+Their Unicode copyrights remain in the unmodified files; the acquisition also
+preserves the full official permission notice in `licenses/Unicode-Data.txt`.
+That notice is not replaced by Azimlib's BSD license. The standard's algorithmic
+rules inform the original resolver; no prose or reference implementation from
+the standard is incorporated into it.
+
+Optional Noto Devanagari and Noto CJK validation fonts retain OFL-1.1 and their
+upstream copyrights, including reserved-name conditions where present. Complete
+licenses are `licenses/Noto-Devanagari.txt` and `licenses/Noto-CJK.txt`; immutable
+download records are `src/azimlib/data/optional-fonts.json`. **Neither font is
+distributed in Azimlib wheel/sdist.** Acquisition preserves unmodified bytes and
+full notices. Outputs retain font provenance/license text; those fonts and
+contours are not claimed as exclusively owned original Azimlib material.
+
+User-supplied fonts require explicit source, license and permission for outline
+exports; OpenType restrictions are checked but do not establish legal rights.
+See [international text policies and boundaries](docs/international-text-0.4.md).
+
+## Optional real TeX integration (0.4 development)
+
+`tex.py` and `_tex_process.py` are original Azimlib integration code. They invoke
+separately installed executables through files/CLI, without linking or copying
+their implementations. **Tectonic, pdftocairo/Poppler, their dependencies, TeX
+packages/cache and TeX font binaries are not included in wheel/sdist.**
+
+The tested Tectonic 0.17.0 distribution has its own MIT and dependency notices;
+`licenses/Tectonic.txt` is the pinned top-level reference, not a replacement for
+the full binary distributor's notices. The tested conda-forge Poppler 26.07.0
+package identifies GPL-2.0-only; other builds must be assessed on their own terms.
+Redistributing those tools is a separate licensing decision. Azimlib's BSD
+license does not relicense them. No assertion is made that bundling them into
+a proprietary product has the same obligations as independently invoking an
+installed command-line tool.
+
+The Python `tex` extra uses separately installed fontTools (MIT), psutil
+(BSD 3-Clause; copyright Jay Loden, Dave Daeschler, Giampaolo Rodola) and aggdraw
+(existing PIL/AGG notices). Full psutil notice: `licenses/Psutil.txt`.
+
+The fixed validation specimen uses Latin Modern (GUST Font License, referring
+to LPPL 1.3c or later) and canonical Computer Modern Type 1 from AMSFonts
+(OFL-1.1). Reference texts are `licenses/Latin-Modern.txt`, `licenses/LPPL-1.3c.txt`
+and `licenses/AMSFonts.txt`. Their glyph contours remain third-party material;
+exports carry the provided full font notices. No exclusive ownership is claimed.
+Other preambles/fonts need their actual source, permission and notices.
+
+Sources and hashes: `docs/tex-dependencies-0.4.json`. These are reference notices,
+not certification of every separately installed TeX distribution or font.
+See [the explicit real-TeX contract](docs/tex-0.4.md).
+
+## Solar model definitions and reference-only validation (0.4 development)
+
+`solar.py`, `solar_artists.py` and `validate_solar.py` are original Azimlib code.
+Mathematical model definitions are credited to the USNO approximate solar
+equations; the optional atmospheric approximation is described by NOAA.
+Their code, prose, binaries and datasets have not been incorporated. Sources,
+validity and model limitations are recorded in [the solar guide](docs/solar-0.4.md).
+JPL Horizons is an independently queried validation reference with its own
+terms; no raw responses, numerical ephemeris tables, kernels or JPL code are
+packaged or relicensed under BSD. Only original analysis, query identities
+and input hashes appear in development evidence. These distinctions do not
+change the license of any existing bundled third-party material.
+
+## Lunar model definitions and reference-only validation (0.4 development)
+
+`lunar.py`, `lunar_artists.py` and the lunar validation tools are independently
+written Azimlib code. The mathematical short-series definitions are credited
+to the Almanac model reviewed in David G. Simpson's NASA GSFC paper, equations
+1–4, pages 176–177. NTRS record 19990040527 identifies the work as US government
+material permitting public use. Only the model's numerical definitions are
+expressed in code; no paper text, third-party implementation or ephemeris
+kernel is bundled or claimed as exclusive property. The Moon's mean radius
+is a numerical physical fact credited to the NASA factsheet. Sources, hashes,
+frames and limitations are documented in `docs/lunar-model-0.4.json` and
+[the lunar guide](docs/lunar-0.4.md). JPL Horizons is validation-only, under its
+own terms: no raw numerical reference tables/responses are distributed or
+relicensed. Original error statistics and query hashes are retained.
+
+## Physical light and finite-source geometry (0.4 development)
+
+`lighting.py`, `eclipse.py`, `eclipse_artists.py` and their validation/examples
+are independently written Azimlib implementations of generic geometric ideas.
+The nominal Sun radius is a numerical definition credited to IAU 2015 B3
+([source](https://arxiv.org/abs/1510.07674)); Earth/Moon constants retain the
+credits recorded in `docs/lighting-model-0.4.json` and `docs/lunar-model-0.4.json`.
+No third-party ray tracer, eclipse implementation or ephemeris kernel is included.
+Fred Espenak's NASA/GSFC eclipse path table is an independent reference only:
+raw HTML, numerical tables, text and images are not distributed. Original
+diagnostic statistics and input hashes do not claim ownership of those sources.
+Precise real-event prediction is unsupported; this does not change the license
+of any previously bundled third-party material.
+
+## Experimental eclipse ephemeris validation (0.4 development)
+
+`_spk.py` is an independently written, bounded reader/evaluator based on the
+public NAIF DAF/SPK format specifications. No SPICE, SOFA, ERFA or jplephem
+implementation is included. JPL DE440s remains externally supplied reference
+data under its own terms; the kernel is neither bundled nor relicensed here.
+The separate comparison with jplephem 2.24 is development-only, not a runtime
+dependency or an independent validation of the underlying dynamical model.
+
+`_eclipse_ephemeris.py` contains original experimental reductions and geometry.
+Conventional IAU-1976 precession parameters, truncated nutation, light time,
+aberration and Chebyshev recurrence are mathematical/physical definitions;
+their use does not establish an exclusive right over those definitions.
+It is not a complete IAU/IERS Earth-orientation implementation.
+
+Solar path and lunar contact references are credited as:
+**Eclipse Predictions by Fred Espenak, NASA's GSFC**.
+The validation tool includes twelve numeric lunar contact expectations;
+original PDFs/HTML tables, prose, artwork and ephemeris kernels are not shipped.
+NASA's published lunar-limb and Danjon effective-shadow conventions retain
+their attribution and are separate from the physical mean-radius defaults.
+Sources, input hashes and the unpassed scientific accuracy criteria are in
+[the experimental eclipse guide](docs/eclipse-precision-0.4.md).

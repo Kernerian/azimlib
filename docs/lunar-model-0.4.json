@@ -1,0 +1,93 @@
+{
+  "model": "azim-almanac-short-v1",
+  "source": "https://ntrs.nasa.gov/citations/19990040527",
+  "paper": "https://caps.gsfc.nasa.gov/simpson/pubs/slunar.pdf",
+  "paper_sha256": "2f186f0d2fb7b2c956d81aab3f37710f88199f1773902e940c931009fdfea8eb",
+  "equations": "1-4, pages 176-177; short Almanac series reviewed, not the alternative J2000 fit",
+  "author": "David G. Simpson, NASA Goddard Space Flight Center",
+  "status": "US government work; public use permitted according to NTRS",
+  "third_party_implementation_incorporated": false,
+  "raw_reference_data_distributed": false,
+  "model_coefficients": {
+    "longitude": [
+      [
+        6.29,
+        134.9,
+        477198.85
+      ],
+      [
+        -1.27,
+        259.2,
+        -413335.38
+      ],
+      [
+        0.66,
+        235.7,
+        890534.23
+      ],
+      [
+        0.21,
+        269.9,
+        954397.7
+      ],
+      [
+        -0.19,
+        357.5,
+        35999.05
+      ],
+      [
+        -0.11,
+        186.6,
+        966404.05
+      ]
+    ],
+    "latitude": [
+      [
+        5.13,
+        93.3,
+        483202.03
+      ],
+      [
+        0.28,
+        228.2,
+        960400.87
+      ],
+      [
+        -0.28,
+        318.3,
+        6003.18
+      ],
+      [
+        -0.17,
+        217.6,
+        -407332.2
+      ]
+    ],
+    "parallax": [
+      [
+        0.0518,
+        134.9,
+        477198.85
+      ],
+      [
+        0.0095,
+        259.2,
+        -413335.38
+      ],
+      [
+        0.0078,
+        235.7,
+        890534.23
+      ],
+      [
+        0.0028,
+        269.9,
+        954397.7
+      ]
+    ]
+  },
+  "historic_model_earth_radius_m": 6378140.0,
+  "moon_mean_radius_m": 1737400.0,
+  "radius_source": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+  "code_license": "BSD-3-Clause for independently written implementation; model definitions/physical facts not claimed exclusively"
+}

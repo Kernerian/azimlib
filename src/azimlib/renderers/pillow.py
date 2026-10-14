@@ -328,9 +328,23 @@ def _render_image(scene: Scene, scale: float = 1, *, _interactive=False, _path_c
         elif isinstance(item,Raster3D):
             from ..terrain3d import rasterize
             rw,rh=max(1,round(item.width*factor)),max(1,round(item.height*factor))
-            pixels=rasterize(item.triangles,rw,rh,check=_control.check if _control is not None else None)
-            layer=Image.frombytes('RGBA',(rw,rh),pixels.rgba)
+            if item.volumes:
+                from ..volume_render import rasterize_volume
+                # One volume ray per final output pixel, independent of 2D SSAA.
+                vw,vh=max(1,round(item.width*scale)),max(1,round(item.height*scale))
+                pixels=rasterize_volume(item,vw,vh,check=_control.check if _control is not None else None)
+                low=Image.frombytes('RGBA',(vw,vh),pixels.rgba)
+                try:layer=low.resize((rw,rh),Image.Resampling.NEAREST)
+                finally:low.close()
+            elif item.texture is not None:
+                from .._texture3d import rasterize_textured
+                pixels=rasterize_textured(item,rw,rh,check=_control.check if _control is not None else None)
+            else:pixels=rasterize(item.triangles,rw,rh,check=_control.check if _control is not None else None)
+            if not item.volumes:layer=Image.frombytes('RGBA',(rw,rh),pixels.rgba)
             origin=(round(item.x*factor),round(item.y*factor))
+        elif isinstance(item, Text) and style.get('textengine') in ('harfbuzz','tex'):
+            from ._shaped_text import raster_text
+            layer,origin=raster_text(item,factor)
         elif isinstance(item, Text):
             text_factor=3*scale if sampling==1 else factor
             key=(style.get("font_family"),style.get("font_weight"),style.get("font_style"),style.get("font_size"))
@@ -528,6 +542,8 @@ def _render_image(scene: Scene, scale: float = 1, *, _interactive=False, _path_c
 
 def render_png(scene: Scene, path_or_stream, scale: float = 1) -> None:
     """Write the same raster image as PNG; leave caller-owned streams open."""
+    from ..text_engine import with_text_notices
+    scene=with_text_notices(scene)
     canvas=render_image(scene,scale)
     metadata=None
     if scene._material_notices:

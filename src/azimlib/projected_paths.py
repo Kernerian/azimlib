@@ -80,7 +80,29 @@ def _payload_size(value):
 
 
 def screen_points(packed,viewport):
+    from .viewport import Viewport
+    if type(viewport) is Viewport and len(packed)>=1024:
+        from ._screen_cache import screen_cache
+        return screen_cache.get(packed,viewport,lambda:_screen_points_uncached(packed,viewport))
+    return _screen_points_uncached(packed,viewport)
+
+
+def _screen_points_uncached(packed,viewport):
     """Fresh display coordinates using the original float64 affine operations."""
+    from .viewport import Viewport
+    if type(viewport) is Viewport and len(packed)>=1024:
+        try:import numpy as np
+        except ImportError:pass
+        else:
+            points=np.frombuffer(packed,dtype='<f8').reshape(-1,2)
+            x,y=points[:,0],points[:,1]
+            if viewport.bearing:
+                x,y=x*viewport._cos+y*viewport._sin,-x*viewport._sin+y*viewport._cos
+            # Separate ufuncs preserve the scalar operation order, with no
+            # fused multiply/add or float32 conversion. Never cache mutable
+            # display lists or bypass a custom Viewport.xy implementation.
+            x=viewport.ox+x*viewport.scale;y=viewport.oy-y*viewport.scale
+            return list(zip(x.tolist(),y.tolist()))
     return [viewport.xy(x,y) for x,y in _PAIR.iter_unpack(packed)]
 
 
@@ -104,6 +126,8 @@ class _ProjectedPathCache:
         self._entries=OrderedDict();self._bytes=0;self._hits=0;self._misses=0;self._lock=RLock()
 
     def clear(self):
+        from ._screen_cache import screen_cache
+        screen_cache.clear()
         with self._lock:
             self._entries.clear();self._bytes=0;self._hits=0;self._misses=0
 

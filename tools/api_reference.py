@@ -27,7 +27,10 @@ from azimlib.gridspec import GridSpec,GridSpecFromSubplotSpec,SubplotSpec,Subplo
 from azimlib.spatial import BoundsIndex
 from azimlib.layout_engine import LayoutEngine,TightLayoutEngine,ConstrainedLayoutEngine,PlaceHolderLayoutEngine,CompressedLayoutEngine
 
-modules=(azimlib,pyplot,temporal,animation,colors,cm,fields,io,projections,crs,datasets,geodesy,topology,transverse,transforms,dates,scale,legend_handler,tri,widgets,simplify)
+from azimlib import pbf,coordinate_operations,datum_grids,grid_operations,overlay,geocoding,routing,text_engine,tex,solar,lunar,lighting,eclipse,solar_disk,volume
+from azimlib import solar_artists,lunar_artists,eclipse_artists,volume_artist
+from azimlib.renderers import gpu
+modules=(solar_artists,lunar_artists,eclipse_artists,volume_artist,pbf,coordinate_operations,datum_grids,grid_operations,overlay,geocoding,routing,text_engine,tex,solar,lunar,lighting,eclipse,solar_disk,volume,gpu,azimlib,pyplot,temporal,animation,colors,cm,fields,io,projections,crs,datasets,geodesy,topology,transverse,transforms,dates,scale,legend_handler,tri,widgets,simplify)
 classes=(TemporalSeries,Frame,ScalarBinding,Atlas,Region,Timer,PdfPages,animation.FuncAnimation,animation.PlaybackControls,animation.PillowWriter,animation.FFMpegWriter,TerrainAxes,SurfaceArtist,Camera,Mesh,LocalFrame,widgets.AxesWidget,widgets.Slider,widgets.CheckButtons,widgets.LayerControl,widgets.RectangleSelector,widgets.FeatureSelector,Provenance,HatchPattern,ColorImage,FilledContourSet,FlowCollection,tri.Triangulation,tri.LinearTriInterpolator,AzPath,PathPatch,Symbol,LineCollection,SubFigure,transforms.Transform,transforms.CompositeTransform,transforms.AxesTransform,transforms.FigureTransform,transforms.OffsetTransform,transforms.IdentityTransform,transforms.Affine2D,transforms.PhysicalTransform,transforms.BlendedTransform,dates.DateFormatter,dates.DayLocator,dates.MonthLocator,dates.AutoDateLocator,scale.ScaleTransform,scale.LinearScale,scale.LogScale,scale.SymLogScale,legend_handler.HandleBox,legend_handler.HandlerBase,legend_handler.HandlerSymbol,ticker.LogFormatter,ticker.LogFormatterExponent,ticker.LogFormatterSciNotation,geodesy.Unit,geodesy.Ellipsoid,geodesy.Datum,geodesy.Geodesic,geodesy.GeodesicResult,topology.Intersection,topology.TopologyReport,topology.ValidationIssue,projections.TransverseMercator,projections.Stereographic,projections.AzimuthalEquidistant,GeoRaster,DatasetCatalog,DBFRecord,Artist,CallbackRegistry,BoundsIndex,Figure,GridSpec,GridSpecFromSubplotSpec,SubplotSpec,SubplotBox,FigureCanvas,MapAxes,AxesGrid,Layer,ScatterCollection,MeshCollection,ScalarImage,VectorCollection,ContourSet,ContourLabel,ContourLabels,Axis,components.AxisComponents,components.TextArtist,MapText,Annotation,FigureTextArtist,Cycler,
          components.MapComponent,components.Spine,components.Legend,components.LegendFrame,
          components.OrientationIndicator,components.ScaleBar,
@@ -48,6 +51,8 @@ classes=(TemporalSeries,Frame,ScalarBinding,Atlas,Region,Timer,PdfPages,animatio
 def signature(obj):
     try:return str(inspect.signature(obj))
     except (ValueError,TypeError):return '(...)'
+
+classes=classes+tuple(obj for module in modules for name,obj in inspect.getmembers(module,inspect.isclass) if not name.startswith('_') and obj.__module__==module.__name__ and obj not in classes)
 
 lines=['# Referência pública da Azimlib', '',
        'Gerada por `python tools/api_reference.py` a partir dos objetos reais.',
@@ -75,6 +80,19 @@ for cls in classes:
         doc=inspect.getdoc(obj)
         if doc:lines.extend([doc.split('\n\n')[0], ''])
         if len(sig)>1000:raise RuntimeError('Unexpected oversized signature')
+
 target=Path(__file__).resolve().parents[1]/'docs/api.md'
-target.write_text('\n'.join(lines),encoding='utf-8',newline='\n')
+notice='''# Azimlib 0.4.0 — unpublished candidate API
+
+GPU selection (`Figure.show(renderer="gpu")`, Figure/root/pyplot
+`savefig(renderer="gpu")`, `GpuRenderer`/`GpuConfig`) is experimental.
+Stateful root/pyplot `show()` has no renderer keyword. Astronomical eclipses,
+finite-source geometry and disk conventions are experimental, not certified
+forecasts. Private ephemeris APIs remain internal. PBF has regional real-data
+validation, not proven planet scale. CPU defaults and explicit refusals remain.
+[Policy](api-stability.md), [scope](deferred-gates-0.4.md),
+[observed evidence](observed-validation-0.4.md).
+
+'''
+target.write_text(notice+'\n'.join(lines),encoding='utf-8',newline='\n')
 print(target)

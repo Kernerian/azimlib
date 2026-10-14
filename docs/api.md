@@ -1,3 +1,14 @@
+# Azimlib 0.4.0 — unpublished candidate API
+
+GPU selection (`Figure.show(renderer="gpu")`, Figure/root/pyplot
+`savefig(renderer="gpu")`, `GpuRenderer`/`GpuConfig`) is experimental.
+Stateful root/pyplot `show()` has no renderer keyword. Astronomical eclipses,
+finite-source geometry and disk conventions are experimental, not certified
+forecasts. Private ephemeris APIs remain internal. PBF has regional real-data
+validation, not proven planet scale. CPU defaults and explicit refusals remain.
+[Policy](api-stability.md), [scope](deferred-gates-0.4.md),
+[observed evidence](observed-validation-0.4.md).
+
 # Referência pública da Azimlib
 
 Gerada por `python tools/api_reference.py` a partir dos objetos reais.
@@ -10,9 +21,315 @@ Coordenadas: longitude/latitude em graus. figsize: polegadas; linewidth,
 fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 (west, east, south, north). Arquivos PNG/SVG não incluem controles de UI.
 
+## azimlib.solar_artists
+
+### `artist_mutation(method)`
+
+Coalesce nested setters on one artist; failed edits do not notify.
+
+### `attach_night(axes, value, **options)`
+
+### `attach_path(axes, path, *, visual_radius=1000.0, width=8.0, color='#d77924')`
+
+### `attach_sun(axes, value, **options)`
+
+### `collection(value, role, samples)`
+
+### `state(value, model=None, observer=None, offsets=None)`
+
+### `style_dict(values=None, **kwargs)`
+
+### `text_style(style)`
+
+## azimlib.lunar_artists
+
+### `artist_mutation(method)`
+
+Coalesce nested setters on one artist; failed edits do not notify.
+
+### `attach_earth_moon(axes, value, **options)`
+
+### `attach_moon(axes, value, **options)`
+
+### `attach_path(axes, path, *, distance_scale=1.0, width=500000.0, color='#a576bf', **style)`
+
+### `collection(value)`
+
+### `state(value, model=None, observer=None, offsets=None)`
+
+### `style_dict(values=None, **kwargs)`
+
+### `text_style(style)`
+
+### `to_rgba(color, alpha=None)`
+
+Dependency-free basic CSS/hex or normalized RGB(A) conversion.
+
+### `transform_point(matrix, point)`
+
+## azimlib.eclipse_artists
+
+### `artist_mutation(method)`
+
+Coalesce nested setters on one artist; failed edits do not notify.
+
+### `attach_eclipse(axes, geometry, **options)`
+
+### `style_dict(values=None, **kwargs)`
+
+## azimlib.volume_artist
+
+### `artist_mutation(method)`
+
+Coalesce nested setters on one artist; failed edits do not notify.
+
+### `finite(value)`
+
+### `inverse_matrix(matrix)`
+
+Own bounded Gauss-Jordan inversion, row major.
+
+### `isosurface_mesh(field, level)`
+
+Original marching tetrahedra, fixed shared cube diagonal; bounded output.
+
+### `normalized(a)`
+
+### `slice_mesh(field, axis, position)`
+
+### `to_rgba(color, alpha=None)`
+
+Dependency-free basic CSS/hex or normalized RGB(A) conversion.
+
+### `trace_ray(layers, origin, direction, maximum=inf, *, samplers=None, pick=False)`
+
+Reference midpoint integration; overlapping fields mix optical depth.
+
+## azimlib.pbf
+
+### `assign_holes(outers, holes)`
+
+### `chunks(message, number)`
+
+### `decode_block(raw, header, *, max_refs=100000)`
+
+### `decode_header(raw)`
+
+### `fields(data, budget)`
+
+### `int32(value)`
+
+### `iter_osm_pbf(source, *, max_refs=100000, expected_sha256=None)`
+
+Yield immutable OSMRecord snapshots with at most one block in memory.
+
+### `one(message, number, wire, default=<object object at 0x000001B9EF940C10>)`
+
+### `read_osm_pbf(source, *, bbox=None, where=None, include_untagged=False, max_features=100000, max_vertices=1000000, max_bytes=67108864, **index_options)`
+
+Read a bounded collection; for large inputs use OSMIndex.features().
+
+### `text(value)`
+
+## azimlib.coordinate_operations
+
+### `vector3(value)`
+
+### `wrap_longitude(longitude, central_longitude=0.0)`
+
+Wrap longitude into the central meridian's closed +/-180° interval.
+
+## azimlib.datum_grids
+
+### `read_gtx(source, *, nodata=(-88.8888,), max_bytes=134217728, max_nodes=16000000)`
+
+NOAA binary GTX: big-endian 4 doubles, 2 int32, float32 nodes (2009+).
+
+### `read_ntv2(source, *, nodata=(), max_bytes=134217728, max_nodes=16000000, max_tiles=4096)`
+
+NTv2 GSB, 11/11-record headers, SECONDS, either endian, nested subgrids.
+
+## azimlib.grid_operations
+
+### `vector3(value)`
+
+### `wrap_longitude(longitude, central_longitude=0.0)`
+
+Wrap longitude into the central meridian's closed +/-180° interval.
+
+## overlay
+
+## azimlib.geocoding
+
+### `edit_distance(a, b, limit=2)`
+
+Own bounded Levenshtein dynamic program, over Unicode code points.
+
+### `normalize_name(value, *, accents=False)`
+
+### `records_from_features(features, source, *, include_addresses=False)`
+
+Allowlisted OSM/GeoJSON tags; aliases/language names retain display text.
+
+### `tokens(value)`
+
+## azimlib.routing
+
+### `allowed(tags, profile)`
+
+### `budget(value, name)`
+
+### `directions(tags, profile)`
+
+### `haversine(start, end, radius=6371008.8)`
+
+Great-circle distance in metres on a sphere.
+
+### `identifier(value)`
+
+### `kept_tags(tags)`
+
+### `node_open(tags, profile)`
+
+### `positive(value, name, *, zero=False)`
+
+### `restriction_value(tags, profile)`
+
+### `speed(tags, profile, direction)`
+
+### `xml_records(source)`
+
+Bounded, entity-free XML snapshot primitives with original IDs/references.
+
+## azimlib.text_engine
+
+### `cache_token(text, style)`
+
+### `cluster_units(text, style)`
+
+### `current_defaults()`
+
+### `figure_defaults(method)`
+
+Recompose auto-generated components with the figure's captured controls.
+
+### `is_shaped(style)`
+
+### `register_font(path, *, family, source, license_id, license_text, allow_outlines=False)`
+
+Register an immutable font snapshot with explicit redistribution provenance.
+
+### `scene_options(style)`
+
+### `shape_text(text, style)`
+
+### `text_commands(item)`
+
+### `text_context(*, engine='harfbuzz', direction='auto', language='und', fallback=(), features=())`
+
+Defaults captured by newly composed Artists; reset on exit, thread-local.
+
+### `text_options(options)`
+
+Validate the public opt-in controls without loading optional engines.
+
+### `with_text_notices(scene)`
+
+Return a shallow scene view with deduplicated font provenance; no paths.
+
+## azimlib.tex
+
+### `clear_tex_cache()`
+
+Discard prepared fragments and force rehashing of tools/resources.
+
+### `composition_resources()`
+
+One verified tool/font snapshot per composition, never a time-based TTL.
+
+### `tex_cache_info()`
+
+Read prepared-fragment cache counts and measured retained payload.
+
+### `tex_context(config)`
+
+Capture real TeX defaults in new figures/Artists; reset on exit.
+
+### `tex_layout(text, style)`
+
+### `text_commands(item)`
+
+## azimlib.solar
+
+### `solar_events(day, observer, *, model=None, offsets=None, zone=datetime.timezone.utc, center_altitude=-0.8333333333333334)`
+
+Events in a civil day, fixed geometric center threshold plus local horizon.
+
+### `wrap_longitude(longitude, central_longitude=0.0)`
+
+Wrap longitude into the central meridian's closed +/-180° interval.
+
+## azimlib.lunar
+
+### `wrap_longitude(longitude, central_longitude=0.0)`
+
+Wrap longitude into the central meridian's closed +/-180° interval.
+
+## azimlib.lighting
+
+### `artist_mutation(method)`
+
+Coalesce nested setters on one artist; failed edits do not notify.
+
+### `attach_light(axes, value, *, frame=None, **options)`
+
+### `dot(a, b)`
+
+### `finite(value)`
+
+### `subdivide(points, max_edge, depth=0)`
+
+## azimlib.eclipse
+
+### `disk_overlap(a, b, d)`
+
+Area of two planar disks, independent analytic circle intersection.
+
+### `occultation(point, source, occulter, *, uncertainty_degrees=0.0)`
+
+## azimlib.solar_disk
+
+### `compare_disks(evaluator, conventions)`
+
+Report every selected model. Never choose the one closest to a reference.
+
+## azimlib.volume
+
+### `finite(value)`
+
+### `length_unit(unit)`
+
+### `read_volume(path, *, budget=None, sha256=None)`
+
+Verify every AZV brick in bounded memory; retain only its file descriptor.
+
+### `write_volume(path, field=None, *, shape=None, bricks=None, brick_size=16, origin=(0, 0, 0), spacing=(1, 1, 1), components=1, value_unit='1', frame=None, budget=None)`
+
+Write atomic AZV1; a streaming producer yields ordered (XYZ brick, LE f32).
+
+## azimlib.renderers.gpu
+
+### `render_gpu_image(scene, scale=1, *, fallback='raise', config=None, cancel=None)`
+
+### `render_gpu_png(scene, path_or_stream, scale=1, *, fallback='raise', config=None)`
+
 ## azimlib
 
 ### `cla()`
+
+### `clear_tex_cache()`
+
+Discard prepared fragments and force rehashing of tools/resources.
 
 ### `clf()`
 
@@ -35,6 +352,8 @@ Create zipped properties or combine cycles with + (zip) / * (product).
 ### `destination(lon, lat, bearing, distance, radius=6371008.8)`
 
 Destination at a bearing clockwise from true north and metres of travel.
+
+### `difference(left, right, **kwargs)`
 
 ### `fignum_exists(num)`
 
@@ -64,19 +383,35 @@ Sample the shorter spherical arc; return steps+1 positions.
 
 Great-circle distance in metres on a sphere.
 
+### `intersection(left, right, **kwargs)`
+
 ### `ioff()`
 
 ### `ion()`
 
 ### `isinteractive()`
 
+### `iter_osm_pbf(source, *, max_refs=100000, expected_sha256=None)`
+
+Yield immutable OSMRecord snapshots with at most one block in memory.
+
 ### `longitude_bounds(longitudes)`
 
 Shortest circular interval, returned increasing, possibly east>180.
 
+### `occultation(point, source, occulter, *, uncertainty_degrees=0.0)`
+
 ### `orientation(a, b, c)`
 
 Exact sign of the binary-float 2D determinant: -1, 0 or 1.
+
+### `overlay(left, right, operation='intersection', *, domain='planar', max_segments=20000, max_pairs=2000000, max_edges=100000)`
+
+Return geometry and a shared noded graph with source-edge lineage.
+
+### `overlay_features(left, right, operation='intersection', **kwargs)`
+
+Keep both property namespaces/IDs; never silently overwrite a field.
 
 ### `rc(group, **kwargs)`
 
@@ -100,13 +435,25 @@ Read a path, JSON string, mapping, text stream or __geo_interface__.
 
 Classic scalar/RGB/RGBA TIFF, GeoKeys and affine georeference interpreted here.
 
+### `read_gtx(source, *, nodata=(-88.8888,), max_bytes=134217728, max_nodes=16000000)`
+
+NOAA binary GTX: big-endian 4 doubles, 2 int32, float32 nodes (2009+).
+
 ### `read_kml(source)`
 
 Local KML 2.2/2.3 Point/LineString/Polygon/MultiGeometry placemarks.
 
+### `read_ntv2(source, *, nodata=(), max_bytes=134217728, max_nodes=16000000, max_tiles=4096)`
+
+NTv2 GSB, 11/11-record headers, SECONDS, either endian, nested subgrids.
+
 ### `read_osm(source, *, include_untagged=False)`
 
 Interpret local OSM 0.6 nodes/ways and multipolygon relations strictly.
+
+### `read_osm_pbf(source, *, bbox=None, where=None, include_untagged=False, max_features=100000, max_vertices=1000000, max_bytes=67108864, **index_options)`
+
+Read a bounded collection; for large inputs use OSMIndex.features().
 
 ### `read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=16000000)`
 
@@ -120,17 +467,35 @@ Read SHP plus optional SHX/DBF; source CRS is always explicit.
 
 Read a local SVG geometry subset; caller supplies legal provenance.
 
+### `read_volume(path, *, budget=None, sha256=None)`
+
+Verify every AZV brick in bounded memory; retain only its file descriptor.
+
 ### `read_world_file(source)`
 
 Convert six world-file values A,D,B,E,C,F (pixel centres) to corner affine.
+
+### `records_from_features(features, source, *, include_addresses=False)`
+
+Allowlisted OSM/GeoJSON tags; aliases/language names retain display text.
+
+### `register_font(path, *, family, source, license_id, license_text, allow_outlines=False)`
+
+Register an immutable font snapshot with explicit redistribution provenance.
 
 ### `register_projection(name, projection_class, *, replace=False)`
 
 Register an independently implemented Projection subclass.
 
+### `repair_geometry(geometry, *, method='normalize', max_segments=20000, max_pairs=2000000, max_edges=100000)`
+
+Explicit planar deduplication/winding, optionally even-odd polygonization.
+
 ### `ring_orientation(ring)`
 
 ### `savefig(path, **kwargs)`
+
+Static export; renderer="gpu" forwards experimental PNG selection.
 
 ### `sca(ax)`
 
@@ -146,13 +511,17 @@ Set properties on an artist or nested sequence of artists.
 
 ### `show(*, block=True, backend='tk', open_browser=True)`
 
-Show own viewers; desktop event loop blocks only when requested.
+Show own CPU viewers; desktop loop blocks only when requested.
 
 ### `simplify_boundaries(data, transform, tolerance)`
 
 Simplify exact shared chains once; preserve IDs/properties/ring direction.
 
 ### `simplify_path(points, tolerance)`
+
+### `solar_events(day, observer, *, model=None, offsets=None, zone=datetime.timezone.utc, center_altitude=-0.8333333333333334)`
+
+Events in a civil day, fixed geometric center threshold plus local horizon.
 
 ### `subplot(*args, **kwargs)`
 
@@ -164,9 +533,21 @@ Return (figure, dict of named axes) for a rectangular or nested mosaic.
 
 ### `subplots(nrows=1, ncols=1, *, projection='equirectangular', figsize=None, dpi=None, facecolor=None, squeeze=True, projection_kw=None, subplot_kw=None, layout=None, gridspec_kw=None, width_ratios=None, height_ratios=None, num=None, clear=False, sharex=False, sharey=False)`
 
+### `symmetric_difference(left, right, **kwargs)`
+
+### `tex_context(config)`
+
+Capture real TeX defaults in new figures/Artists; reset on exit.
+
+### `text_context(*, engine='harfbuzz', direction='auto', language='und', fallback=(), features=())`
+
+Defaults captured by newly composed Artists; reset on exit, thread-local.
+
 ### `transform(x, y, source='EPSG:4326', target='EPSG:3857')`
 
 Transform one coordinate pair, always using longitude before latitude.
+
+### `union(left, right, **kwargs)`
 
 ### `utm_crs(longitude, latitude)`
 
@@ -178,9 +559,17 @@ Check rings/holes and multipolygon interiors in a regional lon/lat plane.
 
 ### `validate_ring(ring, *, winding=None)`
 
+### `validate_topology(geometry, *, domain='planar')`
+
+Diagnose the new overlay contract without modifying any coordinates.
+
 ### `write_geojson(data, destination=None, *, indent=2)`
 
 Serialize native objects or validated input; optionally write a path/stream.
+
+### `write_volume(path, field=None, *, shape=None, bricks=None, brick_size=16, origin=(0, 0, 0), spacing=(1, 1, 1), components=1, value_unit='1', frame=None, budget=None)`
+
+Write atomic AZV1; a streaming producer yields ordered (XYZ brick, LE f32).
 
 ## azimlib.pyplot
 
@@ -191,6 +580,10 @@ Serialize native objects or validated input; optionally write a path/stream.
 ### `cla()`
 
 ### `clabel(*args, **kwargs)`
+
+### `clear_tex_cache()`
+
+Discard prepared fragments and force rehashing of tools/resources.
 
 ### `clf()`
 
@@ -264,7 +657,13 @@ Create/reactivate an own figure by number, label or managed Figure.
 
 ### `rcdefaults()`
 
+### `register_font(path, *, family, source, license_id, license_text, allow_outlines=False)`
+
+Register an immutable font snapshot with explicit redistribution provenance.
+
 ### `savefig(path, **kwargs)`
+
+Static export; renderer="gpu" forwards experimental PNG selection.
 
 ### `sca(ax)`
 
@@ -278,7 +677,7 @@ Set properties on an artist or nested sequence of artists.
 
 ### `show(*, block=True, backend='tk', open_browser=True)`
 
-Show own viewers; desktop event loop blocks only when requested.
+Show own CPU viewers; desktop loop blocks only when requested.
 
 ### `subplot(*args, **kwargs)`
 
@@ -294,7 +693,15 @@ Return (figure, dict of named axes) for a rectangular or nested mosaic.
 
 ### `suptitle(text, **kwargs)`
 
+### `tex_context(config)`
+
+Capture real TeX defaults in new figures/Artists; reset on exit.
+
 ### `text(*args, **kwargs)`
+
+### `text_context(*, engine='harfbuzz', direction='auto', language='und', fallback=(), features=())`
+
+Defaults captured by newly composed Artists; reset on exit, thread-local.
 
 ### `tick_params(**kwargs)`
 
@@ -452,7 +859,7 @@ Transform one coordinate pair, always using longitude before latitude.
 
 ### `transform_coordinates(coordinates, source='EPSG:4326', target='EPSG:3857')`
 
-Transform a sequence of 2D/3D positions, preserving optional elevation.
+Transform positions; actual XYZ conversion for explicit 3D CRS.
 
 ### `transform_geojson(data, source='EPSG:4326', target='EPSG:3857')`
 
@@ -785,6 +1192,12 @@ Add a north arrow without replacing the compass rose.
 
 A regular lon/lat count grid with optional Gaussian cell smoothing.
 
+### `earth_moon(position, **kwargs)`
+
+### `eclipse_shadow(geometry, **kwargs)`
+
+Experimental sampled eclipse visualization, not certified event prediction.
+
 ### `fill(lon, lat, **kwargs)`
 
 ### `findobj(match=None, include_self=True)`
@@ -913,6 +1326,8 @@ Add a north arrow without replacing the compass rose.
 
 Add a north arrow without replacing the compass rose.
 
+### `isosurface(field, level, **style)`
+
 ### `label_outer(remove_inner_ticks=False)`
 
 Hide inner labels; optionally hide ticks, using the local SubplotSpec.
@@ -943,11 +1358,19 @@ Add a north arrow without replacing the compass rose.
 
 Enable automatic minor ticks without enabling any grid.
 
+### `moon(position, **kwargs)`
+
+Optional sublunar marker, or finite Earth-fixed lunar body in 3D.
+
+### `moon_path(path, **kwargs)`
+
 ### `municipalities(data=None, **kwargs)`
 
 ### `neighborhoods(data=None, *, where=None, crs=None, **kwargs)`
 
 Draw supplied neighborhood polygons; where filters properties.
+
+### `nightshade(position, **kwargs)`
 
 ### `north_arrow(*args, **kwargs)`
 
@@ -975,7 +1398,9 @@ Add a north arrow without replacing the compass rose.
 
 Add a north arrow without replacing the compass rose.
 
-### `plot_surface(X, Y, Z, *, horizontal_unit='m', vertical_unit='m', cmap='terrain', norm=None, color=None, shade=True, light=(1, -1, 2), elevation_reference='unspecified')`
+### `plot_surface(X, Y, Z, *, horizontal_unit='m', vertical_unit='m', cmap='terrain', norm=None, color=None, shade=True, light=(1, -1, 2), elevation_reference='unspecified', texture=None, uv=None)`
+
+### `plot_volume(field, *, region=None, **style)`
 
 ### `polygon(coordinates, *, holes=None, **kwargs)`
 
@@ -988,6 +1413,10 @@ East/north vectors; scale is data units per axes width.
 ### `raster(data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs)`
 
 Draw an explicit GeoRaster or read a locally georeferenced scalar or RGB/RGBA image.
+
+### `region(region, **kwargs)`
+
+Optional spherical region, with explicit fill/boundary resolution.
 
 ### `relim(visible_only=False)`
 
@@ -1103,6 +1532,10 @@ Set latitude limits; accept ``(bottom, top)`` or separate values.
 
 ### `sharey(other)`
 
+### `solar_light(position, **kwargs)`
+
+### `solar_terminator(position, **kwargs)`
+
 ### `state(name, **kwargs)`
 
 Draw and fit one Brazilian state by name, postal code or BR-XX.
@@ -1116,6 +1549,12 @@ Add a north arrow without replacing the compass rose.
 Draw supplied street lines, with linewidth in points, not metres.
 
 ### `subtitle(text, **kwargs)`
+
+### `sun(position, **kwargs)`
+
+Optional subsolar marker, or explicit local sky marker on 3D axes.
+
+### `sun_path(path, **kwargs)`
 
 ### `terrain(raster, *, origin, elevation_unit='m', elevation_reference='unspecified', **style)`
 
@@ -1147,6 +1586,8 @@ Flat triangle colors from nodal means; masked nodes/triangles omitted.
 
 ### `view_init(elev=None, azim=None, roll=None)`
 
+### `volume_slice(field, *, axis='z', position, **style)`
+
 ### `zoom(factor=2, center=None)`
 
 Zoom geographic limits by a positive factor (>1 zooms in).
@@ -1165,7 +1606,7 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 
 ### `contains(mouseevent)`
 
-### `faces(camera, bounds, aspect, exaggeration)`
+### `faces(camera, bounds, aspect, exaggeration, *, with_uv=False)`
 
 ### `findobj(match=None, include_self=True)`
 
@@ -1190,6 +1631,10 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 ### `get_picker()`
 
 ### `get_pickradius()`
+
+### `get_texture()`
+
+### `get_texture_uv()`
 
 ### `get_transform()`
 
@@ -1228,6 +1673,8 @@ Zoom geographic limits by a positive factor (>1 zooms in).
 ### `set_pickradius(value)`
 
 ### `set_shade(value)`
+
+### `set_texture(texture, uv=None)`
 
 ### `set_transform(transform)`
 
@@ -3085,13 +3532,17 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ## azimlib.raster.GeoRaster
 
-`GeoRaster(values: tuple, affine: tuple, crs: object = 'EPSG:4326', nodata: float | None = None, pixel_type: str = 'area', color_mode: str = 'auto', mask: object = None) -> None`
+`GeoRaster(values: tuple, affine: tuple, crs: object = 'EPSG:4326', nodata: float | None = None, pixel_type: str = 'area', color_mode: str = 'auto', mask: object = None, height_frame: object = None) -> None`
 
 ### `coordinate(column, row, *, center=False)`
 
 ### `geographic_mesh()`
 
 Return lon/lat edges and south-to-north rows for the own mesh Artist.
+
+### `mask_region(region, *, domain='planar', invert=False)`
+
+Return a geographic region mask sampled at pixel centres; no warp.
 
 ### `resample(shape, *, extent=None, affine=None, crs=None, method='nearest', missing='strict')`
 
@@ -3109,7 +3560,15 @@ Sample one coordinate; outside coverage is missing/transparent.
 
 Return detached metadata; editing it does not change the catalog.
 
+### `grid_operation(identifier, *, version=None)`
+
+Load an exact declared grid operation, verifying data and legal notices.
+
 ### `load(identifier, *, version=None)`
+
+### `open_pbf(identifier, *, version=None, **index_options)`
+
+Open a verified disk index; caller must close it (prefer ``with``).
 
 ### `verify(identifier=None, *, version=None)`
 
@@ -3261,11 +3720,11 @@ Detach contents, retaining size, DPI, identity and layout engine.
 
 ### `remove_callback(oid)`
 
-### `save(path, *, format=None, dpi=None)`
+### `save(path, *, format=None, dpi=None, renderer='cpu', gpu_fallback='raise', gpu_config=None)`
 
 Export static .svg, .png or vector .pdf without UI; streams require format.
 
-### `savefig(path, *, format=None, dpi=None)`
+### `savefig(path, *, format=None, dpi=None, renderer='cpu', gpu_fallback='raise', gpu_config=None)`
 
 Export static .svg, .png or vector .pdf without UI; streams require format.
 
@@ -3299,7 +3758,7 @@ Set physical figure size; optionally resize an existing desktop canvas.
 
 ### `set_transform(transform)`
 
-### `show(*, backend='tk', block=False, open_browser=True, path=None)`
+### `show(*, backend='tk', block=False, open_browser=True, path=None, renderer='cpu', gpu_fallback='raise', gpu_config=None)`
 
 Display a native figure, or explicitly request the browser viewer.
 
@@ -3523,6 +3982,12 @@ Own filled scalar bands; whole cells adjoining missing nodes are masked.
 
 A regular lon/lat count grid with optional Gaussian cell smoothing.
 
+### `earth_moon(position, **kwargs)`
+
+### `eclipse_shadow(geometry, **kwargs)`
+
+Experimental sampled eclipse visualization, not certified event prediction.
+
 ### `fill(lon, lat, **kwargs)`
 
 ### `findobj(match=None, include_self=True)`
@@ -3669,11 +4134,19 @@ Place feature labels with collision avoidance and local line tangents.
 
 Enable automatic minor ticks without enabling any grid.
 
+### `moon(position, **kwargs)`
+
+Optional sublunar marker, or finite Earth-fixed lunar body in 3D.
+
+### `moon_path(path, **kwargs)`
+
 ### `municipalities(data=None, **kwargs)`
 
 ### `neighborhoods(data=None, *, where=None, crs=None, **kwargs)`
 
 Draw supplied neighborhood polygons; where filters properties.
+
+### `nightshade(position, **kwargs)`
 
 ### `north_arrow(*, loc='upper right', size=36, color='black')`
 
@@ -3712,6 +4185,10 @@ East/north vectors; scale is data units per axes width.
 ### `raster(data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs)`
 
 Draw an explicit GeoRaster or read a locally georeferenced scalar or RGB/RGBA image.
+
+### `region(region, **kwargs)`
+
+Optional spherical region, with explicit fill/boundary resolution.
 
 ### `relim(visible_only=False)`
 
@@ -3811,6 +4288,10 @@ Set latitude limits; accept ``(bottom, top)`` or separate values.
 
 ### `sharey(other)`
 
+### `solar_light(position, **kwargs)`
+
+### `solar_terminator(position, **kwargs)`
+
 ### `state(name, **kwargs)`
 
 Draw and fit one Brazilian state by name, postal code or BR-XX.
@@ -3822,6 +4303,12 @@ Draw and fit one Brazilian state by name, postal code or BR-XX.
 Draw supplied street lines, with linewidth in points, not metres.
 
 ### `subtitle(text, **kwargs)`
+
+### `sun(position, **kwargs)`
+
+Optional subsolar marker, or explicit local sky marker on 3D axes.
+
+### `sun_path(path, **kwargs)`
 
 ### `terrain(values, *, extent, dx, dy, azdeg=315, altdeg=45, vert_exag=1, origin='lower', cmap='terrain', norm=None, vmin=None, vmax=None, shade=0.65, **kwargs)`
 
@@ -5403,9 +5890,15 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_color()`
 
+### `get_direction()`
+
 ### `get_figure(root=False)`
 
+### `get_fontfallback()`
+
 ### `get_fontfamily()`
+
+### `get_fontfeatures()`
 
 ### `get_fontsize()`
 
@@ -5419,6 +5912,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_in_layout()`
 
+### `get_language()`
+
 ### `get_picker()`
 
 ### `get_pickradius()`
@@ -5429,7 +5924,11 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_size()`
 
+### `get_texconfig()`
+
 ### `get_text()`
+
+### `get_textengine()`
 
 ### `get_transform()`
 
@@ -5459,7 +5958,13 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `set_color(value)`
 
+### `set_direction(value)`
+
+### `set_fontfallback(value)`
+
 ### `set_fontfamily(value)`
+
+### `set_fontfeatures(value)`
 
 ### `set_fontsize(value)`
 
@@ -5473,6 +5978,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `set_in_layout(value)`
 
+### `set_language(value)`
+
 ### `set_picker(value)`
 
 ### `set_pickradius(value)`
@@ -5483,7 +5990,11 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `set_size(value)`
 
+### `set_texconfig(value)`
+
 ### `set_text(value)`
+
+### `set_textengine(value)`
 
 ### `set_transform(transform)`
 
@@ -5535,13 +6046,19 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_data()`
 
+### `get_direction()`
+
 ### `get_edgecolor()`
 
 ### `get_facecolor()`
 
 ### `get_figure(root=False)`
 
+### `get_fontfallback()`
+
 ### `get_fontfamily()`
+
+### `get_fontfeatures()`
 
 ### `get_fontsize()`
 
@@ -5556,6 +6073,8 @@ Configure ScalarFormatter on the requested major axes atomically.
 ### `get_in_layout()`
 
 ### `get_label()`
+
+### `get_language()`
 
 ### `get_linestyle()`
 
@@ -5591,7 +6110,11 @@ Configure ScalarFormatter on the requested major axes atomically.
 
 ### `get_solid_joinstyle()`
 
+### `get_texconfig()`
+
 ### `get_text()`
+
+### `get_textengine()`
 
 ### `get_transform()`
 
@@ -5653,11 +6176,17 @@ Reclassify an own choropleth; geometry/feature IDs remain unchanged.
 
 Replace a geographic plot series; explicit map limits stay unchanged.
 
+### `set_direction(value)`
+
 ### `set_edgecolor(value)`
 
 ### `set_facecolor(value)`
 
+### `set_fontfallback(value)`
+
 ### `set_fontfamily(value)`
+
+### `set_fontfeatures(value)`
 
 ### `set_fontsize(value)`
 
@@ -5672,6 +6201,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_in_layout(value)`
 
 ### `set_label(value)`
+
+### `set_language(value)`
 
 ### `set_linestyle(value)`
 
@@ -5707,7 +6238,11 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_solid_joinstyle(value)`
 
+### `set_texconfig(value)`
+
 ### `set_text(value)`
+
+### `set_textengine(value)`
 
 ### `set_transform(transform)`
 
@@ -5777,13 +6312,19 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_data()`
 
+### `get_direction()`
+
 ### `get_edgecolor()`
 
 ### `get_facecolor()`
 
 ### `get_figure(root=False)`
 
+### `get_fontfallback()`
+
 ### `get_fontfamily()`
+
+### `get_fontfeatures()`
 
 ### `get_fontsize()`
 
@@ -5798,6 +6339,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 ### `get_in_layout()`
 
 ### `get_label()`
+
+### `get_language()`
 
 ### `get_linestyle()`
 
@@ -5833,7 +6376,11 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_solid_joinstyle()`
 
+### `get_texconfig()`
+
 ### `get_text()`
+
+### `get_textengine()`
 
 ### `get_transform()`
 
@@ -5897,11 +6444,17 @@ Reclassify an own choropleth; geometry/feature IDs remain unchanged.
 
 Replace a geographic plot series; explicit map limits stay unchanged.
 
+### `set_direction(value)`
+
 ### `set_edgecolor(value)`
 
 ### `set_facecolor(value)`
 
+### `set_fontfallback(value)`
+
 ### `set_fontfamily(value)`
+
+### `set_fontfeatures(value)`
 
 ### `set_fontsize(value)`
 
@@ -5916,6 +6469,8 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 ### `set_in_layout(value)`
 
 ### `set_label(value)`
+
+### `set_language(value)`
 
 ### `set_linestyle(value)`
 
@@ -5951,7 +6506,11 @@ Replace a geographic plot series; explicit map limits stay unchanged.
 
 ### `set_solid_joinstyle(value)`
 
+### `set_texconfig(value)`
+
 ### `set_text(value)`
+
+### `set_textengine(value)`
 
 ### `set_transform(transform)`
 
@@ -5999,9 +6558,15 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_color()`
 
+### `get_direction()`
+
 ### `get_figure(root=False)`
 
+### `get_fontfallback()`
+
 ### `get_fontfamily()`
+
+### `get_fontfeatures()`
 
 ### `get_fontsize()`
 
@@ -6015,6 +6580,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_in_layout()`
 
+### `get_language()`
+
 ### `get_picker()`
 
 ### `get_pickradius()`
@@ -6027,7 +6594,11 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `get_size()`
 
+### `get_texconfig()`
+
 ### `get_text()`
+
+### `get_textengine()`
 
 ### `get_transform()`
 
@@ -6061,7 +6632,13 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_color(value)`
 
+### `set_direction(value)`
+
+### `set_fontfallback(value)`
+
 ### `set_fontfamily(value)`
+
+### `set_fontfeatures(value)`
 
 ### `set_fontsize(value)`
 
@@ -6075,6 +6652,8 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_in_layout(value)`
 
+### `set_language(value)`
+
 ### `set_picker(value)`
 
 ### `set_pickradius(value)`
@@ -6087,7 +6666,11 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 ### `set_size(value)`
 
+### `set_texconfig(value)`
+
 ### `set_text(value)`
+
+### `set_textengine(value)`
 
 ### `set_transform(transform)`
 
@@ -6735,9 +7318,17 @@ Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
 
 `FeatureCollection(features: 'tuple' = ()) -> None`
 
+### `clip(region, **kwargs)`
+
+Explicit planar overlay; retain source IDs/properties and order.
+
 ### `select(where=None, *, predicate=None, geometry_types=None)`
 
 Return a new collection, preserving feature objects, IDs and order.
+
+### `spatial_select(region, **kwargs)`
+
+Select intersecting features without modifying their geometry.
 
 ### `to_geojson()`
 
@@ -6745,13 +7336,19 @@ Return a new collection, preserving feature objects, IDs and order.
 
 `CRS(code: 'str' = 'EPSG:4326') -> None`
 
-### `transform_to(target, x, y)`
+### `to_dict()`
+
+### `to_string()`
+
+### `transform_to(target, x, y, z=None)`
 
 ## azimlib.crs.Transformer
 
 `Transformer(source: 'CRS', target: 'CRS') -> None`
 
-### `transform(x, y)`
+### `inverse()`
+
+### `transform(x, y, z=None)`
 
 ## azimlib.ticker.Locator
 
@@ -7146,3 +7743,1735 @@ Signed cosine of angular distance to the view centre (>=0 visible).
 ### `get()`
 
 ### `set(**kwargs)`
+
+## azimlib.solar_artists.SkySunArtist
+
+`SkySunArtist(value, *, model=None, observer=None, offsets=None, visual_radius=1000.0, symbol_radius=40.0, color='#eea52d')`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `faces(camera, bounds, aspect, exaggeration, *, with_uv=False)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_norm()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_position()`
+
+### `get_texture()`
+
+### `get_texture_uv()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_array(values)`
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_in_layout(value)`
+
+### `set_norm(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_position(value)`
+
+### `set_shade(value)`
+
+### `set_texture(texture, uv=None)`
+
+### `set_time(instant, *, offsets=None)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.solar_artists.SolarBinding
+
+`SolarBinding(series, artist, *, scale='global', norm=None)`
+
+### `apply(index)`
+
+## azimlib.solar_artists.SolarNightshade
+
+`SolarNightshade(value, *, model=None, observer=None, offsets=None, step=5.0, color='#192b45', alpha=0.28, zorder=3)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_coordinates()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_position()`
+
+### `get_rotation()`
+
+### `get_simplify()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_position(value)`
+
+### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_time(instant, *, offsets=None)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.solar_artists.SunArtist
+
+`SunArtist(value, *, model=None, observer=None, offsets=None, role='point', samples=361, annotation=None, annotation_style=None, **style)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_position()`
+
+### `get_rotation()`
+
+### `get_simplify()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_annotation(text)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_manual(azimuth, elevation)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_position(value)`
+
+### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_time(instant, *, offsets=None)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.lunar_artists.EarthMoonArtist
+
+`EarthMoonArtist(value, *, model=None, observer=None, offsets=None, include_earth=True, distance_scale=1.0, moon_radius_scale=1.0, earth_color='#47869b', moon_color='#c3c5ca', ambient=0.12, shade=True)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `faces(camera, bounds, aspect, exaggeration, *, with_uv=False)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_norm()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_position()`
+
+### `get_texture()`
+
+### `get_texture_uv()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_array(values)`
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_eclipse_geometry(geometry, *, allow_approximate=False)`
+
+### `set_in_layout(value)`
+
+### `set_manual(azimuth, elevation, distance_m)`
+
+### `set_norm(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_position(value)`
+
+### `set_scales(*, distance_scale=None, moon_radius_scale=None)`
+
+### `set_shade(value)`
+
+### `set_texture(texture, uv=None)`
+
+### `set_time(instant, *, offsets=None)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.lunar_artists.LunarBinding
+
+`LunarBinding(series, artist, *, scale='global', norm=None)`
+
+### `apply(index)`
+
+## azimlib.lunar_artists.LunarHandle
+
+`LunarHandle()`
+
+### `get_position()`
+
+### `set_manual(azimuth, elevation, distance_m)`
+
+### `set_time(instant, *, offsets=None)`
+
+## azimlib.lunar_artists.MoonArtist
+
+`MoonArtist(value, *, model=None, observer=None, offsets=None, annotation=None, annotation_style=None, **style)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_position()`
+
+### `get_rotation()`
+
+### `get_simplify()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_annotation(text)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_manual(azimuth, elevation, distance_m)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_position(value)`
+
+### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_time(instant, *, offsets=None)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.eclipse_artists.EclipseBinding
+
+`EclipseBinding(series, artist, *, scale='global', norm=None)`
+
+### `apply(index)`
+
+## azimlib.eclipse_artists.EclipseMapArtist
+
+`EclipseMapArtist(geometry, *, allow_approximate=False, step=4.0, mode='estimate', cmap='viridis', alpha=0.75, zorder=4)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_alpha()`
+
+### `get_antialiased()`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_color()`
+
+### `get_coordinates()`
+
+### `get_dash_capstyle()`
+
+### `get_dash_joinstyle()`
+
+### `get_data()`
+
+### `get_edgecolor()`
+
+### `get_facecolor()`
+
+### `get_figure(root=False)`
+
+### `get_fontsize()`
+
+### `get_fontweight()`
+
+### `get_geometry()`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_linestyle()`
+
+### `get_linewidth()`
+
+### `get_marker()`
+
+### `get_markeredgecolor()`
+
+### `get_markeredgewidth()`
+
+### `get_markerfacecolor()`
+
+### `get_markersize()`
+
+### `get_norm()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_rotation()`
+
+### `get_simplify()`
+
+### `get_solid_capstyle()`
+
+### `get_solid_joinstyle()`
+
+### `get_text()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_xdata()`
+
+### `get_ydata()`
+
+### `get_zorder()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+Edit supported data/text, styles and colors after batch validation.
+
+### `set_alpha(value)`
+
+### `set_antialiased(value)`
+
+### `set_array(values)`
+
+### `set_classes(bins=5, *, scheme='equal_interval')`
+
+Reclassify an own choropleth; geometry/feature IDs remain unchanged.
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_color(value)`
+
+### `set_dash_capstyle(value)`
+
+### `set_dash_joinstyle(value)`
+
+### `set_data(*args)`
+
+Replace a geographic plot series; explicit map limits stay unchanged.
+
+### `set_edgecolor(value)`
+
+### `set_facecolor(value)`
+
+### `set_fontsize(value)`
+
+### `set_fontweight(value)`
+
+### `set_geometry(geometry)`
+
+### `set_in_layout(value)`
+
+### `set_label(value)`
+
+### `set_linestyle(value)`
+
+### `set_linewidth(value)`
+
+### `set_marker(value)`
+
+### `set_markeredgecolor(value)`
+
+### `set_markeredgewidth(value)`
+
+### `set_markerfacecolor(value)`
+
+### `set_markersize(value)`
+
+### `set_norm(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_rotation(value)`
+
+### `set_simplify(tolerance)`
+
+### `set_solid_capstyle(value)`
+
+### `set_solid_joinstyle(value)`
+
+### `set_text(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(visible)`
+
+### `set_xdata(value)`
+
+### `set_ydata(value)`
+
+### `set_zorder(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.volume_artist.VolumeArtist
+
+`VolumeArtist(field, *, norm=None, cmap='viridis', opacity=None, step=None, reference_length=None, density=1.0, light=None)`
+
+### `add_callback(func)`
+
+### `autoscale()`
+
+### `autoscale_None()`
+
+### `changed()`
+
+### `contains(mouseevent)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_array()`
+
+### `get_children()`
+
+### `get_clim()`
+
+### `get_clip_on()`
+
+### `get_cmap()`
+
+### `get_data()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_label()`
+
+### `get_norm()`
+
+### `get_opacity()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `get_zorder()`
+
+### `layer(matrix)`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `pick_ray(origin, direction, *, maximum=inf)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_array(field)`
+
+### `set_clim(vmin=None, vmax=None)`
+
+### `set_clip_on(value)`
+
+### `set_cmap(value)`
+
+### `set_data(field)`
+
+### `set_density(value)`
+
+### `set_in_layout(value)`
+
+### `set_light(value)`
+
+### `set_norm(norm)`
+
+### `set_opacity(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_reference_length(value)`
+
+### `set_step(value)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `to_color(value)`
+
+### `to_rgba(values, alpha=None, bytes=False, norm=True)`
+
+Map scalars/matrices to RGBA, or pass RGB/RGBA images through.
+
+### `update(props)`
+
+## azimlib.volume_artist.VolumeBinding
+
+`VolumeBinding(series, artist, *, scale='global', norm=None)`
+
+### `apply(index)`
+
+## azimlib.pbf.OSMIndex
+
+`OSMIndex(source, *, directory=None, max_disk_bytes=8000000000, reserve_free_bytes=67108864, max_refs=100000, missing='error', expected_sha256=None)`
+
+### `audit_references()`
+
+Scan every way/member, including raw relation types, without repair.
+
+### `close()`
+
+### `collection(*, max_features=100000, max_vertices=1000000, max_bytes=67108864, **filters)`
+
+Materialize only a bounded selected region for the plotting API.
+
+### `features(*, bbox=None, where=None, include_untagged=False)`
+
+Stream complete geometries whose envelopes intersect bbox, AND tags.
+
+### `relations(*, restrictions_only=False, include_incomplete=False)`
+
+Stream raw members/tags; restrictions retain conditional/except tags.
+
+## azimlib.coordinate_operations.CoordinateFrame
+
+`CoordinateFrame(name: str, kind: str, datum: azimlib.geodesy.Datum = Datum(name='WGS84', ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'), prime_meridian=0.0), height_reference: str = 'ellipsoidal') -> None`
+
+## azimlib.coordinate_operations.CoordinatePipeline
+
+`CoordinatePipeline(steps: tuple) -> None`
+
+### `inverse()`
+
+### `then(operation)`
+
+### `transform(x, y, z=None, *, epoch=None)`
+
+## azimlib.coordinate_operations.GeodeticConversion
+
+`GeodeticConversion(source: azimlib.coordinate_operations.CoordinateFrame, target: azimlib.coordinate_operations.CoordinateFrame) -> None`
+
+### `inverse()`
+
+### `transform(x, y, z, *, epoch=None)`
+
+## azimlib.coordinate_operations.Helmert
+
+`Helmert(source: azimlib.coordinate_operations.CoordinateFrame, target: azimlib.coordinate_operations.CoordinateFrame, parameters: tuple, convention: str, rates: tuple = None, reference_epoch: float = None, valid_epochs: tuple = None, area_of_use: tuple = None) -> None`
+
+### `inverse()`
+
+### `transform(x, y, z, *, epoch=None)`
+
+## azimlib.datum_grids.GridCoverageError
+
+`GridCoverageError(...)`
+
+## azimlib.datum_grids.GridNoDataError
+
+`GridNoDataError(...)`
+
+## azimlib.datum_grids.GridTile
+
+`GridTile(name: str, parent: str, longitude: float, latitude: float, longitude_step: float, latitude_step: float, rows: int, columns: int, offset: int, depth: int = 0) -> None`
+
+## azimlib.datum_grids.ShiftGrid
+
+`ShiftGrid(format: str, tiles: tuple, _raw: bytes, _endian: str, nodata: tuple = (), metadata: object = <factory>) -> None`
+
+### `accuracy(longitude, latitude)`
+
+NTv2 interpolated (lon,lat) accuracy fields, arcsec; not a guarantee.
+
+### `sample(longitude, latitude)`
+
+## azimlib.grid_operations.GridOperation
+
+`GridOperation(source: azimlib.coordinate_operations.CoordinateFrame, target: azimlib.coordinate_operations.CoordinateFrame, grid: azimlib.datum_grids.ShiftGrid, kind: str, factor: float = 1.0, valid_epochs: tuple = None) -> None`
+
+### `inverse()`
+
+### `transform(x, y, z, *, epoch=None)`
+
+### `transform_raster(raster, *, epoch=None)`
+
+Explicit scalar-height correction at pixel centres; strict grid coverage.
+
+## azimlib.grid_operations.InverseGridOperation
+
+`InverseGridOperation(operation: azimlib.grid_operations.GridOperation) -> None`
+
+### `inverse()`
+
+### `transform(x, y, z, *, epoch=None)`
+
+### `transform_raster(raster, *, epoch=None)`
+
+## azimlib.grid_operations.OperationSet
+
+`OperationSet(operations)`
+
+### `select(source, target, x, y, z, *, epoch=None, name=None)`
+
+## azimlib.geocoding.Address
+
+`Address(house_number: 'str' = '', street: 'str' = '', neighborhood: 'str' = '', city: 'str' = '', state: 'str' = '', country: 'str' = '', postcode: 'str' = '') -> None`
+
+### `as_dict()`
+
+### `display()`
+
+## azimlib.geocoding.AddressRange
+
+`AddressRange(record: 'GeocodingRecord', start_id: 'str', end_id: 'str', step: 'int' = 1) -> None`
+
+## azimlib.geocoding.ExternalGeocoder
+
+`ExternalGeocoder(search, reverse=None)`
+
+### `reverse(*args, **kwargs)`
+
+### `search(*args, **kwargs)`
+
+## azimlib.geocoding.GeocodingLimitError
+
+`GeocodingLimitError(...)`
+
+## azimlib.geocoding.GeocodingRecord
+
+`GeocodingRecord(id: 'str', kind: 'str', names: 'tuple[str, ...]', geometry: 'Geometry', source: 'str', address: 'Address' = <factory>, category: 'str' = '', accuracy_m: 'float | None' = None) -> None`
+
+### `as_dict()`
+
+## azimlib.geocoding.GeocodingResult
+
+`GeocodingResult(record: 'GeocodingRecord', source: 'GeocodingSource', coordinate: 'tuple[float, float]', precision: 'str', score: 'float' = 0.0, match: 'str' = 'exact', distance_m: 'float | None' = None, contains: 'bool' = False, range_ids: 'tuple[str, ...]' = ()) -> None`
+
+### `to_feature(*, boundary=False)`
+
+Normal layer/picking/labels integration; no contacts or query history.
+
+## azimlib.geocoding.GeocodingResults
+
+`GeocodingResults(items: 'tuple[GeocodingResult, ...]', total: 'int', ambiguous: 'bool', truncated: 'bool', diagnostics: 'tuple[str, ...]' = ()) -> None`
+
+### `to_features(*, boundary=False)`
+
+## azimlib.geocoding.GeocodingSource
+
+`GeocodingSource(id: 'str', version: 'str', license: 'str', copyright: 'str', attribution: 'str', origin: 'str', sha256: 'str', notices: 'tuple[str, ...]' = ()) -> None`
+
+### `as_dict()`
+
+## azimlib.geocoding.LocalGeocoder
+
+`LocalGeocoder(directory, *, max_candidates=5000)`
+
+### `close()`
+
+### `reverse(lon, lat, *, radius_m=1000.0, kinds=None, filters=None, limit=10)`
+
+Nearest imported objects/containing regional boundaries, in spherical metres.
+
+### `search(query='', *, filters=None, kinds=None, bbox=None, near=None, radius_m=5000.0, fuzzy=False, prefix=False, interpolate=False, limit=10)`
+
+Own exact/prefix/fuzzy token ranking; score is not a probability.
+
+## azimlib.routing.NetworkSnap
+
+`NetworkSnap(coordinate: 'tuple', distance_m: 'float', node: 'int | None', segment: 'tuple | None', fraction: 'float', _network: 'object') -> None`
+
+## azimlib.routing.RoadEdge
+
+`RoadEdge(id: 'str', way_id: 'int', segment_index: 'int', start: 'int', end: 'int', direction: 'int', geometry: 'tuple', distance_m: 'float', speed_kmh: 'float', tags: 'object') -> None`
+
+## azimlib.routing.RoadGraph
+
+`RoadGraph()`
+
+### `route(origin, destination, *, via=(), objective='distance', algorithm='astar', snap_radius_m=1000, max_states=250000, max_candidates=10000, cancel=None)`
+
+Globally optimal path through ordered stops, retaining turn history.
+
+### `save(directory, *, max_bytes=134217728, reserve_free_bytes=67108864)`
+
+Atomic new-directory JSON index, SHA-256 manifest and original notices.
+
+### `snap(location, *, radius_m=1000, max_candidates=10000)`
+
+Nearest physical edge; ties at disconnected coincident roads are errors.
+
+### `submit(executor, origin, destination, **options)`
+
+Caller-owned executor; no worker touches Artists or opens a viewer.
+
+## azimlib.routing.RoadNode
+
+`RoadNode(id: 'int', coordinate: 'tuple') -> None`
+
+## azimlib.routing.RoadRoute
+
+`RoadRoute(steps: 'tuple', stops: 'tuple', source: 'RoutingSource', profile: 'RoutingProfile', objective: 'str', algorithm: 'str', expanded_states: 'int') -> None`
+
+### `playback(ax, *, frames=100, interval=100, autoplay=False, **marker_style)`
+
+Own FuncAnimation edits one marker on the viewer thread; hold the handle.
+
+### `sample(seconds)`
+
+Clamped estimated-time position; spherical interpolation, not a GPS fix.
+
+### `to_features()`
+
+Editable/pickable source-edge features, without query logs or input addresses.
+
+## azimlib.routing.RouteInstruction
+
+`RouteInstruction(maneuver: 'str', coordinate: 'tuple', way_id: 'int | None', name: 'str', distance_m: 'float', duration_s: 'float') -> None`
+
+## azimlib.routing.RouteStep
+
+`RouteStep(edge: 'RoadEdge', start_fraction: 'float', end_fraction: 'float', geometry: 'tuple') -> None`
+
+## azimlib.routing.RoutingSource
+
+`RoutingSource(id: 'str', version: 'str', license: 'str', copyright: 'str', attribution: 'str', origin: 'str', sha256: 'str', notices: 'tuple[str, ...]' = ()) -> None`
+
+### `as_dict()`
+
+## azimlib.routing.RoutingTask
+
+`RoutingTask(future, event)`
+
+### `cancel()`
+
+### `done()`
+
+### `draw(ax, **style)`
+
+### `result(timeout=None)`
+
+## azimlib.text_engine.ClusterText
+
+`ClusterText(text, layout)`
+
+### `replace(old, new, count=-1)`
+
+Return a copy with all occurrences of substring old replaced by new.
+
+### `split(sep=None, maxsplit=-1)`
+
+Return a list of the substrings in the string, using sep as the separator string.
+
+## azimlib.text_engine.FontPermissionError
+
+`FontPermissionError(...)`
+
+## azimlib.text_engine.FontRecord
+
+`FontRecord(family: str, sha256: str, source: str, license_id: str, license_text: str, copyright: str, coverage: tuple) -> None`
+
+### `notice()`
+
+## azimlib.text_engine.Glyph
+
+`Glyph(font: str, glyph: int, start: int, end: int, x: float, y: float, advance: float, outline: tuple, ink: tuple | None) -> None`
+
+## azimlib.text_engine.MissingGlyphError
+
+`MissingGlyphError(...)`
+
+## azimlib.text_engine.ShapedLine
+
+`ShapedLine(text: str, glyphs: tuple, runs: tuple, width: float, ascent: float, descent: float, ink: tuple, engines: tuple, notices: tuple, signature: tuple) -> None`
+
+## azimlib.text_engine.TextEngineError
+
+`TextEngineError(...)`
+
+## azimlib.text_engine.TextRun
+
+`TextRun(start: int, end: int, direction: str, script: str, font: str, glyph_start: int, glyph_end: int) -> None`
+
+## azimlib.tex.TexConfig
+
+`TexConfig(executable: str = 'tectonic', converter: str = 'pdftocairo', cache_dir: object = None, temp_root: object = None, preamble: str = '\\usepackage{amsmath}', font_notices: tuple = (), resource_files: tuple = (), trusted: bool = False, allow_outlines: bool = False, timeout: float = 30, max_memory_bytes: int = 1073741824, max_temp_bytes: int = 67108864, max_cache_bytes: int = 268435456, fallback: object = None) -> None`
+
+## azimlib.tex.TexError
+
+`TexError(...)`
+
+## azimlib.tex.TexLayout
+
+`TexLayout(width: float, ascent: float, descent: float, commands: tuple, notices: tuple, identity: str, metrics: tuple = (), engine: str = 'tectonic') -> None`
+
+## azimlib.tex.TexResourceError
+
+`TexResourceError(...)`
+
+## azimlib.tex.TexText
+
+`TexText(text, layout)`
+
+### `replace(old, new, count=-1)`
+
+Return a copy with all occurrences of substring old replaced by new.
+
+### `split(sep=None, maxsplit=-1)`
+
+Return a list of the substrings in the string, using sep as the separator string.
+
+## azimlib.tex.TexUnavailableError
+
+`TexUnavailableError(...)`
+
+## azimlib.solar.SolarEvents
+
+`SolarEvents(start: datetime.datetime, end: datetime.datetime, rises: tuple, sets: tuple, transits: tuple, status: str, center_altitude: float, estimated_model_timing_seconds: tuple) -> None`
+
+## azimlib.solar.SolarModel
+
+`SolarModel(time_policy: str = 'strict', aberration: bool = True, parallax: bool = True, refraction: azimlib.solar.SolarRefraction | None = None) -> None`
+
+### `events(day, observer, *, offsets=None, zone=datetime.timezone.utc, center_altitude=-0.8333333333333334)`
+
+### `path(instants, observer, *, offsets=None)`
+
+### `position(instant, observer=None, *, offsets=None)`
+
+### `seasons(year, *, offsets=None)`
+
+## azimlib.solar.SolarPath
+
+`SolarPath(positions: tuple, observer: azimlib._frames.Observer) -> None`
+
+### `mesh(*, visual_radius=1000.0, width=8.0)`
+
+ENU ribbon on a visual sky sphere, not physical Sun-distance geometry.
+
+## azimlib.solar.SolarRefraction
+
+`SolarRefraction(pressure_hpa: float = 1010.0, temperature_c: float = 10.0) -> None`
+
+### `correction(elevation)`
+
+## azimlib.solar.SunDirection
+
+`SunDirection(azimuth: float, elevation: float, observer: azimlib._frames.Observer | None = None) -> None`
+
+## azimlib.solar.SunPosition
+
+`SunPosition(instant: azimlib._timescales.Instant, right_ascension: float, declination: float, distance_m: float, ecliptic_longitude: float, sidereal_angle: float, equation_of_time_minutes: float, fixed: azimlib._frames.Coordinates, observer: azimlib._frames.Observer | None, azimuth: float | None, geometric_elevation: float | None, elevation: float | None, refraction_degrees: float, parallax: bool, aberration: bool, time_policy: str, angular_budget_degrees: float, model: str = 'azim-usno-approx-v1') -> None`
+
+### `night_region()`
+
+### `terminator(*, samples=361)`
+
+## azimlib.lunar.LunarModel
+
+`LunarModel(time_policy: str = 'strict', parallax: bool = True, refraction: azimlib.solar.SolarRefraction | None = None) -> None`
+
+### `path(instants, observer=None, *, offsets=None)`
+
+### `position(instant, observer=None, *, offsets=None)`
+
+## azimlib.lunar.LunarPath
+
+`LunarPath(positions: tuple) -> None`
+
+### `mesh(*, distance_scale=1.0, width=500000.0)`
+
+## azimlib.lunar.MoonDirection
+
+`MoonDirection(azimuth: float, elevation: float, distance_m: float, observer: azimlib._frames.Observer) -> None`
+
+## azimlib.lunar.MoonPosition
+
+`MoonPosition(instant: azimlib._timescales.Instant, right_ascension: float, declination: float, distance_m: float, ecliptic_longitude: float, ecliptic_latitude: float, sidereal_angle: float, fixed: azimlib._frames.Coordinates, sun: azimlib.solar.SunPosition, observer: azimlib._frames.Observer | None, topocentric_right_ascension: float | None, topocentric_declination: float | None, topocentric_distance_m: float | None, azimuth: float | None, geometric_elevation: float | None, elevation: float | None, refraction_degrees: float, parallax: bool, time_policy: str, angular_budget_degrees: float, distance_budget_m: float = 5000000.0, model: str = 'azim-almanac-short-v1') -> None`
+
+## azimlib.lighting.LightingBinding
+
+`LightingBinding(series, artist, *, scale='global', norm=None)`
+
+### `apply(index)`
+
+## azimlib.lighting.ShadowBudget
+
+`ShadowBudget(max_triangles: int = 20000, max_rays: int = 500000, max_triangle_tests: int = 4000000) -> None`
+
+## azimlib.lighting.ShadowIndex
+
+`ShadowIndex(triangles, budget, bias)`
+
+### `blocked(origin, direction, maximum=inf, ignore=None)`
+
+### `reset()`
+
+## azimlib.lighting.SolarLighting
+
+`SolarLighting(axes, value, *, frame, model=None, offsets=None, ambient=0.25, diffuse=0.75, shadows=True, samples=1, angular_radius=None, bias_m=0.001, max_edge_m=None, budget=None)`
+
+### `add_callback(func)`
+
+### `bind_volume(artist, *, shadow_steps=0)`
+
+### `contains(mouseevent)`
+
+### `faces(artist, camera, bounds, aspect, exaggeration, *, with_uv=False)`
+
+### `findobj(match=None, include_self=True)`
+
+### `get_children()`
+
+### `get_clip_on()`
+
+### `get_figure(root=False)`
+
+### `get_in_layout()`
+
+### `get_picker()`
+
+### `get_pickradius()`
+
+### `get_position()`
+
+### `get_transform()`
+
+### `get_visible()`
+
+### `pchanged()`
+
+### `pick(mouseevent)`
+
+### `prepare(artists)`
+
+### `properties()`
+
+### `remove()`
+
+### `remove_callback(oid)`
+
+### `set(**kwargs)`
+
+### `set_clip_on(value)`
+
+### `set_in_layout(value)`
+
+### `set_picker(value)`
+
+### `set_pickradius(value)`
+
+### `set_position(value)`
+
+### `set_time(instant, *, offsets=None)`
+
+### `set_transform(transform)`
+
+### `set_visible(value)`
+
+### `update(props)`
+
+### `volume_light(*, shadow_steps=0)`
+
+## azimlib.eclipse.EclipseGeometry
+
+`EclipseGeometry(sun: azimlib.eclipse.ShadowSphere, moon: azimlib.eclipse.ShadowSphere, source: str, instant: object = None, angular_uncertainty_degrees: float = 0.0, earth_radius_m: float = 6378137.0) -> None`
+
+### `at(point, *, occulter='moon')`
+
+### `compare_solar_disks(observer, conventions)`
+
+### `events(*args, **kwargs)`
+
+### `lunar()`
+
+### `require_visual_permission(allow_approximate)`
+
+### `solar(observer, *, solar_disk=None)`
+
+## azimlib.eclipse.Occultation
+
+`Occultation(visible_fraction: float, classification: str, separation_degrees: float, source_radius_degrees: float, occulter_radius_degrees: float, fraction_bounds: tuple, uncertainty_degrees: float) -> None`
+
+## azimlib.eclipse.ShadowCone
+
+`ShadowCone(source: azimlib.eclipse.ShadowSphere, occulter: azimlib.eclipse.ShadowSphere) -> None`
+
+### `radii(distance_m)`
+
+## azimlib.eclipse.ShadowSphere
+
+`ShadowSphere(center: azimlib._frames.Coordinates, radius_m: float) -> None`
+
+## azimlib.solar_disk.SolarDiskComparison
+
+`SolarDiskComparison(results: tuple) -> None`
+
+## azimlib.solar_disk.SolarDiskConvention
+
+`SolarDiskConvention(name: str, radius_m: float, definition: str, source: str) -> None`
+
+## azimlib.volume.BrickStore
+
+`BrickStore(path: pathlib.Path, shape: tuple, components: int, brick_size: int, header_bytes: int, signature: tuple, sha256: str, summary: dict) -> None`
+
+### `brick(index)`
+
+## azimlib.volume.VolumeBudget
+
+`VolumeBudget(max_dense_bytes: int = 33554432, max_cache_bytes: int = 16777216, max_file_bytes: int = 20000000000, max_samples: int = 64000000, max_steps: int = 512, max_pixels: int = 1000000) -> None`
+
+## azimlib.volume.VolumeField
+
+`VolumeField(shape: tuple, values: bytes | None, origin: tuple = (0.0, 0.0, 0.0), spacing: tuple = (1.0, 1.0, 1.0), components: int = 1, value_unit: str = '1', frame: azimlib.terrain3d.LocalFrame | None = None, store: object = None, budget: azimlib.volume.VolumeBudget = VolumeBudget(max_dense_bytes=33554432, max_cache_bytes=16777216, max_file_bytes=20000000000, max_samples=64000000, max_steps=512, max_pixels=1000000)) -> None`
+
+### `component(component)`
+
+### `iter_bricks(*, brick_size=16)`
+
+### `sample(x, y, z, *, method='linear')`
+
+### `sampler()`
+
+### `select(bounds)`
+
+Copy a bounded nodal ROI, including interpolation support at its edges.
+
+## azimlib.volume.VolumeSampler
+
+`VolumeSampler(field)`
+
+### `node(x, y, z)`
+
+### `sample(p, method='linear')`
+
+## azimlib.renderers.gpu.GpuCancelled
+
+`GpuCancelled(...)`
+
+## azimlib.renderers.gpu.GpuConfig
+
+`GpuConfig(context_backend: str | None = None, max_surface_bytes: int = 268435456, max_cache_bytes: int = 33554432, max_vertices: int = 2000000) -> None`
+
+## azimlib.renderers.gpu.GpuError
+
+`GpuError(...)`
+
+## azimlib.renderers.gpu.GpuRenderer
+
+`GpuRenderer(config=None)`
+
+### `close()`
+
+### `render(scene, scale=1, *, cancel=None, generation=None)`
+
+## azimlib.renderers.gpu.GpuResourceError
+
+`GpuResourceError(...)`
+
+## azimlib.renderers.gpu.GpuUnavailableError
+
+`GpuUnavailableError(...)`
+
+## azimlib.projections.LambertAzimuthalEqualArea
+
+`LambertAzimuthalEqualArea(central_longitude: 'float' = 0.0, central_latitude: 'float' = 0.0, radius: 'float' = 6371008.8) -> None`
+
+### `forward(lon, lat)`
+
+### `inverse(x, y)`
+
+## azimlib.simplify.SimplificationCache
+
+`SimplificationCache(max_bytes=4194304)`
+
+### `clear()`
+
+### `indices(packed, scale, tolerance)`
+
+### `info()`
+
+### `path(packed, scale, tolerance)`

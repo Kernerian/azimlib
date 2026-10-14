@@ -9,6 +9,7 @@ from . import (figure,subplots,subplot_mosaic,subplot,gcf,gca,sca,savefig,show,c
 from .config import rcParams,rc,rc_context,rcdefaults
 from . import style
 from .cycles import cycler
+from .text_engine import text_context,register_font
 
 def xticks(ticks=None,labels=None,**kwargs):
     ax=gca()
@@ -104,3 +105,5 @@ def tripcolor(*args,**kwargs):return gca().tripcolor(*args,**kwargs)
 def hist2d(*args,**kwargs):return gca().hist2d(*args,**kwargs)
 def heatmap(*args,**kwargs):return gca().heatmap(*args,**kwargs)
 def flow(*args,**kwargs):return gca().flow(*args,**kwargs)
+
+from .tex import TexConfig,tex_context,TexError,TexUnavailableError,TexResourceError,clear_tex_cache

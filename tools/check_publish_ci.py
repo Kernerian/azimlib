@@ -32,6 +32,17 @@ def main():
     assert run['status'] == 'completed' and run['conclusion'] == 'success', 'Release CI is not successful'
     jobs = get('/actions/runs/' + str(run['id']) + '/jobs?per_page=100')['jobs']
     count=verify_jobs(jobs,args.sha)
+    import tomllib
+    version=tomllib.loads((Path(__file__).resolve().parents[1]/'pyproject.toml').read_text('utf8'))['project']['version']
+    if version=='0.4.0':
+        from audit_candidate040_ci import verify
+        runs040=get('/actions/workflows/candidate-0.4.yml/runs?branch=main&per_page=100')['workflow_runs']
+        exact040=[r for r in runs040 if r['head_sha']==args.sha]
+        assert exact040,'No complete 0.4 scoped CI at this exact main SHA'
+        full=get('/actions/runs/'+str(exact040[0]['id']))
+        jobs040=get('/actions/runs/'+str(full['id'])+'/jobs?per_page=100')['jobs']
+        proof=verify(full,jobs040,sha=args.sha,branch='main',workflow='candidate-0.4.yml')
+        print('Scoped 0.4 CI verified:',proof['url'],proof['jobs'])
     print('Release CI verified:',run['html_url'],f'{count}/{count} successful jobs at',args.sha)
 
 

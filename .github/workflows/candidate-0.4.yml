@@ -1,0 +1,77 @@
+name: candidate-0.4-unpublished
+on:
+  push:
+    branches: [validation/0.4-candidate]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integration:
+    uses: ./.github/workflows/integration-0.4.yml
+  text:
+    uses: ./.github/workflows/text-review-0.4.yml
+  tex:
+    uses: ./.github/workflows/tex-review-0.4.yml
+  gpu:
+    uses: ./.github/workflows/gpu-review-0.4.yml
+  preview:
+    uses: ./.github/workflows/preview-review-0.4.yml
+  visual:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[gui,qt]'
+      - if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb xauth libegl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-xinerama0
+      - if: runner.os == 'Linux'
+        run: xvfb-run -a -s '-screen 0 1920x1440x24' python -I tools/prepare_visual_review040.py --output review040 --native
+      - if: runner.os != 'Linux'
+        run: python -I tools/prepare_visual_review040.py --output review040 --native
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: azimlib-0.4.0-review-${{ runner.os }}-${{ runner.arch }}
+          path: review040/
+          if-no-files-found: error
+          retention-days: 30
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[dev]'
+      - run: python -I tools/check_release_candidate.py --purpose prepare
+      - name: Fixed exact-commit build timestamp
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+      - run: python -I tools/audit_licenses.py --report candidate-audits/licenses.json
+      - run: python -I tools/audit_publication_privacy.py --history --report candidate-audits/privacy-source.json
+      - run: python -I tools/audit_optional_data.py --report candidate-audits/optional-data.json
+      - run: python -m build --outdir candidate-dist
+      - shell: bash
+        run: |
+          python -I tools/normalize_release_sdist.py --sdist candidate-dist/azimlib-0.4.0.tar.gz --epoch "$SOURCE_DATE_EPOCH" --output candidate-audits/normalization.json
+          python -m twine check --strict candidate-dist/*
+          python -I tools/audit_distribution.py --wheel candidate-dist/*.whl --sdist candidate-dist/*.tar.gz --output candidate-audits/distribution.json
+          python -I tools/audit_publication_privacy.py --archive candidate-dist/*.whl --archive candidate-dist/*.tar.gz --report candidate-audits/privacy-archives.json
+          sha256sum candidate-dist/* > candidate-audits/SHA256SUMS
+      - run: python -I tools/smoke_installed_package.py --wheel candidate-dist/azimlib-0.4.0-py3-none-any.whl
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: azimlib-0.4.0-unpublished-candidate
+          path: |
+            candidate-dist/
+            candidate-audits/
+          if-no-files-found: error
+          retention-days: 30

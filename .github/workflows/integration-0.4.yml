@@ -1,0 +1,97 @@
+name: integration-0.4-unpublished
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  core:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.10', '3.11', '3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install . --no-deps
+      - run: python -I tools/check_release_progress_040.py
+      - run: python -I tools/validate_integration_040.py --installed --core --output integration-review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: integration-0.4-core-${{ matrix.os }}-py${{ matrix.python }}
+          path: integration-review/
+          if-no-files-found: error
+          retention-days: 30
+  native:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[gui,qt]'
+      - name: Native Linux display libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb xauth libegl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-xinerama0
+      - name: Native Linux review
+        if: runner.os == 'Linux'
+        run: xvfb-run -a -s '-screen 0 1920x1440x24' python -I tools/validate_integration_040.py --installed --native --output integration-review
+      - name: Native Windows/macOS review
+        if: runner.os != 'Linux'
+        run: python -I tools/validate_integration_040.py --installed --native --output integration-review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: integration-0.4-native-${{ matrix.os }}
+          path: integration-review/
+          if-no-files-found: error
+          retention-days: 30
+  no-gpu:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[dev]'
+      - run: python -m unittest discover -s tests -p test_gpu_040.py -v
+      - run: python -m unittest discover -s tests -p test_text_engine_040.py -v
+      - run: python -m unittest discover -s tests -p test_tex_040.py -v
+  software-gpu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      AZIMLIB_GPU_CONTEXT: egl
+      AZIMLIB_GPU_TEST: '1'
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: sudo apt-get update && sudo apt-get install -y libegl1-mesa-dev libgl1-mesa-dri
+      - run: python -m pip install '.[gpu,dev]'
+      - run: python -m unittest discover -s tests -p test_gpu_040.py -v
+      - run: python -I tools/validate_integration_040.py --installed --gpu --output integration-review
+      - uses: actions/upload-artifact@v4
+        with:
+          name: integration-0.4-software-Mesa-not-hardware
+          path: integration-review/
+          if-no-files-found: error
+          retention-days: 30

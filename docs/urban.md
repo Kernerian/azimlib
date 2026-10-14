@@ -1,8 +1,8 @@
 # Mapas urbanos — primeira base da 0.3.0
 
-A branch de desenvolvimento acrescenta entrada CSV, seleção por atributos e
-quatro conveniências urbanas. Estes recursos ainda não fazem parte do pacote
-0.2.0 publicado. Veja a [checklist da 0.3.0](release-progress-0.3.md).
+A versão 0.3.0 acrescentou entrada CSV, seleção por atributos e quatro
+conveniências urbanas. Veja a [checklist histórica da 0.3.0](release-progress-0.3.md).
+Novos recursos em desenvolvimento para 0.4.0 estão identificados separadamente.
 
 ```python
 import azimlib as azl
@@ -86,8 +86,18 @@ Exporta PNG/SVG com o renderer próprio. Grid, legenda, norte, escala e
 minimapa continuam opcionais. Layers podem ser editadas, ocultadas e removidas
 com o mesmo ciclo de Artists do núcleo existente.
 
-Dados reais posteriores precisam de origem, versão, licença e atribuições
-explícitas. O leitor OSM planejado não torna bases ODbL propriedade da Azimlib;
-exemplos e pacotes de dados terão seus próprios avisos. Leitores adicionais,
-largura geográfica, indexação densa e picking constam na checklist, ainda
-pendentes. Geocodificação e roteamento não estão implementados neste lote.
+Dados reais precisam de origem, versão, licença e atribuições explícitas.
+O leitor OSM não torna bases ODbL propriedade da Azimlib. Os
+[dados opcionais](optional-data.md) e seus exemplos têm avisos próprios.
+
+## Pesquisa urbana — desenvolvimento da 0.4.0
+
+O [geocoder local próprio](geocoding-0.4.md) acrescenta pesquisa por nomes,
+aliases e endereços explícitos, filtros, ranking, ambiguidade, busca reversa e
+interpolação numérica opt-in. Resultados viram camadas com picking e labels;
+limites administrativos permanecem distintos de pontos representativos.
+Dados de endereço não são importados por padrão e não há consulta externa
+automática. O [roteador próprio](routing-0.4.md) acrescenta grafos dirigidos,
+snapping em vias, A*/Dijkstra, perfis de carro/bicicleta/pedestre, restrições de
+conversão, pontos intermediários e playback. Os contratos de cobertura e erros
+continuam explícitos, sem prometer navegação legal completa ou trânsito ao vivo.

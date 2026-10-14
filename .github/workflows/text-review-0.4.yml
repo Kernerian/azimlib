@@ -1,0 +1,67 @@
+name: text-review-0.4
+on:
+  workflow_dispatch:
+  workflow_call:
+permissions:
+  contents: read
+jobs:
+  text-review:
+    name: complex-text-${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            label: linux
+          - os: macos-latest
+            label: macos
+          - os: windows-latest
+            label: windows
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install '.[text,gui,qt]'
+      - name: Linux native display and ICU
+        if: runner.os == 'Linux'
+        run: |
+          timeout 240s sudo apt-get -o Acquire::Retries=1 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update
+          timeout 240s sudo apt-get -o Acquire::Retries=1 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install -y libicu-dev xvfb xauth libegl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-xinerama0
+      - run: python -I tools/acquire_text_fonts.py --output .text-fonts
+      - name: Official Unicode levels, ordering and graphemes
+        run: python -I tools/validate_unicode_text.py --data .unicode-tests --acquire --output unicode-conformance.json
+      - name: Unicode version contract
+        run: python -m unittest discover -s tests -p test_unicode_fixture_contract_040.py -v
+      - name: Shaping and font contracts
+        env:
+          AZIMLIB_TEXT_FONTS: ${{ github.workspace }}/.text-fonts
+        run: python -m unittest discover -s tests -p test_text_engine_040.py -v
+      - name: Review capture privacy contracts
+        run: python -m unittest discover -s tests -p test_text_review_tools_040.py -v
+      - name: Review comparison integrity contracts
+        run: python -m unittest discover -s tests -p test_text_review_compare_040.py -v
+      - name: Native Linux packet
+        if: runner.os == 'Linux'
+        run: xvfb-run -a -s '-screen 0 1920x1440x24' python -I tools/validate_text_engine.py --fonts .text-fonts --output text-review --native
+      - name: Native Windows/macOS packet
+        if: runner.os != 'Linux'
+        run: python -I tools/validate_text_engine.py --fonts .text-fonts --output text-review --native
+      - run: python -I tools/audit_licenses.py --report text-review/licenses.json
+      - run: python -I tools/audit_publication_privacy.py --report text-review/source-privacy.json
+      - name: Verify this platform packet without granting human acceptance
+        run: python -I tools/compare_text_review.py --packet text-review --allow-partial --report text-review/comparison.json
+      - name: Preserve Unicode verification with the review packet
+        shell: python
+        run: |
+          import shutil
+          shutil.copyfile('unicode-conformance.json', 'text-review/unicode-conformance.json')
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: azimlib-0.4-complex-text-${{ matrix.label }}
+          path: text-review/
+          if-no-files-found: error
+          retention-days: 30

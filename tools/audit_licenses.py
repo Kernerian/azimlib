@@ -29,6 +29,30 @@ def audit():
     assert tuple(PALETTES['blues']) == tuple(manifest['colorbrewer_blues']['colors'])
     for item in manifest['license_texts']:
         assert sha(ROOT / item['file']) == item['sha256'], item['file']
+    grids = json.loads((ROOT/'src/azimlib/data/optional-grids.json').read_text('utf8'))
+    assert grids == json.loads((ROOT/'docs/grid-models-0.4.json').read_text('utf8'))
+    for grid in grids['datasets']:
+        assert grid['license'] == 'CC-BY-4.0' and grid['version'] == '20200110'
+        assert grid['upstream_commit'] in grid['source']
+        assert grid['files']['CC-BY-4.0.txt'] == sha(ROOT/'licenses/CC-BY-4.0.txt')
+        assert 'Land Information New Zealand' in grid['attribution']
+        assert not (ROOT/'src/azimlib/data'/grid['file']).exists(), 'Optional grids must not be bundled'
+    assert 'Optional official datum grids' in notices
+    fonts_optional=json.loads((ROOT/'src/azimlib/data/optional-fonts.json').read_text('utf8'))['fonts']
+    for font in fonts_optional:
+        assert font['commit'] in font['url'] and font['commit'] in font['source']
+        assert font['license_id']=='OFL-1.1'
+        assert sha(ROOT/font['license_file'])==font['license_sha256']
+        assert not (ROOT/'src/azimlib/fonts'/font['filename']).exists(), 'Optional Noto fonts must not be bundled'
+    text_dependencies=json.loads((ROOT/'docs/text-dependencies-0.4.json').read_text('utf8'))['licenses']
+    for entry in text_dependencies:assert sha(ROOT/entry['file'])==entry['sha256']
+    assert 'Optional complex typography' in notices
+    tex_dependencies=json.loads((ROOT/'docs/tex-dependencies-0.4.json').read_text('utf8'))['licenses']
+    for entry in tex_dependencies:assert sha(ROOT/entry['file'])==entry['sha256']
+    assert 'Optional real TeX integration' in notices
+    gpu_dependencies=json.loads((ROOT/'docs/gpu-dependencies-0.4.json').read_text('utf8'))['licenses']
+    for entry in gpu_dependencies:assert sha(ROOT/entry['file'])==entry['sha256']
+    assert 'Optional GPU rendering' in notices
     for item in manifest['immutable_resources']:
         assert sha(ROOT / item['file']) == item['sha256'], item['file']
     retired = set(manifest['retired_palette_fingerprints'])
@@ -68,9 +92,24 @@ def audit():
     assert typography['family']=='Carlito' and typography['style']=='Bold Italic' and typography['license']=='OFL-1.1'
     assert 'Carlito Bold Italic' in notices and 'rasterized lettering' in notices
     assert not any('carlito' in p.name.lower() and p.suffix.lower() in ('.ttf','.otf','.woff','.woff2') for p in ROOT.rglob('*') if '.git' not in p.parts)
+    lunar=json.loads((ROOT/'docs/lunar-model-0.4.json').read_text('utf8'))
+    from azimlib.lunar import LONGITUDE_TERMS,LATITUDE_TERMS,PARALLAX_TERMS,MOON_RADIUS_M
+    assert lunar['model_coefficients']==json.loads(json.dumps(dict(longitude=LONGITUDE_TERMS,latitude=LATITUDE_TERMS,parallax=PARALLAX_TERMS)))
+    assert lunar['moon_mean_radius_m']==MOON_RADIUS_M and lunar['historic_model_earth_radius_m']==6378140.
+    assert lunar['source']=='https://ntrs.nasa.gov/citations/19990040527'
+    assert not lunar['third_party_implementation_incorporated'] and not lunar['raw_reference_data_distributed']
+    assert 'Lunar model definitions and reference-only validation' in notices
+    lighting=json.loads((ROOT/'docs/lighting-model-0.4.json').read_text('utf8'))
+    from azimlib.eclipse import SUN_RADIUS_M,EARTH_SHADOW_RADIUS_M
+    assert lighting['sun_nominal_radius_m']==SUN_RADIUS_M and lighting['earth_shadow_radius_m']==EARTH_SHADOW_RADIUS_M
+    assert not lighting['third_party_implementation_incorporated'] and not lighting['raw_reference_data_distributed']
+    assert 'Physical light and finite-source geometry' in notices
     return {'passed': True, 'original_code_license': 'BSD-3-Clause', 'copyright_identifier': 'Kernerian',
-            'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics', 'Carlito wordmark artwork credit (font not shipped)'],
-            'license_texts_verified': len(manifest['license_texts']), 'own_cycle_colors': len(AZIM10),
+            'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics', 'Carlito wordmark artwork credit (font not shipped)', 'LINZ optional grid metadata and CC BY 4.0 notice (grids not shipped)'],
+            'license_texts_verified': len(manifest['license_texts'])+len(text_dependencies)+len(fonts_optional)+len(tex_dependencies)+len(gpu_dependencies), 'own_cycle_colors': len(AZIM10),
+            'optional_gpu_notices':len(gpu_dependencies),
+            'optional_tex_reference_notices':len(tex_dependencies),
+            'optional_text_dependencies_and_font_notices': len(text_dependencies)+len(fonts_optional),
             'unchanged_geographic_layers': len(data['layers']), 'unchanged_upstream_fonts': len(fonts['files']),
             'unchanged_colormap_and_font_metric_resources': len(manifest['immutable_resources']),
             'scope': 'Local notice/hash/palette checks; does not establish legal title, trademark clearance or licenses of future dependency resolutions.'}

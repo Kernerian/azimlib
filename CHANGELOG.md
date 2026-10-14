@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.4.0 — unreleased development tree
+
+- Own PBF streaming/indexes, CRS/datum grids, planar/spherical topology, local
+  geocoding and road routing; explicit provenance and resource limits.
+- Optional international shaping, external TeX, own GPU rendering and volumes;
+  terrestrial Sun/Moon Artists and physical local lighting.
+- Approved development rescope preserves all 112 IDs: 104 completed,
+  four formally deferred and four delivery/revalidation items pending.
+  Historical 14.01/14.06 evidence is retained; both require final revalidation.
+- Deferred, not passed: 2.08 full-planet trial, 9.08 complete GPU performance,
+  13.06/13.07 global eclipse accuracy/completeness and independent validation.
+  Original budgets/tolerances, failed checks and evidence are preserved.
+- GPU/scientific eclipses are explicitly experimental; regional PBF evidence
+  is not a planetary-scale claim. Observed numbers are tied to their snapshot.
+- 0.4.1 compatible fixes; 0.5 Beyond Earth and 0.6 Orbits retain their roadmap.
+  Global eclipse certification is not mandatory for 0.5. No 0.4 release is claimed.
+- [Draft release notes and remaining gates](docs/release-notes-0.4.0.md).
+
 ## 0.3.0 — 2026-10-08 (UTC)
 
 - Independent urban layers and local SHP/DBF/KML/OSM/raster readers with explicit

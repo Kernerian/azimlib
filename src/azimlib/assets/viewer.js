@@ -5,7 +5,7 @@ const $=id=>document.getElementById(id);
 const canvas=$('canvas'),svg=canvas.querySelector(':scope > svg'),mini=$('mini');
 const metadata=JSON.parse($('map-data').textContent);
 const navigation=new AzimlibNavigation.Navigation(metadata);
-const original=[...svg.children].filter(el=>!['defs'].includes(el.localName));
+const original=[...svg.children].filter(el=>!['defs','metadata'].includes(el.localName));
 // The renderer emits exactly one root node per scene primitive, plus background.
 const nodes=original.slice(1); // Figure always has a background in the viewer.
 const make=(tag,attrs={})=>{const el=document.createElementNS(NS,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,String(v)));return el;};
@@ -27,6 +27,7 @@ const states=metadata.map((m,index)=>{
  dynamic.style.display=m.ticks?'':'none';
  const textNodes=[...inner.querySelectorAll('text')].map(n=>[n,Number(n.getAttribute('font-size'))||12]);
  const circles=[...inner.querySelectorAll('circle')].map(n=>[n,Number(n.getAttribute('r'))]);
+ const shapedNodes=[...inner.querySelectorAll('[data-azimlib-shaped]')].map(n=>[n,Number(n.dataset.anchorX),Number(n.dataset.anchorY)]);
  const decorations=nodes.slice(m.decoration_start,m.decoration_end);
  const dynamicComponents=make('g',{'data-dynamic-components':index});
  if((m.components||[]).length)svg.insertBefore(dynamicComponents,decorations.at(-1)?.nextSibling||null);
@@ -35,7 +36,7 @@ const states=metadata.map((m,index)=>{
  if(gridNodes.length)inner.insertBefore(dynamicGrid,gridNodes[0]);
  else inner.append(dynamicGrid);
  const anchorTransforms=new Map((m.anchor_ranges||[]).flatMap(a=>a.indices.map(i=>[i,nodes[i]?.getAttribute('transform')||''])));
- return {index,meta:m,inner,wrap,clip:clip.firstElementChild,ticks,dynamic,textNodes,circles,decorations,dynamicComponents,componentErrors:[],gridNodes,dynamicGrid,anchorTransforms,gridVisible:true,k:1,tx:0,ty:0};
+ return {index,meta:m,inner,wrap,clip:clip.firstElementChild,ticks,dynamic,textNodes,shapedNodes,circles,decorations,dynamicComponents,componentErrors:[],gridNodes,dynamicGrid,anchorTransforms,gridVisible:true,k:1,tx:0,ty:0};
 });
 states.forEach((s,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`Axes ${i+1}`;$('axes-select').append(o);});
 if(states.length<2)$('axes-select').hidden=true;
@@ -58,6 +59,7 @@ function draw(s){
   a.indices.forEach(i=>{const n=nodes[i];if(n)n.setAttribute('transform',`translate(${dx} ${dy}) ${s.anchorTransforms.get(i)||''}`);});
  }
  s.textNodes.forEach(([n,f])=>n.setAttribute('font-size',f/s.k));s.circles.forEach(([n,r])=>n.setAttribute('r',r/s.k));
+ s.shapedNodes.forEach(([n,x,y])=>n.setAttribute('transform',`translate(${x} ${y}) scale(${1/s.k}) translate(${-x} ${-y})`));
  s.ticks.forEach(n=>n.style.display=home?'':'none');s.decorations.forEach(n=>n.style.display=home?'':'none');dynamicTicks(s);dynamicDecorations(s,home);
 }
 function dynamicDecorations(s,home){
@@ -133,7 +135,7 @@ function coordinate(s,p){const m=s.meta,pr=m.projection, R=pr.radius||6371008.8;
  let lon,lat;
  if(pr.name==='equirectangular'){lon=lon0+xx/R/Math.cos((pr.standard_parallel||0)*rad)*deg;lat=(yy/R+lat0)*deg;}
  else if(pr.name==='mercator'){lon=lon0+xx/R*deg;lat=(2*Math.atan(Math.exp(yy/R+Math.log(Math.tan(Math.PI/4+lat0/2))))-Math.PI/2)*deg;}
- else if(['stereographic','azimuthal_equidistant'].includes(pr.name)){const rho=Math.hypot(xx,yy)/R;if(rho<1e-12)return[lon0,lat0*deg];const c=pr.name==='stereographic'?2*Math.atan(rho/2):rho;if(c>=Math.PI-1e-14)return null;lat=Math.asin(Math.max(-1,Math.min(1,Math.cos(c)*Math.sin(lat0)+yy/R*Math.sin(c)*Math.cos(lat0)/rho)))*deg;lon=lon0+Math.atan2(xx/R*Math.sin(c),rho*Math.cos(lat0)*Math.cos(c)-yy/R*Math.sin(lat0)*Math.sin(c))*deg;}
+ else if(['stereographic','azimuthal_equidistant','lambert_azimuthal_equal_area'].includes(pr.name)){const rho=Math.hypot(xx,yy)/R;if(rho<1e-12)return[lon0,lat0*deg];if(pr.name==='lambert_azimuthal_equal_area'&&rho>=2-1e-14)return null;const c=pr.name==='stereographic'?2*Math.atan(rho/2):pr.name==='lambert_azimuthal_equal_area'?2*Math.asin(rho/2):rho;if(c>=Math.PI-1e-14)return null;lat=Math.asin(Math.max(-1,Math.min(1,Math.cos(c)*Math.sin(lat0)+yy/R*Math.sin(c)*Math.cos(lat0)/rho)))*deg;lon=lon0+Math.atan2(xx/R*Math.sin(c),rho*Math.cos(lat0)*Math.cos(c)-yy/R*Math.sin(lat0)*Math.sin(c))*deg;}
  else if(pr.name==='orthographic'){const rho=Math.hypot(xx,yy)/R;if(rho>1)return null;if(rho<1e-12)return[lon0,lat0*deg];const c=Math.asin(rho);lat=Math.asin(Math.cos(c)*Math.sin(lat0)+yy/R*Math.sin(c)*Math.cos(lat0)/rho)*deg;lon=lon0+Math.atan2(xx/R*Math.sin(c),rho*Math.cos(lat0)*Math.cos(c)-yy/R*Math.sin(lat0)*Math.sin(c))*deg;}
  else if(pr.name==='equalearth'){let theta=yy/R/1.340264;for(let i=0;i<12;i++){const t2=theta*theta,poly=theta*(1.340264-.081106*t2+t2**3*(.000893+.003796*t2)),der=1.340264+3*(-.081106)*t2+7*.000893*t2**3+9*.003796*t2**4;theta-=(poly-yy/R)/der;}const t2=theta*theta,der=1.340264-3*.081106*t2+7*.000893*t2**3+9*.003796*t2**4;lat=Math.asin(2/Math.sqrt(3)*Math.sin(theta))*deg;lon=lon0+xx/R*3*der/(2*Math.sqrt(3)*Math.cos(theta))*deg;}
  else return {x:xx,y:yy};

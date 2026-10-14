@@ -19,7 +19,10 @@ class Layer(ScalarMappable,LayoutArtist):
     _axes: object = field(default=None, repr=False, compare=False)
 
     def __post_init__(self):
-        if self.kind in ('text','annotation','labels'):validate_text_properties(self.style)
+        if self.kind in ('text','annotation','labels'):
+            from .text_engine import scene_options
+            self.style=dict(self.style,**scene_options(self.style))
+            validate_text_properties(self.style)
         Artist.__init__(self,self._axes)
         ScalarMappable.__init__(self)
 

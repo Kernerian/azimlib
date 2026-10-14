@@ -27,7 +27,8 @@ def _signature(item,factor):
         font=font_path(item.style)
         revision=font.stat() if font is not None else None
         phase=(round(item.x*3)%3,round(item.y*3)%3) if factor==1 else None
-        shape=(item.text, (revision.st_mtime_ns,revision.st_size) if revision else None,phase)
+        from ..text_engine import cache_token
+        shape=(item.text, (revision.st_mtime_ns,revision.st_size) if revision else None,phase,cache_token(item.text,item.style))
     elif isinstance(item,Circle):shape=(round(item.r,3),round(item.x*factor*16)%16,round(item.y*factor*16)%16)
     else:shape=round(item.width,3),round(item.height,3)
     return type(item),factor,repr(sorted(item.style.items())),shape
