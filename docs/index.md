@@ -1,7 +1,7 @@
 # Local 0.4 development scope notice
 
 The published version remains 0.3.0. [0.4 rescope](deferred-gates-0.4.md):
-104 completed, four deferred, four delivery/revalidation items pending.
+107 completed, four deferred, one pending item (14.08: final acceptance and publication).
 GPU and scientific eclipses are experimental; PBF validation is regional.
 [Observed results](observed-validation-0.4.md), [current checklist](release-progress-0.4.md).
 This candidate documentation has not been deployed to a public site.

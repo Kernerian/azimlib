@@ -6,9 +6,9 @@
   geocoding and road routing; explicit provenance and resource limits.
 - Optional international shaping, external TeX, own GPU rendering and volumes;
   terrestrial Sun/Moon Artists and physical local lighting.
-- Approved development rescope preserves all 112 IDs: 104 completed,
-  four formally deferred and four delivery/revalidation items pending.
-  Historical 14.01/14.06 evidence is retained; both require final revalidation.
+- Approved development rescope preserves all 112 IDs: 107 completed,
+  four formally deferred and final acceptance/publication (14.08) pending.
+  Historical 14.01/14.06 evidence is retained; exact-candidate checks must be repeated after recording human acceptance.
 - Deferred, not passed: 2.08 full-planet trial, 9.08 complete GPU performance,
   13.06/13.07 global eclipse accuracy/completeness and independent validation.
   Original budgets/tolerances, failed checks and evidence are preserved.

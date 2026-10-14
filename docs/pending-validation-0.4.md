@@ -3,8 +3,9 @@
 The checkpoint below is **historical**, not the current acceptance dashboard.
 7.08/8.08 subsequently received explicit three-system human acceptance;
 their completion remains preserved. Four gates (2.08,9.08,13.06,13.07) are now
-formally deferred, not passed. All eight stage-14 items await final delivery/
-revalidation; 14.01/14.06 have historical evidence only.
+formally deferred, not passed. 14.01–14.04/14.06/14.07 now have revalidation/preparation evidence.
+14.05 has explicit native human approval, including recovered TeX. Only 14.08 final acceptance/publication remains open; CI and packages are repeated on the successor SHA.
+[Operational evidence](stage14-execution-0.4.json).
 [Current checklist](release-progress-0.4.md), [decision](deferred-gates-0.4.md),
 [latest observed results](observed-validation-0.4.md).
 

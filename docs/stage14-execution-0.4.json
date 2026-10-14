@@ -1,0 +1,39 @@
+{
+  "schema": 2,
+  "record_scope": "Pre-14.08 documentation-only candidate; exact successor SHA is obtained from Git and recorded in external CI/package attestations, not self-embedded.",
+  "branch": "validation/0.4-candidate",
+  "previous_candidate_sha": "8e04017185b98bfa79d3ce43f8cc68d569441568",
+  "historical_evidence": "docs/stage14-execution-0.4-previous.json",
+  "operational_counts": {
+    "original": 112,
+    "completed": 107,
+    "deferred": 4,
+    "pending": 1,
+    "active_total": 108
+  },
+  "completed_stage14": [
+    "14.01",
+    "14.02",
+    "14.03",
+    "14.04",
+    "14.05",
+    "14.06",
+    "14.07"
+  ],
+  "pending_stage14": [
+    "14.08"
+  ],
+  "deferred": [
+    "2.08",
+    "9.08",
+    "13.06",
+    "13.07"
+  ],
+  "visual_acceptance": "docs/visual-acceptance-0.4.json",
+  "human_visual_approval": true,
+  "final_candidate_ci_and_packages": "Fresh exact-successor-SHA CI, audits and hashes required; prior hashes do not certify successor artifacts.",
+  "final_publication_acceptance": false,
+  "publication_authorized": false,
+  "publication_performed": false,
+  "public_documentation_deployed": false
+}

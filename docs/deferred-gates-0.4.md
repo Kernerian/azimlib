@@ -5,10 +5,11 @@ publication approval or a claim that deferred criteria passed.
 [Structured register](deferred-gates-0.4.json), [current checklist](release-progress-0.4.md),
 [historical checklist](release-progress-0.4-before-rescope.md).
 
-Original inventory: 112 IDs. Current: **104 completed, 4 deferred, 4 pending
-delivery/revalidation**. Active 0.4 scope: 104/108. Historical 102 completed
-included 14.01/14.06; both have separate current local revalidation; exact CI/distribution are still pending.
-Stage 14 preparation is now tracked separately in [the current record](stage14-0.4.md). 14.04/14.05/14.07/14.08 remain pending.
+Original inventory: 112 IDs. Current: **107 completed, 4 deferred, 1 pending
+delivery/revalidation**. Active 0.4 scope: 107/108. Historical 102 completed
+included 14.01/14.06; both have separate revalidation; exact CI/distribution passed on the recorded SHA.
+Only final acceptance/publication remains pending; new commits require revalidation.
+Stage 14 preparation is now tracked separately in [the current record](stage14-0.4.md). 14.05 has explicit human acceptance; repeat exact-SHA CI/distribution after recording it. 14.08 remains pending.
 
 | Original ID | State | Unmet criterion / destination |
 |---|---|---|

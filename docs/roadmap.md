@@ -35,8 +35,9 @@ by the [approved development rescope](deferred-gates-0.4.md), not marked passed.
 
 A [checklist operacional da 0.4.0](release-progress-0.4.md) reúne as seis reservas
 da 0.3.0 e as propostas novas de Sol/Lua: **14 etapas e 112 IDs preservados**.
-Estado: 104 concluídos, quatro adiados e quatro pendentes de entrega/revalidação;
-14.01/14.06 foram revalidados localmente; CI e artifacts exatos permanecem abertos.
+Estado: 107 concluídos, quatro adiados e um pendente: 14.08 — aceite final e publicação;
+14.01/14.06 foram revalidados; CI e artifacts do SHA auditado estão registrados.
+14.05 foi aprovado explicitamente; falta 14.08. O novo SHA exige nova CI/distribuição.
 Contagem atual, dependências, evidências por lote e critérios ficam somente nessa
 fonte. A prova planetária de 2.08 permanece pendente. Não há prazo prometido.
 Beyond Earth permanece proposto para 0.5.0;

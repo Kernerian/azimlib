@@ -27,8 +27,7 @@ Natural Earth; thematic values, terrain and vectors are synthetic. See the
 ## Unpublished 0.4.0 candidate scope
 
 Local candidate metadata is 0.4.0; the published stable package remains 0.3.0. The [0.4 development rescope](docs/deferred-gates-0.4.md)
-preserves 112 original IDs: 104 completed, four deferred, four delivery/revalidation
-items pending. Optional GPU and scientific eclipse use are experimental; no
+preserves 112 original IDs: 107 completed, four deferred, one pending item (14.08: final acceptance and publication). Optional GPU and scientific eclipse use are experimental; no
 universal 33 ms/100 ms or certified eclipse forecast is promised. PBF has regional
 real-data validation, not proven planetary scale. [Measured evidence](docs/observed-validation-0.4.md).
 0.5 remains Planetary Cartography / Beyond Earth; 0.6 remains Orbits.

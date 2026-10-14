@@ -1,4 +1,4 @@
-Current scope: [four deferred gates and eight final delivery/revalidation items](deferred-gates-0.4.md).
+Current scope: [four deferred gates and two remaining acceptance items](deferred-gates-0.4.md).
 GPU/scientific eclipses are experimental; PBF has regional validation only.
 [Latest observed evidence](observed-validation-0.4.md) is historical, not final-candidate acceptance.
 

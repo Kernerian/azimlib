@@ -1,11 +1,11 @@
 # Progresso da Azimlib 0.4.0
 
 Status: **etapa 14 em validação; candidato 0.4.0 não publicado; 14.08 não executado**.
-**104 concluídos / 4 adiados / 4 pendentes de entrega ou revalidação**.
-Inventário original: **112 IDs estáveis**. Escopo ativo: **104/108**; quatro itens
-de entrega/revalidação permanecem abertos. O total histórico anterior de 102
-incluía 14.01 e 14.06. Sua revalidação local foi repetida; CI e distribuição exatas
-ainda precisam concluir as verificações do mesmo SHA.
+**107 concluídos / 4 adiados / 1 pendentes de entrega ou revalidação**.
+Inventário original: **112 IDs estáveis**. Escopo ativo: **107/108**; um item
+permanece aberto: 14.08 — aceite final e publicação. O total histórico anterior de 102
+incluía 14.01 e 14.06. A revalidação e a CI/distribuição exatas foram concluídas no SHA registrado.
+Qualquer commit novo exige nova verificação antes do aceite final.
 
 Metadata local do candidato: 0.4.0; versão publicada: 0.3.0. Esta página não constitui aceite
 final, publicação ou evidência de que o candidato final passou pela etapa 14.
@@ -21,7 +21,8 @@ final, publicação ou evidência de que o candidato final passou pela etapa 14.
 - Critérios funcionais, integridade, licenças, privacidade e regressões continuam
   obrigatórios. Falhas de gates adiados são visíveis e não viram resultados aprovados.
 - 14.01 e 14.06 conservam evidência histórica separada da revalidação local atual.
-  14.04, 14.05, 14.07 e 14.08 permanecem abertos nesta revisão de preparação.
+  14.05 tem aceite humano explícito. CI/distribuição devem ser repetidas no
+  novo SHA; 14.08 permanece aberto e exige autorização separada.
 - Cada resultado pertence ao SHA testado. CI contratual de desenvolvimento não
   substitui CI completa, aceite humano ou auditoria do candidato final.
 - Não usar uma contagem de conclusão integral do plano original. Ao fechar o
@@ -205,10 +206,10 @@ provas de conclusão. Não baixar nem executar esse dump no ambiente atual.
 - [x] **14.01** Executar regressões integradas de urbano, CRS, topologia, geocodificação/rotas, tipografia, GPU/volumes e Sol/Lua, preservando a simplicidade da API.
 - [x] **14.02** Publicar documentação e galeria reproduzível de todos os lotes, matriz de formatos/CRS/modelos/capacidades e guias de migração da 0.3.0.
 - [x] **14.03** Consolidar benchmarks de datasets grandes, memória e navegação, baselines numéricas/visuais e budgets com hardware/metodologia registrados.
-- [ ] **14.04** Executar CI nos sistemas/Pythons suportados, cobrindo core sem extras, dependências opcionais e ausência de GPU/motores tipográficos.
-- [ ] **14.05** Obter validação visual humana nativa Linux/macOS/Windows e registrar o escopo de viewer, texto, 3D/volumes, navegação e exportações.
+- [x] **14.04** Executar CI nos sistemas/Pythons suportados, cobrindo core sem extras, dependências opcionais e ausência de GPU/motores tipográficos.
+- [x] **14.05** Obter validação visual humana nativa Linux/macOS/Windows e registrar o escopo de viewer, texto, 3D/volumes, navegação e exportações.
 - [x] **14.06** Auditar licenças/proveniência/privacidade de código, dados, grids, efemérides, fontes, shaders, documentação e histórico; manter termos de terceiros separados.
-- [ ] **14.07** Preparar metadata/changelog, wheel/sdist, instalação isolada e auditorias de conteúdo/RECORD/hashes; não reutilizar resultados de outro commit.
+- [x] **14.07** Preparar metadata/changelog, wheel/sdist, instalação isolada e auditorias de conteúdo/RECORD/hashes; não reutilizar resultados de outro commit.
 - [ ] **14.08** Registrar aceite final do commit exato; somente com autorização explícita criar tag/Release, publicar bytes auditados, verificar PyPI, smoke limpo e documentação pública.
 
 ## Evidência histórica e revalidação
@@ -279,5 +280,36 @@ Ver [registro anterior](release-progress-0.4-before-rescope.md). Revalidação l
 [Estado e escopo da revalidação](stage14-0.4.md). 14.02 conclui documentação e
 galeria locais; o verbo original de publicação não autoriza deploy nesta rodada.
 14.03 consolida somente medições existentes, sem fechar 9.08. 14.04/14.07
-exigem resultados reais do mesmo SHA; 14.05 aguarda aceite humano e 14.08
+têm evidência anterior e serão repetidos no novo SHA; 14.05 foi aprovado e 14.08
 permanece bloqueado até autorização final explícita.
+
+## Registro operacional após a execução
+
+[Evidência estruturada](stage14-execution-0.4.json) identifica o SHA, os dois
+workflows completos e os bytes auditados. Este registro local foi escrito
+após o build e não integra aqueles artifacts. Incorporar aceites/este registro
+em um novo commit exige repetir CI, build e hashes antes de 14.08. Nenhum
+registro posterior certifica automaticamente um SHA novo.
+
+## Histórico: revisão visual parcial de 14.05
+
+Escopo visual acessível aprovado nos três sistemas. TeX Windows/Linux/macOS
+permanece pendente de inspeção humana. Os artifacts TeX originais do mesmo
+SHA foram recuperados e seus hashes conferidos, sem regeneração. O registro
+estruturado acima identifica a execução e os artifacts. 14.05 permanece aberto;
+contagem inalterada: 106 concluídos, quatro adiados, dois pendentes.
+
+O estado parcial acima é histórico e foi superado pelo aceite completo abaixo.
+
+## Aceite visual completo e candidato pré-14.08
+
+14.05 concluído por aceite humano explícito do material nativo Windows/Linux/macOS,
+incluindo TeX recuperado das execuções originais. O aceite pertence ao candidato
+`8e04017185b98bfa79d3ce43f8cc68d569441568`; [registro](visual-acceptance-0.4.json).
+O candidato seguinte incorpora somente documentação/registro, sem mudança de
+código funcional ou dos renders aprovados. A identidade de fonte equivalente
+deve ser verificada, e CI/auditorias/pacotes devem ser repetidos no novo SHA.
+
+Inventário original: 112 IDs; 107 concluídos, quatro formalmente adiados e um
+pendente: 14.08. Escopo ativo 107/108. Não confundir candidato pronto com release
+efetivamente publicada. A conclusão de 14.08 não é inferida deste aceite visual.

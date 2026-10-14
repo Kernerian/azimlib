@@ -15,9 +15,10 @@ This is not final acceptance or publication approval. Candidate metadata is 0.4.
 
 ## Scope and limits
 
-[Original inventory](release-progress-0.4.md): 112 stable IDs, **104 completed,
-four deferred, four pending delivery/revalidation**. Historical 14.01/14.06
-results remain historical. Fresh local revalidation is recorded separately; exact hosted CI/distribution remain pending.
+[Original inventory](release-progress-0.4.md): 112 stable IDs, **107 completed,
+four deferred, one pending delivery/revalidation**. Historical 14.01/14.06
+results remain historical. Fresh revalidation and exact hosted CI/distribution are recorded separately in
+[the operational evidence](stage14-execution-0.4.json). Native human acceptance (14.05) is recorded, including TeX. Final acceptance/publication (14.08) remains pending; a documentation-only successor requires new CI and packages.
 [Decision, original criteria and hashes](deferred-gates-0.4.md).
 
 2.08 planet trial, 9.08 full GPU performance and 13.06/13.07 scientific eclipse
@@ -34,9 +35,9 @@ these versions without making global eclipse certification mandatory.
 
 ## Still required before release
 
-14.01/14.02/14.03/14.06 have local preparation evidence. 14.04/14.05/14.07/14.08
-remain open: exact-candidate CI, native human review, final distributions and
-explicit final publication acceptance. [Current record](stage14-0.4.md).
+14.01/14.02/14.03/14.06 were revalidated; 14.04/14.07 have exact-SHA CI and
+distribution evidence on the previous candidate. 14.05 is explicitly approved;
+repeat CI/build/audits on the successor. 14.08 final acceptance/publication remains open. [Current record](stage14-0.4.md).
 Rescope tests and prior development CI are not those final gates.
 
 The strict publication checker now enforces the scoped release contract,

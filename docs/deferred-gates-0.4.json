@@ -3,9 +3,9 @@
   "decision": "0.4.0 development rescope approved 2026-10-14",
   "original_total": 112,
   "current_counts": {
-    "completed": 104,
+    "completed": 107,
     "deferred": 4,
-    "pending_delivery_or_revalidation": 4,
+    "pending_delivery_or_revalidation": 1,
     "active_total": 108
   },
   "historical_completed": 102,
@@ -169,5 +169,6 @@
     "pending_delivery_or_revalidation": 8,
     "active_total": 108
   },
-  "revalidation_context": "14.01/14.06 repeated locally in stage14; exact hosted CI and distributions tracked separately, not final publication acceptance"
+  "revalidation_context": "14.01/14.06 repeated locally in stage14; exact hosted CI and distributions tracked separately, not final publication acceptance",
+  "execution_record": "docs/stage14-execution-0.4.json"
 }
