@@ -107,10 +107,36 @@ def text_commands(item):
     def transform(p):
         dx=x+p[0]*factor;dy=y-p[1]*factor
         return item.x+dx*c-dy*s,item.y+dx*s+dy*c
-    previous=None
-    for char in str(item.text):
+    for kern,advance,commands in glyph_run(path,str(item.text)):
+        x+=kern*factor
+        for cmd in commands:yield (cmd[0],*(transform(p) for p in cmd[1:]))
+        x+=advance*factor
+
+
+def glyph_run(path,text):
+    return _cached_glyph_run(path,text) if len(text)<=256 else _compile_glyph_run(path,text)
+
+
+@lru_cache(maxsize=256)
+def _cached_glyph_run(path,text):return _compile_glyph_run(path,text)
+
+
+@lru_cache(maxsize=2048)
+def _compiled_glyph(path,glyph):
+    return tuple(command for ring in contours(path,glyph) for command in glyph_commands(ring))
+
+
+def _compile_glyph_run(path,text):
+    """Stable unscaled runs; placement/rotation retain the original operations.
+
+    Only our immutable bundled font faces use this path. HarfBuzz/TeX keep
+    their own font/configuration contracts and bypass this compilation.
+    """
+    metrics=_metrics()[path.stem];previous=None;run=[]
+    for char in text:
         if char not in metrics['chars']:raise ValueError(f'Glyph U+{ord(char):04X} is not in bundled metrics')
-        glyph,advance=metrics['chars'][char];x+=metrics['kern'].get(f'{previous},{glyph}',0)*factor
-        for ring in contours(path,glyph):
-            for cmd in glyph_commands(ring):yield (cmd[0],*(transform(p) for p in cmd[1:]))
-        previous=glyph;x+=advance*factor
+        glyph,advance=metrics['chars'][char]
+        commands=_compiled_glyph(path,glyph)
+        run.append((metrics['kern'].get(f'{previous},{glyph}',0),advance,commands))
+        previous=glyph
+    return tuple(run)

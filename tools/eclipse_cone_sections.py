@@ -93,6 +93,7 @@ class ConeSections:
         v=[sum(a*b for a,b in zip(A,part)) for part in n];p=[F(0)]*5
         for i in range(3):
             for j in range(3):p[i+j]+=v[i]*v[j]-C*sum(a*b for a,b in zip(n[i],n[j]))
+        self.infinity_multiplicity=4-(len(_trim(p))-1) if any(p) else None
         self.polynomial=_primitive(p);isolated=isolate_real_roots(self.polynomial);self.isolation=isolated
         angles=[]
         for lo,hi in isolated['brackets']:
@@ -146,6 +147,7 @@ class ConeSections:
 
     def contract(self):
         return dict(discriminant_degree=len(self.polynomial)-1,finite_tangency_roots=len(self.isolation['brackets']),repeated_roots=self.isolation['repeated'],ray_parameter_arcs=self.arcs,all_represented_polynomial_roots_isolated=not self.identically_tangent,identically_tangent=self.identically_tangent,geographic_seed_used=False,north_south_selected_by_latitude=False,
-            singular_topology=self.isolation['repeated'],event_envelope_complete=False,
+            infinite_root_multiplicity=self.infinity_multiplicity,
+            singular_topology=self.isolation['repeated'] or self.infinity_multiplicity is None or self.infinity_multiplicity>1,event_envelope_complete=False,
             fixed_coefficient_scope='Complete root counts for exact rational represented cone/ellipsoid discriminant',
             limitations=['Floating basis/model roundoff not bounded by this root certificate','Sampling points does not certify curve interpolation','Both nappes/ellipsoid faces retained; daylight and occluder-order filters not certified','Fixed epoch sections are not the temporal eclipse envelope','Repeated roots require singular-graph topology classification'])

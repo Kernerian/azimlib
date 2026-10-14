@@ -80,6 +80,14 @@ def _payload_size(value):
 
 
 def screen_points(packed,viewport):
+    from .viewport import Viewport
+    if type(viewport) is Viewport and len(packed)>=1024:
+        from ._screen_cache import screen_cache
+        return screen_cache.get(packed,viewport,lambda:_screen_points_uncached(packed,viewport))
+    return _screen_points_uncached(packed,viewport)
+
+
+def _screen_points_uncached(packed,viewport):
     """Fresh display coordinates using the original float64 affine operations."""
     from .viewport import Viewport
     if type(viewport) is Viewport and len(packed)>=1024:
@@ -118,6 +126,8 @@ class _ProjectedPathCache:
         self._entries=OrderedDict();self._bytes=0;self._hits=0;self._misses=0;self._lock=RLock()
 
     def clear(self):
+        from ._screen_cache import screen_cache
+        screen_cache.clear()
         with self._lock:
             self._entries.clear();self._bytes=0;self._hits=0;self._misses=0
 

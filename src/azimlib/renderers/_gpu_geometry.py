@@ -168,7 +168,8 @@ class PreparationCache:
     """Exact geometry/content keys, bounded packed payload; translations stay uniforms."""
     def __init__(self,max_bytes):
         from collections import OrderedDict
-        self.entries=OrderedDict();self.bytes=0;self.limit=max_bytes;self.hits=0;self.misses=0
+        self.entries=OrderedDict();self.protected=OrderedDict();self.protected_bytes=0
+        self.bytes=0;self.limit=max_bytes;self.hits=0;self.misses=0
     def get(self,item):
         from copy import copy
         from ..text_engine import cache_token
@@ -177,14 +178,21 @@ class PreparationCache:
         if isinstance(item,Path):
             anchor=next((p[0] for p in item.paths if len(p)),(0.,0.))
             x,y=anchor
-            parts=tuple(tuple((a-x,b-y) for a,b in part) for part in item.paths)
-            geometry=(item.closed,tuple(len(p) for p in parts),hashlib.sha256(array('d',(v for part in parts for p in part for v in p)).tobytes()).digest())
+            from .._screen_cache import ScreenPoints
+            compiled=(item.paths[0]._compiled if len(item.paths)==1 and type(item.paths[0]) is ScreenPoints else None)
+            if compiled is not None:
+                parts=(compiled[0],);digest=compiled[1]
+            else:
+                parts=tuple(tuple((a-x,b-y) for a,b in part) for part in item.paths)
+                digest=hashlib.sha256(array('d',(v for part in parts for p in part for v in p)).tobytes()).digest()
+            geometry=(item.closed,tuple(len(p) for p in parts),digest)
         else:
             anchor=(item.x,item.y)
             geometry=(str(item.text),cache_token(item.text,item.style)) if isinstance(item,Text) else (item.r,) if isinstance(item,Circle) else (item.width,item.height)
         key=(type(item),geometry,repr(sorted((k,v) for k,v in item.style.items() if k!='texconfig')))
-        if key in self.entries:
-            value,size=self.entries.pop(key);self.entries[key]=(value,size);self.hits+=1;return value,anchor
+        for pool in (self.protected,self.entries):
+            if key in pool:
+                value,size=pool.pop(key);pool[key]=(value,size);self.hits+=1;return value,anchor
         # Resolved Text must not be shaped or aligned a second time. Construct
         # local geometry only on misses; hits already own immutable packets.
         local=copy(item);object.__setattr__(local,'clip',None)
@@ -215,8 +223,18 @@ class PreparationCache:
             digest.update(len(metadata).to_bytes(8,'little'));digest.update(metadata)
         size+=len(repr(key).encode('utf8'))+32;value=PreparedDraws(tuple(value),digest.digest())
         if size<=self.limit:
-            while self.entries and (self.bytes+size>self.limit or len(self.entries)>=2048):
-                _,(_,old)=self.entries.popitem(last=False);self.bytes-=old
-            self.entries[key]=(value,size);self.bytes+=size
+            reserve=self.limit//4
+            protect=not isinstance(item,Path) and size<=reserve
+            if protect:
+                while self.protected and (self.protected_bytes+size>reserve or len(self.protected)>=512):
+                    _,(_,old)=self.protected.popitem(last=False);self.bytes-=old;self.protected_bytes-=old
+            while self.bytes+size>self.limit or len(self.entries)+len(self.protected)>=2048:
+                pool=self.entries if self.entries else self.protected
+                _,(_,old)=pool.popitem(last=False);self.bytes-=old
+                if pool is self.protected:self.protected_bytes-=old
+            pool=self.protected if protect else self.entries
+            pool[key]=(value,size);self.bytes+=size
+            if protect:self.protected_bytes+=size
         return value,anchor
-    def clear(self):self.entries.clear();self.bytes=0
+    def clear(self):
+        self.entries.clear();self.protected.clear();self.bytes=0;self.protected_bytes=0
