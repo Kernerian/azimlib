@@ -1,5 +1,5 @@
 """Separate unpublished preparation from explicitly accepted scoped publication."""
-import argparse,importlib.util,re
+import argparse,importlib.util,json,re,sys
 from pathlib import Path
 from packaging.version import Version
 import azimlib
@@ -8,9 +8,10 @@ def scope_check(text):
     spec=importlib.util.spec_from_file_location('progress040',ROOT/'tools/check_release_progress_040.py')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     return module.check(text)
-def check(version,progress,*,purpose='publish'):
+def check(version,progress,*,purpose='publish',authorization=None,sha=None,hashes=None,
+          ci=None,expected_branch=None,execute=False,post_publication=None):
     v=Version(version)
-    if purpose not in ('publish','prepare'):raise AssertionError('Explicit known purpose required')
+    if purpose not in ('publish','prepare','complete'):raise AssertionError('Explicit known purpose required')
     if v.is_devrelease or v.is_prerelease:raise AssertionError('Stable candidate rejects prerelease metadata')
     if v.release[:2]==(0,4):
         try:state=scope_check(progress)
@@ -18,8 +19,14 @@ def check(version,progress,*,purpose='publish'):
         if set(state['deferred'])!={'2.08','9.08','13.06','13.07'} or state['active_total']!=108:
             raise AssertionError('0.4 requires exactly four explicit preserved deferments and 108 active IDs')
         pending=set(state['pending'])
-        if purpose=='publish' and (pending or state['completed']!=108):
-            raise AssertionError('Publication requires all 108 active IDs, including human and final acceptance')
+        if purpose in ('publish','complete'):
+            sys.path.insert(0,str(ROOT/'tools'))
+            from release_state040 import preflight,completed
+            if purpose=='complete':
+                completed(progress,authorization,post_publication,sha=sha,hashes=hashes)
+            else:
+                preflight(progress,authorization,sha=sha,hashes=hashes,ci=ci,
+                          expected_branch=expected_branch,execute=execute)
         if purpose=='prepare' and pending-{'14.04','14.05','14.07','14.08'}:
             raise AssertionError('Unpublished preparation still requires integrated regression, docs, benchmarks and audit')
         return str(v)
@@ -30,6 +37,12 @@ def check(version,progress,*,purpose='publish'):
         raise AssertionError('Every 0.3 release gate requires completion')
     return str(v)
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--purpose',choices=('publish','prepare'),default='publish');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--purpose',choices=('publish','prepare','complete'),default='publish')
+    p.add_argument('--authorization',type=Path);p.add_argument('--candidate-sha');p.add_argument('--wheel-sha256');p.add_argument('--sdist-sha256')
+    p.add_argument('--ci-evidence',type=Path);p.add_argument('--expected-branch');p.add_argument('--execute',action='store_true');p.add_argument('--post-publication',type=Path);a=p.parse_args()
     series='.'.join(str(n) for n in Version(azimlib.__version__).release[:2])
-    print(a.purpose+':',check(azimlib.__version__,(ROOT/f'docs/release-progress-{series}.md').read_text('utf8'),purpose=a.purpose))
+    load=lambda path:json.loads(path.read_text('utf8')) if path else None
+    hashes={f'azimlib-{azimlib.__version__}-py3-none-any.whl':a.wheel_sha256,f'azimlib-{azimlib.__version__}.tar.gz':a.sdist_sha256}
+    print(a.purpose+':',check(azimlib.__version__,(ROOT/f'docs/release-progress-{series}.md').read_text('utf8'),purpose=a.purpose,
+          authorization=load(a.authorization),sha=a.candidate_sha,hashes=hashes,ci=load(a.ci_evidence),expected_branch=a.expected_branch,
+          execute=a.execute,post_publication=load(a.post_publication)))

@@ -1,8 +1,8 @@
 {
-  "schema": 2,
-  "record_scope": "Pre-14.08 documentation-only candidate; exact successor SHA is obtained from Git and recorded in external CI/package attestations, not self-embedded.",
+  "schema": 3,
+  "record_scope": "Release-state tooling successor; exact candidate SHA and hashes live in separately versioned authorization to avoid self-reference. Operational checklist remains 107 complete/four deferred/14.08 unchecked until post-publication validation.",
   "branch": "validation/0.4-candidate",
-  "previous_candidate_sha": "8e04017185b98bfa79d3ce43f8cc68d569441568",
+  "previous_candidate_sha": "63f926b1c0272b619de7d5fc1e0dd193296ec78c",
   "historical_evidence": "docs/stage14-execution-0.4-previous.json",
   "operational_counts": {
     "original": 112,
@@ -35,5 +35,10 @@
   "final_publication_acceptance": false,
   "publication_authorized": false,
   "publication_performed": false,
-  "public_documentation_deployed": false
+  "public_documentation_deployed": false,
+  "publication_state_contract": "docs/release-publication-state-0.4.md",
+  "authorization_record_source": "release/0.4.0-authorization:release-authorizations/0.4.0.json at an explicit immutable authorization_ref",
+  "state_before_exact_authorization_validation": "pending",
+  "state_after_successful_authorization_preflight": "authorized; not completed",
+  "publication_execution_permitted_this_round": false
 }

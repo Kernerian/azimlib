@@ -2,6 +2,11 @@
 
 ## 0.4.0 — unreleased development tree
 
+- Release tooling separates pending, exact-candidate authorized preflight and
+  verified post-publication completion. The source stays at 107 active complete;
+  dry-run never uploads or closes 14.08. Versioned authorization is independent
+  of source/package identity; exact CI, provenance and canonical hash gates remain.
+
 - Own PBF streaming/indexes, CRS/datum grids, planar/spherical topology, local
   geocoding and road routing; explicit provenance and resource limits.
 - Optional international shaping, external TeX, own GPU rendering and volumes;

@@ -68,8 +68,9 @@ commit/artifacts before any external publication. None is completed by this docu
 
 ## Unpublished preparation and publication gate
 
-Stage-14 tooling distinguishes `--purpose prepare` from the default publication
-gate. Preparation permits only 14.04/14.05/14.07/14.08 to remain open; it is not
-publication approval. Publication requires all 108 active IDs complete, exactly
-the four named deferments still unchecked, and no other unchecked ID. Human
-14.05 and explicit final 14.08 acceptance cannot be inferred from CI.
+Stage-14 tooling distinguishes source preparation, authorized publication preflight,
+and verified post-publication completion. Preflight requires 107 completed IDs,
+exactly the four named deferments, only 14.08 unchecked, and separately versioned
+human authorization bound to the exact SHA, audited hashes and successful CI.
+Authorization is not completion. Only validated post-publication observations
+permit the operational 108 active completed total. [State contract](release-publication-state-0.4.md).

@@ -313,3 +313,13 @@ deve ser verificada, e CI/auditorias/pacotes devem ser repetidos no novo SHA.
 Inventário original: 112 IDs; 107 concluídos, quatro formalmente adiados e um
 pendente: 14.08. Escopo ativo 107/108. Não confundir candidato pronto com release
 efetivamente publicada. A conclusão de 14.08 não é inferida deste aceite visual.
+
+## Estado de publicação separado da checklist imutável
+
+A fonte permanece em 107/108 ativos concluídos, com 14.08 desmarcado e os quatro
+gates adiados intactos. O [contrato da máquina de estados](release-publication-state-0.4.md)
+distingue `pending`, `authorized` e `completed`. A autorização final é versionada
+em uma branch separada, após CI/build, vinculada ao SHA e hashes exatos; não é
+incluída nos próprios arquivos que identifica. Preflight autorizado não conclui
+14.08. Somente a evidência pós-publicação validada pode registrar 108 concluídos
+operacionais, mantendo este snapshot histórico do candidato.

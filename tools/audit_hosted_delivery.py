@@ -78,7 +78,7 @@ def audit(folder,expected_sha,*,expected_branch):
                 if kind!='desktop':
                     u=proof['unittest'];assert not u['failures'] and not u['errors'] and u['log_sha256']==sha(archive.read(kind+'/unittest.log'))
                     if kind=='unit':
-                        required_tests={'0.3.0':1008,'0.4.0':1480}
+                        required_tests={'0.3.0':1008,'0.4.0':1495}
                         assert expected_version in required_tests and u['tests']==required_tests[expected_version]
                     else:assert proof['optional_packages']['numba'] and not u['skipped'] and u['tests']>=11
                 else:

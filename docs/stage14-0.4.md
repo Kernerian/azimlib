@@ -13,7 +13,7 @@ Active scope 107/108. [Checklist](release-progress-0.4.md).
 | 14.05 | Complete: explicit human acceptance | Windows/Linux/macOS, including original recovered TeX PNG/SVG/PDF. [Acceptance and exact reviewed identity](visual-acceptance-0.4.json); source/render equivalence required for documentation-only successor |
 | 14.06 | Locally revalidated | Original notices, assets, data hashes, optional materials, all local refs/reflogs/unreachable objects and untracked intended source checked; final package audit is also mandatory in 14.07 |
 | 14.07 | Candidate prepared on audited SHA | Hosted wheel/sdist, strict twine, RECORD/source/license/privacy and isolated install rechecked locally; [hashes](stage14-execution-0.4.json) |
-| 14.08 | Not executed | Explicit acceptance required before promotion, tag, Release, PyPI or public documentation |
+| 14.08 | Not completed; exact authorization preflight required | [Versioned state contract](release-publication-state-0.4.md) separates pending/authorized/completed. Current round permits dry-run only; real publication requires separate explicit confirmation |
 
 Source identity is recorded in each runtime manifest. Hosted runs/artifacts must
 record the identical full SHA; no result at a prior SHA certifies this candidate.
@@ -46,3 +46,5 @@ No action above is performed by preparation, CI or visual-packet generation.
 This operational record is local and post-build. It does not alter audited
 artifacts or publish the candidate. If recording human acceptance produces a
 new commit, repeat exact-SHA CI/build/audits and obtain final authorization.
+
+The release-state correction changes tooling/tests/documentation only. Runtime, assets and visual generators remain identical to the visually accepted candidate; fresh exact-SHA CI/build/audits are mandatory.
