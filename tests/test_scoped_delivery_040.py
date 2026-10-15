@@ -11,7 +11,8 @@ def text(pending=()):
  return f'**{108-len(pending)} concluídos / 4 adiados / {len(pending)} pendentes de entrega ou revalidação**\n'+'\n'.join(lines)+'\n'+'\n'.join(f'  Estado: **ADIADO** ({i})' for i in sorted(D))+'\n'+'\n'.join(f'### Lote {s} — Evidence' for s in range(1,15))
 class ScopedDelivery(unittest.TestCase):
  def test_exact_108_active_and_four_preserved_deferments(self):
-  self.assertEqual(candidate.check('0.4.0',text()),'0.4.0')
+  # Inventory completion alone must not stand in for post-publication evidence.
+  with self.assertRaises(AssertionError):candidate.check('0.4.0',text())
   self.assertTrue(progress.check(text(),require_complete=True)['release_ready'])
  def test_preparation_is_separate_and_never_final_acceptance(self):
   p=text(('14.04','14.05','14.07','14.08'))
