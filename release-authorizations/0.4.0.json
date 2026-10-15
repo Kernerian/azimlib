@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "version": "0.4.0",
+  "state": "authorized",
+  "candidate_sha": "50b467e252afe314645c031629ed1729007b267c",
+  "package_sha256": {
+    "azimlib-0.4.0-py3-none-any.whl": "0dcbed4a30c7c6bfe74d050cd95119e85731c342b167b098d6b9d9bb7567e7e7",
+    "azimlib-0.4.0.tar.gz": "666d1998760ea647890900be9c4cb1b9b8fac5446d08fda6663719648db69f77"
+  },
+  "artifact": {
+    "run_id": 38823041373,
+    "artifact_id": 12012684972
+  },
+  "expected_inventory": {
+    "original": 112,
+    "completed": 107,
+    "deferred": [
+      "2.08",
+      "9.08",
+      "13.06",
+      "13.07"
+    ],
+    "authorized_item": "14.08",
+    "active_completed": 107,
+    "active_total": 108
+  },
+  "human_final_acceptance": true,
+  "allows_start_14_08": true,
+  "considers_14_08_completed": false,
+  "publication_execution_permitted": false,
+  "approval_reference": "Explicit human authorization for the corrected release-state preflight; real publication awaits separate final confirmation.",
+  "visual_acceptance_reference": "docs/visual-acceptance-0.4.json; original native Windows/Linux/macOS acceptance including TeX",
+  "visual_acceptance_sha256": "728fb75a14470e9aca812e210725fd8b19f8b542ba5cb0ba9feda90aa39176b5",
+  "recorded_at": "2026-10-15T23:44:43.540833+00:00",
+  "publication_completed": false
+}
