@@ -1,0 +1,224 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Own topology and overlay — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="own-topology-and-overlay-04-development">Own topology and overlay — 0.4 development</h1>
+<p>This guide describes the source checkout, <strong>not the published 0.3.0 package</strong>.
+The implementation uses Azimlib's own noding, predicates, shared-edge graph,
+classifiers and Boolean boundary assembly. No Shapely/GEOS, S2, pyproj or other
+geospatial implementation is imported or vendored. The existing regional
+<code>validate_geometry()</code> API retains its earlier contract; new operations use
+<code>validate_topology()</code> and do not silently change old checks.</p>
+<h2 id="two-explicit-geometric-domains">Two explicit geometric domains</h2>
+<table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>Planar</th>
+<th>Spherical</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Input</td>
+<td>Immutable <code>Geometry</code>, including mixed collections with valid nonoverlapping polygon interiors</td>
+<td>Explicit <code>SphericalRegion</code></td>
+</tr>
+<tr>
+<td>Edges</td>
+<td>Straight segments in the supplied coordinate plane</td>
+<td>Minor great-circle arcs on a unit sphere</td>
+</tr>
+<tr>
+<td>Longitude</td>
+<td>Used literally; no seam unwrap or guessed CRS</td>
+<td>Periodic; no map projection or seam cut used for topology</td>
+</tr>
+<tr>
+<td>Interiors</td>
+<td>Shell minus holes, multipart union; winding normalized in output</td>
+<td>Filled side left of oriented boundaries, plus explicit reference point/membership</td>
+</tr>
+<tr>
+<td>Precision</td>
+<td>Exact rational predicates and intersection constructions for binary-float inputs</td>
+<td>Float64 spherical construction with explicit angular tolerance and fail-closed ambiguity checks</td>
+</tr>
+<tr>
+<td>Output</td>
+<td>Polygon/line/point or mixed GeometryCollection, plus shared graph</td>
+<td>Regularized region, possibly disconnected, larger than a hemisphere, empty or full</td>
+</tr>
+<tr>
+<td>Area</td>
+<td>Squared coordinate units</td>
+<td>Steradians times chosen spherical radius squared; not ellipsoidal area</td>
+</tr>
+</tbody>
+</table>
+<p>Geometry positions retain the library's longitude/latitude primitive constraints
+(finite 2D coordinates, latitude within ±90°). These operations are not an
+arbitrary projected-coordinate container or an implicit CRS transformation.
+No height is invented or interpolated. Three-dimensional input is rejected.</p>
+<p>GeoJSON's coordinate-space segment semantics are distinct from the explicit
+great-circle interpretation above. <code>SphericalRegion.from_geometry()</code> is an
+intentional reinterpretation; reading a GeoJSON file does not do this implicitly.</p>
+<h2 id="planar-set-operations">Planar set operations</h2>
+<pre><code class="language-python">import azimlib as azl
+
+a = azl.Geometry(&quot;Polygon&quot;, [[(0, 0), (3, 0), (3, 3), (0, 3), (0, 0)]])
+b = azl.Geometry(&quot;Polygon&quot;, [[(1, 1), (4, 1), (4, 4), (1, 4), (1, 1)]])
+
+result = azl.intersection(a, b)  # also union, difference, symmetric_difference
+assert result.area() == 4
+fig, ax = azl.subplots()
+ax.geojson(result.geometry, facecolor=&quot;#77a9bb&quot;, edgecolor=&quot;black&quot;)
+fig.savefig(&quot;intersection.svg&quot;)
+</code></pre>
+<p><code>overlay(a, b, operation=..., domain=&quot;planar&quot;)</code> returns <code>OverlayResult</code>:</p>
+<ul>
+<li><code>geometry</code>, <code>is_empty</code>, <code>area()</code>;</li>
+<li>immutable <code>topology.nodes</code>, <code>topology.edges</code>, <code>topology.shared_edges</code>;</li>
+<li><code>shared_boundaries()</code> for edges coincident in both operands;</li>
+<li><code>operation</code> and <code>domain</code>.</li>
+</ul>
+<p>Each graph edge carries all source tuples
+<code>(operand, kind, part, ring, segment, direction)</code>. Operand 0 is left, 1 is right;
+direction records orientation relative to the shared edge. Crossings, endpoints,
+partial overlaps and point inputs split the same graph. Planar graph nodes retain
+<code>Fraction</code> values; spherical nodes are 3D unit vectors. A graph is not GeoJSON.</p>
+<p>Coincident polygon edges dissolve as appropriate. Intersection of touching areas
+can return a line or point, not a fabricated area. Polygon difference and XOR use
+closed regularized area semantics: subtracting a line does not cut a zero-width
+slit. Line/area clipping and line/line operations retain surviving atomic segments;
+these need not be merged into one maximal LineString. Null features are skipped
+by spatial selection/clip, without changing the original collection.</p>
+<p>Inputs must have valid topology. Self crossings, repeated consecutive vertices,
+overlapping multipart polygon interiors, nested/outside holes and touching hole
+boundaries are diagnosed. Ambiguous or invalid output topology raises an error
+rather than silently exporting a guessed polygon. Distinct exact nodes that would
+collapse in float64 GeoJSON conversion are rejected. Exact rational construction
+does not imply unlimited precision in the final float64 exchange format.</p>
+<h2 id="global-regions-complements-poles-and-antimeridian">Global regions, complements, poles and antimeridian</h2>
+<pre><code class="language-python">north = azl.SphericalRegion.hemisphere(0, 90)
+east = azl.SphericalRegion.hemisphere(0, 0)
+quarter = azl.intersection(north, east, domain=&quot;spherical&quot;)
+assert abs(quarter.area(radius=1) - 3.141592653589793) &lt; 1e-10
+
+outside_quarter = quarter.geometry.complement()
+full = azl.union(quarter.geometry, outside_quarter, domain=&quot;spherical&quot;)
+assert full.geometry.is_full
+
+fig, ax = azl.subplots(projection=&quot;orthographic&quot;)
+fill, boundary = ax.region(outside_quarter, fill_step=3, boundary_step=1)
+boundary.set_visible(False)
+fig.savefig(&quot;global.svg&quot;)
+</code></pre>
+<p><code>SphericalRegion.from_geometry(polygon, interior=&quot;small&quot;)</code> explicitly chooses
+each shell's smaller spherical interior and smaller excluded holes. With
+<code>interior=&quot;left&quot;</code>, shell orientation chooses its left interior, including areas
+larger than a hemisphere. Holes remain smaller excluded regions. Crossings,
+overlapping multipart interiors and invalid holes are rejected; reversing a
+shell is not treated as a cosmetic change under the left-interior contract.</p>
+<p>Alternatively construct <code>SphericalRegion(rings, reference=(lon, lat), reference_inside=True/False)</code>. Boundaries must have filled side left and agree
+with that reference. Empty boundaries plus a true membership represent the full
+sphere. Classification follows crossing parity from the stored reference,
+retrying deterministic intermediate rays when a direct ray meets a vertex,
+coincident arc or antipodal direction. No unwrapping into a regional plane is used.</p>
+<p><code>location(lon, lat)</code> returns <code>inside</code>, <code>boundary</code> or <code>outside</code>; <code>covers()</code> includes
+the boundary. <code>complement()</code>, <code>is_empty</code>, <code>is_full</code>, <code>area(radius=...)</code> and
+<code>boundary(step=...)</code> are available. Default area radius is Azimlib's mean Earth
+spherical radius; it is not an ellipsoidal/geodesic datum computation.</p>
+<p>The default angular tolerance is <code>1e-10</code> radians, configurable from <code>1e-13</code> to
+<code>1e-6</code>. This is a numerical topology tolerance, not a survey accuracy statement.
+Arcs shorter than 32 tolerances, near-antipodal endpoints, unresolved nearly
+coincident great-circle planes, unsafe side probes and ambiguous boundary
+assembly raise <code>TopologyPrecisionError</code>/<code>TopologyError</code>. Inputs are not silently
+snapped to a coarse longitude grid. Nearby constructed intersections may share a
+node within the stated angular tolerance; too-short resulting edges fail.</p>
+<p>Spherical area Boolean output is regularized: zero-area line/point contacts are
+not represented as filled regions. The shared input graph retains their edges
+and source lineage. General spherical line/point set algebra and ellipsoidal
+overlay are <strong>not</strong> claimed by this contract.</p>
+<h2 id="rendering-and-serialization-are-explicit">Rendering and serialization are explicit</h2>
+<p><code>ax.region()</code> adds two ordinary, editable Artists only when called. Filled area
+is sampled at geographic pixel centres using <code>fill_step</code> degrees; it is an
+explicit display approximation, not a claim of exact vector tessellation. The
+boundary follows great-circle interpolation with <code>boundary_step</code> degrees.
+Changing display resolution does not change the spherical Boolean result.
+<code>max_cells=100000</code> bounds fill size; excessive requests fail before adding layers.
+PNG and SVG use the existing independent renderers. No minimap/grid/legend is
+added by the topology API.</p>
+<p><code>region.to_dict()</code> / <code>SphericalRegion.from_dict()</code> preserve rings, minor-arc
+semantics, reference membership and tolerance in a versioned Azimlib format.
+There is deliberately no implicit GeoJSON polygon conversion: GeoJSON cannot
+carry this full-sphere/reference-interior contract. <code>boundary()</code> can be exported
+as a GeoJSON MultiLineString with the requested interpolation step. Planar
+results use ordinary <code>read_geojson()</code> / <code>write_geojson()</code> interchange.</p>
+<h2 id="features-urban-layers-and-raster-masks">Features, urban layers and raster masks</h2>
+<pre><code class="language-python">features = azl.read_geojson(&quot;blocks-and-streets.geojson&quot;)
+selected = features.spatial_select(a)  # original Feature objects and order
+clipped = features.clip(a)            # new geometry, same IDs and properties
+ax.geojson(clipped)
+
+paired = azl.overlay_features(features[0], features[1], &quot;intersection&quot;)
+# paired.properties['left'] / ['right'] contain the original IDs/properties.
+# No same-named property is silently overwritten.
+
+masked = raster.mask_region(a)
+global_mask = raster.mask_region(north, domain=&quot;spherical&quot;)
+</code></pre>
+<p>Raster masks transform each pixel centre from its explicit supported CRS to
+geographic lon/lat, then classify against the declared region. Existing NoData,
+alpha, affine, CRS and height reference are preserved. <code>invert=True</code> keeps the
+opposite side. This is centre sampling, not area-weighted coverage, resampling
+or a warp. Readers' outputs, urban features and clipped geometries feed the same
+existing layers/renderers; inputs remain immutable.</p>
+<h2 id="validation-and-opt-in-repair">Validation and opt-in repair</h2>
+<p><code>validate_topology()</code> returns a <code>TopologyReport</code>; construction/overlay never
+repairs inputs implicitly. <code>repair_geometry(method=&quot;normalize&quot;)</code> deduplicates
+consecutive positions and normalizes shell/hole winding, then requires valid
+planar output. It does not guess a fix for crossings or outside holes.</p>
+<p><code>method=&quot;even_odd&quot;</code> explicitly rebuilds shell even-odd fill minus holes through
+the noded arrangement. A bow-tie can become separate polygon parts; portions of
+holes outside a shell contribute nothing under that chosen rule. <code>RepairResult</code>
+contains the new geometry, <code>before</code>/<code>after</code> reports and every applied change or
+semantic policy. This opt-in operation can change partitioning; preserve the
+original geometry when that matters. No spherical or elevation repair is inferred.</p>
+<h2 id="resource-limits-and-evidence">Resource limits and evidence</h2>
+<p>Overlay defaults are 20,000 input segments, 2,000,000 candidate pairs and 100,000
+noded edges, configurable explicitly. A budget failure produces no partial
+result. An immutable STR hierarchy conservatively prunes planar and spherical
+arc envelopes before exact/local intersection tests. Side isolation and some
+validation/classification work remain quadratic; this is <strong>not</strong> a claim of
+planetary throughput. Caller-supplied limits do not make arbitrary degeneracies
+or unlimited input sizes supported.</p>
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_overlay_040.py">Tests</a> use independently calculated rectangle
+areas, exact rational crossing coordinates, regular-polygon area, hemisphere
+lunes, a spherical octant and Boolean area/De Morgan identities. They cover
+coincidence, holes, multipart regions, contacts, near-parallel planar lines,
+large coordinate translations, invalid input, precision/resource failures,
+polar caps, antimeridian regions, large complements/full sphere, serialization,
+urban attributes, raster masks and editable PNG/SVG Artists. These are analytic
+synthetic fixtures, not field measurements or a third-party GIS engine oracle.</p>
+<p>Reproduce <code>tools/benchmark_topology.py --output topology-benchmark.json</code> and
+<code>examples/topology_overlay.py --output topology-output</code> from the source checkout.
+The benchmark records timing and traced Python peak allocations (excluding
+interpreter/import/native RSS), platform, input size, candidate-pair counts and
+runtime hashes. <a href="topology-validation-0.4.json">Local validation snapshot</a>.</p>
+<p>Conceptual/format references, without incorporated implementations or text:</p>
+<ul>
+<li><a href="https://www.rfc-editor.org/rfc/rfc7946">RFC 7946</a>, coordinate-space geometry,
+ring orientation and antimeridian exchange semantics.</li>
+<li><a href="https://www.cs.cmu.edu/~quake/robust.html">Robust-predicate research</a>, numerical
+robustness problem. Azimlib's planar implementation uses Python <code>Fraction</code>,
+not copied/adapted expansion arithmetic or predicates.c.</li>
+<li><a href="https://s2geometry.io/about/overview.html">Spherical geometry overview</a>,
+great-circle/left-interior concepts. No S2 source, bindings, fixtures or
+database are used. Reference parity, noding and Boolean assembly here are own.</li>
+</ul>
+<p>No new third-party code/data is distributed for this subsystem. The gallery's
+optional country background remains the existing attributed Natural Earth data.
+The global example deliberately uses unlabeled graticules: the existing renderer
+can place equivalent longitude labels together at an orthographic seam/pole.
+That label-placement issue remains tracked for the final visual integration gate;
+it is not evidence of a spherical topology error or fixed by this subsystem.
+Planet-trial item <strong>2.08 remains pending exclusively for the full real dump</strong>;
+these synthetic topology results do not satisfy that gate.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/topology-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

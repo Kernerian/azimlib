@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Versioned documentation site · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="versioned-documentation-site">Versioned documentation site</h1>
+<p>Markdown sources are the source of truth. <code>tools/build_documentation.py</code>
+builds an offline static site with version banners, an original light layout,
+sidebar, anchors, tables, local assets and title search. <code>markdown-it-py</code> is
+generic development-only MIT tooling; it is not vendored or a runtime dependency.</p>
+<pre><code class="language-bash">python -m pip install &quot;azimlib[docs]&quot;
+python tools/build_documentation.py --output .ci-results/site --ref main
+python tools/check_documentation_site.py --site .ci-results/site
+</code></pre>
+<p>For a reproducible deployment, pass the exact documentation commit to <code>--ref</code>.
+It may be newer than the immutable release tag: documentation corrections do
+not rebuild, replace or reupload published distributions. The site manifest
+records the selected ref, version and source hashes.</p>
+<p>Output must be a new directory and is written atomically. Sources/assets are
+allowlisted from docs and root policies. Markdown links become HTML links;
+Python source links use the selected ref. Binary/PDF/SVG assets retain exact
+bytes and legal notices. Raw HTML is disabled in Markdown. No tracking, external
+font, remote script or parser implementation is shipped with the site.</p>
+<h2 id="publication-and-verification">Publication and verification</h2>
+<p><code>docs.yml</code> builds an audited preview artifact; it does not deploy. Deployment
+uses a separate <code>gh-pages</code> branch. Versioned documentation belongs under
+<code>0.3.0/</code>; <code>stable/</code> selects the stable documentation and <code>dev/</code> currently mirrors
+0.3.0. Historical source evidence remains separately identified.</p>
+<ul>
+<li><a href="https://kernerian.github.io/azimlib/stable/">Stable documentation</a></li>
+<li><a href="https://kernerian.github.io/azimlib/0.3.0/">Version 0.3.0</a></li>
+<li><a href="https://kernerian.github.io/azimlib/dev/">Development alias</a></li>
+<li><a href="release-publication-0.3.0.html">Package publication evidence</a></li>
+</ul>
+<p>Before deployment, check source hashes, asset bytes, local links, license
+notices and privacy, including decoded PDFs and image metadata. Check the
+staged Git payload against that reviewed site. After deployment, require a
+successful Pages run and compare public HTTPS files against reviewed bytes.
+PyPI publication is separate; updating documentation must not modify packages.</p>
+<h2 id="git-attributes-in-the-pages-branch">Git attributes in the Pages branch</h2>
+<p>Preserve reviewed payload bytes with <code>* -text</code>. CRLF text must be checked with
+<code>whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol</code>, keeping the
+default whitespace checks while recognizing CR as part of a line ending.
+Declare PDF, PNG, GIF, JPEG, icon and font exports binary. Do not trim PDF
+whitespace: xref records, offsets and embedded notices are format-defined.
+Validate binary exports through hashes, source byte equality and format checks,
+not a text whitespace checker. Trailing text spaces, extra blank EOF lines
+and spaces before tabs must continue to fail the Git gate.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/documentation-site.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

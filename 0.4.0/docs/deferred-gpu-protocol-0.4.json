@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "repetitions": 5,
+  "frames_per_phase": 120,
+  "warmup_frames_per_phase": 24,
+  "sequence_length": 24,
+  "phases": [
+    "warm",
+    "pan",
+    "resume",
+    "zoom"
+  ],
+  "figsize": [
+    7,
+    5
+  ],
+  "dpi": 100,
+  "scene_size": [
+    700,
+    500
+  ],
+  "sequence": "delta=(index%24)*0.05; pan/resume translate lon; zoom contracts all four geographic limits; same as prior workload, repeated five times",
+  "cold": "Fresh process, cleared projected geometry cache, fresh GPU context; first paint measured separately, no p95 claim with N=5",
+  "warm": "Explicit 24-frame phase warm-up then 120 measured frames; persistent caches remain bounded at original limits; report hit/miss/upload deltas for every frame",
+  "selection": "Retain every run, no rejection based on timing or CPU load; report median,p95,population variance per run and pooled",
+  "gc": "Enabled with existing thresholds, record counts/statistics, no forced collection between measured frames",
+  "threads": "OPENBLAS_NUM_THREADS=1,OMP_NUM_THREADS=1,MKL_NUM_THREADS=1 for every before/after process",
+  "conditions": "CPU model/count/frequency, affinity, process priority, CPU load before/after, RSS, Python/NumPy, GL vendor/device/driver, dimensions/DPI, workload/source hashes; unknown thermals/VRAM marked unknown",
+  "budgets": {
+    "frame_ms": 33,
+    "input_to_exact_ms": 100
+  },
+  "scientific": {
+    "centers_resolved": true,
+    "limits": {
+      "center_m": 2000,
+      "boundary_m": 3000,
+      "solar_contact_s": 30,
+      "lunar_contact_s": 60,
+      "magnitude": 0.001,
+      "obscuration": 0.001
+    }
+  },
+  "untouched": [
+    "2.08",
+    "stage14",
+    "main",
+    "tags",
+    "release",
+    "pypi",
+    "public_docs"
+  ]
+}

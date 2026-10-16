@@ -1,0 +1,240 @@
+{
+  "matplotlib": "3.11.2",
+  "backend": "Agg",
+  "normalization": {
+    "signals": [
+      [
+        "first",
+        [
+          0.0,
+          20.0
+        ],
+        false
+      ],
+      [
+        "second",
+        [
+          0.0,
+          20.0
+        ],
+        false
+      ],
+      [
+        "first",
+        [
+          0.0,
+          20.0
+        ],
+        true
+      ],
+      [
+        "second",
+        [
+          0.0,
+          20.0
+        ],
+        true
+      ],
+      [
+        "first",
+        [
+          30.0,
+          50.0
+        ],
+        true
+      ],
+      [
+        "second",
+        [
+          30.0,
+          50.0
+        ],
+        true
+      ],
+      [
+        "first",
+        [
+          -1.0,
+          1.0
+        ],
+        false
+      ],
+      [
+        "second",
+        [
+          30.0,
+          60.0
+        ],
+        true
+      ]
+    ],
+    "autoscale": [
+      [
+        32,
+        45
+      ]
+    ],
+    "slope": [
+      0.0,
+      0.3333333333333333,
+      0.5,
+      0.75,
+      1.0
+    ]
+  },
+  "limits": [
+    {
+      "name": "initial",
+      "extent": [
+        -52.2,
+        -47.8,
+        -25.2,
+        -20.8
+      ],
+      "flags": [
+        true,
+        true
+      ],
+      "margins": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "name": "edit-preserves-view",
+      "extent": [
+        -52.2,
+        -47.8,
+        -25.2,
+        -20.8
+      ],
+      "flags": [
+        true,
+        true
+      ],
+      "margins": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "name": "relim-preserves-view",
+      "extent": [
+        -52.2,
+        -47.8,
+        -25.2,
+        -20.8
+      ],
+      "flags": [
+        true,
+        true
+      ],
+      "margins": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "name": "fit-edited-data",
+      "extent": [
+        -50.4,
+        -41.6,
+        -24.3,
+        -17.7
+      ],
+      "flags": [
+        true,
+        true
+      ],
+      "margins": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "name": "manual-x-auto-y",
+      "extent": [
+        -54.0,
+        -44.0,
+        -24.4,
+        -15.6
+      ],
+      "flags": [
+        false,
+        true
+      ],
+      "margins": [
+        0.05,
+        0.05
+      ]
+    },
+    {
+      "name": "tight-x",
+      "extent": [
+        -50.0,
+        -40.0,
+        -24.4,
+        -15.6
+      ],
+      "flags": [
+        true,
+        true
+      ],
+      "margins": [
+        0,
+        0.05
+      ]
+    },
+    {
+      "name": "positive-and-negative-margins",
+      "extent": [
+        -51.0,
+        -39.0,
+        -23.2,
+        -16.8
+      ],
+      "flags": [
+        true,
+        true
+      ],
+      "margins": [
+        0.1,
+        -0.1
+      ]
+    },
+    {
+      "name": "disabled",
+      "extent": [
+        -51.0,
+        -39.0,
+        -23.2,
+        -16.8
+      ],
+      "flags": [
+        false,
+        false
+      ],
+      "margins": [
+        0.1,
+        -0.1
+      ]
+    },
+    {
+      "name": "visible-only",
+      "extent": [
+        -50.0,
+        -40.0,
+        -24.0,
+        -16.0
+      ],
+      "flags": [
+        true,
+        true
+      ],
+      "margins": [
+        0,
+        0
+      ]
+    }
+  ]
+}

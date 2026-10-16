@@ -1,0 +1,179 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "checks": [
+    "regional-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+    "regional-horizontal: all opt-in decorations hide/restore with exact original pixels",
+    "regional-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+    "regional-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+    "regional-horizontal: close releases raster cache",
+    "regional-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+    "regional-vertical: all opt-in decorations hide/restore with exact original pixels",
+    "regional-vertical: physical resize at 200 DPI reflows components and preserves extents",
+    "regional-vertical: focus/Home restore exact resized scene; overview focus remains black",
+    "regional-vertical: close releases raster cache",
+    "atlas-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+    "atlas-horizontal: all opt-in decorations hide/restore with exact original pixels",
+    "atlas-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+    "atlas-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+    "atlas-horizontal: close releases raster cache",
+    "atlas-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+    "atlas-vertical: all opt-in decorations hide/restore with exact original pixels",
+    "atlas-vertical: physical resize at 200 DPI reflows components and preserves extents",
+    "atlas-vertical: focus/Home restore exact resized scene; overview focus remains black",
+    "atlas-vertical: close releases raster cache",
+    "nested-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+    "nested-horizontal: all opt-in decorations hide/restore with exact original pixels",
+    "nested-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+    "nested-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+    "nested-horizontal: close releases raster cache",
+    "nested-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+    "nested-vertical: all opt-in decorations hide/restore with exact original pixels",
+    "nested-vertical: physical resize at 200 DPI reflows components and preserves extents",
+    "nested-vertical: focus/Home restore exact resized scene; overview focus remains black",
+    "nested-vertical: close releases raster cache"
+  ],
+  "frames": [
+    {
+      "size": [
+        460,
+        580
+      ],
+      "rgba_sha256": "60ac680ce4b3fd261f58fc545ec8e2770c411cb1bfa728d6fa191fe45ca38613"
+    },
+    {
+      "size": [
+        1040,
+        1240
+      ],
+      "rgba_sha256": "05f16f81e1c94bb36cf022f7622d1de626b1b89800d0c0d48afdf41025885214"
+    },
+    {
+      "size": [
+        1040,
+        1240
+      ],
+      "rgba_sha256": "05f16f81e1c94bb36cf022f7622d1de626b1b89800d0c0d48afdf41025885214"
+    },
+    {
+      "size": [
+        460,
+        580
+      ],
+      "rgba_sha256": "7a7e78b7e84e5e79112c0f428cbe97b29ede203534c667c4ecb7c47e0d6eb88b"
+    },
+    {
+      "size": [
+        1040,
+        1240
+      ],
+      "rgba_sha256": "8a8f4274625e359bdffcd3426174808d2450037a7c9b5debcefe236a02fca0b9"
+    },
+    {
+      "size": [
+        1040,
+        1240
+      ],
+      "rgba_sha256": "8a8f4274625e359bdffcd3426174808d2450037a7c9b5debcefe236a02fca0b9"
+    },
+    {
+      "size": [
+        660,
+        1100
+      ],
+      "rgba_sha256": "922b28d04ce93882e6f26e69ee7b6814cb7375d6558e5d2599bcd18ac64c333b"
+    },
+    {
+      "size": [
+        1440,
+        2280
+      ],
+      "rgba_sha256": "adc7d6e80c821e83ccff834b9a6be2aa34fec6150a76bf9ecb195ac464f827f8"
+    },
+    {
+      "size": [
+        1440,
+        2280
+      ],
+      "rgba_sha256": "adc7d6e80c821e83ccff834b9a6be2aa34fec6150a76bf9ecb195ac464f827f8"
+    },
+    {
+      "size": [
+        660,
+        1100
+      ],
+      "rgba_sha256": "3ebb9b75cb29f89c76927e41046cca3bfc90b9f3ca7aab9234350b1cd56c60c3"
+    },
+    {
+      "size": [
+        1440,
+        2280
+      ],
+      "rgba_sha256": "8fb490c182d1fce9b2075d84455bccc5b5a8dee0ff778098158fdb27c19c7e56"
+    },
+    {
+      "size": [
+        1440,
+        2280
+      ],
+      "rgba_sha256": "8fb490c182d1fce9b2075d84455bccc5b5a8dee0ff778098158fdb27c19c7e56"
+    },
+    {
+      "size": [
+        1100,
+        1200
+      ],
+      "rgba_sha256": "7d46345a7ced6321b876a2f465536fcd9094affa0bf2c1b8182a75cd665d9ffc"
+    },
+    {
+      "size": [
+        2320,
+        2480
+      ],
+      "rgba_sha256": "c924000a90bd768c16e9113b898be3e2c124af9b39619bb0c99669e3384de50a"
+    },
+    {
+      "size": [
+        2320,
+        2480
+      ],
+      "rgba_sha256": "c924000a90bd768c16e9113b898be3e2c124af9b39619bb0c99669e3384de50a"
+    },
+    {
+      "size": [
+        1100,
+        1200
+      ],
+      "rgba_sha256": "3a46eb302dd5e2773b540924cb0861dd8f2a4d677f871350595a55d895199aad"
+    },
+    {
+      "size": [
+        2320,
+        2480
+      ],
+      "rgba_sha256": "2cfadfc9950b06f4e2d3bca7f78dfc08ec4f6d21a49f6049a04461cd8c4e4f88"
+    },
+    {
+      "size": [
+        2320,
+        2480
+      ],
+      "rgba_sha256": "2cfadfc9950b06f4e2d3bca7f78dfc08ec4f6d21a49f6049a04461cd8c4e4f88"
+    }
+  ],
+  "sha256": {
+    "src/azimlib/layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+    "src/azimlib/nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+    "src/azimlib/colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+    "src/azimlib/render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+    "src/azimlib/overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+    "src/azimlib/scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+    "src/azimlib/figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+    "src/azimlib/backends/tk.py": "1148a43fdeeadb17305dce4973b940d12f412faf822001f545fcf172358693b6",
+    "tools\\layout_acceptance_case.py": "f78b4bf809dde05bb47e96a1b2607d1476d3e1fe9017b949de73c6af8334069c",
+    "tools\\smoke_layout_acceptance_tk.py": "a7fe8450360aa64bfc722b3f7a1311ef5e490966aca906352ab26f63118a15cf"
+  },
+  "runtime_origin": "<environment>/site-packages/azimlib",
+  "independent_runtime": true,
+  "scope": "Six real withdrawn Tk scenarios, 30 checks and 18 frame comparisons. Programmatic edits/navigation; no physical input or visible-paint latency."
+}

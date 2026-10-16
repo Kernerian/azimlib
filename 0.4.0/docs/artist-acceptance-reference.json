@@ -1,0 +1,64 @@
+{
+  "matplotlib": "3.11.2",
+  "reference": {
+    "line": {
+      "linewidth": 0.6,
+      "lw": 0.6
+    },
+    "spine": {
+      "linewidth": 0.6,
+      "lw": 0.6,
+      "ec_matches": true
+    },
+    "frame": {
+      "linewidth": 0.6,
+      "lw": 0.6,
+      "ec_matches": true
+    },
+    "errors": {
+      "line-conflict": "rejected",
+      "spine-conflict": "rejected",
+      "frame-conflict": "rejected",
+      "alignment": "rejected",
+      "unknown": "rejected"
+    },
+    "manual_image_views": [
+      {
+        "manual_x": true,
+        "manual_y": true,
+        "xlim": [
+          -54.0,
+          -42.0
+        ],
+        "ylim": [
+          -28.0,
+          -16.0
+        ]
+      },
+      {
+        "manual_x": true,
+        "manual_y": false,
+        "xlim": [
+          -54.0,
+          -42.0
+        ],
+        "ylim": [
+          -25.0,
+          -20.0
+        ]
+      },
+      {
+        "manual_x": false,
+        "manual_y": true,
+        "xlim": [
+          -47.0,
+          -43.0
+        ],
+        "ylim": [
+          -28.0,
+          -16.0
+        ]
+      }
+    ]
+  }
+}

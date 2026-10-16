@@ -1,0 +1,46 @@
+{
+  "scope": "14.03 consolidation of measured historical results only; not a new benchmark or candidate performance guarantee",
+  "observed": [
+    {
+      "path": "docs/integration-benchmarks-0.4.json",
+      "sha256": "dcf0a479373a51c9d0451921db09e8f2e5ed84a727869fb2c64ad36a0a3f688f"
+    },
+    {
+      "path": "docs/observed-validation-0.4.json",
+      "sha256": "d6b33afb09bb1891c7a466cf8e002d7ddd07d6c6defea0a60f90b593abcb86a3"
+    },
+    {
+      "path": "docs/deferred-gpu-protocol-0.4.json",
+      "sha256": "dcc56f4a06623c124b66f6b984efabdbe96efcd553b874d33d4b3b9fffa064ae"
+    },
+    {
+      "path": "docs/pbf-validation-0.4.json",
+      "sha256": "706c501ec9dbfe3b927cf551378813884be050030f966f35356c785d9c055212"
+    },
+    {
+      "path": "docs/solar-validation-0.4.json",
+      "sha256": "243694d11b397115632c17544d330153d71272f1247213d58794b36db87bab8a"
+    },
+    {
+      "path": "docs/lunar-validation-0.4.json",
+      "sha256": "b4ec09ce4d37d8bdce41f405cd48290e16681e698dab3f95d6258e0e9b697e18"
+    }
+  ],
+  "targets": {
+    "exact_gpu_p95_ms": 33,
+    "complete_response_ms": 100
+  },
+  "guarantees_demonstrated": {
+    "universal_gpu_budgets": false,
+    "physical_arm64_gpu_performance": false,
+    "planet_scale": false,
+    "globally_certified_eclipses": false
+  },
+  "deferred_ids": [
+    "2.08",
+    "9.08",
+    "13.06",
+    "13.07"
+  ],
+  "interpretation": "Preserve each original source SHA/hash, hardware, driver, workload, all repetitions and failed/indeterminate checks; no extrapolation"
+}

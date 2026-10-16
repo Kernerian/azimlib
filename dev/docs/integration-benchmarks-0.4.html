@@ -1,0 +1,63 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>0.4 development benchmark consolidation · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><p>Current scope: <a href="deferred-gates-0.4.html">four deferred gates and two remaining acceptance items</a>.
+GPU/scientific eclipses are experimental; PBF has regional validation only.
+<a href="observed-validation-0.4.html">Latest observed evidence</a> is historical, not final-candidate acceptance.</p>
+<h1 id="04-development-benchmark-consolidation">0.4 development benchmark consolidation</h1>
+<p>This earlier measurement snapshot is preserved as historical evidence. Current
+14.03 consolidation is <a href="release-benchmarks-0.4.html">the release evidence ledger</a>.
+Local measurements are consolidated in
+<a href="integration-benchmarks-0.4.json">the machine-readable baseline</a>, with report
+hashes and checked source-module identities. They establish reproducible bounded
+workloads, not global throughput or universal interactive performance.</p>
+<h2 id="reproduction-and-measurement-scope">Reproduction and measurement scope</h2>
+<p>Run timings serially on an idle machine; record OS/Python, CPU identification,
+GPU/driver/context, workload, repetitions, source hashes and resource policy.
+Keep RSS profiling in a separate run because sampling affects timing:</p>
+<pre><code class="language-sh">python -I tools/benchmark_foundation.py --output foundation.json
+python -I tools/benchmark_topology.py --index-segments 20000 --polygon-vertices 32 --output topology.json
+python -I tools/validate_gpu.py --output gpu-timing
+python -I tools/validate_gpu.py --measure-memory --output gpu-memory
+</code></pre>
+<p>The foundation test has seven batches of 1,000 geocentric roundtrips, a 250 ms
+p95 budget and 4 MiB held-Python allocation budget. Topology tests 20,000 disjoint
+segments (zero candidate overlaps), two 32-vertex polygons and five analytic
+spherical lunes. Its 128 MiB tracemalloc ceiling is not native RSS, worst-case
+overlap complexity or a dense arbitrary-topology guarantee.</p>
+<p>GPU timing reports 12 samples each for warm, pan, resume, zoom and temporal edits,
+separating scene composition from rendering. The GPU draw alone omits composition,
+GUI scheduling and physical mouse-to-display latency. The baseline's sequential
+FPS includes composition and draw; individual p95 values must not be added and
+represented as a measured combined p95. Zoom invalidates geometry caches and is
+substantially slower. The target of 33 ms/frame and 100 ms physical-input response
+is <strong>not established</strong>, and this scene's measured workload exceeds 33 ms.</p>
+<p>The separate RSS probe sums the process and its workers, samples at 10 ms, can
+double-count shared pages and is not driver VRAM or an instantaneous hard quota.
+Record unavailable probes explicitly. Resource ceilings remain enforced by the
+reader/renderer contracts rather than inferred from one sampled peak.</p>
+<h2 id="real-regional-pbf">Real regional PBF</h2>
+<p>The locally supplied frozen Geofabrik Monaco snapshot is 2026-01-01, SHA-256
+<code>2c0debd7676c0d0d80ec534251cb004a6797441d14512cb83d01fe1ad81363bf</code>.
+It is OSM data under ODbL, © OpenStreetMap contributors; see
+<a href="optional-data.html">optional data notices</a>. No dataset download or embedding is
+performed by these benchmarks.</p>
+<pre><code class="language-sh">python -I tools/benchmark_pbf.py monaco-260101.osm.pbf --sha256 2c0debd7676c0d0d80ec534251cb004a6797441d14512cb83d01fe1ad81363bf --scope regional --dataset-version 2026-01-01 --source-url https://download.geofabrik.de/europe/monaco-260101.osm.pbf --missing skip --output pbf-regional.json
+</code></pre>
+<p>This recut has incomplete relations. Strict <code>missing='error'</code> rejects them;
+the explicit regional <code>skip</code> trial records omitted relations and verifies every
+input byte was consumed. It is <strong>not</strong> a complete-reference pass. The full-planet
+procedure retains strict references, independent counts, cgroup memory enforcement,
+pinned complete dump and resource measurements; see <a href="planet-trial.html">2.08</a>.
+Never download or run the planet dump on a machine with the current 20 GB trial
+ceiling. Preserve 15 GB free for the system.</p>
+<h2 id="baselines-and-unfinished-performance-gate">Baselines and unfinished performance gate</h2>
+<p>Original integrated PNG/SVG/PDF scenes and native captures are generated by
+<a href="integration-0.4.html">the integration validator</a>; each manifest hashes outputs
+and runtime. Numeric suites retain analytic topology/geodesy checks and independent
+solar/lunar references. Approximate eclipse graphics are not a numeric baseline
+for real event prediction: that precision gate currently fails.</p>
+<p>The original broader performance investigation called for representative <strong>large real</strong> datasets and dense urban/
+overlapping topology cases on suitable hardware, measure disk and native memory,
+collect end-to-end native input latency, address scene composition/zoom costs, and
+re-run the declared budgets on the exact candidate. These remain unproved goals,
+not conditions silently passed by the current bounded consolidation. Small Monaco, disjoint segment
+indexing, software Mesa or isolated draw timings cannot substitute for these tasks.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/integration-benchmarks-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

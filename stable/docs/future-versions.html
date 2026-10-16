@@ -1,9 +1,11 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Future proposals: terrestrial sky, planetary maps and orbits · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="future-proposals-terrestrial-sky-planetary-maps-and-orbits">Future proposals: terrestrial sky, planetary maps and orbits</h1>
-<p>These are <strong>proposals for 0.4–0.6</strong>, not implemented features, release dates or
-frozen public API names. They extend the <a href="roadmap.html">existing roadmap</a>; GPU,
-volumes, large OSM PBF, universal grid-based CRS, global overlay/topology,
-geocoding/routing and TeX/complex shaping remain planned and are not displaced.
-Scope must be revisited after 0.3 release evidence and maintenance feedback.</p>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Future proposals: terrestrial sky, planetary maps and orbits · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="future-proposals-terrestrial-sky-planetary-maps-and-orbits">Future proposals: terrestrial sky, planetary maps and orbits</h1>
+<p>These are future requirements, not implemented features, release dates or frozen
+public API names. The terrestrial Sun/Moon requirements below are now included in
+the <a href="release-progress-0.4.html">combined 0.4.0 implementation checklist</a>, alongside
+GPU/volumes, large OSM PBF, CRS/grids, global topology, geocoding/routing and
+TeX/complex shaping reserved by 0.3.0. That checklist is the single source of
+0.4 inventory counts, explicit deferments and delivery/revalidation dependencies. Beyond Earth (0.5) and Orbits (0.6)
+remain proposals; the <a href="roadmap.html">existing roadmap</a> preserves their sequence.</p>
 <h2 id="04-proposal-terrestrial-sun-and-moon">0.4 proposal — terrestrial Sun and Moon</h2>
 <ul>
 <li>Own scene objects for Sun/Moon; manual solar azimuth/elevation and positions
@@ -21,7 +23,12 @@ geometry justify them; a decorative overlap must not be advertised as prediction
 scale conversion, reference frame, coordinate units and observer/refraction
 assumptions. Validate against independent authoritative fixtures whose source and
 license are recorded. Renderer light vectors alone do not establish solar/lunar
-positions, shadows or reliable eclipse timing. No model/dataset is selected yet.</p>
+positions, shadows or reliable eclipse timing. The independently implemented
+<a href="solar-0.4.html">solar</a> and <a href="lunar-0.4.html">lunar</a> bounded models now exist, together
+with <a href="lighting-0.4.html">local physical shadows and synthetic finite-source geometry</a>.
+Real eclipse certification remains deferred under 13.06–13.07. Centers pass
+the later frozen corpus; boundaries and reference/precision obligations remain
+unresolved. <a href="observed-validation-0.4.html">Observed evidence</a>, <a href="deferred-gates-0.4.html">rescope</a>.</p>
 <h2 id="05-proposal-beyond-earth-cartography">0.5 proposal — Beyond Earth cartography</h2>
 <ul>
 <li>Public body model: name/identity, size/shape, sphere/ellipsoid/triaxial model,
@@ -77,4 +84,13 @@ connections. Adopt compatible internal body/frame/unit/time abstractions before
 0.6 must use the same bodies and scene/Artist/picking/temporal/export mechanisms,
 not parallel representations of planets. Current 3D/temporal APIs remain bounded.
 Celestial work complements urban/cartographic maintenance; it does not replace it.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/future-versions.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<h2 id="approved-development-sequence-after-the-04-rescope">Approved development sequence after the 0.4 rescope</h2>
+<p>0.4.1 is reserved for compatible fixes/refinements and the full-planet trial
+only if infrastructure permits it. No scientific-gate closure is promised.
+0.5.0 remains Planetary Cartography / Beyond Earth as specified above; deep
+renderer/science foundations may support it, but global eclipse certification
+is not an automatic prerequisite. 0.6.0 remains Orbits. Experimental scientific
+APIs are promoted only with adequate evidence, regardless of version number.
+Original 2.08/9.08/13.06/13.07 IDs, criteria and failures remain traceable in
+the <a href="deferred-gates-0.4.html">deferred register</a>; no item was erased or marked passed.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/future-versions.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

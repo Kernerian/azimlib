@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "item": "14.05",
+  "status": "complete",
+  "explicit_human_acceptance": true,
+  "reviewed_candidate_sha": "8e04017185b98bfa79d3ce43f8cc68d569441568",
+  "run_id": 38632593957,
+  "platforms": [
+    "Windows",
+    "Linux",
+    "macOS"
+  ],
+  "scope": [
+    "gallery",
+    "Tk/Qt",
+    "international text",
+    "TeX",
+    "projections",
+    "urban/PBF",
+    "3D",
+    "volumes",
+    "Sun/Moon",
+    "experimental eclipses",
+    "remaining reviewed delivered features"
+  ],
+  "tex_artifacts": [
+    {
+      "system": "Windows",
+      "artifact_id": 11926743604,
+      "archive_sha256": "86a63280879ec1f6b612cdbcb99603deebc17ff1f83d56dc5982769ee300df2c",
+      "run_id": 38632593957
+    },
+    {
+      "system": "Linux",
+      "artifact_id": 11926373279,
+      "archive_sha256": "8786810b817009385217740332a958dcf8f7d0ba7826e1191852d326a04897c7",
+      "run_id": 38632593957
+    },
+    {
+      "system": "Darwin",
+      "artifact_id": 11926607666,
+      "archive_sha256": "5355b3393e0ad4db22840e4870dbe6c987e225950186bf2f90c1fd78684e628a",
+      "run_id": 38632593957
+    }
+  ],
+  "tex_regenerated": false,
+  "tex_formats": [
+    "PNG",
+    "SVG",
+    "PDF"
+  ],
+  "tex_map_dpi": [
+    100,
+    200
+  ],
+  "successor_acceptance_scope": "Release-tooling/tests/documentation successor with byte-identical runtime, assets and visual generators. Fresh exact-SHA CI/build/audits required; no inference of final publication completion.",
+  "final_publication_acceptance": false,
+  "publication_authorized": false,
+  "publication_performed": false
+}

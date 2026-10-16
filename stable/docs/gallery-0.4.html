@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Unreleased 0.4 integration gallery · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><p>Current scope: <a href="deferred-gates-0.4.html">four deferred gates and final acceptance/publication pending</a>.
+GPU/scientific eclipses are experimental; PBF has regional validation only.
+<a href="observed-validation-0.4.html">Latest observed evidence</a> is historical, not final-candidate acceptance.</p>
+<h1 id="unreleased-04-integration-gallery">Unreleased 0.4 integration gallery</h1>
+<p>These are original Azimlib CPU-rendered development examples. They do not claim
+release, performance or human platform acceptance. Reproduce PNG/SVG/PDF and optional
+GPU/native outputs using <a href="integration-0.4.html">the integration validator</a>.
+<a href="_static/integration-0.4/manifest.json">Source and image hashes</a> identify this local baseline.</p>
+<h2 id="search-route-topology-and-coordinates">Search, route, topology and coordinates</h2>
+<p><img src="_static/integration-0.4/city-cpu.png" alt="Original synthetic city, clipped route and geocentric roundtrip" /></p>
+<p><code>examples/integration_040.py</code> connects a local synthetic geocoder and road graph,
+clips a route using own topology and checks the geocentric transform. The city,
+route and addresses are synthetic; the example provides no real navigation advice.</p>
+<h2 id="physical-local-shadows">Physical local shadows</h2>
+<p><img src="_static/integration-0.4/urban-light-cpu.png" alt="Original buildings with local solar illumination" /></p>
+<p><code>examples/lighting_maps.py</code> uses original synthetic buildings and ground in a
+shared ENU frame. Shadow detail is limited by declared triangle/disk refinement;
+visual edges are not an unrestricted spatial precision guarantee.</p>
+<h2 id="earthmoon-composition">Earth–Moon composition</h2>
+<p><img src="_static/integration-0.4/earth-moon-cpu.png" alt="Terrestrial and lunar spheres with explicit visual scaling" /></p>
+<p><code>examples/lunar_maps.py</code> separates physical geometry from the stated visual
+distance/radius scaling. This is not a precise eclipse or contact prediction.</p>
+<h2 id="terrestrial-solar-globe">Terrestrial solar globe</h2>
+<p><img src="_static/integration-0.4/solar-globe-cpu.png" alt="Orthographic geographic solar scene" /></p>
+<p><code>examples/solar_maps.py</code> combines the bounded solar model with orthographic
+cartography. Geographic boundaries use bundled public-domain Natural Earth data.</p>
+<h2 id="lit-volume">Lit volume</h2>
+<p><img src="_static/integration-0.4/volume-light-cpu.png" alt="Original volume with shared ENU lighting" /></p>
+<p><code>examples/lighting_maps.py</code> produces a synthetic bounded volume with self-attenuation.
+There is no full mesh-to-volume shadow transport. SVG embeds this raster layer;
+PDF/PNG and GPU capabilities follow the <a href="volumes-0.4.html">volume contract</a>.</p>
+<p>Original compositions/code: © Kernerian, BSD-3-Clause. Natural Earth and bundled
+DejaVu retain their own terms in <a href="../THIRD_PARTY_LICENSES.html">third-party notices</a>.
+No third-party reference images, raw ephemerides or unrelated desktop captures
+are included. For broader capabilities, follow the <a href="integration-0.4.html">coverage matrix</a>
+and each subsystem's reproducible examples.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/gallery-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

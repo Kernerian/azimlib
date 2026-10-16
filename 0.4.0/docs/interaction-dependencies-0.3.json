@@ -1,0 +1,550 @@
+{
+  "python": "3.14.4",
+  "roots": [
+    "PySide6-Essentials",
+    "IPython",
+    "Pillow"
+  ],
+  "platform": "Windows",
+  "packages": [
+    {
+      "name": "asttokens",
+      "version": "3.0.2",
+      "license_expression": null,
+      "license_metadata": "Apache 2.0",
+      "project_urls": [
+        "Documentation, https://asttokens.readthedocs.io/en/latest/index.html",
+        "Issue Tracker, https://github.com/gristlabs/asttokens/issues"
+      ],
+      "home_page": "https://github.com/gristlabs/asttokens",
+      "requirements": [
+        "astroid<5,>=2; extra == \"astroid\"",
+        "astroid<5,>=2; extra == \"test\"",
+        "pytest<9.0; extra == \"test\"",
+        "pytest-cov; extra == \"test\"",
+        "pytest-xdist; extra == \"test\""
+      ],
+      "license_files": [
+        {
+          "file": "asttokens-3.0.2.dist-info/licenses/LICENSE",
+          "sha256": "62fb8a3a9621dc2388174caaabe9c2317b694bb9a1d46c98bcf5655b68f51be3"
+        }
+      ]
+    },
+    {
+      "name": "colorama",
+      "version": "0.4.6",
+      "license_expression": null,
+      "license_metadata": null,
+      "project_urls": [
+        "Homepage, https://github.com/tartley/colorama"
+      ],
+      "home_page": null,
+      "requirements": [],
+      "license_files": [
+        {
+          "file": "colorama-0.4.6.dist-info/licenses/LICENSE.txt",
+          "sha256": "cac35c02686e5d04a5a7140bfb3b36e73aed496656e891102e428886d7930318"
+        }
+      ]
+    },
+    {
+      "name": "executing",
+      "version": "2.2.1",
+      "license_expression": null,
+      "license_metadata": "MIT",
+      "project_urls": [],
+      "home_page": "https://github.com/alexmojaki/executing",
+      "requirements": [
+        "asttokens>=2.1.0; extra == \"tests\"",
+        "ipython; extra == \"tests\"",
+        "pytest; extra == \"tests\"",
+        "coverage; extra == \"tests\"",
+        "coverage-enable-subprocess; extra == \"tests\"",
+        "littleutils; extra == \"tests\"",
+        "rich; python_version >= \"3.11\" and extra == \"tests\""
+      ],
+      "license_files": [
+        {
+          "file": "executing-2.2.1.dist-info/LICENSE.txt",
+          "sha256": "a476a2cb0ef4c41450340a577a28b91ac4c7f669136b2ee148047fabd5fc4181"
+        }
+      ]
+    },
+    {
+      "name": "ipython",
+      "version": "9.17.1",
+      "license_expression": "BSD-3-Clause",
+      "license_metadata": null,
+      "project_urls": [
+        "Homepage, https://ipython.org",
+        "Documentation, https://ipython.readthedocs.io/",
+        "Funding, https://jupyter.org/about#donate",
+        "Source, https://github.com/ipython/ipython",
+        "Tracker, https://github.com/ipython/ipython/issues"
+      ],
+      "home_page": null,
+      "requirements": [
+        "colorama>=0.4.4; sys_platform == \"win32\"",
+        "ipython-pygments-lexers>=1.0.0",
+        "jedi>=0.18.2",
+        "matplotlib-inline>=0.1.6",
+        "pexpect>4.6; sys_platform != \"win32\" and sys_platform != \"emscripten\"",
+        "prompt_toolkit<3.1.0,>=3.0.41",
+        "psutil>=7; sys_platform != \"emscripten\" and sys_platform != \"cygwin\"",
+        "pygments>=2.14.0",
+        "stack_data>=0.6.0",
+        "traitlets>=5.13.0",
+        "typing_extensions>=4.6; python_version < \"3.12\"",
+        "black; extra == \"black\"",
+        "docrepr; extra == \"doc\"",
+        "exceptiongroup; extra == \"doc\"",
+        "intersphinx_registry; extra == \"doc\"",
+        "ipykernel; extra == \"doc\"",
+        "ipython[matplotlib,test]; extra == \"doc\"",
+        "setuptools>=80.0; extra == \"doc\"",
+        "sphinx_toml==0.0.4; extra == \"doc\"",
+        "sphinx-rtd-theme>=0.1.8; extra == \"doc\"",
+        "sphinx>=8.0; extra == \"doc\"",
+        "typing_extensions; extra == \"doc\"",
+        "pytest>=7.0.0; extra == \"test\"",
+        "pytest-asyncio>=1.0.0; extra == \"test\"",
+        "testpath>=0.2; extra == \"test\"",
+        "packaging>=23.0.0; extra == \"test\"",
+        "setuptools>=80.0; extra == \"test\"",
+        "ipython[test]; extra == \"test-extra\"",
+        "curio; extra == \"test-extra\"",
+        "jupyter_ai; extra == \"test-extra\"",
+        "ipython[matplotlib]; extra == \"test-extra\"",
+        "nbformat; extra == \"test-extra\"",
+        "nbclient; extra == \"test-extra\"",
+        "ipykernel>6.30; extra == \"test-extra\"",
+        "numpy>=2.0; extra == \"test-extra\"",
+        "pandas>2.1; extra == \"test-extra\"",
+        "trio>=0.22.0; extra == \"test-extra\"",
+        "matplotlib>3.9; extra == \"matplotlib\"",
+        "ipython[doc,matplotlib,test,test_extra]; extra == \"all\"",
+        "argcomplete>=3.0; extra == \"all\""
+      ],
+      "license_files": [
+        {
+          "file": "ipython-9.17.1.dist-info/licenses/COPYING.rst",
+          "sha256": "8387aac32433e5b121c355aa9e6ce2b9a399da7edd59ab94b19d4f5326b1ced0"
+        },
+        {
+          "file": "ipython-9.17.1.dist-info/licenses/LICENSE",
+          "sha256": "e0e390748ed440ab893ca1f135a88a920aaf5409dbb90a5b427c75c5e51268fb"
+        }
+      ]
+    },
+    {
+      "name": "ipython_pygments_lexers",
+      "version": "1.1.1",
+      "license_expression": null,
+      "license_metadata": null,
+      "project_urls": [
+        "Source, https://github.com/ipython/ipython-pygments-lexers"
+      ],
+      "home_page": null,
+      "requirements": [
+        "pygments"
+      ],
+      "license_files": [
+        {
+          "file": "ipython_pygments_lexers-1.1.1.dist-info/LICENSE",
+          "sha256": "b1d0dbc0fa79774d34b8e2d0aec91d50d8caf05f7b40fc22c3010a4bd9ad2bf9"
+        }
+      ]
+    },
+    {
+      "name": "jedi",
+      "version": "0.20.0",
+      "license_expression": null,
+      "license_metadata": "MIT",
+      "project_urls": [
+        "Documentation, https://jedi.readthedocs.io/en/latest/"
+      ],
+      "home_page": "https://github.com/davidhalter/jedi",
+      "requirements": [
+        "parso <0.9.0,>=0.8.6",
+        "Django ; extra == 'dev'",
+        "attrs ; extra == 'dev'",
+        "colorama ; extra == 'dev'",
+        "docopt ; extra == 'dev'",
+        "flake8 ==7.1.2 ; extra == 'dev'",
+        "pytest <9.0.0 ; extra == 'dev'",
+        "types-setuptools ==80.9.0.20250529 ; extra == 'dev'",
+        "typing-extensions ; extra == 'dev'",
+        "zuban ==0.7.0 ; extra == 'dev'",
+        "Jinja2 ==3.1.6 ; extra == 'docs'",
+        "MarkupSafe ==3.0.3 ; extra == 'docs'",
+        "Pygments ==2.20.0 ; extra == 'docs'",
+        "Sphinx ==9.1.0 ; extra == 'docs'",
+        "alabaster ==1.0.0 ; extra == 'docs'",
+        "babel ==2.18.0 ; extra == 'docs'",
+        "certifi ==2026.4.22 ; extra == 'docs'",
+        "charset-normalizer ==3.4.7 ; extra == 'docs'",
+        "docutils ==0.22.4 ; extra == 'docs'",
+        "idna ==3.13 ; extra == 'docs'",
+        "imagesize ==2.0.0 ; extra == 'docs'",
+        "iniconfig ==2.3.0 ; extra == 'docs'",
+        "packaging ==26.2 ; extra == 'docs'",
+        "pluggy ==1.6.0 ; extra == 'docs'",
+        "pytest ==9.0.3 ; extra == 'docs'",
+        "requests ==2.33.1 ; extra == 'docs'",
+        "roman-numerals ==4.1.0 ; extra == 'docs'",
+        "snowballstemmer ==3.0.1 ; extra == 'docs'",
+        "sphinx-rtd-theme ==3.1.0 ; extra == 'docs'",
+        "sphinxcontrib-applehelp ==2.0.0 ; extra == 'docs'",
+        "sphinxcontrib-devhelp ==2.0.0 ; extra == 'docs'",
+        "sphinxcontrib-htmlhelp ==2.1.0 ; extra == 'docs'",
+        "sphinxcontrib-jquery ==4.1 ; extra == 'docs'",
+        "sphinxcontrib-jsmath ==1.0.1 ; extra == 'docs'",
+        "sphinxcontrib-qthelp ==2.0.0 ; extra == 'docs'",
+        "sphinxcontrib-serializinghtml ==2.0.0 ; extra == 'docs'",
+        "urllib3 ==2.6.3 ; extra == 'docs'"
+      ],
+      "license_files": [
+        {
+          "file": "jedi-0.20.0.dist-info/LICENSE.txt",
+          "sha256": "78e60cd0b8f28694f30195482c33d76908d846b0d15278deb7332aa22ba8e412"
+        },
+        {
+          "file": "jedi/third_party/django-stubs/LICENSE.txt",
+          "sha256": "235e993965d399a25e7d493d25c8622f78718510884b9c051f1f1866b6f34e9d"
+        },
+        {
+          "file": "jedi/third_party/typeshed/LICENSE",
+          "sha256": "295f8538c94ae5c3043301cf7cff1c852dab6a786a8ddee471e061b40d5ecabe"
+        }
+      ]
+    },
+    {
+      "name": "matplotlib-inline",
+      "version": "0.2.2",
+      "license_expression": "BSD-3-Clause",
+      "license_metadata": null,
+      "project_urls": [
+        "Homepage, https://github.com/ipython/matplotlib-inline"
+      ],
+      "home_page": null,
+      "requirements": [
+        "traitlets",
+        "flake8 ; extra == \"test\"",
+        "nbdime ; extra == \"test\"",
+        "nbval ; extra == \"test\"",
+        "notebook ; extra == \"test\"",
+        "pytest ; extra == \"test\"",
+        "matplotlib ; extra == \"test\""
+      ],
+      "license_files": [
+        {
+          "file": "matplotlib_inline-0.2.2.dist-info/licenses/LICENSE",
+          "sha256": "8521b036c6448e0e0aa7213d4713b6fdee0f4c64c9f320450f77346bf5c0e8e4"
+        }
+      ]
+    },
+    {
+      "name": "parso",
+      "version": "0.8.7",
+      "license_expression": null,
+      "license_metadata": "MIT",
+      "project_urls": [],
+      "home_page": "https://github.com/davidhalter/parso",
+      "requirements": [
+        "flake8 ==5.0.4 ; extra == 'qa'",
+        "types-setuptools ==67.2.0.1 ; extra == 'qa'",
+        "zuban ==0.5.1 ; extra == 'qa'",
+        "docopt ; extra == 'testing'",
+        "pytest ; extra == 'testing'"
+      ],
+      "license_files": [
+        {
+          "file": "parso-0.8.7.dist-info/LICENSE.txt",
+          "sha256": "fa67973073753d17624caf8684d5ee816d70c89d912c5bca7ca0f08e7b150edb"
+        }
+      ]
+    },
+    {
+      "name": "pillow",
+      "version": "12.3.0",
+      "license_expression": "MIT-CMU",
+      "license_metadata": null,
+      "project_urls": [
+        "Release notes, https://pillow.readthedocs.io/en/stable/releasenotes/index.html",
+        "Changelog, https://github.com/python-pillow/Pillow/releases",
+        "Documentation, https://pillow.readthedocs.io",
+        "Funding, https://tidelift.com/subscription/pkg/pypi-pillow?utm_source=pypi-pillow&utm_medium=pypi",
+        "Homepage, https://python-pillow.github.io",
+        "Mastodon, https://fosstodon.org/@pillow",
+        "Source, https://github.com/python-pillow/Pillow"
+      ],
+      "home_page": null,
+      "requirements": [
+        "furo; extra == \"docs\"",
+        "olefile; extra == \"docs\"",
+        "sphinx>=8.2; extra == \"docs\"",
+        "sphinx-autobuild; extra == \"docs\"",
+        "sphinx-copybutton; extra == \"docs\"",
+        "sphinx-inline-tabs; extra == \"docs\"",
+        "sphinxext-opengraph; extra == \"docs\"",
+        "olefile; extra == \"fpx\"",
+        "olefile; extra == \"mic\"",
+        "arro3-compute; extra == \"test-arrow\"",
+        "arro3-core; extra == \"test-arrow\"",
+        "nanoarrow; extra == \"test-arrow\"",
+        "pyarrow; extra == \"test-arrow\"",
+        "coverage>=7.4.2; extra == \"tests\"",
+        "defusedxml; extra == \"tests\"",
+        "markdown2; extra == \"tests\"",
+        "olefile; extra == \"tests\"",
+        "packaging; extra == \"tests\"",
+        "pytest; extra == \"tests\"",
+        "pytest-cov; extra == \"tests\"",
+        "pytest-timeout; extra == \"tests\"",
+        "pytest-xdist; extra == \"tests\"",
+        "setuptools; extra == \"tests\"",
+        "trove-classifiers>=2024.10.12; extra == \"tests\"",
+        "defusedxml; extra == \"xmp\""
+      ],
+      "license_files": [
+        {
+          "file": "pillow-12.3.0.dist-info/licenses/LICENSE",
+          "sha256": "4f7866a74802c6326f81faff59a56546b6aec2b10b91973e0e9308de95e79857"
+        }
+      ]
+    },
+    {
+      "name": "prompt_toolkit",
+      "version": "3.0.53",
+      "license_expression": null,
+      "license_metadata": null,
+      "project_urls": [
+        "Homepage, https://github.com/prompt-toolkit/python-prompt-toolkit",
+        "Documentation, https://python-prompt-toolkit.readthedocs.io/en/stable/"
+      ],
+      "home_page": null,
+      "requirements": [
+        "wcwidth>=0.1.4"
+      ],
+      "license_files": [
+        {
+          "file": "prompt_toolkit-3.0.53.dist-info/licenses/LICENSE",
+          "sha256": "303574d9bdd85c757d6025017942bf17baeedf2778f62bd7f425d07d880f4c4a"
+        }
+      ]
+    },
+    {
+      "name": "psutil",
+      "version": "7.2.2",
+      "license_expression": null,
+      "license_metadata": "BSD-3-Clause",
+      "project_urls": [],
+      "home_page": "https://github.com/giampaolo/psutil",
+      "requirements": [
+        "psleak ; extra == 'dev'",
+        "pytest ; extra == 'dev'",
+        "pytest-instafail ; extra == 'dev'",
+        "pytest-xdist ; extra == 'dev'",
+        "setuptools ; extra == 'dev'",
+        "abi3audit ; extra == 'dev'",
+        "black ; extra == 'dev'",
+        "check-manifest ; extra == 'dev'",
+        "coverage ; extra == 'dev'",
+        "packaging ; extra == 'dev'",
+        "pylint ; extra == 'dev'",
+        "pyperf ; extra == 'dev'",
+        "pypinfo ; extra == 'dev'",
+        "pytest-cov ; extra == 'dev'",
+        "requests ; extra == 'dev'",
+        "rstcheck ; extra == 'dev'",
+        "ruff ; extra == 'dev'",
+        "sphinx ; extra == 'dev'",
+        "sphinx-rtd-theme ; extra == 'dev'",
+        "toml-sort ; extra == 'dev'",
+        "twine ; extra == 'dev'",
+        "validate-pyproject[all] ; extra == 'dev'",
+        "virtualenv ; extra == 'dev'",
+        "vulture ; extra == 'dev'",
+        "wheel ; extra == 'dev'",
+        "colorama ; (os_name == \"nt\") and extra == 'dev'",
+        "pyreadline3 ; (os_name == \"nt\") and extra == 'dev'",
+        "pywin32 ; (os_name == \"nt\" and implementation_name != \"pypy\") and extra == 'dev'",
+        "wheel ; (os_name == \"nt\" and implementation_name != \"pypy\") and extra == 'dev'",
+        "wmi ; (os_name == \"nt\" and implementation_name != \"pypy\") and extra == 'dev'",
+        "psleak ; extra == 'test'",
+        "pytest ; extra == 'test'",
+        "pytest-instafail ; extra == 'test'",
+        "pytest-xdist ; extra == 'test'",
+        "setuptools ; extra == 'test'",
+        "pywin32 ; (os_name == \"nt\" and implementation_name != \"pypy\") and extra == 'test'",
+        "wheel ; (os_name == \"nt\" and implementation_name != \"pypy\") and extra == 'test'",
+        "wmi ; (os_name == \"nt\" and implementation_name != \"pypy\") and extra == 'test'"
+      ],
+      "license_files": [
+        {
+          "file": "psutil-7.2.2.dist-info/LICENSE",
+          "sha256": "c7adc4d5d1337a548b967421f1fbe258b93033a0417708fd6f4e38f8ecbceb80"
+        }
+      ]
+    },
+    {
+      "name": "pure_eval",
+      "version": "0.2.4",
+      "license_expression": null,
+      "license_metadata": "MIT",
+      "project_urls": [],
+      "home_page": "http://github.com/alexmojaki/pure_eval",
+      "requirements": [
+        "pytest; extra == \"tests\""
+      ],
+      "license_files": [
+        {
+          "file": "pure_eval-0.2.4.dist-info/licenses/LICENSE.txt",
+          "sha256": "a476a2cb0ef4c41450340a577a28b91ac4c7f669136b2ee148047fabd5fc4181"
+        }
+      ]
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0",
+      "license_expression": "BSD-2-Clause",
+      "license_metadata": null,
+      "project_urls": [
+        "Homepage, https://pygments.org",
+        "Documentation, https://pygments.org/docs",
+        "Source, https://github.com/pygments/pygments",
+        "Bug Tracker, https://github.com/pygments/pygments/issues",
+        "Changelog, https://github.com/pygments/pygments/blob/master/CHANGES"
+      ],
+      "home_page": null,
+      "requirements": [
+        "colorama>=0.4.6; extra == 'windows-terminal'"
+      ],
+      "license_files": [
+        {
+          "file": "pygments-2.21.0.dist-info/licenses/LICENSE",
+          "sha256": "a9d66f1d526df02e29dce73436d34e56e8632f46c275bbdffc70569e882f9f17"
+        }
+      ]
+    },
+    {
+      "name": "PySide6_Essentials",
+      "version": "6.11.2",
+      "license_expression": null,
+      "license_metadata": "LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+      "project_urls": [
+        "Homepage, https://pyside.org",
+        "Documentation, https://doc.qt.io/qtforpython",
+        "Repository, https://code.qt.io/cgit/pyside/pyside-setup.git/",
+        "Changelog, https://code.qt.io/cgit/pyside/pyside-setup.git/tree/doc/changelogs",
+        "Tracker, https://qt-project.atlassian.net/browse/PYSIDE"
+      ],
+      "home_page": null,
+      "requirements": [
+        "shiboken6==6.11.2"
+      ],
+      "license_files": [
+        {
+          "file": "pyside6_essentials-6.11.2.dist-info/licenses/LicenseRef-Qt-Commercial.txt",
+          "sha256": "4f54763ac0fe2abd8f7f8d8fe370a94a08ebf84786aa0b91045bd6628deb08a3"
+        }
+      ]
+    },
+    {
+      "name": "shiboken6",
+      "version": "6.11.2",
+      "license_expression": null,
+      "license_metadata": "LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+      "project_urls": [
+        "Homepage, https://pyside.org",
+        "Documentation, https://doc.qt.io/qtforpython",
+        "Repository, https://code.qt.io/cgit/pyside/pyside-setup.git/",
+        "Changelog, https://code.qt.io/cgit/pyside/pyside-setup.git/tree/doc/changelogs",
+        "Tracker, https://qt-project.atlassian.net/browse/PYSIDE"
+      ],
+      "home_page": null,
+      "requirements": [],
+      "license_files": [
+        {
+          "file": "shiboken6-6.11.2.dist-info/licenses/LicenseRef-Qt-Commercial.txt",
+          "sha256": "4f54763ac0fe2abd8f7f8d8fe370a94a08ebf84786aa0b91045bd6628deb08a3"
+        }
+      ]
+    },
+    {
+      "name": "stack-data",
+      "version": "0.6.3",
+      "license_expression": null,
+      "license_metadata": "MIT",
+      "project_urls": [],
+      "home_page": "http://github.com/alexmojaki/stack_data",
+      "requirements": [
+        "executing >=1.2.0",
+        "asttokens >=2.1.0",
+        "pure-eval",
+        "pytest ; extra == 'tests'",
+        "typeguard ; extra == 'tests'",
+        "pygments ; extra == 'tests'",
+        "littleutils ; extra == 'tests'",
+        "cython ; extra == 'tests'"
+      ],
+      "license_files": [
+        {
+          "file": "stack_data-0.6.3.dist-info/LICENSE.txt",
+          "sha256": "a476a2cb0ef4c41450340a577a28b91ac4c7f669136b2ee148047fabd5fc4181"
+        }
+      ]
+    },
+    {
+      "name": "traitlets",
+      "version": "5.16.1",
+      "license_expression": null,
+      "license_metadata": "BSD 3-Clause License\n\n- Copyright (c) 2001-, IPython Development Team\n\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without\nmodification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice, this\n   list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice,\n   this list of conditions and the following disclaimer in the documentation\n   and/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its\n   contributors may be used to endorse or promote products derived from\n   this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\"\nAND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE\nIMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE\nDISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE\nFOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL\nDAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR\nSERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER\nCAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,\nOR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\nOF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.",
+      "project_urls": [
+        "Homepage, https://github.com/ipython/traitlets",
+        "Documentation, https://traitlets.readthedocs.io",
+        "Source, https://github.com/ipython/traitlets",
+        "Tracker, https://github.com/ipython/traitlets/issues"
+      ],
+      "home_page": null,
+      "requirements": [
+        "myst-parser; extra == 'docs'",
+        "pydata-sphinx-theme; extra == 'docs'",
+        "sphinx; extra == 'docs'",
+        "argcomplete>=3.0.3; (python_version < '3.12') and extra == 'test'",
+        "argcomplete>=3.5.2; (python_version >= '3.12') and extra == 'test'",
+        "mypy>=2.0; (implementation_name != 'pypy') and extra == 'test'",
+        "pre-commit; extra == 'test'",
+        "pytest-mock; extra == 'test'",
+        "pytest-mypy-testing; (implementation_name != 'pypy') and extra == 'test'",
+        "pytest<10.0,>=7.0; extra == 'test'"
+      ],
+      "license_files": [
+        {
+          "file": "traitlets-5.16.1.dist-info/licenses/LICENSE",
+          "sha256": "2f51727d9063b54856773cb51388bdb79f2936ee4a1b692ef553d8c4201311ab"
+        }
+      ]
+    },
+    {
+      "name": "wcwidth",
+      "version": "0.9.2",
+      "license_expression": null,
+      "license_metadata": null,
+      "project_urls": [
+        "Homepage, https://github.com/jquast/wcwidth"
+      ],
+      "home_page": null,
+      "requirements": [],
+      "license_files": [
+        {
+          "file": "wcwidth-0.9.2.dist-info/licenses/LICENSE",
+          "sha256": "dff08668b8cfca00ec90011eb318e450c3719fcd40893bf375781a6beef7143a"
+        }
+      ]
+    }
+  ],
+  "missing": [],
+  "scope": "Observed resolved optional UI/notebook dependency closure on Windows, no binaries vendored. Metadata/license-file hashes are evidence pointers, not a full legal review or future lockfile; platform-conditional dependencies differ."
+}

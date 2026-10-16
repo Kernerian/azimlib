@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progresso da Azimlib 0.3.0 · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="progresso-da-azimlib-030">Progresso da Azimlib 0.3.0</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progresso da Azimlib 0.3.0 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="progresso-da-azimlib-030">Progresso da Azimlib 0.3.0</h1>
 <p>Status: <strong>0.3.0 publicada e verificada no PyPI e GitHub</strong>.
 <a href="release-publication-0.3.0.html">Registro final, commit, CI e hashes</a>.
 As seções de lotes abaixo são snapshots históricos dos respectivos estados.
@@ -135,11 +135,11 @@ executados serão acrescentadas abaixo com arquivos, testes e limitações.</p>
 <h3 id="lote-1-dados-e-camadas-urbanas-030dev0">Lote 1 — dados e camadas urbanas (0.3.0.dev0)</h3>
 <p><strong>1.01–1.08 concluídos.</strong> Código em <code>geometry.py</code>, <code>tabular.py</code>, <code>io.py</code> e
 <code>axes.py</code>; documentação no <a href="urban.html">guia urbano</a>; script em
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/urban.py">examples/urban.py</a>. Os dados do atlas são inteiramente
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/urban.py">examples/urban.py</a>. Os dados do atlas são inteiramente
 sintéticos. A <a href="_static/urban/README.html">imagem e seu manifest</a> foram inspecionados
 em PNG/SVG com o renderer próprio; nenhum motor cartográfico externo foi usado.</p>
 <ul>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_urban.py">27 testes de contrato</a>: CSV/erros/conversores,
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_urban.py">27 testes de contrato</a>: CSV/erros/conversores,
 igualdade de propriedades JSON, seleção preservando features/IDs/ordem,
 geometria errada sem mutação, multipartes, CRS explícito, aliases, styles por
 feature, edição/visibilidade/remoção e exportação.</li>
@@ -152,10 +152,10 @@ verificado por hash contra o código-fonte. Ambiente local Windows/CPython
 não importadas. Isto não é uma CI nova de três plataformas.</li>
 <li>Wheel de desenvolvimento instalado também em ambiente limpo sem extras:
 core/GeoJSON/CSV/urbano/SVG e os dois estilos de importação aprovados pelo
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_installed_package.py">smoke instalado</a>. PNG não é exigido
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_installed_package.py">smoke instalado</a>. PNG não é exigido
 no core sem Pillow.</li>
 <li>Auditorias locais de licenças/proveniência, privacidade e links aprovadas.
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/check_release_progress_030.py">Validador da checklist</a> integra a CI.
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/check_release_progress_030.py">Validador da checklist</a> integra a CI.
 A auditoria da distribuição confere BSD/composição de licenças, RECORD,
 conteúdo exato do wheel/sdist e exclusão de motores externos.</li>
 </ul>
@@ -170,7 +170,7 @@ em <code>azimlib</code>, <code>azimlib.io</code> e <code>MapAxes.raster</code>. 
 declara variantes, CRS, geometrias, entradas rejeitadas e limites de tamanho;
 o <a href="optional-data.html">guia de dados opcionais</a> descreve catálogo e atribuição.</p>
 <ul>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_formats.py">32 testes novos</a>, com fixtures binários/XML próprios:
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_formats.py">32 testes novos</a>, com fixtures binários/XML próprios:
 SHX/DBF excluído e alinhamento físico, Point/Polyline/Polygon/multipartes/Z,
 KML/altitude/XML seguro, OSM multipolygon/furos/referências, affine/NoData,
 PixelIsArea/Point, endian/float/16-bit/deflate/matrix, hashes/licença,
@@ -183,11 +183,11 @@ Sem imports de Matplotlib ou motores GIS. Evidência Windows local, não nova CI
 <li>Shapefile externo Natural Earth <code>ne_110m_populated_places</code> lido com SHX/DBF:
 243 pontos; arquivo real não vendorizado. Os readers vieram das especificações
 primárias listadas no guia, não de código de outro leitor.</li>
-<li>Exemplo <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/urban_real.py">urbano real</a>: 464 ways, 3.876 nodes,
+<li>Exemplo <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/urban_real.py">urbano real</a>: 464 ways, 3.876 nodes,
 extração OSM congelada de São Paulo em diretório opcional separado. ODbL,
 copyright/atribuição, texto integral da licença e proveniência preservados;
 metadados de editores e contatos/endereços removidos. PNG/SVG exportados e
-inspecionados com crédito visível. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/georaster.py">Raster sintético</a>
+inspecionados com crédito visível. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/georaster.py">Raster sintético</a>
 também inspecionado em PNG/SVG com colorbar editável e componentes opcionais.</li>
 <li><code>tools/audit_optional_data.py</code> verifica quatro arquivos por hash e valida
 geometria/referências, tags permitidas e licença, sem rede. Gate incluído na CI.
@@ -227,7 +227,7 @@ esférico com holes existente continua integrado. Não é overlay global.</li>
 <li>Topologia regional optativa O(n²): determinante com fallback racional,
 interseções ponto/overlap, anéis, holes e multipolígonos. Sem reparo automático
 nem alteração da permissividade dos datasets/geometrias existentes.</li>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_geodesy.py">23 testes novos</a> e <a href="geodesy-reference-0.3.json">579 casos numéricos calculados</a>,
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_geodesy.py">23 testes novos</a> e <a href="geodesy-reference-0.3.json">579 casos numéricos calculados</a>,
 com <a href="geodesy-numeric-0.3.json">erros máximos/exports por hash</a>. Oráculos isolados
 pyproj 3.8.0/GeographicLib 2.1 apenas por chamadas black-box, sem código/test
 datasets vendorizados ou imports GIS em runtime/testes.</li>
@@ -235,8 +235,8 @@ datasets vendorizados ou imports GIS em runtime/testes.</li>
 17.477 subtests, zero falhas/erros</strong>; cinco skips opcionais/plataforma explícitos.
 Todos os módulos Python instalados conferidos por hash contra o código-fonte.
 Evidência Windows local/Python 3.14; não representa nova CI remota.</li>
-<li>Atlas <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/geodesy_atlas.py">geodesy_atlas.py</a> e mapa cruzado
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/pacific.py">pacific.py</a>: PNG/SVG/HTML exportados, imagens inspecionadas,
+<li>Atlas <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/geodesy_atlas.py">geodesy_atlas.py</a> e mapa cruzado
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/pacific.py">pacific.py</a>: PNG/SVG/HTML exportados, imagens inspecionadas,
 Natural Earth creditado, rotas sintéticas. savefig continua PNG/SVG sem UI;
 HTML usa to_html/show. Componentes continuam opcionais.</li>
 <li>Wheel/sdist, twine strict, oito avisos legais, integridade de dados/fontes/
@@ -304,7 +304,7 @@ só serão anunciadas como disponíveis quando passarem pelos respectivos gates.
 Veja <a href="transforms-composition.html">contratos e limites</a> e a
 <a href="visual-style.html">recomendação de visualização clara</a>.</p>
 <ul>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_transforms_composition.py">27 testes de integração</a>: inversas,
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_transforms_composition.py">27 testes de integração</a>: inversas,
 DPI/unidades, transforms mistos/insets/ownership, gaps/máscaras, paths/holes,
 edição atômica de coleções, datas/logs, bordas curvas/offsets, SubFigure,
 rollback entre raízes, compressed, obstáculos e handlers/ciclos.</li>
@@ -322,8 +322,8 @@ smoke integra o runner utilizado pelas futuras execuções de CI.</li>
 projeções, três bearings e dois DPI; 108 casos de interseções amostradas
 dentro do frame. Erros máximos registrados por espaço. Não é oracle externo
 nem promessa de exatidão analítica para qualquer projeção/borda.</li>
-<li>Exemplos <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/clean_map.py">mapa limpo</a> e
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/composition_atlas.py">atlas</a>: PNG/SVG/HTML exportados, PNGs
+<li>Exemplos <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/clean_map.py">mapa limpo</a> e
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/composition_atlas.py">atlas</a>: PNG/SVG/HTML exportados, PNGs
 inspecionados e SVG/XML validado; <a href="_static/composition/README.html">hashes e proveniência</a>.
 Natural Earth permanece domínio público; rotas e símbolos são sintéticos.</li>
 <li>Instalação nova offline sem extras preserva SVG/HTML, dados/fontes e os
@@ -370,7 +370,7 @@ vinculados a legendas/colorbars, incluindo edição de níveis preenchidos.</li>
 <li>Correção adicional: HandlerSymbol usa fator uniforme e centralização
 por bounds reais; triângulo do atlas deixou de se achatar na legenda.</li>
 </ul>
-<p><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_scientific_foundation.py">36 testes novos</a> verificam planos
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_scientific_foundation.py">36 testes novos</a> verificam planos
 analíticos, triângulos/circumcírculos, áreas/furos, conservação de pesos, alpha
 e pixels exportados, edição sem mutação inválida, máscaras, classes e lifecycle.
 <a href="scientific-validation-0.3.json">Wheel instalado</a>: <strong>827 testes / 18.757
@@ -385,7 +385,7 @@ inclui o novo smoke. Instalação offline nova sem extras também executa SVG,
 RGB/contourf/interpolação/resampling e preserva os contratos anteriores.
 <a href="scientific-evidence-0.3.json">503 casos próprios</a> de interpolação/conservação
 e exportação estrutural; erro máximo observado 1,78e-15 nas fixtures, não um
-oracle externo nem tolerância universal. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/scientific_atlas.py">Galeria sintética</a>
+oracle externo nem tolerância universal. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/scientific_atlas.py">Galeria sintética</a>
 em PNG/SVG/HTML, PNGs instalados inspecionados e <a href="_static/scientific/README.html">manifests/proveniência</a>.
 Atlas de composição regenerado com a legenda corrigida.</p>
 <p>Wheel/sdist de desenvolvimento reconstruídos; notices, recursos upstream,
@@ -410,7 +410,7 @@ Implementações próprias em <code>path.py</code>, <code>polygon_labels.py</cod
 PNG/SVG/Tk preservam a arquitetura; savefig PDF estático também integra Save
 nativo. Componentes continuam opcionais e a versão publicada não é alterada.</p>
 <ul>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_finishing.py">32 testes novos</a>: Bézier analítica/erro,
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_finishing.py">32 testes novos</a>: Bézier analítica/erro,
 transforms/limites, clipping/caps fracionários, fases subpixel e todos os
 tipos de texto, expressões/erros/rotação, glifos simples/compostos,
 tamanho/xref/transparência/avisos/atomicidade e números PDF, anchors/holes,
@@ -452,16 +452,16 @@ plataforma.</strong> Implementação própria em <code>picking.py</code>, <code>
 <code>interaction.py</code>, <code>simplify.py</code>, <code>backends/live.py</code>, <code>backends/qt.py</code> e
 <code>backends/notebook.py</code>. <a href="interaction.html">Guia e limites</a>,
 <a href="_static/interaction/README.html">galeria original inspecionada</a>,
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/audit_interaction.py">auditor de evidências</a>.</p>
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/audit_interaction.py">auditor de evidências</a>.</p>
 <ul>
 <li>Picking por feature/ponto com IDs/índices, tolerância física em pixels,
 holes/clipping, callbacks e picking individual; seletores/layers/sliders
-opcionais. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_interaction_integration.py">36 contratos</a>, incluindo
+opcionais. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_interaction_integration.py">36 contratos</a>, incluindo
 mutação inválida sem efeito, desligamento/clear, navegação e visibilidade externa.</li>
 <li>Ponte Python <code>browser-live</code> explícita: snapshots SVG e recomposição Python nas
 nove projeções internas, callbacks na thread proprietária, fila e corpo limitados,
 token/Host/Origin local, timeout de conexão e encerramento com cliente incompleto.
-Cliente próprio verificado com <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/check_live_viewer.js">fixture Node/DOM</a>.
+Cliente próprio verificado com <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/check_live_viewer.js">fixture Node/DOM</a>.
 Não houve aceite em navegador real; a inspeção automatizada do navegador estava
 indisponível. Este backend inicial tem Home/Back/Forward/Pan/Zoom e downloads
 PNG/SVG; não declara o editor Subplots/PDF dos viewers nativos.</li>
@@ -509,7 +509,7 @@ publicação, push ou mudança do <code>main</code>/versão estável 0.2.0 faz p
 <h3 id="lote-8-terreno-3d-experimental-030dev0">Lote 8 — terreno 3D experimental (0.3.0.dev0)</h3>
 <p><strong>8.01–8.08 concluídos no contrato experimental; 7.08 continua pendente.</strong>
 <a href="terrain3d.html">Guia e limites</a>, <a href="_static/terrain3d/README.html">galeria original</a>,
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_terrain3d.py">37 contratos</a> e <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/audit_terrain3d.py">auditor das evidências</a>.</p>
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_terrain3d.py">37 contratos</a> e <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/audit_terrain3d.py">auditor das evidências</a>.</p>
 <ul>
 <li>Unidades físicas m/km/ft/Unit, Z físico separado do exagero; GeoRaster com
 affine completa usa centros de pixels e referencial horizontal local WGS84
@@ -554,8 +554,8 @@ nunca recebem hashes falsamente atualizados. A referência corrente desta etapa
 9–10. Nenhuma publicação, push, mudança do main ou lançamento 0.3.0 neste lote.</p>
 <h3 id="lote-9-mapas-temporais-e-atlas-030dev0">Lote 9 — mapas temporais e atlas (0.3.0.dev0)</h3>
 <p><strong>9.01–9.08 concluídos; 7.08 permanece pendente.</strong> <a href="temporal.html">Guia</a>,
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_temporal.py">53 testes de contrato</a>, <a href="_static/temporal/README.html">galeria original</a>
-e <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/audit_temporal.py">auditor corrente</a>.</p>
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_temporal.py">53 testes de contrato</a>, <a href="_static/temporal/README.html">galeria original</a>
+e <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/audit_temporal.py">auditor corrente</a>.</p>
 <ul>
 <li>TemporalSeries/Frame com payloads imutáveis, unidades numéricas explícitas,
 datas UTC, seleção exata/mais próxima/anterior/próxima e fontes finitas.
@@ -620,7 +620,7 @@ separa contratos públicos, experimentais e internos; CHANGELOG consolidado.</li
 hashes de scripts/runtime/arquivos, origem sintética/Natural Earth/fontes/paletas.
 Texto/font notice preservado. Links antigos a arquivos locais de <code>gallery/</code>
 foram convertidos em referências de reprodução; não viraram URLs públicas falsas.</li>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/baselines/release030/README.md">Baselines próprios</a>: styles/cells/depth,
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/baselines/release030/README.md">Baselines próprios</a>: styles/cells/depth,
 geometria/layout arredondados, duas tolerâncias de pixels, trabalho limitado,
 tempos quentes e geodésica equatorial analítica; sem promessa de FPS/RSS/GPU.</li>
 <li>Gate CI agora exige 28 identidades/SHAs/resultados exatos (15 suites, 6 accelerator,
@@ -706,4 +706,4 @@ CI 28/28, Trusted Publishing e os hashes finais. Os arquivos baixados do
 GitHub e do PyPI coincidem byte a byte com os artifacts aprovados. Instalação
 limpa diretamente do PyPI, imports, versão, metadata e smoke passaram.
 Documentação posterior tem revisão própria; não altera tag ou pacotes publicados.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/release-progress-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/release-progress-0.3.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

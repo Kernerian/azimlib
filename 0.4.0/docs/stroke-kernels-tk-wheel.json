@@ -1,0 +1,25 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "checks": [
+    "globe: direct raster, static PNG and current Tk match; PNG/SVG create no UI",
+    "globe: regional focus and Home preserve exact view/pixels",
+    "globe: explicit marker edit appears on a collapsed projecting-cap line",
+    "globe: hiding the marker restores exact original frame",
+    "globe: 200 DPI resize and static/current-view RGBA remain consistent",
+    "globe: closing releases retained raster frames",
+    "terrain: direct raster, static PNG and current Tk match; PNG/SVG create no UI",
+    "terrain: regional focus and Home preserve exact view/pixels",
+    "terrain: explicit marker edit appears on a collapsed projecting-cap line",
+    "terrain: hiding the marker restores exact original frame",
+    "terrain: 200 DPI resize and static/current-view RGBA remain consistent",
+    "terrain: closing releases retained raster frames"
+  ],
+  "runtime_sha256": {
+    "azimlib.renderers.coverage": "d1ccfeb3cf9f83386b12476d4a4dd5f298e97616f23911b97b9dcdcb8df3e17b",
+    "azimlib.renderers.pillow": "49da76bc13f536a1b81e530e9e02286d75c6dacef5a360e20040ab27e2455d6e",
+    "azimlib.backends.tk": "1148a43fdeeadb17305dce4973b940d12f412faf822001f545fcf172358693b6"
+  },
+  "independent_runtime": true,
+  "scope": "Real withdrawn Tk, programmatic input/edits, synthetic fields/routes. Not visible painting or physical input latency."
+}

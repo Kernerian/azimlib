@@ -1,0 +1,516 @@
+{
+  "schema": 1,
+  "item": "9.08",
+  "passed": false,
+  "budgets_changed": false,
+  "workload": "examples/gpu_cartography.py",
+  "frames_per_phase": 24,
+  "reports": {
+    "gpu-baseline-timing": {
+      "schema": 1,
+      "diagnostic": false,
+      "system": "Windows",
+      "python": "3.14.4",
+      "hardware": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 2060/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 617.42",
+        "GL_MAX_TEXTURE_SIZE": 32768
+      },
+      "context_ms": 333.6917,
+      "workload_sha256": "08f39745329e0fbbf52032310cf632d7782eff19da44385759682db7aba3755d",
+      "phases": [
+        {
+          "phase": "cold",
+          "first_ms": 971.6424,
+          "p50_ms": 971.6424,
+          "p95_ms": 971.6424,
+          "sequential_fps": 1.0291852228762353,
+          "mean_components_ms": {
+            "compose_ms": 275.6782,
+            "renderer_ms": 695.9642,
+            "total_ms": 971.6424
+          }
+        },
+        {
+          "phase": "warm",
+          "first_ms": 191.3251,
+          "p50_ms": 184.67495,
+          "p95_ms": 224.2783,
+          "sequential_fps": 5.2918841217612265,
+          "mean_components_ms": {
+            "compose_ms": 156.28472916666666,
+            "renderer_ms": 32.683883333333334,
+            "total_ms": 188.96861249999998
+          }
+        },
+        {
+          "phase": "pan",
+          "first_ms": 189.7735,
+          "p50_ms": 197.28379999999999,
+          "p95_ms": 234.7187,
+          "sequential_fps": 4.987279424319999,
+          "mean_components_ms": {
+            "compose_ms": 166.9068875,
+            "renderer_ms": 33.60323333333333,
+            "total_ms": 200.51012083333333
+          }
+        },
+        {
+          "phase": "resume",
+          "first_ms": 173.0704,
+          "p50_ms": 176.54525,
+          "p95_ms": 208.8333,
+          "sequential_fps": 5.534467568654205,
+          "mean_components_ms": {
+            "compose_ms": 149.11911666666666,
+            "renderer_ms": 31.566737500000002,
+            "total_ms": 180.68585416666667
+          }
+        },
+        {
+          "phase": "zoom",
+          "first_ms": 162.5982,
+          "p50_ms": 761.30105,
+          "p95_ms": 826.2404,
+          "sequential_fps": 1.3492871623157994,
+          "mean_components_ms": {
+            "compose_ms": 139.509025,
+            "renderer_ms": 601.6230541666667,
+            "total_ms": 741.1320791666667
+          }
+        }
+      ],
+      "parity": [
+        {
+          "phase": "cold",
+          "mean_channel_error_255": [
+            1.1957514285714286,
+            1.1961485714285713,
+            1.1924285714285714,
+            0.0
+          ]
+        },
+        {
+          "phase": "zoom",
+          "mean_channel_error_255": [
+            1.1957514285714286,
+            1.1961485714285713,
+            1.1924285714285714,
+            0.0
+          ]
+        }
+      ],
+      "memory": {
+        "requested": false,
+        "available": false,
+        "sampling_interval_seconds": 0.01
+      },
+      "stats": {
+        "frames": 97,
+        "uploads": 2312,
+        "cache_hits": 13099,
+        "uploaded_bytes": 163402884,
+        "surface_bytes": 54600000,
+        "cache_bytes": 28574316,
+        "last_vertices": 583209,
+        "last_seconds": 0.6163704999999027,
+        "prepared_hits": 8622,
+        "prepared_misses": 1260,
+        "prepared_bytes": 28817427,
+        "texture_bytes": 0
+      },
+      "budgets": {
+        "frame_ms": 33,
+        "input_to_present_ms": 100
+      },
+      "budgets_changed": false,
+      "physical_input_latency_ms": null,
+      "presentation_ms": null,
+      "scopes": [
+        "Sequential scene-to-image throughput is not viewer FPS",
+        "Diagnostic wrappers and RSS sampling add overhead",
+        "Driver upload submission is not isolated PCIe/DMA time",
+        "Readback includes GPU completion wait; not pure transfer bandwidth"
+      ]
+    },
+    "gpu-optimized-timing-final": {
+      "schema": 1,
+      "diagnostic": false,
+      "system": "Windows",
+      "python": "3.14.4",
+      "hardware": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 2060/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 617.42",
+        "GL_MAX_TEXTURE_SIZE": 32768
+      },
+      "context_ms": 326.4822,
+      "workload_sha256": "08f39745329e0fbbf52032310cf632d7782eff19da44385759682db7aba3755d",
+      "phases": [
+        {
+          "phase": "cold",
+          "first_ms": 471.4437,
+          "p50_ms": 471.4437,
+          "p95_ms": 471.4437,
+          "sequential_fps": 2.121144051771187,
+          "mean_components_ms": {
+            "compose_ms": 293.6157,
+            "renderer_ms": 177.828,
+            "total_ms": 471.4437
+          }
+        },
+        {
+          "phase": "warm",
+          "first_ms": 67.8303,
+          "p50_ms": 68.55930000000001,
+          "p95_ms": 70.7719,
+          "sequential_fps": 14.75740668092396,
+          "mean_components_ms": {
+            "compose_ms": 33.109679166666666,
+            "renderer_ms": 34.652904166666666,
+            "total_ms": 67.76258333333332
+          }
+        },
+        {
+          "phase": "pan",
+          "first_ms": 67.827,
+          "p50_ms": 68.79855,
+          "p95_ms": 88.2776,
+          "sequential_fps": 14.224055544936903,
+          "mean_components_ms": {
+            "compose_ms": 38.20064583333333,
+            "renderer_ms": 32.10279166666667,
+            "total_ms": 70.3034375
+          }
+        },
+        {
+          "phase": "resume",
+          "first_ms": 65.8839,
+          "p50_ms": 68.29055,
+          "p95_ms": 71.012,
+          "sequential_fps": 14.62194325991473,
+          "mean_components_ms": {
+            "compose_ms": 33.496625,
+            "renderer_ms": 34.8937375,
+            "total_ms": 68.3903625
+          }
+        },
+        {
+          "phase": "zoom",
+          "first_ms": 71.6762,
+          "p50_ms": 160.4433,
+          "p95_ms": 205.3753,
+          "sequential_fps": 6.101494083025267,
+          "mean_components_ms": {
+            "compose_ms": 43.53431666666666,
+            "renderer_ms": 120.35996666666666,
+            "total_ms": 163.89428333333333
+          }
+        }
+      ],
+      "parity": [
+        {
+          "phase": "cold",
+          "mean_channel_error_255": [
+            1.1957514285714286,
+            1.1961485714285713,
+            1.1924285714285714,
+            0.0
+          ]
+        },
+        {
+          "phase": "zoom",
+          "mean_channel_error_255": [
+            1.1838485714285714,
+            1.1821114285714285,
+            1.1777685714285715,
+            0.0
+          ]
+        }
+      ],
+      "memory": {
+        "requested": false,
+        "available": false,
+        "sampling_interval_seconds": 0.01
+      },
+      "stats": {
+        "frames": 97,
+        "uploads": 2312,
+        "cache_hits": 13099,
+        "uploaded_bytes": 163402884,
+        "surface_bytes": 54600000,
+        "cache_bytes": 28574316,
+        "last_vertices": 583209,
+        "last_seconds": 0.11669379999875673,
+        "prepared_hits": 8622,
+        "prepared_misses": 1260,
+        "prepared_bytes": 28817427,
+        "texture_bytes": 0
+      },
+      "budgets": {
+        "frame_ms": 33,
+        "input_to_present_ms": 100
+      },
+      "budgets_changed": false,
+      "physical_input_latency_ms": null,
+      "presentation_ms": null,
+      "scopes": [
+        "Sequential scene-to-image throughput is not viewer FPS",
+        "Diagnostic wrappers, synchronous GPU timer retrieval and RSS sampling add overhead",
+        "Driver upload submission is not isolated PCIe/DMA time",
+        "GPU timer sums cover draw commands, not uploads, clears or compositor scanout",
+        "Readback includes GPU completion wait; not pure transfer bandwidth"
+      ]
+    },
+    "gpu-optimized-diagnostic-final": {
+      "schema": 1,
+      "diagnostic": true,
+      "system": "Windows",
+      "python": "3.14.4",
+      "hardware": {
+        "GL_VENDOR": "NVIDIA Corporation",
+        "GL_RENDERER": "NVIDIA GeForce RTX 2060/PCIe/SSE2",
+        "GL_VERSION": "3.3.0 NVIDIA 617.42",
+        "GL_MAX_TEXTURE_SIZE": 32768
+      },
+      "context_ms": 402.1111,
+      "workload_sha256": "08f39745329e0fbbf52032310cf632d7782eff19da44385759682db7aba3755d",
+      "phases": [
+        {
+          "phase": "cold",
+          "first_ms": 778.6463,
+          "p50_ms": 778.6463,
+          "p95_ms": 778.6463,
+          "sequential_fps": 1.2842801667457997,
+          "mean_components_ms": {
+            "compose_ms": 480.0074,
+            "renderer_ms": 298.6389,
+            "total_ms": 778.6463,
+            "cpu_mesh_key_prepare_pack_ms": 208.57689999999997,
+            "cpu_driver_buffer_lookup_upload_submit_ms": 28.74520000000001,
+            "gpu_draw_commands_elapsed_ms": 1.5319040000000046,
+            "cpu_driver_draw_submit_including_buffer_ms": 68.4598,
+            "gpu_completion_wait_and_readback_ms": 1.218
+          }
+        },
+        {
+          "phase": "warm",
+          "first_ms": 152.8061,
+          "p50_ms": 140.76295,
+          "p95_ms": 173.4747,
+          "sequential_fps": 6.900912783733904,
+          "mean_components_ms": {
+            "compose_ms": 43.060408333333335,
+            "renderer_ms": 101.84795833333334,
+            "total_ms": 144.90836666666667,
+            "cpu_mesh_key_prepare_pack_ms": 13.822099999999999,
+            "cpu_driver_buffer_lookup_upload_submit_ms": 33.79754583333334,
+            "gpu_draw_commands_elapsed_ms": 2.136233333333338,
+            "cpu_driver_draw_submit_including_buffer_ms": 79.83952916666667,
+            "gpu_completion_wait_and_readback_ms": 0.6746625
+          }
+        },
+        {
+          "phase": "pan",
+          "first_ms": 140.874,
+          "p50_ms": 180.8281,
+          "p95_ms": 276.8012,
+          "sequential_fps": 5.2391276476995765,
+          "mean_components_ms": {
+            "compose_ms": 60.37835833333333,
+            "renderer_ms": 130.4931125,
+            "total_ms": 190.87147083333332,
+            "cpu_mesh_key_prepare_pack_ms": 22.41592916666667,
+            "cpu_driver_buffer_lookup_upload_submit_ms": 45.09509583333334,
+            "gpu_draw_commands_elapsed_ms": 2.6371720000000036,
+            "cpu_driver_draw_submit_including_buffer_ms": 97.81772916666667,
+            "gpu_completion_wait_and_readback_ms": 0.8034916666666666
+          }
+        },
+        {
+          "phase": "resume",
+          "first_ms": 166.0477,
+          "p50_ms": 197.40635,
+          "p95_ms": 924.0521,
+          "sequential_fps": 3.124105155400931,
+          "mean_components_ms": {
+            "compose_ms": 84.25797916666667,
+            "renderer_ms": 235.83367916666668,
+            "total_ms": 320.0916583333333,
+            "cpu_mesh_key_prepare_pack_ms": 33.45729999999999,
+            "cpu_driver_buffer_lookup_upload_submit_ms": 79.20468749999999,
+            "gpu_draw_commands_elapsed_ms": 2.92100266666667,
+            "cpu_driver_draw_submit_including_buffer_ms": 186.97347499999998,
+            "gpu_completion_wait_and_readback_ms": 1.412375
+          }
+        },
+        {
+          "phase": "zoom",
+          "first_ms": 203.6009,
+          "p50_ms": 405.20444999999995,
+          "p95_ms": 649.4701,
+          "sequential_fps": 2.3435772756084083,
+          "mean_components_ms": {
+            "compose_ms": 65.96547083333333,
+            "renderer_ms": 360.73264166666667,
+            "total_ms": 426.6981125,
+            "cpu_mesh_key_prepare_pack_ms": 199.41458749999995,
+            "cpu_driver_buffer_lookup_upload_submit_ms": 46.83767916666667,
+            "gpu_draw_commands_elapsed_ms": 2.0531466666666676,
+            "cpu_driver_draw_submit_including_buffer_ms": 149.8484333333333,
+            "gpu_completion_wait_and_readback_ms": 1.0931791666666666
+          }
+        }
+      ],
+      "parity": [
+        {
+          "phase": "cold",
+          "mean_channel_error_255": [
+            1.1957514285714286,
+            1.1961485714285713,
+            1.1924285714285714,
+            0.0
+          ]
+        },
+        {
+          "phase": "zoom",
+          "mean_channel_error_255": [
+            1.1838485714285714,
+            1.1821114285714285,
+            1.1777685714285715,
+            0.0
+          ]
+        }
+      ],
+      "memory": {
+        "requested": true,
+        "available": true,
+        "sampling_interval_seconds": 0.01,
+        "psutil_version": "7.2.2",
+        "sampled_peak_aggregate_rss_bytes": 265134080,
+        "samples": 748,
+        "scope": "Sampled process plus children RSS sum; shared pages may be counted more than once; not driver VRAM or a guaranteed instantaneous peak"
+      },
+      "stats": {
+        "frames": 97,
+        "uploads": 2312,
+        "cache_hits": 13099,
+        "uploaded_bytes": 163402884,
+        "surface_bytes": 54600000,
+        "cache_bytes": 28574316,
+        "last_vertices": 583209,
+        "last_seconds": 0.33698309999999765,
+        "prepared_hits": 8622,
+        "prepared_misses": 1260,
+        "prepared_bytes": 28817427,
+        "texture_bytes": 0
+      },
+      "budgets": {
+        "frame_ms": 33,
+        "input_to_present_ms": 100
+      },
+      "budgets_changed": false,
+      "physical_input_latency_ms": null,
+      "presentation_ms": null,
+      "scopes": [
+        "Sequential scene-to-image throughput is not viewer FPS",
+        "Diagnostic wrappers, synchronous GPU timer retrieval and RSS sampling add overhead",
+        "Driver upload submission is not isolated PCIe/DMA time",
+        "GPU timer sums cover draw commands, not uploads, clears or compositor scanout",
+        "Readback includes GPU completion wait; not pure transfer bandwidth"
+      ]
+    }
+  },
+  "native": {
+    "tk": {
+      "backend": "tk",
+      "first_show_to_flushed_paint_ms": 2301.7584,
+      "memory": {
+        "requested": true,
+        "available": true,
+        "sampling_interval_seconds": 0.01,
+        "psutil_version": "7.2.2",
+        "sampled_peak_aggregate_rss_bytes": 310849536,
+        "samples": 305,
+        "scope": "Sampled process plus children RSS sum; shared pages may be counted more than once; not driver VRAM or a guaranteed instantaneous peak"
+      },
+      "physical_input_to_photon_ms": null,
+      "scope": "Synthetic native event queue to own toolkit paint completion. Includes worker IPC and asynchronous composition; excludes physical device, compositor scanout and display response.",
+      "budgets": {
+        "frame_ms": 33,
+        "input_ms": 100
+      },
+      "budgets_changed": false,
+      "pan": {
+        "first_ms": 204.9315,
+        "median_ms": 182.6156,
+        "maximum_ms": 217.9414,
+        "sequential_fps": 5.524313516577268
+      },
+      "resume": {
+        "first_ms": 175.9603,
+        "median_ms": 197.15769999999998,
+        "maximum_ms": 256.6812,
+        "sequential_fps": 5.077829156945797
+      },
+      "zoom": {
+        "first_ms": 329.2642,
+        "median_ms": 329.2642,
+        "maximum_ms": 329.2642,
+        "sequential_fps": 3.0370747867517935
+      }
+    },
+    "qt": {
+      "backend": "qt",
+      "first_show_to_flushed_paint_ms": 2338.7318,
+      "memory": {
+        "requested": true,
+        "available": true,
+        "sampling_interval_seconds": 0.01,
+        "psutil_version": "7.2.2",
+        "sampled_peak_aggregate_rss_bytes": 351756288,
+        "samples": 426,
+        "scope": "Sampled process plus children RSS sum; shared pages may be counted more than once; not driver VRAM or a guaranteed instantaneous peak"
+      },
+      "physical_input_to_photon_ms": null,
+      "scope": "Synthetic native event queue to own toolkit paint completion. Includes worker IPC and asynchronous composition; excludes physical device, compositor scanout and display response.",
+      "budgets": {
+        "frame_ms": 33,
+        "input_ms": 100
+      },
+      "budgets_changed": false,
+      "pan": {
+        "first_ms": 59.8931,
+        "median_ms": 119.2828,
+        "maximum_ms": 164.7227,
+        "sequential_fps": 8.407414919588332
+      },
+      "resume": {
+        "first_ms": 183.0516,
+        "median_ms": 205.8847,
+        "maximum_ms": 227.8284,
+        "sequential_fps": 4.879869209745441
+      },
+      "zoom": {
+        "first_ms": 283.2659,
+        "median_ms": 283.2659,
+        "maximum_ms": 283.2659,
+        "sequential_fps": 3.5302519646734747
+      }
+    }
+  },
+  "limitations": [
+    "33 ms frame target not met",
+    "100 ms native event-to-paint target not met consistently",
+    "Physical HID-to-photon latency and driver VRAM not measured",
+    "Synchronous query diagnostics are not comparable to normal timings",
+    "CPU/GPU mean error remains about 1.2/255; edge pixels differ"
+  ],
+  "runtime_files": {
+    "src/azimlib/_legend_index.py": "55df0eda005526bd350a4f35b0a3f5506ec0186d6ae4170a261b8b437aaae817",
+    "src/azimlib/legend_layout.py": "b744e6869dde3344f916b922ebccd7a03f5ed73df3c368b2079cf60e64c55473",
+    "src/azimlib/renderers/_gpu_geometry.py": "55569e829af9ec039659b8ea05db327292ddde13b07d4fc3164fbc20dbafe83f",
+    "src/azimlib/renderers/_gpu_stroke.py": "adb9799715c82bbffef68bed3b6475624a096bfe64046fb946174461d4c57a9d"
+  }
+}

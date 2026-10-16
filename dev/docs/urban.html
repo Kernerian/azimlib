@@ -1,7 +1,7 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mapas urbanos — primeira base da 0.3.0 · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="mapas-urbanos-primeira-base-da-030">Mapas urbanos — primeira base da 0.3.0</h1>
-<p>A branch de desenvolvimento acrescenta entrada CSV, seleção por atributos e
-quatro conveniências urbanas. Estes recursos ainda não fazem parte do pacote
-0.2.0 publicado. Veja a <a href="release-progress-0.3.html">checklist da 0.3.0</a>.</p>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mapas urbanos — primeira base da 0.3.0 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="mapas-urbanos-primeira-base-da-030">Mapas urbanos — primeira base da 0.3.0</h1>
+<p>A versão 0.3.0 acrescentou entrada CSV, seleção por atributos e quatro
+conveniências urbanas. Veja a <a href="release-progress-0.3.html">checklist histórica da 0.3.0</a>.
+Novos recursos em desenvolvimento para 0.4.0 estão identificados separadamente.</p>
 <pre><code class="language-python">import azimlib as azl
 
 points = azl.read_csv(&quot;stations.csv&quot;, longitude=&quot;longitude&quot;, latitude=&quot;latitude&quot;,
@@ -81,7 +81,7 @@ linha física. CSV vazio não representa uma coleção; cabeçalho válido sem
 registros representa uma coleção vazia.</p>
 <h2 id="exemplo-reproduzível-e-proveniência">Exemplo reproduzível e proveniência</h2>
 <p><img src="_static/urban/urban.png" alt="Atlas urbano sintético" /></p>
-<p><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/urban.py">examples/urban.py</a> constrói bairros, ruas, edifícios e
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/urban.py">examples/urban.py</a> constrói bairros, ruas, edifícios e
 estações <strong>inteiramente sintéticos</strong>, com legenda, rótulos com halo, norte,
 escala e dois mapas. Não contém dados OSM, endereços ou pessoas reais.</p>
 <pre><code class="language-bash">python examples/urban.py --output gallery/urban
@@ -89,9 +89,17 @@ escala e dois mapas. Não contém dados OSM, endereços ou pessoas reais.</p>
 <p>Exporta PNG/SVG com o renderer próprio. Grid, legenda, norte, escala e
 minimapa continuam opcionais. Layers podem ser editadas, ocultadas e removidas
 com o mesmo ciclo de Artists do núcleo existente.</p>
-<p>Dados reais posteriores precisam de origem, versão, licença e atribuições
-explícitas. O leitor OSM planejado não torna bases ODbL propriedade da Azimlib;
-exemplos e pacotes de dados terão seus próprios avisos. Leitores adicionais,
-largura geográfica, indexação densa e picking constam na checklist, ainda
-pendentes. Geocodificação e roteamento não estão implementados neste lote.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/urban.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<p>Dados reais precisam de origem, versão, licença e atribuições explícitas.
+O leitor OSM não torna bases ODbL propriedade da Azimlib. Os
+<a href="optional-data.html">dados opcionais</a> e seus exemplos têm avisos próprios.</p>
+<h2 id="pesquisa-urbana-desenvolvimento-da-040">Pesquisa urbana — desenvolvimento da 0.4.0</h2>
+<p>O <a href="geocoding-0.4.html">geocoder local próprio</a> acrescenta pesquisa por nomes,
+aliases e endereços explícitos, filtros, ranking, ambiguidade, busca reversa e
+interpolação numérica opt-in. Resultados viram camadas com picking e labels;
+limites administrativos permanecem distintos de pontos representativos.
+Dados de endereço não são importados por padrão e não há consulta externa
+automática. O <a href="routing-0.4.html">roteador próprio</a> acrescenta grafos dirigidos,
+snapping em vias, A*/Dijkstra, perfis de carro/bicicleta/pedestre, restrições de
+conversão, pontos intermediários e playback. Os contratos de cobertura e erros
+continuam explícitos, sem prometer navegação legal completa ou trânsito ao vivo.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/urban.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

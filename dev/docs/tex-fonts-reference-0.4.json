@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "scope": "Windows development validation resources; font binaries not distributed",
+  "files": [
+    {
+      "file": "cmex10.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "791b31aa1db8608d0144b3a40fc0fe53383a60f6b00d0e8fd9f06ac4a11df8cb",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmex7.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "df327fc28dc3ce615dc91399f335ec2e1e646e34929936be16836875d5ffaf54",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmex8.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "778a2aaea4bf9d19ce2a7342864fa2696c07770c86d36a62e2ef799ad0724b05",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmex9.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "b7aacad3b24221cf6ccfedb08708444a00ded5d3f24c5cff79dcc4450d65ab16",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmmi10.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "e3661061e8aa474d6de5ffa916edceb0e3d8b998862018c147f0357fce00bcd7",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmmi12.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "80fa6aa5f49d52e1f7e5120d053b32d463cd0392a68588ef17c0d1523fba7786",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmmi5.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "35048e58e53f4aa53025069c1d0de33a16d8d4c111bfa329669e6456ec0a967b",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmmi6.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "c31dbaffb861162eadf3a7210bdf271b0dda577841aed4c0572069b0d52662b6",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmmi7.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "5b293a581ddb937b02559c3ce1a60184cc434295533204a2cd3864a6ad8a1f53",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmmi8.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "f396f52d9ed3498c15aa7e694baef74c0a11119624fcd6db66dad4ac76972cb0",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmmi9.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "c7d9ebe6b8313e0eeee8f9ed4d4e7069c74cfa9d9b64295f0f487e4662281a62",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr10.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "fdcede8794018df5f2b58f0905fb20a2b418ed8f67b73ee12445855dfbe5b1be",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr12.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "9b58bfa828b9553b7c8331cf26c45443b836f8aab62e820b40a5b65c8531dd42",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr17.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "465827b4702e12f7deea159c8084753ffc27998963de516e490bd7bd5bed41dd",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr5.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "84d38aac226b5274baca7a292e2039f5284a35d8a2ae31074a475fad87da310b",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr6.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "9fe20cb9ef24a0f4c74d38a65d4eee5cff3165f3b8600407ceba396aeb2b7617",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr7.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "b37e8671820b0753c6e233eaa3230c6ab9cff04e6c4baee312d60ae261e5aba1",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr8.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "8150cbfac5cfe53040327df171c3059f10730b32cabf2504b01713d639a11feb",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmr9.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "ba5207eea69eaa9b598de2bd3d9aef27c4ff9831524400f70ff6a0dd3e36059b",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmsy10.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "62ee8cef552017551cd3e026a483e700730103eceaad959c87b7730017f59cff",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmsy5.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "46da57e5a06866efa9a20f3dd350811b5d3279a5ae789af63e530f1f570e3c7f",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmsy6.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "73eed8a83a07d8ef04d240da22bce1fd3646074f46179e3677f4f42a542f20b6",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmsy7.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "583b65bd1857bffc2ab184fcb4aad4e70e12eb05c9ca9f1c58c9a00a86c8bccf",
+      "upstream_identical": true
+    },
+    {
+      "file": "cmsy8.pfb",
+      "source": "https://ctan.org/pkg/amsfonts",
+      "sha256": "2313392f0f4cd974d9da5fb54a52feae126059759edc04a4e47e33ea6027418b",
+      "upstream_identical": true
+    },
+    {
+      "file": "lmroman10-regular.otf",
+      "source": "https://mirrors.ctan.org/fonts/lm/fonts/opentype/public/lm/lmroman10-regular.otf",
+      "sha256": "1aa18cfefa58132c52ce5de70db1fd1154201c19cd2b2cdaffba4906a33e6852",
+      "upstream_identical": true
+    },
+    {
+      "file": "lmroman10-bolditalic.otf",
+      "source": "https://mirrors.ctan.org/fonts/lm/fonts/opentype/public/lm/lmroman10-bolditalic.otf",
+      "sha256": "c37a28eed7a6e03f792b98b5e5f637b2fcda378bb4855f99284f1a88fe35f124",
+      "upstream_identical": true
+    },
+    {
+      "file": "lmroman12-regular.otf",
+      "source": "https://mirrors.ctan.org/fonts/lm/fonts/opentype/public/lm/lmroman12-regular.otf",
+      "sha256": "e6be218ae83e61aa8a29990d3cdc401c678c1962188cb9a4a8b6359e4f5e5870",
+      "upstream_identical": true
+    },
+    {
+      "file": "lmroman17-regular.otf",
+      "source": "https://mirrors.ctan.org/fonts/lm/fonts/opentype/public/lm/lmroman17-regular.otf",
+      "sha256": "ed048c80fb4b67663b80899b89fe5fba17d7442e1286d61fd08fe5689c6b7c3c",
+      "upstream_identical": true
+    },
+    {
+      "file": "lmroman7-bold.otf",
+      "source": "https://mirrors.ctan.org/fonts/lm/fonts/opentype/public/lm/lmroman7-bold.otf",
+      "sha256": "063ea9e378b4fca4fd59771cf522faa21eb7c8516c89464745c79725b384fb9a",
+      "upstream_identical": true
+    },
+    {
+      "file": "lmroman7-regular.otf",
+      "source": "https://mirrors.ctan.org/fonts/lm/fonts/opentype/public/lm/lmroman7-regular.otf",
+      "sha256": "48c4b46ab255eec96588fb992fba1ed6102e53d051da480738a61cc6cdb328c3",
+      "upstream_identical": true
+    }
+  ]
+}

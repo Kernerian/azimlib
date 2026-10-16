@@ -1,0 +1,22 @@
+{
+  "source_url": "https://geoftp.ibge.gov.br/organizacao_do_territorio/malhas_territoriais/malhas_municipais/municipio_2024/UFs/SP/SP_Municipios_2024.zip",
+  "documentation": "https://www.ibge.gov.br/geociencias/organizacao-do-territorio/malhas-territoriais/15774-malhas.html",
+  "inspected_utc": "2026-10-03T23:42:35.198266+00:00",
+  "archive_sha256": "92a54d06e6f5a9749368e522861b785eae8c797329c9fa09cbb1a0696319d8e3",
+  "archive_bytes": 10501486,
+  "members_sha256": {
+    "SP_Municipios_2024.cpg": "788181d3e6c41241e68b21d3b3826e3d2c4800ba621dff4e8b0f1bae3be798a9",
+    "SP_Municipios_2024.dbf": "ae7a29c505d627bf6872dcc9a1e3872d5cb893306c7483d460793c67035149ef",
+    "SP_Municipios_2024.prj": "b7fe68a2eb827ea974a1a995a73676e095a366b383a10a66c7498300d1c58153",
+    "SP_Municipios_2024.shp": "ca808469e041d4af4e01dd55340c8be0af9a94383bc3b0e3cf2a580aa268f74f",
+    "SP_Municipios_2024.shx": "16050138edb3264baf02b0a53d0cd72d9bb912c93c3ee64991e9a577044b9448"
+  },
+  "features": 645,
+  "vertices": 892336,
+  "source_crs": "GEOGCS[\"GCS_SIRGAS_2000\",DATUM[\"D_SIRGAS_2000\",SPHEROID[\"GRS_1980\",6378137.0,298.257222101]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]",
+  "geojson_sha256": "1766afe1761ad4ff0af95b57ac95e972cbd95ffdd9809d4a18480362adbd2b5e",
+  "geojson_bytes": 22894192,
+  "decoder_sha256": "a0ac2f371cdadcb0367c89fbd615e19c52d6f4228e9120f32dfcd60b0f8ccde4",
+  "scope": "Original IBGE download, every supplied XY retained; winding/order adapted only. No simplification, datum transformation or GIS wrapper. Spherical geographic visualization only.",
+  "distribution": "Input ZIP/GeoJSON remains outside wheel/sdist/source ZIP; no redistribution or licence assertion."
+}

@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linhas, contornos e seus rótulos editáveis · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="linhas-contornos-e-seus-rótulos-editáveis">Linhas, contornos e seus rótulos editáveis</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linhas, contornos e seus rótulos editáveis · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="linhas-contornos-e-seus-rótulos-editáveis">Linhas, contornos e seus rótulos editáveis</h1>
 <p>Esta entrega reúne cinco avanços relacionados: dados/estilos de linhas em lote,
 propriedades de marcadores/extremidades, contornos editáveis, handles dos seus
 rótulos e integração/exportação. Matplotlib 3.11.2/Agg foi usado somente pelo
@@ -139,12 +139,12 @@ dpi, a cena já composta e a folga são escaladas juntas. A posição dos textos
 vem do solver próprio, não é idêntica à escolha automática de Matplotlib;
 o recorte usa a caixa do texto, não distância acumulada pela curva.</p>
 <h2 id="exemplo-integrado">Exemplo integrado</h2>
-<p><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/lines_contours.py">lines_contours.py</a> exporta rotas, marcadores,
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/lines_contours.py">lines_contours.py</a> exporta rotas, marcadores,
 legenda, escala, norte, estados, campo e isolinhas em PNG/SVG/HTML antes/depois.
 Os dados do campo são sintéticos. Nenhum componente aparece sem ser solicitado.
 savefig continua estático; o HTML continua uma cena exportada e exige reexportação
 após edições Python. Nenhuma dessas APIs usa backend Matplotlib.</p>
-<p><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/contour_refinement.py">contour_refinement.py</a> compara spacing
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/contour_refinement.py">contour_refinement.py</a> compara spacing
 uniform/proportional, cores explícitas por nível e rótulos sem/com cortes;
 edita a paleta e os mesmos handles antes da segunda exportação.
 O tool de desenvolvimento inspect_contour_bars.py registra 12 casos reais
@@ -152,4 +152,4 @@ de Matplotlib/Agg em <a href="contour-bars-reference.json">contour-bars-referenc
 compare_contours.py gera a comparação visual com os mesmos dados/fontes/DPI.</p>
 <p>Múltiplos grupos/matrizes, ciclos e defaults de legenda em contextos foram
 consolidados no <a href="series-styles.html">lote de séries e estilos</a>.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/lines-contours.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/lines-contours.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

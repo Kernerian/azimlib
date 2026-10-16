@@ -1,0 +1,30 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Candidate CI diagnostics — 0.4 preparation · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="candidate-ci-diagnostics-04-preparation">Candidate CI diagnostics — 0.4 preparation</h1>
+<p>Prior validation SHA <code>750056c2b60d2e16db4f5236f1cf5d886fe55532</code> is not an
+accepted final candidate. Its failures and artifacts remain retained.</p>
+<ul>
+<li>Tk smoke instrumented the global raster function after the viewer had
+retained a callable. Instrument the actual retained renderer; require the
+same exact rerasterization counts, event/history and pixel assertions.</li>
+<li>The solar-light integration compared two normalized float64 tuples by bit
+equality. Independent normalization differed by one representable value on
+Linux; require a four-ULP component bound. No physical/scientific tolerance changed.</li>
+<li>The source-mutation fixture relied on a rapid same-size write changing its
+timestamp. Set a distinct timestamp explicitly to exercise the stat guard.
+Independent initial full-file and per-brick corruption checks remain.</li>
+<li>The historical depth scene hash serialized three newly added empty fields.
+Omit only absent texture/UV and empty volume payloads. Preserve all geometry,
+text, case keys, PNG bytes and original visual thresholds. Populated payloads
+remain included. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/baselines/release040/README.md">Compatibility baseline</a>.</li>
+</ul>
+<p>These corrections change validation tooling/fixtures, not delivered rendering,
+light calculations or file readers. The complete new-SHA matrices must rerun;
+no failed prior job or indeterminate deferred check is treated as passed.</p>
+<p>The native review exporter preserves each example's designed figure size.
+Forcing six projection panels into 600x400 pixels introduced title overlaps in
+the review packet itself. This correction changes export preparation only; no
+renderer/font layout or human approval is inferred.</p>
+<p>The cumulative software-GPU validator initially used the default display context
+on a headless runner. Select <code>GpuConfig(context_backend=&quot;egl&quot;)</code> through an explicit
+<code>--gpu-context egl</code> argument. The job still requires actual successful software
+rendering, never an implicit CPU fallback or physical GPU performance claim.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/ci-corrections-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

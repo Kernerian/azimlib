@@ -1,0 +1,471 @@
+{
+  "passed": true,
+  "scope": "Local stage 13 implemented subset; precise event gates FAIL and remain pending, not release acceptance",
+  "completed": [
+    "13.01",
+    "13.02",
+    "13.03",
+    "13.04",
+    "13.05",
+    "13.08"
+  ],
+  "pending": [
+    "13.06",
+    "13.07"
+  ],
+  "base_commit": "d14469929927d3b83227f3c297799a14bd627c54",
+  "system": "Windows",
+  "python": "3.14.4",
+  "full_suite": {
+    "passed": true,
+    "context": "local source tree, not installed release or hosted CI",
+    "base_commit": "d14469929927d3b83227f3c297799a14bd627c54",
+    "tests": 1322,
+    "subtests": 22765,
+    "failures": 0,
+    "errors": 0,
+    "skips": [
+      {
+        "test": "test_catalog_symlink_escape_is_rejected (test_formats.RefinementTests.test_catalog_symlink_escape_is_rejected)",
+        "reason": "Creating symlinks requires platform permission"
+      },
+      {
+        "test": "test_area_bits_match_cpython_summation_at_extreme_scales (test_native_coverage.NativeCoverageTests.test_area_bits_match_cpython_summation_at_extreme_scales)",
+        "reason": "Numba optional"
+      },
+      {
+        "test": "test_intersections_retain_every_vertex_and_float_bit_in_original_order (test_native_coverage.NativeCoverageTests.test_intersections_retain_every_vertex_and_float_bit_in_original_order)",
+        "reason": "Numba optional"
+      }
+    ],
+    "seconds": 331.8739922999994,
+    "python": "3.14.4",
+    "system": "Windows"
+  },
+  "targeted": {
+    "passed": true,
+    "context": "local source tree, not installed release or hosted CI",
+    "base_commit": "d14469929927d3b83227f3c297799a14bd627c54",
+    "tests": 69,
+    "subtests": 20,
+    "failures": 0,
+    "errors": 0,
+    "skips": [],
+    "seconds": 3.5399348999999347,
+    "python": "3.14.4",
+    "system": "Windows"
+  },
+  "independent_precision_gate": {
+    "passed": false,
+    "diagnostic_execution_passed": true,
+    "real_event_gate_passed": false,
+    "reference": {
+      "source": "https://eclipse.gsfc.nasa.gov/SEhistory/SEpath/SE2024Apr08Tpath.html",
+      "author": "Fred Espenak, NASA GSFC",
+      "sha256": "50f7cd87aa542591de6fffac2f32f0e1da32166941e9ac10b6b5124d30fad3de",
+      "rows": 96,
+      "cadence_seconds": 120,
+      "frame": "WGS84",
+      "time": "Universal Time interpreted as approximate UTC; no precision clock claim"
+    },
+    "maximum_central_separation_degrees": 0.18348883062021537,
+    "maximum_residual_visible_fraction": 0.39390729567786187,
+    "central_line_totality_misses": 96,
+    "maximum_model_budget_degrees": 0.5623753565827588,
+    "required": {
+      "separation_degrees": 0.01,
+      "residual_visible_fraction": 0.001,
+      "model_budget_degrees": 0.01
+    },
+    "contact_timing_validated": false,
+    "lunar_event_timing_validated": false,
+    "pending": [
+      "13.06",
+      "13.07"
+    ],
+    "raw_reference_distributed": false,
+    "limitations": [
+      "One independent solar event is a counterexample, not a global precision survey",
+      "Central angular separation is not a measured ground-track distance",
+      "No contact solver or precise eclipse ephemeris is implemented",
+      "Synthetic and opt-in approximate illustrations are not validated event predictions"
+    ]
+  },
+  "visual_exports": {
+    "passed": true,
+    "scope": "Local source exports and own native windows; not hosted CI or human acceptance",
+    "system": "Windows",
+    "python": "3.14.4",
+    "hardware": {
+      "GL_VENDOR": "NVIDIA Corporation",
+      "GL_RENDERER": "NVIDIA GeForce RTX 2060/PCIe/SSE2",
+      "GL_VERSION": "3.3.0 NVIDIA 617.42",
+      "GL_MAX_TEXTURE_SIZE": 32768
+    },
+    "native": [
+      {
+        "backend": "tk",
+        "mode": "verified-native-window-handle-grab",
+        "file": "tk-lighting-native.png"
+      },
+      {
+        "backend": "qt",
+        "mode": "own-native-qt-window-grab",
+        "file": "qt-lighting-native.png"
+      }
+    ],
+    "timings": [
+      {
+        "scene": "urban",
+        "compose_seconds": 3.954826099999991,
+        "cpu_paint_seconds": 1.2665354000000661
+      },
+      {
+        "scene": "eclipse",
+        "compose_seconds": 0.3438330999997561,
+        "cpu_paint_seconds": 1.5701629000013781
+      },
+      {
+        "scene": "lunar",
+        "compose_seconds": 0.14472700000078476,
+        "cpu_paint_seconds": 0.25878689999990456
+      },
+      {
+        "scene": "volume",
+        "compose_seconds": 0.0023095999986253446,
+        "cpu_paint_seconds": 7.284248500000103
+      }
+    ],
+    "temporal_frames": 3,
+    "static_scene_count": 4,
+    "physical_cache": {
+      "geometry_builds": 1,
+      "lighting_builds": 5,
+      "rays": 93184,
+      "triangle_tests": 156250,
+      "physical_bias_m": 0.001,
+      "max_edge_m": 1.5,
+      "camera_preserved": true,
+      "geometry_reused_across_time": true
+    },
+    "files": {
+      "urban-cpu.png": "2d560c53ad1ec8a630fcc82903cbab0729faa894503bdbfa60bca5d3ebb48fdf",
+      "urban.svg": "665210e5e4ab87a878d57561df9f3dcab3cb68dc57ec4c8b5240ca62ed52db8e",
+      "urban.pdf": "a7899986af4b2d7bc541b96bfef884a67e657e6c9605209f30b5b600b866b5db",
+      "urban-gpu.png": "009bb67a4af0c934f617fa6e9d50a33ca2e86b96050ab68a970d1d83b8a9fad2",
+      "eclipse-cpu.png": "3e0d00af27bbdb200c2d0bfb05447a384c294b13494dfd8c58590609bc63dadd",
+      "eclipse.svg": "78868edd7e54d87fa23c1c0b8a5842b24c3a8305895a071609e7bb8f8abcc9e8",
+      "eclipse.pdf": "6f544d9710508aca08871088bceadea710188b0d063aaa1b8d630867ea62e57b",
+      "eclipse-gpu.png": "5e6b3cf7ee1b9d2d9593a1c7b0cc02ceadd368f403afa1b843ae9d6b9063c34d",
+      "lunar-cpu.png": "1eae71ec929b0aef85fbbe596dba11f8121ae5002dcf0aeb97e84f03f6f0164c",
+      "lunar.svg": "34de168a884ee3d9a0245d6c2cbee64347ee107708503ae802b9eccef476dcf8",
+      "lunar.pdf": "b7f4ba4c70765fede5dacb759a0b14651c9598f4140fe59a7748f0b81aa60071",
+      "lunar-gpu.png": "e18d20cee823dd1bdb8730e7eef6a2c2a115d40aeaa2d3c86867e34aca413c8d",
+      "volume-cpu.png": "9c17ceca5c998ba29dcba731458ed961fd16ba45c2718b159d5382cef9f2e48e",
+      "volume.svg": "924f2d9c8154e11c9f29801a4d6f0841f70a12baec82ca557d41572dd7f49de4",
+      "volume.pdf": "3c35fe17de6892177c09d577f8063105cb348f0dcc5964736341d57e0edfe73b",
+      "volume-gpu.png": "e6d78bb9a54a04b4cc7d2d7a3e3ee497c3e3083bf5c05fa60fb2cff6b4bcea83",
+      "lighting-time.gif": "5ef5b654023b6131f7abd68832022df68786c18e24f384742b9051d70112b82e",
+      "tk-lighting-native.png": "59936f148888ea9281849ddbbf55990e88efbd66fda77ebd6548e34724ca2b09",
+      "qt-lighting-native.png": "4afc5896ceccec720415f5b158184555c30301c0a4f75c43a4d1d8a1c18a07e8"
+    },
+    "validation_tool_sha256": "41afaffa419fc3a5c15b4c8a337c49397e0edde205fe9a24dc4f7885408bb146",
+    "example_sha256": "160795d2ad2a859337b7b3729a191dfbc87986014f4a9ee7ab312fb2837c26c8"
+  },
+  "cpu_gpu_comparisons": [
+    {
+      "scene": "urban",
+      "mean_absolute_channel_error_255": [
+        0.5591983695652174,
+        0.5587703804347826,
+        0.5577207880434782,
+        0.0
+      ],
+      "extrema": [
+        [
+          0,
+          204
+        ],
+        [
+          0,
+          204
+        ],
+        [
+          0,
+          204
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "scene": "eclipse",
+      "mean_absolute_channel_error_255": [
+        1.7890550595238095,
+        1.785531994047619,
+        1.7175223214285715,
+        0.0
+      ],
+      "extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "scene": "lunar",
+      "mean_absolute_channel_error_255": [
+        0.8148735119047619,
+        0.8149404761904762,
+        0.8148846726190476,
+        0.0
+      ],
+      "extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "scene": "volume",
+      "mean_absolute_channel_error_255": [
+        1.0211645021645022,
+        1.0141515151515152,
+        1.014004329004329,
+        0.0
+      ],
+      "extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "temporal_frames_verified_distinct": 3,
+  "source_sha256": {
+    "__init__.py": "7c174f8c46470b0deb9164d1612588afcd7846d07fc5806f323cda381e42e003",
+    "_bidi.py": "7c4b0c2dc99ab2cebe47931942bb58dd27f641458d8839902ff34c52d8c2cffe",
+    "_contracts.py": "15b970dc90106f0fac6cbfe7db56c7635de5f63d749b09ee0d10eecdbd184f87",
+    "_crs_catalog.py": "ea7b2e4eac86b398c4c1a342478f197b94d1767aa98ff52dd00c473668a97191",
+    "_frames.py": "020e72fb822db46b49f4dbe3c5d0b847957c90da03922aa7bd0e4528052d4c3a",
+    "_geocode_geometry.py": "0dbe0992f2c4b4ef6ce542a6401bc92e55e5de35f1db876d4685c8ccd8af622f",
+    "_geocode_text.py": "4b707b78e2aaeb7f7d8a95a562ff4dcf1d61c0d0d7721e0b08ad924c18826354",
+    "_overlay_planar.py": "497ba21ac00ea9e722c7044a1695fcad158566173a77c7dccb7c3451f6742ed7",
+    "_overlay_sphere.py": "c7b0df34f7ac47d2b3238a1ff7876f9fdb6280284eba989f5656899e0d77650d",
+    "_pbf_decode.py": "5d3d673766c1ba70af9c07dc9f1d9eb31da01b5c5684746bd8ea8f434b3b7f59",
+    "_pbf_wire.py": "47210908430c36386dcf6c6f1fc57dd435ace843ffd321435bc5bf15bda3ccec",
+    "_readers.py": "6430abd1e2cdeeeaeec124165ac9d2f4848d0c085fc8cd9a1c9f5659130229b8",
+    "_routing_osm.py": "d079b00387261c6fa6d2300870576d94d996e8c4c28dc387a6b631bc38e52628",
+    "_state.py": "4a63f61ef5a8b78458d3ab5afc09c2799474ab7e394f980b43dcb4c1b2eb3c98",
+    "_tex_process.py": "cfb19d31c11b6dfe950ac9df5cda9258193eb76cbcd7204c722a0b78cfc7de99",
+    "_texture3d.py": "930dd15bb073b4a0242bb1f1f473dace0e64f0752ee90ed8298482d5eff90a0d",
+    "_timescales.py": "6d0be330f2b9a77c9b440491d4cdbbfe8064b03a72a1ff4656e3300f60c084d2",
+    "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+    "_unicode_icu.py": "33f058b3e7e8e8cda484734baa3d640ff2fae7e24dc1339b93e8cc989b596f21",
+    "_volume_numpy.py": "de4b9b3380424a98dd23f53b28a2781c3867ed6c01752b0e14a9c9b8c099fcb0",
+    "animation.py": "a1b4cfb8e5098fbab66f11078177eb58d507e2e1ecabdb497e19e55cf000f8d0",
+    "artist.py": "b9d1b2fa06b5c770a8b4da8912a01e851fa093de628e6e463a553ec10bafebaa",
+    "atlas.py": "672039ad0ebb7b505e62bba2f8af86c59c7f70131bbb279660cc1034379e8914",
+    "axes.py": "ef3782842d81a35c82f44fc2b57fc31c277a40c1b23297112ab752920ad81d19",
+    "axis.py": "e8f6235b678752b32063bca7e75ec16e213f1a737ba052cfc774e09935de39bf",
+    "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+    "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+    "backends/_common.py": "574596c9d7c73e30bae14940acc64beba3902b97d3f01820f757c6132d7f40cc",
+    "backends/_navigation_process.py": "608bf0b2f90285ee128639847ac56d574c725f12342c56986bc90b530d0feb7b",
+    "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+    "backends/_raster_cache.py": "0c881c4384c3c7f5d49d2ff3bf0c29740f2b793e39c89ffcf95a27166295f411",
+    "backends/_subplots.py": "1282d8890a288f3bc8a6d56cadab390b87b662bc7d6f12ab5f0fae1d71d0388b",
+    "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+    "backends/backend_pdf.py": "b0b12ee4af9f62c2e48c85edf34473f0b3b504883b70f13369fac608e2a2402c",
+    "backends/live.py": "2aed31563aacaea9aa01e96299cb1947da9e27a9594f3f8ac5867ce2f9941948",
+    "backends/notebook.py": "e569db83fb53ef255b6a43d56d4792347da716eabb26bf2b30d33f86f9225009",
+    "backends/qt.py": "a5b3ba977ac4342d3e6dd1c4a937b8ae01b62fa47d8090384dfb869a85fc5273",
+    "backends/tk.py": "856e902d6f9854224e5a99f80756e42f6aad7d2b6933aeb9b1b28afa0fef1813",
+    "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+    "catalog.py": "1bf895e0cb88cecd6629f9e283bba1f7c6997dd5d2980cf3c0a4e7a2e5fb9fdf",
+    "cm.py": "11ac0c64ab774b7943299afdc991535be3cdbf40e8bb08310c7075268f16b753",
+    "collections.py": "d229c47aa3242a6a696269c6fed7151e5f7237a6591779dd7aed8bc551b0fa17",
+    "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+    "colorbar_render.py": "f747aca409ee0301097b807e66dce41d14b064b6632738789a0a3b6204287fdd",
+    "colors.py": "a31faea0e5d185e80d2c969db6822879a0e09d2bf5c56131dfe396d5f8adb378",
+    "components.py": "4d29253c366e8d1bb5607205e5fd381a786ec9eebbc7a7dde61d19d0ecf9c15e",
+    "config.py": "a198bb351f7cb6841eb566b01b4efa3d9d98fb93a2826d50285d287ecede6e32",
+    "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+    "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+    "coordinate_operations.py": "6da19e282d4055e6910cfccbf3832eb29b59efcfd31b4859ccff97f43e525e5c",
+    "crs.py": "a6d41a17d8aeb5f605066ba87337c53b2fd273b9d6f14ccedc02589ac6191f4e",
+    "curved_text.py": "32d64cd156c4a88231faceed1d9f7ca8442706aae17384fd41aea44e5da052df",
+    "cycles.py": "71decdb1683afce875df4202b34eec741a8a8095fee4176e84c3dea1a8e931df",
+    "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+    "dates.py": "1e9976352c406a3d33741a24db7da5459480f4013d142248a55655814d4f4660",
+    "datum_grids.py": "90c610b3626a421d82c0d8b7bf216c47e301c1a6877a0dd518f0e9941203dc7e",
+    "eclipse.py": "784c30c17ed62d7ce05f7bf56a573df893cc5f57bc846aa4607e352fb0c6d9ea",
+    "eclipse_artists.py": "f40fa8f1c7fa274726733ed82f588d7e7171de623b923a39bca0eca53e4a3dd3",
+    "field_artists.py": "7225c930cc1a09f1ff120ae03ce058bccbb08980d69010788edb6ace56d411f4",
+    "fields.py": "422c2d9c4dfbce56f9a165872f41410b428e0b3fcb8ff2e0c5ab9daeb5d6dcd6",
+    "figure.py": "31d6c9035857c28c67399ad1548c4287b6e65cb0a14c4de3596f91e59be54d78",
+    "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+    "font_outline.py": "a735dbaf02917f65b550887ff99a16464623d76709990b0614a2490bc90b0e39",
+    "geocoding.py": "a66475df73ddc8bec7ff0b239660d4de6b1c4c4b4c8b8bb8c296ab99ce17be65",
+    "geodesy.py": "87968aa7d5636f7978a6bae7e56c8071f37861f0ab3feffe185933055a95f065",
+    "geometry.py": "ccabe724b0daa2270943d6927e2ddc8aa0f996d00d0a95d0182bf22d4bc57bf3",
+    "grid_operations.py": "21abbff0860fd10d0a4791db2f00c0c2afb37a7b3d832ddb64e37df3aed47067",
+    "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+    "hatches.py": "c59f6d0067582210f090f847f468775c9d97ee262621eecda18842640712c931",
+    "icons.py": "de8b8e8b6d2e3f8878f2a8e2559ddb76eb687553a97fab93fc7b2485a74ff6e4",
+    "interaction.py": "13b2aa1ac04f9c2a92e56c1e33f3e520bd5a0d65d20127d26e8e520a2d7a2e39",
+    "io.py": "d19d593a05fbf730e206b189eece88b14136b94d7f33f9772401606024e4c78f",
+    "label_layout.py": "b4461b2aea67d059b68d522af2560d97543247f5e9ddb2d3dbf8aaa6724ee247",
+    "layers.py": "3781bedae0459490cfecdbaddd4a3b40abfb2b9cddff202ea5a8e2150d1ad7e3",
+    "layout_engine.py": "3fb822b70603735c853000b9569f37fb9a6ecebd8833579198a6437a9847539a",
+    "legend_handler.py": "a7141311aba97b764ec53c12d4291fd99ba353d8094ee620129154a593a7b481",
+    "legend_layout.py": "140c1648cfa26b5b899895e2c99390c26154a8dc586dedeb7fc25e41cdba194d",
+    "lighting.py": "c8f831dc79591857c3b75e55108102b114b699a3012a1b3fa63a904854507a75",
+    "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+    "lunar.py": "5b7fdc260dad68b466bf89fa71a33d529b40f9ad7cfb45f5cd6a62bdaef0a82b",
+    "lunar_artists.py": "62fa4134f0bf6fa4fcbba2ae71341960306b7954fdba335b599fc8ea1c20f8c9",
+    "mathtext.py": "7b1b132c6be3f0344cc0c75a98b52a859da1fbb5488fbf93be798ff5d07d484d",
+    "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+    "navigation.py": "8668adbb74ff995a7e8ec4b00f341cf7e82473aab7840d0fffa7d951a3a7149b",
+    "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+    "overlay.py": "689ac238a68eb1eb9855c1c0f04d341e79b2781eb98513010df94ad484f9b4d3",
+    "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+    "patches.py": "ab6cfaf733ce83aef99140b4420c67d6057b33581df635b53d84af18012cd8ec",
+    "path.py": "e4fc81d15280618d179ca50b2d7e7686ea1d5106a59159fe884a5b44bd677cd2",
+    "patterns.py": "5b04a45944ad5ea8dbac175cb257d2273b5e7404547994ceab5646543d112cfb",
+    "pbf.py": "3489bb046595e44fd8e368694318b088f852d86d084b0abd5eda634a8f1ea061",
+    "picking.py": "b1b8bc9273f054beeed787e859942ae567360330c1b5f97c2abaa39d7552b1e7",
+    "plotting.py": "62698ce0534c73e35c3992446ba57ec98c93570cd3bff782cd76e261df1b6085",
+    "polygon_labels.py": "81e43314fa149e74d171a98319209fde4273cda6de230a61c982b94d2a6bbdfb",
+    "projected_paths.py": "c8ab7f4ab4168a3e0ebdc3057d292992555288730e47daa508047bc1d3b31750",
+    "projections.py": "80ab7f37c47e4492e8a2c28dd15aeb3bd4b682ce9eb0e8e31d6ef14b319ab07f",
+    "pyplot.py": "e4dc36038bbb40c330f24ce66d992563b39fd96a1f07666ac6ecd62af0f4d7db",
+    "raster.py": "4546d5d64cc489a5ecce82f3d04919ac267b7c2fd3d4cec4dd4dcdac711c2838",
+    "render_map.py": "071a68387080a2982ac1ac9364e38b9cfdf159da57e122c98a8c7ede681b9bd3",
+    "renderers/__init__.py": "9fcc6c1326af3933901d5eb0324f7be75f742f32408e91968a379cd0ef5bcba2",
+    "renderers/_circle_coverage.py": "d7c072b89df852488e3b263bef3c9c615bbd30ef8e522300c80260da6a355e8f",
+    "renderers/_common.py": "b6207a63392f78dcc4ce6339e956ca26e15f3526e2a378497f04bd5a6d0a5270",
+    "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+    "renderers/_gpu_geometry.py": "0be131036bec48e64ee853715002df46b5e61bdbdf818f870c17805ff2f9718a",
+    "renderers/_gpu_volume.py": "19e04f3fe6e44afc3e6c1da26bbda063d1f711005712921e8935b7db8d7ae86f",
+    "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+    "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+    "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+    "renderers/_shaped_text.py": "60442ba2f4a2e35e386e1e86c71beea41ea02f2c40acd31c8001984508dc6172",
+    "renderers/_tile_cache.py": "6109d492bfa3f7c88bcffb28445ad878c53976fff3e5d3497acc152e31ee8b68",
+    "renderers/capabilities.py": "f6abcd9c3c9410c5a2af5bf3869eea6c8a68a809b6c54f7512934da568bae7eb",
+    "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+    "renderers/gpu.py": "9aac06a149ce5866bdc2a13f6b97aedd6a0708d80e09bd74dab54407a52500a5",
+    "renderers/pdf.py": "7e2af87d1da5fa1e7f317fa60ba64edb1b5e5c601820ed8a3041c384e6a594ca",
+    "renderers/pillow.py": "9338afa1f09db449afdb00c810144c93b5bf04dc1d12af1ecd3eb100217d1c05",
+    "renderers/svg.py": "21ae06a2c87a0659169d732c140aba7d037e33f4c29abcb1045288858982adbf",
+    "routing.py": "936e378ff446831e1104efa108def610576d7ed20eeded5b164c8ee99899b6fd",
+    "scale.py": "41b3fd691c5f32fd2362ac16fddcfd071833b15c807f2d3c98cf297732bd4cef",
+    "scene.py": "70cd3488fc6be58a5b74541830c02877c198545b959d9d1d14fe0a6277f629bb",
+    "scientific.py": "a2e9e87679d1bdb95cff33c18a972255e3c448ed14c9effc662f3e68073495ca",
+    "scientific_artists.py": "b88ed44676726ba99c5971f4787705e8c584e734cac4b3ec0a6b8537216c67cf",
+    "shapefile.py": "59facf18d5967cdcdfc0aeb47b710bc5faf051b3eeb35118cba1ab0545f3e485",
+    "shared_axes.py": "dc94bfe60678b872fecabdbadb20f7816dce076ce5bdf06ccc98c41a2498a920",
+    "simplify.py": "42a7cbaed246085b0b4157bcb5bec0044a77184b7dce995cda41b8d3999ec70b",
+    "solar.py": "bd4a1b6f073406656fc5b7a80075ebef1b1b3e95b79f7bffaf6bf7d203086cda",
+    "solar_artists.py": "666d071866692a690352c07485d3f5f31e9a9b47696b965b640e530ada29b0da",
+    "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+    "style.py": "c7836993f26f7204425af0869da7428237154eddf4314aba0039ed1730911138",
+    "styles.py": "c93106fb403095cf4e534209c6923549f55d7adc917c362c02132853bff49c86",
+    "subfigure.py": "5f8828d7f4d7eb8b6f24cf163e7cd9e8b5e7d5d853949fb341f6cc034d782d89",
+    "tabular.py": "45287add2d651daf279d62e1be0bb34cfe0ea76cd9723937a4a1f7adec7b98f6",
+    "temporal.py": "b5b268f0ac17e857cb9cdccf32f2169c83b1c0409ca87f449a5602b9495135b4",
+    "terrain3d.py": "85103a17cff220888bc0779899f1f9e5eae1262c4bdbfc7decd18e9ec7da7184",
+    "terrain_axes.py": "368f2353b3baac3f7dbdedfc877de23f7f390503682acbef83bf404fdec0324c",
+    "tex.py": "c53a6c9d0c9f9050e390cd483264e7b1892650a13240b15001f9ecf5c346c8ef",
+    "text_artists.py": "8397e17b09ff96cf45e95221e4c30cf27f131aa9cfc0695ca55d845600c9918b",
+    "text_engine.py": "9a3fa8a0c90483ee463f6edba3cd3620b31ec97812f34364e2ff6f540110a2d6",
+    "ticker.py": "a493f72af9c852e93de8fb0b71eb71c65a0bb41e9c4a349d5bdd64f8461f9a35",
+    "timers.py": "cf9b5aa50a5cf1b1498077329c291bb42a57b84d4f735fcd0f53696825330f21",
+    "topology.py": "d05324a326fda948daa2d246f9c44325560c5a70f89a42d23fa1965a1e4f0f72",
+    "transforms.py": "5d6818e97d4f6495eb70570f05b402f91cf78330ba3c3f8687e439f8851cf002",
+    "transverse.py": "abf6eb2f4a86cc0a02134ba364d3840e91eb4a7b69035bd78d6043042c35bf2a",
+    "tri.py": "4b37b7fbbcfaa08e5b263302d5d69583645bed513b8be90353fcf7f5f27f4109",
+    "typography.py": "f9c2e6cfab03b93dc32cf1685cb3d69248af68b437b37e8fefc0dceca1bea18d",
+    "viewer.py": "ebe506c25bd07ac7121f8da6c930a1d05ae6509b502aa3cc4033cb6f01527f4a",
+    "viewport.py": "8185b308711adfb762a9149301d5ceccb3b31dc2bfdd7fdafc675fbba3c34a7f",
+    "volume.py": "cab9234adcf76362e494d60da4f52eeb5e3c4d47b407dcc55d6cfb8d76e67a3c",
+    "volume_artist.py": "6047af81a4e80699342c5be1f93c8ab90f766c3a543a61ca790346bad7828b22",
+    "volume_render.py": "6e5d740f4ddcd3a395ee66c0ad6a4dacc95f55df98f1a066139ddbb28b98e18f",
+    "widgets.py": "560cd20a6f366818065306517ef83c7e0ecc4401a48745192e1c198643a78e24",
+    "xmlio.py": "347e928edbbc8e82d13562156d6e3b0985b93d5bf900dbca8ecf3c1fcf86fbfc"
+  },
+  "tool_sha256": {
+    "tools/validate_eclipse_precision.py": "63c99cf4814c6ed5f7db2454bed27cd236ff729b263eacaf726bfb530abada32",
+    "tools/validate_lighting_visual.py": "41afaffa419fc3a5c15b4c8a337c49397e0edde205fe9a24dc4f7885408bb146",
+    "examples/lighting_maps.py": "160795d2ad2a859337b7b3729a191dfbc87986014f4a9ee7ab312fb2837c26c8",
+    "tests/test_lighting_040.py": "74752ca14d1b81b4b04cd574e136b88a6d25e1055e25ac4ea78706fba492b597",
+    "docs/lighting-model-0.4.json": "9326b8e193047293d1ef97380d5761918b52a7e1b89761c326b7c9749c6ba301"
+  },
+  "licenses": {
+    "passed": true,
+    "license_texts_verified": 21,
+    "raw_reference_data_distributed": false
+  },
+  "privacy": {
+    "passed": true,
+    "history_commits": 38,
+    "history_blobs": 1335,
+    "findings": []
+  },
+  "local_checklist": {
+    "completed": 98,
+    "pending": 14,
+    "total": 112
+  },
+  "limitations": [
+    "Centroid sampled opaque triangle shadows; mesh/disk refinement is not an automatic precision guarantee",
+    "No transparent/textured mesh shadow transmission or mesh-volume transport",
+    "Planar angular disk area <=2 degrees, spherical Earth shadow, no atmosphere/limb darkening",
+    "Low precision solar/lunar ephemeris fails independent real-event gate",
+    "No validated contact solver or lunar eclipse event timing",
+    "Coarse map cells cannot resolve totality paths",
+    "Windows own-window automation is not human multiplatform approval or viewer latency acceptance"
+  ]
+}

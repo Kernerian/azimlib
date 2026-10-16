@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Observed validation — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="observed-validation-04-development">Observed validation — 0.4 development</h1>
+<p>These are historical results of snapshot
+<code>d6ef84cfeb56c7fa6ca1e830a94718ed66195384</code>, not validation of a future release
+candidate or universal accuracy/performance promises. <a href="observed-validation-0.4.json">Structured values and
+source report hashes</a>.</p>
+<h2 id="gpu">GPU</h2>
+<p>Windows, Ryzen 5 5600X / RTX 2060, NVIDIA 617.42, OpenGL 3.3, Python 3.14.4.
+Fixed 700x500 scene, 100 DPI; five processes, 24 warm-up and 120 measured
+frames per phase/process (600 measured per phase), all runs retained.</p>
+<table>
+<thead>
+<tr>
+<th>Exact frame</th>
+<th style="text-align:right">Median ms</th>
+<th style="text-align:right">p95 ms</th>
+<th style="text-align:right">Variance ms²</th>
+<th>33 ms p95</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Warm</td>
+<td style="text-align:right">19.246</td>
+<td style="text-align:right">26.798</td>
+<td style="text-align:right">8.014</td>
+<td>Passed in this workload</td>
+</tr>
+<tr>
+<td>Pan</td>
+<td style="text-align:right">34.146</td>
+<td style="text-align:right">44.268</td>
+<td style="text-align:right">21.861</td>
+<td>Failed</td>
+</tr>
+<tr>
+<td>Resume</td>
+<td style="text-align:right">35.800</td>
+<td style="text-align:right">45.931</td>
+<td style="text-align:right">23.134</td>
+<td>Failed</td>
+</tr>
+<tr>
+<td>Zoom</td>
+<td style="text-align:right">85.108</td>
+<td style="text-align:right">103.559</td>
+<td style="text-align:right">80.968</td>
+<td>Failed</td>
+</tr>
+</tbody>
+</table>
+<p>Provisional p95 pan/resume/zoom: Tk 17.360/15.488/21.260 ms;
+Qt 9.357/9.067/23.133 ms. Continuous provisional pan/resume cadence:
+Tk 70.44/67.21 FPS, Qt 115.09/117.91 FPS. These are previews, not exact frames.
+Native complete-response zoom p95: Tk 214.288 ms, Qt 143.758 ms, both above
+100 ms. Eight isolated synthetic native gestures per phase; physical
+input-to-photon latency was not measured. First native cold/warm paint:
+Tk 1746.520/40.069 ms; Qt 1679.349/37.535 ms.</p>
+<p>97/97 final GPU RGBA frames match the previous GPU oracle byte for byte.
+CPU/GPU RGB MAE is separately 1.115347619/255 (Tk) and 1.221858168/255 (Qt),
+alpha MAE zero; CPU/GPU pixels and cross-platform pixels are not identical.
+Sampled aggregate process RSS: Tk 323956736, Qt 364244992 bytes, not driver VRAM.</p>
+<p><a href="https://github.com/Kernerian/azimlib/actions/runs/38493855546">Development CI</a>
+passed 6/6 jobs: Windows x64, Linux x64/ARM64, macOS x64/ARM64 and Mesa.
+ARM64 native fallback/contracts and software Mesa are NOT physical GPU
+performance evidence. GPU physical ARM64 remains an unmet part of deferred 9.08.</p>
+<h2 id="eclipses">Eclipses</h2>
+<p>Frozen corpus: 82 events (52 solar, 30 lunar). Preserved independent comparisons:
+5118/5118 centers within 2 km, maximum observed 1.811 km; 489 solar contacts
+maximum 8.65248 s; 150 lunar contacts maximum 30.5347 s; 195 magnitudes maximum
+0.00063769; 137 solar obscurations maximum 0.000831888.</p>
+<p>These maxima describe tested cases and quantities, not bounds between samples,
+all epochs or unrepresented physical components. 10162 earlier boundary checks
+contain 9941 numerical matches to the represented graph and <strong>221 unresolved</strong>
+checks; graph distance does not certify the complete physical boundary. Round 8
+did not replay that matrix because temporal physical completeness was unproved.</p>
+<p>The 2023 center-oracle correction and historical references remain preserved.
+1986 solar-radius convention/classification, invalid polar observer references,
+independent numerical lunar obscuration and physical temporal envelope proof
+remain open. Synthetic temporal/topological tests do not certify real events.
+<code>accuracy_validated=False</code>, <code>certified_accuracy_interval=None</code>.
+1972-2100 is an experimental computational domain, not certified precision;
+explicit TT/UT1 and refusal outside supported inputs remain required.</p>
+<p>Eclipse Predictions by Fred Espenak, NASA's GSFC. Source hashes and conventions
+are preserved in the <a href="deferred-gates-0.4.json">deferred-gate register</a>.</p>
+<h2 id="pbf">PBF</h2>
+<p>Own reader validated against regional real data, XML fixtures, corruption,
+disk references, streaming and resource limits. Full-planet processing was
+not executed; <a href="planet-trial.html">2.08</a> remains deferred until suitable infrastructure.
+No regional extract is a substitute for that evidence.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/observed-validation-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

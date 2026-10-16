@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "upstream_package": "LINZ proj-datumgrid-nz (data only; no PROJ code)",
+  "upstream_version": "20200110",
+  "datasets": [
+    {
+      "id": "linz-nzgd1949-nzgd2000",
+      "version": "20200110",
+      "format": "ntv2",
+      "file": "nzgd2kgrid0005.gsb",
+      "crs": "NZGD1949",
+      "license": "CC-BY-4.0",
+      "copyright": "Toitu Te Whenua Land Information New Zealand",
+      "source": "https://raw.githubusercontent.com/linz/proj-datumgrid-nz/62ff69da8713f0167d319d0263f1657ac380f273/files/nzgd2kgrid0005.gsb",
+      "attribution": "Contains unmodified LINZ grid data, provided by Toitu Te Whenua Land Information New Zealand, licensed CC BY 4.0. https://github.com/linz/proj-datumgrid-nz",
+      "license_file": "CC-BY-4.0.txt",
+      "files": {
+        "nzgd2kgrid0005.gsb": "116d54c9ad2f7082610d887439106bac23d2df364b48506acf6c82ca8b5aba1d",
+        "CC-BY-4.0.txt": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+        "LICENCE.proj-datumgrid-nz": "5bf0f58d9096a81c4b62d72a9b59247ccf735546113c9d368ed2f34e679c6f09"
+      },
+      "download_bytes": 318464,
+      "upstream_commit": "62ff69da8713f0167d319d0263f1657ac380f273",
+      "options": {
+        "nodata": []
+      },
+      "operation": {
+        "kind": "horizontal",
+        "source": {
+          "name": "NZGD1949",
+          "datum": "NZGD1949",
+          "ellipsoid": {
+            "name": "International 1924",
+            "semi_major_axis": 6378388.0,
+            "inverse_flattening": 297.0
+          },
+          "height_reference": "ellipsoidal"
+        },
+        "target": {
+          "name": "NZGD2000",
+          "datum": "NZGD2000",
+          "ellipsoid": {
+            "name": "GRS80",
+            "semi_major_axis": 6378137.0,
+            "inverse_flattening": 298.257222101
+          },
+          "height_reference": "ellipsoidal"
+        },
+        "factor": 1,
+        "registration": "source-horizontal",
+        "units": "arcseconds",
+        "interpolation": "bilinear",
+        "accuracy": "LINZ horizontal grid model; accuracy varies by source survey. NTv2 per-node accuracy fields retained.",
+        "reference": "https://github.com/linz/proj-datumgrid-nz/tree/62ff69da8713f0167d319d0263f1657ac380f273"
+      }
+    },
+    {
+      "id": "linz-nzgeoid2016",
+      "version": "20200110",
+      "format": "gtx",
+      "file": "nzgeoid2016.gtx",
+      "crs": "NZGD2000",
+      "license": "CC-BY-4.0",
+      "copyright": "Toitu Te Whenua Land Information New Zealand",
+      "source": "https://raw.githubusercontent.com/linz/proj-datumgrid-nz/62ff69da8713f0167d319d0263f1657ac380f273/files/nzgeoid2016.gtx",
+      "attribution": "Contains unmodified LINZ grid data, provided by Toitu Te Whenua Land Information New Zealand, licensed CC BY 4.0. https://github.com/linz/proj-datumgrid-nz",
+      "license_file": "CC-BY-4.0.txt",
+      "files": {
+        "nzgeoid2016.gtx": "081040dd085bf4da6995c927ca69fd1c6043dc9ae708b8ccbf1b59f81525981f",
+        "CC-BY-4.0.txt": "d557539df68e771cc1eedcc91d13f70fca930e508d11eedcafa4b15db49e3744",
+        "LICENCE.proj-datumgrid-nz": "5bf0f58d9096a81c4b62d72a9b59247ccf735546113c9d368ed2f34e679c6f09"
+      },
+      "download_bytes": 10093244,
+      "upstream_commit": "62ff69da8713f0167d319d0263f1657ac380f273",
+      "options": {
+        "nodata": [
+          -88.8888,
+          -9999.0
+        ]
+      },
+      "operation": {
+        "kind": "vertical",
+        "source": {
+          "name": "NZGD2000",
+          "datum": "NZGD2000",
+          "ellipsoid": {
+            "name": "GRS80",
+            "semi_major_axis": 6378137.0,
+            "inverse_flattening": 298.257222101
+          },
+          "height_reference": "ellipsoidal"
+        },
+        "target": {
+          "name": "NZGD2000",
+          "datum": "NZGD2000",
+          "ellipsoid": {
+            "name": "GRS80",
+            "semi_major_axis": 6378137.0,
+            "inverse_flattening": 298.257222101
+          },
+          "height_reference": "NZVD2016 normal-orthometric"
+        },
+        "factor": -1,
+        "registration": "source-horizontal",
+        "units": "metres",
+        "interpolation": "bilinear",
+        "accuracy": "LINZ NZGeoid2016 model; approximately 3 cm goal in urban areas, not a global or per-point guarantee. See publisher assessment.",
+        "reference": "https://github.com/linz/proj-datumgrid-nz/tree/62ff69da8713f0167d319d0263f1657ac380f273"
+      }
+    }
+  ]
+}

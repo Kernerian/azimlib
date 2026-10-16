@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "file": "regions.pdf",
+  "pdf_sha256": "fdee1c0803af161157ac50d744a5c874c83745be66aa2fed2c69aa5a8318bfd2",
+  "pages": 3,
+  "page_sizes_points": [
+    [
+      0.0,
+      0.0,
+      345.6,
+      309.6
+    ],
+    [
+      0.0,
+      0.0,
+      345.6,
+      309.6
+    ],
+    [
+      0.0,
+      0.0,
+      345.6,
+      309.6
+    ]
+  ],
+  "font_notices_exact": true,
+  "reader": "pypdf",
+  "reader_version": "6.10.0",
+  "tool_sha256": "a71b3fd0346655efcb9b25a63250e70bb61bed45943aa7737204e42673e166bd",
+  "scope": "Independent strict page/content/attachment reader check; does not render pixels or validate third-party source ownership"
+}

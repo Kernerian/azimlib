@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "version": "0.3.0.dev0",
+  "snippets": 3,
+  "source_sha256": "a5315d9ccf6172fd9c426214bf4ef490c5db155432ceddd4e794441836c00854",
+  "files": {
+    "migration-atlas.pdf": "c3c590e5a4fa08a8bcd4b59224aa1810f8c6dbeb11fc90fe849a6400adb86006",
+    "migration-colors.svg": "0b181f31ad26e6e05c9e87df460525cf082308c85e5a1633f119bb1b1cc26266",
+    "migration-map.svg": "e2c68c7b71e4469cd52cfc7f1bd9418b3d981fb9282d1802301d2aaaa8aac5d2"
+  },
+  "forbidden_imports": []
+}

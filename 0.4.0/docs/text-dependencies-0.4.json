@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "licenses": [
+    {
+      "name": "fonttools",
+      "version": "4.66.0",
+      "file": "licenses/FontTools.txt",
+      "sha256": "22bef80697ecfaa17f97e62b9a26dfa12820be05583e8dd12ad169b241274c99",
+      "source": "https://pypi.org/project/fonttools/4.66.0/"
+    },
+    {
+      "name": "uharfbuzz",
+      "version": "0.56.3",
+      "file": "licenses/UHarfBuzz.txt",
+      "sha256": "1eb85fc97224598dad1852b5d6483bbcf0aa8608790dcc657a5a2a761ae9c8c6",
+      "source": "https://pypi.org/project/uharfbuzz/0.56.3/"
+    },
+    {
+      "name": "ICU notice reference (system library not bundled)",
+      "file": "licenses/ICU.txt",
+      "sha256": "e09827667e0bb3c808b2a463548ba814a5e6249b67353234d70c8dfc2bcc417d",
+      "source": "https://raw.githubusercontent.com/unicode-org/icu/4e689969f24a31e32efcd590cabd944ca3550352/LICENSE",
+      "commit": "4e689969f24a31e32efcd590cabd944ca3550352"
+    },
+    {
+      "name": "HarfBuzz",
+      "version": "14.6.0",
+      "file": "licenses/HarfBuzz.txt",
+      "sha256": "ba8f810f2455c2f08e2d56bb49b72f37fcf68f1f4fade38977cfd7372050ad64",
+      "source": "https://raw.githubusercontent.com/harfbuzz/harfbuzz/c7a7457b7385f33178e8cf87615ca077a810bbe7/COPYING",
+      "commit": "c7a7457b7385f33178e8cf87615ca077a810bbe7"
+    },
+    {
+      "name": "Unicode conformance data notice (datasets acquired separately)",
+      "version": "15.1.0 fixtures; current Unicode permission notice",
+      "file": "licenses/Unicode-Data.txt",
+      "sha256": "e7a93b009565cfce55919a381437ac4db883e9da2126fa28b91d12732bc53d96",
+      "source": "https://www.unicode.org/license.txt"
+    }
+  ]
+}

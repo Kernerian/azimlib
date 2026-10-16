@@ -1,0 +1,51 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "dpi": 100,
+  "repeats": 4,
+  "points": 1500,
+  "renderer_source_sha256": {
+    "before": {
+      "pillow.py": "0df7334cd8b68bde883611880588d83aa739fe44836f4b2b63139851c8195cfd",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    },
+    "after": {
+      "pillow.py": "4778285f84103e6ff6017b79c3030e8fcd41369845893dbea389556062cc28cc",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    }
+  },
+  "policy": "Each pair reverses before/after order; one immutable scene per case; PNG encoding included; no profiling or memory instrumentation.",
+  "cases": [
+    {
+      "name": "atlas",
+      "items": 656,
+      "samples_seconds": {
+        "before": [
+          7.67612200000076,
+          7.607390299999679,
+          7.779145399999834,
+          7.657159800000954
+        ],
+        "after": [
+          8.015343600000051,
+          7.87497330000042,
+          7.699427200001082,
+          7.523098100000425
+        ]
+      },
+      "before_median_seconds": 7.666640900000857,
+      "after_median_seconds": 7.787200250000751,
+      "reduction_percent": -1.5725185458977275,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae"
+        ],
+        "after": [
+          "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae"
+        ]
+      }
+    }
+  ]
+}

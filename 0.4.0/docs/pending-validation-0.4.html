@@ -1,0 +1,129 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Current scope status — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="current-scope-status-04-development">Current scope status — 0.4 development</h1>
+<p>The checkpoint below is <strong>historical</strong>, not the current acceptance dashboard.
+7.08/8.08 subsequently received explicit three-system human acceptance;
+their completion remains preserved. Four gates (2.08,9.08,13.06,13.07) are now
+formally deferred, not passed. 14.01–14.04/14.06/14.07 now have revalidation/preparation evidence.
+14.05 has explicit native human approval, including recovered TeX. Only 14.08 final acceptance/publication remains open; CI and packages are repeated on the successor SHA.
+<a href="stage14-execution-0.4.json">Operational evidence</a>.
+<a href="release-progress-0.4.html">Current checklist</a>, <a href="deferred-gates-0.4.html">decision</a>,
+<a href="observed-validation-0.4.html">latest observed results</a>.</p>
+<h2 id="original-checkpoint-preserved">Original checkpoint, preserved</h2>
+<h1 id="validação-dos-gates-pendentes-040">Validação dos gates pendentes — 0.4.0</h1>
+<p>Checkpoint técnico, sem release. Nenhum dos seis IDs foi marcado como concluído
+nesta rodada: 7.08/8.08 aguardam inspeção humana; 9.08 e 13.06/13.07 ainda têm
+critérios quantitativos não satisfeitos; 2.08 exige o dump planetário integral.</p>
+<h2 id="texto-e-tex-708-808">Texto e TeX — 7.08 / 8.08</h2>
+<p>Mesmo SHA <strong>d61a3ca02739ce6d8f43de175b55de75ecec58dc</strong>, branch de validação,
+<a href="https://github.com/Kernerian/azimlib/actions/runs/38176155877">execução 38176155877</a>,
+<strong>6/6 jobs aprovados</strong>. Esta execução específica não substitui a CI final de
+release. Integridade de archives/arquivos, identidade dos sources entre sistemas,
+conformidade Unicode, licenças e privacidade foram verificadas automaticamente.</p>
+<table>
+<thead>
+<tr>
+<th>Sistema</th>
+<th>Texto — 7.08</th>
+<th>TeX — 8.08</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td><a href="https://github.com/Kernerian/azimlib/actions/runs/38176155877/artifacts/11715254429">artifact</a></td>
+<td><a href="https://github.com/Kernerian/azimlib/actions/runs/38176155877/artifacts/11716147217">artifact</a></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><a href="https://github.com/Kernerian/azimlib/actions/runs/38176155877/artifacts/11715778227">artifact</a></td>
+<td><a href="https://github.com/Kernerian/azimlib/actions/runs/38176155877/artifacts/11716350085">artifact</a></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td><a href="https://github.com/Kernerian/azimlib/actions/runs/38176155877/artifacts/11715339332">artifact</a></td>
+<td><a href="https://github.com/Kernerian/azimlib/actions/runs/38176155877/artifacts/11715753784">artifact</a></td>
+</tr>
+</tbody>
+</table>
+<p>Artifacts têm retenção de 30 dias. Extrair cada archive e abrir <code>index.html</code>.
+Comparar o mesmo specimen/DPI/formato em todos os sistemas; não comparar imagens
+100 dpi e 200 dpi como se tivessem o mesmo tamanho físico.</p>
+<p>Checklist visual para aceite explícito por sistema:</p>
+<ul>
+<li>Texto: árabe conectado, direção RTL/LTR mista e números, scripts índicos,
+CJK, acentos/combining marks, símbolos e fontes de fallback sem caixas vazias.</li>
+<li>Métricas: baseline, rotação, alinhamento, halos, títulos/rótulos/ticks,
+espessuras físicas e margens em 100/200 dpi; PNG/SVG/PDF sem recorte inesperado.</li>
+<li>TeX: frações, integrais, somatórios, radicais, matrizes e texto misto;
+edição/exportações e recursos tipográficos creditados.</li>
+<li>Capturas das próprias janelas Tk/Qt e exports: mesmos componentes e ausência
+de regressão de layout. Capturas não comprovam interação física ou latência.</li>
+</ul>
+<p>ICU/grapheme tests usam a versão normativa Unicode correspondente a cada
+provider; selecionar fixture pelo contrato não remove casos que falharam.
+TeX real foi executado com as ferramentas no ambiente ativo, além de verificar
+a instalação isolada sem o extra. Cache só tolera a renomeação atômica temporária
+durante aquisição monitorada; execução offline mantém verificações estritas.</p>
+<p><strong>7.08 e 8.08 aguardam aprovação visual humana explícita.</strong></p>
+<h2 id="gpu-908">GPU — 9.08</h2>
+<p>SHA <strong>8959ff25c57786e487ec351bcd7615c954fbd569</strong>,
+<a href="https://github.com/Kernerian/azimlib/actions/runs/38178094779">execução 38178094779</a>,
+<strong>4/4 jobs aprovados</strong>: contratos sem GPU nos três sistemas e referência Mesa.
+<a href="https://github.com/Kernerian/azimlib/actions/runs/38178094779/artifacts/11717395182">Mapa/terreno CPU/GPU</a>,
+<a href="https://github.com/Kernerian/azimlib/actions/runs/38178094779/artifacts/11716717539">volumes</a>.
+Hashes, fontes idênticas entre os dois artifacts, licenças e scans de privacidade
+verificados. Mesa é software; não comprova desempenho de hardware.</p>
+<p><a href="gpu-profile-0.4.json">Profiling detalhado</a> e <a href="gpu-0.4.html">método</a>.
+Windows, RTX 2060, NVIDIA 617.42, Python 3.14.4; workload fixo de 24 quadros/fase.</p>
+<table>
+<thead>
+<tr>
+<th>Medida sequencial scene→image</th>
+<th>Antes, mediana</th>
+<th>Depois, mediana</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pan</td>
+<td>197.284 ms</td>
+<td>68.799 ms</td>
+</tr>
+<tr>
+<td>Zoom</td>
+<td>761.301 ms</td>
+<td>160.443 ms</td>
+</tr>
+</tbody>
+</table>
+<p>Primeira pintura sequencial caiu de 971.642 para 471.444 ms. Paridade média
+CPU/GPU fica em aproximadamente 1.2/255 por canal, com bordas não idênticas.
+Indexação da legenda e construção/packing em lote preservam regras geométricas,
+caps/joins/dashes, supersampling e budgets; NumPy permanece opcional.</p>
+<p>Composição/preparação de CPU, submissão de buffers, comandos GPU temporizados e
+espera/readback estão separados no diagnóstico. Consultas síncronas perturbam
+o scheduling; não usar esses tempos como benchmark normal. DMA/PCIe puro, VRAM
+do driver, HID físico e scanout do compositor não foram isolados.
+Eventos nativos sintéticos→pintura Tk/Qt também excedem 100 ms em várias amostras.
+Os limites de <strong>33 ms/quadro</strong> e <strong>100 ms/interação</strong> não foram alterados.
+<strong>9.08 permanece pendente.</strong></p>
+<h2 id="eclipses-1306-1307">Eclipses — 13.06 / 13.07</h2>
+<p><a href="eclipse-precision-0.4.html">Contrato científico e reprodução</a>,
+<a href="eclipse-validation-0.4.json">resumo quantitativo</a>.
+Leitor SPK próprio e reduções experimentais internas; efeméride bruta externa,
+clocks/frame/discos/umbra/penumbra separados, sem certificação herdada do kernel.</p>
+<p>302 posições centrais e 601 coordenadas de borda comparadas, além de doze
+contatos lunares e dois controles sem eclipse. 2023 excede 2 km na trajetória
+e 3 km em 29 bordas. Falta um orçamento global sustentado e validação dos
+contatos solares absolutos; a API independente tentou retornar os dados mas
+estava inacessível. Sucessos lunares não encerram os dois IDs.
+O auditor científico retorna 3; limites/casos continuam congelados.</p>
+<h2 id="planeta-208">Planeta — 2.08</h2>
+<p><a href="planet-trial.html">Procedimento integral preservado</a>. Implementação, extrato real,
+streaming, referências em disco e limites já foram validados. Falta exclusivamente
+o ensaio real com <code>planet.osm.pbf</code>, em infraestrutura adequada, antes do gate
+final. Nenhum download planetário nesta rodada; extrato não substitui o planeta.
+O protocolo registra data/SHA-256, EOF, contagens, referências perdidas/corruptas,
+tempo, picos RAM/disco, limites impostos e resumo verificável.</p>
+<p>Essa pendência não bloqueia frentes independentes, nem autoriza encerramento
+da versão. A etapa 14, a versão estável e os fluxos de publicação foram preservados.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/pending-validation-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

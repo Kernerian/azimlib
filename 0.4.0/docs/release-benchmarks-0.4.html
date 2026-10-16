@@ -1,0 +1,69 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>0.4.0 candidate — measured evidence ledger · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="040-candidate-measured-evidence-ledger">0.4.0 candidate — measured evidence ledger</h1>
+<p>14.03 consolidates recorded measurements under the re-scoped release contract.
+It does not rerun or close the four deferred gates. <a href="release-benchmarks-0.4.json">Ledger and hashes</a>.
+The <a href="observed-validation-0.4.html">latest observed GPU/science report</a> and
+<a href="integration-benchmarks-0.4.html">older integrated workloads</a> retain original
+hardware, source identity, methods and failures. They are historical snapshots,
+not final-candidate or universal performance guarantees.</p>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Observed evidence</th>
+<th>Target / limit</th>
+<th>Unproved claim / deferred ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPU exact warm</td>
+<td>p95 26.798 ms, recorded 700x500/100 DPI workload</td>
+<td>33 ms p95</td>
+<td>No universal guarantee; 9.08</td>
+</tr>
+<tr>
+<td>GPU exact pan/resume/zoom</td>
+<td>p95 44.268 / 45.931 / 103.559 ms</td>
+<td>33 ms p95</td>
+<td>Target failed; 9.08</td>
+</tr>
+<tr>
+<td>Native complete zoom</td>
+<td>Tk 214.288 / Qt 143.758 ms p95</td>
+<td>100 ms response</td>
+<td>Target failed; input-to-photon unmeasured; 9.08</td>
+</tr>
+<tr>
+<td>Final GPU frame reuse</td>
+<td>97/97 previous GPU-oracle frames byte-identical</td>
+<td>Exact previous-path comparison</td>
+<td>CPU/GPU identity and ARM64 physical speed not implied; 9.08</td>
+</tr>
+<tr>
+<td>PBF</td>
+<td>Real regional Monaco, streaming, references and limits</td>
+<td>Bounded reader/resource contracts</td>
+<td>Strict recut rejects missing relations; regional skip is explicit. Full planet absent; 2.08</td>
+</tr>
+<tr>
+<td>Eclipses</td>
+<td>Frozen centers/contacts/magnitude/obscuration observations</td>
+<td>2 km / 3 km / 30 s / 60 s / 0.001</td>
+<td>Physical temporal boundary completeness and remaining references unproved; 13.06/13.07</td>
+</tr>
+<tr>
+<td>Foundation/topology</td>
+<td>Seven 1000-roundtrip batches; 20000 disjoint segments and analytic bounded cases</td>
+<td>Original allocation/workload budgets</td>
+<td>No dense arbitrary-overlay or global dataset throughput guarantee</td>
+</tr>
+</tbody>
+</table>
+<p>RTX 2060 / Ryzen 5 5600X, NVIDIA 617.42, OpenGL 3.3, Windows/Python 3.14.4;
+five independent processes, 24 warm-ups + 120 measured frames per phase/process.
+All runs retained. Sampled process RSS is not VRAM or a hard instantaneous quota.
+Mesa and native ARM64 fallback establish contracts, not physical GPU performance.</p>
+<p>Future refinements must retain before/after workload identity and report medians,
+p95, variance, cold/warm cache conditions and full response separately. No
+favorable-run selection or relaxed budget is authorized by this consolidation.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/release-benchmarks-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

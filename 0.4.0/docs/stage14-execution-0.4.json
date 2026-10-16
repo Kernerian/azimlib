@@ -1,0 +1,44 @@
+{
+  "schema": 3,
+  "record_scope": "Release-state tooling successor; exact candidate SHA and hashes live in separately versioned authorization to avoid self-reference. Operational checklist remains 107 complete/four deferred/14.08 unchecked until post-publication validation.",
+  "branch": "validation/0.4-candidate",
+  "previous_candidate_sha": "63f926b1c0272b619de7d5fc1e0dd193296ec78c",
+  "historical_evidence": "docs/stage14-execution-0.4-previous.json",
+  "operational_counts": {
+    "original": 112,
+    "completed": 107,
+    "deferred": 4,
+    "pending": 1,
+    "active_total": 108
+  },
+  "completed_stage14": [
+    "14.01",
+    "14.02",
+    "14.03",
+    "14.04",
+    "14.05",
+    "14.06",
+    "14.07"
+  ],
+  "pending_stage14": [
+    "14.08"
+  ],
+  "deferred": [
+    "2.08",
+    "9.08",
+    "13.06",
+    "13.07"
+  ],
+  "visual_acceptance": "docs/visual-acceptance-0.4.json",
+  "human_visual_approval": true,
+  "final_candidate_ci_and_packages": "Fresh exact-successor-SHA CI, audits and hashes required; prior hashes do not certify successor artifacts.",
+  "final_publication_acceptance": false,
+  "publication_authorized": false,
+  "publication_performed": false,
+  "public_documentation_deployed": false,
+  "publication_state_contract": "docs/release-publication-state-0.4.md",
+  "authorization_record_source": "release/0.4.0-authorization:release-authorizations/0.4.0.json at an explicit immutable authorization_ref",
+  "state_before_exact_authorization_validation": "pending",
+  "state_after_successful_authorization_preflight": "authorized; not completed",
+  "publication_execution_permitted_this_round": false
+}

@@ -1,0 +1,125 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lighting and experimental eclipse boundaries — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="lighting-and-experimental-eclipse-boundaries-04-development">Lighting and experimental eclipse boundaries — 0.4 development</h1>
+<p>Local lighting/shadow contracts below remain unchanged. Astronomical eclipse
+use (<code>EclipseGeometry</code>, occultation/cones, disk conventions, eclipse Artists)
+is <strong>experimental</strong>: observed corpus errors do not certify global geometry,
+contact discovery or prediction. <a href="observed-validation-0.4.html">Observed evidence</a>
+and <a href="deferred-gates-0.4.html">deferred 13.06/13.07</a> state current limits.</p>
+<h1 id="physical-illumination-and-geometric-shadows-04-development">Physical illumination and geometric shadows — 0.4 development</h1>
+<p>This is local development, not part of the published 0.3.0 package. The original
+Azimlib implementation prepares the same shaded triangles for CPU and GPU.
+Nothing imports Matplotlib or an external ray tracer/ephemeris backend.</p>
+<h2 id="local-terrain-and-buildings">Local terrain and buildings</h2>
+<pre><code class="language-python">import azimlib as azl
+from azimlib.terrain3d import LocalFrame
+from datetime import datetime, timezone
+
+frame = LocalFrame(0, 45)  # east, north, up in physical metres
+observer = azl.SolarObserver(0, 45)
+model = azl.SolarModel(time_policy=&quot;utc-approx&quot;)  # explicit illustration clock
+instant = datetime(2025, 6, 21, 9, tzinfo=timezone.utc)
+fig, ax = azl.subplots(subplot_kw={&quot;projection&quot;: &quot;3d&quot;})
+ax.plot_surface([-20, 20], [-20, 20], [[0, 0], [0, 0]], color=&quot;white&quot;)
+light = ax.solar_light(model.position(instant, observer), model=model,
+                      frame=frame, max_edge_m=2, samples=8, bias_m=.001)
+fig.savefig(&quot;shadows.png&quot;)
+</code></pre>
+<p><code>SunPosition</code> connects the bounded <a href="solar-0.4.html">solar model</a> to the local
+frame. Strict TT/UT1 corrections remain the default model contract; the example
+explicitly selects approximate UTC. A manual <code>SunDirection</code> needs an observer
+matching the frame origin and an explicit <code>angular_radius</code> (degrees), including
+zero for a directional point light. Manual direction never infers a Sun position.
+The local approximation treats solar rays as parallel across the bounded ENU
+scene; it is not global curved-Earth shadow transport or atmospheric refraction.</p>
+<p>Incidence is Lambertian, <code>ambient + diffuse * max(0, normal·direction)</code>;
+occlusion multiplies diffuse, leaving the declared ambient contribution.
+Normals, heights, ray lengths and offsets use physical vertices before camera
+transforms and vertical exaggeration. A building is an opaque extruded mesh;
+terrain and other buildings can receive/cast shadows. One light is optional per
+axes, and global Earth/Moon Artists cannot be mixed with local ENU illumination.</p>
+<h2 id="accuracy-resolution-and-bounded-resources">Accuracy, resolution and bounded resources</h2>
+<ul>
+<li>The own median BVH uses slab bounds and double-sided triangle intersection;
+no third-party implementation was copied, translated or adapted.</li>
+<li>Opaque, non-textured surfaces only. Alpha zero is skipped; partial alpha and
+textured shadow occluders fail explicitly rather than pretending transmission.</li>
+<li>Shadows are sampled at triangle centroids. <code>max_edge_m</code> refines receiver
+triangles; it controls spatial approximation, <strong>not a guaranteed error bound</strong>.
+Coarse shadows have faceted edges. Compare progressively smaller edges and
+larger <code>samples</code> before interpreting small features or a penumbra.</li>
+<li><code>bias_m</code> defaults to 0.001 m, separating self-intersection from true occlusion;
+blockers/features thinner than the bias are not reliable. Relative determinant
+and barycentric tolerances are 1e-12. Check sensitivity when geometry is tiny,
+nearly parallel or translated far from the ENU origin.</li>
+<li><code>samples=1</code> is the central direction. 2–64 samples use deterministic disk
+quadrature; partial visibility is a sampling estimate, not converged radiative
+transfer. Limb darkening, reflections and scattering are unsupported.</li>
+<li><code>ShadowBudget</code> defaults: 20,000 refined triangles, 500,000 rays and 4,000,000
+triangle tests per lighting update. Hard ceilings are 20,000 / 2,000,000 /
+16,000,000. Refinement is checked before allocation; exceeding a budget raises.</li>
+</ul>
+<p><code>light.set_position(state)</code>, <code>set_time(instant)</code>, <code>set_visible(bool)</code> and
+<code>remove()</code> follow the Artist lifecycle. A time change invalidates illumination
+while reusing the physical mesh/BVH. Mesh, material or visibility changes rebuild
+the geometry cache. Camera/exaggeration changes do not invalidate physical
+shadows. <code>TemporalSeries.bind(light)</code> prevalidates states and dates; playback
+preserves the current camera. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/lighting_maps.py">examples/lighting_maps.py</a>
+provides daily animation input; seasonal dates use the same explicit solar model.</p>
+<h2 id="volumes">Volumes</h2>
+<p><code>light.bind_volume(volume, shadow_steps=4)</code> requires the same axes and explicit
+<code>VolumeField.frame</code>. It connects direction and time to the existing optional
+volume self-attenuation model. Visibility/removal restore the previous light.
+It does <strong>not</strong> implement mesh-to-volume, volume-to-mesh or multiple-scattering
+transport. Scalar transfer functions remain explicit. PNG/PDF support volume
+rendering; SVG embeds a raster volume layer when Pillow is installed, and fails
+explicitly without that provider. Other figure elements retain vector output.</p>
+<h2 id="finite-source-and-occultation-geometry">Finite source and occultation geometry</h2>
+<p><code>ShadowSphere.from_xyz(xyz, radius_m=...)</code> represents an Earth-fixed sphere in
+metres. <code>EclipseGeometry(sun, moon, source=...)</code> requires input provenance and
+separates physical sizes/distances from display magnification.
+<code>geometry.solar(observer)</code>, <code>lunar()</code> and <code>at(point, occulter=...)</code> report angular
+separation, disk radii, visible fraction, and clear/umbra/penumbra/antumbra.
+<code>solar_cone</code> and <code>lunar_cone</code> provide exact finite-sphere tangent cones, apex
+distance and signed umbra/penumbra radii at an axial distance. There are no
+event-specific rules that force an eclipse.</p>
+<p>Angular boundary tests use <code>asin(radius/distance)</code>. Partial disk area uses an
+analytic <strong>tangent angular-disk approximation</strong>, restricted to radii &lt;=2°;
+it is not exact spherical solid-angle irradiance. Independent chord integration
+tests the planar formula. Earth shadow uses an enclosing equatorial sphere,
+not the oblate atmosphere; Sun/Moon are spheres without terrain/limb structure.
+Declared fraction intervals vary angular separation only. They are sensitivity
+intervals, <strong>not certified confidence bounds</strong> incorporating all radii, clocks,
+Earth shape or model errors.</p>
+<p><code>ax.eclipse_shadow(geometry, step=2)</code> adds an optional scalar map/colorbar target.
+Cells sample their centres (minimum step 2°); this cannot resolve a narrow
+totality path and is not a contour/contact solver. <code>mode=&quot;possible&quot;</code> visualizes
+angular sensitivity. A global <code>earth_moon</code> Artist accepts
+<code>set_eclipse_geometry(geometry)</code>, evaluating physical illumination before
+distance/radius display scales. Both layers are toggleable; eclipse maps bind
+to <code>TemporalSeries</code>, and calculated Earth–Moon states update their geometry.</p>
+<h2 id="real-event-precision-remains-pending-1306-and-1307">Real-event precision remains pending: 13.06 and 13.07</h2>
+<p><code>EclipseGeometry.from_moon(state)</code> uses the bounded low-precision Sun/Moon models,
+with an angular budget over 0.5°. It requires <strong><code>allow_approximate=True</code></strong> at a
+visualization boundary. Synthetic coordinates must identify themselves as such.
+<code>events()</code> always raises <code>NotImplementedError</code>; no precise path, contact time,
+eclipse magnitude or observation-planning claim is supported.</p>
+<p>The independent <a href="https://eclipse.gsfc.nasa.gov/SEhistory/SEpath/SE2024Apr08Tpath.html">NASA/GSFC 2024-04-08 central-line table</a>
+provides an actual counterexample: all 96 evaluated central-line locations miss
+totality with this approximate model. The preset angular, residual-light and
+model-budget gates fail. This does not invalidate the generic geometry, but
+prevents closing the real solar/lunar event items. A precise, audited ephemeris,
+consistent time/frame reductions and independent path/contact validation are
+required before revisiting them; lunar event timing is also unvalidated.</p>
+<h2 id="reproduce-local-validation">Reproduce local validation</h2>
+<pre><code class="language-bash">python tools/validate_lighting_visual.py --output REVIEW_DIR --gpu --native
+python tools/validate_eclipse_precision.py --reference-dir EXTERNAL_DIR --fetch --output REPORT.json
+</code></pre>
+<p>The precision tool exits <strong>3 when the scientific gate fails</strong>; successful fetching
+does not pass the gate. Raw NASA inputs stay outside the checkout and packages.
+The visual tool exports original urban/synthetic eclipse/volume scenes, CPU/GPU,
+PNG/SVG/PDF as supported, three daily GIF frames, source/asset hashes and optional
+verified own-window Tk/Qt captures. Automated Windows captures do not constitute
+human Linux/macOS acceptance or a real-time viewer performance guarantee.</p>
+<p>See <a href="lighting-model-0.4.json">numerical/provenance definitions</a>,
+<a href="lighting-validation-0.4.json">local evidence</a> and
+<a href="release-progress-0.4.html">the unchanged release gates</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/lighting-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

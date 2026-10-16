@@ -1,0 +1,47 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "dpi": 200,
+  "repeats": 2,
+  "points": 1500,
+  "renderer_source_sha256": {
+    "before": {
+      "pillow.py": "c7b0135fa57baab1236eb653e8501f28295a2232f645b3fa2f2211877b8ef13d",
+      "coverage.py": "b081e6507bd45c0cb7652141ccdbf457128c581d1013d71a9d7d346a0535bd79"
+    },
+    "after": {
+      "pillow.py": "0df7334cd8b68bde883611880588d83aa739fe44836f4b2b63139851c8195cfd",
+      "coverage.py": "e213c8dfce22496d0fe1a48253c6c3851c5e20bac326c2693ef8cac07cab965b"
+    }
+  },
+  "policy": "Each pair reverses before/after order; one immutable scene per case; PNG encoding included; no profiling or memory instrumentation.",
+  "cases": [
+    {
+      "name": "state",
+      "items": 137,
+      "samples_seconds": {
+        "before": [
+          3.560934200000702,
+          3.8216833000005863
+        ],
+        "after": [
+          3.6941141999996034,
+          3.759429799998543
+        ]
+      },
+      "before_median_seconds": 3.691308750000644,
+      "after_median_seconds": 3.726771999999073,
+      "reduction_percent": -0.9607229413801432,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "1e67ad193e969cada082a97e2ffecee6f11b6cb50474607b799c124880ed70d6"
+        ],
+        "after": [
+          "1e67ad193e969cada082a97e2ffecee6f11b6cb50474607b799c124880ed70d6"
+        ]
+      }
+    }
+  ]
+}

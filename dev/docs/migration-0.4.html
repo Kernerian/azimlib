@@ -1,0 +1,43 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Migration from 0.3 to the unreleased 0.4 development tree · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="migration-from-03-to-the-unreleased-04-development-tree">Migration from 0.3 to the unreleased 0.4 development tree</h1>
+<p>The published stable release remains 0.3.0. These additions require the development
+checkout until the <a href="release-progress-0.4.html">release gates</a> are satisfied.</p>
+<p>Both import styles share one figure registry:</p>
+<pre><code class="language-python">import azimlib as azl
+import azimlib.pyplot as plt
+
+fig, ax = azl.subplots()
+ax.map(&quot;brazil&quot;)
+ax.set_title(&quot;Brazil&quot;)
+assert plt.gcf() is fig
+fig.savefig(&quot;brazil.svg&quot;)
+</code></pre>
+<p>Existing figures, style sizes in points, optional legends/grid/north/scale,
+visibility/editing, map bearing and separated <code>savefig()</code>/<code>show()</code> remain. No
+minimap or other cartographic decoration becomes mandatory. Prefer the standard
+light theme and add only components needed to explain the data.</p>
+<ul>
+<li><strong>PBF:</strong> choose explicit limits, provenance and missing-reference behavior.
+Small regional trials do not establish full-planet support. Do not bundle
+personal OSM metadata or entire external datasets into application packages.</li>
+<li><strong>CRS/grids:</strong> declare units, axes, epoch and height frame. Missing grids or
+unsupported operations raise errors; they do not silently substitute a datum.</li>
+<li><strong>Geocoding/routing:</strong> construct local indexes/graphs with verified source
+metadata. Results are deterministic for the supplied graph, not a guarantee
+of current road legality, traffic or complete global address coverage.</li>
+<li><strong>Text/TeX:</strong> enable optional engines explicitly and preserve their font/data
+licenses. Missing shaping/TeX providers have explicit capability failures.</li>
+<li><strong>GPU:</strong> use <code>fig.show(renderer=&quot;gpu&quot;)</code> or <code>savefig(renderer=&quot;gpu&quot;)</code>; stateful
+<code>azl.show()</code>/<code>plt.show()</code> have no renderer keyword. The backend is experimental. An explicit
+CPU fallback warns. Neither 33 ms exact p95 nor 100 ms complete response is
+guaranteed. See <a href="observed-validation-0.4.html">observed results</a>.</li>
+<li><strong>3D volumes:</strong> preserve the declared physical/local frame. Camera exaggeration
+and visual body scaling do not change physical solar or shadow calculations.</li>
+<li><strong>Sun/Moon:</strong> eclipse scientific use remains experimental; no global certified
+prediction/envelope is claimed. Select time policy and observer; consult model validity/error
+budgets. Approximate eclipse visualization requires explicit opt-in and must
+not be interpreted as precise event/contact prediction.</li>
+</ul>
+<p>Run <a href="integration-0.4.html">the integration example and validator</a> against both source
+and isolated installed distributions. The <a href="integration-0.4.html#coverage-and-explicit-boundaries">coverage table</a>
+links complete contracts and limits. No external cartographic backend is added.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/migration-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

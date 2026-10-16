@@ -1,0 +1,195 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GPU status in the re-scoped 0.4 development tree · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="gpu-status-in-the-re-scoped-04-development-tree">GPU status in the re-scoped 0.4 development tree</h1>
+<p><strong>Experimental optional backend.</strong> CPU remains the default. Selecting
+<code>renderer=&quot;gpu&quot;</code> in <code>Figure.show()</code> or Figure/root/pyplot <code>savefig()</code>, or
+using <code>GpuRenderer</code>, is
+explicit experimental GPU use; signatures/fallback semantics are unchanged.
+Full 33 ms exact-frame p95 and 100 ms complete response are <strong>not guaranteed</strong>.
+<a href="observed-validation-0.4.html">Current observed results and platforms</a>,
+<a href="deferred-gates-0.4.html">deferred 9.08 and original criteria</a>.</p>
+<p>The implementation/early measurements below describe their own snapshots and
+must not be read as current release approval. Physical ARM64 GPU performance
+remains unproved; software Mesa and native CPU fallback only validate contracts.</p>
+<h1 id="optional-gpu-rendering-04-source-development">Optional GPU rendering — 0.4 source development</h1>
+<p>This implementation is in the development source tree, <strong>not the published
+0.3.0 package</strong>. CPU rendering remains the default. Geographic geometry,
+projections, labels, layout, picking, camera and shaders are Azimlib's own.
+ModernGL and glcontext provide generic OpenGL bindings and context creation.
+No Matplotlib, GIS renderer, game engine or external tessellator is used.
+Stage 10 extends this renderer with <a href="volumes-0.4.html">regular volumes, absorption, slices and
+isosurfaces</a>; the stage 9 measurements below remain historical
+evidence for their exact source snapshot.</p>
+<h2 id="explicit-selection">Explicit selection</h2>
+<p>Install the development source with <code>python -m pip install '.[gpu]'</code>.
+OpenGL 3.3 and a working driver/context are required. Installation alone does
+not prove device availability; <code>get_capabilities('gpu')</code> checks installed
+bindings without initializing a context.</p>
+<pre><code class="language-python">import azimlib as azl
+# import azimlib.pyplot as plt also uses the same figure state.
+
+fig, ax = azl.subplots(figsize=(7, 5))
+ax.map('brazil')
+ax.set_title('Brazil')
+
+fig.savefig('map.png', renderer='gpu')  # static PNG, no viewer
+fig.savefig('map.svg')                 # original CPU vector export
+fig.show(backend='tk', renderer='gpu')  # native interactive viewer
+</code></pre>
+<p>Tk and Qt support explicit GPU rendering, retaining their existing toolbar,
+navigation, coordinate display and optional components. Qt still requires the
+separate <code>qt</code> extra. Browser/notebook GPU selection and GPU SVG/PDF requests
+are rejected explicitly; their existing CPU paths remain available. Changing
+the selected renderer while its viewer is open requires closing that viewer.</p>
+<p>The default failure policy is <code>gpu_fallback='raise'</code>. To authorize CPU fallback
+with a warning, pass <code>gpu_fallback='cpu'</code> to <code>show()</code> or <code>savefig()</code>. Cancellation
+never triggers fallback. GPU budgets apply to GPU resources; an explicitly
+requested CPU fallback uses the CPU renderer's own resource policy.</p>
+<h2 id="context-ownership-and-resources">Context ownership and resources</h2>
+<pre><code class="language-python">from azimlib.renderers.gpu import GpuConfig, GpuRenderer
+
+config = GpuConfig(max_surface_bytes=128 * 1024**2,
+                   max_cache_bytes=16 * 1024**2)
+with GpuRenderer(config) as renderer:
+    image = renderer.render(fig.to_scene())
+    try:
+        image.save('readback.png')
+    finally:
+        image.close()
+</code></pre>
+<p>The context belongs to its creating thread and must be closed there. Native
+viewers own a persistent renderer in their navigation subprocess, serialize
+pipe requests and retain the original scene/picking records in the parent.
+Worker snapshots exclude private Artist/layout state. A lost context is marked
+unusable and requires explicit recreation or the requested CPU fallback.</p>
+<p><code>GpuConfig.context_backend</code> accepts the platform default (<code>None</code>) or explicitly
+<code>'egl'</code> for an environment providing EGL. No silent backend search is performed.
+Context creation validates OpenGL 3.3; driver failures raise a diagnostic error.
+An import, capability query or ordinary CPU figure never creates a GPU context.</p>
+<p>Default bounds are 256 MiB for framebuffer payload, 32 MiB each for retained
+GPU buffers, prepared CPU mesh payload and textures, 2 million generated 2D
+vertices per frame, 50,000 scene primitives and 20,000 terrain triangles.
+These are separate payload budgets, <strong>not a total process RSS/VRAM quota</strong>.
+Prepared-cache keys include an estimated overhead; Python objects and driver
+allocations add memory. Surfaces are checked before allocation against the
+configured budget and driver texture dimensions. Caches evict by bounded LRU.</p>
+<h2 id="shared-geometry-styles-and-text">Shared geometry, styles and text</h2>
+<ul>
+<li>Geographic transforms and seam handling finish before rendering. GPU inputs
+are screen primitives or homogeneous camera triangles. Buffer coordinates
+use local float32 offsets with translation uniforms; source data stay intact.</li>
+<li>Closed polygons use even-odd triangle coverage, including holes and concave
+rings. Text uses signed nonzero winding. Original CPU dash subdivision and
+stroke geometry supply physical widths, caps, joins and miter limits.</li>
+<li>Fill, edge, opacity, clipping and scene paint order share the CPU scene.
+Geographic rasters and hatches already composed into scene primitives use
+the same painting path. They are not a separate GPU spatial resampling engine.</li>
+<li>Basic text, optional HarfBuzz shaping and real TeX use prepared shared glyph
+contours. Text halos precede ink; optional backgrounds and rotation remain
+editable. Font/material notices remain in static GPU PNG metadata.</li>
+<li>A threefold supersampled premultiplied RGBA16F framebuffer resolves to an
+ordinary RGBA PNG/Pillow readback. Gamma, font hinting, coverage and depth
+quantization can differ from CPU output; byte-identical parity is not promised.</li>
+</ul>
+<p>Translated meshes and uploaded buffers are reused. Zoom and geometry/style
+edits invalidate affected preparation keys. Generation numbers reject stale
+frames; cancellation is checked between primitives and before presentation.
+A running driver draw cannot be preempted by that check. Picking uses the
+unchanged CPU geographic/Artist records, not a separate approximate GPU model.</p>
+<h2 id="terrain-extrusions-and-textures">Terrain, extrusions and textures</h2>
+<p>The same camera, mesh, lighting and <code>SurfaceArtist</code> supply CPU and GPU output.
+OpenGL clips homogeneous triangles and depth-tests opaque/masked faces. Shared
+axes combine textured and untextured materials into one depth scene.</p>
+<pre><code class="language-python">fig = azl.figure()
+ax = fig.add_subplot(111, projection='3d')
+texture = (2, 2, bytes([220, 180, 90, 255,
+                       40, 140, 100, 255] * 2))
+surface = ax.plot_surface([0, 1], [0, 1], [[0, 1], [1, 2]],
+                          color='white', texture=texture, shade=True)
+surface.set_texture(texture, uv=((0, 1), (1, 1), (0, 0), (1, 0)))
+surface.set_visible(False)
+surface.set_visible(True)
+fig.savefig('terrain.png', renderer='gpu')
+</code></pre>
+<p>Textures are <code>(width, height, immutable_RGBA_bytes)</code>, top row first, at most
+8 million pixels; alpha must be 0 or 255. Sampling is nearest-neighbor with
+normalized, top-left UV pairs, perspective-correct interpolation and edge
+clamping. Default UV maps local X/Y across the surface, with north at the top;
+degenerate planar mapping requires explicit UV. <code>set_texture()</code> validates
+atomically, <code>get_texture()</code>/<code>get_texture_uv()</code> inspect it, and
+<code>set_texture(None)</code> removes it. No image is downloaded implicitly.</p>
+<p>CPU PNG and embedded terrain in SVG/PDF use an original bounded perspective
+texture reference (at most 64 million candidate pixel evaluations and 8 million
+output pixels). GPU depth precision and CPU epsilon/tie rules can differ at
+coplanar faces. Transparent 3D sorting, mipmaps, bilinear textures and volume
+rendering are not provided by this stage; volumes belong to stage 10. Texture
+copyright/provenance supplied by applications remains their responsibility.</p>
+<h2 id="historical-initial-validation-and-performance-preserved">Historical initial validation and performance (preserved)</h2>
+<p>Run <code>python -m unittest discover -s tests -p test_gpu_040.py -v</code> without a
+graphics device for contracts. Set <code>AZIMLIB_GPU_TEST=1</code> to require the actual
+device tests; an opted-in unavailable device fails instead of silently skipping.
+For EGL also set <code>AZIMLIB_GPU_CONTEXT=egl</code>.</p>
+<p><code>python -I tools/validate_gpu.py --output NEW_DIRECTORY --native</code> generates
+CPU/GPU PNG pairs, differences, vector references, source/file hashes, device
+identity, cold/warm/pan/resume/zoom/edit timings and verified Tk/Qt captures.
+With <code>--measure-memory</code> and psutil already installed, it samples process plus
+worker RSS every 10 ms. Run this separately from timing-only measurements:
+profiling overhead can materially change timings. Shared pages can be counted
+twice and a short peak can be missed; this is separate from GPU payload
+accounting and does not measure driver VRAM.
+Without <code>--native</code> it does not open a viewer. On a developer Windows desktop,
+Tk capture uses the verified application HWND, not an arbitrary desktop crop.
+Captures prove rendering, not human acceptance or physical input latency.</p>
+<p>The final timing-only Windows NVIDIA RTX 2060 trial found warm/pan median
+drawing around 25–27 ms, but scene composition p95 around 146–180 ms and
+changed-zoom median drawing/preparation around 756 ms. Sequential composition
+plus draw measured roughly 6 FPS for pan and 1.2 FPS for zoom in that scene.
+An earlier local pass was faster; neither result is a universal guarantee.
+Renderer-only time is not viewer FPS.
+The 33 ms/100 ms interaction goals are <strong>not established</strong> by these results.
+The CPU/GPU image mean channel error was about 1.2/255 for the map and 1/255
+for terrain; individual edge pixels differ substantially.</p>
+<p><a href="gpu-validation-0.4.json">Local evidence snapshot</a> distinguishes source-tree
+tests, native captures, optional typography, packaging and memory measurements.
+The manual <code>gpu-review-0.4.yml</code> workflow prepares no-GPU contracts on three
+systems and a clearly identified <strong>software Mesa</strong> EGL reference, not hardware
+acceleration. It has not been run remotely for this stage.</p>
+<p><strong>9.01–9.07 are validated locally; 9.08 remains pending</strong> for CI without a GPU
+and the complete performance/portability gate. Reduce scene composition and
+changed-zoom preparation before claiming fluent GPU interaction; revisit this
+gate on its future research/performance track; it is formally deferred out of
+the 0.4 delivery scope. No release/tag/upload is produced by these tools.</p>
+<h2 id="historical-follow-up-profiling-of-gate-908-preserved">Historical follow-up profiling of gate 9.08 (preserved)</h2>
+<p><a href="gpu-profile-0.4.json">Detailed measurements</a> retain the original 33 ms frame
+and 100 ms interaction targets. The fixed map workload uses 24 frames per
+warm/pan/resume/zoom phase, with an independent cold frame. On the identified
+RTX 2060 / NVIDIA 617.42, baseline median pan/zoom were 197/761 ms; the final
+timing-only run measured 69/160 ms. These are sequential scene-to-image
+measurements, not a claim about display FPS.</p>
+<p>Profiling identified repeated best-legend collision tests and scalar stroke
+mesh construction. Candidate indexing/bulk collision arithmetic retain exact
+inclusive tests and original tie ordering. Optional NumPy bulk stroke
+arithmetic emits the same quads/circle fans; NumPy absence retains the scalar
+path. Widths, joins, caps, dash rules, supersampling and resource budgets were
+not reduced. CPU/GPU mean channel error remains approximately 1.2/255; this
+does not imply pixel-identical edges.</p>
+<p><code>python -I tools/profile_gpu_pipeline.py --output NEW_DIRECTORY</code> reproduces
+the fixed workload. A separate <code>--diagnostic</code> run records CPU composition,
+mesh/key preparation and packing, driver buffer submission, GPU draw-command
+timer sums, completion wait/readback and sampled RSS. Synchronous GPU query
+retrieval changes scheduling; its timings must not be used as normal frame
+performance. Draw queries exclude uploads/clears, and buffer submission time
+does not isolate PCIe transfer bandwidth.</p>
+<p>Tk/Qt synthetic native event-to-toolkit-paint measurements, first show,
+initial pan, resume, zoom and RSS are recorded separately. Neither toolkit
+consistently met 100 ms; the 33 ms frame goal also remains unmet. Physical
+input-to-photon latency, compositor scanout and driver VRAM are unmeasured.
+<strong>9.08 remains scientifically/operationally unpassed and is formally deferred.</strong>
+Historical performance gains do not waive its criteria.</p>
+<h2 id="dependency-notices">Dependency notices</h2>
+<p><a href="gpu-dependencies-0.4.json">Dependency inventory</a>,
+<a href="../THIRD_PARTY_LICENSES.html">third-party notices</a>,
+<a href="../licenses/ModernGL.txt">ModernGL MIT</a> and
+<a href="../licenses/Glcontext.txt">glcontext MIT</a> preserve their separate copyrights.
+Only license texts are distributed here, not the dependencies' implementations.
+GPU bindings do not become Azimlib-owned code. Original geometry, GLSL shaders,
+renderer and integration remain under Azimlib's BSD-3-Clause terms.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/gpu-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

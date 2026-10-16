@@ -1,0 +1,499 @@
+{
+  "schema_version": 1,
+  "azimlib_version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "repeats": 6,
+  "dpi": 100,
+  "source_sha256": {
+    "before": "91cc434353ec4c5aee62ddfcdf2fe0be1a568ef60b2e76aeeaaccd8565fe2ae9",
+    "current": "f828a3feed07e633425e2a532b86163a17c7136f8584c1ada1dabb48b817490f",
+    "cache": "96add9303e441ae75bfd7b9263bb6c9503e96848c4c6166fd9bb13def255ad6c"
+  },
+  "notes": [
+    "Serial alternating own previous _geometry pipeline/current; same current viewport/index/style/renderers.",
+    "First composition samples have warm data/bounds/viewport/index but no vertex cache.",
+    "Warm cache reused across pan/zoom; cull=True in both modes.",
+    "Memory instrumentation/PNG are separate from timing; source data and existing bounds excluded.",
+    "Retained cache payload/tuple byte counter is not total memory, metadata, native buffers or RSS.",
+    "dense uses 2501 synthetic polygons, not municipal boundaries; not GUI latency/general speed guarantees."
+  ],
+  "cases": [
+    {
+      "name": "state",
+      "first_samples_seconds": {
+        "before": [
+          0.14397429999735323,
+          0.1385469999986526,
+          0.11994760000015958,
+          0.11382830000002286,
+          0.11182859999826178,
+          0.12272930000108317
+        ],
+        "cached": [
+          0.13173380000080215,
+          0.1310239000013098,
+          0.1259360000003653,
+          0.1137882000002719,
+          0.11837440000090282,
+          0.1443357999996806
+        ]
+      },
+      "first_median_seconds": {
+        "before": 0.12133845000062138,
+        "cached": 0.12847995000083756
+      },
+      "samples_seconds": {
+        "before": [
+          0.11167569999815896,
+          0.11115069999868865,
+          0.11248740000155522,
+          0.11818290000155685,
+          0.1439665999969293,
+          0.1301867999973183
+        ],
+        "cached": [
+          0.01629730000058771,
+          0.016487200002302416,
+          0.017782099999749335,
+          0.016962400000920752,
+          0.019557799998437986,
+          0.022773500000766944
+        ]
+      },
+      "median_seconds": {
+        "before": 0.11533515000155603,
+        "cached": 0.017372250000335043
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.10747249999985797,
+          0.1034125000005588,
+          0.1012990000017453,
+          0.11568199999965145,
+          0.12604540000029374,
+          0.1153548000002047
+        ],
+        "cached": [
+          0.01716850000229897,
+          0.01684949999980745,
+          0.01732139999876381,
+          0.01711319999958505,
+          0.019265300001279684,
+          0.020428499999979977
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.11141365000003134,
+        "cached": 0.01724495000053139
+      },
+      "cache_info": {
+        "hits": 102,
+        "misses": 9,
+        "entries": 9,
+        "payload_bytes": 196067,
+        "max_bytes": 8388608,
+        "max_entries": 1024
+      },
+      "python_cache_composition_allocation_bytes": {
+        "retained_python": 365256,
+        "peak_python": 2036161,
+        "cache_info": {
+          "hits": 0,
+          "misses": 9,
+          "entries": 9,
+          "payload_bytes": 196067,
+          "max_bytes": 8388608,
+          "max_entries": 1024
+        }
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "before": "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689",
+        "cached": "edf0da3c5c74b5786d0afa876659fa0ca24c3dae01073d20c65f2f17eadc9689"
+      }
+    },
+    {
+      "name": "brazil",
+      "first_samples_seconds": {
+        "before": [
+          0.4897997000007308,
+          0.4988277000011294,
+          0.5350167000033252,
+          0.6154781000004732,
+          0.5403645000005781,
+          0.5390282999978808
+        ],
+        "cached": [
+          0.5214687000006961,
+          0.5950699000022723,
+          0.6320113000001584,
+          0.5730065999996441,
+          0.5234508000030473,
+          0.6009865000014543
+        ]
+      },
+      "first_median_seconds": {
+        "before": 0.537022500000603,
+        "cached": 0.5840382500009582
+      },
+      "samples_seconds": {
+        "before": [
+          0.48122800000055577,
+          0.48530749999918044,
+          0.5136342999976478,
+          0.5415137000018149,
+          0.45782929999768385,
+          0.6250776999986556
+        ],
+        "cached": [
+          0.044892199999594595,
+          0.06810619999669143,
+          0.042627799997717375,
+          0.037007099999755155,
+          0.02921760000026552,
+          0.02774700000009034
+        ]
+      },
+      "median_seconds": {
+        "before": 0.4994708999984141,
+        "cached": 0.039817449998736265
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.5778016000003845,
+          0.45346539999809465,
+          0.4900882999972964,
+          0.48429380000015954,
+          0.45005329999912647,
+          0.6312733000013395
+        ],
+        "cached": [
+          0.04037410000091768,
+          0.04416200000196113,
+          0.04410419999840087,
+          0.029826800000591902,
+          0.02858159999959753,
+          0.030955100002756808
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.487191049998728,
+        "cached": 0.03566460000183724
+      },
+      "cache_info": {
+        "hits": 1008,
+        "misses": 85,
+        "entries": 85,
+        "payload_bytes": 866659,
+        "max_bytes": 8388608,
+        "max_entries": 1024
+      },
+      "python_cache_composition_allocation_bytes": {
+        "retained_python": 1087265,
+        "peak_python": 7523087,
+        "cache_info": {
+          "hits": 0,
+          "misses": 85,
+          "entries": 85,
+          "payload_bytes": 866659,
+          "max_bytes": 8388608,
+          "max_entries": 1024
+        }
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "before": "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e",
+        "cached": "656ce0e0314fa935df948a5e9aae92dd77bb45e1f0d702e5ede8076d117a254e"
+      }
+    },
+    {
+      "name": "atlas",
+      "first_samples_seconds": {
+        "before": [
+          0.802484200001345,
+          0.7078828000012436,
+          0.7327289999993809,
+          0.8877910000010161,
+          0.7002796999986458,
+          0.6992140999973344
+        ],
+        "cached": [
+          0.8702879999982542,
+          0.6869064000020444,
+          0.6759095999987039,
+          0.7167779999981576,
+          0.6911821000030614,
+          0.7224141000006057
+        ]
+      },
+      "first_median_seconds": {
+        "before": 0.7203059000003122,
+        "cached": 0.7039800500006095
+      },
+      "samples_seconds": {
+        "before": [
+          0.6783112999983132,
+          0.6839862000015273,
+          0.674482899998111,
+          0.7064438999987033,
+          0.6904954000019643,
+          0.6624778000004881
+        ],
+        "cached": [
+          0.050079799999366514,
+          0.060026499999366933,
+          0.05069629999707104,
+          0.05118939999738359,
+          0.0500331000002916,
+          0.05086400000072899
+        ]
+      },
+      "median_seconds": {
+        "before": 0.6811487499999203,
+        "cached": 0.050780149998900015
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.6625822999994853,
+          0.8022154000027513,
+          0.6921307000011439,
+          0.6728127999995195,
+          0.7237400000012713,
+          0.6986953999985417
+        ],
+        "cached": [
+          0.06420609999986482,
+          0.06122499999764841,
+          0.0617794000027061,
+          0.06326510000144481,
+          0.05974419999984093,
+          0.061908300001960015
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.6954130499998428,
+        "cached": 0.061843850002333056
+      },
+      "cache_info": {
+        "hits": 564,
+        "misses": 47,
+        "entries": 47,
+        "payload_bytes": 1201236,
+        "max_bytes": 8388608,
+        "max_entries": 1024
+      },
+      "python_cache_composition_allocation_bytes": {
+        "retained_python": 1416082,
+        "peak_python": 10756305,
+        "cache_info": {
+          "hits": 0,
+          "misses": 47,
+          "entries": 47,
+          "payload_bytes": 1201236,
+          "max_bytes": 8388608,
+          "max_entries": 1024
+        }
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "before": "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae",
+        "cached": "ea0a343cbc9ebe865ac2bf0e9f4cc9c726b141b31405e74601510d76f70f7aae"
+      }
+    },
+    {
+      "name": "dense",
+      "first_samples_seconds": {
+        "before": [
+          0.006021999997756211,
+          0.006948999998712679,
+          0.006091000002925284,
+          0.0067656999999599066,
+          0.006540599999425467,
+          0.0074027000009664334
+        ],
+        "cached": [
+          0.012451400001737056,
+          0.011014799998520175,
+          0.009465800001635216,
+          0.008190600001398707,
+          0.007779999999911524,
+          0.008179199998266995
+        ]
+      },
+      "first_median_seconds": {
+        "before": 0.006653149999692687,
+        "cached": 0.008828200001516961
+      },
+      "samples_seconds": {
+        "before": [
+          0.007307399999262998,
+          0.0071083000002545305,
+          0.006892099998367485,
+          0.008915599999454571,
+          0.0076485999998112675,
+          0.006280400000832742
+        ],
+        "cached": [
+          0.006616799997573253,
+          0.0062813000004098285,
+          0.005574900002102368,
+          0.006500300001789583,
+          0.004414700000779703,
+          0.0051652000001922715
+        ]
+      },
+      "median_seconds": {
+        "before": 0.007207849999758764,
+        "cached": 0.005928100001256098
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.0054446999965875875,
+          0.006341199998132652,
+          0.006188400002429262,
+          0.008641799999168143,
+          0.008290999998280313,
+          0.006901199998537777
+        ],
+        "cached": [
+          0.0043101000010210555,
+          0.004553600003418978,
+          0.004066099998453865,
+          0.00489229999948293,
+          0.004487099999096245,
+          0.004088499998033512
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.006621199998335214,
+        "cached": 0.00439860000005865
+      },
+      "cache_info": {
+        "hits": 288,
+        "misses": 24,
+        "entries": 24,
+        "payload_bytes": 6744,
+        "max_bytes": 8388608,
+        "max_entries": 1024
+      },
+      "python_cache_composition_allocation_bytes": {
+        "retained_python": 62436,
+        "peak_python": 104325,
+        "cache_info": {
+          "hits": 0,
+          "misses": 24,
+          "entries": 24,
+          "payload_bytes": 6744,
+          "max_bytes": 8388608,
+          "max_entries": 1024
+        }
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "before": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7",
+        "cached": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7"
+      }
+    },
+    {
+      "name": "globe",
+      "first_samples_seconds": {
+        "before": [
+          0.14052430000083405,
+          0.14694889999736915,
+          0.14771079999991343,
+          0.14278320000084932,
+          0.1447550000011688,
+          0.14019269999698736
+        ],
+        "cached": [
+          0.14433869999993476,
+          0.18363999999928637,
+          0.15555859999949462,
+          0.1490423000032024,
+          0.1725335000010091,
+          0.1440240999982052
+        ]
+      },
+      "first_median_seconds": {
+        "before": 0.14376910000100906,
+        "cached": 0.1523004500013485
+      },
+      "samples_seconds": {
+        "before": [
+          0.13043850000030943,
+          0.14599330000055488,
+          0.15824869999778457,
+          0.15165469999919878,
+          0.14356660000339616,
+          0.15113769999879878
+        ],
+        "cached": [
+          0.002712700003030477,
+          0.0035950999990745913,
+          0.004367899997305358,
+          0.0036523999988276046,
+          0.004189100000075996,
+          0.0036122999990766402
+        ]
+      },
+      "median_seconds": {
+        "before": 0.14856549999967683,
+        "cached": 0.0036323499989521224
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.13869290000002366,
+          0.1524435999999696,
+          0.13355379999848083,
+          0.14573939999900176,
+          0.1571256999995967,
+          0.1756018000014592
+        ],
+        "cached": [
+          0.0032942999969236553,
+          0.002857600000425009,
+          0.004248400000506081,
+          0.0038151000007928815,
+          0.0027971000017714687,
+          0.003895999998348998
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.14909149999948568,
+        "cached": 0.0035546999988582684
+      },
+      "cache_info": {
+        "hits": 2124,
+        "misses": 177,
+        "entries": 177,
+        "payload_bytes": 142385,
+        "max_bytes": 8388608,
+        "max_entries": 1024
+      },
+      "python_cache_composition_allocation_bytes": {
+        "retained_python": 457821,
+        "peak_python": 1500029,
+        "cache_info": {
+          "hits": 0,
+          "misses": 177,
+          "entries": 177,
+          "payload_bytes": 142385,
+          "max_bytes": 8388608,
+          "max_entries": 1024
+        }
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "before": "f8da1efa1c465a876c059f87391d27f2d36c56a3378dad1997fdb075e9498bf3",
+        "cached": "f8da1efa1c465a876c059f87391d27f2d36c56a3378dad1997fdb075e9498bf3"
+      }
+    }
+  ]
+}

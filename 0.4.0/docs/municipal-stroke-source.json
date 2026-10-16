@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tooling_sha256": "a1412b447f47416a3a68dc1eaf5854de7f21230a393212c219917a7d163db314",
+  "factory_sha256": "61d4a0ae82029099489f4a3a5b87f92e881565f5d7ac1740968b8bcea82d11fa",
+  "coverage_sha256": {
+    "before": "977804a02c62947375417e6525ef6f6637236f2ef1a3d9c5d3528051645a286e",
+    "after": "e12a1ed30afa9a62a973f25a02f84b43eb180243c3a1a608f7e4dbc3d0af6509"
+  },
+  "source": {
+    "filename": "ibge-sp-municipalities.geojson",
+    "sha256": "57bf1e9d10b430d297955110792fb04b1af6f050956bc4ef598ef81636bc9340",
+    "bytes": 4913339,
+    "features": 645,
+    "vertices": 222324
+  },
+  "dpi": 100,
+  "repeats": 2,
+  "views": [
+    {
+      "name": "whole",
+      "extent": [
+        -53.557535,
+        -43.713965,
+        -25.63681,
+        -19.50079
+      ],
+      "scene_items": 719,
+      "samples_seconds": {
+        "before": [
+          20.870818900002632,
+          17.657972100001643
+        ],
+        "after": [
+          18.772748799998226,
+          16.27136579999933
+        ]
+      },
+      "median_seconds": {
+        "before": 19.264395500002138,
+        "after": 17.522057299998778
+      },
+      "rgba_sha256": "288a6cc25f2f8bc0c2ef1f3a9335fbbd2987827262a35bb8bd34738aa2f36f05",
+      "png_sha256": "284b15b40ba55f5e1ae5f31e4a8ca1fb826025c0df6d311ce461d81abff36a0a",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "focus",
+      "extent": [
+        -49.620107000000004,
+        -47.651393,
+        -23.182402,
+        -21.955198
+      ],
+      "scene_items": 120,
+      "samples_seconds": {
+        "before": [
+          3.0092387000004237,
+          3.004076299999724
+        ],
+        "after": [
+          2.5411061999984668,
+          2.589554099999077
+        ]
+      },
+      "median_seconds": {
+        "before": 3.006657500000074,
+        "after": 2.565330149998772
+      },
+      "rgba_sha256": "f643f96ee95fe0f4e1898ca09628622b2c68d1752d35020f9a5469730361ceed",
+      "png_sha256": "3430fc05cae58e145c9e368440c1d208cdefff7a61cf4edec816ff0093465a29",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "pan",
+      "extent": [
+        -48.63575,
+        -46.667036,
+        -23.182402,
+        -21.955198
+      ],
+      "scene_items": 140,
+      "samples_seconds": {
+        "before": [
+          3.6045676000030653,
+          3.461416800000734
+        ],
+        "after": [
+          3.200817900000402,
+          3.4041154000005918
+        ]
+      },
+      "median_seconds": {
+        "before": 3.5329922000018996,
+        "after": 3.302466650000497
+      },
+      "rgba_sha256": "b5e33acd3169264d23ee79b349738fa2a9a9b0d589d5ac4aeee46dda4a581954",
+      "png_sha256": "6616c9fd1351d6423d82a14eee1c42ff82ed01f8e0208fe54fb4dd28a343747a",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "zoom",
+      "extent": [
+        -49.1279285,
+        -48.1435715,
+        -22.875601,
+        -22.261999
+      ],
+      "scene_items": 55,
+      "samples_seconds": {
+        "before": [
+          1.192504499998904,
+          1.1306836000003386
+        ],
+        "after": [
+          1.066592800001672,
+          0.9805092999995395
+        ]
+      },
+      "median_seconds": {
+        "before": 1.1615940499996213,
+        "after": 1.0235510500006058
+      },
+      "rgba_sha256": "e54b9b0408f3d4a25efd78981f1ea0ce681cddef2aba1a54e7e2dac3b52d431e",
+      "png_sha256": "f594ac5d385b31348163fa6cf191cead005440bafa5f4e600426bcc13af902af",
+      "identical_rgba": true,
+      "identical_png": true
+    }
+  ],
+  "notes": [
+    "Same composed scene per view; own coverage implementation patched only for development comparison.",
+    "Serial, alternating order; no concurrent profiling, Tk, frame cache or geometry simplification.",
+    "Timings exclude composition, hashing, encoding and I/O. Python/font caches warm across calls.",
+    "Small local sample, not a statistical guarantee or visible/physical input latency measurement.",
+    "API mesh quality/provenance described separately; source data is not redistributed."
+  ],
+  "independent_runtime": true
+}

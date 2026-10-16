@@ -1,0 +1,339 @@
+{
+  "schema_version": 1,
+  "scope": "Local Windows development baseline; not release, planet, full-reference or human input-latency acceptance",
+  "environment": {
+    "python": "3.14.4",
+    "system": "Windows",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 25 Model 33 Stepping 2, AuthenticAMD"
+  },
+  "hardware": {
+    "GL_VENDOR": "NVIDIA Corporation",
+    "GL_RENDERER": "NVIDIA GeForce RTX 2060/PCIe/SSE2",
+    "GL_VERSION": "3.3.0 NVIDIA 617.42",
+    "GL_MAX_TEXTURE_SIZE": 32768
+  },
+  "reports": {
+    "foundation.json": {
+      "report_sha256": "43c058c343b1fb05649f260b67ffa69ac074210925cac054ef53f55c41616177",
+      "source_files_checked": 5
+    },
+    "topology.json": {
+      "report_sha256": "c0e85b4a4a3c9f16f9115185787c583bda90bf024765daa3f2c122c8f936be78",
+      "source_files_checked": 151
+    },
+    "pbf.json": {
+      "report_sha256": "ffe2682549e657393e5c5f3a236b007a0f80e1c524bf2630f43daa9385ace9ac",
+      "source_files_checked": 0
+    },
+    "pbf-regional-skip.json": {
+      "report_sha256": "7e987eaa69a34bbcf3ad390aaf93f28a391dc278358fb29c3b3577f9789330e9",
+      "source_files_checked": 3
+    },
+    "gpu-timing/manifest.json": {
+      "report_sha256": "ba825af4799d80ec5db13c4e958c9ad0e84440b2a870fa252b4910ff9eb6f502",
+      "source_files_checked": 151
+    },
+    "gpu-memory/manifest.json": {
+      "report_sha256": "a1e21996aebdd3f19560227b31df68482cc9100a9a3fd8d289ddf16300113139",
+      "source_files_checked": 151
+    }
+  },
+  "foundation": {
+    "schema_version": 1,
+    "python": "3.14.4",
+    "system": "Windows",
+    "machine": "AMD64",
+    "batch_size": 1000,
+    "repeats": 7,
+    "roundtrips": 7000,
+    "median_ms": 12.76049999978568,
+    "p95_ms": 13.718799998969189,
+    "samples_ms": [
+      13.718799998969189,
+      13.446099999782746,
+      12.565099999847007,
+      12.815000000045984,
+      12.737600000036764,
+      12.468400000216207,
+      12.76049999978568
+    ],
+    "held1000_peak_bytes": 241000,
+    "local_frame_10000_ms": 41.09059999973397,
+    "max_angle_error_degrees": 2.842170943040401e-14,
+    "max_height_error_metres": 2.7939677238464355e-09,
+    "targets": {
+      "batch1000_p95_ms": 250,
+      "held1000_peak_bytes": 4194304,
+      "angle_degrees": 1e-10,
+      "height_metres": 1e-07
+    },
+    "targets_met": {
+      "latency": true,
+      "memory": true,
+      "angle": true,
+      "height": true
+    }
+  },
+  "topology": {
+    "passed": true,
+    "scope": "Synthetic local topology; not planetary throughput or native RSS",
+    "python": "3.14.4",
+    "system": "Windows",
+    "index": {
+      "segments": 20000,
+      "candidate_pairs": 0,
+      "brute_force_pairs": 199990000,
+      "seconds": 3.7480455999993865
+    },
+    "overlay": {
+      "vertices_per_polygon": 32,
+      "seconds": 8.969196300000476,
+      "area": 6.242890304516105,
+      "expected": 6.242890304516104
+    },
+    "global_analytic_lunes": [
+      {
+        "normal_angle_degrees": 10,
+        "expected_steradians": 5.934119456780721,
+        "actual_steradians": 5.934119456780721,
+        "absolute_error": 0.0,
+        "seconds": 0.038575000000491855
+      },
+      {
+        "normal_angle_degrees": 35,
+        "expected_steradians": 5.061454830783555,
+        "actual_steradians": 5.061454830783555,
+        "absolute_error": 0.0,
+        "seconds": 0.049133599999549915
+      },
+      {
+        "normal_angle_degrees": 80,
+        "expected_steradians": 3.490658503988659,
+        "actual_steradians": 3.490658503988659,
+        "absolute_error": 0.0,
+        "seconds": 0.03998929999943357
+      },
+      {
+        "normal_angle_degrees": 120,
+        "expected_steradians": 2.0943951023931957,
+        "actual_steradians": 2.0943951023931957,
+        "absolute_error": 0.0,
+        "seconds": 0.04491280000002007
+      },
+      {
+        "normal_angle_degrees": 170,
+        "expected_steradians": 0.3490658503988655,
+        "actual_steradians": 0.3490658503988655,
+        "absolute_error": 0.0,
+        "seconds": 0.0489289999986795
+      }
+    ],
+    "peak_python_bytes": 40110577,
+    "python_memory_budget_bytes": 134217728
+  },
+  "regional_pbf": {
+    "passed": true,
+    "declared_scope": "regional",
+    "input_bytes": 673493,
+    "input_sha256": "2c0debd7676c0d0d80ec534251cb004a6797441d14512cb83d01fe1ad81363bf",
+    "header": {
+      "required_features": [
+        "OsmSchema-V0.6",
+        "DenseNodes"
+      ],
+      "optional_features": [
+        "Sort.Type_then_ID"
+      ],
+      "bbox": [
+        7.408583,
+        43.483817,
+        7.595671,
+        43.75293
+      ]
+    },
+    "statistics": {
+      "nodes": 41315,
+      "ways": 6168,
+      "relations": 347,
+      "missing_ways": 0,
+      "missing_relations": 36,
+      "polygon_relations": 60,
+      "restrictions": 43,
+      "blocks": 9,
+      "input_bytes_read": 673493,
+      "index_bytes": 5361664
+    },
+    "completed_utc": "2026-10-09T20:38:59.491915+00:00",
+    "dataset_version": "2026-01-01",
+    "source_url": "https://download.geofabrik.de/europe/monaco-260101.osm.pbf",
+    "complete_input_verified": true,
+    "references": null,
+    "cgroup_memory": null,
+    "selected_features": 10106,
+    "selected_vertices": 55877,
+    "geometry_counts": {
+      "Point": 4054,
+      "LineString": 3933,
+      "Polygon": 2117,
+      "MultiPolygon": 2
+    },
+    "build_seconds": 7.073443499999485,
+    "total_seconds": 10.135485699998753,
+    "python_peak_bytes": 3476811,
+    "python_peak_scope": "tracemalloc; excludes native SQLite caches and OS page cache",
+    "process_memory_before": {
+      "working_set_bytes": 33263616,
+      "peak_working_set_bytes": 33263616,
+      "private_committed_bytes": 24285184,
+      "source": "Windows GetProcessMemoryInfo"
+    },
+    "process_memory_after": {
+      "working_set_bytes": 48279552,
+      "peak_working_set_bytes": 50900992,
+      "private_committed_bytes": 38252544,
+      "source": "Windows GetProcessMemoryInfo"
+    },
+    "index_peak_bytes": 5361664,
+    "max_storage_bytes": 20000000000,
+    "reserve_free_bytes": 15000000000,
+    "planet_scale_confirmed": false,
+    "python": "3.14.4",
+    "system": "Windows"
+  },
+  "strict_regional_reference_trial": {
+    "passed": false,
+    "declared_scope": "regional",
+    "error_type": "_Missing",
+    "planet_scale_confirmed": false,
+    "total_seconds": 6.791930100000172
+  },
+  "gpu_timing": [
+    {
+      "phase": "warm",
+      "samples": 12,
+      "first_renderer_ms": 36.793900000702706,
+      "p50_renderer_ms": 31.741749999127933,
+      "p95_renderer_ms": 39.891200000056415,
+      "p95_compose_ms": 174.93309999917983,
+      "mean_sequential_fps": 5.315707157168312
+    },
+    {
+      "phase": "pan",
+      "samples": 12,
+      "first_renderer_ms": 26.44539999892004,
+      "p50_renderer_ms": 34.378299999843875,
+      "p95_renderer_ms": 37.20360000079381,
+      "p95_compose_ms": 164.91359999963606,
+      "mean_sequential_fps": 5.409414463786111
+    },
+    {
+      "phase": "resume",
+      "samples": 12,
+      "first_renderer_ms": 29.194599999755155,
+      "p50_renderer_ms": 32.29895000004035,
+      "p95_renderer_ms": 46.08399999960966,
+      "p95_compose_ms": 237.19939999864437,
+      "mean_sequential_fps": 5.289365307909041
+    },
+    {
+      "phase": "zoom",
+      "samples": 12,
+      "first_renderer_ms": 24.849200000971905,
+      "p50_renderer_ms": 706.1787499987986,
+      "p95_renderer_ms": 806.9608999994671,
+      "p95_compose_ms": 174.58739999892714,
+      "mean_sequential_fps": 1.2315396819948863
+    },
+    {
+      "phase": "temporal-edit",
+      "samples": 12,
+      "first_renderer_ms": 41.46079999918584,
+      "p50_renderer_ms": 38.78859999986162,
+      "p95_renderer_ms": 46.89929999949527,
+      "p95_compose_ms": 191.57889999951294,
+      "mean_sequential_fps": 5.007044912198533
+    }
+  ],
+  "gpu_comparisons": [
+    {
+      "name": "map",
+      "cold_renderer_seconds": 0.7359596999995119,
+      "mean_absolute_channel_error_255": [
+        1.1957514285714286,
+        1.1961485714285713,
+        1.1924285714285714,
+        0.0
+      ],
+      "extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    },
+    {
+      "name": "terrain",
+      "cold_renderer_seconds": 0.04954600000019127,
+      "mean_absolute_channel_error_255": [
+        0.9813166666666666,
+        0.9703833333333334,
+        0.9747625,
+        0.0
+      ],
+      "extrema": [
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          255
+        ],
+        [
+          0,
+          0
+        ]
+      ]
+    }
+  ],
+  "gpu_memory_profile_separate": {
+    "requested": true,
+    "available": true,
+    "sampling_interval_seconds": 0.01,
+    "psutil_version": "7.2.2",
+    "sampled_peak_aggregate_rss_bytes": 284135424,
+    "samples": 855,
+    "scope": "Sampled process plus children RSS sum; shared pages may be counted more than once; not driver VRAM or a guaranteed instantaneous peak"
+  },
+  "navigation_targets": {
+    "frame_ms": 33,
+    "physical_response_ms": 100,
+    "met": false,
+    "physical_input_measured": false
+  },
+  "large_real_dataset_validated": false,
+  "planet_scale_confirmed": false,
+  "completed_14_03": false,
+  "provenance": [
+    "Original synthetic foundation/topology/GPU scenes: BSD-3-Clause",
+    "Regional OSM extract: OpenStreetMap contributors, ODbL; retained externally",
+    "Bundled Natural Earth world geometry: public domain, original notices retained"
+  ]
+}

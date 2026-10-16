@@ -1,0 +1,388 @@
+{
+  "schema": 1,
+  "status": "historical observed validation, not release acceptance or universal guarantee",
+  "source_snapshot": "d6ef84cfeb56c7fa6ca1e830a94718ed66195384",
+  "ci_url": "https://github.com/Kernerian/azimlib/actions/runs/38493855546",
+  "ci_jobs": 6,
+  "protocol_sha256": "dcc56f4a06623c124b66f6b984efabdbe96efcd553b874d33d4b3b9fffa064ae",
+  "hardware": {
+    "cpu": "AMD Ryzen 5 5600X",
+    "gpu": "NVIDIA RTX 2060",
+    "driver": "617.42",
+    "opengl": "3.3",
+    "os": "Windows",
+    "python": "3.14.4"
+  },
+  "workload": {
+    "figsize_inches": [
+      7,
+      5
+    ],
+    "dpi": 100,
+    "scene_pixels": [
+      700,
+      500
+    ],
+    "processes": 5,
+    "warmup_per_phase_process": 24,
+    "measured_per_phase_process": 120,
+    "samples_per_phase": 600,
+    "all_runs_retained": true
+  },
+  "gpu_exact": {
+    "warm": {
+      "n": 600,
+      "median_ms": 19.24575,
+      "p95_ms": 26.798,
+      "variance_ms2": 8.014134305878638,
+      "composition_median_ms": 12.2813,
+      "renderer_median_ms": 6.9056999999999995,
+      "pass_33_ms": true
+    },
+    "pan": {
+      "n": 600,
+      "median_ms": 34.14635,
+      "p95_ms": 44.268,
+      "variance_ms2": 21.86081058469864,
+      "composition_median_ms": 17.2123,
+      "renderer_median_ms": 16.27035,
+      "pass_33_ms": false
+    },
+    "resume": {
+      "n": 600,
+      "median_ms": 35.79985,
+      "p95_ms": 45.9313,
+      "variance_ms2": 23.13407196207664,
+      "composition_median_ms": 18.557850000000002,
+      "renderer_median_ms": 16.93285,
+      "pass_33_ms": false
+    },
+    "zoom": {
+      "n": 600,
+      "median_ms": 85.10845,
+      "p95_ms": 103.559,
+      "variance_ms2": 80.9681972693889,
+      "composition_median_ms": 19.55075,
+      "renderer_median_ms": 65.31675000000001,
+      "pass_33_ms": false
+    }
+  },
+  "native": {
+    "tk": {
+      "phases": {
+        "first_pan": {
+          "input_to_exact_paint_ms": {
+            "n": 8,
+            "median_ms": 165.68935,
+            "p95_ms": 186.9512,
+            "variance_ms2": 93.3946285698437
+          },
+          "input_to_cache_ready_ms": {
+            "n": 8,
+            "median_ms": 204.14204999999998,
+            "p95_ms": 214.6768,
+            "variance_ms2": 87.51276273250006
+          },
+          "passes_complete_100ms": false
+        },
+        "resume": {
+          "input_to_exact_paint_ms": {
+            "n": 8,
+            "median_ms": 165.91295,
+            "p95_ms": 179.9946,
+            "variance_ms2": 174.6543771243749
+          },
+          "input_to_cache_ready_ms": {
+            "n": 8,
+            "median_ms": 195.8203,
+            "p95_ms": 224.7805,
+            "variance_ms2": 270.1484812299999
+          },
+          "passes_complete_100ms": false
+        },
+        "first_zoom": {
+          "input_to_exact_paint_ms": {
+            "n": 8,
+            "median_ms": 197.3527,
+            "p95_ms": 214.2877,
+            "variance_ms2": 76.79634180734377
+          },
+          "input_to_cache_ready_ms": {
+            "n": 8,
+            "median_ms": 228.75245,
+            "p95_ms": 246.6385,
+            "variance_ms2": 105.44247146984375
+          },
+          "passes_complete_100ms": false
+        }
+      },
+      "first_paint_cold_ms": 1746.5197,
+      "first_paint_warm_ms": 40.069,
+      "preview": {
+        "pan": {
+          "samples": 12,
+          "first_ms": 12.3079,
+          "median_ms": 12.068950000000001,
+          "p95_ms": 17.3605,
+          "maximum_ms": 17.3605,
+          "sequential_fps": 79.8772021146158
+        },
+        "resume": {
+          "samples": 12,
+          "first_ms": 11.9701,
+          "median_ms": 13.4033,
+          "p95_ms": 15.4884,
+          "maximum_ms": 15.4884,
+          "sequential_fps": 75.21030682044668
+        },
+        "zoom": {
+          "samples": 3,
+          "first_ms": 21.2598,
+          "median_ms": 16.119,
+          "p95_ms": 21.2598,
+          "maximum_ms": 21.2598,
+          "sequential_fps": 56.29278251471119
+        }
+      },
+      "cadence": {
+        "pan": {
+          "wall_ms": 170.3548,
+          "frames": 12,
+          "wall_fps": 70.44122032370089,
+          "paint_intervals_ms": [
+            13.4092,
+            19.0925,
+            13.6085,
+            13.9844,
+            12.9779,
+            13.7061,
+            13.708,
+            15.1359,
+            13.0447,
+            13.3257,
+            14.3481
+          ]
+        },
+        "resume": {
+          "wall_ms": 178.5389,
+          "frames": 12,
+          "wall_fps": 67.21224338225451,
+          "paint_intervals_ms": [
+            14.9461,
+            13.1671,
+            15.3864,
+            14.0582,
+            16.9413,
+            14.7079,
+            16.4468,
+            13.0497,
+            13.7662,
+            16.6304,
+            16.3004
+          ]
+        }
+      },
+      "parity": {
+        "rgb_mae_255": 1.115347619047619,
+        "alpha_mae_255": 0.0
+      },
+      "memory": {
+        "requested": true,
+        "available": true,
+        "sampling_interval_seconds": 0.01,
+        "psutil_version": "7.2.2",
+        "sampled_peak_aggregate_rss_bytes": 323956736,
+        "samples": 307,
+        "scope": "Sampled process plus children RSS sum; shared pages may be counted more than once; not driver VRAM or a guaranteed instantaneous peak"
+      }
+    },
+    "qt": {
+      "phases": {
+        "first_pan": {
+          "input_to_exact_paint_ms": {
+            "n": 8,
+            "median_ms": 96.7379,
+            "p95_ms": 142.3675,
+            "variance_ms2": 317.35941731750006
+          },
+          "input_to_cache_ready_ms": {
+            "n": 8,
+            "median_ms": 124.7546,
+            "p95_ms": 183.1943,
+            "variance_ms2": 502.8022658035938
+          },
+          "passes_complete_100ms": false
+        },
+        "resume": {
+          "input_to_exact_paint_ms": {
+            "n": 8,
+            "median_ms": 102.85605000000001,
+            "p95_ms": 127.0503,
+            "variance_ms2": 102.54722406249994
+          },
+          "input_to_cache_ready_ms": {
+            "n": 8,
+            "median_ms": 144.7702,
+            "p95_ms": 170.3334,
+            "variance_ms2": 233.3663714625
+          },
+          "passes_complete_100ms": false
+        },
+        "first_zoom": {
+          "input_to_exact_paint_ms": {
+            "n": 8,
+            "median_ms": 120.4959,
+            "p95_ms": 143.7576,
+            "variance_ms2": 123.43879437749996
+          },
+          "input_to_cache_ready_ms": {
+            "n": 8,
+            "median_ms": 155.198,
+            "p95_ms": 185.3566,
+            "variance_ms2": 207.58589089484366
+          },
+          "passes_complete_100ms": false
+        }
+      },
+      "first_paint_cold_ms": 1679.3489,
+      "first_paint_warm_ms": 37.5348,
+      "preview": {
+        "pan": {
+          "samples": 12,
+          "first_ms": 8.2034,
+          "median_ms": 8.60215,
+          "p95_ms": 9.3565,
+          "maximum_ms": 9.3565,
+          "sequential_fps": 116.34705162027814
+        },
+        "resume": {
+          "samples": 12,
+          "first_ms": 8.5457,
+          "median_ms": 8.3418,
+          "p95_ms": 9.0672,
+          "maximum_ms": 9.0672,
+          "sequential_fps": 119.24257118781502
+        },
+        "zoom": {
+          "samples": 3,
+          "first_ms": 13.5797,
+          "median_ms": 13.5797,
+          "p95_ms": 23.1334,
+          "maximum_ms": 23.1334,
+          "sequential_fps": 60.2143631327526
+        }
+      },
+      "cadence": {
+        "pan": {
+          "wall_ms": 104.2687,
+          "frames": 12,
+          "wall_fps": 115.08726971756626,
+          "paint_intervals_ms": [
+            9.2918,
+            8.6371,
+            8.7465,
+            8.6549,
+            9.3985,
+            8.2979,
+            8.7226,
+            8.8615,
+            8.7876,
+            8.5141,
+            8.1103
+          ]
+        },
+        "resume": {
+          "wall_ms": 101.7687,
+          "frames": 12,
+          "wall_fps": 117.91444717285374,
+          "paint_intervals_ms": [
+            8.2996,
+            8.8478,
+            7.794,
+            8.3839,
+            8.4013,
+            8.9413,
+            8.8421,
+            7.8879,
+            9.1041,
+            8.3067,
+            8.373
+          ]
+        }
+      },
+      "parity": {
+        "rgb_mae_255": 1.221858167924704,
+        "alpha_mae_255": 0.0
+      },
+      "memory": {
+        "requested": true,
+        "available": true,
+        "sampling_interval_seconds": 0.01,
+        "psutil_version": "7.2.2",
+        "sampled_peak_aggregate_rss_bytes": 364244992,
+        "samples": 250,
+        "scope": "Sampled process plus children RSS sum; shared pages may be counted more than once; not driver VRAM or a guaranteed instantaneous peak"
+      }
+    }
+  },
+  "exact_gpu_previous_oracle": {
+    "frames": 97,
+    "identical": 97,
+    "scope": "Same GPU oracle path on recorded hardware, not CPU equality or cross-platform pixel identity"
+  },
+  "physical_arm64_gpu_performance_established": false,
+  "physical_input_to_photon_measured": false,
+  "scientific": {
+    "events": 82,
+    "solar_events": 52,
+    "lunar_events": 30,
+    "centers": {
+      "count": 5118,
+      "passed": 5118,
+      "maximum_m": 1811.254353657715
+    },
+    "solar_contacts": {
+      "count": 489,
+      "maximum_error_s": 8.65248
+    },
+    "lunar_contacts": {
+      "count": 150,
+      "maximum_error_s": 30.5347
+    },
+    "magnitude": {
+      "count": 195,
+      "maximum_error": 0.00063769
+    },
+    "solar_obscuration": {
+      "count": 137,
+      "maximum_error": 0.000831888
+    },
+    "boundary_checks": 10162,
+    "represented_graph_numeric_passes": 9941,
+    "unresolved_boundary_checks": 221,
+    "round8_full_boundary_matrix_reexecuted": false,
+    "complete_physical_envelope_certified": false,
+    "global_accuracy_certified": false,
+    "certified_interval": null,
+    "remaining": [
+      "1986 main Canon solar convention/contact classification",
+      "Invalid polar-reference offsets",
+      "Independent numerical lunar obscuration",
+      "Physical temporal envelope completeness"
+    ]
+  },
+  "pbf": {
+    "regional_real_validation": true,
+    "planet_trial_executed": false,
+    "planet_scale_confirmed": false
+  },
+  "raw_report_hashes": {
+    "evidence-manifest.json": "b68e28d3ffdae311e2dbaba0f433ec5093dd6a847541adb03c6a32ca848ec925",
+    "benchmark-summary.json": "135d8c35215b1e30a06edb3488fceb1ca1a6202ba220fc6c5b87bd624d32bcf0",
+    "native-summary.json": "03a3c899dfdde1c39da586bb87eb83998719e746f1cf7deba44c1b2040766efe",
+    "center-front-preserved.json": "2d927efa77f407ae5773f71ac9d13c4614775a6d18ae4c709fe3d7ce491eb940",
+    "border-classification-221.json": "abc101b8729b566678e41fe42bb2c2ad9df26e38dfdf33aceb19a13dfea18399",
+    "temporal-completeness.json": "83c11af0ff0f028b7115f001d0706e2b2a408cc34e0ba49400ecc97cd6b40f57",
+    "1986-primary-source-audit.json": "8b28b9cf3fea2481f2ed88ec990b6c354a410cacff2b1dfe2a98d68e32635674"
+  }
+}

@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Limites dos contornos: checklist 1.09 · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="limites-dos-contornos-checklist-109">Limites dos contornos: checklist 1.09</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Limites dos contornos: checklist 1.09 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="limites-dos-contornos-checklist-109">Limites dos contornos: checklist 1.09</h1>
 <p>O algoritmo continua próprio: marching squares sobre grid retangular crescente,
 interpolação nas arestas, decider bilinear para saddles e união de segmentos.
 Esta revisão fecha o subpasso <strong>1.09</strong> no conjunto existente; não acrescenta
@@ -73,9 +73,9 @@ esse setter edita valores de cor, conforme <a href="lines-contours.html">o contr
 <h2 id="verificação-reproduzível">Verificação reproduzível</h2>
 <ul>
 <li><a href="contour-boundaries-reference.json">Referência</a>: dez casos produzidos pelo
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/inspect_contour_boundaries.py">tool</a> com Matplotlib 3.11.2/Agg instalado;
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/inspect_contour_boundaries.py">tool</a> com Matplotlib 3.11.2/Agg instalado;
 aceita/rejeita, níveis, paths vazios, labels e possibilidade de desenhar colorbar.</li>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_contour_boundaries.py">Regressões</a>: campos constantes, floats
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_contour_boundaries.py">Regressões</a>: campos constantes, floats
 adjacentes/transbordamento, rejeição sem alterações, lacunas sem pontes,
 decider e norma compartilhada com scatter/colorbar.</li>
 <li>Integração em 100/200 DPI e colorbars vertical/horizontal: edição de cor/traço,
@@ -86,4 +86,4 @@ exportação PNG/SVG e remoção sem callbacks em figura antiga.</li>
 não mede pintura de janela visível ou input físico e não fecha os demais aceites
 da 0.2.0. A integração <strong>1.10</strong> e o aceite <strong>1.12</strong> foram posteriormente
 encerrados no <a href="artist-acceptance.html">passo 1</a>; próximo item da lista: <strong>2.08</strong>.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/contour-boundaries.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/contour-boundaries.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,964 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progresso da Azimlib 0.4.0 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="progresso-da-azimlib-040">Progresso da Azimlib 0.4.0</h1>
+<p>Status: <strong>em implementação; etapas 1, 3, 4, 5, 6, 10, 11 e 12, 2.01–2.07, 7.01–7.08, 8.01–8.08, 9.01–9.07, 13.01–13.05, 13.08, 14.01 e 14.06 validados localmente</strong>.
+<strong>102 concluídos / 10 pendentes</strong>. São 14 etapas e 112 subpassos com IDs estáveis;
+essa contagem descreve entregáveis, não horas nem uma estimativa de duração.
+A versão publicada permanece 0.3.0, com <a href="release-publication-0.3.0.html">entrega concluída</a>
+e <a href="release-progress-0.3.html">checklist histórica 80/80</a>. Planejar não conclui os IDs abaixo.</p>
+<h2 id="escopo-e-rastreabilidade">Escopo e rastreabilidade</h2>
+<p>Este corte reúne todas as reservas explícitas da checklist 0.3.0 e as propostas
+de Sol/Lua e geometria celeste terrestre. Nenhuma reserva antiga foi removida.</p>
+<table>
+<thead>
+<tr>
+<th>Origem técnica</th>
+<th>Etapas da 0.4.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="release-progress-0.3.html">Reserva 0.3: volumes 3D, nuvens volumétricas e GPU</a></td>
+<td>9 e 10</td>
+</tr>
+<tr>
+<td>Reserva 0.3: OSM PBF completo e streaming em escala planetária</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Reserva 0.3: CRS universais e datum por grids oficiais</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Reserva 0.3: overlay/union globais de topologia arbitrária</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Reserva 0.3: geocodificação e roteamento urbano completos</td>
+<td>5 e 6</td>
+</tr>
+<tr>
+<td>Reserva 0.3: TeX completo e shaping internacional complexo</td>
+<td>7 e 8</td>
+</tr>
+<tr>
+<td><a href="future-versions.html">Novas propostas: Sol, Lua, sombras e eclipses</a></td>
+<td>11, 12 e 13</td>
+</tr>
+<tr>
+<td>Fundação cumulativa, compatibilidade e gates de entrega</td>
+<td>1 e 14</td>
+</tr>
+</tbody>
+</table>
+<p>Cartografia planetária pública (Beyond Earth) continua na 0.5.0; Sistema Solar
+genérico e referenciais orbitais (Orbits) continuam na 0.6.0. A 0.4.0 prepara
+corpo/frame/unidades/tempo compartilhados, mas mantém foco terrestre e Terra–Lua.
+Essas extensões complementam, não substituem, manutenção urbana e cartográfica.</p>
+<h2 id="regras-de-conclusão">Regras de conclusão</h2>
+<ul>
+<li>Cada ID exige implementação funcional, contratos/erros, regressões e documentação;
+novas capacidades não são anunciadas a partir de APIs vazias ou screenshots.</li>
+<li>Cada lote mantém origem/licença de dados, fontes e algoritmos, testes numéricos,
+revisão de privacidade e exportações reproduzíveis conforme seu domínio.</li>
+<li>Runtime cartográfico e implementações geográficas continuam próprios. Bibliotecas
+genéricas de baixo nível e motores tipográficos opcionais podem ser usados com
+dependências e licenças explícitas; não delegar cartografia a um motor GIS externo.</li>
+<li>Preservar imports, comportamento familiar, estilos físicos e Artists editáveis.
+Componentes cartográficos permanecem opcionais; <code>savefig()</code> e <code>show()</code> são separados.</li>
+<li>Cobertura de PBF, CRS/grids, topologia, TeX e modelos celestes deve ser verificável
+e publicada. Termos amplos como universal/completo não autorizam alegações de
+suporte irrestrito a toda variante, datum, macro, geometria ou época existente.</li>
+<li>Modelos celestes exigem frames, unidades, escalas de tempo, validade e precisão
+registradas. Iluminação bonita não constitui prova de posição/evento correto.</li>
+<li>Datas, contagens e resultados de CI/benchmarks pertencem ao commit testado.
+Limitações não resolvidas mantêm os respectivos IDs pendentes.</li>
+<li>Mudanças de escopo exigem registro de motivo e destino de cada item; não apagar
+IDs nem reduzir silenciosamente o total. Publicação requer aceite explícito.</li>
+</ul>
+<h2 id="dependências-e-lotes">Dependências e lotes</h2>
+<table>
+<thead>
+<tr>
+<th>Lote</th>
+<th>Etapas</th>
+<th>Dependências principais</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A — fundação</td>
+<td>1</td>
+<td>Contratos atuais da 0.3.0</td>
+</tr>
+<tr>
+<td>B — dados e geometria</td>
+<td>2, 3, 4</td>
+<td>1; integração entre PBF, CRS e topologia</td>
+</tr>
+<tr>
+<td>C — urbano operacional</td>
+<td>5, 6</td>
+<td>1, 2, 3 e operações necessárias de 4</td>
+</tr>
+<tr>
+<td>D — texto científico/internacional</td>
+<td>7, 8</td>
+<td>1; 8 reutiliza métricas e composição de 7</td>
+</tr>
+<tr>
+<td>E — renderização avançada</td>
+<td>9, 10</td>
+<td>1; 9 integra texto de 7; 10 usa 9 e câmera 3D existente</td>
+</tr>
+<tr>
+<td>F — céu terrestre</td>
+<td>11, 12</td>
+<td>1 e CRS/frame de 3; fases de 12 usam a geometria solar de 11</td>
+</tr>
+<tr>
+<td>G — iluminação integrada</td>
+<td>13</td>
+<td>9, 11, 12; ligação a volumes após 10</td>
+</tr>
+<tr>
+<td>H — consolidação</td>
+<td>14</td>
+<td>Todos os anteriores; auditorias e testes entram em cada lote</td>
+</tr>
+</tbody>
+</table>
+<p>A implementação pode intercalar frentes independentes após a fundação. Fechar
+lotes grandes e coerentes, sem saltar dependências ou deixar integração para o fim.
+Não há prazo prometido; o volume e a dificuldade são maiores que os da 0.3.0.</p>
+<h2 id="1-fundação-compartilhada-compatibilidade-e-contratos">1. Fundação compartilhada, compatibilidade e contratos</h2>
+<ul>
+<li>[x] <strong>1.01</strong> Inventariar APIs e limites da 0.3.0; estabelecer matriz de regressão para mapas, urbano, texto, 3D, tempo e ambos os imports.</li>
+<li>[x] <strong>1.02</strong> Definir unidades, precisão numérica, convenções de eixos e propagação de erros para todos os novos subsistemas.</li>
+<li>[x] <strong>1.03</strong> Criar abstrações internas compartilhadas de corpo, frame e transformações; manter Terra como padrão sem antecipar a API planetária pública da 0.5.0.</li>
+<li>[x] <strong>1.04</strong> Definir instantes, escalas de tempo, calendários e conversões UTC/TT/UT1 aplicáveis, com fontes de offsets e limites de validade explícitos.</li>
+<li>[x] <strong>1.05</strong> Definir observador geográfico: longitude, latitude, elevação, horizonte e distinção entre posição geocêntrica, topocêntrica e aparente.</li>
+<li>[x] <strong>1.06</strong> Especificar extensões do renderer para recursos GPU, volumes, iluminação e texto, com capacidades consultáveis e backend CPU preservado.</li>
+<li>[x] <strong>1.07</strong> Estabelecer budgets mensuráveis de memória, latência, precisão e tamanho dos datasets; separar medição sintética de ensaio em dados reais.</li>
+<li>[x] <strong>1.08</strong> Fixar fixtures próprias ou licenciadas, fontes primárias de validação e contratos de erro/visibilidade/edição/exportação antes de implementar os lotes dependentes.</li>
+</ul>
+<h2 id="2-osm-pbf-e-streaming-de-grande-escala">2. OSM PBF e streaming de grande escala</h2>
+<ul>
+<li>[x] <strong>2.01</strong> Implementar enquadramento binário PBF e decodificação dos tipos necessários do protocolo, sem delegar a interpretação geográfica a outro leitor.</li>
+<li>[x] <strong>2.02</strong> Implementar string tables, nodes/dense nodes, ways, relations, IDs, deltas, granularity e offsets, preservando a semântica dos atributos.</li>
+<li>[x] <strong>2.03</strong> Implementar descompressão por codecs genéricos suportados e limites contra blocos inválidos; diagnosticar variantes não suportadas.</li>
+<li>[x] <strong>2.04</strong> Resolver referências entre blocos com índices em disco ou estratégia equivalente, mantendo consumo limitado de memória.</li>
+<li>[x] <strong>2.05</strong> Interpretar multipolígonos, fronteiras e relações de restrição necessárias ao urbano/roteamento, incluindo referências incompletas.</li>
+<li>[x] <strong>2.06</strong> Adicionar filtros espaciais e por atributos e extração regional sem carregar implicitamente o planeta inteiro.</li>
+<li>[x] <strong>2.07</strong> Integrar catálogo opcional, aquisição explícita, versão/hash, licenças OSM/ODbL e política de metadados pessoais; não incorporar bases grandes no wheel.</li>
+<li>[ ] <strong>2.08</strong> Validar leitor completo no contrato declarado, equivalência com fixtures XML, dados corrompidos, memória e ensaio reproduzível de streaming em escala planetária.</li>
+</ul>
+<p><strong>Pendência exclusiva de 2.08: ensaio real com o dump planetário completo.</strong>
+A implementação necessária existe; PBF real menor, streaming, referências em
+disco, filtros, corrupção, equivalência XML e limites de recursos já foram
+validados nas <a href="#evid%C3%AAncias-por-lote">evidências por lote</a>. Falta exclusivamente executar e validar
+o processamento integral de <code>planet.osm.pbf</code>. Nenhum resultado regional ou
+sintético substitui esse critério. A pendência não bloqueia etapas independentes
+seguintes da 0.4.0; <strong>revisitar obrigatoriamente antes do gate final da release</strong>.
+O <a href="planet-trial.html">procedimento planetário</a> fixa entrada, budgets, métricas e
+provas de conclusão. Não baixar nem executar esse dump no ambiente atual.</p>
+<h2 id="3-crs-datums-épocas-e-grids-oficiais">3. CRS, datums, épocas e grids oficiais</h2>
+<ul>
+<li>[x] <strong>3.01</strong> Definir a matriz de cobertura: identificação de CRS, representações textuais, unidades, ordem de eixos, áreas de uso e erros para operações indisponíveis.</li>
+<li>[x] <strong>3.02</strong> Implementar catálogo versionado com origem/licença, lookup explícito e composição de pipelines, sem delegar transformações a um motor GIS externo.</li>
+<li>[x] <strong>3.03</strong> Ampliar famílias de projeções e inversas e integrar coordenadas geográficas, projetadas e geocêntricas nos readers e Artists existentes.</li>
+<li>[x] <strong>3.04</strong> Implementar operações de datum parametrizadas com convenções, épocas, unidades e domínio de validade explícitos.</li>
+<li>[x] <strong>3.05</strong> Implementar leitura/interpolação dos formatos de grids selecionados e suportados; preservar NoData, bordas e precisão publicada.</li>
+<li>[x] <strong>3.06</strong> Implementar seleção e inversão de operações horizontais/verticais e encadeamentos dependentes de época quando houver modelos válidos.</li>
+<li>[x] <strong>3.07</strong> Gerenciar grids oficiais como dados opcionais auditados, com versão/hash/licença e aquisição explícita; ausência de grid não pode provocar transformação aproximada silenciosa.</li>
+<li>[x] <strong>3.08</strong> Validar operações contra fixtures primárias independentes, ida/volta, limites de área/época, descontinuidades e integração com raster, viewport e exportação.</li>
+</ul>
+<h2 id="4-topologia-e-overlay-global">4. Topologia e overlay global</h2>
+<ul>
+<li>[x] <strong>4.01</strong> Definir semântica planar/esférica, orientação/interior, holes, multipolígonos, tolerâncias e operações sobre entradas inválidas.</li>
+<li>[x] <strong>4.02</strong> Implementar predicados robustos, índice espacial e noding, incluindo cruzamentos, contatos, segmentos coincidentes e degenerações.</li>
+<li>[x] <strong>4.03</strong> Construir representação topológica compartilhada e rastreabilidade das features e arestas durante operações.</li>
+<li>[x] <strong>4.04</strong> Implementar interseção, união, diferença e diferença simétrica para linhas/polígonos, preservando holes, multipartes e atributos conforme política explícita.</li>
+<li>[x] <strong>4.05</strong> Tratar antimeridiano, polos, regiões maiores que um hemisfério e interiores globais sem reduzir silenciosamente a operação a um plano regional.</li>
+<li>[x] <strong>4.06</strong> Oferecer validação e reparo opt-in, com diagnóstico e relatório de mudanças; não modificar geometrias de entrada implicitamente.</li>
+<li>[x] <strong>4.07</strong> Integrar recorte, seleção, máscaras raster e fronteiras compartilhadas aos readers, camadas urbanas e renderers.</li>
+<li>[x] <strong>4.08</strong> Validar identidades de conjuntos, área/topologia, coincidências e casos adversariais globais, com benchmarks e cobertura suportada publicada.</li>
+</ul>
+<h2 id="5-geocodificação-endereços-e-pesquisa-urbana">5. Geocodificação, endereços e pesquisa urbana</h2>
+<ul>
+<li>[x] <strong>5.01</strong> Definir modelos de endereço, localidade, POI e resultado, preservando IDs, fonte, precisão e distinção entre ponto e limite administrativo.</li>
+<li>[x] <strong>5.02</strong> Construir importação e índices locais a partir de bases opcionais licenciadas, incluindo bairros, ruas, números e aliases.</li>
+<li>[x] <strong>5.03</strong> Implementar normalização Unicode e pesquisa multilíngue, variantes de nomes e tokenização coerente com o sistema de texto.</li>
+<li>[x] <strong>5.04</strong> Implementar busca de endereços/POIs, ranking e filtros administrativos/espaciais, com resultados ambíguos explícitos.</li>
+<li>[x] <strong>5.05</strong> Implementar geocodificação reversa para localidades, vias e endereços com distância e nível de precisão informados.</li>
+<li>[x] <strong>5.06</strong> Tratar interpolação de endereços, cobertura incompleta e correspondências aproximadas sem inventar coordenadas ou certeza.</li>
+<li>[x] <strong>5.07</strong> Integrar resultados ao mapa/picking/labels; permitir provedores externos somente como opção explícita separada do índice e motor próprios.</li>
+<li>[x] <strong>5.08</strong> Validar consultas reais e sintéticas, ambiguidade, idioma, memória/latência, proveniência e privacidade dos dados de endereço.</li>
+</ul>
+<h2 id="6-grafos-e-roteamento-urbano">6. Grafos e roteamento urbano</h2>
+<ul>
+<li>[x] <strong>6.01</strong> Definir grafo próprio de nós/arestas, conectividade, geometria, unidades, custos e persistência de índices.</li>
+<li>[x] <strong>6.02</strong> Construir grafos a partir de vias OSM, separando cruzamento geométrico de conexão e respeitando pontes, túneis e níveis.</li>
+<li>[x] <strong>6.03</strong> Interpretar sentidos únicos, acesso, modalidades e restrições de conversão, incluindo relações aplicáveis entre vias.</li>
+<li>[x] <strong>6.04</strong> Implementar associação de origem/destino à rede e cálculos de caminho com custos e heurísticas próprios.</li>
+<li>[x] <strong>6.05</strong> Suportar perfis configuráveis de deslocamento, distância/tempo, pontos intermediários e rotas inviáveis com erros claros.</li>
+<li>[x] <strong>6.06</strong> Produzir geometria, trechos e instruções/atributos de rota com rastreabilidade; não confundir duração estimada com trânsito ao vivo.</li>
+<li>[x] <strong>6.07</strong> Integrar rotas, seletores, mapa urbano, escalas e playback; medir redes grandes sem bloquear o viewer.</li>
+<li>[x] <strong>6.08</strong> Validar caminhos ótimos conhecidos, restrições, direção, componentes desconexos, custos/unidades e desempenho em base real licenciada.</li>
+</ul>
+<h2 id="7-texto-internacional-e-shaping-complexo">7. Texto internacional e shaping complexo</h2>
+<ul>
+<li>[x] <strong>7.01</strong> Definir runs de texto, graphemes, scripts, linguagem, direção, fallback de fontes e métricas físicas comuns aos renderers.</li>
+<li>[x] <strong>7.02</strong> Implementar integração tipográfica de baixo nível, original ou licenciada/auditada, para bidi, contextualização, ligaturas e marcas combinantes.</li>
+<li>[x] <strong>7.03</strong> Adicionar seleção/fallback de fontes e cobertura auditada, com origens, licenças e políticas para fontes fornecidas pelo usuário.</li>
+<li>[x] <strong>7.04</strong> Aplicar posicionamento de glifos e métricas ao PNG, SVG, PDF e viewers sem duplicar a composição por backend.</li>
+<li>[x] <strong>7.05</strong> Integrar textos multilíngues a títulos, ticks, legendas, colorbars, annotations e labels geográficos editáveis.</li>
+<li>[x] <strong>7.06</strong> Adaptar texto em curvas, colisões, prioridades e leader lines para runs compostos, preservando legibilidade e âncoras.</li>
+<li>[x] <strong>7.07</strong> Definir acessibilidade, pesquisa/cópia e incorporação de fontes onde suportadas, com política explícita de outlines e fallback.</li>
+<li>[x] <strong>7.08</strong> Validar RTL/LTR misto, árabe, scripts índicos, CJK, acentos e diferentes DPI/rotações em três sistemas, incluindo licenças e inspeção visual.</li>
+</ul>
+<h2 id="8-tex-completo-e-composição-científica">8. TeX completo e composição científica</h2>
+<ul>
+<li>[x] <strong>8.01</strong> Definir suporte real a TeX como opção tipográfica separada das expressões internas limitadas; registrar motor, dependências, licenças e contrato de cobertura.</li>
+<li>[x] <strong>8.02</strong> Implementar seleção/configuração explícita de motor e ferramentas auxiliares sem downloads ou instalações implícitos.</li>
+<li>[x] <strong>8.03</strong> Implementar compilação de documentos/fragmentos com diretório temporário controlado, limites de recursos e política explícita de acesso a arquivos/execução externa.</li>
+<li>[x] <strong>8.04</strong> Extrair métricas, baseline, caixas e saída do motor, integrando tamanho físico, alinhamento, rotação e transparência aos Artists.</li>
+<li>[x] <strong>8.05</strong> Suportar matemática, macros e preâmbulos no contrato declarado, sem apresentar o parser interno simples como TeX completo.</li>
+<li>[x] <strong>8.06</strong> Integrar SVG/PNG/PDF, cache por conteúdo/configuração/fontes e invalidação consistente nos viewers e exportações.</li>
+<li>[x] <strong>8.07</strong> Diagnosticar motor ausente, erros de compilação e fontes não disponíveis; fallback somente se explicitamente solicitado.</li>
+<li>[x] <strong>8.08</strong> Validar fórmulas, texto misto, baseline, edição e exportações nos sistemas suportados, inclusive avisos de ferramentas/fontes e instalação sem o extra.</li>
+</ul>
+<h2 id="9-pipeline-gpu-e-interação-acelerada">9. Pipeline GPU e interação acelerada</h2>
+<ul>
+<li>[x] <strong>9.01</strong> Selecionar API gráfica de baixo nível após avaliar portabilidade/licenças; manter geometrias, projeções e shaders cartográficos próprios.</li>
+<li>[x] <strong>9.02</strong> Implementar lifecycle de device/context/resources, capacidades e recuperação de falhas, com caminho CPU disponível.</li>
+<li>[x] <strong>9.03</strong> Implementar transformações, clipping, triangulação/upload e buffers de camadas, preservando a origem dos dados e precisão necessária.</li>
+<li>[x] <strong>9.04</strong> Renderizar linhas, marcadores, polígonos e raster com estilos, unidades físicas, transparência, z-order e antialiasing compatíveis.</li>
+<li>[x] <strong>9.05</strong> Integrar câmera/depth, terreno e extrusões 3D, texturas e iluminação, mantendo o mesmo modelo de cena/Artists.</li>
+<li>[x] <strong>9.06</strong> Integrar texto composto, picking e atualizações incrementais em pan/zoom/tempo; não mover composição geográfica para um engine externo.</li>
+<li>[x] <strong>9.07</strong> Garantir exportação estática, leitura de pixels e fallback explícito quando a GPU/driver estiver indisponível.</li>
+<li>[ ] <strong>9.08</strong> Medir primeira pintura, pan inicial/retomada, FPS/latência, memória e paridade CPU/GPU em hardware identificado; registrar diferenças visuais e CI sem GPU.
+Medições locais e capturas GPU em Windows/RTX 2060 disponíveis; workflow sem
+GPU nos três sistemas e referência Mesa/EGL preparados, ainda não executados.
+Composição de cena e preparação de meshes no zoom continuam gargalos; tempos
+de desenho isolados não comprovam latência física nem fluidez do viewer.
+Preservar o critério integral e revisitar antes do gate final da release.</li>
+</ul>
+<h2 id="10-volumes-3d-e-nuvens-volumétricas">10. Volumes 3D e nuvens volumétricas</h2>
+<ul>
+<li>[x] <strong>10.01</strong> Definir campos escalares/vetoriais 3D, voxels, unidades, frame espacial, máscara/NoData e entrada por arrays ou arquivos de escopo declarado.</li>
+<li>[x] <strong>10.02</strong> Implementar streaming por blocos/bricks, seleção espacial e budgets de memória para volumes grandes.</li>
+<li>[x] <strong>10.03</strong> Implementar amostragem e composição volumétrica próprias com transfer functions, opacidade e referência de comprimento.</li>
+<li>[x] <strong>10.04</strong> Adicionar cortes, slices e isosuperfícies no contrato declarado, sem confundir nuvem de pontos com volume contínuo.</li>
+<li>[x] <strong>10.05</strong> Integrar GPU e caminho CPU de referência, profundidade/oclusão, terreno e georreferência em uma única cena.</li>
+<li>[x] <strong>10.06</strong> Implementar iluminação e sombras volumétricas compatíveis com o modelo declarado; distinguir visualização ilustrativa de simulação física.</li>
+<li>[x] <strong>10.07</strong> Integrar edição, picking, norm/colorbar, câmera e atualização temporal, com PNG/SVG/PDF e animação segundo política de rasterização explícita.</li>
+<li>[x] <strong>10.08</strong> Validar volumes analíticos, alpha/depth, NoData, nuvens sintéticas, precisão de amostragem, memória e desempenho; auditar qualquer dataset externo.</li>
+</ul>
+<h2 id="11-sol-e-geometria-solar-terrestre">11. Sol e geometria solar terrestre</h2>
+<ul>
+<li>[x] <strong>11.01</strong> Selecionar e documentar modelo solar, fontes, licença, escalas temporais, intervalo de validade e orçamento de erro antes de anunciá-lo.</li>
+<li>[x] <strong>11.02</strong> Criar objeto/Artist solar próprio e entrada manual por azimute e elevação, com convenções de origem e unidades explícitas.</li>
+<li>[x] <strong>11.03</strong> Calcular posição geocêntrica/topocêntrica/aparente por instante e observador, separando correções e refração opcionais.</li>
+<li>[x] <strong>11.04</strong> Calcular e visualizar trajetórias aparentes diárias e sazonais, incluindo solstícios e equinócios.</li>
+<li>[x] <strong>11.05</strong> Calcular ponto subsolar e terminador dia/noite sobre globo/mapas, respeitando projeção e antimeridiano.</li>
+<li>[x] <strong>11.06</strong> Calcular nascer/pôr e passagem pelo meridiano, com política de horizonte/refração e casos de dia/noite polar.</li>
+<li>[x] <strong>11.07</strong> Integrar edição, labels, picking e tempo ao mesmo sistema de Artists; fornecer vetor solar físico à iluminação do passo 13.</li>
+<li>[x] <strong>11.08</strong> Validar posições/eventos contra referências independentes auditadas, datas extremas e polos; publicar tolerâncias e exemplos estáticos/temporais.</li>
+</ul>
+<h2 id="12-lua-e-visualização-terralua">12. Lua e visualização Terra–Lua</h2>
+<ul>
+<li>[x] <strong>12.01</strong> Selecionar e documentar modelo/efeméride lunar, origem/licença, frames, escalas temporais, intervalo de validade e orçamento de erro.</li>
+<li>[x] <strong>12.02</strong> Criar objeto/Artist lunar próprio e entrada manual coerente com o frame e as unidades da cena.</li>
+<li>[x] <strong>12.03</strong> Calcular posição e distância geocêntrica/topocêntrica por data/hora, incluindo paralaxe e correções declaradas.</li>
+<li>[x] <strong>12.04</strong> Calcular ponto sublunar e posição relativa à Terra; integrar rótulos, projeções, unidades e picking.</li>
+<li>[x] <strong>12.05</strong> Visualizar órbita/trajetória lunar e playback temporal com distinção entre trajetória calculada e aproximação ilustrativa.</li>
+<li>[x] <strong>12.06</strong> Compor visualização 3D Terra–Lua com câmera existente, escala física versus visual explícita e oclusão correta.</li>
+<li>[x] <strong>12.07</strong> Calcular fases e orientação iluminada a partir da geometria Sol–Terra–Lua, vinculando a iluminação e tempo.</li>
+<li>[x] <strong>12.08</strong> Validar posição, distância, paralaxe, fases e animação contra referências auditadas; declarar validade e limites sem prometer astrodinâmica completa.</li>
+</ul>
+<h2 id="13-iluminação-sombras-e-eclipses-geométricos">13. Iluminação, sombras e eclipses geométricos</h2>
+<ul>
+<li>[x] <strong>13.01</strong> Definir luz solar, extensão angular, frames locais/globais, unidades e conexão da geometria celeste à cena 3D.</li>
+<li>[x] <strong>13.02</strong> Implementar incidência solar e iluminação de terreno/construções, separando altura física de exagero visual.</li>
+<li>[x] <strong>13.03</strong> Implementar sombras sobre terreno e entre construções com oclusão e tolerâncias de precisão declaradas.</li>
+<li>[x] <strong>13.04</strong> Implementar atualização temporal e sombras diárias/sazonais com cache/invalidação consistente nos caminhos CPU/GPU suportados.</li>
+<li>[x] <strong>13.05</strong> Representar umbra, penumbra e oclusão de fonte extensa na geometria Sol–Terra–Lua, sem regras decorativas específicas que finjam um eclipse.</li>
+<li>[ ] <strong>13.06</strong> Visualizar eclipses solares e lunares no contrato de precisão validado, distinguindo localização/instante físicos de escala visual exagerada.</li>
+<li>[ ] <strong>13.07</strong> Validar eventos e limites espaciais/temporais contra fontes independentes; manter o item pendente se a precisão não sustentar o resultado anunciado.</li>
+<li>[x] <strong>13.08</strong> Integrar mapas 2D, terreno 3D, volumes quando aplicável, componentes opcionais e exportação/animação, com exemplos e inspeção visual.</li>
+</ul>
+<h2 id="14-integração-validação-e-entrega-040">14. Integração, validação e entrega 0.4.0</h2>
+<ul>
+<li>[x] <strong>14.01</strong> Executar regressões integradas de urbano, CRS, topologia, geocodificação/rotas, tipografia, GPU/volumes e Sol/Lua, preservando a simplicidade da API.</li>
+<li>[ ] <strong>14.02</strong> Publicar documentação e galeria reproduzível de todos os lotes, matriz de formatos/CRS/modelos/capacidades e guias de migração da 0.3.0.</li>
+<li>[ ] <strong>14.03</strong> Consolidar benchmarks de datasets grandes, memória e navegação, baselines numéricas/visuais e budgets com hardware/metodologia registrados.</li>
+<li>[ ] <strong>14.04</strong> Executar CI nos sistemas/Pythons suportados, cobrindo core sem extras, dependências opcionais e ausência de GPU/motores tipográficos.</li>
+<li>[ ] <strong>14.05</strong> Obter validação visual humana nativa Linux/macOS/Windows e registrar o escopo de viewer, texto, 3D/volumes, navegação e exportações.</li>
+<li>[x] <strong>14.06</strong> Auditar licenças/proveniência/privacidade de código, dados, grids, efemérides, fontes, shaders, documentação e histórico; manter termos de terceiros separados.</li>
+<li>[ ] <strong>14.07</strong> Preparar metadata/changelog, wheel/sdist, instalação isolada e auditorias de conteúdo/RECORD/hashes; não reutilizar resultados de outro commit.</li>
+<li>[ ] <strong>14.08</strong> Registrar aceite final do commit exato; somente com autorização explícita criar tag/Release, publicar bytes auditados, verificar PyPI, smoke limpo e documentação pública.</li>
+</ul>
+<h2 id="evidências-por-lote">Evidências por lote</h2>
+<p>Cada lote registra arquivos/commits, comandos, relatórios, modelos, tolerâncias,
+exports e limites. Os resultados abaixo são locais; snapshots da 0.3.0 permanecem
+intactos e não são reutilizados como validação da 0.4.0.</p>
+<h3 id="lote-1-fundação-compartilhada-e-contratos">Lote 1 — fundação compartilhada e contratos</h3>
+<p><strong>1.01–1.08 concluídos no escopo de fundação.</strong> <a href="foundation-0.4.html">Contratos, matriz de regressão,
+fontes e limites</a>, <a href="foundation-validation-0.4.json">evidência local</a>.</p>
+<ul>
+<li><code>geodesy.Unit</code> reutilizado com SECOND/DAY; frames/corpo, transformação rígida,
+conversões geodéticas/XYZ e observador ENU próprios em <code>_frames.py</code>. LocalFrame
+do terreno usa as mesmas equações e cache de origem/base, sem alocações tipadas
+repetidas por vértice. Limites anteriores do terreno preservados.</li>
+<li><code>_timescales.py</code>: UTC consciente de timezone, coordenada juliana em duas partes,
+TT/TAI/UT1 com offsets explicitamente fornecidos, fonte/validade/incerteza;
+nenhum leap/EOP atual é presumido ou baixado. Refração e efemérides não incluídas.</li>
+<li><code>_contracts.py</code>: limites compartilhados e guardas de recursos; consultas de
+capacidades em <code>renderers.capabilities</code>. GPU, volumes e shaping complexo são
+declarados indisponíveis; lifecycle/extensões definidos para os lotes seguintes.</li>
+<li>Fixtures analíticas próprias BSD, fontes primárias NGA/IERS e contratos de
+precisão, erros, edição/visibilidade e exportação fixados antes dos próximos lotes.</li>
+<li>Suíte completa: <strong>1031 testes / 20208 subtests</strong>,
+zero falhas/erros; três skips explicitados (permissão de symlink e dois Numba).
+Windows/CPython 3.14.4, fonte local; não constitui nova CI remota.</li>
+<li>Benchmark próprio: <strong>7000 roundtrips</strong>, p95 de
+<strong>13.319 ms por 1000</strong>, pico de <strong>241000 bytes</strong>
+para 1000 pontos retidos, erro angular máximo 2.84e-14°
+e de altura 2.79e-09 m. Workload sintético,
+não evidência de ingestão planetária. Comparação local do terreno no relatório.</li>
+<li>Avisos/licenças e recursos de terceiros conferidos, verificação de privacidade
+dos arquivos alterados, sintaxe Python 3.10 e core SVG/PDF sem site-packages.
+Sintaxe não substitui execução futura da matriz Python/OS.</li>
+</ul>
+<p>Reprodução: executar a suíte <code>tests/test_foundation_040.py</code> e regressões existentes
+com <code>src</code> no import path; <code>python -I tools/benchmark_foundation.py --output benchmark.json</code>;
+<code>python -I tools/audit_licenses.py</code>; <code>python -I tools/audit_publication_privacy.py</code>.
+O teste de contagem mantém os 112 IDs e exige evidência para etapas concluídas.
+Datas/modelos/corpos e APIs internos ainda podem evoluir; não houve tag, Release,
+upload PyPI nem mudança da versão estável. Ao término daquele lote, etapas 2–14 permaneciam pendentes.</p>
+<h3 id="lote-2-osm-pbf-referências-em-disco-e-extração-regional">Lote 2 — OSM PBF, referências em disco e extração regional</h3>
+<p><strong>2.01–2.07 concluídos no contrato declarado. 2.08 permanece pendente apenas
+pela comprovação de escala planetária.</strong> <a href="osm-pbf.html">Contrato e reprodução</a>,
+<a href="pbf-validation-0.4.json">evidência local com hashes do fonte</a>.</p>
+<ul>
+<li><code>_pbf_wire.py</code>, <code>_pbf_decode.py</code> e <code>pbf.py</code>: enquadramento/protobuf próprios,
+nodes/dense nodes/ways/relations, deltas/offsets e IDs inteiros; raw/zlib com
+descompressão limitada, corrupção diagnosticada e codecs não suportados explícitos.</li>
+<li><code>OSMIndex</code>: índice SQLite descartável com orçamento de disco/cache, guarda de
+espaço livre, referências futuras entre blocos, ordenação por índices em disco,
+limpeza em falhas e liberação de consultas pausadas no Windows.</li>
+<li>Multipolígonos/fronteiras com anéis/holes e membros administrativos; restrições
+preservadas com from/via/to, conditional/except, sem alegar roteamento pronto.
+Referências incompletas rejeitadas ou omitidas com contagem por opção explícita.</li>
+<li>Filtros de atributos/envelopes, dateline conservadora e coleções com budgets
+separados; catálogo <code>osm-pbf</code> verifica bytes consumidos e avisos por streaming.
+Aquisição HTTPS separada, explícita, versionada e fixada por SHA256/ODbL integral.</li>
+<li>Fixtures originais cobrem XML/PBF equivalentes, registros entre blocos,
+variantes de codificação, corrupção, hashes, disco cheio/space reserve,
+filtros, cursores, memória streaming e integração urbana PNG/SVG.</li>
+<li>Suíte completa final: <strong>1057 testes / 20302 subtests</strong>,
+zero falhas/erros, três skips conhecidos; Windows/CPython 3.14.4 local.
+Sintaxe Python 3.10 verificada separadamente; nenhuma nova CI remota presumida.</li>
+<li>Extrato real Geofabrik Monaco 260101: <strong>41.315 nodes, 6.168 ways, 347 relations</strong>,
+60 relações poligonais e 43 restrições completas; <strong>36 relações incompletas</strong>
+reportadas com <code>missing='skip'</code>, sem geometrias truncadas. Índice <strong>5.361.664 bytes</strong>,
+pico Python <strong>3476624 bytes</strong>; pico do processo Windows
+<strong>46321664 bytes</strong>, incluindo imports/caches.
+Medição regional única, sem extrapolação de desempenho planetário.</li>
+<li>Base urbana XML congelada de São Paulo: <strong>3.876 nodes / 464 ways / 464 features</strong>
+equivalentes integralmente em IDs, coordenadas e tags após codificação própria
+para PBF de teste. O produtor real independente foi validado separadamente.</li>
+<li>Ensaio limitado a <strong>20 GB totais e 15 GB de reserva livre</strong>, sem baixar/executar
+planeta. O mesmo benchmark offline aceita futuro arquivo planetário e budgets
+adequados; <code>--scope planet</code> nunca conclui a prova automaticamente.</li>
+</ul>
+<p>Reprodução: <code>tests/test_pbf.py</code>, regressões existentes, <code>tools/benchmark_pbf.py</code>,
+<code>tools/acquire_osm_pbf.py</code> e <code>examples/osm_pbf.py</code>; comandos completos no guia.
+Dados reais, índices e mapas de validação ficam fora do repositório/pacote.
+Licenças/privacidade e docs foram verificadas localmente. Sem tag, Release,
+publicação, mudança da versão estável ou modificação dos termos de terceiros.</p>
+<h3 id="lote-3-catálogo-coordenadas-3d-e-operações-parametrizadas">Lote 3 — catálogo, coordenadas 3D e operações parametrizadas</h3>
+<p>Escopo entregue: <strong>3.01–3.04</strong>; <a href="crs-0.4.html">contrato e matriz</a>.
+Naquele corte, <strong>3.05–3.08 ainda estavam pendentes</strong>. A continuação abaixo
+registra sua implementação e validação real independente; este snapshot
+histórico não é reclassificado como ensaio do runtime posterior.</p>
+<ul>
+<li>
+<p>Catálogo próprio versionado: 124 identidades, lookup explícito, definições
+imutáveis, ordem real/autoridade, unidades por eixo, área nominal/domínio e
+perfil textual próprio estritamente validado. WKT/PROJJSON não são inferidos.</p>
+</li>
+<li>
+<p>EPSG:4978/4979, altura explícita, conversão XYZ/UTM/geográfica, GeoJSON antes
+da validação e Artists PNG/SVG. Raster afim rejeita CRS 3D sem inventar altura.</p>
+</li>
+<li>
+<p>Lambert azimutal equivalente esférica com inversa, antiponto singular explícito,
+teste de área, integração regional e inversa de cursor portátil conferida em Node.</p>
+</li>
+<li>
+<p>Pipelines com identidades intermediárias exatas; conversões entre representações
+exigem o mesmo datum/realização; sem aproximação, operação ou aquisição implícita.</p>
+</li>
+<li>
+<p>Helmert 7/14 parâmetros, convenções position-vector/coordinate-frame, metros/
+arcsegundos/ppm e taxas por ano, época/validade/área explícitas, inversão exata da
+matriz avaliada. Fixture numérica primária IOGP 2019, sinais e casos sintéticos
+dinâmicos separados. Sem modelo de placa/geóide ou operação oficial presumida.</p>
+</li>
+<li>
+<p>Protocolo futuro de 2.08 reforçado com cgroup/quota, contagem integral de bytes,
+verificação SQLite e auditoria de todas as referências, inclusive relações raw.
+Nenhum dump planetário adquirido/executado e nenhum critério reduzido.</p>
+</li>
+<li>
+<p>Suíte completa: <strong>1083 testes / 20641 subtests</strong>, zero falhas/erros e três
+skips conhecidos (symlink e dois Numba opcionais), Windows/CPython 3.14.4.
+Conferência adicional do viewer/catálogo/protocolo/checklist: 49 testes aprovados.</p>
+</li>
+<li>
+<p>Benchmark sintético: 5.180 roundtrips XYZ; erro máximo angular 1.43e-14°,
+altura 1.50e-08 m. Não é validação de transformação oficial entre datums.</p>
+</li>
+<li>
+<p>Nova auditoria de referências do extrato Monaco: 673.493 bytes integralmente
+consumidos e hash conferido; zero nodes de ways ausentes. Os 33.551 membros
+externos ausentes das relações raw foram explicitamente contados; esse extrato
+regional não satisfaz a prova planetária, que exige ausência de referências perdidas.</p>
+</li>
+<li>
+<p>Licenças/recursos de terceiros, privacidade dos arquivos alterados, sintaxe
+Python 3.10 e core SVG/PDF/CRS sem site-packages conferidos localmente.</p>
+</li>
+</ul>
+<p>Reprodução: <code>tests/test_crs_040.py</code>, <code>tests/test_planet_protocol.py</code>, regressões
+existentes e <code>examples/crs_pipeline.py</code>. <a href="crs-validation-0.4.json">Snapshot final de evidências</a>,
+com hashes do runtime testado. Não constitui CI remota, publicação ou aceite
+visual multiplataforma. Os snapshots dos lotes anteriores mantêm seus hashes
+históricos; não são reclassificados como medições do runtime atual.</p>
+<h3 id="lote-3-continuação-grids-oficiais-e-operações-horizontaisverticais">Lote 3 — continuação: grids oficiais e operações horizontais/verticais</h3>
+<p><strong>3.05–3.08 concluídos; etapa 3 fechada em 8/8</strong>, no contrato de cobertura
+<a href="datum-grids.html">documentado</a>. <a href="grid-validation-0.4.json">Evidências e hashes do runtime</a>.</p>
+<ul>
+<li>NTv2 binário de ambos endians, hierarquia de subgrids, shifts e precisão
+float32; GTX binário NOAA 2009+, leitura própria em blocos e dados compactos.
+Limites de bytes/nós/tiles, corrupção, NoData, bordas, sinais e descontinuidades
+conferidos. Interpolação bilinear sem extrapolação ou fallback para grid pai.</li>
+<li>Operações horizontais/verticais com frame e referência de altura exatos;
+inversa horizontal iterativa com residual e diagnóstico de ambiguidade/não
+convergência; vertical com sinal explícito. Seleção local exige modelo único
+ou nome explícito, sem transformação aproximada quando faltam dados.</li>
+<li>Épocas/validade exigidas quando declaradas; composição com Helmert dinâmico
+preserva a mesma época e identidades intermediárias. Não inferir movimento de
+placa, deformação temporal ou terremotos a partir de um grid estático.</li>
+<li>Dois modelos oficiais LINZ opcionais, pacote 20200110, versão/commit/SHA-256
+fixados. Aquisição explícita/atômica com budgets de disco, atribuição LINZ,
+aviso original e CC BY 4.0 integral; nenhum payload no wheel/sdist.</li>
+<li>Validação primária em formatos independentes: <strong>19.881 nós horizontais e 100
+células</strong> contra ASCII LINZ; <strong>651 nós verticais e 100 células</strong> contra Sideris
+oficial (3.783.901 valores consumidos integralmente). Máximo erro: 2,385e-7
+arcsegundos horizontal e 5,173e-5 m vertical; tolerâncias 1e-6 arcsec/0,00011 m
+derivadas da precisão publicada, não alegações de acurácia de campo.</li>
+<li><strong>100 roundtrips reais</strong>, máximo angular 5,685e-14°. Pico de alocações Python
+<strong>20.656.359 bytes</strong>, incluindo leitura dos grids, abaixo de 128 MiB; não é
+pico nativo/RSS. Dados/outputs locais sob 20 GB e reserva de 15 GB preservada.</li>
+<li>Raster de alturas exige frame compatível com CRS horizontal, corrige centros
+dos pixels e mantém NoData/referência vertical. PNG/SVG, viewport, colorbar e
+exemplo sintético próprios verificados; não há warp horizontal automático.</li>
+<li>Suíte final: <strong>1109 testes / 20669 subtests</strong>, zero falhas/erros e três skips
+conhecidos, Windows/CPython 3.14.4. Sintaxe Python 3.10, independência do core,
+licenças e privacidade verificadas localmente; nenhuma CI remota presumida.</li>
+</ul>
+<p>Reprodução: <code>tests/test_datum_grids.py</code>, <code>tools/acquire_datum_grid.py</code>,
+<code>tools/validate_datum_grids.py</code> e <code>examples/datum_grid_pipeline.py</code>.
+O serviço de conversão online retornou HTTP 403; não se alega comparação ao
+serviço. A evidência independente usa dados numéricos primários publicados,
+com hashes e interpolação esperada calculada separadamente em Decimal.
+Cobertura finita e variantes não suportadas continuam explícitas no guia.
+<strong>2.08 permanece pendente exclusivamente pelo ensaio planetário integral</strong>,
+sem alterar seu critério. A versão publicada e sua metadata permanecem 0.3.0.</p>
+<h3 id="lote-4-topologia-e-overlay-planaresférico">Lote 4 — topologia e overlay planar/esférico</h3>
+<p><strong>4.01–4.08 concluídos; etapa 4 fechada em 8/8</strong>, no
+<a href="topology-0.4.html">contrato de cobertura e precisão</a>.
+<a href="topology-validation-0.4.json">Snapshot de evidências e hashes do runtime</a>.</p>
+<ul>
+<li>Núcleo planar próprio: predicados/construções com Fraction, índice STR
+conservador, noding de cruzamentos/contatos/coincidências e grafo compartilhado
+imutável com rastreabilidade por operando, parte, ring, segmento e direção.</li>
+<li>Interseção, união, diferença e XOR; holes/multipartes, linhas/pontos e contatos
+de dimensão inferior no plano. Conversão float64 de saída conferida; entradas
+inválidas/limites/ambiguidade falham explicitamente, sem snap/reparo implícito.</li>
+<li>Núcleo esférico próprio sobre vetores 3D e arcos menores de círculo máximo,
+sem redução a plano regional. Referência/interior explícitos, antimeridiano,
+polos, complementos maiores que um hemisfério e esfera cheia/vazia validados.
+Saída esférica regularizada; álgebra esférica geral de linhas/pontos e overlay
+elipsoidal não são anunciados. Tolerância angular e limites estão documentados.</li>
+<li>Reparo planar opt-in com antes/depois e relatório: deduplicação/winding ou
+reconstrução even-odd explícita; não inferir uma reparação esférica/altimétrica.</li>
+<li>Coleções lidas/urbanas: seleção/clip preservam objetos ou IDs/propriedades;
+overlay de Features mantém namespaces dos dois operandos. Máscaras raster
+classificam centros em lon/lat e preservam NoData/alpha/affine/CRS/height frame.</li>
+<li>Artists opcionais de fill amostrado e fronteira geodésica, editáveis e com
+limites explícitos de resolução. PNG/SVG conferidos visualmente; não se alega
+tesselação vetorial exata do fill nem alteração da topologia pela amostragem.</li>
+<li>Oráculos analíticos próprios: retângulos, cruzamentos racionais, área de
+polígono regular, lunes/hemisférios/octante e identidades de conjuntos/áreas,
+incluindo De Morgan e fixtures globais aleatórias determinísticas.</li>
+<li>Benchmark local: 2.000 segmentos separados, 0 pares candidatos contra
+1.999.000 pares brutos; pico Python 4,504,065 bytes
+abaixo de 128 MiB. Não é RSS nem ensaio planetário. Alguma validação e
+classificação permanecem quadráticas; tempos e tamanhos estão no snapshot.</li>
+<li>Suíte completa: <strong>1132 testes / 21547 subtests</strong>,
+zero falhas/erros, três skips conhecidos; Windows/CPython 3.14.4.
+Licenças/recursos auditados, sem novo código/dataset de terceiros neste núcleo.</li>
+</ul>
+<p>Reprodução: <code>tests/test_overlay_040.py</code>, <code>tools/benchmark_topology.py</code> e
+<code>examples/topology_overlay.py</code>. O exemplo global usa grade sem rótulos:
+equivalentes de longitude podem colidir na costura/polo ortográfico do renderer
+existente; <strong>essa pendência visual fica registrada para 14.05</strong>, não é declarada
+corrigida pela topologia nem confunde área esférica com projeção.</p>
+<p><strong>2.08 continua pendente exclusivamente pelo ensaio planetário integral</strong>,
+sem alteração de critério. Nenhuma publicação/CI remota é presumida; a versão
+estável e sua metadata permanecem 0.3.0. Os snapshots anteriores não são
+reclassificados como resultados do runtime deste lote.</p>
+<h3 id="lote-5-geocodificação-e-pesquisa-urbana-locais">Lote 5 — geocodificação e pesquisa urbana locais</h3>
+<p><strong>5.01–5.08 concluídos; etapa 5 fechada em 8/8</strong>, no
+<a href="geocoding-0.4.html">contrato de cobertura, recursos e precisão</a>.
+<a href="geocoding-validation-0.4.json">Snapshot de evidências e hashes do runtime</a>.</p>
+<ul>
+<li>Modelos imutáveis de origem, endereço, localidade/POI/via e resultado;
+IDs preservados, limite administrativo distinto do ponto representativo,
+precisão declarada/estimada explícita e atribuições por fonte.</li>
+<li>Índice próprio de tokens e tiles adaptativos, persistência SQLite genérica,
+construção atômica sem sobrescrita, reabertura somente leitura e SHA-256
+conferido. Importação de catálogo opcional e streaming do índice PBF próprio.</li>
+<li>NFKC/casefold/acento e aliases multilíngues preservam display original;
+pesquisa exata/prefixo e edição Levenshtein opt-in. Não se alega segmentação
+linguística, transliteração ou shaping. Mudança da versão Unicode exige rebuild.</li>
+<li>Ranking determinístico, filtros explícitos de endereço/administração,
+proximidade/bbox; ambiguidade e contagem total continuam visíveis com limit=1.
+Overflow de candidatos/vocabulário/JSON falha, sem resultado parcial disfarçado.</li>
+<li>Reversa por pontos, vias e limites regionais, incluindo poles/antimeridiano;
+distâncias esféricas, containment planar regional e precisão documentados,
+sem inventar acurácia cadastral, associação postal ou acesso à rede.</li>
+<li>Interpolação numérica explícita por IDs dos extremos, contexto, coordenadas,
+passo/paridade e comprimento geodésico esférico; sem extrapolação, associação
+à rua por proximidade, interpretação de sufixos ou confiança probabilística.</li>
+<li>Resultados integram camadas, picking real, labels/halo e PNG/SVG. Adaptador
+externo separado exige escolha explícita; nenhuma consulta/fallback automático.</li>
+<li>Privacidade: addr:* opt-in, contatos/notas/editores não importados, sem
+histórico de consultas/caminhos da origem. Bases/índices OSM preservam ODbL,
+copyright, atribuição e texto da licença; não são incluídos no wheel/sdist.</li>
+<li>Ensaio sintético com 5,000 registros e 40 consultas:
+mediana 3.86 ms, p95
+6.10 ms; índice
+2,732,906 bytes. São medições locais, não SLA.</li>
+<li>Ensaio real licenciado: 71 registros (64 vias, 7 POIs),
+64 consultas por nome e reversa; endereços residenciais não importados.
+Pico Python 11,577,833 bytes, abaixo de 128 MiB;
+não é RSS. Teto de 20 GB e reserva mínima de 15 GB preservados.</li>
+<li>Corrigido pico de leitura do catálogo: blocos de até 64 KiB, short reads e
+limite agregado, evitando alocar o teto de 256 MiB para um arquivo pequeno.</li>
+<li>Suíte completa: <strong>1154 testes / 21635 subtests</strong>,
+zero falhas/erros, três skips conhecidos; Windows/CPython 3.14.4.
+Core sem dependências opcionais, sintaxe Python 3.10 e auditorias locais de
+licenças/privacidade/distribuição conferidos. Não se presume CI remota.</li>
+</ul>
+<p>Reprodução: <code>tests/test_geocoding_040.py</code>, <code>tools/validate_geocoding.py</code> e
+<code>examples/local_geocoding.py</code>. Capacidade regional e cobertura incompleta são
+explícitas; este lote não certifica uma base postal global nem escala planetária.
+<strong>2.08 continua pendente exclusivamente pelo ensaio planetário integral</strong>,
+sem alteração de critério; a pendência de rótulos na costura/polo ortográfico
+continua em 14.05. A versão publicada/metadata permanece 0.3.0, sem publicação.</p>
+<h3 id="lote-6-grafos-e-roteamento-urbanos-próprios">Lote 6 — grafos e roteamento urbanos próprios</h3>
+<p><strong>6.01–6.08 concluídos; etapa 6 fechada em 8/8</strong>, no
+<a href="routing-0.4.html">contrato de cobertura, recursos e regras</a>.
+<a href="routing-validation-0.4.json">Snapshot de evidências e hashes do runtime</a>.</p>
+<ul>
+<li>Grafo dirigido imutável com IDs de nós/vias, segmentos, geometria WGS84,
+comprimentos em metros, velocidades em km/h e duração estimada em segundos.
+Persistência atômica em diretório novo, manifest/schema/SHA-256, reabertura
+com reconstrução/verificação e avisos completos da fonte; sem overwrite.</li>
+<li>Importação própria de primitivas OSM XML e índice PBF em disco, com catálogos
+opcionais verificados. Só IDs de nós compartilhados conectam vias; cruzamentos
+geométricos, coordenadas coincidentes de IDs distintos, pontes e túneis não
+criam atalhos. Layer/bridge/tunnel são preservados; nós compartilhados de rampas
+permanecem conexões explícitas, sem reparo silencioso do dado.</li>
+<li>Perfis configuráveis de carro/bicicleta/pedestre: classes/velocidades explícitas,
+hierarquia de acesso, barreiras conservadoras, mão única/reversa/roundabout e
+overrides modais. Maxspeed numérico km/h/mph e direcional. Regras condicionais,
+direcionais de acesso ou desconhecidas reconhecidas falham explicitamente.</li>
+<li>Restrições no/only por nó via ou cadeia ordenada de vias via, exceções/modos,
+no_entry/no_exit com múltiplos membros, retorno distinto de continuação.
+Histórico de conversões preservado através de pontos intermediários/splits;
+conversão obrigatória para via inacessível não é descartada.</li>
+<li>Snapping esférico em segmentos, postings espaciais, raio/teto de candidatos,
+distância off-network separada e ambiguidades em vias coincidentes explícitas.
+Splits virtuais respeitam sentido e custo parcial, sem conectar redes distintas.</li>
+<li>Dijkstra e A* próprios, custo distância/tempo, heurística admissível e stops
+ordenados no estado global. Erros de referência, rota inviável, corrupção,
+limites de estados/fila/regras/disco e cancelamento não retornam rotas parciais.</li>
+<li>Geometria/trechos/instruções geométricas com rastreabilidade e licença. Camada
+editável/visível, picking real, escalas opcionais e playback por FuncAnimation
+próprio; executor não toca Artists, e aplicação exige thread solicitante.</li>
+<li>Ensaio sintético: 6,400 nós,
+25,280 arestas dirigidas, 40 consultas;
+A*/Dijkstra concordam. Mediana 77.38 ms,
+p95 600.14 ms sob tracemalloc;
+índice 658,128 bytes. Medições locais,
+não SLA nem alegação de desempenho planetário.</li>
+<li>Worker: 35 heartbeats do thread
+solicitante durante a busca; maior intervalo
+20.76 ms. Evidência
+de executor, sem alegar aceite humano Tk/Qt multiplataforma neste lote.</li>
+<li>Ensaio OSM real licenciado nos três perfis, com A*/Dijkstra concordantes;
+hash do extrato preservado, ODbL/copyright/atribuição/licença mantidos. Índices
+opcionais não entram nos archives. Sem contatos, editores, addr:* ou queries
+registradas. Pico Python 42,012,863 bytes, não RSS;
+teto de 20 GB e reserva mínima de 15 GB preservados.</li>
+<li>Suíte completa: <strong>1178 testes / 22699 subtests</strong>,
+zero falhas/erros e três skips conhecidos, Windows/CPython 3.14.4.
+Oráculo Floyd em todas as combinações de redes pequenas, snapping brute force,
+restrições conhecidas, equivalência XML/PBF, persistência e Artists cobertos.
+Core sem dependências opcionais, sintaxe 3.10 e auditorias locais documentados;
+não se presume CI remota ou inspeção humana dos viewers.</li>
+</ul>
+<p>Reprodução: <code>tests/test_routing_040.py</code>, <code>tools/validate_routing.py</code> e
+<code>examples/local_routing.py</code>. Não se alega navegação legal regional completa,
+tráfego ao vivo, roteamento de caminhões/faixas/horários ou escala planetária.
+<strong>2.08 continua pendente exclusivamente pelo ensaio planetário integral</strong>,
+sem alterar critério; a pendência visual na costura/polo ortográfico permanece
+em 14.05. Versão/metadata publicada permanece 0.3.0, sem publicação neste lote.</p>
+<h3 id="lote-7-composição-tipográfica-internacional">Lote 7 — composição tipográfica internacional</h3>
+<p><strong>7.01–7.07 concluídos; 7.08 permanece pendente</strong>, sem reduzir seu critério.
+<a href="international-text-0.4.html">Contrato, APIs, acessibilidade e políticas</a>.
+<a href="text-validation-0.4.json">Snapshot de evidências e hashes do runtime</a>.</p>
+<ul>
+<li>Runs/graphemes/scripts, direção, linguagem, fallback auditado, features
+OpenType e métricas/contornos imutáveis compartilhados. Contextos isolados;
+figuras e Artists capturam opções. Títulos, ticks, legendas, colorbars,
+annotations e labels preservam edição e visibilidade.</li>
+<li>Resolvedor bidi próprio a partir do UAX #9 r51, sem portar código externo.
+ICU fornece propriedades/graphemes, HarfBuzz posicionamento OpenType,
+fontTools contornos. Dependências genéricas opcionais; core e imports
+preservados. Fontes Noto opcionais OFL-1.1, bytes/hash/origem auditados;
+ausência de cobertura/permissão causa erro explícito. DejaVu inalterada.</li>
+<li>Conformidade oficial Unicode 15.1: <strong>91.707 casos de caracteres, 770.241
+casos/modos por classes bidi e 1.187 casos de graphemes</strong>, sem falhas.
+Níveis e ordem comparados integralmente, sem exceções de casos falhos.
+O resolvedor próprio corrigiu 30 divergências detectadas tanto no ICU do
+Windows 72.1.0.4 quanto no binário oficial 78.3. Esses engines não são vendorizados.</li>
+<li>PNG/SVG/PDF e viewers Python usam os mesmos glifos/offsets/contornos, inclusive
+no subprocesso de navegação sem registro de fontes do processo principal.
+SVG com texto lógico acessível, PDF com ActualText e avisos completos;
+não se anuncia PDF/UA nem seleção universal em todo leitor.</li>
+<li>Curvas conservam clusters/marcas/ligaturas; colisões, prioridades e leader
+lines usam métricas reais. Rotação/halos/DPI/caches preservados. HTML mantém
+outlines existentes e tamanho físico; recomposição arbitrária de scripts
+complexos permanece no viewer Python.</li>
+<li>Suíte completa: <strong>1190 testes / 22732 subtests</strong>, zero falhas/erros,
+três skips conhecidos; mais <strong>3 testes de privacidade de captura</strong>, aprovados.
+Windows/CPython 3.14.4. Tk/Qt locais capturados; Tk usa HWND e confere pixels
+antes de gravar. Recortes Linux/macOS só em runners controlados, também
+conferidos. Captura inválida não é salva; screenshots não são aceite humano.</li>
+<li>Workflow manual <code>text-review-0.4.yml</code> preparado, <strong>ainda não executado na CI</strong>.
+7.08 exige testes nos três sistemas e aprovação visual humana explícita.
+Fontes e dados Unicode opcionais são adquiridos explicitamente, fora dos archives.</li>
+</ul>
+<p>Reprodução: <code>tests/test_text_engine_040.py</code>, <code>tests/test_text_review_tools_040.py</code>,
+<code>tools/validate_unicode_text.py</code>, <code>tools/validate_text_engine.py</code> e
+<code>examples/multilingual_text.py</code>. 2.08 continua exclusivamente pendente pelo
+ensaio planetário integral; 14.05 conserva a pendência visual na costura/polo
+ortográfico. Versão publicada permanece 0.3.0; sem publicação neste lote.</p>
+<h3 id="preparação-do-aceite-708">Preparação do aceite 7.08</h3>
+<p><a href="text-review-0.4.html">Roteiro de revisão por plataforma</a>, índices HTML,
+PNG/SVG/PDF em dois DPI e capturas Tk/Qt preparados. O pacote Windows local
+tem hashes conferidos; a captura Tk foi inspecionada como janela da Azimlib.
+O comparador rejeita bytes alterados, runtimes/fontes divergentes e plataformas
+repetidas. Execução parcial precisa de opção explícita e <strong>nunca concede aceite</strong>.
+Os três testes desse comparador passaram em execução separada.
+Linux/macOS ainda precisam gerar seus pacotes pelo workflow manual preparado;
+não se registra execução remota nem aprovação humana que não ocorreu.
+<strong>7.08 continua pendente</strong> com seu critério integral preservado.</p>
+<h3 id="lote-8-tex-real-opcional">Lote 8 — TeX real opcional</h3>
+<p><strong>8.01–8.07 concluídos localmente; 8.08 pendente dos sistemas suportados.</strong>
+<a href="tex-0.4.html">Contrato e reprodução</a>,
+<a href="tex-validation-0.4.json">evidências/hashes do runtime</a> e
+<a href="tex-fonts-reference-0.4.json">fontes do ensaio</a>.</p>
+<ul>
+<li>Tectonic 0.17.0 externo compõe fragmentos LaTeX reais; pdftocairo 26.07.0
+externo fornece contornos que a Azimlib interpreta e desenha. Matemática,
+macros, preâmbulo, métricas/baseline reais, rotação e transparência compartilham
+a cena e Artists editáveis. O parser interno continua separado.</li>
+<li>Configuração explícita, cache previamente preparado, runtime offline,
+diretórios temporários removidos, limites monitorados de tempo/RAM/disco e
+diagnósticos sanitizados. Executáveis/preâmbulos precisam ser confiáveis;
+monitoramento por amostragem não é sandbox nem quota rígida de kernel.</li>
+<li>Cache por texto/configuração/fontes/bytes das ferramentas, limitado a 128
+fragmentos e 16 MiB medidos; recursos conferidos no início e fim da composição.
+PNG/SVG/PDF/HTML e worker usam contornos preparados. Smoke do worker com
+ferramentas/cache ausentes em sua configuração produziu os mesmos pixels.</li>
+<li>Extra Python genérico opcional; nenhuma instalação ou aquisição implícita.
+Motor/cache/fontes não entram nos archives. Latin Modern/AMS e avisos das
+ferramentas/dependências preservados; 19 textos legais auditados. Trinta
+arquivos de fonte do cache comparados por SHA-256 com as fontes oficiais.</li>
+<li>Suíte completa cumulativa: <strong>1.208 testes / 22.738 subtests</strong>, sem falhas/erros,
+três skips conhecidos, Windows/CPython 3.14.4. Mais três testes do comparador
+7.08 em execução separada; quinze contratos TeX passaram com motor real,
+incluindo erros, timeout, glifo ausente, página extra e cache.</li>
+<li>Workflow manual <code>tex-review-0.4.yml</code> preparado para os três sistemas,
+<strong>ainda não executado</strong>. Pacote visual Windows local em 100/200 DPI;
+imagens e testes locais não encerram 8.08.</li>
+</ul>
+<p>Reprodução: <code>tests/test_tex_040.py</code>, <code>tools/prepare_tex_cache.py</code>,
+<code>tools/validate_tex.py</code> e <code>examples/tex_cartography.py</code>. 2.08 permanece
+exclusivamente pendente pelo dump planetário completo; 14.05 conserva a pendência
+visual de costura/polo ortográfico. Metadata estável permanece 0.3.0.</p>
+<h3 id="lote-9-renderer-gpu-próprio-e-texturas">Lote 9 — renderer GPU próprio e texturas</h3>
+<p><strong>9.01–9.07 concluídos localmente; 9.08 permanece pendente.</strong>
+<a href="gpu-0.4.html">Contrato e reprodução</a>,
+<a href="gpu-validation-0.4.json">evidências e hashes do runtime</a> e
+<a href="gpu-dependencies-0.4.json">inventário dos bindings</a>.</p>
+<ul>
+<li>OpenGL 3.3 via ModernGL/glcontext opcionais MIT, avisos separados e 21 textos
+legais verificados. GLSL, cobertura/winding, meshes, caches, clipping,
+integração da câmera e rasterização CPU de referência são implementações próprias.</li>
+<li>Contexto com thread proprietária, subprocesso persistente nos viewers Tk/Qt,
+descarte de gerações obsoletas, fechamento idempotente, falha explícita e
+fallback CPU somente autorizado. Nada inicializa contexto no import.</li>
+<li>Cena/Artists preservados, widths/caps/joins/dashes físicos, transparência 2D,
+z-order, polígonos com furos, supersampling 3x e readback estático PNG.
+SVG/PDF mantêm os renderers vetoriais próprios; <code>show()</code> continua separado.</li>
+<li>Terreno/extrusões usam câmera/depth próprios, atlas combinado, UV perspectivo,
+texturas nearest opacas/mascaradas editáveis e referência CPU compartilhada.
+Transparência 3D arbitrária e volumes não são anunciados por este lote.</li>
+<li>HarfBuzz internacional e TeX real renderizados na GPU com os mesmos contornos
+compostos e avisos de fontes preservados. Picking usa registros originais no
+processo principal; snapshots do worker excluem metadados privados de Artists.</li>
+<li>Suíte cumulativa: <strong>1.229 testes / 22.742 subtests</strong>, zero falhas/erros,
+três skips conhecidos, Windows/CPython 3.14.4. Dispositivo real NVIDIA RTX 2060,
+driver 617.42; CPU/GPU, threads, limites, cancelamento, texturas, corrupção de
+configuração e worker concorrente cobertos. Capturas Tk/Qt conferidas.</li>
+<li>Caches reutilizam traduções exatas; zoom alterado recompõe meshes. Medições
+separam composição, desenho, primeira pintura e FPS sequencial. Monitoramento
+RSS separado pode perturbar os tempos; payload GPU não é RSS/VRAM total.
+As metas de 33 ms/100 ms não foram demonstradas para a interação completa.</li>
+<li>Workflow manual <code>gpu-review-0.4.yml</code> preparado, <strong>sem execução remota neste
+lote</strong>. CI sem GPU nos três sistemas e referência software Mesa/EGL são
+parte do gate 9.08, ainda aberto; capturas não constituem aceite humano.</li>
+</ul>
+<p>Reprodução: <code>tests/test_gpu_040.py</code>, <code>tools/validate_gpu.py</code> e
+<code>examples/gpu_cartography.py</code>. Core/imports CPU, metadata estável 0.3.0 e os
+avisos de terceiros permanecem preservados. Nenhuma publicação neste lote.
+2.08 permanece exclusivamente pendente pelo ensaio planetário integral;
+7.08/8.08 conservam suas validações pendentes e 14.05 a revisão de costura/polo.</p>
+<h3 id="lote-10-volumes-regulares-e-nuvens-sintéticas">Lote 10 — volumes regulares e nuvens sintéticas</h3>
+<p><strong>10.01–10.08 concluídos localmente no contrato declarado.</strong>
+<a href="volumes-0.4.html">Guia e reprodução</a>,
+<a href="volume-validation-0.4.json">evidências e hashes do runtime</a>.</p>
+<ul>
+<li>Campos escalares/vetoriais float32 nodais Z/Y/X, coordenadas físicas XYZ,
+unidades de posição/valor, LocalFrame explícito e máscara/NoData. Arrays e
+formato próprio AZV1; sem alegar leitura de todo formato científico.</li>
+<li>Escrita por bricks, verificação integral SHA-256, cache LRU limitado, ROI e
+rejeição de corrupção, truncamento e alteração da fonte. O ensaio verificou
+512 bricks e 2.097.152 nós de um arquivo de 8.405.137 bytes, com teto denso de
+256 KiB e cache de 64 KiB. Pico Python medido por tracemalloc: 264.942 bytes;
+isso não mede RSS total nem VRAM. Respeitados o teto de 20 GB e a reserva de
+15 GB livres; não houve aquisição de dataset planetário.</li>
+<li>Integração própria por absorção/comprimento físico, transfer functions,
+Normalize/LogNorm e mistura de até quatro volumes. Cortes interpolados e
+isosuperfícies próprias por tetraedros; limites de trabalho explícitos.</li>
+<li>Referência Python, aceleração NumPy opcional e GLSL próprios, câmera/depth
+compartilhados com terreno, georreferência, recentering GPU, edição,
+visibilidade, picking, colorbar e vínculo temporal. PNG/SVG/PDF com volumes
+rasterizados; GIF de dois estados distintos conferido.</li>
+<li>Iluminação por gradiente e autoabsorção na direção da luz; modelo ilustrativo,
+sem prometer simulação meteorológica, espalhamento múltiplo ou sombras
+volumétricas projetadas por terreno. Essas distinções constam no guia.</li>
+<li>Suíte cumulativa final: <strong>1.253 testes / 22.745 subtests</strong>, sem falhas/erros,
+três skips conhecidos, Windows/CPython 3.14.4. Vinte e quatro contratos de
+volumes passaram, incluindo GPU real RTX 2060, amostragem convergente,
+alpha/depth, NoData, limites, fontes corrompidas e coordenadas grandes.</li>
+<li>Nuvem sintética e cortes comparados em CPU/GPU; diferenças médias da figura
+completa abaixo de 1,12/255 por canal RGB, com diferenças locais em bordas.
+Analíticos interiores têm testes de tolerância separados. Desenho GPU da
+nuvem já composta: mediana aquecida de 25,5 ms em sete amostras; não é latência
+de input/viewer nem demonstração das metas pendentes da etapa 9.</li>
+<li>Capturas Tk/Qt próprias verificadas e inspecionadas localmente, sem aceite
+humano multiplataforma implícito. Workflow manual GPU ampliado para volumes,
+<strong>preparado, sem execução remota neste lote</strong>. Nenhum dataset externo novo;
+fórmulas sintéticas originais BSD, avisos existentes de paleta/fontes/bindings
+preservados, 21 textos legais conferidos.</li>
+</ul>
+<p>Reprodução: <code>tests/test_volume_040.py</code>, <code>tools/validate_volume.py</code> e
+<code>examples/volume_cloud.py</code>. 2.08 continua exclusivamente pendente pelo ensaio
+planetário integral; 7.08/8.08/9.08 e os gates finais da etapa 14 conservam seus
+critérios. Metadata estável 0.3.0 preservada; archives são previews locais,
+sem publicação, tag ou alteração de PyPI.</p>
+<h3 id="lote-11-sol-terrestre-e-evidência-local">Lote 11 — Sol terrestre e evidência local</h3>
+<p><strong>11.01–11.08 concluídos localmente no contrato de precisão declarado.</strong>
+<a href="solar-0.4.html">Modelo, fontes, correções, limites e reprodução</a>,
+<a href="solar-validation-0.4.json">resultados e hashes</a>.</p>
+<ul>
+<li>Implementação analítica própria baseada nas equações publicadas pelo USNO;
+sem biblioteca de efemérides, kernel ou código externo incorporado.</li>
+<li>Posição geocêntrica/topocêntrica, azimute/elevação manual, paralaxe,
+aberração aproximada e refração óptica explicitamente separadas. TT/UT1
+exigem correções fornecidas pelo chamador; UTC aproximado é opção expressa.</li>
+<li>Ponto subsolar, terminador esférico, máscara noturna com resolução declarada,
+trajetórias diárias/sazonais em ENU 3D, solstícios/equinócios, nascer/pôr e
+trânsito. Dia/noite polar e incerteza tangente permanecem explícitos.</li>
+<li>Artists opcionais editáveis, visibilidade, labels com halo, picking e
+TemporalSeries/FuncAnimation; vetor físico ENU disponível para a etapa 13.
+O raio visual do céu e o símbolo não representam distâncias/tamanho reais.</li>
+<li>Referência independente JPL Horizons: 182 comparações angulares entre
+1972–2100, seis observadores incluindo dateline, altura e polos. Maior
+desvio 0,010299° frente ao limite pré-fixado de 0,06°; distância relativa
+máxima 0,00007806 frente a 0,0003. Doze eventos comparados com desvio
+máximo 1,810 s frente a 120 s. São resultados dessas amostras, não uma
+garantia universal de precisão; polos não têm trânsito/azimute únicos.</li>
+<li>Respostas brutas e tabelas JPL ficam fora do repositório e dos archives;
+evidência contém análise própria, queries e hashes. Crédito das definições
+USNO/NOAA documentado, 21 textos legais existentes preservados.</li>
+<li>PNG/SVG/PDF para mapa, globo e céu, CPU/GPU reais, três estados distintos
+em GIF e capturas próprias Tk/Qt verificadas. Isso não é aceite humano
+multiplataforma nem comprova as metas de latência pendentes da etapa 9.</li>
+<li>Suíte cumulativa: <strong>1.281 testes / 22.765 subtests</strong>. sem falhas/erros. 3 skips conhecidos. Os 28 contratos solares passaram.</li>
+</ul>
+<p>Permanecem pendentes 2.08 (somente dump planetário completo), 7.08, 8.08,
+9.08, etapas 12/13 e gates da etapa 14, com os mesmos critérios. Metadata
+estável 0.3.0 preservada; nenhuma publicação, tag, push ou alteração de PyPI.</p>
+<h3 id="lote-12-lua-e-visualização-terralua">Lote 12 — Lua e visualização Terra–Lua</h3>
+<p><strong>12.01–12.08 concluídos localmente no contrato declarado.</strong>
+<a href="lunar-0.4.html">Modelo, API, limites e reprodução</a>,
+<a href="lunar-validation-0.4.json">evidência e hashes</a>,
+<a href="lunar-model-0.4.json">proveniência das definições</a>.</p>
+<ul>
+<li>Série analítica curta própria, definições numéricas creditadas ao modelo
+Almanac revisado no artigo NASA de Simpson, equações 1–4; documento
+identificado pelo NTRS como trabalho governamental de uso público permitido.
+Sem código externo, kernels ou respostas/tabelas JPL incorporados.</li>
+<li>Posição/range geocêntricos e topocêntricos, paralaxe, refração óptica opcional,
+ponto sublunar direcional, fase e posição angular do limbo iluminado. Relógios
+TT/UT1 explícitos; UTC aproximado é opção declarada, sem tabelas inferidas.</li>
+<li>Artists opcionais editáveis, entrada manual de azimute/elevação com alcance
+finito/observador, labels/halo, picking geográfico e playback prevalidado.
+Trajetória calculada em frame terrestre fixo; não é uma órbita inercial.</li>
+<li>Corpos Terra–Lua em metros, raios/distâncias físicos por padrão, ampliação
+visual separada, câmera existente, luz baseada nos vetores físicos e
+oclusão opaca verificada CPU/GPU por reversão de câmera/ordem de faces.
+Não há sombras projetadas nem previsão de contato de eclipses nesta etapa.</li>
+<li>Referência independente: 792 comparações angulares, 432 distâncias/frações,
+335 orientações do limbo e 360 paralaxes, em 72 datas e cinco observadores
+além do geocentro. Máximos amostrados: 0,173591°; 653,198 km; fração 0,001358;
+limbo 0,276228° (elongação 20°…160°); paralaxe 0,002611°. Todos dentro dos
+limites pré-definidos. Não são garantias universais de erro máximo.</li>
+<li>Quatro cenas PNG/SVG/PDF CPU/GPU, quatro fases, três frames distintos de
+animação e capturas próprias Tk/Qt verificadas no Windows. Isso não substitui
+aceite humano nativo multiplataforma, nem metas de latência da etapa 9.</li>
+<li>Regressão cumulativa: <strong>1299 testes / 22765 subtests</strong>, zero falhas/erros e 3 skips conhecidos; 18 contratos lunares aprovados.</li>
+</ul>
+<p>Permanecem pendentes <strong>2.08</strong> (exclusivamente ensaio planetário integral),
+<strong>7.08</strong>, <strong>8.08</strong>, <strong>9.08</strong>, etapa <strong>13</strong> e gates da <strong>14</strong>. Critérios mantidos.
+Metadata estável 0.3.0 preservada; sem push, publicação, tag ou alteração de PyPI.</p>
+<h3 id="lote-13-iluminação-física-sombras-locais-e-geometria-de-fonte-extensa">Lote 13 — iluminação física, sombras locais e geometria de fonte extensa</h3>
+<p><strong>13.01–13.05 e 13.08 concluídos localmente; 13.06–13.07 permanecem pendentes.</strong>
+<a href="lighting-0.4.html">Contrato, API, precisão e reprodução</a>,
+<a href="lighting-validation-0.4.json">evidência e hashes</a>,
+<a href="lighting-model-0.4.json">proveniência das definições</a>.</p>
+<ul>
+<li>Luz opcional em ENU/metres, vetor solar calculado ou direção manual explícita;
+normais/alturas físicas antes da câmera e do exagero vertical.</li>
+<li>BVH e interseções próprios, oclusão opaca sobre terreno/entre construções,
+refinamento de triângulos e amostragem do disco solar limitados antes da alocação.
+O exemplo usa aresta máxima 1,5 m, bias 1 mm e oito direções; bordas continuam
+dependentes da resolução, sem promessa de precisão espacial universal.</li>
+<li>Mudanças temporais reutilizam a geometria; câmera/exagero não alteram sombras.
+Visibilidade/material/malha invalidam o índice. Atualização temporal mantém
+a câmera existente e segue o mesmo preparo de cena CPU/GPU.</li>
+<li>Cones umbra/penumbra/antumbra por tangência de esferas finitas e fração de disco
+visível por aproximação angular declarada. Sem regra decorativa por evento.
+Corpos 3D e mapa escalar opcionais; ampliação visual não altera a geometria física.</li>
+<li>Volumes no mesmo frame recebem direção e autoatenuação já suportada; não há
+transporte de sombras entre malhas e volumes. PNG/PDF suportados; SVG incorpora
+camada raster de volume com Pillow, falhando explicitamente sem esse provider.
+Artistas removíveis/toggláveis.</li>
+<li>Quatro cenas originais CPU/GPU, PNG/SVG/PDF conforme capacidade, três frames
+diários distintos e capturas verificadas das próprias janelas Tk/Qt no Windows.
+Não substituem aceite humano multiplataforma nem gates de desempenho.</li>
+<li><strong>Gate real reprovado:</strong> 96 pontos centrais independentes do eclipse NASA
+2024-04-08 não reproduzem totalidade; separação máxima 0,183489° e fração residual
+máxima 0,393908. Orçamento do modelo chega a 0,562376°, acima do limite previamente
+fixado de 0,01°. Horários de contato e eventos lunares não foram validados.
+O auditor retorna código 3; o fracasso não foi convertido em aprovação.
+<strong>13.06 e 13.07 exigem efeméride/reduções mais precisas e validação independente
+espacial/temporal, antes do gate final.</strong> Dados brutos NASA permanecem externos.</li>
+<li>Regressão cumulativa: <strong>1322 testes / 22765 subtests</strong>, zero falhas/erros e 3 skips conhecidos; 69 contratos de iluminação/Sol/Lua aprovados.</li>
+</ul>
+<p>Pendências após o lote 13: <strong>2.08</strong>, <strong>7.08</strong>, <strong>8.08</strong>, <strong>9.08</strong>, <strong>13.06</strong>,
+<strong>13.07</strong> e os gates da etapa <strong>14</strong>; a consolidação atual está registrada abaixo.
+Metadata estável 0.3.0 preservada; sem commit, push, publicação ou tag.</p>
+<h3 id="lote-14-integração-cumulativa-auditoria-e-preparação-da-entrega">Lote 14 — integração cumulativa, auditoria e preparação da entrega</h3>
+<p><strong>14.01 e 14.06 concluídos localmente. Os outros seis gates permanecem pendentes.</strong>
+<a href="integration-0.4.html">Guia, cobertura e reprodução</a>,
+<a href="integration-validation-0.4.json">evidências e hashes</a>,
+<a href="gallery-0.4.html">galeria original</a>, <a href="migration-0.4.html">migração</a>,
+<a href="integration-benchmarks-0.4.html">benchmarks e limites</a>,
+<a href="release-notes-0.4.0.html">release notes ainda não publicadas</a>.</p>
+<ul>
+<li>Integração geocoder → grafo → rota → clip próprio, equivalência XML/PBF,
+roundtrip geocêntrico, topologia na costura, Sol/Lua e temporal → iluminação →
+volume no mesmo frame. Imports públicos compartilham estado; sem motor GIS externo.</li>
+<li>Cinco cenas originais CPU/GPU em PNG/SVG/PDF conforme capacidade e capturas
+verificadas das próprias janelas Tk/Qt Windows; core também validado sem site-packages.</li>
+<li>Auditoria técnica de licenças/proveniência e scans de privacidade do conteúdo,
+histórico/refs/objetos locais; termos de terceiros preservados. Não é parecer
+jurídico nem prova de apagamento remoto. Dados/fontes/referências brutos externos
+permanecem fora dos pacotes. Hashes de conteúdo distribuído verificados separadamente.</li>
+<li>Corrigido o gate que só exigia checklist para 0.3: 0.4 exige exatamente os 112
+IDs completos; versões sem contrato falham. Testes cobrem planeta, plataformas,
+ciência e aceite pendentes, checklist inválida e workflow sem publicação.</li>
+<li><strong>14.02:</strong> documentação, matriz, migração e galeria prontas localmente;
+publicação/verificação pública permanece pendente.</li>
+<li><strong>14.03:</strong> medições atuais de geodesia, topologia, PBF regional e GPU consolidadas.
+Mônaco tem relações incompletas: política estrita recusou e descarte regional
+explícito registrou 36 relações omitidas. Não constitui prova planetária.
+Faltam grandes dados reais e latência nativa ponta a ponta; composição/zoom
+ainda excedem budgets. Picos Python, RSS amostrada e VRAM não são intercambiáveis.</li>
+<li><strong>14.04:</strong> contrato existente de 28 jobs preservado e 22 jobs adicionais manuais
+preparados para core/matrizes, ausência de providers, capturas e Mesa explicitamente
+software. Nenhuma execução remota é declarada; exigir o commit exato.</li>
+<li><strong>14.05:</strong> aguardando revisão humana Linux/macOS/Windows; capturas automáticas
+locais não substituem interação física ou os gates 7.08/8.08/9.08.</li>
+<li><strong>14.07:</strong> ensaio local de build/auditorias/instalação core e GPU é preliminar;
+metadata estável permanece 0.3.0, e seus arquivos não devem ser enviados ao PyPI.
+Metadata 0.4 final, commit imutável e reconstrução auditada continuam pendentes.</li>
+<li><strong>14.08:</strong> sem aceite final, tag, Release ou publicação; nenhuma autorização
+inferida de testes locais. Ensaio planetário e precisão de eclipses ainda bloqueiam.</li>
+<li>Regressão cumulativa: <strong>1334 testes / 22780 subtests</strong>, zero falhas/erros e 3 skips conhecidos.</li>
+</ul>
+<p>Pendências atuais (12): <strong>2.08</strong>, <strong>7.08</strong>, <strong>8.08</strong>, <strong>9.08</strong>, <strong>13.06</strong>, <strong>13.07</strong>,
+<strong>14.02</strong>, <strong>14.03</strong>, <strong>14.04</strong>, <strong>14.05</strong>, <strong>14.07</strong>, <strong>14.08</strong>. Critérios preservados.
+Sem alteração de versão estável, commit, push, tag, publicação ou download planetário.</p>
+<h3 id="checkpoint-dos-gates-708-808-908-1306-1307">Checkpoint dos gates 7.08 / 8.08 / 9.08 / 13.06 / 13.07</h3>
+<p><a href="pending-validation-0.4.html">Resultados, artifacts por sistema e checklist visual</a>.
+7.08 e 8.08: mesma origem <code>d61a3ca02739ce6d8f43de175b55de75ecec58dc</code>,
+CI 6/6, hashes/licenças/privacidade verificados; aguardando aceite visual humano.
+9.08: CI 4/4 em <code>8959ff25c57786e487ec351bcd7615c954fbd569</code>; otimizações
+medidas, mas budgets de 33 ms/quadro e 100 ms/interação continuam não satisfeitos.
+13.06/13.07: leitor SPK/reduções experimentais e validação independente ampliada;
+302 centros, 601 bordas disponíveis, 12 contatos lunares e controles sem eclipse.
+2023 ainda excede os limites espaciais; orçamento global e contatos solares
+absolutos permanecem pendentes. Nenhuma tolerância foi afrouxada.
+2.08 continua pendente exclusivamente pelo planeta real, com protocolo preservado.
+<strong>Contagem inalterada: 100/112. Nenhum aceite automático; etapa 14 intacta.</strong>
+Snapshots de validação não são promoção da main, release ou publicação PyPI/Pages.</p>
+<h3 id="aceite-visual-multiplataforma-708-808">Aceite visual multiplataforma — 7.08 / 8.08</h3>
+<p>Concluídos em 2026-10-12 após inspeção visual humana explícita dos artifacts
+Windows, Linux e macOS: tipografia internacional e TeX multiplataforma,
+PNG/SVG/PDF e capturas nativas correspondentes. Origem testada:
+<code>d61a3ca02739ce6d8f43de175b55de75ecec58dc</code>, execução <code>38176155877</code>, CI 6/6.
+Aprovação restrita aos dois IDs; não aprova GPU, ciência ou release.
+Estado atual: <strong>102/112</strong>; 2.08, 9.08, 13.06/13.07 continuam pendentes.
+Os registros históricos anteriores preservam o estado observado em cada rodada.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/release-progress-0.4-before-rescope.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

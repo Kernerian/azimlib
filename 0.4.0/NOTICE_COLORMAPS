@@ -1,0 +1,8 @@
+Viridis, magma, inferno and plasma color tables are CC0-1.0 / public-domain data.
+Authors: Nathaniel J. Smith, Stefan van der Walt, and (viridis) Eric Firing.
+Source and dedication: https://github.com/BIDS/colormap/blob/master/colormaps.py
+CC0 legal text: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+The bundled tables are 256 samples quantized to RGB8. They are color data only;
+all normalization, cartography, layout and rendering are implemented by Azimlib.
+The five-stop viridis scale in styles.py and its development baseline is also
+CC0 color data; it is not claimed as original Azimlib artwork or a new palette.

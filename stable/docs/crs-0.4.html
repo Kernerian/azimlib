@@ -1,0 +1,177 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CRS and explicit coordinate operations — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="crs-and-explicit-coordinate-operations-04-development">CRS and explicit coordinate operations — 0.4 development</h1>
+<p>This guide describes the local 0.4 implementation, not the published 0.3 package.
+The core is independently implemented with Python and published equations. No
+Matplotlib, PROJ, pyproj, Cartopy or other GIS engine performs these operations.</p>
+<h2 id="coverage-matrix-and-axis-contract-301">Coverage matrix and axis contract (3.01)</h2>
+<table>
+<thead>
+<tr>
+<th>Identity / representation</th>
+<th>Coordinates accepted</th>
+<th>Units</th>
+<th>Domain and limits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EPSG:4326</code>, numeric <code>4326</code>, existing WGS84/CRS84 aliases</td>
+<td>longitude, latitude</td>
+<td>degrees</td>
+<td>Longitude [-180,180], latitude [-90,90]; WGS84 ensemble, no realization inferred</td>
+</tr>
+<tr>
+<td><code>EPSG:4979</code></td>
+<td>longitude, latitude, ellipsoidal height</td>
+<td>degrees, degrees, metres</td>
+<td>Explicit third value; height &gt;= -10000 m</td>
+</tr>
+<tr>
+<td><code>EPSG:4978</code></td>
+<td>geocentric X,Y,Z</td>
+<td>metres</td>
+<td>Earth fixed, right handed; X Greenwich/equator, Y 90E, Z north; shallow/exterior geodetic domain</td>
+</tr>
+<tr>
+<td><code>EPSG:3857</code></td>
+<td>easting, northing</td>
+<td>metres</td>
+<td>Conventional Web Mercator square; latitude limit 85.0511287798066°</td>
+</tr>
+<tr>
+<td><code>EPSG:32601</code>–<code>32660</code>, <code>32701</code>–<code>32760</code></td>
+<td>easting, northing</td>
+<td>metres</td>
+<td>WGS84 UTM north/south; regional TM within 6° of meridian; hemisphere, lat [-80,84], E [0,1e6], N [0,1e7]</td>
+</tr>
+<tr>
+<td><code>CRS.to_dict()</code> / <code>CRS.from_dict()</code></td>
+<td>exact versioned <code>azimlib-crs</code> profile</td>
+<td>per-axis metadata</td>
+<td>Reject conflicting/partial/stale profile; an embedded identifier cannot override other fields</td>
+</tr>
+<tr>
+<td>WKT, PROJ strings, PROJJSON, arbitrary authority definitions</td>
+<td><strong>unsupported in this batch</strong></td>
+<td>—</td>
+<td>Reject explicitly; never extract an ID and ignore the definition</td>
+</tr>
+<tr>
+<td>Other datums, realizations, vertical/geoid CRS, grids</td>
+<td>explicit operations only where implemented</td>
+<td>—</td>
+<td>No automatic datum match, grid download or approximate fallback</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>API remains longitude first</strong>, including for 4326 and 4979. Inspect
+<code>CRS.axis_order</code> for the actual API and <code>CRS.authority_axis_order</code> for authority
+order (latitude first in those geographic definitions). <code>axis_units</code> describes
+each axis; legacy <code>units</code> describes the horizontal axes. The old 2D-to-2D path
+continues to pass through an optional elevation without shifting its datum.</p>
+<p><code>area_of_use</code> describes a nominal zone/geographic envelope; <code>definition.domain</code>
+describes the implemented numerical domain, which can differ (UTM's solver allows
+up to 6° from the meridian). Accuracy/epoch, area and dimensional requirements are
+not silently inferred from a matching ellipsoid or a familiar EPSG identifier.
+The geocentric origin/deep-interior coordinates have no supported geodetic inverse.
+At the poles longitude is indeterminate; a roundtrip cannot prove its uniqueness.</p>
+<h2 id="versioned-catalog-and-conversions-302303">Versioned catalog and conversions (3.02–3.03)</h2>
+<p><code>crs_catalog.version == 'azimlib-crs-1'</code> declares <strong>124 implemented identities</strong>:
+4326, 4979, 4978, 3857 and 120 UTM zones. <code>codes(kind=...)</code>, <code>get(code)</code> and frozen
+definitions expose axes, units, nominal area, numerical domain and primary sources.
+This is Azimlib's own finite capability catalog, <strong>not the EPSG Dataset</strong>, an EPSG
+database version or a claim to universal CRS coverage. Its original declaration
+code/profile is BSD-3-Clause; identifier numbers are interoperability facts.
+No authority database, registry prose, WKT records or GIS source code is vendored.</p>
+<pre><code class="language-python">import azimlib as azl
+
+crs = azl.CRS(4979)
+print(crs.axis_units, crs.authority_axis_order)
+xyz = azl.Transformer.from_crs(4979, 4978)
+point = xyz.transform(-46.63, -23.55, 760)  # explicit ellipsoidal height
+lon, lat, height = xyz.inverse().transform(*point)
+
+pipeline = azl.CoordinatePipeline((
+    azl.Transformer(32723, 4978),
+    azl.Transformer(4978, 4979),
+))
+</code></pre>
+<p><code>transform(x,y,source,target)</code> retains its 2D signature and rejects a 3D CRS.
+Use <code>Transformer.transform(x,y,z)</code>, <code>CRS.transform_to(...,x,y,z)</code> or
+<code>transform_coordinates</code> for actual 3D conversion. Never assume zero height.
+GeoJSON with explicit <code>crs=4978</code> converts XYZ <strong>before</strong> geographic geometry
+validation and preserves height; existing GeoJSON Artists then render it normally.
+An affine raster only supplies two coordinates and rejects 3D CRS at construction;
+2D raster reprojection/plotting contracts remain unchanged.</p>
+<p><code>LambertAzimuthalEqualArea</code> / <code>projection='laea'</code> adds spherical equal-area
+azimuthal mapping and inverse, alongside the existing families. It reuses the
+Projection/viewport/Artist/PNG/SVG interfaces and the portable cursor inverse.
+Specify <code>central_longitude</code>, <code>central_latitude</code> and radius explicitly as needed.
+The antipode is singular and excluded (inverse disk radius &lt; 2R); no ellipsoidal
+LAEA or EPSG:3035 is implied. Regional maps away from that singularity use the
+existing clipping/path contract; this does not claim arbitrary global seam topology.</p>
+<h2 id="parametric-datum-operations-and-epochs-304">Parametric datum operations and epochs (3.04)</h2>
+<p>Use <code>CoordinateFrame(name, kind, datum)</code> for an explicit realization identity,
+with kind <code>geographic</code> (3D) or <code>geocentric</code>. <code>GeodeticConversion</code> requires the
+<strong>same name and Datum</strong> on both representations. Different realizations cannot
+be bridged just because their ellipsoids match. Datum prime meridians are degrees
+east of Greenwich. Pipeline endpoints must match exactly, in the declared order.</p>
+<p><code>Helmert(source,target,parameters,convention,...)</code> supports the small-angle
+7-parameter model, including a 3-translation operation by zeroing rotations and
+scale. Parameter order is tx,ty,tz (metres), rx,ry,rz (arcseconds), scale difference
+(ppm). Convention must be <code>position_vector</code> or <code>coordinate_frame</code>; the latter
+reverses rotation signs. Rotation bounds are ±3600 arcsec, scale ±10000 ppm.
+These are model input bounds, not an accuracy guarantee at the bounds.</p>
+<p>With <code>rates</code> in the same units per year, <code>reference_epoch</code> and ordered
+<code>valid_epochs</code> are mandatory. Supply <code>epoch=</code> on every call. Epoch numbers are
+decimal Julian years with rates per 365.25-day year; this API does not convert UTC
+dates, leap seconds or decimal calendar years. The same epoch reaches all pipeline
+steps. Applying parameters at a date does <strong>not</strong> propagate a point between dates
+or supply plate velocities, a deformation model or an official realization tie.</p>
+<p><code>valid_epochs</code> on a static operation also requires a valid <code>epoch=</code>. Optional
+<code>area_of_use=(west,south,east,north)</code> is in source-datum geographic coordinates,
+including west &gt; east at the dateline. The inverse checks the recovered source
+coordinate. No area means an unbounded Cartesian mathematical operation, not a
+claim of worldwide geodetic accuracy. Parameters, datum identity and applicable
+area/epoch/accuracy must come from a separately verified model.</p>
+<pre><code class="language-python"># Entirely synthetic parameters; this is not an official datum transformation.
+source = azl.CoordinateFrame('synthetic source', 'geocentric')
+target = azl.CoordinateFrame('synthetic target', 'geocentric')
+operation = azl.Helmert(
+    source, target, (1, 2, 3, 0, 0, 0, 0), 'position_vector',
+    rates=(0.01, 0, 0, 0, 0, 0, 0),
+    reference_epoch=2000.0, valid_epochs=(1990.0, 2030.0),
+)
+shifted = operation.transform(*point, epoch=2020.0)
+restored = operation.inverse().transform(*shifted, epoch=2020.0)
+</code></pre>
+<p>The inverse solves the evaluated affine matrix exactly to floating-point precision;
+it does not negate parameters and pretend that is the inverse. Input/derived
+non-finite coordinates, unsupported conventions, mismatched frames, missing epochs
+and out-of-validity coordinates fail. Operations can be explicitly composed with
+<code>CoordinatePipeline</code>; there is no implicit bridge between a user frame and an
+ensemble CRS in the finite catalog. Supply explicit, verified realization data.</p>
+<h2 id="validation-sources-and-remaining-work">Validation, sources and remaining work</h2>
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_crs_040.py">Tests</a> cover all catalog identities, profiles, analytic
+XYZ axes, global 3D roundtrips including poles/shallow heights, legacy 2D/UTM,
+readers and PNG/SVG, spherical LAEA cardinal values, inverse and equal-area
+Jacobian, convention signs, dynamic rates, validity, dateline areas and matrix
+inverses. The independent published Helmert numeric fixture uses the worked
+WGS72→WGS84 example in <strong>IOGP GN7-2, September 2019, printed p108</strong>, tolerance
+0.01 m matching the source's rounded values; it is not an official operation
+installed in the catalog. Synthetic tests are explicitly labeled.</p>
+<p>Primary equation/constant sources:</p>
+<ul>
+<li><a href="https://earth-info.nga.mil/index.php?action=wgs84&amp;dir=wgs84">NGA WGS84 constants</a>.</li>
+<li><a href="https://pubs.usgs.gov/pp/1395/report.pdf">USGS Professional Paper 1395</a> for existing regional TM/UTM and projection geometry.</li>
+<li><a href="https://www.iogp.org/wp-content/uploads/2019/09/373-07-02.pdf">IOGP GN7-2, September 2019</a>, sections 3.3.2.1, 4.1.1, 4.2.3 and 4.2.5.</li>
+</ul>
+<p>These are references for mathematical contracts and numeric facts; no external
+implementation, text, PDF, database or generated binding was incorporated.
+The 2019 edition is pinned for reproducibility, not represented as the latest.</p>
+<p><strong>3.05–3.08</strong> are implemented in the subsequent <a href="datum-grids.html">datum-grid delivery</a>:
+selected own NTv2/GTX readers, strict interpolation/NoData, explicit horizontal and
+vertical operations/inverses, optional audited LINZ models and independent primary
+ASCII/Sideris validation. That guide states exact coverage and limits; this earlier
+snapshot below remains evidence of 3.01–3.04 only, not the later runtime.</p>
+<p><a href="crs-validation-0.4.json">Local numerical/test evidence and runtime hashes</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/crs-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

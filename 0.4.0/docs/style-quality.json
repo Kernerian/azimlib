@@ -1,0 +1,236 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow": "12.3.0",
+  "matplotlib": "3.11.2",
+  "azimlib": "0.1.0",
+  "renderer_source_sha256": {
+    "coverage.py": "977804a02c62947375417e6525ef6f6637236f2ef1a3d9c5d3528051645a286e",
+    "pillow.py": "b1c2b1cfb97906e0cf4dd10651a830701ee19883fb1890618e7f739a6387a396"
+  },
+  "notes": [
+    "Same own Scene/physical sizes/fonts sent to both rasterizers, not independent Matplotlib Axes/layout/cartography.",
+    "Hatch paths are composed by Azimlib; this does not compare spacing/shapes against Matplotlib native hatch generation.",
+    "Fractional clips, hinted text, supersampling, cap/join/dash rasterization can differ. No pixel equality/perceptual score claimed.",
+    "Text halo is vector outline under hinted fill in the dev adapter; complex self-intersecting even-odd paths are outside its contract.",
+    "Diagnostic image comparison only, not a timing/memory benchmark."
+  ],
+  "cases": [
+    {
+      "name": "strokes",
+      "dpi": 100,
+      "pixels": [
+        720,
+        520
+      ],
+      "items": 56,
+      "metrics": {
+        "mean_absolute_rgb": 3.587321937321937,
+        "occupied_mean_absolute_rgb": 4.901513934721452,
+        "occupied_fraction": 0.7316880341880342,
+        "fraction_pixels_max_difference_gt16": 0.033330662393162395,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "940f3d3564be5291633922e1d5c338bff4ebf81bb797ce4e4651abf99935be96",
+        "agg": "a2b84ad8a43d84ed6c5c8cec861d875abb1916edf34029770051ecd7454bcfae"
+      },
+      "files": {
+        "comparison": "style-quality-strokes-100-comparison.png",
+        "svg": "style-quality-strokes-100.svg"
+      }
+    },
+    {
+      "name": "strokes",
+      "dpi": 150,
+      "pixels": [
+        1080,
+        780
+      ],
+      "items": 56,
+      "metrics": {
+        "mean_absolute_rgb": 3.773784821145932,
+        "occupied_mean_absolute_rgb": 5.205606354166496,
+        "occupied_fraction": 0.7248112535612535,
+        "fraction_pixels_max_difference_gt16": 0.032143874643874644,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "c487a0f94c1db176ff734083d5b45f9107b01da30676a009c0ebcaa209e29314",
+        "agg": "9baac99f22caee32a287d27b7726ae7279001dbc36ecbada7055ab618d67368d"
+      },
+      "files": {
+        "comparison": "style-quality-strokes-150-comparison.png",
+        "svg": "style-quality-strokes-150.svg"
+      }
+    },
+    {
+      "name": "strokes",
+      "dpi": 200,
+      "pixels": [
+        1440,
+        1040
+      ],
+      "items": 56,
+      "metrics": {
+        "mean_absolute_rgb": 1.8434281517094018,
+        "occupied_mean_absolute_rgb": 2.561072842728858,
+        "occupied_fraction": 0.719566639957265,
+        "fraction_pixels_max_difference_gt16": 0.01960536858974359,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "875a2e3abc9e63d461408e1263ea61bfd012049a2d25b17ef1b9f4aba1f511bd",
+        "agg": "734438fa4467b6298eb07178e28dda548875fb1700e2248b5dec45d2e7531c5c"
+      },
+      "files": {
+        "comparison": "style-quality-strokes-200-comparison.png",
+        "svg": "style-quality-strokes-200.svg"
+      }
+    },
+    {
+      "name": "clipping",
+      "dpi": 100,
+      "pixels": [
+        720,
+        520
+      ],
+      "items": 28,
+      "metrics": {
+        "mean_absolute_rgb": 1.7361894586894586,
+        "occupied_mean_absolute_rgb": 3.377099929973445,
+        "occupied_fraction": 0.5136431623931624,
+        "fraction_pixels_max_difference_gt16": 0.02110576923076923,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "496e51507ebb9b2cba911feef04ee86a7b77c1d681a158f7a1ae63e4a3694b6f",
+        "agg": "87d1800ff1c8c2bc2f627037411dcc2aa1826f90388dac27c3b9f2004246cc3e"
+      },
+      "files": {
+        "comparison": "style-quality-clipping-100-comparison.png",
+        "svg": "style-quality-clipping-100.svg"
+      }
+    },
+    {
+      "name": "clipping",
+      "dpi": 150,
+      "pixels": [
+        1080,
+        780
+      ],
+      "items": 28,
+      "metrics": {
+        "mean_absolute_rgb": 2.200664767331434,
+        "occupied_mean_absolute_rgb": 4.293618786707274,
+        "occupied_fraction": 0.5121723646723647,
+        "fraction_pixels_max_difference_gt16": 0.020759734093067427,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "5bef8206d3c553de477dc18ee3cc51a11cdc0c7a4c897f0e66bac285c5782bee",
+        "agg": "d098adafc93d90b484043a43af3a5e40cb050639703dff165d6dea30df2d135b"
+      },
+      "files": {
+        "comparison": "style-quality-clipping-150-comparison.png",
+        "svg": "style-quality-clipping-150.svg"
+      }
+    },
+    {
+      "name": "clipping",
+      "dpi": 200,
+      "pixels": [
+        1440,
+        1040
+      ],
+      "items": 28,
+      "metrics": {
+        "mean_absolute_rgb": 2.1174051816239317,
+        "occupied_mean_absolute_rgb": 4.140472958347978,
+        "occupied_fraction": 0.5110717147435897,
+        "fraction_pixels_max_difference_gt16": 0.017860576923076923,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "e941432064168f78926e07bdd41451881ac4605161730954215ec8aaf4628a7f",
+        "agg": "683b08c91e433726099a003e683173fc3318a1293e9553924acc153d07a5a568"
+      },
+      "files": {
+        "comparison": "style-quality-clipping-200-comparison.png",
+        "svg": "style-quality-clipping-200.svg"
+      }
+    },
+    {
+      "name": "hatches",
+      "dpi": 100,
+      "pixels": [
+        1000,
+        600
+      ],
+      "items": 695,
+      "metrics": {
+        "mean_absolute_rgb": 1.3557683333333332,
+        "occupied_mean_absolute_rgb": 11.12797549658278,
+        "occupied_fraction": 0.121525,
+        "fraction_pixels_max_difference_gt16": 0.01309,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "8f2e998f58934c4702da779b7c8ca95f85350318bb54a9896b09f1faab94b3bb",
+        "agg": "f99505ab0b3286d53457ddf0594213c47cdaf2c9ff91d9cb23be7d0f715ecbb6"
+      },
+      "files": {
+        "comparison": "style-quality-hatches-100-comparison.png",
+        "svg": "style-quality-hatches-100.svg"
+      }
+    },
+    {
+      "name": "hatches",
+      "dpi": 150,
+      "pixels": [
+        1500,
+        900
+      ],
+      "items": 695,
+      "metrics": {
+        "mean_absolute_rgb": 1.0759377777777779,
+        "occupied_mean_absolute_rgb": 9.802118597302089,
+        "occupied_fraction": 0.10962296296296296,
+        "fraction_pixels_max_difference_gt16": 0.008905925925925927,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "bf0f81f1a5262c6074a4d0b6c87a33047607df2eb3b13a44c7294afa3a31de63",
+        "agg": "f8724fb358c5c18cfb349488aced45d9eadaf33f81d6940301f025520476c8c6"
+      },
+      "files": {
+        "comparison": "style-quality-hatches-150-comparison.png",
+        "svg": "style-quality-hatches-150.svg"
+      }
+    },
+    {
+      "name": "hatches",
+      "dpi": 200,
+      "pixels": [
+        2000,
+        1200
+      ],
+      "items": 695,
+      "metrics": {
+        "mean_absolute_rgb": 0.7586419444444444,
+        "occupied_mean_absolute_rgb": 7.98921422983272,
+        "occupied_fraction": 0.09480083333333333,
+        "fraction_pixels_max_difference_gt16": 0.00582125,
+        "identical_pixels": false
+      },
+      "png_sha256": {
+        "azimlib": "8e8fe6252f5ba21731c19ea15434503efe9d46f214c2bdf99ae04f4e2b5bf680",
+        "agg": "8d267a113981c24a8116f4b6630d63c2c0e0a87301438d26a10ecf764a892a3a"
+      },
+      "files": {
+        "comparison": "style-quality-hatches-200-comparison.png",
+        "svg": "style-quality-hatches-200.svg"
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "passed": true,
+  "scope": "Strict independent pypdf parsing, embedded notices and Poppler rasterization; three interior color probes per DPI, not whole-image pixel equality",
+  "backends": [
+    {
+      "file": "backend-100.pdf",
+      "dpi": 100,
+      "page_inches": [
+        4,
+        2
+      ],
+      "alpha_probe_max_channel_error": 0,
+      "sha256": "91b1b87a413c1a34ab4f20c2703eb8bb5aef8bed2040c1af4762ef97309af100"
+    },
+    {
+      "file": "backend-150.pdf",
+      "dpi": 150,
+      "page_inches": [
+        4,
+        2
+      ],
+      "alpha_probe_max_channel_error": 0,
+      "sha256": "f3d77da54177e4d4f6a2a34e2eac546fc9e9737b12320e4cade13338959a0111"
+    },
+    {
+      "file": "backend-200.pdf",
+      "dpi": 200,
+      "page_inches": [
+        4,
+        2
+      ],
+      "alpha_probe_max_channel_error": 0,
+      "sha256": "6b7afb777b5e72ecc38d8dbe4c5945b71bd166eb7cc142ccdd69811f7edee0ad"
+    }
+  ],
+  "atlas": {
+    "file": "finishing-atlas.pdf",
+    "page_inches": [
+      12,
+      6
+    ],
+    "font_notice_exact": true,
+    "material_notice_present": true,
+    "sha256": "a508ef1216fca04d691e3544d07edbf0d1afc9b229fcbf1ff38a3568e78544f8"
+  }
+}

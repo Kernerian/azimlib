@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "version": "0.3.0.dev0",
+  "scope": "Local numeric/export checks; no native visual approval or remote CI claim",
+  "font_reference": {
+    "tool": "fontTools",
+    "version": "4.66.0",
+    "faces": [
+      {
+        "face": "DejaVuSans.ttf",
+        "sha256": "3fdf69cabf06049ea70a00b5919340e2ce1e6d02b0cc3c4b44fb6801bd1e0d22",
+        "glyphs": 5906
+      },
+      {
+        "face": "DejaVuSans-Bold.ttf",
+        "sha256": "b184b89e3c1075f22f6b71575b6fc20d4972b3cfd3b23322ca6fd596dcaef167",
+        "glyphs": 5886
+      },
+      {
+        "face": "DejaVuSans-Oblique.ttf",
+        "sha256": "ccdf74b350f11fd3dd5774de50e5e6346a1a5da1f5b7d5fb83590665e97a5213",
+        "glyphs": 5271
+      },
+      {
+        "face": "DejaVuSans-BoldOblique.ttf",
+        "sha256": "6edf0283160186af451cbee71e7b845f2e4cabf264bb992ce668c83c25465e6f",
+        "glyphs": 5329
+      }
+    ],
+    "glyphs": 22392,
+    "max_coordinate_delta": 0,
+    "scope": "Unhinted static glyph points, simple/composite; no rasterization or shaping claim"
+  },
+  "installed_runtime": false,
+  "bezier": {
+    "cases": 3003,
+    "max_error": 0.2929426188961463,
+    "tolerances": [
+      0.02,
+      0.1,
+      0.4
+    ],
+    "oracle": "Analytic cubic (300t\u00b2-200t\u00b3,300t(1-t)), Euclidean segment distance"
+  },
+  "exports": [
+    {
+      "dpi": 100,
+      "page_inches": [
+        4,
+        2
+      ],
+      "files": {
+        "png": "209090cadd5ccf2c84caf58c0695a49b9c5443e677bbc1a90a2986d6883a9ac3",
+        "svg": "321d12128e879bd6eecf930822a0d206e3c3f01c6375e85bef8c5938334748d1",
+        "pdf": "91b1b87a413c1a34ab4f20c2703eb8bb5aef8bed2040c1af4762ef97309af100"
+      }
+    },
+    {
+      "dpi": 150,
+      "page_inches": [
+        4,
+        2
+      ],
+      "files": {
+        "png": "4273dbdc860ea7b66c6f8ceb2bbe36891ef64a4cdfbd74a248337cb4a6687008",
+        "svg": "e76a93701f043955e7d96d4c1c0173829b9fddd95fcc328eeb7e062e3417813c",
+        "pdf": "f3d77da54177e4d4f6a2a34e2eac546fc9e9737b12320e4cade13338959a0111"
+      }
+    },
+    {
+      "dpi": 200,
+      "page_inches": [
+        4,
+        2
+      ],
+      "files": {
+        "png": "38253ce7126a6365564de6eeb77cc16a6e11353b95fac658cd922ca2ea67ebe5",
+        "svg": "2c41695b7634d326f9dfacf285b8a2b0beb19a9b277571905103beb4db11e75d",
+        "pdf": "6b7afb777b5e72ecc38d8dbe4c5945b71bd166eb7cc142ccdd69811f7edee0ad"
+      }
+    }
+  ],
+  "passed": true
+}

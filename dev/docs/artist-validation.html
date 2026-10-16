@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Auditoria de validação e integração de Artists 2D · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="auditoria-de-validação-e-integração-de-artists-2d">Auditoria de validação e integração de Artists 2D</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Auditoria de validação e integração de Artists 2D · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="auditoria-de-validação-e-integração-de-artists-2d">Auditoria de validação e integração de Artists 2D</h1>
 <p>Este lote consolida o primeiro critério da 0.2.0 sem incluir um backend externo.
 O conjunto auditado cobre linhas, scatter, campos raster/mesh/vetores, contornos,
 textos/annotations, spines, outline de colorbar, frame de legenda, escala e ticks.</p>
@@ -27,15 +27,15 @@ normalizadores customizados ou edição direta de dicionários. Este lote não
 acrescenta um parser completo de cores/fontes ou máscaras de dados.</p>
 <h2 id="evidências">Evidências</h2>
 <ul>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_artist_validation.py">Regressões</a>: 12 testes/52 subtests
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_artist_validation.py">Regressões</a>: 12 testes/52 subtests
 adicionais; estado da figura, ownership, notificações, mappables compartilhados,
 dados/estilos e exportação após sucesso/falha.</li>
 <li><a href="artist-validation-reference.json">Referência direta</a>: estados selecionados
 de setters e rejeição de fontes em Matplotlib instalado. A referência só é
 executada no desenvolvimento; o teste usa o registro sem importar Matplotlib.</li>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/artist_validation.py">Exemplo</a>: rotas e valores sintéticos,
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/artist_validation.py">Exemplo</a>: rotas e valores sintéticos,
 antes/depois em PNG/SVG/HTML, com norm compartilhada, legenda, escala e contornos.</li>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_artist_validation_tk.py">Smoke Tk</a>: sete verificações em
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_artist_validation_tk.py">Smoke Tk</a>: sete verificações em
 janela real oculta. Um lote de edições gera um redesenho; seis falhas preservam
 imagem, SVG/modelo e contagem de draws. Não mede input físico, aparência nativa,
 latência ou bases densas reais.</li>
@@ -49,4 +49,4 @@ camadas foram consolidados no <a href="artist-acceptance.html">aceite do passo 1
 Bases originais mais detalhadas e pintura/input físicos permanecem nos passos
 4–5 da checklist. Não significa que
 toda a API Artist/Line2D/Patch/Collection/Transforms do Matplotlib exista.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/artist-validation.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/artist-validation.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

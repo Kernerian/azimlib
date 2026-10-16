@@ -1,0 +1,128 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Full-planet PBF acceptance procedure (2.08 pending) · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="full-planet-pbf-acceptance-procedure-208-pending">Full-planet PBF acceptance procedure (2.08 pending)</h1>
+<p>This is a future, offline trial, <strong>not an executed validation</strong>. The implementation
+and regional tests exist. Only a successful run over a complete real planet dump
+can supply the missing evidence for 2.08. It does not block independent stages;
+review it before the final 0.4 release gate. Failure keeps 2.08 open; no sampling,
+regional substitution, relaxed reference policy or automatic checkbox completion.</p>
+<h2 id="freeze-the-input-and-environment">Freeze the input and environment</h2>
+<p>Use an existing, dated, complete <code>planet-YYMMDD.osm.pbf</code> from
+<a href="https://planet.openstreetmap.org/pbf/">OSM's official planet service</a>, not
+<code>latest</code> or an extract. Record the actual filename, snapshot date/version,
+official HTTPS URL, byte size and <strong>SHA-256 of that exact file</strong>. The expected
+SHA-256 must be independently approved before ingestion; do not fill it from the
+reader's own output. Preserve any publisher checksum/signature and its verification
+separately. No date or digest has been invented for the future input.</p>
+<p>Pin the source commit, Python/SQLite/kernel versions, CPU, RAM and filesystem.
+Use a clean checkout and record <code>git rev-parse HEAD</code> and <code>git status --porcelain</code>.
+Retain a SHA-256 manifest of the tools/runtime as well. Original OSM data remains
+ODbL-1.0, © OpenStreetMap contributors; the reader does not sanitize the raw dump.
+Keep raw data, indices and logs private until separately reviewed.</p>
+<h2 id="hard-budgets-before-starting">Hard budgets before starting</h2>
+<p>Choose and record integer byte ceilings before the run. A suggested <strong>memory
+ceiling is 8,589,934,592 bytes (8 GiB)</strong>; a different explicit ceiling is allowed
+on a suitable future machine, with the reason recorded. The tool verifies a fresh
+dedicated Linux cgroup v2's <code>memory.max</code> equals the declared limit and
+<code>memory.swap.max</code> equals zero. It reads <code>memory.peak</code> and OOM counters. A mere
+<code>tracemalloc</code> measurement or <code>ulimit -m</code> is not an enforced memory ceiling.
+Unsupported/missing cgroup enforcement aborts the planet trial.</p>
+<p>Choose an explicit total storage ceiling large enough for input + SQLite index +
+16 MiB report/filesystem reservation. Record the resulting <strong>index/temp ceiling</strong>
+(<code>total - input_bytes - 16 MiB</code>) and reserve free space. For the current development
+environment the total remains <strong>20,000,000,000 bytes</strong> and free-space reserve
+<strong>15,000,000,000 bytes</strong>: these do not permit a planet trial. A larger future
+ceiling requires suitable storage and explicit authorization; the commands below
+are a template, not permission to raise the current ceiling.</p>
+<p>Use a dedicated empty filesystem/directory with an OS quota no larger than the
+declared generated-file budget, including reports and logs. Store no unrelated
+files there. Set <code>TMPDIR</code> to that directory. SQLite's page ceiling, bounded
+entities, disabled journal, indexed ordered scans and periodic free-space checks
+constrain normal operation; the OS quota provides a hard backstop for filesystem
+overhead and other temporary files. Preserve at least the declared free reserve
+on the containing volume: the quota must also fit below initial free space minus
+the reserve. Exclude competing writers on that volume for the run. A quota/full-disk/
+OOM abort is a failed trial.</p>
+<h2 id="run-once-without-filtering-or-skipping">Run once, without filtering or skipping</h2>
+<p>The following Bash template requires values set from the approved manifest and
+preconfigured filesystem quota. <code>PYTHON</code> and <code>CHECKOUT</code> must be absolute paths.
+Run from the clean checkout. <code>systemd-run</code> needs permission to create the unit;
+check the cgroup controller is available and delegated on that host first.</p>
+<pre><code class="language-bash"># Required: PYTHON, CHECKOUT, INPUT, EXPECTED_SHA256, SNAPSHOT, SOURCE_URL,
+# TRIAL_DIR, TOTAL_STORAGE_BYTES, FREE_RESERVE_BYTES, MEMORY_BYTES.
+# TRIAL_DIR is a dedicated, quota-limited empty directory.
+# SNAPSHOT is the actual YYYY-MM-DD matching planet-YYMMDD.osm.pbf.
+(
+  while :; do
+    printf '%s ' &quot;$(date -u +%FT%TZ)&quot;
+    du --summarize --block-size=1 &quot;$TRIAL_DIR&quot; | cut -f1
+    sleep 1
+  done
+) &gt; &quot;$TRIAL_DIR/disk-samples.tsv&quot; &amp;
+DISK_MONITOR_PID=$!
+trap 'kill &quot;$DISK_MONITOR_PID&quot; 2&gt;/dev/null || true' EXIT INT TERM
+RUN_STATUS=0
+systemd-run --unit=azimlib-planet-trial --wait --pipe \
+  --property=MemoryAccounting=yes --property=MemoryMax=&quot;$MEMORY_BYTES&quot; \
+  --property=MemorySwapMax=0 --property=RemainAfterExit=yes \
+  --property=WorkingDirectory=&quot;$CHECKOUT&quot; --setenv=TMPDIR=&quot;$TRIAL_DIR&quot; \
+  &quot;$PYTHON&quot; -I tools/benchmark_pbf.py &quot;$INPUT&quot; \
+  --scope planet --dataset-version &quot;$SNAPSHOT&quot; --source-url &quot;$SOURCE_URL&quot; \
+  --sha256 &quot;$EXPECTED_SHA256&quot; --missing error --full-reference-audit \
+  --max-memory-bytes &quot;$MEMORY_BYTES&quot; \
+  --max-storage-bytes &quot;$TOTAL_STORAGE_BYTES&quot; \
+  --reserve-free-bytes &quot;$FREE_RESERVE_BYTES&quot; \
+  --index-directory &quot;$TRIAL_DIR&quot; --output &quot;$TRIAL_DIR/result.json&quot; || RUN_STATUS=$?
+systemctl show azimlib-planet-trial \
+  --property=Result,ExecMainCode,ExecMainStatus,ControlGroup,MemoryPeak
+kill &quot;$DISK_MONITOR_PID&quot;
+wait &quot;$DISK_MONITOR_PID&quot; 2&gt;/dev/null || true
+trap - EXIT INT TERM
+awk 'BEGIN { peak=0 } $2&gt;peak { peak=$2 } END { print peak }' \
+  &quot;$TRIAL_DIR/disk-samples.tsv&quot;
+test &quot;$RUN_STATUS&quot; -eq 0
+</code></pre>
+<p>A fresh unit/cgroup is required on each retry (stop the old unit first). Retain
+the service result and cgroup <code>memory.max</code>, <code>memory.swap.max</code>, <code>memory.peak</code>,
+<code>memory.events</code> and quota configuration before stopping it. The tool refuses
+pre-existing OOM events. An exit without a successful report never constitutes
+acceptance, including an OS kill that prevents writing a failure report.</p>
+<p>Monitor the dedicated directory's <strong>allocated disk usage</strong> externally and retain
+its peak and sampling interval; retain the filesystem quota's hard maximum too.
+<code>index_peak_bytes</code> in JSON is the SQLite logical high-water size (no truncation
+during this reader's run), not a claim to measure every filesystem allocation.
+Retain wall-clock build/total seconds, Python allocation peak, native RSS peak,
+cgroup memory peak (includes charged page cache), and allocated disk peak as
+distinct metrics. Never label a sampled disk peak an exact high-water measurement.</p>
+<h2 id="evidence-and-acceptance">Evidence and acceptance</h2>
+<p>Require all of the following in one reviewed evidence bundle:</p>
+<ul>
+<li>Successful process/service exit; no OOM, corruption, resource-limit or parser
+errors. All supported geometry extraction is consumed, not just index ingestion.</li>
+<li><code>passed=true</code>, <code>complete_input_verified=true</code>, input SHA-256 equals the approved
+manifest and <code>statistics.input_bytes_read</code> equals the full input byte size.
+The framing reader reaches EOF and hashes every framing/payload byte.</li>
+<li>Counts of blocks, nodes, ways, relations, extracted features and vertices;
+header snapshot information consistent with the pinned source.</li>
+<li><code>references.complete=true</code>, <code>references.passed=true</code>, <strong>zero missing way nodes
+and zero missing relation members</strong>, including unsupported/raw relation types.
+<code>missing_ways</code>/<code>missing_relations</code> must also be zero. All primitives are scanned
+via disk indexes. Relation cycles are not missing references.</li>
+<li>Structural SHA-256 of every primitive ID and every way/member reference in a
+deterministic ID order; hash the JSON report and evidence manifest as well.
+This supplements, and does not replace, the full raw-file SHA-256. It is not a
+hash of every coordinate/tag. A second independent full-file primitive count
+(with tool/version/source recorded) is recommended to detect decoder omissions.</li>
+<li>Actual memory and disk measurements within predeclared caps, recorded quota
+and cgroup enforcement, elapsed time, clean source commit and runtime hashes.</li>
+<li>Review any unsupported polygon/restriction semantics or real data errors. Such
+a failure requires diagnosis and a fresh complete run; do not bypass it using
+<code>missing=skip</code>, a bbox, fewer records or a regional input.</li>
+</ul>
+<p>The report deliberately retains <code>planet_scale_confirmed=false</code>: a scope string
+cannot certify provenance or human acceptance. Only after reviewing the entire
+bundle can a maintainer record the successful real trial at 2.08. The procedure
+does not change its existing criterion. Keep the evidence reproducible; publish
+only sanitized summary/metrics, never private paths, editor metadata or raw logs.</p>
+<p>References: <a href="https://docs.kernel.org/admin-guide/cgroup-v2.html">Linux cgroup v2 memory controller</a>,
+<a href="https://www.freedesktop.org/software/systemd/man/latest/systemd.resource-control.html">systemd resource controls</a>,
+<a href="osm-pbf.html">reader contract and regional evidence</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/planet-trial.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

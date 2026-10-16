@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Texto, marcadores e formatação numérica · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="texto-marcadores-e-formatação-numérica">Texto, marcadores e formatação numérica</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Texto, marcadores e formatação numérica · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="texto-marcadores-e-formatação-numérica">Texto, marcadores e formatação numérica</h1>
 <p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
 For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
 <p>O núcleo e os renderizadores continuam próprios. Matplotlib 3.11.2 foi usado
@@ -38,7 +38,7 @@ Matplotlib. “Manaus” usa <code>halo='white', halo_width=2</code> em vez de f
 coincidem numericamente; nos casos constrained registrados diferem menos de
 um pixel a 100 dpi. Isso não garante igualdade de posição ou de outros layouts.
 Veja <a href="colorbar-size-reference.json">medidas diretas</a> e
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/inspect_colorbar_sizes.py">probe de desenvolvimento</a>.
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/inspect_colorbar_sizes.py">probe de desenvolvimento</a>.
 Para uma barra menor, use <code>fig.colorbar(points, ax=ax, shrink=.75)</code>; <code>aspect</code>
 controla a proporção comprimento/espessura e <code>fraction</code> limita o espaço reservado.</p>
 <p><code>D</code> é um losango simétrico; <code>d</code> é o losango estreito. A geometria da estrela
@@ -93,8 +93,8 @@ use o viewer Tk.</p>
 <li>Colorbars verticais (<code>gallery/numeric-vertical-comparison.png</code>, generated locally).</li>
 <li>Colorbars horizontais (<code>gallery/numeric-horizontal-comparison.png</code>, generated locally).</li>
 <li><a href="numeric-formatting-reference.json">Referência numérica, paths e 96 caixas de texto</a>.</li>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/numeric_formatting.py">Exemplo reproduzível</a>.</li>
-<li><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_numeric_tk.py">Smoke Tk</a>, com dez verificações em widgets reais
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/numeric_formatting.py">Exemplo reproduzível</a>.</li>
+<li><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_numeric_tk.py">Smoke Tk</a>, com dez verificações em widgets reais
 ocultos: offsets/editabilidade/clim/ticks, texto, marcadores, troca de formatter,
 navegação, exportação estática e fechamento. Não testa input físico/aparência
 nativa nem mede latência. CI inclui esse smoke, ainda sem execução remota.</li>
@@ -107,4 +107,4 @@ python tools/smoke_numeric_tk.py
 python tools/inspect_numeric_formatting.py
 python tools/render_numeric_comparisons.py
 </code></pre>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/numeric-formatting.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/numeric-formatting.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

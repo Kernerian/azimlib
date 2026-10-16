@@ -1,0 +1,227 @@
+{
+  "passed": true,
+  "run_url": "https://github.com/Kernerian/azimlib/actions/runs/37662358024",
+  "run_id": 37662358024,
+  "head_sha": "70eaa65bc9c4777a402b9be5890560cb89a48871",
+  "verified_jobs": 28,
+  "artifacts": [
+    {
+      "name": "desktop-macos-latest",
+      "archive_sha256": "089ffd298a261a4825c6c84424d896c3adf4f00d3cf56ea0b9b33808ae7713d2",
+      "verified": [
+        "desktop"
+      ]
+    },
+    {
+      "name": "qt-ubuntu-latest",
+      "archive_sha256": "2a054eb542b8b31f24c48b7650e017cd4280f5a2a9cb3d01fce3c7de96c705cd",
+      "verified": [
+        "smoke_interaction_qt.py",
+        "smoke_terrain3d.py",
+        "smoke_temporal.py",
+        "smoke_notebook.py"
+      ]
+    },
+    {
+      "name": "test-windows-latest-py3.14",
+      "archive_sha256": "30aad4bf31f9850e499c2d3645d9760f9ee0bf59c13224c6bf9ad1b0e1739882",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "accelerator-windows-latest-py3.10",
+      "archive_sha256": "3408c20d359548937735775fdccfd81ba5387163cf094d78b068693cf15f76d1",
+      "verified": [
+        "accelerator"
+      ]
+    },
+    {
+      "name": "test-macos-latest-py3.14",
+      "archive_sha256": "df88bd40a8871ab9606f9445eb085ee18d6667a12856ea2d478dc3f9feb5c2a8",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "accelerator-macos-latest-py3.14",
+      "archive_sha256": "ac8b18de2c23d2959b5c7e76cbaf4636a9764e2656d9da0cda268e85014e4102",
+      "verified": [
+        "accelerator"
+      ]
+    },
+    {
+      "name": "test-windows-latest-py3.11",
+      "archive_sha256": "413d5ef65522378f6a7c0d84e441a2ee125fb9949ec3e89a2d5209e656663ce5",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "documentation",
+      "archive_sha256": "c241bdab0952cf89003adfd9e76b1ce5b14a2759349214b59ba99d84dbfc62f1",
+      "verified": [
+        "site files/anchors",
+        "three migration snippets",
+        "documentation source targets"
+      ]
+    },
+    {
+      "name": "test-windows-latest-py3.10",
+      "archive_sha256": "b0991904f932a785db24667328ec2f912129d5ae28a3b2af8b2e06d5550cda3b",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "test-macos-latest-py3.12",
+      "archive_sha256": "a953e52fcce73de6c02b901c2cee7982f5b2ea464671f15ad3cea67a58e63cbe",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "test-macos-latest-py3.13",
+      "archive_sha256": "082d560af7a70606ec8c9f4e48ace9b59d09049e665fd2de17d8b56cf97df3c4",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "accelerator-ubuntu-latest-py3.14",
+      "archive_sha256": "7e0dd48ce5b3c8551a580347ff926d17a24ae8a9cc8866865529852322dd0722",
+      "verified": [
+        "accelerator"
+      ]
+    },
+    {
+      "name": "accelerator-macos-latest-py3.10",
+      "archive_sha256": "bb786f2ec252e8a6ec78714eec503f736e7fe40334445805de5fec82e456b66d",
+      "verified": [
+        "accelerator"
+      ]
+    },
+    {
+      "name": "test-ubuntu-latest-py3.13",
+      "archive_sha256": "db2cbc86cb92f83e15262937f345a7cf0b1e718e5a33a7fa04300b2d6b79f697",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "test-windows-latest-py3.12",
+      "archive_sha256": "8f1bf5952e8d3bb32dd2a2a19ee7c8c4b8ed28aeb04f88af1e3d328b71f112b2",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "qt-macos-latest",
+      "archive_sha256": "ddbed007aef3e0152b879dae2f9145c3e28cdd60a9e5df16a29382ceffbc1508",
+      "verified": [
+        "smoke_interaction_qt.py",
+        "smoke_terrain3d.py",
+        "smoke_temporal.py",
+        "smoke_notebook.py"
+      ]
+    },
+    {
+      "name": "test-ubuntu-latest-py3.14",
+      "archive_sha256": "3cd77aa2ea285b534b686bbc0818e18fc30ce881d25ee7ed41c2545d8b08df1a",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "desktop-windows-latest",
+      "archive_sha256": "b779212d898db3c4a42357954d381f6a48ed5d3a5c5944fdfb5aa46d338cc51a",
+      "verified": [
+        "desktop"
+      ]
+    },
+    {
+      "name": "qt-windows-latest",
+      "archive_sha256": "e423727e4ead7153f5b80257de6166584172233af05a50738df09380ba0016a6",
+      "verified": [
+        "smoke_interaction_qt.py",
+        "smoke_terrain3d.py",
+        "smoke_temporal.py",
+        "smoke_notebook.py"
+      ]
+    },
+    {
+      "name": "test-ubuntu-latest-py3.10",
+      "archive_sha256": "d11ea0b97f12df6ad4add2f235847c41830d6bec7991a6c385cb49b5bd19ac47",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "test-macos-latest-py3.11",
+      "archive_sha256": "f11f187b8549cb8b97084cd4861813bca1fbf63896aa44ab075f3a62c4fa79b3",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "desktop-ubuntu-latest",
+      "archive_sha256": "c2d536c822688b6c8519b86ab754a8dfdb968a36e27fb2350fb063bb7a711ffc",
+      "verified": [
+        "desktop"
+      ]
+    },
+    {
+      "name": "test-windows-latest-py3.13",
+      "archive_sha256": "47e23a1996e892fed8ec5d8dc55e7f5c597731ac4fb52d706622ea19a13a7829",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "test-ubuntu-latest-py3.11",
+      "archive_sha256": "2c9a11083d6a2ba0b55b6d854ce9e7e72b119dc5629cbec97dcebbed38d00aaf",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "test-ubuntu-latest-py3.12",
+      "archive_sha256": "ab150670c18c307954d44b738ebde4fa44e4aa06294eeff4d93690a57cd125bc",
+      "verified": [
+        "unit"
+      ]
+    },
+    {
+      "name": "accelerator-windows-latest-py3.14",
+      "archive_sha256": "e7fd6fa8ce222e8c38d2cfc41120549fe9f80673213b8ec3bcccbd2f52601d72",
+      "verified": [
+        "accelerator"
+      ]
+    },
+    {
+      "name": "accelerator-ubuntu-latest-py3.10",
+      "archive_sha256": "ec9eef471ec09704c19f7c61446338b8f5e937a63eaf611b34dbe82607782660",
+      "verified": [
+        "accelerator"
+      ]
+    },
+    {
+      "name": "test-macos-latest-py3.10",
+      "archive_sha256": "660a1ae04c01f363e33dd8eb0b3eba929d3fa9a0e96f3c89797b73dd53e1ec0d",
+      "verified": [
+        "unit"
+      ]
+    }
+  ],
+  "runtime_files": 111,
+  "source_bytes": "Exact blobs at the tested Git SHA",
+  "working_tree_line_ending_differences": [
+    "colorbar.py",
+    "renderers/coverage.py",
+    "tools/smoke_artist_acceptance_tk.py",
+    "tools/smoke_layout_acceptance_tk.py",
+    "tools/smoke_toolbar_tk.py",
+    "tools/smoke_pan_interaction_tk.py"
+  ],
+  "scope": "Actual hosted 28-job installed/build/audit/core/Tk/Qt/notebook/docs validation; not human Linux/macOS visual acceptance, PyPI publication or docs hosting"
+}

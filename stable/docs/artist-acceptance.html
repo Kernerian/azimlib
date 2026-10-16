@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aceite de Artists 2D: checklist 1.10–1.12 · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="aceite-de-artists-2d-checklist-110112">Aceite de Artists 2D: checklist 1.10–1.12</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aceite de Artists 2D: checklist 1.10–1.12 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="aceite-de-artists-2d-checklist-110112">Aceite de Artists 2D: checklist 1.10–1.12</h1>
 <p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
 For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
 <p>O passo 1 é aceito no <a href="artist-scope-0.2.html">catálogo do corte</a>, após a
@@ -11,7 +11,7 @@ Não são substituídos pelos hashes atuais sem executar novamente o roteiro.
 <a href="validation.html">Validação atual</a> e <a href="release-gallery.html">galeria</a> registram a
 nova suíte/exports, sem reabrir este catálogo por mudanças internas no viewer.</p>
 <h2 id="110-mapa-integrado">1.10 — Mapa integrado</h2>
-<p>O <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/artist_acceptance_case.py">cenário reproduzível</a> combina estados
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/artist_acceptance_case.py">cenário reproduzível</a> combina estados
 reais da base Natural Earth embarcada com valores, estações, rota, imagem,
 mesh, vetores e contornos <strong>sintéticos</strong>. Seis mappables compartilham a mesma
 Normalize: geometria temática, scatter, mesh, imagem, quiver e contour.
@@ -38,7 +38,7 @@ seu enquadramento exato/fixo ao criar uma imagem, em vez de reproduzir toda a
 política sticky-edges/flags de autoscale do Matplotlib. Use limites explícitos
 ou <code>ax.autoscale()</code> para escolher a política da vista; essa diferença não fica
 escondida no aceite.</p>
-<p><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/artist_acceptance.py">Exemplo</a>,
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/artist_acceptance.py">Exemplo</a>,
 antes (<code>gallery/artist-acceptance-before.png</code>, generated locally) e
 depois (<code>gallery/artist-acceptance-after.png</code>, generated locally), também em SVG/HTML.
 O HTML é uma exportação: edições posteriores em Python exigem reexportação.</p>
@@ -65,7 +65,7 @@ inválida ou conflito norm/vmin/vmax não deixa camada parcial anexada, vista
 alterada ou norma compartilhada parcialmente preenchida.</li>
 </ul>
 <p><a href="artist-acceptance-reference.json">Referência direta</a> produzida pelo
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/inspect_artist_acceptance.py">tool de desenvolvimento</a>: estados
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/inspect_artist_acceptance.py">tool de desenvolvimento</a>: estados
 selecionados de aliases em linha/spine/frame, cinco rejeições e três vistas
 de imagem. Os testes lêem o registro, sem importar Matplotlib.
 As cores retornadas continuam com representações próprias, não tuplas RGBA
@@ -73,7 +73,7 @@ idênticas em toda consulta; o teste verifica a coerência de cada alias/getter.
 <h2 id="112-aceite-e-limites">1.12 — Aceite e limites</h2>
 <p>Aceite requer a suíte cumulativa sem falhas, regressões do conjunto acima,
 execução em source/wheel, exports e relatório Tk com a mesma implementação.
-O <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_artist_acceptance_tk.py">smoke</a> possui <strong>14 verificações</strong>
+O <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_artist_acceptance_tk.py">smoke</a> possui <strong>14 verificações</strong>
 em janela Tk real <strong>oculta</strong>: duas combinações de DPI/orientação, edições em
 ion agrupadas em um draw, roundtrip de visibilidade, rejeição sem redraw,
 foco/Home, descarte e liberação do cache.</p>
@@ -104,6 +104,6 @@ suporte efetivo a outras plataformas. Esses checks continuam abertos nos
 passos posteriores. As geometrias reais aqui são generalizadas e não substituem a
 base original mais detalhada prevista em 4.08.</li>
 </ul>
-<p>Evidências de regressão: <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_artist_acceptance.py">test_artist_acceptance.py</a>,
+<p>Evidências de regressão: <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_artist_acceptance.py">test_artist_acceptance.py</a>,
 além dos testes já ligados no catálogo. Próximo trabalho do roteiro: <strong>2.08</strong>.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/artist-acceptance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/artist-acceptance.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

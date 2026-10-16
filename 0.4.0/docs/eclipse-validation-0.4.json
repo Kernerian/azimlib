@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "contract_sha256": "31cddc2f9af5fbd5a93ca294985043f2e220643418cb9921b48a25d0359cc965",
+  "implementation_sha256": {
+    "src/azimlib/_spk.py": "5d3a77375913e70ce4cd38291bebee00a3e533adfc472884ad18e16df23183c3",
+    "src/azimlib/_eclipse_ephemeris.py": "1fb7e114cf6a14c67dff03abd064039b67de9295b061198bbe89b10ccbb64b23",
+    "tools/validate_eclipse_contract.py": "45383744197cdfc6231e4cc302f0245c7a452323fb53c09b0702af8f34c16895"
+  },
+  "reference_sha256": {
+    "de440s.bsp": "c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2",
+    "solar-2017.html": "33b27c46134dded80975dbf73f74a4e12d8c2c8363744a1c3f2e4962a0413ce0",
+    "solar-2023.html": "8bbf2b47032fe7ac8fa2bc0620a05002e7f81389b55c67e71cdc415dbb798ae2",
+    "solar-2024.html": "50f7cd87aa542591de6fffac2f32f0e1da32166941e9ac10b6b5124d30fad3de",
+    "lunar-2022.pdf": "8dd2995ca5f96b6fa2a46b2348de292db25e62b2f5cac3c5679fe113ba9d2bf2",
+    "lunar-2025.pdf": "4df1efa14457a1e925c2e63c0d8a7a428d30627532abc11e5c15e3e219d2d166"
+  },
+  "scientific_gate_passed": false,
+  "accuracy_bound_established": false,
+  "absolute_solar_contact_validation_complete": false,
+  "gate_returncode": 3,
+  "raw_reference_data_distributed": false,
+  "attribution": "Eclipse Predictions by Fred Espenak, NASA's GSFC",
+  "solar": [
+    {
+      "date": "2017-08-21",
+      "central_rows": 97,
+      "maximum_track_error_m": 494.9530077541123,
+      "central_passed": true,
+      "axis_misses": 0,
+      "maximum_separation_degrees": 1.6528779539930855e-05,
+      "maximum_visible_fraction": 2.220446049250313e-16,
+      "boundary_coordinates_available": 193,
+      "boundary_failures": 0,
+      "maximum_meridian_boundary_error_m": 2148.7644964970095,
+      "maximum_internal_duration_error_seconds": 4.494531249999994,
+      "solar_limb_convention": "physical mean, not fitted to historical catalog"
+    },
+    {
+      "date": "2023-10-14",
+      "central_rows": 107,
+      "maximum_track_error_m": 4540.66121925204,
+      "central_passed": false,
+      "axis_misses": 0,
+      "maximum_separation_degrees": 0.00010091578114123537,
+      "maximum_visible_fraction": 0.11511080219920045,
+      "boundary_coordinates_available": 214,
+      "boundary_failures": 29,
+      "maximum_meridian_boundary_error_m": 3364.7854830197866,
+      "maximum_internal_duration_error_seconds": 5.690625000000011,
+      "solar_limb_convention": "physical mean, not fitted to historical catalog"
+    },
+    {
+      "date": "2024-04-08",
+      "central_rows": 98,
+      "maximum_track_error_m": 461.65339365353657,
+      "central_passed": true,
+      "axis_misses": 0,
+      "maximum_separation_degrees": 2.0850426388148522e-05,
+      "maximum_visible_fraction": 2.220446049250313e-16,
+      "boundary_coordinates_available": 194,
+      "boundary_failures": 0,
+      "maximum_meridian_boundary_error_m": 2579.424387102737,
+      "maximum_internal_duration_error_seconds": 4.062890625000023,
+      "solar_limb_convention": "physical mean, not fitted to historical catalog"
+    }
+  ],
+  "lunar": [
+    {
+      "date": "2022-11-08",
+      "delta_t_seconds": 73.0,
+      "clock": "NASA UT1/TD with native deltaT; not UTC approximation",
+      "shadow_convention": "danjon-mean, published NASA 1.01 effective radius",
+      "maximum_absolute_error_seconds": 1.917236328125
+    },
+    {
+      "date": "2025-03-14",
+      "delta_t_seconds": 75.0,
+      "clock": "NASA UT1/TD with native deltaT; not UTC approximation",
+      "shadow_convention": "danjon-mean, published NASA 1.01 effective radius",
+      "maximum_absolute_error_seconds": 3.031982421875
+    }
+  ],
+  "clear": {
+    "cases": [
+      {
+        "utc": "2024-04-15T18:00:00+00:00",
+        "solar": "clear",
+        "lunar": "clear",
+        "expected": {
+          "utc": "2024-04-15T18:00:00+00:00",
+          "solar_observer": [
+            -100,
+            30
+          ],
+          "solar": "clear",
+          "lunar": "clear"
+        },
+        "clock_uncertainty_seconds": 1,
+        "passed": true
+      },
+      {
+        "utc": "2024-04-08T18:00:00+00:00",
+        "solar": "clear",
+        "lunar": "clear",
+        "expected": {
+          "utc": "2024-04-08T18:00:00+00:00",
+          "solar_observer": [
+            140,
+            -35
+          ],
+          "solar": "clear"
+        },
+        "clock_uncertainty_seconds": 1,
+        "passed": true
+      }
+    ],
+    "passed": true
+  },
+  "limitations": [
+    "Central trajectory must satisfy frozen 2 km for every timed row",
+    "A short Earth-orientation reduction has no certified global error bound",
+    "Lunar Danjon-mean is an empirical catalog convention, not an atmospheric model",
+    "Absolute solar contacts need independent reference acquisition and comparison",
+    "Grazing contacts are not covered by sign-change root searches"
+  ],
+  "independent_spk_reader_comparison": {
+    "reference": "jplephem 2.24, validation only",
+    "same_kernel": true,
+    "cases": 30,
+    "maximum_position_error_m": 6.162832039414791e-05,
+    "maximum_velocity_error_m_s": 1.4777539772032398e-11
+  },
+  "focused_contracts": {
+    "suites": [
+      {
+        "pattern": "test_spk_040.py",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 0.10872130000097968,
+        "passed": true
+      },
+      {
+        "pattern": "test_eclipse_ephemeris_040.py",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 0.002132800000254065,
+        "passed": true
+      },
+      {
+        "pattern": "test_eclipse_validation_040.py",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 0.004828900000575231,
+        "passed": true
+      },
+      {
+        "pattern": "test_gpu_preparation_040.py",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 0.2488403000006656,
+        "passed": true
+      },
+      {
+        "pattern": "test_gpu_040.py",
+        "tests": 18,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 2.338636899999983,
+        "passed": true
+      },
+      {
+        "pattern": "test_volume_040.py",
+        "tests": 24,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 1.323013400000491,
+        "passed": true
+      },
+      {
+        "pattern": "test_planet_protocol.py",
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "seconds": 0.10249610000028042,
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "scope": "Focused stages 2/9/13 contracts on actual Windows RTX2060; not stage14 integration or release CI"
+  }
+}

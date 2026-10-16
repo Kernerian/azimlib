@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visibilidade, substituição e ciclo de vida de componentes · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="visibilidade-substituição-e-ciclo-de-vida-de-componentes">Visibilidade, substituição e ciclo de vida de componentes</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Visibilidade, substituição e ciclo de vida de componentes · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="visibilidade-substituição-e-ciclo-de-vida-de-componentes">Visibilidade, substituição e ciclo de vida de componentes</h1>
 <p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
 For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
 <p>O protocolo próprio de Artist continua preservando handles editáveis, stale,
@@ -71,12 +71,12 @@ de barra removida permanece limpo. Esses resultados são do experimento, não
 uma afirmação sobre todos os backends ou versões da referência.</p>
 <p>Doze regressões adicionais/18 subtests verificam integração da Scene/SVG,
 visibilidade reversível, callbacks, eixos compartilhados, validação antes de
-substituir e desenho observando o registro completo. O <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_component_lifecycle_tk.py">smoke Tk</a>
+substituir e desenho observando o registro completo. O <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_component_lifecycle_tk.py">smoke Tk</a>
 confere sete cenários em janelas reais ocultas com edições programáticas;
 não mede input físico, pintura visível ou latência. O lote seguinte corrigiu
 o primeiro draw: callbacks e canvas são registrados antes dele, com recuperação
 de erro e fechamento reentrante. Veja <a href="sizing-composition.html">integração de composição</a>.</p>
-<p>O <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/component_lifecycle.py">exemplo</a> gera
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/component_lifecycle.py">exemplo</a> gera
 antes (<code>gallery/component-lifecycle-before.png</code>, generated locally) e
 depois (<code>gallery/component-lifecycle-after.png</code>, generated locally), com PNG/SVG estáticos e
 HTML separado. Todos os componentes são adicionados explicitamente.</p>
@@ -90,4 +90,4 @@ conferir composição em outros tamanhos/DPI, input/aparência nativos e resulta
 reais de CI. Não se declara fechado o critério de Artists da <a href="release-0.2.html">0.2.0</a>.</p>
 <p>Múltiplos grupos/matrizes, ciclos e defaults de legenda em contextos foram
 consolidados no <a href="series-styles.html">lote de séries e estilos</a>.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/component-lifecycle.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/component-lifecycle.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

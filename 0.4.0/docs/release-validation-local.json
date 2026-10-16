@@ -1,0 +1,2120 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-04T02:17:44.308424+00:00",
+  "version": "0.1.0",
+  "execution_context": "local",
+  "platform": "Windows only",
+  "unit_runs": [
+    {
+      "run": "py311-unit",
+      "result_sha256": "1250807d495e06f9f5f925342bc4b96f917a582418bc5011c580d167fc6dfbe6",
+      "result": {
+        "schema_version": 1,
+        "started_utc": "2026-10-04T01:48:15.544952+00:00",
+        "kind": "unit",
+        "execution_context": "local",
+        "python": "3.11.9",
+        "platform": "Windows-10-10.0.26200-SP0",
+        "machine": "AMD64",
+        "version": "0.1.0",
+        "runtime_origin": "<environment>/site-packages/azimlib",
+        "optional_packages": {
+          "Pillow": "12.3.0",
+          "aggdraw": "1.4.1",
+          "numpy": "2.4.6",
+          "numba": null,
+          "llvmlite": null
+        },
+        "tool_sha256": "f0c2e3e2dbcc40b100cf36a648eb582034b24c2959f432d2966edceb0b72c60b",
+        "runtime_sha256": {
+          "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+          "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+          "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+          "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+          "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+          "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+          "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+          "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+          "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+          "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+          "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+          "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+          "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+          "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+          "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+          "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+          "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+          "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+          "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+          "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+          "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+          "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+          "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+          "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+          "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+          "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+          "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+          "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+          "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+          "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+          "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+          "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+          "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+          "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+          "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+          "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+          "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+          "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+          "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+          "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+          "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+          "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+          "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+          "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+          "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+          "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+          "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+          "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+          "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+          "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+          "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+          "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+          "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+          "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+          "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+          "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+          "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+          "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+          "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+          "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+          "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+          "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+          "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+          "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+          "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+          "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+          "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+          "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+          "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+        },
+        "github": null,
+        "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+        "unittest": {
+          "tests": 675,
+          "subtests": 16792,
+          "failures": 0,
+          "errors": 0,
+          "skipped": [
+            {
+              "test": "test_area_bits_match_cpython_summation_at_extreme_scales (test_native_coverage.NativeCoverageTests.test_area_bits_match_cpython_summation_at_extreme_scales)",
+              "reason": "Numba optional"
+            },
+            {
+              "test": "test_intersections_retain_every_vertex_and_float_bit_in_original_order (test_native_coverage.NativeCoverageTests.test_intersections_retain_every_vertex_and_float_bit_in_original_order)",
+              "reason": "Numba optional"
+            }
+          ],
+          "log_sha256": "581a7e4474987a5c36a3be640d6b0cd16e53d5253693e682a4a135c9aedfb576"
+        },
+        "seconds": 220.18940769999608,
+        "passed": true,
+        "forbidden_imports": []
+      },
+      "desktop_details": {}
+    },
+    {
+      "run": "py314-unit",
+      "result_sha256": "b8e63576a8cac777e61efcf7c821ad8f2976dafba3082f9c8347c0191fb8f656",
+      "result": {
+        "schema_version": 1,
+        "started_utc": "2026-10-04T01:49:26.806278+00:00",
+        "kind": "unit",
+        "execution_context": "local",
+        "python": "3.14.4",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "machine": "AMD64",
+        "version": "0.1.0",
+        "runtime_origin": "<environment>/site-packages/azimlib",
+        "optional_packages": {
+          "Pillow": "12.3.0",
+          "aggdraw": "1.4.1",
+          "numpy": "2.5.3",
+          "numba": null,
+          "llvmlite": null
+        },
+        "tool_sha256": "f0c2e3e2dbcc40b100cf36a648eb582034b24c2959f432d2966edceb0b72c60b",
+        "runtime_sha256": {
+          "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+          "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+          "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+          "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+          "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+          "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+          "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+          "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+          "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+          "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+          "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+          "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+          "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+          "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+          "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+          "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+          "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+          "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+          "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+          "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+          "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+          "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+          "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+          "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+          "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+          "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+          "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+          "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+          "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+          "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+          "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+          "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+          "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+          "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+          "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+          "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+          "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+          "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+          "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+          "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+          "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+          "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+          "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+          "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+          "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+          "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+          "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+          "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+          "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+          "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+          "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+          "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+          "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+          "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+          "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+          "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+          "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+          "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+          "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+          "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+          "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+          "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+          "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+          "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+          "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+          "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+          "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+          "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+          "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+        },
+        "github": null,
+        "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+        "unittest": {
+          "tests": 675,
+          "subtests": 16792,
+          "failures": 0,
+          "errors": 0,
+          "skipped": [
+            {
+              "test": "test_area_bits_match_cpython_summation_at_extreme_scales (test_native_coverage.NativeCoverageTests.test_area_bits_match_cpython_summation_at_extreme_scales)",
+              "reason": "Numba optional"
+            },
+            {
+              "test": "test_intersections_retain_every_vertex_and_float_bit_in_original_order (test_native_coverage.NativeCoverageTests.test_intersections_retain_every_vertex_and_float_bit_in_original_order)",
+              "reason": "Numba optional"
+            }
+          ],
+          "log_sha256": "0f7afa68e8a69c0502eacad27226c19616cce8141da3f0af38954d7fccbd3426"
+        },
+        "seconds": 231.09552599999734,
+        "passed": true,
+        "forbidden_imports": []
+      },
+      "desktop_details": {}
+    }
+  ],
+  "accelerator_run": {
+    "run": "py314-accelerator",
+    "result_sha256": "8e583762de364285f7277487811e39ebe43fcb4d4e5cc602858978790c1b74ed",
+    "result": {
+      "schema_version": 1,
+      "started_utc": "2026-10-04T01:55:19.170782+00:00",
+      "kind": "accelerator",
+      "execution_context": "local",
+      "python": "3.14.4",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "version": "0.1.0",
+      "runtime_origin": "<environment>/site-packages/azimlib",
+      "optional_packages": {
+        "Pillow": "12.3.0",
+        "aggdraw": "1.4.1",
+        "numpy": "2.5.3",
+        "numba": "0.68.0",
+        "llvmlite": "0.50.0"
+      },
+      "tool_sha256": "f0c2e3e2dbcc40b100cf36a648eb582034b24c2959f432d2966edceb0b72c60b",
+      "runtime_sha256": {
+        "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+        "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+        "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+        "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+        "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+        "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+        "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+        "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+        "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+        "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+        "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+        "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+        "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+        "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+        "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+        "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+        "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+        "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+        "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+        "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+        "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+        "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+        "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+        "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+        "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+        "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+        "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+        "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+        "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+        "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+        "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+        "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+        "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+        "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+        "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+        "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+        "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+        "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+        "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+        "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+        "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+        "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+        "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+        "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+        "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+        "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+        "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+        "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+        "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+        "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+        "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+        "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+        "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+        "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+        "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+        "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+        "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+        "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+        "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+        "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+        "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+        "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+        "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+        "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+        "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+        "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+        "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+        "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+        "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+      },
+      "github": null,
+      "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+      "unittest": {
+        "tests": 11,
+        "subtests": 5470,
+        "failures": 0,
+        "errors": 0,
+        "skipped": [],
+        "log_sha256": "541aa0ea8ab3c41499ab8270f9bf8daed3f86955c37efbdb4f0027935f5147d3"
+      },
+      "seconds": 7.5147164999943925,
+      "passed": true,
+      "forbidden_imports": []
+    },
+    "desktop_details": {}
+  },
+  "desktop_runs": [
+    {
+      "python": "3.11.9",
+      "first_attempt": {
+        "run": "py311-desktop",
+        "result_sha256": "1c6a86c5a2827d64e77ffd6ef0e7fff1044bac04600a542b3a5529954d465d28",
+        "result": {
+          "schema_version": 1,
+          "started_utc": "2026-10-04T01:53:30.192106+00:00",
+          "kind": "desktop",
+          "execution_context": "local",
+          "python": "3.11.9",
+          "platform": "Windows-10-10.0.26200-SP0",
+          "machine": "AMD64",
+          "version": "0.1.0",
+          "runtime_origin": "<environment>/site-packages/azimlib",
+          "optional_packages": {
+            "Pillow": "12.3.0",
+            "aggdraw": "1.4.1",
+            "numpy": "2.4.6",
+            "numba": null,
+            "llvmlite": null
+          },
+          "tool_sha256": "f0c2e3e2dbcc40b100cf36a648eb582034b24c2959f432d2966edceb0b72c60b",
+          "runtime_sha256": {
+            "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+            "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+            "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+            "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+            "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+            "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+            "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+            "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+            "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+            "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+            "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+            "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+            "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+            "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+            "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+            "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+            "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+            "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+            "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+            "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+            "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+            "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+            "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+            "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+            "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+            "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+            "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+            "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+            "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+            "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+            "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+            "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+            "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+            "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+            "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+            "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+            "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+            "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+            "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+            "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+            "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+            "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+            "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+            "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+            "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+            "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+            "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+            "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+            "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+            "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+            "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+            "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+            "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+            "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+            "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+            "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+            "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+            "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+            "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+            "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+            "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+            "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+            "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+            "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+            "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+            "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+            "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+            "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+            "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+          },
+          "github": null,
+          "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+          "scripts": [
+            {
+              "tool": "smoke_artist_tk.py",
+              "sha256": "3d15c15e3459232530f72d46029d5c9f748438beeb6062f0fc6f58ca71c5b3f9",
+              "returncode": 0,
+              "seconds": 1.825274000002537,
+              "log_sha256": "14ca3765d8cf416c351c957aa9da555cc466509d27057e3b25d2789236dea062"
+            },
+            {
+              "tool": "smoke_viewer_tk.py",
+              "sha256": "1f76e86d082469842761d592c315f179c09683a4f2273ec19c67dd43493a6730",
+              "returncode": 0,
+              "seconds": 6.1792428999979165,
+              "log_sha256": "387221bf3a3a75d8319a1471b117361059a13cdb65b83d19b1b9a390dedcbaab",
+              "report_file": "smoke_viewer_tk.json",
+              "report_sha256": "f243e902327ce1cef03ef01caa8d48c0b2038f51d56190e2b30909e6a8cc4d6e"
+            },
+            {
+              "tool": "smoke_component_lifecycle_tk.py",
+              "sha256": "f0f15cab50b9e3d85c86a6ec2c4d5b6f3477bc8ed733046ed3e81e4588697e45",
+              "returncode": 0,
+              "seconds": 2.8079610999993747,
+              "log_sha256": "dba145c8e8aff8ab613bae73fb67c489fff32d7394822ccc0255c8ab297d2755",
+              "report_file": "smoke_component_lifecycle_tk.json",
+              "report_sha256": "7aa48b487609ff6db8b82ef62a76e75747ea9ca41170f60959cf2a2ce7935bc7"
+            },
+            {
+              "tool": "smoke_composition_tk.py",
+              "sha256": "1ef69bdd58d530906d668e59175e9baa44381319dfe22f8434c4f0705d615675",
+              "returncode": 0,
+              "seconds": 16.52035949999845,
+              "log_sha256": "12ae9fef69d4011bdb734a494e886bbdc04b892c655513c2e1badbfa8678c792",
+              "report_file": "smoke_composition_tk.json",
+              "report_sha256": "b674d030c6eae1bc6e90093a23486a7ceaf7bf8ed1bfe298355b63248e07f6d5"
+            },
+            {
+              "tool": "smoke_series_tk.py",
+              "sha256": "4b88b10e3d926fcbffa28e1cc57af66cda1998d527d8941fe4d21d2cfc770599",
+              "returncode": 0,
+              "seconds": 7.984242500002438,
+              "log_sha256": "80b3f5d62c0d87b4f42904ff4d405a81e313bdae32d94dc361979de2c43956bf",
+              "report_file": "smoke_series_tk.json",
+              "report_sha256": "2c20a486c2570add32090111cf2d5eb678d4d3583a005981a594db658c703c91"
+            },
+            {
+              "tool": "smoke_numeric_tk.py",
+              "sha256": "b41f1db86c2f3e237c6e28b29b97bb4c5d7da1dd70a14e88b6a43bf4f1fda10c",
+              "returncode": 0,
+              "seconds": 6.468443599995226,
+              "log_sha256": "cf40563a351d72ba8c50beb1a1a8d66a0efbe323c5c502e7ea9d70ce168f3072",
+              "report_file": "smoke_numeric_tk.json",
+              "report_sha256": "187b0841f6c4c138717a0346fb658351e73fa324d38678a5c8ee41847b5aa710"
+            },
+            {
+              "tool": "smoke_artist_validation_tk.py",
+              "sha256": "89c734731b30ff930208f5c65da8e8c756e3e3383927b2851209ad71706438d3",
+              "returncode": 0,
+              "seconds": 7.886114100001578,
+              "log_sha256": "6f3d6cdc42e9082df726917d0f3d42d269ae2a8a4ab3411d445986ffb89686e6",
+              "report_file": "smoke_artist_validation_tk.json",
+              "report_sha256": "935066371e554f6f9ca3358a03e75dd6420f93139dfff05ed99059d235956928"
+            },
+            {
+              "tool": "smoke_raster_cache_tk.py",
+              "sha256": "2d5331752afccf39f8c9433121c2b4219f7031077146cd82c6345fb8b4cfe4b6",
+              "returncode": 0,
+              "seconds": 3.0489402000021073,
+              "log_sha256": "0442774b227b4ea6b72815db6323582f73e1ebbaa51eebc220624cb1cc51e8a9",
+              "report_file": "smoke_raster_cache_tk.json",
+              "report_sha256": "3e591e4a8088a2b71a2ffbad1d6fad48fbfadcbbc4606a6d68068ea4a8f9852a"
+            },
+            {
+              "tool": "smoke_stroke_kernels_tk.py",
+              "sha256": "335fb25b6addc1472e8876d7e2276fffba611f3febccae68e47318e0a2df4faa",
+              "returncode": 0,
+              "seconds": 28.74060869999812,
+              "log_sha256": "9e847f666481b87bc43ecf99189029134608fcc16a3130d1cc877cae3edcf718",
+              "report_file": "smoke_stroke_kernels_tk.json",
+              "report_sha256": "d49e0099553f53efa9445d08e93ec6805933b4b7d726310c8b2fcb3ff82512fc"
+            },
+            {
+              "tool": "smoke_artist_acceptance_tk.py",
+              "sha256": "787970685a0e8b3eedf681921266579f48c632680128427657e2732ce224874e",
+              "returncode": 0,
+              "seconds": 41.46479420000105,
+              "log_sha256": "d2cc6e5e09aa3f4633e71bad5089b410255dfdb7660bbdd5119207997d04e40a",
+              "report_file": "smoke_artist_acceptance_tk.json",
+              "report_sha256": "cf1b8eaf0e5160b3aef602dbcbf128b16a78d533389518ffbf292bed5bd4780b"
+            },
+            {
+              "tool": "smoke_layout_acceptance_tk.py",
+              "sha256": "a7fe8450360aa64bfc722b3f7a1311ef5e490966aca906352ab26f63118a15cf",
+              "returncode": 124,
+              "seconds": 300.0310308000044,
+              "log_sha256": "a8bab3d069f27f39efabad951a4c8d33889f57eb47489e5a13645940b66dc65b"
+            },
+            {
+              "tool": "smoke_toolbar_tk.py",
+              "sha256": "2e7be04f4c937f0d756b304811f83970fbbc7c8534535b3e876c81d2f2eaf443",
+              "returncode": 0,
+              "seconds": 3.1822844999987865,
+              "log_sha256": "32e9b2db4f8d394fb7e4a6550c1a6b072bc03e1893dca3baef8293e61a26d290",
+              "report_file": "smoke_toolbar_tk.json",
+              "report_sha256": "18232965622f1c2580d4eefd723e18791dbfa57390583a638e029e758715cf7d"
+            },
+            {
+              "tool": "smoke_pan_interaction_tk.py",
+              "sha256": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879",
+              "returncode": 0,
+              "seconds": 18.834548499995435,
+              "log_sha256": "aa5fbbd90f8044d3db693107620f04c1834603917d3b64d1cbaf96007117bcf9",
+              "report_file": "smoke_pan_interaction_tk.json",
+              "report_sha256": "32cc8ed7475e8a3ef71455edb30ea0bb4db80787eff4610d9ce61e6a4cff26f5"
+            }
+          ],
+          "seconds": 445.11744270000054,
+          "passed": false,
+          "forbidden_imports": []
+        },
+        "desktop_details": {
+          "smoke_viewer_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "real widgets, toolbar, canvas, optional components, callback transfer",
+              "batched edits, visibility and live own Scene in draw_event",
+              "direct RGBA without PNG codec/initial copy; previous image closed",
+              "registered Motion binding and synthetic cursor coordinates",
+              "normalized keys/modifiers, editable keymap and Ctrl+S cancellation",
+              "middle/double-click input exposed without starting a pan drag",
+              "axes/figure transitions, cursor-targeted keys and major/minor grid cycles",
+              "pan preview/recomposition, shared axes, Home/Back/Forward toolbar",
+              "rectangle zoom, rubberband cleanup and fractional scroll",
+              "overview recentering, focus and optional visibility",
+              "registered Configure binding, real debounce timer and resized scene",
+              "Save toolbar writes static PNG/SVG; dialog cancellation",
+              "close cancels pending work, unregisters window and releases images"
+            ],
+            "timings": {
+              "first_draw_seconds": 0.9493491999965045
+            },
+            "scope": "withdrawn real Tk windows; synthetic input; not visual OS comparison"
+          },
+          "smoke_component_lifecycle_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "real Tk window, optional components and explicit draw after callback transfer",
+              "one redraw hides legend entry/title and colorbar label",
+              "one redraw replaces local colorbar/scale after registration",
+              "discarded mapping/components do not schedule a redraw",
+              "norm replacement updates current bar and detaches previous ticks",
+              "clear removes local bar and disconnects its mapping",
+              "close releases current owned raster"
+            ],
+            "scope": "real withdrawn Tk; programmatic edits; no physical input or visible OS comparison"
+          },
+          "smoke_composition_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "single: callback observes registered first draw",
+              "single: grouped size/title/visibility edits update physical raster and preserve extent",
+              "single: DPI updates native canvas and typography",
+              "single: forward=False preserves widget request; static save DPI is temporary",
+              "atlas: callback observes registered first draw",
+              "atlas: grouped size/title/visibility edits update physical raster and preserve extent",
+              "atlas: DPI updates native canvas and typography",
+              "atlas: forward=False preserves widget request; static save DPI is temporary",
+              "nested: callback observes registered first draw",
+              "nested: grouped size/title/visibility edits update physical raster and preserve extent",
+              "nested: DPI updates native canvas and typography",
+              "nested: forward=False preserves widget request; static save DPI is temporary",
+              "failed first callback releases window, restores canvas/registry and permits retry",
+              "first draw callback can close its window without later widget access"
+            ],
+            "scope": "real withdrawn Tk; programmatic dimension/title edits; no physical input or perceptual latency"
+          },
+          "smoke_series_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "light: matrix/data lines, independent scatter, styled legends and native widgets",
+              "light: batch editing/visibility/new cycle/legend reconstruction renders one frame",
+              "light: later invalid group leaves no layers, view changes, cycle consumption or frame",
+              "light: 48-column synthetic route batch creates editable handles in one frame",
+              "light: shared navigation/back preserve all routes and original geographic view",
+              "light: static SVG excludes UI; closing releases current raster",
+              "dark: matrix/data lines, independent scatter, styled legends and native widgets",
+              "dark: batch editing/visibility/new cycle/legend reconstruction renders one frame",
+              "dark: later invalid group leaves no layers, view changes, cycle consumption or frame",
+              "dark: 48-column synthetic route batch creates editable handles in one frame",
+              "dark: shared navigation/back preserve all routes and original geographic view",
+              "dark: static SVG excludes UI; closing releases current raster"
+            ],
+            "scope": "real withdrawn Tk, programmatic edits/navigation and synthetic 48-column routes; no physical input, native appearance or latency benchmark"
+          },
+          "smoke_numeric_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "vertical: initial scientific/offset labels rendered in native Tk widgets",
+              "vertical: editable offset visibility/style invalidates one frame",
+              "vertical: clim, ticks, labelpad and narrow diamond/legend edits compose one frame",
+              "vertical: formatter replacement clears stale scientific offset",
+              "vertical: navigation/back and static SVG preserve independent export path",
+              "horizontal: initial scientific/offset labels rendered in native Tk widgets",
+              "horizontal: editable offset visibility/style invalidates one frame",
+              "horizontal: clim, ticks, labelpad and narrow diamond/legend edits compose one frame",
+              "horizontal: formatter replacement clears stale scientific offset",
+              "horizontal: navigation/back and static SVG preserve independent export path"
+            ],
+            "scope": "real withdrawn Tk; programmatic artist/navigation edits; no physical input or native appearance/latency equivalence"
+          },
+          "smoke_artist_validation_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "initial integrated lines/scatter/raster/contours/shared bar/scale/legend compose in real Tk",
+              "mixed data, shared norm, text, frame, scale, outline and dash-generator edits produce one frame",
+              "shared normalization stays coherent with colorbar after edits",
+              "owned generator dash remains renderable across repeated draws",
+              "six rejected edits preserve raster, SVG, model and pending draw count",
+              "valid edits remain usable after failures; static SVG and portable HTML stay separate",
+              "closing releases owned Tk raster"
+            ],
+            "scope": "Real withdrawn Tk, programmatic edits, synthetic field/routes. No physical input, visible OS comparison or performance claim."
+          },
+          "smoke_raster_cache_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "unchanged redraws reuse exact RGBA while emitting each draw_event",
+              "back/forward/home reuse visited frames and restore exact original pixels",
+              "style and visibility edits rerasterize changed scenes",
+              "direct raster and static PNG equal cached current-view pixels",
+              "DPI changes invalidate dimensions and LRU respects retained pixel limits",
+              "optional cache retention failure still displays a fresh rendered frame",
+              "optional cache lookup allocation failure falls back to direct raster",
+              "closing releases active and all retained cached RGBA frames"
+            ],
+            "scope": "Real withdrawn Tk with programmatic input; no visible presentation or physical-input timing."
+          },
+          "smoke_stroke_kernels_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "checks": [
+              "globe: direct raster, static PNG and current Tk match; PNG/SVG create no UI",
+              "globe: regional focus and Home preserve exact view/pixels",
+              "globe: explicit marker edit appears on a collapsed projecting-cap line",
+              "globe: hiding the marker restores exact original frame",
+              "globe: 200 DPI resize and static/current-view RGBA remain consistent",
+              "globe: closing releases retained raster frames",
+              "terrain: direct raster, static PNG and current Tk match; PNG/SVG create no UI",
+              "terrain: regional focus and Home preserve exact view/pixels",
+              "terrain: explicit marker edit appears on a collapsed projecting-cap line",
+              "terrain: hiding the marker restores exact original frame",
+              "terrain: 200 DPI resize and static/current-view RGBA remain consistent",
+              "terrain: closing releases retained raster frames"
+            ],
+            "runtime_sha256": {
+              "azimlib.renderers.coverage": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+              "azimlib.renderers.pillow": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+              "azimlib.backends.tk": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e"
+            },
+            "independent_runtime": true,
+            "scope": "Real withdrawn Tk, programmatic input/edits, synthetic fields/routes. Not visible painting or physical input latency."
+          },
+          "smoke_artist_acceptance_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "checks": [
+              "100dpi-horizontal: six shared mappables; direct RGBA, PNG and Tk match; static export creates no UI",
+              "100dpi-horizontal: multi-Artist edits and shared norm produce one scheduled Tk draw; manual extent retained",
+              "100dpi-horizontal: hiding/restoring all six layers restores exact edited pixels",
+              "100dpi-horizontal: rejected alias batch changes no data/control/pixels/draw count",
+              "100dpi-horizontal: focus/Home preserve manual view and current edits",
+              "100dpi-horizontal: removed layers/labels/bar stop invalidating former figure",
+              "100dpi-horizontal: closing releases raster cache",
+              "200dpi-vertical: six shared mappables; direct RGBA, PNG and Tk match; static export creates no UI",
+              "200dpi-vertical: multi-Artist edits and shared norm produce one scheduled Tk draw; manual extent retained",
+              "200dpi-vertical: hiding/restoring all six layers restores exact edited pixels",
+              "200dpi-vertical: rejected alias batch changes no data/control/pixels/draw count",
+              "200dpi-vertical: focus/Home preserve manual view and current edits",
+              "200dpi-vertical: removed layers/labels/bar stop invalidating former figure",
+              "200dpi-vertical: closing releases raster cache"
+            ],
+            "sha256": {
+              "src/azimlib/artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+              "src/azimlib/axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+              "src/azimlib/layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+              "src/azimlib/styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+              "src/azimlib/components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+              "src/azimlib/figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+              "tools/artist_acceptance_case.py": "22e4b25914429ff6e5afcf60943eb88360e7a47c3e0cc730fc6930826af6dec5",
+              "tools/smoke_artist_acceptance_tk.py": "787970685a0e8b3eedf681921266579f48c632680128427657e2732ce224874e"
+            },
+            "runtime_origin": "<environment>/site-packages/azimlib",
+            "independent_runtime": true,
+            "scope": "Real withdrawn Tk; bundled generalized Natural Earth states, synthetic values/fields; programmatic edits/navigation. Not native appearance or physical input/paint latency."
+          },
+          "smoke_toolbar_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "checks": [
+              "96: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "96: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "96: immediate tooltip on the right, matching reference widget and cleanup",
+              "96: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "96: move/selection cursors apply inside the map and clear on margins",
+              "96: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "96: closing releases images and raster cache",
+              "120: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "120: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "120: immediate tooltip on the right, matching reference widget and cleanup",
+              "120: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "120: move/selection cursors apply inside the map and clear on margins",
+              "120: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "120: closing releases images and raster cache",
+              "144: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "144: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "144: immediate tooltip on the right, matching reference widget and cleanup",
+              "144: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "144: move/selection cursors apply inside the map and clear on margins",
+              "144: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "144: closing releases images and raster cache",
+              "192: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "192: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "192: immediate tooltip on the right, matching reference widget and cleanup",
+              "192: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "192: move/selection cursors apply inside the map and clear on margins",
+              "192: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "192: closing releases images and raster cache"
+            ],
+            "sha256": {
+              "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+              "tool": "2e7be04f4c937f0d756b304811f83970fbbc7c8534535b3e876c81d2f2eaf443",
+              "reference": "7770d7f6e4689c8e703d38d976f55dbaf625915006db97d74d70c6a81a5234b2",
+              "subplot_editor": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+              "own_icon_geometry": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823"
+            },
+            "runtime_origin": "<environment>/site-packages/azimlib/__init__.py",
+            "independent_runtime": true,
+            "scope": "Real withdrawn Tk and synthetic handlers in four physical Tk DPI settings. Not visible appearance or physical input; does not close 3.08."
+          },
+          "smoke_pan_interaction_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "checks": [
+              "left motion updates limits and redraws full canvas while button is held, without PNG codecs/bitmap translation",
+              "longitude tick moves 30 pixels with geographic data; frame remains fixed; displayed RGBA is the freshly rendered full Scene",
+              "release keeps the live extent without a jump, restores exact raster quality and creates one history entry for the entire drag",
+              "Back/Forward/Home restore whole views after a live drag",
+              "right-button zoom updates continuously using the frozen cursor anchor and normalized equal-aspect display scale",
+              "lost release outside canvas ends the old drag at its last held view; reentry/motion cannot teleport; exact pixels and Back remain correct",
+              "a genuinely held button continues outside Axes/canvas and reenters using the original frozen anchor",
+              "Tk timer and ten newer motions remain responsive while raster is blocked; bounded active/prepared views plus coalesced newest limits",
+              "six wheel zoom edits coalesce and restore exact full-quality pixels after the 120ms quiet interval",
+              "rectangle zoom rasterizes off the Tk thread and presents exact settled pixels",
+              "closing releases the raster and pending redraw"
+            ],
+            "frames": [
+              {
+                "phase": "before",
+                "extent": [
+                  -76.0,
+                  -32.0,
+                  -36.0,
+                  8.0
+                ],
+                "size": [
+                  400,
+                  300
+                ],
+                "rgba_sha256": "3d8d948dd1f9fcd0e32ff7cd83a6e467f0f650e3247d8eb516d6f0956e19e7e2"
+              },
+              {
+                "phase": "during",
+                "extent": [
+                  -81.71428571428572,
+                  -37.71428571428572,
+                  -33.71428571428572,
+                  10.285714285714285
+                ],
+                "size": [
+                  400,
+                  300
+                ],
+                "rgba_sha256": "a78c2563a5cb084f5a3c86b3bcb2f54fdd01fa2d6b1a2841987cfcceb33b20a9"
+              },
+              {
+                "phase": "after",
+                "extent": [
+                  -81.71428571428572,
+                  -37.71428571428572,
+                  -33.71428571428572,
+                  10.285714285714285
+                ],
+                "size": [
+                  400,
+                  300
+                ],
+                "rgba_sha256": "4d821784a68d955bc96ec7fe75976b97d095d667b8630c2ba32cd25927d7d7fd"
+              }
+            ],
+            "sha256": {
+              "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+              "navigation": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+              "pan_raster": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+              "tool": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879"
+            },
+            "independent_runtime": true,
+            "runtime_origin": "<environment>/site-packages/azimlib/__init__.py",
+            "scope": "Withdrawn real Tk, synthetic handlers and inspection of our generated canvas buffers only; no desktop screenshot, physical input or presentation-latency claim."
+          }
+        }
+      },
+      "retry": {
+        "run": "py311-layout-retry",
+        "result_sha256": "c353ed945343ce164e4db1bde9cfb7a48bb1edda60766b88eec3edd089ea5b64",
+        "result": {
+          "schema_version": 1,
+          "started_utc": "2026-10-04T02:03:36.178848+00:00",
+          "kind": "desktop",
+          "execution_context": "local",
+          "python": "3.11.9",
+          "platform": "Windows-10-10.0.26200-SP0",
+          "machine": "AMD64",
+          "version": "0.1.0",
+          "runtime_origin": "<environment>/site-packages/azimlib",
+          "optional_packages": {
+            "Pillow": "12.3.0",
+            "aggdraw": "1.4.1",
+            "numpy": "2.4.6",
+            "numba": null,
+            "llvmlite": null
+          },
+          "tool_sha256": "e87593d6822ba1db9d2ccb9547b00e10212456866c3a9af1ae0f748dd4477c79",
+          "runtime_sha256": {
+            "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+            "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+            "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+            "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+            "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+            "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+            "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+            "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+            "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+            "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+            "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+            "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+            "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+            "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+            "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+            "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+            "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+            "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+            "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+            "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+            "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+            "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+            "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+            "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+            "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+            "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+            "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+            "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+            "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+            "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+            "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+            "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+            "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+            "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+            "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+            "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+            "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+            "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+            "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+            "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+            "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+            "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+            "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+            "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+            "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+            "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+            "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+            "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+            "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+            "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+            "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+            "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+            "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+            "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+            "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+            "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+            "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+            "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+            "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+            "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+            "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+            "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+            "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+            "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+            "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+            "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+            "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+            "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+            "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+          },
+          "github": null,
+          "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+          "desktop_timeout_seconds": 900,
+          "scripts": [
+            {
+              "tool": "smoke_layout_acceptance_tk.py",
+              "sha256": "a7fe8450360aa64bfc722b3f7a1311ef5e490966aca906352ab26f63118a15cf",
+              "returncode": 0,
+              "seconds": 331.0843157999989,
+              "log_sha256": "00423584ea4c7ff26a1158ef6eec5e5c0e792a0ceecc5ef1fa9f89242433bf3e",
+              "report_file": "smoke_layout_acceptance_tk.json",
+              "report_sha256": "a38dd50d2b7fc32b03f93c5e3ae57a1eefc3fa727ade897301212848f0c1046a"
+            }
+          ],
+          "seconds": 331.0977883000014,
+          "passed": true,
+          "forbidden_imports": []
+        },
+        "desktop_details": {
+          "smoke_layout_acceptance_tk.py": {
+            "python": "3.11.9",
+            "platform": "Windows-10-10.0.26200-SP0",
+            "checks": [
+              "regional-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "regional-horizontal: all opt-in decorations hide/restore with exact original pixels",
+              "regional-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+              "regional-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+              "regional-horizontal: close releases raster cache",
+              "regional-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "regional-vertical: all opt-in decorations hide/restore with exact original pixels",
+              "regional-vertical: physical resize at 200 DPI reflows components and preserves extents",
+              "regional-vertical: focus/Home restore exact resized scene; overview focus remains black",
+              "regional-vertical: close releases raster cache",
+              "atlas-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "atlas-horizontal: all opt-in decorations hide/restore with exact original pixels",
+              "atlas-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+              "atlas-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+              "atlas-horizontal: close releases raster cache",
+              "atlas-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "atlas-vertical: all opt-in decorations hide/restore with exact original pixels",
+              "atlas-vertical: physical resize at 200 DPI reflows components and preserves extents",
+              "atlas-vertical: focus/Home restore exact resized scene; overview focus remains black",
+              "atlas-vertical: close releases raster cache",
+              "nested-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "nested-horizontal: all opt-in decorations hide/restore with exact original pixels",
+              "nested-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+              "nested-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+              "nested-horizontal: close releases raster cache",
+              "nested-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "nested-vertical: all opt-in decorations hide/restore with exact original pixels",
+              "nested-vertical: physical resize at 200 DPI reflows components and preserves extents",
+              "nested-vertical: focus/Home restore exact resized scene; overview focus remains black",
+              "nested-vertical: close releases raster cache"
+            ],
+            "frames": [
+              {
+                "size": [
+                  460,
+                  580
+                ],
+                "rgba_sha256": "60ac680ce4b3fd261f58fc545ec8e2770c411cb1bfa728d6fa191fe45ca38613"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "05f16f81e1c94bb36cf022f7622d1de626b1b89800d0c0d48afdf41025885214"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "05f16f81e1c94bb36cf022f7622d1de626b1b89800d0c0d48afdf41025885214"
+              },
+              {
+                "size": [
+                  460,
+                  580
+                ],
+                "rgba_sha256": "7a7e78b7e84e5e79112c0f428cbe97b29ede203534c667c4ecb7c47e0d6eb88b"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "8a8f4274625e359bdffcd3426174808d2450037a7c9b5debcefe236a02fca0b9"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "8a8f4274625e359bdffcd3426174808d2450037a7c9b5debcefe236a02fca0b9"
+              },
+              {
+                "size": [
+                  660,
+                  1100
+                ],
+                "rgba_sha256": "922b28d04ce93882e6f26e69ee7b6814cb7375d6558e5d2599bcd18ac64c333b"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "adc7d6e80c821e83ccff834b9a6be2aa34fec6150a76bf9ecb195ac464f827f8"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "adc7d6e80c821e83ccff834b9a6be2aa34fec6150a76bf9ecb195ac464f827f8"
+              },
+              {
+                "size": [
+                  660,
+                  1100
+                ],
+                "rgba_sha256": "3ebb9b75cb29f89c76927e41046cca3bfc90b9f3ca7aab9234350b1cd56c60c3"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "8fb490c182d1fce9b2075d84455bccc5b5a8dee0ff778098158fdb27c19c7e56"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "8fb490c182d1fce9b2075d84455bccc5b5a8dee0ff778098158fdb27c19c7e56"
+              },
+              {
+                "size": [
+                  1100,
+                  1200
+                ],
+                "rgba_sha256": "7d46345a7ced6321b876a2f465536fcd9094affa0bf2c1b8182a75cd665d9ffc"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "c924000a90bd768c16e9113b898be3e2c124af9b39619bb0c99669e3384de50a"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "c924000a90bd768c16e9113b898be3e2c124af9b39619bb0c99669e3384de50a"
+              },
+              {
+                "size": [
+                  1100,
+                  1200
+                ],
+                "rgba_sha256": "3a46eb302dd5e2773b540924cb0861dd8f2a4d677f871350595a55d895199aad"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "2cfadfc9950b06f4e2d3bca7f78dfc08ec4f6d21a49f6049a04461cd8c4e4f88"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "2cfadfc9950b06f4e2d3bca7f78dfc08ec4f6d21a49f6049a04461cd8c4e4f88"
+              }
+            ],
+            "sha256": {
+              "src/azimlib/layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+              "src/azimlib/nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+              "src/azimlib/colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+              "src/azimlib/render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+              "src/azimlib/overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+              "src/azimlib/scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+              "src/azimlib/figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+              "src/azimlib/backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+              "tools\\layout_acceptance_case.py": "f78b4bf809dde05bb47e96a1b2607d1476d3e1fe9017b949de73c6af8334069c",
+              "tools\\smoke_layout_acceptance_tk.py": "a7fe8450360aa64bfc722b3f7a1311ef5e490966aca906352ab26f63118a15cf"
+            },
+            "runtime_origin": "<environment>/site-packages/azimlib",
+            "independent_runtime": true,
+            "scope": "Six real withdrawn Tk scenarios, 30 checks and 18 frame comparisons. Programmatic edits/navigation; no physical input or visible-paint latency."
+          }
+        }
+      },
+      "effective_unique_scripts": 13,
+      "effective_passed": true,
+      "note": "First 300-second deadline failed for layout. Only that script reran with a 900-second deadline, unchanged runtime and smoke assertions. Both attempts retained; no performance improvement claimed."
+    },
+    {
+      "python": "3.14.4",
+      "first_attempt": {
+        "run": "py314-desktop",
+        "result_sha256": "ea3a812d0c5ad76cf8cdfce4d971e01aa553bb95eed3d8a45cf4b437ab686ddb",
+        "result": {
+          "schema_version": 1,
+          "started_utc": "2026-10-04T01:54:50.694157+00:00",
+          "kind": "desktop",
+          "execution_context": "local",
+          "python": "3.14.4",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "machine": "AMD64",
+          "version": "0.1.0",
+          "runtime_origin": "<environment>/site-packages/azimlib",
+          "optional_packages": {
+            "Pillow": "12.3.0",
+            "aggdraw": "1.4.1",
+            "numpy": "2.5.3",
+            "numba": null,
+            "llvmlite": null
+          },
+          "tool_sha256": "f0c2e3e2dbcc40b100cf36a648eb582034b24c2959f432d2966edceb0b72c60b",
+          "runtime_sha256": {
+            "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+            "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+            "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+            "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+            "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+            "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+            "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+            "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+            "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+            "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+            "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+            "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+            "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+            "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+            "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+            "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+            "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+            "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+            "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+            "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+            "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+            "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+            "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+            "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+            "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+            "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+            "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+            "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+            "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+            "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+            "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+            "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+            "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+            "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+            "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+            "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+            "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+            "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+            "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+            "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+            "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+            "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+            "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+            "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+            "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+            "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+            "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+            "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+            "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+            "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+            "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+            "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+            "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+            "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+            "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+            "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+            "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+            "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+            "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+            "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+            "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+            "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+            "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+            "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+            "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+            "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+            "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+            "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+            "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+          },
+          "github": null,
+          "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+          "scripts": [
+            {
+              "tool": "smoke_artist_tk.py",
+              "sha256": "3d15c15e3459232530f72d46029d5c9f748438beeb6062f0fc6f58ca71c5b3f9",
+              "returncode": 0,
+              "seconds": 1.6465597999995225,
+              "log_sha256": "14ca3765d8cf416c351c957aa9da555cc466509d27057e3b25d2789236dea062"
+            },
+            {
+              "tool": "smoke_viewer_tk.py",
+              "sha256": "1f76e86d082469842761d592c315f179c09683a4f2273ec19c67dd43493a6730",
+              "returncode": 0,
+              "seconds": 8.40039650000108,
+              "log_sha256": "a4d70d93a6708de720061375982b79036ebe032ae45876e9cfbb3871a80f0eb6",
+              "report_file": "smoke_viewer_tk.json",
+              "report_sha256": "041735998292277742788609818bc0cf673a18865ce117424adfca4c4f06ead7"
+            },
+            {
+              "tool": "smoke_component_lifecycle_tk.py",
+              "sha256": "f0f15cab50b9e3d85c86a6ec2c4d5b6f3477bc8ed733046ed3e81e4588697e45",
+              "returncode": 0,
+              "seconds": 2.9468339000013657,
+              "log_sha256": "1148cc4465af3a31a49cb18229c04772348b0c04ca32b5da7a357a20c6b6868f",
+              "report_file": "smoke_component_lifecycle_tk.json",
+              "report_sha256": "104ad1af43c517c7fbef9fb6bc13af2d7bed132c64c2d99ee6010d5de9ebe5f8"
+            },
+            {
+              "tool": "smoke_composition_tk.py",
+              "sha256": "1ef69bdd58d530906d668e59175e9baa44381319dfe22f8434c4f0705d615675",
+              "returncode": 0,
+              "seconds": 22.289363399999274,
+              "log_sha256": "1e93bf4ad5de5bc355ed30b4d0c9d1a4ef52a6f640f5e9039d01dd3effa1442d",
+              "report_file": "smoke_composition_tk.json",
+              "report_sha256": "ab160a5bf24c766c3ea15a77a673e74c2df187b2b85159eb84050405e4675512"
+            },
+            {
+              "tool": "smoke_series_tk.py",
+              "sha256": "4b88b10e3d926fcbffa28e1cc57af66cda1998d527d8941fe4d21d2cfc770599",
+              "returncode": 0,
+              "seconds": 9.628452999997535,
+              "log_sha256": "a8be99364598af40660a86926ab35c0a8982ab537bd8d1cd93e24de876b6b9ea",
+              "report_file": "smoke_series_tk.json",
+              "report_sha256": "2d468335b4f1e79eb4e5bb413172f15b76693098c759a181de7db0a6110da8fc"
+            },
+            {
+              "tool": "smoke_numeric_tk.py",
+              "sha256": "b41f1db86c2f3e237c6e28b29b97bb4c5d7da1dd70a14e88b6a43bf4f1fda10c",
+              "returncode": 0,
+              "seconds": 7.974369900002785,
+              "log_sha256": "dbcedbe8a201bfd96dfb48ac5b4458f32aa034f61bddedcf5ee30963a3b61fc4",
+              "report_file": "smoke_numeric_tk.json",
+              "report_sha256": "8b1a63c6209bc39b939221b4e77f4a671f709cbd5f3c59aa7c256873076cb5cb"
+            },
+            {
+              "tool": "smoke_artist_validation_tk.py",
+              "sha256": "89c734731b30ff930208f5c65da8e8c756e3e3383927b2851209ad71706438d3",
+              "returncode": 0,
+              "seconds": 10.096437300002435,
+              "log_sha256": "1668c1b45113dd5c6529c613e9e7284bd6d625c34784e2bd83a388ed8fe96393",
+              "report_file": "smoke_artist_validation_tk.json",
+              "report_sha256": "f7c8585d5036e82b8a542f9ab2c5b6854278a0d354c3c41ddb2ba4dcaf9dccb2"
+            },
+            {
+              "tool": "smoke_raster_cache_tk.py",
+              "sha256": "2d5331752afccf39f8c9433121c2b4219f7031077146cd82c6345fb8b4cfe4b6",
+              "returncode": 0,
+              "seconds": 3.2981813000005786,
+              "log_sha256": "4d205c1f92b5c2de5b03fe79cd2d0e2273cd96673289ad477644d097dbbbd48c",
+              "report_file": "smoke_raster_cache_tk.json",
+              "report_sha256": "35dffb7e0797d1ac8f9190a242ed2f21e0a1ee47bfb693b1c43cb990caddbe29"
+            },
+            {
+              "tool": "smoke_stroke_kernels_tk.py",
+              "sha256": "335fb25b6addc1472e8876d7e2276fffba611f3febccae68e47318e0a2df4faa",
+              "returncode": 0,
+              "seconds": 34.7266865000056,
+              "log_sha256": "9e847f666481b87bc43ecf99189029134608fcc16a3130d1cc877cae3edcf718",
+              "report_file": "smoke_stroke_kernels_tk.json",
+              "report_sha256": "ac8e4482327da6a5c2a6a042181e0a88253632778209898c736755d80cd5ead9"
+            },
+            {
+              "tool": "smoke_artist_acceptance_tk.py",
+              "sha256": "787970685a0e8b3eedf681921266579f48c632680128427657e2732ce224874e",
+              "returncode": 0,
+              "seconds": 43.59680049999588,
+              "log_sha256": "d2cc6e5e09aa3f4633e71bad5089b410255dfdb7660bbdd5119207997d04e40a",
+              "report_file": "smoke_artist_acceptance_tk.json",
+              "report_sha256": "a2ac41a65d86d0e89d1a28810631b1e818ccd0c7f287f47d4f423a821897b45a"
+            },
+            {
+              "tool": "smoke_layout_acceptance_tk.py",
+              "sha256": "a7fe8450360aa64bfc722b3f7a1311ef5e490966aca906352ab26f63118a15cf",
+              "returncode": 124,
+              "seconds": 300.0270191000018,
+              "log_sha256": "959ca0a985ed033cfc905f9787a90c70cba2a975c8506cc6200604348b031f8e"
+            },
+            {
+              "tool": "smoke_toolbar_tk.py",
+              "sha256": "2e7be04f4c937f0d756b304811f83970fbbc7c8534535b3e876c81d2f2eaf443",
+              "returncode": 0,
+              "seconds": 2.4190090999982203,
+              "log_sha256": "32e9b2db4f8d394fb7e4a6550c1a6b072bc03e1893dca3baef8293e61a26d290",
+              "report_file": "smoke_toolbar_tk.json",
+              "report_sha256": "113526bd766b8ebded9c841c4030439560c01ee50b89b5700864b8f31d824079"
+            },
+            {
+              "tool": "smoke_pan_interaction_tk.py",
+              "sha256": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879",
+              "returncode": 0,
+              "seconds": 14.097002999995311,
+              "log_sha256": "aa5fbbd90f8044d3db693107620f04c1834603917d3b64d1cbaf96007117bcf9",
+              "report_file": "smoke_pan_interaction_tk.json",
+              "report_sha256": "5b837f511a281c49ec541b5d2ee27cab98096b772fb23e6e251679b74c5ba9d5"
+            }
+          ],
+          "seconds": 461.2384239000021,
+          "passed": false,
+          "forbidden_imports": []
+        },
+        "desktop_details": {
+          "smoke_viewer_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "real widgets, toolbar, canvas, optional components, callback transfer",
+              "batched edits, visibility and live own Scene in draw_event",
+              "direct RGBA without PNG codec/initial copy; previous image closed",
+              "registered Motion binding and synthetic cursor coordinates",
+              "normalized keys/modifiers, editable keymap and Ctrl+S cancellation",
+              "middle/double-click input exposed without starting a pan drag",
+              "axes/figure transitions, cursor-targeted keys and major/minor grid cycles",
+              "pan preview/recomposition, shared axes, Home/Back/Forward toolbar",
+              "rectangle zoom, rubberband cleanup and fractional scroll",
+              "overview recentering, focus and optional visibility",
+              "registered Configure binding, real debounce timer and resized scene",
+              "Save toolbar writes static PNG/SVG; dialog cancellation",
+              "close cancels pending work, unregisters window and releases images"
+            ],
+            "timings": {
+              "first_draw_seconds": 1.0388437000001431
+            },
+            "scope": "withdrawn real Tk windows; synthetic input; not visual OS comparison"
+          },
+          "smoke_component_lifecycle_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "real Tk window, optional components and explicit draw after callback transfer",
+              "one redraw hides legend entry/title and colorbar label",
+              "one redraw replaces local colorbar/scale after registration",
+              "discarded mapping/components do not schedule a redraw",
+              "norm replacement updates current bar and detaches previous ticks",
+              "clear removes local bar and disconnects its mapping",
+              "close releases current owned raster"
+            ],
+            "scope": "real withdrawn Tk; programmatic edits; no physical input or visible OS comparison"
+          },
+          "smoke_composition_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "single: callback observes registered first draw",
+              "single: grouped size/title/visibility edits update physical raster and preserve extent",
+              "single: DPI updates native canvas and typography",
+              "single: forward=False preserves widget request; static save DPI is temporary",
+              "atlas: callback observes registered first draw",
+              "atlas: grouped size/title/visibility edits update physical raster and preserve extent",
+              "atlas: DPI updates native canvas and typography",
+              "atlas: forward=False preserves widget request; static save DPI is temporary",
+              "nested: callback observes registered first draw",
+              "nested: grouped size/title/visibility edits update physical raster and preserve extent",
+              "nested: DPI updates native canvas and typography",
+              "nested: forward=False preserves widget request; static save DPI is temporary",
+              "failed first callback releases window, restores canvas/registry and permits retry",
+              "first draw callback can close its window without later widget access"
+            ],
+            "scope": "real withdrawn Tk; programmatic dimension/title edits; no physical input or perceptual latency"
+          },
+          "smoke_series_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "light: matrix/data lines, independent scatter, styled legends and native widgets",
+              "light: batch editing/visibility/new cycle/legend reconstruction renders one frame",
+              "light: later invalid group leaves no layers, view changes, cycle consumption or frame",
+              "light: 48-column synthetic route batch creates editable handles in one frame",
+              "light: shared navigation/back preserve all routes and original geographic view",
+              "light: static SVG excludes UI; closing releases current raster",
+              "dark: matrix/data lines, independent scatter, styled legends and native widgets",
+              "dark: batch editing/visibility/new cycle/legend reconstruction renders one frame",
+              "dark: later invalid group leaves no layers, view changes, cycle consumption or frame",
+              "dark: 48-column synthetic route batch creates editable handles in one frame",
+              "dark: shared navigation/back preserve all routes and original geographic view",
+              "dark: static SVG excludes UI; closing releases current raster"
+            ],
+            "scope": "real withdrawn Tk, programmatic edits/navigation and synthetic 48-column routes; no physical input, native appearance or latency benchmark"
+          },
+          "smoke_numeric_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "vertical: initial scientific/offset labels rendered in native Tk widgets",
+              "vertical: editable offset visibility/style invalidates one frame",
+              "vertical: clim, ticks, labelpad and narrow diamond/legend edits compose one frame",
+              "vertical: formatter replacement clears stale scientific offset",
+              "vertical: navigation/back and static SVG preserve independent export path",
+              "horizontal: initial scientific/offset labels rendered in native Tk widgets",
+              "horizontal: editable offset visibility/style invalidates one frame",
+              "horizontal: clim, ticks, labelpad and narrow diamond/legend edits compose one frame",
+              "horizontal: formatter replacement clears stale scientific offset",
+              "horizontal: navigation/back and static SVG preserve independent export path"
+            ],
+            "scope": "real withdrawn Tk; programmatic artist/navigation edits; no physical input or native appearance/latency equivalence"
+          },
+          "smoke_artist_validation_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "initial integrated lines/scatter/raster/contours/shared bar/scale/legend compose in real Tk",
+              "mixed data, shared norm, text, frame, scale, outline and dash-generator edits produce one frame",
+              "shared normalization stays coherent with colorbar after edits",
+              "owned generator dash remains renderable across repeated draws",
+              "six rejected edits preserve raster, SVG, model and pending draw count",
+              "valid edits remain usable after failures; static SVG and portable HTML stay separate",
+              "closing releases owned Tk raster"
+            ],
+            "scope": "Real withdrawn Tk, programmatic edits, synthetic field/routes. No physical input, visible OS comparison or performance claim."
+          },
+          "smoke_raster_cache_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "tk": 8.6,
+            "checks": [
+              "unchanged redraws reuse exact RGBA while emitting each draw_event",
+              "back/forward/home reuse visited frames and restore exact original pixels",
+              "style and visibility edits rerasterize changed scenes",
+              "direct raster and static PNG equal cached current-view pixels",
+              "DPI changes invalidate dimensions and LRU respects retained pixel limits",
+              "optional cache retention failure still displays a fresh rendered frame",
+              "optional cache lookup allocation failure falls back to direct raster",
+              "closing releases active and all retained cached RGBA frames"
+            ],
+            "scope": "Real withdrawn Tk with programmatic input; no visible presentation or physical-input timing."
+          },
+          "smoke_stroke_kernels_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "checks": [
+              "globe: direct raster, static PNG and current Tk match; PNG/SVG create no UI",
+              "globe: regional focus and Home preserve exact view/pixels",
+              "globe: explicit marker edit appears on a collapsed projecting-cap line",
+              "globe: hiding the marker restores exact original frame",
+              "globe: 200 DPI resize and static/current-view RGBA remain consistent",
+              "globe: closing releases retained raster frames",
+              "terrain: direct raster, static PNG and current Tk match; PNG/SVG create no UI",
+              "terrain: regional focus and Home preserve exact view/pixels",
+              "terrain: explicit marker edit appears on a collapsed projecting-cap line",
+              "terrain: hiding the marker restores exact original frame",
+              "terrain: 200 DPI resize and static/current-view RGBA remain consistent",
+              "terrain: closing releases retained raster frames"
+            ],
+            "runtime_sha256": {
+              "azimlib.renderers.coverage": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+              "azimlib.renderers.pillow": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+              "azimlib.backends.tk": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e"
+            },
+            "independent_runtime": true,
+            "scope": "Real withdrawn Tk, programmatic input/edits, synthetic fields/routes. Not visible painting or physical input latency."
+          },
+          "smoke_artist_acceptance_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "checks": [
+              "100dpi-horizontal: six shared mappables; direct RGBA, PNG and Tk match; static export creates no UI",
+              "100dpi-horizontal: multi-Artist edits and shared norm produce one scheduled Tk draw; manual extent retained",
+              "100dpi-horizontal: hiding/restoring all six layers restores exact edited pixels",
+              "100dpi-horizontal: rejected alias batch changes no data/control/pixels/draw count",
+              "100dpi-horizontal: focus/Home preserve manual view and current edits",
+              "100dpi-horizontal: removed layers/labels/bar stop invalidating former figure",
+              "100dpi-horizontal: closing releases raster cache",
+              "200dpi-vertical: six shared mappables; direct RGBA, PNG and Tk match; static export creates no UI",
+              "200dpi-vertical: multi-Artist edits and shared norm produce one scheduled Tk draw; manual extent retained",
+              "200dpi-vertical: hiding/restoring all six layers restores exact edited pixels",
+              "200dpi-vertical: rejected alias batch changes no data/control/pixels/draw count",
+              "200dpi-vertical: focus/Home preserve manual view and current edits",
+              "200dpi-vertical: removed layers/labels/bar stop invalidating former figure",
+              "200dpi-vertical: closing releases raster cache"
+            ],
+            "sha256": {
+              "src/azimlib/artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+              "src/azimlib/axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+              "src/azimlib/layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+              "src/azimlib/styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+              "src/azimlib/components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+              "src/azimlib/figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+              "tools/artist_acceptance_case.py": "22e4b25914429ff6e5afcf60943eb88360e7a47c3e0cc730fc6930826af6dec5",
+              "tools/smoke_artist_acceptance_tk.py": "787970685a0e8b3eedf681921266579f48c632680128427657e2732ce224874e"
+            },
+            "runtime_origin": "<environment>/site-packages/azimlib",
+            "independent_runtime": true,
+            "scope": "Real withdrawn Tk; bundled generalized Natural Earth states, synthetic values/fields; programmatic edits/navigation. Not native appearance or physical input/paint latency."
+          },
+          "smoke_toolbar_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "checks": [
+              "96: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "96: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "96: immediate tooltip on the right, matching reference widget and cleanup",
+              "96: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "96: move/selection cursors apply inside the map and clear on margins",
+              "96: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "96: closing releases images and raster cache",
+              "120: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "120: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "120: immediate tooltip on the right, matching reference widget and cleanup",
+              "120: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "120: move/selection cursors apply inside the map and clear on margins",
+              "120: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "120: closing releases images and raster cache",
+              "144: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "144: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "144: immediate tooltip on the right, matching reference widget and cleanup",
+              "144: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "144: move/selection cursors apply inside the map and clear on margins",
+              "144: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "144: closing releases images and raster cache",
+              "192: seven button kinds/physical sizes and canvas match reference; flat hover modernizes legacy Tk groove",
+              "192: Subplots belongs to Pan/Zoom group; Save has a separate group",
+              "192: immediate tooltip on the right, matching reference widget and cleanup",
+              "192: pointer-button and keyboard mode changes keep independent checkbutton states synchronized",
+              "192: move/selection cursors apply inside the map and clear on margins",
+              "192: optional toolbar names and themed subplot editor, live values, constraints, invalid input, reset, tight layout, export and reopen",
+              "192: closing releases images and raster cache"
+            ],
+            "sha256": {
+              "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+              "tool": "2e7be04f4c937f0d756b304811f83970fbbc7c8534535b3e876c81d2f2eaf443",
+              "reference": "7770d7f6e4689c8e703d38d976f55dbaf625915006db97d74d70c6a81a5234b2",
+              "subplot_editor": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+              "own_icon_geometry": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823"
+            },
+            "runtime_origin": "<environment>/site-packages/azimlib/__init__.py",
+            "independent_runtime": true,
+            "scope": "Real withdrawn Tk and synthetic handlers in four physical Tk DPI settings. Not visible appearance or physical input; does not close 3.08."
+          },
+          "smoke_pan_interaction_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "checks": [
+              "left motion updates limits and redraws full canvas while button is held, without PNG codecs/bitmap translation",
+              "longitude tick moves 30 pixels with geographic data; frame remains fixed; displayed RGBA is the freshly rendered full Scene",
+              "release keeps the live extent without a jump, restores exact raster quality and creates one history entry for the entire drag",
+              "Back/Forward/Home restore whole views after a live drag",
+              "right-button zoom updates continuously using the frozen cursor anchor and normalized equal-aspect display scale",
+              "lost release outside canvas ends the old drag at its last held view; reentry/motion cannot teleport; exact pixels and Back remain correct",
+              "a genuinely held button continues outside Axes/canvas and reenters using the original frozen anchor",
+              "Tk timer and ten newer motions remain responsive while raster is blocked; bounded active/prepared views plus coalesced newest limits",
+              "six wheel zoom edits coalesce and restore exact full-quality pixels after the 120ms quiet interval",
+              "rectangle zoom rasterizes off the Tk thread and presents exact settled pixels",
+              "closing releases the raster and pending redraw"
+            ],
+            "frames": [
+              {
+                "phase": "before",
+                "extent": [
+                  -76.0,
+                  -32.0,
+                  -36.0,
+                  8.0
+                ],
+                "size": [
+                  400,
+                  300
+                ],
+                "rgba_sha256": "3d8d948dd1f9fcd0e32ff7cd83a6e467f0f650e3247d8eb516d6f0956e19e7e2"
+              },
+              {
+                "phase": "during",
+                "extent": [
+                  -81.71428571428572,
+                  -37.71428571428572,
+                  -33.71428571428572,
+                  10.285714285714285
+                ],
+                "size": [
+                  400,
+                  300
+                ],
+                "rgba_sha256": "a78c2563a5cb084f5a3c86b3bcb2f54fdd01fa2d6b1a2841987cfcceb33b20a9"
+              },
+              {
+                "phase": "after",
+                "extent": [
+                  -81.71428571428572,
+                  -37.71428571428572,
+                  -33.71428571428572,
+                  10.285714285714285
+                ],
+                "size": [
+                  400,
+                  300
+                ],
+                "rgba_sha256": "4d821784a68d955bc96ec7fe75976b97d095d667b8630c2ba32cd25927d7d7fd"
+              }
+            ],
+            "sha256": {
+              "backend": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+              "navigation": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+              "pan_raster": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+              "tool": "b463520795709ede87fe9501fddfbe3f4e9a04a178a8e67f5d8e561110663879"
+            },
+            "independent_runtime": true,
+            "runtime_origin": "<environment>/site-packages/azimlib/__init__.py",
+            "scope": "Withdrawn real Tk, synthetic handlers and inspection of our generated canvas buffers only; no desktop screenshot, physical input or presentation-latency claim."
+          }
+        }
+      },
+      "retry": {
+        "run": "py314-layout-retry",
+        "result_sha256": "8316001ee473a64306684f476bb2faa087291ed8a7f7af5ea592a2e88d8db97f",
+        "result": {
+          "schema_version": 1,
+          "started_utc": "2026-10-04T02:10:34.790328+00:00",
+          "kind": "desktop",
+          "execution_context": "local",
+          "python": "3.14.4",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "machine": "AMD64",
+          "version": "0.1.0",
+          "runtime_origin": "<environment>/site-packages/azimlib",
+          "optional_packages": {
+            "Pillow": "12.3.0",
+            "aggdraw": "1.4.1",
+            "numpy": "2.5.3",
+            "numba": null,
+            "llvmlite": null
+          },
+          "tool_sha256": "e87593d6822ba1db9d2ccb9547b00e10212456866c3a9af1ae0f748dd4477c79",
+          "runtime_sha256": {
+            "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+            "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+            "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+            "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+            "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+            "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+            "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+            "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+            "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+            "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+            "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+            "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+            "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+            "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+            "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+            "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+            "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+            "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+            "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+            "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+            "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+            "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+            "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+            "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+            "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+            "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+            "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+            "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+            "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+            "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+            "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+            "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+            "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+            "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+            "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+            "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+            "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+            "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+            "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+            "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+            "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+            "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+            "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+            "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+            "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+            "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+            "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+            "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+            "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+            "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+            "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+            "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+            "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+            "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+            "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+            "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+            "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+            "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+            "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+            "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+            "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+            "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+            "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+            "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+            "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+            "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+            "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+            "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+            "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+          },
+          "github": null,
+          "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+          "desktop_timeout_seconds": 900,
+          "scripts": [
+            {
+              "tool": "smoke_layout_acceptance_tk.py",
+              "sha256": "a7fe8450360aa64bfc722b3f7a1311ef5e490966aca906352ab26f63118a15cf",
+              "returncode": 0,
+              "seconds": 328.4216968999972,
+              "log_sha256": "00423584ea4c7ff26a1158ef6eec5e5c0e792a0ceecc5ef1fa9f89242433bf3e",
+              "report_file": "smoke_layout_acceptance_tk.json",
+              "report_sha256": "1ba20fd9ff971540597391f9ef9d42e552987967041d1fb536093ce05f58cce4"
+            }
+          ],
+          "seconds": 328.4295232000004,
+          "passed": true,
+          "forbidden_imports": []
+        },
+        "desktop_details": {
+          "smoke_layout_acceptance_tk.py": {
+            "python": "3.14.4",
+            "platform": "Windows-11-10.0.26200-SP0",
+            "checks": [
+              "regional-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "regional-horizontal: all opt-in decorations hide/restore with exact original pixels",
+              "regional-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+              "regional-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+              "regional-horizontal: close releases raster cache",
+              "regional-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "regional-vertical: all opt-in decorations hide/restore with exact original pixels",
+              "regional-vertical: physical resize at 200 DPI reflows components and preserves extents",
+              "regional-vertical: focus/Home restore exact resized scene; overview focus remains black",
+              "regional-vertical: close releases raster cache",
+              "atlas-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "atlas-horizontal: all opt-in decorations hide/restore with exact original pixels",
+              "atlas-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+              "atlas-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+              "atlas-horizontal: close releases raster cache",
+              "atlas-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "atlas-vertical: all opt-in decorations hide/restore with exact original pixels",
+              "atlas-vertical: physical resize at 200 DPI reflows components and preserves extents",
+              "atlas-vertical: focus/Home restore exact resized scene; overview focus remains black",
+              "atlas-vertical: close releases raster cache",
+              "nested-horizontal: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "nested-horizontal: all opt-in decorations hide/restore with exact original pixels",
+              "nested-horizontal: physical resize at 200 DPI reflows components and preserves extents",
+              "nested-horizontal: focus/Home restore exact resized scene; overview focus remains black",
+              "nested-horizontal: close releases raster cache",
+              "nested-vertical: initial layout/direct RGBA/static PNG/Tk agree; static SVG/PNG create no UI",
+              "nested-vertical: all opt-in decorations hide/restore with exact original pixels",
+              "nested-vertical: physical resize at 200 DPI reflows components and preserves extents",
+              "nested-vertical: focus/Home restore exact resized scene; overview focus remains black",
+              "nested-vertical: close releases raster cache"
+            ],
+            "frames": [
+              {
+                "size": [
+                  460,
+                  580
+                ],
+                "rgba_sha256": "60ac680ce4b3fd261f58fc545ec8e2770c411cb1bfa728d6fa191fe45ca38613"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "05f16f81e1c94bb36cf022f7622d1de626b1b89800d0c0d48afdf41025885214"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "05f16f81e1c94bb36cf022f7622d1de626b1b89800d0c0d48afdf41025885214"
+              },
+              {
+                "size": [
+                  460,
+                  580
+                ],
+                "rgba_sha256": "7a7e78b7e84e5e79112c0f428cbe97b29ede203534c667c4ecb7c47e0d6eb88b"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "8a8f4274625e359bdffcd3426174808d2450037a7c9b5debcefe236a02fca0b9"
+              },
+              {
+                "size": [
+                  1040,
+                  1240
+                ],
+                "rgba_sha256": "8a8f4274625e359bdffcd3426174808d2450037a7c9b5debcefe236a02fca0b9"
+              },
+              {
+                "size": [
+                  660,
+                  1100
+                ],
+                "rgba_sha256": "922b28d04ce93882e6f26e69ee7b6814cb7375d6558e5d2599bcd18ac64c333b"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "adc7d6e80c821e83ccff834b9a6be2aa34fec6150a76bf9ecb195ac464f827f8"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "adc7d6e80c821e83ccff834b9a6be2aa34fec6150a76bf9ecb195ac464f827f8"
+              },
+              {
+                "size": [
+                  660,
+                  1100
+                ],
+                "rgba_sha256": "3ebb9b75cb29f89c76927e41046cca3bfc90b9f3ca7aab9234350b1cd56c60c3"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "8fb490c182d1fce9b2075d84455bccc5b5a8dee0ff778098158fdb27c19c7e56"
+              },
+              {
+                "size": [
+                  1440,
+                  2280
+                ],
+                "rgba_sha256": "8fb490c182d1fce9b2075d84455bccc5b5a8dee0ff778098158fdb27c19c7e56"
+              },
+              {
+                "size": [
+                  1100,
+                  1200
+                ],
+                "rgba_sha256": "7d46345a7ced6321b876a2f465536fcd9094affa0bf2c1b8182a75cd665d9ffc"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "c924000a90bd768c16e9113b898be3e2c124af9b39619bb0c99669e3384de50a"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "c924000a90bd768c16e9113b898be3e2c124af9b39619bb0c99669e3384de50a"
+              },
+              {
+                "size": [
+                  1100,
+                  1200
+                ],
+                "rgba_sha256": "3a46eb302dd5e2773b540924cb0861dd8f2a4d677f871350595a55d895199aad"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "2cfadfc9950b06f4e2d3bca7f78dfc08ec4f6d21a49f6049a04461cd8c4e4f88"
+              },
+              {
+                "size": [
+                  2320,
+                  2480
+                ],
+                "rgba_sha256": "2cfadfc9950b06f4e2d3bca7f78dfc08ec4f6d21a49f6049a04461cd8c4e4f88"
+              }
+            ],
+            "sha256": {
+              "src/azimlib/layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+              "src/azimlib/nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+              "src/azimlib/colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+              "src/azimlib/render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+              "src/azimlib/overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+              "src/azimlib/scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+              "src/azimlib/figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+              "src/azimlib/backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+              "tools\\layout_acceptance_case.py": "f78b4bf809dde05bb47e96a1b2607d1476d3e1fe9017b949de73c6af8334069c",
+              "tools\\smoke_layout_acceptance_tk.py": "a7fe8450360aa64bfc722b3f7a1311ef5e490966aca906352ab26f63118a15cf"
+            },
+            "runtime_origin": "<environment>/site-packages/azimlib",
+            "independent_runtime": true,
+            "scope": "Six real withdrawn Tk scenarios, 30 checks and 18 frame comparisons. Programmatic edits/navigation; no physical input or visible-paint latency."
+          }
+        }
+      },
+      "effective_unique_scripts": 13,
+      "effective_passed": true,
+      "note": "First 300-second deadline failed for layout. Only that script reran with a 900-second deadline, unchanged runtime and smoke assertions. Both attempts retained; no performance improvement claimed."
+    }
+  ],
+  "core_installations": [
+    {
+      "log": "release-5-core-smoke.log",
+      "log_sha256": "c418e1828f18672882823c5954a761a501f1e63d4d83f4f597fd7426107d5732",
+      "passed": true,
+      "scope": "Fresh offline wheel installation, no optional packages. Log kept in local work directory."
+    },
+    {
+      "log": "release-5-core-311-smoke.log",
+      "log_sha256": "efa7d91d654a3970adbdda66789f2c98b76b2598d7ea99f5547bee8fcb756891",
+      "passed": true,
+      "scope": "Fresh offline wheel installation, no optional packages. Log kept in local work directory."
+    }
+  ],
+  "timeout_cleanup_negative_probe": {
+    "run": "timeout-cleanup-probe",
+    "result_sha256": "47fd9205f3d2b455d114edc05854b94f6037075eeb52a05a13bfd7a54a917de0",
+    "result": {
+      "schema_version": 1,
+      "started_utc": "2026-10-04T02:07:53.344724+00:00",
+      "kind": "desktop",
+      "execution_context": "local",
+      "python": "3.14.4",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64",
+      "version": "0.1.0",
+      "runtime_origin": "<environment>/site-packages/azimlib",
+      "optional_packages": {
+        "Pillow": "12.3.0",
+        "aggdraw": "1.4.1",
+        "numpy": "2.5.3",
+        "numba": null,
+        "llvmlite": null
+      },
+      "tool_sha256": "e87593d6822ba1db9d2ccb9547b00e10212456866c3a9af1ae0f748dd4477c79",
+      "runtime_sha256": {
+        "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+        "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+        "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+        "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+        "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+        "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+        "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+        "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+        "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+        "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+        "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+        "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+        "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+        "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+        "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+        "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+        "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+        "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+        "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+        "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+        "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+        "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+        "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+        "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+        "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+        "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+        "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+        "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+        "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+        "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+        "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+        "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+        "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+        "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+        "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+        "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+        "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+        "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+        "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+        "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+        "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+        "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+        "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+        "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+        "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+        "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+        "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+        "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+        "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+        "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+        "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+        "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+        "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+        "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+        "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+        "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+        "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+        "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+        "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+        "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+        "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+        "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+        "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+        "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+        "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+        "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+        "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+        "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+        "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+      },
+      "github": null,
+      "scope": "Installed runtime; unit checks or real withdrawn Tk/synthetic handlers. Local results are not remote CI; desktop results are not native human appearance/input approval.",
+      "desktop_timeout_seconds": 1,
+      "scripts": [
+        {
+          "tool": "smoke_artist_tk.py",
+          "sha256": "3d15c15e3459232530f72d46029d5c9f748438beeb6062f0fc6f58ca71c5b3f9",
+          "returncode": 124,
+          "seconds": 1.2044898999956786,
+          "log_sha256": "a827d394a637a8ea4419b9408ae1685d82ab87fa3cc08b204dc1d6ed119352f4"
+        }
+      ],
+      "seconds": 1.2110107000044081,
+      "passed": false,
+      "forbidden_imports": []
+    },
+    "desktop_details": {}
+  },
+  "timeout_cleanup_note": "Intentional one-second deadline: failure 124 expected; own process tree was checked absent through process inventory. Not counted as a passing desktop script.",
+  "ci": {
+    "configured_jobs": 24,
+    "workflow_sha256": "d708a928a8b4a613965bd400f0ba84bae2d829c4b26e37459fa069877b9caec0",
+    "executed_remotely": false
+  },
+  "platform_status": {
+    "5.06": "Pending actual remote CI; no repository available.",
+    "5.07": "Windows physical acceptance recorded in steps 3/4, unchanged viewer. Linux/macOS native review pending."
+  },
+  "scope": "Local installed-package validation, retains original failed deadline attempts and retries. No remote CI or Linux/macOS execution, no new human viewer approval, no version publication. Runtime SHA identifies tested bytes; final archive hashes live outside archives."
+}

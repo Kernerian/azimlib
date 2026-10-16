@@ -1,0 +1,183 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Local geocoding — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="local-geocoding-04-development">Local geocoding — 0.4 development</h1>
+<p>This API is in the development source tree, <strong>not in the published 0.3.0</strong>.
+The local engine is Azimlib's own implementation. SQLite provides generic disk
+storage, not a geocoder/GIS engine. No service, account, download or query log
+is enabled automatically. Routing is a separate stage.</p>
+<h2 id="build-and-search-an-optional-licensed-dataset">Build and search an optional licensed dataset</h2>
+<pre><code class="language-python">import azimlib as azl
+
+catalog = azl.DatasetCatalog(&quot;optional-data/urban-sao-paulo-1.0/catalog.json&quot;)
+with azl.LocalGeocoder.from_catalog(
+    catalog, &quot;urban-sao-paulo&quot;, &quot;local-search-index&quot;,
+    include_addresses=False,  # default: no addr:* import
+) as geocoder:
+    results = geocoder.search(&quot;Rua&quot;, prefix=True, kinds=(&quot;street&quot;,))
+    for result in results:
+        print(result.name, result.precision, result.source.attribution)
+    print(results.total, results.ambiguous, results.truncated)
+    fig, ax = azl.subplots()
+    layer = ax.geojson(results.to_features(boundary=True))
+    layer.set_picker(True)
+    ax.labels(layer, halo=&quot;white&quot;)
+    fig.savefig(&quot;search.svg&quot;)
+</code></pre>
+<p>The directory must not exist before a build. Reopen it using
+<code>LocalGeocoder(&quot;local-search-index&quot;)</code>; files are read-only and hash checked.
+The same plotting state works with <code>import azimlib.pyplot as plt</code>.
+The <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/local_geocoding.py">complete example</a> exports PNG/SVG with
+OpenStreetMap attribution. All components remain opt-in.</p>
+<p>Catalog import verifies the dataset and license hashes and preserves source,
+version, SHA-256, copyright, attribution and full license text in the index.
+The optional São Paulo dataset and any derived database retain <strong>ODbL 1.0</strong>;
+Azimlib's BSD license covers its original code, not exclusive rights over data.
+Redistribution/public use of a derived OSM database requires reviewing ODbL's
+attribution and share-alike/access obligations. Indexes are not shipped in the
+Python archives. See <a href="optional-data.html">optional data</a> and
+<a href="../THIRD_PARTY_LICENSES.html">third-party terms</a>.</p>
+<h2 id="models-provenance-and-import">Models, provenance and import</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GeocodingSource</code></td>
+<td>Safe namespace, version, source URL/URN, declared hash, license/copyright/attribution and notices</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>Literal house number, street, neighborhood, city, state, country and postcode; absent fields stay empty</td>
+</tr>
+<tr>
+<td><code>GeocodingRecord</code></td>
+<td>Stable source ID/object ID, <code>address</code>/<code>street</code>/<code>locality</code>/<code>poi</code>/<code>interpolation</code>, original names/aliases and geometry, optional <strong>declared</strong> accuracy</td>
+</tr>
+<tr>
+<td><code>AddressRange</code></td>
+<td>Explicit source line plus two numeric point-address IDs and step; endpoints/context must agree</td>
+</tr>
+<tr>
+<td><code>GeocodingResult</code></td>
+<td>Record/source, representative or matched position, precision, match type, score, optional distance and containment</td>
+</tr>
+<tr>
+<td><code>GeocodingResults</code></td>
+<td>All-match count, ambiguity and truncation even when returning only one item</td>
+</tr>
+</tbody>
+</table>
+<p><code>records_from_features(features, source, include_addresses=False)</code> imports
+allowlisted OSM tags from own XML/PBF readers or compatible GeoJSON. Named ways
+become streets, <code>place=*</code> and administrative boundaries become localities,
+amenities/shops/tourism/leisure/offices/public transport become POIs. Address
+import requires <code>include_addresses=True</code>. Named buildings without these tags
+are not inferred to be POIs. Country-specific administrative levels are not
+guessed, and a nearby city point does not establish administrative membership.
+The opt-in requires an actual boolean; strings/numbers are rejected. Null address
+fields remain absent and non-string address tags fail, instead of becoming
+invented literal house numbers such as <code>None</code> or <code>True</code>.</p>
+<p>For custom adapters, construct typed records and stream them to
+<code>LocalGeocoder.build(directory, records, sources=(source,))</code>. Manually supplied
+provenance/accuracy is a caller declaration, not a verified ownership claim.
+<code>LocalGeocoder.from_osm_index(index, source, directory, ...)</code> streams the own PBF
+disk index, requires its input hash to match, and rejects missing references.
+The caller budgets both indexes and controls their lifecycles.</p>
+<p>Display names are preserved. <code>name:*</code>, official/short/alternate/old/local names
+are explicit aliases. Arbitrary properties, contact details, editor IDs,
+timestamps, notes and local source paths are not copied. An address database
+can still be sensitive: explicitly assess the source, lawful use and retention;
+do not treat the allowlist as anonymization of supplied names/addresses.</p>
+<h2 id="search-ranking-and-uncertainty">Search, ranking and uncertainty</h2>
+<pre><code class="language-python">results = geocoder.search(
+    &quot;Rua Teste&quot;, filters={&quot;city&quot;: &quot;Cidade&quot;, &quot;house_number&quot;: &quot;12-B&quot;},
+    kinds=(&quot;address&quot;,), limit=10,
+)
+nearby = geocoder.search(&quot;Biblioteca&quot;, near=(-46.64, -23.54), radius_m=1500)
+approximate = geocoder.search(&quot;Bibliteca&quot;, fuzzy=True)  # explicit approximation
+</code></pre>
+<p>Names use NFKC/casefold and accent folding for search, preserving original text
+for display. Normalization concepts follow <a href="https://www.unicode.org/reports/tr15/">Unicode UAX #15</a>;
+the implementation uses Python's Unicode database. Tokenization splits by
+Unicode letter/number/mark categories. It is <strong>not UAX #29 segmentation</strong>, a
+language dictionary, transliteration or complex text shaping. Scripts without
+spaces support exact stored names and explicit prefix search, not inferred
+linguistic word boundaries. A Unicode database version change requires rebuilding
+the index rather than silently using different normalization.</p>
+<p>All query tokens must match stored names/address fields. Exact token matches
+score 100 minus 10 per token edit cost; exact full name/address adds 20. Prefix
+matches cost 0.25 per token. Optional own Levenshtein matching allows one code-point
+edit for tokens below five characters, two otherwise. Interpolation subtracts
+30. Scores are deterministic ordering signals, <strong>not confidence probabilities</strong>.
+Equal scores sort by optional geometry distance, then source ID/object ID.
+Every multi-match result is marked ambiguous; there is no automatic winner.
+<code>limit</code> truncates returned items, not the match count or ambiguity flag.</p>
+<p>Administrative/address filters compare only explicit source fields, with search
+normalization; spatial <code>bbox=(west,south,east,north)</code> filters representatives,
+and <code>near</code> limits spherical distance to source geometry. Split wrapped bboxes
+explicitly. Reverse radius searches support the antimeridian/poles. Missing
+results mean missing coverage or no match, not proof that an address does not exist.</p>
+<h2 id="reverse-and-geometry-precision">Reverse and geometry precision</h2>
+<pre><code class="language-python">results = geocoder.reverse(-46.639, -23.545, radius_m=300,
+                           kinds=(&quot;street&quot;, &quot;address&quot;, &quot;locality&quot;))
+for result in results:
+    print(result.distance_m, result.precision, result.record.accuracy_m)
+</code></pre>
+<p>Distances use a sphere of radius <strong>6,371,008.8 m</strong>, source points and minor
+great-circle segments. They are not ellipsoidal survey accuracy, parcel access,
+postal certification or travel distance. Line representatives are halfway along
+the longest part. Regional polygons retain original boundaries and use an own
+exact planar scanline interior representative, outside holes. Containment uses
+regional straight lon/lat boundaries; outside-boundary distances use spherical
+segments. This declared hybrid is not a global spherical administrative model.</p>
+<p><code>source_point</code>, <code>centerline_representative</code>, <code>boundary_representative</code>,
+<code>nearest_centerline</code>, <code>nearest_boundary</code>, <code>containing_boundary</code> and
+<code>interpolated</code> are distinct. A containing boundary returns zero distance and the
+query position; it does not invent an address. <code>to_features()</code> yields markers;
+<code>to_features(boundary=True)</code> preserves source geometry for layers/picking/labels.
+Source coordinate accuracy stays <code>None</code> unless explicitly declared.</p>
+<p>Supported geometry: finite 2D WGS84 lon/lat points, lines/multilines and valid
+regional polygons/multipolygons. Polygon longitude span must be below 180°;
+unwrapped coordinates, global administrative polygons, antipodal street arcs,
+empty/invalid/3D/collection geometries fail explicitly. Use the separate spherical
+topology API for global regions. No implicit reprojection or topology repair.</p>
+<h2 id="explicit-interpolation">Explicit interpolation</h2>
+<p><code>AddressRange(record, start_id, end_id, step=2)</code> can represent an even/odd range;
+<code>step=1</code> represents all integer numbers; other positive integer steps are explicit.
+Build with <code>ranges=(address_range,)</code>. The two source point addresses must exist,
+have numeric house numbers, the same street and complete declared context, and
+exactly match the source line endpoints. Descending ranges are supported.</p>
+<p>Query with a structured <code>house_number</code> filter and <code>interpolate=True</code>; the position
+is proportional to spherical polyline length. The match is always <code>interpolated</code>,
+keeps both endpoint IDs and has no asserted coordinate accuracy. Explicit address
+points rank ahead. No extrapolation, automatic nearest-street association,
+alphabetic/suffixed/hyphen-number interpolation or invented endpoint references.
+Raw OSM interpolation ways are skipped by the generic feature adapter; supply
+verified explicit ranges when node references are available. The
+<a href="https://wiki.openstreetmap.org/wiki/Addresses">OSM address specification</a>
+describes broader tagging variants; unsupported variants are not guessed.</p>
+<h2 id="resources-external-providers-and-validation">Resources, external providers and validation</h2>
+<p>The own adaptive lon/lat tile postings, inverted tokens and bounded edit ranking
+use generic SQLite persistence. Defaults: 250,000 records, 256 MiB generated
+storage, 64 MiB free-disk reserve, 5,000 candidates, 32 MiB cumulative decoded
+JSON per query, 1 MiB per record and 4,096 geometry vertices. Polygon validation/
+interior construction can be quadratic; this is a regional address index, not
+a claim of planet geocoding throughput. Names are bounded to 64 aliases and
+4,096 characters per individual/search string; concatenated indexed text shares
+the 4,096-character bound. Fuzzy queries allow 16 tokens of 128 characters.
+Candidate/vocabulary overflow raises <code>GeocodingLimitError</code>; it does not silently
+return a partial/unique result. Increase budgets deliberately or narrow data.</p>
+<p><code>ExternalGeocoder(search_callable, reverse_callable=None)</code> is a <strong>separate</strong>
+explicit adapter. It requires typed provenance-bearing results; caller code owns
+network, credentials, consent and provider terms. The local engine never calls
+it or falls back to it. No provider implementation or service is bundled.</p>
+<p>Reproduce <code>tests/test_geocoding_040.py</code>, <code>tools/validate_geocoding.py</code> and
+<code>examples/local_geocoding.py</code>. The offline trial validates synthetic names,
+spatial queries and the pinned real São Paulo OSM sample, records timings,
+traced Python memory and a conservative peak-disk bound, and removes indexes.
+It enforces <strong>&lt;=20 GB</strong> storage and <strong>&gt;=15 GB</strong> free reserve. It neither downloads
+nor substitutes for the full planet trial in <strong>2.08, which remains pending</strong>.
+This stage's evidence is <a href="geocoding-validation-0.4.json">recorded separately</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/geocoding-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

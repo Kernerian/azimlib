@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "scope": "Optional generic graphics bindings; not vendored or cartographic engines",
+  "dependencies": [
+    {"name": "moderngl", "version": "5.13.0", "license": "MIT", "copyright": "Copyright (c) 2017-2024 Szabolcs Dombi, Einar Forselv", "source": "https://github.com/moderngl/moderngl", "distributed_by_azimlib": false},
+    {"name": "glcontext", "version": "3.1.0", "license": "MIT", "copyright": "Copyright (c) 2021 ModernGL Contributors", "source": "https://github.com/moderngl/glcontext", "distributed_by_azimlib": false}
+  ],
+  "licenses": [
+    {"file": "licenses/ModernGL.txt", "sha256": "8606170445f8a941c0517c8e57da97f6a0d0e974d10db901dbbc3b7bd650ec9f", "source": "https://raw.githubusercontent.com/moderngl/moderngl/5.13.0/LICENSE"},
+    {"file": "licenses/Glcontext.txt", "sha256": "e16bf53d871fd580e43c800aacd8e10aa7a49505701aceec1f708aeaac97dfa7", "source": "https://pypi.org/project/glcontext/3.1.0/", "extracted_from": "glcontext-3.1.0-cp314-cp314-win_amd64.whl, dist-info/licenses/LICENSE"}
+  ],
+  "implementation": "Azimlib shaders, winding coverage, stroke meshes, cache, depth/UV/atlas integration and CPU reference are original BSD-3-Clause code; no third-party shader or renderer implementation copied."
+}

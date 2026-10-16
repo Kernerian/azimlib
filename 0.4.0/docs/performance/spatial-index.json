@@ -1,0 +1,352 @@
+{
+  "schema_version": 1,
+  "azimlib_version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "repeats": 6,
+  "dpi": 100,
+  "notes": [
+    "Warm alternating linear/indexed composition; culling and viewport caching enabled in both.",
+    "Preparation time measured separately before composition on eligible top-level collections.",
+    "Index memory is Python retained/peak allocation on a fresh collection sharing source geometry and cached bounds.",
+    "Memory excludes source geometry, existing bounds, native buffers/RSS and painting; separate from timing.",
+    "dense/large contain 2501/20000 synthetic polygons; not municipal boundaries.",
+    "No claim of general acceleration or GUI latency."
+  ],
+  "cases": [
+    {
+      "name": "state",
+      "setup_seconds": 0.1453719999990426,
+      "index_preparation": [],
+      "samples_seconds": {
+        "linear": [
+          0.12263760000132606,
+          0.12165730000015174,
+          0.1274102999996103,
+          0.12582730000031006,
+          0.11227890000009211,
+          0.1423633999984304
+        ],
+        "indexed": [
+          0.11798079999971378,
+          0.10963579999952344,
+          0.11765229999946314,
+          0.12556779999977152,
+          0.11000150000108988,
+          0.12323730000025535
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.12423245000081806,
+        "indexed": 0.11781654999958846
+      },
+      "zoom_samples_seconds": {
+        "linear": [
+          0.10969900000054622,
+          0.09312420000060229,
+          0.10018610000042827,
+          0.09132189999945695,
+          0.0875649000008707,
+          0.1038141999997606
+        ],
+        "indexed": [
+          0.08767439999974158,
+          0.0872378000003664,
+          0.09281110000119952,
+          0.08872390000033192,
+          0.08708889999979874,
+          0.09740699999929348
+        ]
+      },
+      "zoom_median_seconds": {
+        "linear": 0.09665515000051528,
+        "indexed": 0.08819915000003675
+      },
+      "composition_reduction_percent": 5.164431677220693,
+      "items": {
+        "linear": 82,
+        "indexed": 82
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "d8266856318b2ebca5ebc3b4ca76283d008956fed941907918bc8b6313f1fdbc",
+        "indexed": "d8266856318b2ebca5ebc3b4ca76283d008956fed941907918bc8b6313f1fdbc"
+      }
+    },
+    {
+      "name": "brazil",
+      "setup_seconds": 0.26109120000000985,
+      "index_preparation": [
+        {
+          "features": 177,
+          "indexed": 174,
+          "always": 3,
+          "seconds": 0.013837099999364,
+          "python_index_allocation_bytes": {
+            "retained": 35536,
+            "peak": 48952
+          }
+        }
+      ],
+      "samples_seconds": {
+        "linear": [
+          0.46873520000008284,
+          0.5086145999994187,
+          0.5254847000014706,
+          0.44770770000104676,
+          0.433109699999477,
+          0.44958630000110134
+        ],
+        "indexed": [
+          0.47094359999937296,
+          0.4865029000011418,
+          0.5441322999995464,
+          0.5282083000001876,
+          0.42884200000116834,
+          0.47226560000126483
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.4591607500005921,
+        "indexed": 0.4793842500012033
+      },
+      "zoom_samples_seconds": {
+        "linear": [
+          0.49312970000028145,
+          0.49802049999925657,
+          0.4896833000002516,
+          0.4334392000000662,
+          0.43925490000037826,
+          0.4510381000000052
+        ],
+        "indexed": [
+          0.528751599998941,
+          0.48815709999871615,
+          0.49342090000027383,
+          0.5556778999998642,
+          0.42514529999971273,
+          0.4614529999998922
+        ]
+      },
+      "zoom_median_seconds": {
+        "linear": 0.4703607000001284,
+        "indexed": 0.490788999999495
+      },
+      "composition_reduction_percent": -4.404448768886526,
+      "items": {
+        "linear": 323,
+        "indexed": 323
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "79f28c4a6b62c9193fc46a89dca728c7bf0826568a601e651d7b2689ff488c18",
+        "indexed": "79f28c4a6b62c9193fc46a89dca728c7bf0826568a601e651d7b2689ff488c18"
+      }
+    },
+    {
+      "name": "atlas",
+      "setup_seconds": 0.42603999999846565,
+      "index_preparation": [],
+      "samples_seconds": {
+        "linear": [
+          0.6448973000005935,
+          0.6520504000000074,
+          0.647123400000055,
+          0.6512726999990264,
+          0.6507462999998097,
+          0.7001009000014164
+        ],
+        "indexed": [
+          0.6329038999992918,
+          0.6814680999996199,
+          0.6720466999995551,
+          0.6347114999989572,
+          0.6245718000009219,
+          0.7029632000012498
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.651009499999418,
+        "indexed": 0.6533790999992561
+      },
+      "zoom_samples_seconds": {
+        "linear": [
+          0.6989161999990756,
+          0.6506422000002203,
+          0.7465136999999231,
+          0.6256231000006665,
+          0.7069319999991421,
+          0.6996857999984059
+        ],
+        "indexed": [
+          0.6541355999997904,
+          0.6607438999999431,
+          0.7719316000002436,
+          0.637831300000471,
+          0.7619778999996925,
+          0.7235959000008734
+        ]
+      },
+      "zoom_median_seconds": {
+        "linear": 0.6993009999987407,
+        "indexed": 0.6921699000004082
+      },
+      "composition_reduction_percent": -0.3639885439214341,
+      "items": {
+        "linear": 549,
+        "indexed": 549
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "0694f835a3003ae3b27893284de80c9baf2c9b66cbed72c6a9e22ea5b984fb84",
+        "indexed": "0694f835a3003ae3b27893284de80c9baf2c9b66cbed72c6a9e22ea5b984fb84"
+      }
+    },
+    {
+      "name": "dense",
+      "setup_seconds": 0.03989680000086082,
+      "index_preparation": [
+        {
+          "features": 2501,
+          "indexed": 2501,
+          "always": 0,
+          "seconds": 0.05890989999898011,
+          "python_index_allocation_bytes": {
+            "retained": 884192,
+            "peak": 1094976
+          }
+        }
+      ],
+      "samples_seconds": {
+        "linear": [
+          0.049101800001153606,
+          0.038183299999218434,
+          0.03749450000032084,
+          0.04558480000014242,
+          0.039450799999031005,
+          0.03816179999921587
+        ],
+        "indexed": [
+          0.005835400001160451,
+          0.006790400000681984,
+          0.008867800001098658,
+          0.007658499998797197,
+          0.00640900000144029,
+          0.006075700001019868
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.03881704999912472,
+        "indexed": 0.006599700001061137
+      },
+      "zoom_samples_seconds": {
+        "linear": [
+          0.03613490000134334,
+          0.036320299999715644,
+          0.03948560000026191,
+          0.048480499999641324,
+          0.04014629999983299,
+          0.03697519999877841
+        ],
+        "indexed": [
+          0.005981999998766696,
+          0.005637500000375439,
+          0.009726799999043578,
+          0.00557929999922635,
+          0.0059832999995705904,
+          0.006090400000175578
+        ]
+      },
+      "zoom_median_seconds": {
+        "linear": 0.03823039999952016,
+        "indexed": 0.005982649999168643
+      },
+      "composition_reduction_percent": 82.99793518258097,
+      "items": {
+        "linear": 58,
+        "indexed": 58
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7",
+        "indexed": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7"
+      }
+    },
+    {
+      "name": "large",
+      "setup_seconds": 0.29482280000047467,
+      "index_preparation": [
+        {
+          "features": 20000,
+          "indexed": 20000,
+          "always": 0,
+          "seconds": 0.5188888000011502,
+          "python_index_allocation_bytes": {
+            "retained": 6795984,
+            "peak": 11861640
+          }
+        }
+      ],
+      "samples_seconds": {
+        "linear": [
+          0.26955480000106036,
+          0.2748910000009346,
+          0.28482869999970717,
+          0.3110529999994469,
+          0.27503690000048664,
+          0.3064501000008022
+        ],
+        "indexed": [
+          0.012211999999635736,
+          0.016612999999779277,
+          0.014102700000876212,
+          0.013615600000775885,
+          0.012558799999169423,
+          0.012579700000060257
+        ]
+      },
+      "median_seconds": {
+        "linear": 0.2799328000000969,
+        "indexed": 0.01309765000041807
+      },
+      "zoom_samples_seconds": {
+        "linear": [
+          0.2684040999993158,
+          0.2939174000002822,
+          0.2721304999995482,
+          0.2749266999999236,
+          0.26169690000097034,
+          0.2605621999991854
+        ],
+        "indexed": [
+          0.011410700000851648,
+          0.009351000000606291,
+          0.009208800000124029,
+          0.010291900000083842,
+          0.009418499999810592,
+          0.009045500000866014
+        ]
+      },
+      "zoom_median_seconds": {
+        "linear": 0.270267299999432,
+        "indexed": 0.009384750000208442
+      },
+      "composition_reduction_percent": 95.32114493177879,
+      "items": {
+        "linear": 130,
+        "indexed": 130
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "linear": "e969a2a679b9bfe07e524b03cd6f0c9cacc2a2c0c65c57d87c355518d2e07de7",
+        "indexed": "e969a2a679b9bfe07e524b03cd6f0c9cacc2a2c0c65c57d87c355518d2e07de7"
+      }
+    }
+  ]
+}

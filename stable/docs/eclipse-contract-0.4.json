@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "status": "frozen-before-precise-model-implementation",
+  "references": {
+    "de440s.bsp": {
+      "url": "https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp",
+      "bytes": 32726016,
+      "sha256": "c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2"
+    },
+    "solar-2017.html": {
+      "url": "https://eclipse.gsfc.nasa.gov/SEpath/SEpath2001/SE2017Aug21Tpath.html",
+      "bytes": 21173,
+      "sha256": "33b27c46134dded80975dbf73f74a4e12d8c2c8363744a1c3f2e4962a0413ce0"
+    },
+    "solar-2023.html": {
+      "url": "https://eclipse.gsfc.nasa.gov/SEpath/SEpath2001/SE2023Oct14Apath.html",
+      "bytes": 22177,
+      "sha256": "8bbf2b47032fe7ac8fa2bc0620a05002e7f81389b55c67e71cdc415dbb798ae2"
+    },
+    "solar-2024.html": {
+      "url": "https://eclipse.gsfc.nasa.gov/SEhistory/SEpath/SE2024Apr08Tpath.html",
+      "bytes": 16400,
+      "sha256": "50f7cd87aa542591de6fffac2f32f0e1da32166941e9ac10b6b5124d30fad3de"
+    },
+    "lunar-2022.pdf": {
+      "url": "https://eclipse.gsfc.nasa.gov/LEplot/LEplot2001/LE2022Nov08T.pdf",
+      "bytes": 51660,
+      "sha256": "8dd2995ca5f96b6fa2a46b2348de292db25e62b2f5cac3c5679fe113ba9d2bf2"
+    },
+    "lunar-2025.pdf": {
+      "url": "https://eclipse.gsfc.nasa.gov/LEplot/LEplot2001/LE2025Mar14T.pdf",
+      "bytes": 50636,
+      "sha256": "4df1efa14457a1e925c2e63c0d8a7a428d30627532abc11e5c15e3e219d2d166"
+    }
+  },
+  "scope": "1972-2100 geometric airless eclipses, explicit TT/UT1, smooth solar/lunar limb; no terrain, weather or naked-eye safety prediction",
+  "required": {
+    "central_separation_degrees": 0.01,
+    "model_budget_degrees": 0.01,
+    "residual_totality_fraction": 0.001,
+    "ground_central_track_error_m": 2000,
+    "ground_boundary_error_m": 3000,
+    "solar_contact_error_seconds": 30,
+    "lunar_contact_error_seconds": 60
+  },
+  "solar_cases": [
+    {
+      "date": "2017-08-21",
+      "reference": "solar-2017.html",
+      "expected": "total"
+    },
+    {
+      "date": "2023-10-14",
+      "reference": "solar-2023.html",
+      "expected": "annular"
+    },
+    {
+      "date": "2024-04-08",
+      "reference": "solar-2024.html",
+      "expected": "total"
+    }
+  ],
+  "lunar_cases": [
+    {
+      "date": "2022-11-08",
+      "reference": "lunar-2022.pdf"
+    },
+    {
+      "date": "2025-03-14",
+      "reference": "lunar-2025.pdf"
+    }
+  ],
+  "clear_cases": [
+    {
+      "utc": "2024-04-15T18:00:00+00:00",
+      "solar_observer": [
+        -100,
+        30
+      ],
+      "solar": "clear",
+      "lunar": "clear"
+    },
+    {
+      "utc": "2024-04-08T18:00:00+00:00",
+      "solar_observer": [
+        140,
+        -35
+      ],
+      "solar": "clear"
+    }
+  ],
+  "comparison_rules": [
+    "All numerical timed table rows; no sampling to conceal failures",
+    "Report both native reference clock and supplied offsets",
+    "Never adjust tolerances after observing Azimlib results",
+    "Track and swept boundary are distinct; do not equate angular residual with metres",
+    "Missing independent contacts or atmosphere convention leaves the corresponding gate open"
+  ],
+  "tolerances_are_acceptance_targets_not_an_accuracy_claim": true
+}

@@ -1,0 +1,28 @@
+{
+  "source": "Official DejaVu 2.35 upstream release",
+  "url": "https://downloads.sourceforge.net/project/dejavu/dejavu/2.35/dejavu-fonts-ttf-2.35.zip",
+  "archive_sha256": "7e0d00f20080784c3a38a845d5858c161af14f0073d9474cdbfdedae883cc747",
+  "files": [
+    {
+      "file": "DejaVuSans-Bold.ttf",
+      "sha256": "b184b89e3c1075f22f6b71575b6fc20d4972b3cfd3b23322ca6fd596dcaef167",
+      "identical": true
+    },
+    {
+      "file": "DejaVuSans-BoldOblique.ttf",
+      "sha256": "6edf0283160186af451cbee71e7b845f2e4cabf264bb992ce668c83c25465e6f",
+      "identical": true
+    },
+    {
+      "file": "DejaVuSans-Oblique.ttf",
+      "sha256": "ccdf74b350f11fd3dd5774de50e5e6346a1a5da1f5b7d5fb83590665e97a5213",
+      "identical": true
+    },
+    {
+      "file": "DejaVuSans.ttf",
+      "sha256": "3fdf69cabf06049ea70a00b5919340e2ce1e6d02b0cc3c4b44fb6801bd1e0d22",
+      "identical": true
+    }
+  ],
+  "scope": "Fonts verified byte for byte against the official upstream archive; identical bytes preserve the already validated text metrics. The upstream release is the font resource source."
+}

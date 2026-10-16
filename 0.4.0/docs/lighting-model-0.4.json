@@ -1,0 +1,18 @@
+{
+  "implementation": "Azimlib original finite-sphere/disk geometry and bounded ENU opaque-triangle shadows",
+  "third_party_implementation_incorporated": false,
+  "raw_reference_data_distributed": false,
+  "sun_nominal_radius_m": 695700000.0,
+  "sun_radius_source": "https://arxiv.org/abs/1510.07674",
+  "sun_radius_definition": "IAU 2015 Resolution B3 nominal conversion constant; physical definition, not exclusively owned",
+  "earth_shadow_radius_m": 6378137.0,
+  "earth_shadow_definition": "WGS84 equatorial enclosing sphere; atmosphere and ellipsoid shadow unsupported",
+  "moon_radius_definition": "See lunar-model-0.4.json, NASA Moon mean radius",
+  "numerical_methods": ["Original median BVH/slab bounds/ray triangle determinant algebra", "Original analytic planar disk intersection, independently checked by vertical-chord integration", "Finite-sphere tangent cone construction", "Deterministic equal-area solar-disk direction sampling"],
+  "reference_source": "https://eclipse.gsfc.nasa.gov/SEhistory/SEpath/SE2024Apr08Tpath.html",
+  "reference_author": "Fred Espenak, NASA GSFC",
+  "reference_use": "Independent diagnostic only; raw table/prose/images not packaged",
+  "precise_event_prediction_supported": false,
+  "pending_items": ["13.06", "13.07"],
+  "code_license": "BSD-3-Clause; prior third-party dataset/font/palette licenses unchanged"
+}

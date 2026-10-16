@@ -1,0 +1,131 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TeX real — desenvolvimento 0.4 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="tex-real-desenvolvimento-04">TeX real — desenvolvimento 0.4</h1>
+<p>A opção TeX usa o <strong>Tectonic</strong> para compor um fragmento LaTeX e o executável
+<strong>pdftocairo</strong> para converter sua saída PDF em contornos. A Azimlib interpreta
+esses contornos e os desenha em seus próprios renderers PNG, SVG e PDF.
+Não importa Matplotlib, não usa seu backend e não incorpora sua implementação.
+O parser interno de expressões <code>$...$</code> continua separado e limitado.</p>
+<h2 id="instalação-e-seleção-explícitas">Instalação e seleção explícitas</h2>
+<pre><code class="language-bash">pip install 'azimlib[tex,png]'
+</code></pre>
+<p>O extra instala apenas ferramentas Python genéricas: fontTools, psutil e
+aggdraw. <strong>Não instala Tectonic, Poppler, pacotes TeX ou fontes.</strong> Instale os
+executáveis separadamente pela distribuição de sua escolha, confira suas
+licenças e prepare um cache Tectonic local antes de usar a API. A biblioteca
+sempre passa <code>--only-cached</code> e <code>--untrusted</code>; falta de recursos causa erro.</p>
+<pre><code class="language-python">from pathlib import Path
+import azimlib as azl
+
+font_notice = azl.Provenance(
+    source=&quot;https://example.org/my-fonts&quot;,  # substitua pela origem real
+    license=&quot;OFL-1.1&quot;,                    # licença real das fontes usadas
+    copyright=&quot;Copyright do titular das fontes&quot;,
+    license_text=Path(&quot;font-license.txt&quot;).read_text(encoding=&quot;utf8&quot;),
+)
+config = azl.TexConfig(
+    executable=&quot;tectonic&quot;,
+    converter=&quot;pdftocairo&quot;,
+    cache_dir=Path(&quot;tex-cache&quot;),
+    preamble=r&quot;\usepackage{amsmath}\newcommand{\area}{A}&quot;,
+    trusted=True,
+    allow_outlines=True,
+    font_notices=(font_notice,),
+)
+with azl.tex_context(config):
+    fig, ax = azl.subplots()
+    ax.map(&quot;brazil&quot;)
+    title = ax.set_title(r&quot;Área $\area=\int_{\Omega} dA$&quot;)
+fig.savefig(&quot;map.svg&quot;)
+title.set_text(r&quot;Atualizado $\frac{a}{b}$&quot;)
+fig.savefig(&quot;updated.pdf&quot;)
+</code></pre>
+<p>Forneça avisos completos para <strong>todas</strong> as fontes usadas pelo preâmbulo. O
+exemplo acima é um modelo de configuração, não uma declaração de origem ou
+permissão para uma fonte real. A biblioteca exige confirmação de permissão
+para exportar contornos; essa confirmação e os avisos não provam titularidade.
+<code>import azimlib.pyplot as plt</code> usa o mesmo estado e as mesmas APIs.</p>
+<p>Para um Artist individual, use <code>textengine=&quot;tex&quot;, texconfig=config</code>.
+<code>artist.set_texconfig(config)</code> ativa o motor; <code>get_texconfig()</code>, <code>set_text()</code>,
+visibilidade, tamanho, cor, alinhamento e rotação continuam editáveis.
+Um contexto é local à execução/thread e as figuras capturam sua configuração.</p>
+<h2 id="cobertura">Cobertura</h2>
+<ul>
+<li>Fragmentos LaTeX com matemática, frações, integrais, somatórios, radicais,
+matrizes, macros e preâmbulo explicitamente fornecido.</li>
+<li>Um fragmento por linha de texto; blocos multilinha são compostos pela
+Azimlib. O resultado aceito contém glifos preenchidos e regras retas
+monocromáticas. A cor/transparência/halo pertencem ao Artist.</li>
+<li>Métricas reais de largura, altura e profundidade; baseline alfabética,
+alinhamento, rotação e tamanho físico compartilhados pelos três formatos.</li>
+<li>O TeX seleciona fontes no documento/preâmbulo. <code>fontfamily</code> da tipografia
+básica não seleciona automaticamente uma fonte TeX equivalente.</li>
+<li>Recursos gráficos arbitrários, imagens, conteúdo SVG ativo, referências
+externas, caminhos traçados curvos, clipping TeX e páginas adicionais não
+integram este contrato de fragmentos. Conteúdo não suportado causa erro.
+A opção não é um editor/exportador de documentos LaTeX completos.</li>
+<li>Labels TeX podem ser posicionados/rotacionados como blocos. Não são
+fragmentados em caracteres para seguir uma curva.</li>
+</ul>
+<p>Tectonic compila TeX real. Isso não significa que qualquer pacote LaTeX ou
+qualquer saída gráfica possível seja aceito pelo contrato vetorial da Azimlib.
+Veja <a href="https://tectonic-typesetting.github.io/book/latest/v2cli/compile.html">a CLI oficial do motor</a>
+e <a href="https://manpages.debian.org/trixie/poppler-utils/pdftocairo.1.en.html">os formatos do conversor</a>.</p>
+<h2 id="recursos-segurança-e-diagnósticos">Recursos, segurança e diagnósticos</h2>
+<p>Use apenas <strong>entrada TeX, preâmbulos, fontes e executáveis confiáveis</strong>.
+<code>trusted=True</code> torna esse contrato explícito. <code>--untrusted</code> desabilita recursos
+inseguros conhecidos do motor, mas não transforma TeX em um sandbox de sistema
+operacional. Não ofereça esta API diretamente a texto enviado por desconhecidos.
+Para isso, use isolamento externo com cotas de CPU/RAM/disco e acesso a arquivos
+e rede restrito. A biblioteca não promete impedir todo acesso a arquivos de um
+processo confiável, de um pacote TeX ou de um executável modificado.</p>
+<p>Cada compilação usa um diretório temporário removido ao terminar. Não usa shell,
+shell escape ou instalação automática. Configuração/cache de aplicação e
+temporários são direcionados explicitamente; no Windows a variável de perfil
+registrado é preservada porque a API de diretórios conhecidos exige isso.
+Logs brutos permanecem no temporário e não entram em exceções ou exports.</p>
+<p>Os limites padrão são 30 s por ferramenta, 1 GiB de RSS somado da árvore de
+processos, 64 MiB/4096 arquivos no temporário e 256 MiB no cache de recursos.
+RAM/disco são <strong>amostrados</strong>; não são cotas rígidas de kernel. Estouro/timeout
+encerra o processo e os descendentes observados. São aceitos até 4096 caracteres
+por fragmento, 8192 no preâmbulo e um subconjunto SVG com limites próprios.</p>
+<p><code>TexUnavailableError</code> indica ferramenta/cache ausente. <code>TexError</code> indica erro
+de compilação, glifo ausente ou saída incompatível; <code>TexResourceError</code> indica
+limites excedidos. Nenhum erro troca silenciosamente para outro motor.
+Somente <code>fallback=&quot;basic&quot;</code> solicita explicitamente a tipografia básica,
+com aviso Python; expressões que excedem o parser interno ainda podem falhar.</p>
+<h2 id="cache-viewers-e-proveniência">Cache, viewers e proveniência</h2>
+<p>Fragmentos preparados contêm métricas/contornos imutáveis e podem ser enviados
+ao worker do viewer sem executar TeX nele. A composição Python recompila textos
+alterados; mudanças de cor, posição ou rotação reutilizam contornos. O navegador
+HTML exibe os contornos preparados e não executa TeX: editar fórmulas ou gerar
+novos labels TeX exige recomposição em Python.</p>
+<p>O cache usa texto, tamanho físico, estilo, preâmbulo, configuração, hashes dos
+executáveis e do cache de recursos/fontes. <code>clear_tex_cache()</code> força nova leitura.
+São retidos até 128 fragmentos/16 MiB de payload imutável medido. Em cada
+composição Python, ferramentas/recursos são conferidos uma vez e novamente ao
+terminar; mudanças durante a composição causam erro. Não há invalidação por TTL.
+Arquivos locais de recursos precisam permanecer estáveis durante uma composição.
+Se o preâmbulo carregar fontes/arquivos fora do cache, liste-os explicitamente
+em <code>resource_files=(Path(&quot;resource-file&quot;), ...)</code> para incluir seus hashes na
+identidade. Não use descoberta de fontes do sistema ou entradas externas não
+declaradas em uma composição que precise ser reproduzível.
+Os exports preservam origem/licença das fontes e identidade dos recursos/motores,
+sem caminhos de configuração. SVG mantém descrição textual e PDF <code>ActualText</code>;
+isso não garante pesquisa/cópia matemática semântica ou conformidade PDF/UA.</p>
+<h2 id="reprodução-da-validação">Reprodução da validação</h2>
+<p>O cenário de referência usa Tectonic 0.17.0, pdftocairo 26.07.0, Latin Modern
+(GUST Font License/LPPL) e Computer Modern Type 1 da AMS (OFL-1.1). Não inclua
+esses executáveis, cache ou fontes nos archives Python. Licenças/versões de
+referência estão em <a href="tex-dependencies-0.4.json">tex-dependencies-0.4.json</a> e
+<a href="../THIRD_PARTY_LICENSES.html">avisos de terceiros</a>.</p>
+<p>Uma aquisição de desenvolvimento <strong>separada e explícita</strong>, com limites de
+recursos/reserva de disco, prepara as fontes e pacotes desse cenário:</p>
+<pre><code class="language-bash">python -I tools/prepare_tex_cache.py --engine tectonic --converter pdftocairo --cache tex-cache --report acquisition.json --acquire
+python -I tools/validate_tex.py --engine tectonic --converter pdftocairo --cache tex-cache --output tex-review
+</code></pre>
+<p>O snapshot de <a href="tex-validation-0.4.json">validação local e hashes</a> registra a
+suíte cumulativa, contratos TeX, fontes e exports Windows. O workflow manual
+<code>tex-review-0.4.yml</code> está preparado para gerar artifacts Linux/macOS/Windows;
+preparar esse workflow não significa que ele já foi executado.
+O item 8.08 exige validação nos sistemas suportados. Uma execução local Windows
+e imagens geradas não encerram esse gate multiplataforma.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/tex-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

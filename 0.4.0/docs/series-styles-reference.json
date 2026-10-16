@@ -1,0 +1,1039 @@
+{
+  "matplotlib_version": "3.11.2",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "azimlib": {
+    "multi": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:0",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "route"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "cycle:1",
+        "marker": "None",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "route"
+      }
+    ],
+    "columns": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:2",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "A"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "cycle:3",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "B"
+      }
+    ],
+    "broadcast_x": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:4",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "X1"
+      },
+      {
+        "x": [
+          -51.0,
+          -48.0,
+          -44.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:5",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "X2"
+      }
+    ],
+    "matrix_pair": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:6",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "P1"
+      },
+      {
+        "x": [
+          -51.0,
+          -48.0,
+          -44.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "cycle:7",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "P2"
+      }
+    ],
+    "data": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:8",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "lat"
+      }
+    ],
+    "implicit": [
+      {
+        "x": [
+          0.0,
+          1.0,
+          2.0
+        ],
+        "y": [
+          3.0,
+          5.0,
+          7.0
+        ],
+        "color": "cycle:9",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "index"
+      }
+    ],
+    "cycle": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "o",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "first"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#000000",
+        "marker": "^",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "explicit"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#000000",
+        "marker": "s",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "partial"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#ff0000",
+        "marker": "o",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "wrap"
+      }
+    ],
+    "added": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 0.8,
+        "label": "C1"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#0000ff",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.2,
+        "label": "C2"
+      }
+    ],
+    "formats_cycle": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "dash"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#ff0000",
+        "marker": "s",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "color"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "empty format"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#0000ff",
+        "marker": "s",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "no format"
+      }
+    ],
+    "product": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#0000ff",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#0000ff",
+        "marker": "None",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      }
+    ],
+    "separate_cycles": {
+      "lines": [
+        {
+          "x": [
+            -52.0,
+            -49.0,
+            -45.0
+          ],
+          "y": [
+            -25.0,
+            -23.0,
+            -20.0
+          ],
+          "color": "#ff0000",
+          "marker": "None",
+          "linestyle": "-",
+          "linewidth": 1.5,
+          "label": "L1"
+        },
+        {
+          "x": [
+            -52.0,
+            -49.0,
+            -45.0
+          ],
+          "y": [
+            -24.0,
+            -22.0,
+            -19.0
+          ],
+          "color": "#0000ff",
+          "marker": "None",
+          "linestyle": "-",
+          "linewidth": 1.5,
+          "label": "L2"
+        }
+      ],
+      "points": [
+        "#ff0000",
+        "#0000ff"
+      ]
+    }
+  },
+  "matplotlib": {
+    "multi": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:0",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "route"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "cycle:1",
+        "marker": "None",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "route"
+      }
+    ],
+    "columns": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:2",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "A"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "cycle:3",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "B"
+      }
+    ],
+    "broadcast_x": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:4",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "X1"
+      },
+      {
+        "x": [
+          -51.0,
+          -48.0,
+          -44.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:5",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "X2"
+      }
+    ],
+    "matrix_pair": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:6",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "P1"
+      },
+      {
+        "x": [
+          -51.0,
+          -48.0,
+          -44.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "cycle:7",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "P2"
+      }
+    ],
+    "data": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "cycle:8",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "lat"
+      }
+    ],
+    "implicit": [
+      {
+        "x": [
+          0.0,
+          1.0,
+          2.0
+        ],
+        "y": [
+          3.0,
+          5.0,
+          7.0
+        ],
+        "color": "cycle:9",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "index"
+      }
+    ],
+    "cycle": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "o",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "first"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#000000",
+        "marker": "^",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "explicit"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#000000",
+        "marker": "s",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "partial"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#ff0000",
+        "marker": "o",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "wrap"
+      }
+    ],
+    "added": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 0.8,
+        "label": "C1"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#0000ff",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.2,
+        "label": "C2"
+      }
+    ],
+    "formats_cycle": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "dash"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#ff0000",
+        "marker": "s",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "color"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "-",
+        "linewidth": 1.5,
+        "label": "empty format"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#0000ff",
+        "marker": "s",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "no format"
+      }
+    ],
+    "product": [
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#ff0000",
+        "marker": "None",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -25.0,
+          -23.0,
+          -20.0
+        ],
+        "color": "#0000ff",
+        "marker": "None",
+        "linestyle": "--",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      },
+      {
+        "x": [
+          -52.0,
+          -49.0,
+          -45.0
+        ],
+        "y": [
+          -24.0,
+          -22.0,
+          -19.0
+        ],
+        "color": "#0000ff",
+        "marker": "None",
+        "linestyle": ":",
+        "linewidth": 1.5,
+        "label": "cartesian"
+      }
+    ],
+    "separate_cycles": {
+      "lines": [
+        {
+          "x": [
+            -52.0,
+            -49.0,
+            -45.0
+          ],
+          "y": [
+            -25.0,
+            -23.0,
+            -20.0
+          ],
+          "color": "#ff0000",
+          "marker": "None",
+          "linestyle": "-",
+          "linewidth": 1.5,
+          "label": "L1"
+        },
+        {
+          "x": [
+            -52.0,
+            -49.0,
+            -45.0
+          ],
+          "y": [
+            -24.0,
+            -22.0,
+            -19.0
+          ],
+          "color": "#0000ff",
+          "marker": "None",
+          "linestyle": "-",
+          "linewidth": 1.5,
+          "label": "L2"
+        }
+      ],
+      "points": [
+        "#ff0000",
+        "#0000ff"
+      ]
+    }
+  },
+  "styles_azimlib": {
+    "inside": {
+      "width": 0.9,
+      "size": [
+        5.0,
+        4.0
+      ],
+      "face": "#000000",
+      "frame": "#000000",
+      "alpha": 0.8
+    },
+    "reset": {
+      "dpi": 150.0,
+      "width": 1.5,
+      "face": "#ffffff"
+    },
+    "after": {
+      "text": "#ffffff",
+      "title": "#ffffff",
+      "width_restored": true
+    },
+    "file": [
+      {
+        "color": "#d62728",
+        "marker": "o",
+        "linestyle": "-",
+        "linewidth": 1.0
+      },
+      {
+        "color": "#2ca02c",
+        "marker": "s",
+        "linestyle": "--",
+        "linewidth": 1.0
+      }
+    ]
+  },
+  "styles_matplotlib": {
+    "inside": {
+      "width": 0.9,
+      "size": [
+        5.0,
+        4.0
+      ],
+      "face": "#000000",
+      "frame": "#000000",
+      "alpha": 0.8
+    },
+    "reset": {
+      "dpi": 150.0,
+      "width": 1.5,
+      "face": "#ffffff"
+    },
+    "after": {
+      "text": "#ffffff",
+      "title": "#ffffff",
+      "width_restored": true
+    },
+    "file": [
+      {
+        "color": "#d62728",
+        "marker": "o",
+        "linestyle": "-",
+        "linewidth": 1.0
+      },
+      {
+        "color": "#2ca02c",
+        "marker": "s",
+        "linestyle": "--",
+        "linewidth": 1.0
+      }
+    ]
+  },
+  "failed_group_azimlib": {
+    "error": "ValueError",
+    "attached": 0,
+    "next_color": "#ff0000"
+  },
+  "failed_group_matplotlib": {
+    "error": "ValueError",
+    "attached": 0,
+    "next_color": "#0000ff"
+  },
+  "notes": [
+    "Explicitly labelled line states; color spelling canonicalized, no pixel equivalence.",
+    "Nx2 single-input geographic shorthand differs from Matplotlib y matrices.",
+    "Both attach zero lines after the recorded later shape error; Matplotlib consumes the first cycle entry, Azimlib preserves it.",
+    "Finite unmasked coordinates only; masked/NaN gaps and unit converters are unsupported.",
+    "Marker-only fmt retains legacy zero linewidth in Azimlib."
+  ],
+  "_publication_history": "Default-cycle RGB colors abstracted as ordered cycle roles to retire the undocumented palette; all other observed numeric/style states remain historical. Tests resolve roles with AZIM10, not the old reference table."
+}

@@ -1,0 +1,267 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PBF validation scope — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="pbf-validation-scope-04-development">PBF validation scope — 0.4 development</h1>
+<p>Own bounded reader validated on <strong>regional real datasets</strong>, XML fixtures,
+corruption, streaming and disk references. <strong>Planet-scale processing is not
+proven</strong>. 2.08 is formally deferred, not completed; only a future successful
+<a href="planet-trial.html">full-planet trial</a> can satisfy its original criterion.
+Resource guards and indexed streaming do not establish planetary throughput.
+<a href="deferred-gates-0.4.html">Scope decision</a>.</p>
+<h1 id="osm-pbf-independent-streaming-and-regional-extraction">OSM PBF: independent streaming and regional extraction</h1>
+<p><strong>0.4 development feature in the source checkout; not shipped in the published
+0.3.0.</strong> The reader, protobuf interpretation and geographic assembly are Azimlib
+implementations. Only Python's generic <code>zlib</code>, <code>sqlite3</code> and other standard-library
+facilities are used. No GIS reader, generated protobuf code or schema is bundled.</p>
+<h2 id="familiar-plotting-explicit-data">Familiar plotting, explicit data</h2>
+<pre><code class="language-python">import azimlib as azl
+
+data = azl.read_osm_pbf(
+    'region.osm.pbf',
+    bbox=(7.41, 43.72, 7.46, 43.76),  # west, south, east, north
+    missing='skip',  # explicit policy for an incomplete regional extract
+)
+roads = data.select(
+    geometry_types=('LineString', 'MultiLineString'),
+    predicate=lambda feature: 'highway' in feature.properties,
+)
+fig, ax = azl.subplots(projection='mercator')
+ax.streets(roads, color='#87949e', linewidth=.7)
+ax.set_extent((7.41, 7.46, 43.72, 43.76))  # axes: west, east, south, north
+ax.set_title('Regional streets')
+fig.text(.5, .03, '© OpenStreetMap contributors · openstreetmap.org/copyright',
+         ha='center', fontsize=8)
+fig.savefig('streets.svg')
+</code></pre>
+<p><code>import azimlib.pyplot as plt</code> continues to share the same figure state. Reading
+data is explicit; neither import nor <code>show()</code> downloads a database. Feature IDs
+are typed strings (<code>node/…</code>, <code>way/…</code>, <code>relation/…</code>); <code>properties['osm']</code> preserves
+primitive kind/ID. OSM tag values remain strings, not guessed numeric categories.
+Urban layers, styles, Artists and PNG/SVG exports use the existing rendering path.
+Grid, legend, scale, compass, north arrow and minimap remain optional additions.</p>
+<h2 id="three-consumption-paths">Three consumption paths</h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Contract</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>iter_osm_pbf(source)</code></td>
+<td>Sequential immutable <code>OSMRecord</code> objects; no all-file reference resolution. One decoded block at a time.</td>
+</tr>
+<tr>
+<td><code>OSMIndex(source)</code></td>
+<td>Disposable SQLite index on disk; references resolve across unsorted blocks, including forward references. Context manager or explicit <code>close()</code> required.</td>
+</tr>
+<tr>
+<td><code>read_osm_pbf(source)</code></td>
+<td>Index plus bounded materialization of the selected <code>FeatureCollection</code> for drawing.</td>
+</tr>
+</tbody>
+</table>
+<p>Sources may be paths, bytes or binary streams, including non-seekable short reads.
+Caller-owned streams are not closed. Exhaust raw iteration to validate the whole
+file and an optional <code>expected_sha256</code>; a later corruption/hash failure can follow
+earlier yielded records. Indexed extraction does not become available until the
+entire input has passed framing, decoding, duplicate-ID and hash checks.</p>
+<pre><code class="language-python">with azl.OSMIndex('region.osm.pbf', missing='skip',
+                 max_disk_bytes=8_000_000_000,
+                 reserve_free_bytes=15_000_000_000) as index:
+    for feature in index.features(bbox=(7.41, 43.72, 7.46, 43.76),
+                                  where={'highway': 'residential'}):
+        process(feature)  # stream; do not accumulate the entire database
+    for restriction in index.relations(restrictions_only=True):
+        process_restriction(restriction.members, restriction.tags)
+    print(index.statistics)
+</code></pre>
+<p><code>process</code>/<code>process_restriction</code> above are application callbacks, not Azimlib APIs.
+Closing releases paused query cursors and temporary files, including on Windows.</p>
+<h2 id="supported-snapshot-semantics">Supported snapshot semantics</h2>
+<ul>
+<li>OSM 0.6 PBF framing, string tables, nodes/dense nodes, ways and relations;
+packed/unpacked repeated values, repeated packed chunks, signed IDs/deltas,
+granularity and offsets. IDs are never converted through floating point.</li>
+<li>Raw and zlib Blobs. LZMA, obsolete bzip2, LZ4 and Zstandard produce explicit
+unsupported-codec errors. Unknown bounded file-block types after the header
+and unknown ordinary protobuf fields can be skipped; protobuf groups fail.</li>
+<li>Optional <code>LocationsOnWays</code> arrays are decoded, require their feature declaration
+and must agree with referenced nodes when indexed. They do not silently replace
+absent nodes. Required unknown features, history/diffs and deleted objects fail.</li>
+<li>Tagged nodes become points. Ways become lines; closed area-tagged ways become
+polygons using the same classification as the existing XML reader. Untagged
+primitives appear only with <code>include_untagged=True</code>.</li>
+<li>Multipolygons and boundaries join reversible way fragments by node identity,
+assemble outer rings and holes, and suppress duplicate standalone member ways.
+Boundary <code>admin_centre</code>/<code>label</code> nodes and <code>subarea</code> child relations remain in raw
+members but do not become boundary-ring coordinates. Member ways may be shared
+between relations; repeated ways inside one polygon relation are rejected.</li>
+<li>Restriction relations retain from/to ways, via node/ordered ways, conditional,
+vehicle-specific and exception tags. Necessary members/references are checked.
+This is input for the <a href="routing-0.4.html">own router</a>, not itself a routing engine
+or a general conditional-access evaluator.</li>
+<li>All other relations, including nested route relations, remain available as raw
+members/tags through <code>relations()</code>. Their references/semantics are not claimed
+to be resolved. No route or geometry is invented for them.</li>
+</ul>
+<p>Missing node/way references or missing restriction roles fail by default. Explicit
+<code>missing='skip'</code> omits the entire affected derived feature/restriction and records
+<code>missing_ways</code>/<code>missing_relations</code>; <code>relations(include_incomplete=True)</code> retains
+incomplete raw relation records. It does not truncate a geometry into a plausible
+partial one. Unsupported polygon member roles/nested polygon members, branched,
+open or self-touching rings still fail; skip is not a corruption bypass. Hole
+assignment uses the existing planar containment contract; arbitrary global
+topological overlay is the separate step 4.</p>
+<h2 id="filters-and-budgets">Filters and budgets</h2>
+<p><code>where</code> maps tag strings to exact string values (AND). <code>bbox</code> is geographic
+<code>(west,south,east,north)</code>; <code>west &gt; east</code> crosses the antimeridian. Selection uses
+conservative envelope intersection, including crossing ways whose vertices lie
+outside the region. Wide/wrapped longitude envelopes retain extra candidates.
+This is not exact geometry intersection or clipping. Complete selected geometries
+can extend beyond the display region; set the axes extent explicitly.</p>
+<p>The complete input must still be scanned/indexed to resolve arbitrary forward
+references correctly. Filters bound returned data; they do not magically avoid
+reading the planet, or promise a prebuilt spatial index. Disk sequence indexes
+preserve primitive input order without a whole-dataset in-memory sort.</p>
+<table>
+<thead>
+<tr>
+<th>Guard</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BlobHeader</td>
+<td>strictly below 64 KiB</td>
+</tr>
+<tr>
+<td>Uncompressed block</td>
+<td>strictly below 32 MiB</td>
+</tr>
+<tr>
+<td>Encoded Blob</td>
+<td>at most 32 MiB + 64 KiB</td>
+</tr>
+<tr>
+<td>Structural fields retained per protobuf message</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>Decoded fields/numeric items per block</td>
+<td>2,000,000 shared budget</td>
+</tr>
+<tr>
+<td>String table entries</td>
+<td>at most 100,000, also subject to shared item budget</td>
+</tr>
+<tr>
+<td>References/members and assembled polygon vertices</td>
+<td><code>max_refs=100_000</code> per entity/relation</td>
+</tr>
+<tr>
+<td>Serialized indexed entity</td>
+<td>8 MiB</td>
+</tr>
+<tr>
+<td>SQLite page cache</td>
+<td>8 MiB; filesystem page cache is OS-managed</td>
+</tr>
+<tr>
+<td>Database file</td>
+<td><code>max_disk_bytes=8_000_000_000</code></td>
+</tr>
+<tr>
+<td>Free space reserve</td>
+<td><code>reserve_free_bytes=64 MiB</code> in the library; 15 GB in trial/example tools</td>
+</tr>
+<tr>
+<td>Materialized collection</td>
+<td>100,000 features, 1,000,000 vertices, 64 MiB serialized GeoJSON bytes</td>
+</tr>
+</tbody>
+</table>
+<p>Limits are checked, not preallocated. <code>max_features</code>, <code>max_vertices</code>, <code>max_bytes</code>
+can narrow the collection budget; use streaming for larger data. These guards
+bound explicit allocations/accumulation; they are not an absolute RSS guarantee.
+Native SQLite/OS caches and Python object overhead are measured separately.
+Disk-full/budget errors abort and clean the disposable index. The index uses no
+journal, performs no unbounded global sort, and checks free space with a block
+reserve before bounded write batches. Input files, outputs and concurrent
+applications' usage are outside the library's database limit.</p>
+<h2 id="catalog-acquisition-licenses-and-privacy">Catalog, acquisition, licenses and privacy</h2>
+<p><code>DatasetCatalog</code> supports <code>format: &quot;osm-pbf&quot;</code> with explicit EPSG:4326, version,
+source, license, copyright, attribution and hashes for data and notices. <code>verify()</code>
+hashes incrementally. <code>load()</code> uses collection budgets; <code>open_pbf()</code> returns a
+context-managed index and validates the hash of the exact bytes ingested, rather
+than verifying a path and reopening it without verification.</p>
+<p>Acquisition is a separate explicit command with a pinned SHA256. For a reproducible
+small trial, the Geofabrik <code>monaco-260101.osm.pbf</code> input is 673,493 bytes:</p>
+<pre><code class="language-bash">python tools/acquire_osm_pbf.py \
+  --url https://download.geofabrik.de/europe/monaco-260101.osm.pbf \
+  --sha256 2c0debd7676c0d0d80ec534251cb004a6797441d14512cb83d01fe1ad81363bf \
+  --version monaco-260101 \
+  --license-file optional-data/urban-sao-paulo-1.0/LICENSE.txt \
+  --output local-data/monaco-260101
+</code></pre>
+<p>This creates a new local catalog only after verified, bounded HTTPS acquisition.
+Existing destinations are never overwritten. The complete audited SPDX Markdown
+ODbL-1.0 text is content-checked (LF-normalized SHA256
+<code>77d2692c3d64efdd4db18dce2407699baf62930e2b50d6e5ed90b48acf16b7c1</code>),
+copied byte-for-byte and hashed in the catalog. Obtain that optional directory
+from the source checkout, not the wheel/sdist. No base is installed at import.</p>
+<p>OSM data remains <strong>ODbL-1.0, © OpenStreetMap contributors</strong>, separate from original
+BSD-3-Clause implementation code. Keep its license and source/version/hash/credit
+when distributing data; displayed maps need the applicable attribution. Consult
+the <a href="https://www.openstreetmap.org/copyright/en">OSM copyright requirements</a> and
+<a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL legal text</a>.</p>
+<p>Reader outputs exclude editor usernames, user IDs, changesets, versions and edit
+timestamps. The source file is not rewritten/sanitized, and ordinary tags can
+contain names, addresses or contact details. Acquisition is not a privacy approval:
+review the raw file, tags, output maps and any derived database before publication.
+The trial data/indices/maps are kept outside this repository and archives; optional
+databases remain excluded by MANIFEST.in. No third-party material is reclassified
+as Azimlib-owned code. See <a href="optional-data.html">optional data</a>.</p>
+<h2 id="validation-and-future-planet-trial">Validation and future planet trial</h2>
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/pbf_fixture.py">Original fixture encoder</a> and <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_pbf.py">tests</a>
+cover XML equivalence, reversed fragments/holes, multi-block forward references,
+normal/dense representations, codecs, malformed/truncated wire data, missing refs,
+hashes, filters, collection budgets, actual SQLite page-limit aborts, paused-cursor
+cleanup, acquisition and PNG/SVG urban integration. The generated fixtures are
+Azimlib test material; they do not establish an independent producer by themselves.
+The independently produced Geofabrik regional file supplies the real-input trial.</p>
+<pre><code class="language-bash">python -I tools/benchmark_pbf.py local-data/monaco-260101/data.osm.pbf \
+  --sha256 2c0debd7676c0d0d80ec534251cb004a6797441d14512cb83d01fe1ad81363bf \
+  --scope regional --missing skip \
+  --max-storage-bytes 20000000000 --reserve-free-bytes 15000000000 \
+  --output regional-trial.json
+</code></pre>
+<p>The trial tool conservatively counts input + database + a 16 MiB report/filesystem
+reservation against the total storage ceiling. It measures Python allocations,
+native process working-set high-water mark, index size, counts and elapsed time,
+and removes the index on exit. RSS includes imports and is not stage-specific.</p>
+<p><strong>2.08 is formally deferred, not completed; only the planet-scale proof remains.</strong> No planet download/run
+was performed. Regional/synthetic results are not extrapolated into planet claims.
+The <a href="planet-trial.html">full-planet procedure</a> requires a pinned official snapshot,
+SHA256, complete byte count, a full disk-backed reference audit, Linux cgroup v2
+memory enforcement, a storage quota and reviewed resource/completion evidence.
+<code>OSMIndex.audit_references()</code> includes raw relation types as well as ways; the
+benchmark's <code>--full-reference-audit</code> fails on any missing primitive reference.
+A scope label never automatically marks planet support as validated. The planet
+proof remains on the future validation track; its criteria are unchanged, but
+it is not a blocking prerequisite of the re-scoped 0.4 release. No network fetch is performed by the trial. Platform acceptance remains
+part of step 14, not claimed from this local Windows execution.</p>
+<h2 id="primary-protocol-references-and-provenance">Primary protocol references and provenance</h2>
+<p>The implementation was independently written from field/encoding contracts:</p>
+<ul>
+<li><a href="https://wiki.openstreetmap.org/wiki/PBF_Format">OSM PBF format</a>.</li>
+<li><a href="https://github.com/openstreetmap/OSM-binary/blob/master/osmpbf/osmformat.proto">Canonical field definitions</a>
+and <a href="https://github.com/openstreetmap/OSM-binary/blob/master/osmpbf/fileformat.proto">framing definitions</a>.</li>
+<li><a href="https://protobuf.dev/programming-guides/encoding/">Protobuf wire encoding</a>.</li>
+<li><a href="https://download.geofabrik.de/europe/monaco.html">Geofabrik Monaco source/metadata policy</a>.</li>
+</ul>
+<p>Protocol field numbers, wire types and coordinate equations are interoperability
+facts. No <code>.proto</code> text, generated bindings, OSM-binary reader code, documentation
+paragraphs or examples were incorporated. Generic delta/varint decoding and the
+original fixture writer are implemented here; no GIS library does the decoding or
+geographic assembly underneath.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/osm-pbf.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

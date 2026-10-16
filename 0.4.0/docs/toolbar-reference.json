@@ -1,0 +1,1513 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "matplotlib": "3.11.2",
+  "cases": [
+    {
+      "tk_dpi": 96,
+      "azimlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              30,
+              30
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              30,
+              30
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              10,
+              38
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              22
+            ]
+          }
+        ]
+      },
+      "matplotlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              30,
+              30
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              30,
+              30
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              28,
+              28
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              10,
+              38
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              22
+            ]
+          }
+        ]
+      },
+      "toggle_states": [
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            1
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            0,
+            0
+          ]
+        }
+      ],
+      "own_cursors_inside_outside": [
+        "fleur",
+        "",
+        "crosshair",
+        ""
+      ],
+      "tooltip": {
+        "immediate": true,
+        "relative_xy": [
+          1,
+          0
+        ],
+        "label_widget": "Label",
+        "justify": "left",
+        "relief": "solid",
+        "borderwidth": "1"
+      }
+    },
+    {
+      "tk_dpi": 120,
+      "azimlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              36,
+              36
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              36,
+              36
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              11,
+              44
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              25
+            ]
+          }
+        ]
+      },
+      "matplotlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              36,
+              36
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              36,
+              36
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              34,
+              34
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              11,
+              44
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              25
+            ]
+          }
+        ]
+      },
+      "toggle_states": [
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            1
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            0,
+            0
+          ]
+        }
+      ],
+      "own_cursors_inside_outside": [
+        "fleur",
+        "",
+        "crosshair",
+        ""
+      ],
+      "tooltip": {
+        "immediate": true,
+        "relative_xy": [
+          1,
+          0
+        ],
+        "label_widget": "Label",
+        "justify": "left",
+        "relief": "solid",
+        "borderwidth": "1"
+      }
+    },
+    {
+      "tk_dpi": 144,
+      "azimlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              42,
+              42
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              42,
+              42
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              12,
+              52
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              29
+            ]
+          }
+        ]
+      },
+      "matplotlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              42,
+              42
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              42,
+              42
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              40,
+              40
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              12,
+              52
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              29
+            ]
+          }
+        ]
+      },
+      "toggle_states": [
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            1
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            0,
+            0
+          ]
+        }
+      ],
+      "own_cursors_inside_outside": [
+        "fleur",
+        "",
+        "crosshair",
+        ""
+      ],
+      "tooltip": {
+        "immediate": true,
+        "relative_xy": [
+          1,
+          0
+        ],
+        "label_widget": "Label",
+        "justify": "left",
+        "relief": "solid",
+        "borderwidth": "1"
+      }
+    },
+    {
+      "tk_dpi": 192,
+      "azimlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              54,
+              54
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              54,
+              54
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "flat"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              14,
+              70
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              38
+            ]
+          }
+        ]
+      },
+      "matplotlib": {
+        "groups": [
+          [
+            "Home",
+            "Back",
+            "Forward"
+          ],
+          [
+            "Pan",
+            "Zoom",
+            "Subplots"
+          ],
+          [
+            "Save"
+          ]
+        ],
+        "toolbar_request": [
+          640,
+          50
+        ],
+        "canvas_request": [
+          640,
+          480
+        ],
+        "buttons": {
+          "Home": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Back": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Forward": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Pan": {
+            "widget": "Checkbutton",
+            "request": [
+              54,
+              54
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Zoom": {
+            "widget": "Checkbutton",
+            "request": [
+              54,
+              54
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove",
+            "offrelief": "flat",
+            "indicatoron": "0"
+          },
+          "Subplots": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          },
+          "Save": {
+            "widget": "Button",
+            "request": [
+              52,
+              52
+            ],
+            "width": "18p",
+            "height": "18p",
+            "padx": "1",
+            "pady": "1",
+            "borderwidth": "1",
+            "relief": "flat",
+            "overrelief": "groove"
+          }
+        },
+        "labels": [
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              14,
+              70
+            ]
+          },
+          {
+            "font": {
+              "family": "Arial",
+              "size": 10,
+              "weight": "normal",
+              "slant": "roman",
+              "underline": 0,
+              "overstrike": 0
+            },
+            "request": [
+              6,
+              38
+            ]
+          }
+        ]
+      },
+      "toggle_states": [
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            1
+          ]
+        },
+        {
+          "command": "zoom",
+          "checked": [
+            0,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            1,
+            0
+          ]
+        },
+        {
+          "command": "pan",
+          "checked": [
+            0,
+            0
+          ]
+        }
+      ],
+      "own_cursors_inside_outside": [
+        "fleur",
+        "",
+        "crosshair",
+        ""
+      ],
+      "tooltip": {
+        "immediate": true,
+        "relative_xy": [
+          1,
+          0
+        ],
+        "label_widget": "Label",
+        "justify": "left",
+        "relief": "solid",
+        "borderwidth": "1"
+      }
+    }
+  ],
+  "sha256": {
+    "src/azimlib/backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+    "src/azimlib/_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+    "tools/inspect_toolbar.py": "3064aaa4270cbd063d32772bc24f6adb9d65bc4779aedddad38562af9c589d65"
+  },
+  "scope": "Withdrawn widgets; original Azimlib icons; flat-hover intentional difference; not visible screenshots or physical input. Does not close 3.08."
+}

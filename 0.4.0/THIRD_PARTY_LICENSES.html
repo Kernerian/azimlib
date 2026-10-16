@@ -1,0 +1,296 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Third-party materials · Azimlib 0.4.0</title><link rel="stylesheet" href="site.css"><body data-root=""><header><a href="docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="docs/index.html">Overview</a><a href="docs/getting-started.html">Getting started</a><a href="docs/migration-0.4.html">Migration</a><a href="docs/gallery-0.4.html">Gallery</a><a href="docs/api.html">API reference</a><a href="docs/api-stability.html">Compatibility policy</a><a href="docs/release-progress-0.4.html">Release progress</a><a href="docs/roadmap.html">Roadmap</a></aside><main><h1 id="third-party-materials">Third-party materials</h1>
+<h2 id="optional-gpu-rendering">Optional GPU rendering</h2>
+<p>The <code>gpu</code> extra uses ModernGL and glcontext as generic OpenGL/context bindings.
+The tested versions are 5.13.0 and 3.1.0, respectively. Their MIT notices remain
+in <a href="licenses/ModernGL.txt">ModernGL.txt</a> and <a href="licenses/Glcontext.txt">Glcontext.txt</a>,
+with package/source identity in <a href="docs/gpu-dependencies-0.4.json">gpu-dependencies-0.4.json</a>.
+Their binaries and source implementations are not bundled in Azimlib archives.
+Copyright (c) 2017-2024 Szabolcs Dombi, Einar Forselv (ModernGL); Copyright (c)
+2021 ModernGL Contributors (glcontext). Preserve these notices with any
+redistribution of those components. Azimlib's original shaders, coverage/stroke
+meshes, caches, texture atlas and depth/UV integration remain BSD 3-Clause.
+Graphics drivers/OpenGL implementations are installed separately and retain
+their own terms; Azimlib does not distribute them. Pillow is credited below.</p>
+<p>The original Azimlib implementation, documentation and original toolbar artwork
+are licensed under BSD-3-Clause, Copyright (c) 2026 Kernerian. This notice does
+not relicense the materials below or claim exclusive ownership of them.</p>
+<h2 id="materials-shipped-in-the-package">Materials shipped in the package</h2>
+<table>
+<thead>
+<tr>
+<th>Material</th>
+<th>Files and origin</th>
+<th>Terms and notices</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ColorBrewer Blues, five classes</td>
+<td><code>src/azimlib/styles.py</code>, and the corresponding development baseline; https://colorbrewer2.org/export/colorbrewer.json</td>
+<td>Copyright 2002 Cynthia Brewer, Mark Harrower and The Pennsylvania State University. The complete specific terms are in <code>licenses/LicenseRef-ColorBrewer.txt</code>; the referenced Apache-2.0 text is in <code>licenses/Apache-2.0.txt</code>.</td>
+</tr>
+<tr>
+<td>Viridis, magma, inferno and plasma</td>
+<td><code>src/azimlib/data/colormaps.json</code>, plus the five-stop viridis scale in <code>styles.py</code> and its development baseline; BIDS/colormap, https://github.com/BIDS/colormap/blob/master/colormaps.py</td>
+<td>CC0-1.0. Nathaniel J. Smith, Stefan van der Walt and, for viridis, Eric Firing. See <code>NOTICE_COLORMAPS</code> and <code>licenses/CC0-1.0.txt</code>. RGB8 quantization and the smaller scale change the representation, not the upstream authorship.</td>
+</tr>
+<tr>
+<td>Natural Earth geographic layers</td>
+<td>Six compressed GeoJSON files in <code>src/azimlib/data/</code>; upstream commit and per-file hashes in <code>src/azimlib/data/manifest.json</code></td>
+<td>Public-domain data according to the publisher. Primary authors Tom Patterson and Nathaniel Vaughn Kelso, with contributors. See <code>licenses/Natural-Earth.txt</code> and https://www.naturalearthdata.com/about/terms-of-use/.</td>
+</tr>
+<tr>
+<td>DejaVu Sans 2.35, four variants</td>
+<td><code>src/azimlib/fonts/*.ttf</code>; official upstream hashes in <code>docs/fonts-upstream.json</code></td>
+<td>Copyright 2003 Bitstream, Inc.; Arev portions copyright 2006 Tavmjong Bah; DejaVu changes are public domain. Preserve the complete <code>src/azimlib/fonts/LICENSE_DEJAVU</code>. Renaming restrictions apply to modified fonts; standalone font sales are restricted.</td>
+</tr>
+<tr>
+<td>Font metrics</td>
+<td><code>src/azimlib/fonts/metrics.json</code>, extracted by <code>tools/font_metrics.py</code></td>
+<td>Derived from the above fonts; retain the same provenance and font notices. The extraction implementation is original Azimlib code.</td>
+</tr>
+</tbody>
+</table>
+<p>This product includes color specifications and designs developed by Cynthia
+Brewer (http://colorbrewer.org/).</p>
+<p>Commercial use of the materials above is permitted subject to their respective
+terms. The BSD license of the implementation does not erase those terms.</p>
+<h2 id="original-palette">Original palette</h2>
+<p><code>AZIM10</code> in <code>src/azimlib/cycles.py</code> is a new ten-color sequence selected for
+Azimlib. The default and dark-background cycles use this sequence or its own
+lightened variant. <code>TAB10</code> remains a compatibility alias for <code>AZIM10</code>; it does
+not contain the Tableau/D3/Matplotlib Category10 sequence. Individual color
+values are not represented as globally unique or exclusively owned.
+The historical series oracle retains default-cycle roles rather than the
+retired ten RGB values; tests materialize those roles with AZIM10.</p>
+<h2 id="separately-installed-dependencies">Separately installed dependencies</h2>
+<p>No external Python packages are embedded in the Azimlib wheel. Optional extras
+install Pillow (MIT-CMU), aggdraw (permissive PIL-style terms including AGG),
+NumPy (BSD and additional bundled notices), and Numba/llvmlite (BSD plus LLVM
+and other component notices). Python and Tcl/Tk retain their own terms.
+Redistributing a combined application requires auditing and preserving the
+licenses of the actual dependency binaries, including Pillow codecs, NumPy's
+BLAS/LAPACK and any GCC runtime exception. See <code>docs/dependencies.md</code>.</p>
+<p>Matplotlib, fontTools, cycler, contourpy, Qt/PySide and Playwright are development
+or comparison tools, not the cartographic backend. Their code/assets are not
+vendored into the package. Using them does not make their licenses the license
+of Azimlib's original implementation. Distributing those tools is a separate
+licensing task.</p>
+<p>External IBGE benchmark inputs are not shipped. Their specific redistribution
+terms have not been established here; they must be checked before bundling any
+such dataset. Numerical benchmark records do not grant a dataset license.</p>
+<p>Generated gallery illustrations use synthetic fields/routes and the separately
+credited geographic/font resources above. Reference-comparison previews are
+rendered with development tools and retain their producer metadata. They are
+not vendored implementations or toolbar artwork. The wheel contains no gallery;
+see <code>docs/publication-readiness.md</code> for the local source ZIP and preview scope.</p>
+<h2 id="copyright-identity-and-scope">Copyright identity and scope</h2>
+<p>Kernerian is the project's public copyright identifier, not a claim that a
+company or verified legal entity of that name exists. Third-party copyright
+notices remain unchanged. Git author labels, including automated labels, do
+not by themselves establish legal authorship or exclusive title. This inventory
+is technical documentation, not a legal opinion or a trademark/patent clearance.</p>
+<h2 id="optional-openstreetmap-database-development-examples">Optional OpenStreetMap database (development examples)</h2>
+<p><code>optional-data/urban-sao-paulo-1.0</code> is a small, modified OpenStreetMap database,
+© OpenStreetMap contributors, licensed under <strong>ODbL 1.0</strong>. It retains its own
+LICENSE.txt, README, provenance and hashed catalog; it is excluded from both the
+wheel and sdist. No OSM code or automatic download is used. The BSD license of
+Azimlib code does not replace the database license. Derivative databases must
+respect applicable ODbL sharing requirements; produced maps credit OpenStreetMap
+and identify the ODbL data license. See <a href="docs/optional-data.html">the data guide</a>,
+<a href="https://www.openstreetmap.org/copyright">OSM copyright</a> and
+<a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL</a>.</p>
+<h2 id="geographic-numeric-oracle-records-development">Geographic numeric oracle records (development)</h2>
+<p><code>docs/geodesy-reference-0.3.json</code> records factual coordinate outputs computed
+through black-box calls to pyproj 3.8.0 and GeographicLib 2.1, in an isolated
+development environment. No implementation, protected prose or published test
+dataset from either project is vendored. The package does not redistribute
+these libraries or depend on them. New geodesy, TM, topology and clipping code
+is independently written under the original-code BSD 3-Clause license; published
+mathematical references and numeric limits are listed in <code>docs/geodesy.md</code>.</p>
+<h2 id="optional-ui-notebook-dependencies-03-development">Optional UI / notebook dependencies (0.3 development)</h2>
+<p>The independently written Qt backend imports <strong>PySide6-Essentials</strong> (QtCore,
+QtGui, QtWidgets) and its <strong>shiboken6</strong> binding dependency dynamically; it does
+not vendor their code/binaries, Qt examples or icons. Installed 6.11.2 metadata
+declares <code>LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only</code>; Qt also offers a
+commercial licensing route. These terms are <strong>not replaced by Azimlib BSD</strong>.
+The Python archives declare an optional requirement only, not a combined Qt
+installer. If bundling/freezing Qt/bindings, review the exact Qt build/modules,
+third-party notices, license copies, source availability, user replacement and
+modification/debugging rights required by the chosen LGPL/commercial terms.
+No GPL-only Qt add-on module is imported by this backend. See <a href="https://doc.qt.io/qtforpython-6/commercial/index.html">Qt's licensing
+documentation</a>,
+<a href="https://www.qt.io/development/open-source-lgpl-obligations">open-source obligations</a>
+and <a href="docs/dependencies.html">the dependency inventory</a>. UI text uses the already
+licensed bundled DejaVu font; no new font or toolbar artwork is copied.</p>
+<p>The notebook adapter imports <strong>IPython</strong> through public display/event interfaces.
+IPython 9.17.1 metadata declares BSD-3-Clause; copyright belongs to the IPython
+Development Team. No IPython/Jupyter implementation is vendored. Optional
+transitive packages retain their own notices: traitlets (IPython Development
+Team, BSD), prompt_toolkit (Jonathan Slenders, BSD), jedi/parso (MIT), Pygments
+(BSD-2-Clause), plus other version-dependent dependencies. Preserve their
+actual notices if distributing these packages in a combined application.
+Neither their licenses nor authorship become exclusive Azimlib property.</p>
+<h2 id="wordmark-typography-artwork-only">Wordmark typography (artwork only)</h2>
+<p>The wordmark PNG in <code>docs/_static/branding</code> uses <strong>Carlito Bold Italic</strong>,
+designed by Łukasz Dziedzic, <strong>SIL OFL 1.1</strong>. This voluntary credit records
+rasterized lettering; Carlito font software is not shipped in source, wheel
+or sdist. The exact design-time font binary/version is not retained. Upstream
+reference: https://github.com/googlefonts/carlito and
+https://github.com/google/fonts/blob/main/ofl/carlito/OFL.txt (copyright 2013
+The Carlito Project Authors; Reserved Font Name Carlito). The official FAQ
+https://openfontlicense.org/ofl-faq/ permits logos/commercial artwork without
+mandatory acknowledgement or OFL relicensing of that artwork. Redistributing
+or embedding the font itself would require preserving its actual OFL/copyright.
+The code and original logo composition keep their existing BSD terms.</p>
+<h2 id="optional-video-encoder">Optional video encoder</h2>
+<p><code>animation.FFMpegWriter</code> invokes an explicitly selected, separately installed
+FFmpeg executable. No FFmpeg, libx264 or codec binary/source is redistributed
+or required by the Python archives. FFmpeg builds/codecs have version/build-
+dependent LGPL/GPL and possible patent obligations; embedding or distributing
+an encoder requires an audit of that exact build. The Azimlib writer is original
+BSD code; it does not grant codec rights. GIF encoding uses the optional Pillow
+installation already listed above.</p>
+<h3 id="optional-documentation-parser">Optional documentation parser</h3>
+<p>markdown-it-py and mdurl retain their upstream MIT terms. The docs extra/build
+uses these separately installed development tools; their implementations are
+not distributed in Azimlib or copied into generated site assets. Preserve their
+license notices if bundling their packages. See docs/dependencies.md.</p>
+<h2 id="optional-official-datum-grids-04-development">Optional official datum grids (0.4 development)</h2>
+<p>The pinned model descriptions in <code>src/azimlib/data/optional-grids.json</code> refer to
+data published by Toitū Te Whenua Land Information New Zealand (LINZ), package
+<code>proj-datumgrid-nz</code> version 20200110, upstream commit
+<code>62ff69da8713f0167d319d0263f1657ac380f273</code>.
+Only model metadata are bundled; <strong>NTv2/GTX grid payloads are not in wheel/sdist</strong>.
+This does not incorporate PROJ software or its implementation.</p>
+<p>Downloaded LINZ data retain <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>,
+attribution to LINZ, the original upstream notice, and the complete license in
+<code>licenses/CC-BY-4.0.txt</code>. The acquisition tool preserves all three with the data.
+Redistributors must retain attribution, link the license and indicate modifications;
+no endorsement is implied. Azimlib's BSD license does not replace these terms.
+See <a href="docs/datum-grids.html">model provenance and validation</a>.</p>
+<h2 id="own-routing-implementation-and-optional-graph-data-04-development">Own routing implementation and optional graph data (0.4 development)</h2>
+<p><code>routing.py</code> and <code>_routing_osm.py</code> contain original Azimlib graph construction,
+spherical snapping, stateful A*/Dijkstra and OSM tag interpretation. Published
+OSM format/tag facts were consulted; no third-party router implementation,
+code, generated schema or documentation snippet is incorporated. See the
+<a href="docs/routing-0.4.html">coverage and protocol references</a>.</p>
+<p>Optional OpenStreetMap-derived graph indexes retain their source ODbL terms,
+copyright, attribution and complete license text in the graph payload. They are
+not bundled into wheel/sdist. Azimlib's BSD 3-Clause license covers its original
+implementation and synthetic fixtures, not exclusive ownership of OSM data.</p>
+<h2 id="optional-complex-typography-04-development">Optional complex typography (0.4 development)</h2>
+<p>The original <code>text_engine.py</code> compositor and <code>_unicode_icu.py</code> C-API binding use
+separately installed generic text engines, not Matplotlib implementations:
+uharfbuzz (Apache-2.0), HarfBuzz (permissive upstream notices), fontTools (MIT),
+aggdraw (its existing PIL/AGG notices) and the operating system's ICU.
+No engine binary, source, generated Unicode table or third-party Python binding
+is vendored. The <code>text</code> extra does not introduce python-bidi or LGPL bidi code.
+<code>_bidi.py</code> is an original implementation of the normative UAX #9 rules, using
+ICU character properties rather than ICU's bidi resolver. No bidi implementation
+was copied, translated or ported from another project.</p>
+<p>Full reference notices are in <code>licenses/UHarfBuzz.txt</code>, <code>licenses/HarfBuzz.txt</code>,
+<code>licenses/FontTools.txt</code> and <code>licenses/ICU.txt</code>; origins/versions/SHA-256 are in
+<code>docs/text-dependencies-0.4.json</code>. ICU's notice is a pinned upstream reference,
+not a declaration that all installed ICU releases have identical terms. When
+redistributing engine binaries, preserve the notices for the actual resolved
+version, including transitive notices supplied by its distributor.</p>
+<p>Optional Unicode 15.1 conformance datasets are acquired separately, with pinned
+sizes/hashes by <code>tools/validate_unicode_text.py</code>. They are not in wheel/sdist.
+Their Unicode copyrights remain in the unmodified files; the acquisition also
+preserves the full official permission notice in <code>licenses/Unicode-Data.txt</code>.
+That notice is not replaced by Azimlib's BSD license. The standard's algorithmic
+rules inform the original resolver; no prose or reference implementation from
+the standard is incorporated into it.</p>
+<p>Optional Noto Devanagari and Noto CJK validation fonts retain OFL-1.1 and their
+upstream copyrights, including reserved-name conditions where present. Complete
+licenses are <code>licenses/Noto-Devanagari.txt</code> and <code>licenses/Noto-CJK.txt</code>; immutable
+download records are <code>src/azimlib/data/optional-fonts.json</code>. <strong>Neither font is
+distributed in Azimlib wheel/sdist.</strong> Acquisition preserves unmodified bytes and
+full notices. Outputs retain font provenance/license text; those fonts and
+contours are not claimed as exclusively owned original Azimlib material.</p>
+<p>User-supplied fonts require explicit source, license and permission for outline
+exports; OpenType restrictions are checked but do not establish legal rights.
+See <a href="docs/international-text-0.4.html">international text policies and boundaries</a>.</p>
+<h2 id="optional-real-tex-integration-04-development">Optional real TeX integration (0.4 development)</h2>
+<p><code>tex.py</code> and <code>_tex_process.py</code> are original Azimlib integration code. They invoke
+separately installed executables through files/CLI, without linking or copying
+their implementations. <strong>Tectonic, pdftocairo/Poppler, their dependencies, TeX
+packages/cache and TeX font binaries are not included in wheel/sdist.</strong></p>
+<p>The tested Tectonic 0.17.0 distribution has its own MIT and dependency notices;
+<code>licenses/Tectonic.txt</code> is the pinned top-level reference, not a replacement for
+the full binary distributor's notices. The tested conda-forge Poppler 26.07.0
+package identifies GPL-2.0-only; other builds must be assessed on their own terms.
+Redistributing those tools is a separate licensing decision. Azimlib's BSD
+license does not relicense them. No assertion is made that bundling them into
+a proprietary product has the same obligations as independently invoking an
+installed command-line tool.</p>
+<p>The Python <code>tex</code> extra uses separately installed fontTools (MIT), psutil
+(BSD 3-Clause; copyright Jay Loden, Dave Daeschler, Giampaolo Rodola) and aggdraw
+(existing PIL/AGG notices). Full psutil notice: <code>licenses/Psutil.txt</code>.</p>
+<p>The fixed validation specimen uses Latin Modern (GUST Font License, referring
+to LPPL 1.3c or later) and canonical Computer Modern Type 1 from AMSFonts
+(OFL-1.1). Reference texts are <code>licenses/Latin-Modern.txt</code>, <code>licenses/LPPL-1.3c.txt</code>
+and <code>licenses/AMSFonts.txt</code>. Their glyph contours remain third-party material;
+exports carry the provided full font notices. No exclusive ownership is claimed.
+Other preambles/fonts need their actual source, permission and notices.</p>
+<p>Sources and hashes: <code>docs/tex-dependencies-0.4.json</code>. These are reference notices,
+not certification of every separately installed TeX distribution or font.
+See <a href="docs/tex-0.4.html">the explicit real-TeX contract</a>.</p>
+<h2 id="solar-model-definitions-and-reference-only-validation-04-development">Solar model definitions and reference-only validation (0.4 development)</h2>
+<p><code>solar.py</code>, <code>solar_artists.py</code> and <code>validate_solar.py</code> are original Azimlib code.
+Mathematical model definitions are credited to the USNO approximate solar
+equations; the optional atmospheric approximation is described by NOAA.
+Their code, prose, binaries and datasets have not been incorporated. Sources,
+validity and model limitations are recorded in <a href="docs/solar-0.4.html">the solar guide</a>.
+JPL Horizons is an independently queried validation reference with its own
+terms; no raw responses, numerical ephemeris tables, kernels or JPL code are
+packaged or relicensed under BSD. Only original analysis, query identities
+and input hashes appear in development evidence. These distinctions do not
+change the license of any existing bundled third-party material.</p>
+<h2 id="lunar-model-definitions-and-reference-only-validation-04-development">Lunar model definitions and reference-only validation (0.4 development)</h2>
+<p><code>lunar.py</code>, <code>lunar_artists.py</code> and the lunar validation tools are independently
+written Azimlib code. The mathematical short-series definitions are credited
+to the Almanac model reviewed in David G. Simpson's NASA GSFC paper, equations
+1–4, pages 176–177. NTRS record 19990040527 identifies the work as US government
+material permitting public use. Only the model's numerical definitions are
+expressed in code; no paper text, third-party implementation or ephemeris
+kernel is bundled or claimed as exclusive property. The Moon's mean radius
+is a numerical physical fact credited to the NASA factsheet. Sources, hashes,
+frames and limitations are documented in <code>docs/lunar-model-0.4.json</code> and
+<a href="docs/lunar-0.4.html">the lunar guide</a>. JPL Horizons is validation-only, under its
+own terms: no raw numerical reference tables/responses are distributed or
+relicensed. Original error statistics and query hashes are retained.</p>
+<h2 id="physical-light-and-finite-source-geometry-04-development">Physical light and finite-source geometry (0.4 development)</h2>
+<p><code>lighting.py</code>, <code>eclipse.py</code>, <code>eclipse_artists.py</code> and their validation/examples
+are independently written Azimlib implementations of generic geometric ideas.
+The nominal Sun radius is a numerical definition credited to IAU 2015 B3
+(<a href="https://arxiv.org/abs/1510.07674">source</a>); Earth/Moon constants retain the
+credits recorded in <code>docs/lighting-model-0.4.json</code> and <code>docs/lunar-model-0.4.json</code>.
+No third-party ray tracer, eclipse implementation or ephemeris kernel is included.
+Fred Espenak's NASA/GSFC eclipse path table is an independent reference only:
+raw HTML, numerical tables, text and images are not distributed. Original
+diagnostic statistics and input hashes do not claim ownership of those sources.
+Precise real-event prediction is unsupported; this does not change the license
+of any previously bundled third-party material.</p>
+<h2 id="experimental-eclipse-ephemeris-validation-04-development">Experimental eclipse ephemeris validation (0.4 development)</h2>
+<p><code>_spk.py</code> is an independently written, bounded reader/evaluator based on the
+public NAIF DAF/SPK format specifications. No SPICE, SOFA, ERFA or jplephem
+implementation is included. JPL DE440s remains externally supplied reference
+data under its own terms; the kernel is neither bundled nor relicensed here.
+The separate comparison with jplephem 2.24 is development-only, not a runtime
+dependency or an independent validation of the underlying dynamical model.</p>
+<p><code>_eclipse_ephemeris.py</code> contains original experimental reductions and geometry.
+Conventional IAU-1976 precession parameters, truncated nutation, light time,
+aberration and Chebyshev recurrence are mathematical/physical definitions;
+their use does not establish an exclusive right over those definitions.
+It is not a complete IAU/IERS Earth-orientation implementation.</p>
+<p>Solar path and lunar contact references are credited as:
+<strong>Eclipse Predictions by Fred Espenak, NASA's GSFC</strong>.
+The validation tool includes twelve numeric lunar contact expectations;
+original PDFs/HTML tables, prose, artwork and ephemeris kernels are not shipped.
+NASA's published lunar-limb and Danjon effective-shadow conventions retain
+their attribution and are separate from the physical mean-radius defaults.
+Sources, input hashes and the unpassed scientific accuracy criteria are in
+<a href="docs/eclipse-precision-0.4.html">the experimental eclipse guide</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/THIRD_PARTY_LICENSES.md">Source</a>.</footer></main><script src="site.js"></script></body></html>

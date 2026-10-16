@@ -1,0 +1,169 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Texto internacional — desenvolvimento da 0.4 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="texto-internacional-desenvolvimento-da-04">Texto internacional — desenvolvimento da 0.4</h1>
+<p>A implementação original de composição da Azimlib integra motores tipográficos
+genéricos opcionais. Não usa Matplotlib, Cartopy, navegador ou Pillow para decidir
+como uma palavra deve ser composta. A versão estável publicada continua 0.3.0;
+este guia descreve o código de desenvolvimento, ainda sem publicação.</p>
+<h2 id="instalação-e-uso">Instalação e uso</h2>
+<p>No checkout de desenvolvimento:</p>
+<pre><code class="language-bash">python -m pip install -e &quot;.[text,png]&quot;
+</code></pre>
+<p>HarfBuzz (<code>uharfbuzz</code>, Apache-2.0) fornece substituição/posicionamento OpenType;
+fontTools (MIT) fornece acesso a fontes e contornos; aggdraw rasteriza os contornos.
+ICU fornece propriedades Unicode, graphemes e identificação de scripts pela API C pública.
+O resolvedor bidi é próprio da Azimlib, implementado a partir do UAX #9. No
+Windows a biblioteca do sistema é usada; Linux precisa de <code>libicu</code> e macOS de
+<code>libicucore</code> ou uma instalação de ICU disponível para o carregador do sistema.
+Nenhuma DLL, tabela Unicode ou fonte adicional é baixada automaticamente.</p>
+<pre><code class="language-python">import azimlib as azl
+# import azimlib.pyplot as plt também continua disponível.
+
+with azl.text_context(language=&quot;ar&quot;, direction=&quot;auto&quot;):
+    fig, ax = azl.subplots()
+    title = ax.set_title(&quot;القاهرة / Cairo&quot;)
+    ax.text(31.24, 30.04, &quot;العربية&quot;, fontsize=14, halo=&quot;white&quot;)
+
+# A figura e os Artists capturam as opções, inclusive para ticks automáticos.
+title.set_direction(&quot;rtl&quot;)
+title.set_language(&quot;ar&quot;)
+title.set_fontfeatures({&quot;liga&quot;: 1})
+title.set_visible(False)
+fig.savefig(&quot;map.svg&quot;)
+</code></pre>
+<p>Também é possível passar <code>textengine=&quot;harfbuzz&quot;</code>, <code>direction</code>, <code>language</code>,
+<code>fontfallback</code> e <code>fontfeatures</code> diretamente aos textos. O engine <code>basic</code> permanece
+o padrão sem contexto, sem dependências tipográficas adicionais. Os contextos
+são isolados por thread/contexto e restaurados mesmo após exceções.
+<code>get_capabilities(&quot;svg&quot;, textengine=&quot;harfbuzz&quot;).require(&quot;complex_shaping&quot;)</code>
+verifica disponibilidade; não constitui certificação visual de uma plataforma.</p>
+<h2 id="contrato-de-composição">Contrato de composição</h2>
+<ul>
+<li>Texto de entrada permanece em ordem lógica Unicode; não inverter manualmente
+árabe/hebraico. <code>_bidi.py</code> calcula níveis e runs visuais, incluindo números,
+pontuação, brackets, isolates, overrides e limites de profundidade do UAX #9,
+revisão 51. Não foi portado de outra implementação. Propriedades de caracteres
+e segmentação são fornecidas pelo ICU; suas versões efetivas são registradas.</li>
+<li>Índices públicos de clusters/runs são posições de code points Python. O binding
+converte explicitamente UTF-16, inclusive caracteres fora do BMP.</li>
+<li>A escolha de fallback exige cobertura do grapheme inteiro. Fontes adjacentes
+preservam contexto de shaping; marcas, ligaturas e conjunções índicas não são
+recompostas como caracteres isolados. Linguagem e features OpenType são explícitas.</li>
+<li><code>ShapedLine</code>, <code>TextRun</code> e <code>Glyph</code> são imutáveis. Posições são em em; métricas,
+curvas, rotação, alinhamento, halos e DPI usam as mesmas unidades físicas dos
+componentes existentes. PNG, SVG, PDF e Tk/Qt consomem esses mesmos contornos.</li>
+<li>Ausência de engine/fonte/cobertura causa erro explícito. Não há troca silenciosa
+por <code>?</code>, tofu ou uma fonte instalada na máquina sem proveniência conhecida.</li>
+<li>Limites: 4096 code points por linha, 16384 glifos por linha, fonte até 32 MiB,
+registro de fontes até 128 MiB e tile de texto até 16 megapixels. Caches têm
+limites de entradas; esses limites não representam um teto global de RSS.</li>
+</ul>
+<h2 id="fontes-e-licenças">Fontes e licenças</h2>
+<p>DejaVu original permanece incluída e inalterada. Árabe/hebraico e acentos usam sua
+cobertura disponível; isso não implica cobertura CJK/índica universal.
+Para outra fonte, o responsável deve fornecer origem pública, licença completa
+e confirmar permissão de exportar contornos:</p>
+<pre><code class="language-python">record = azl.register_font(
+    &quot;MyFont-Regular.ttf&quot;, family=&quot;My Font&quot;,
+    source=&quot;https://example.org/fonts/my-font/&quot;,
+    license_id=&quot;OFL-1.1&quot;, license_text=complete_license_text,
+    allow_outlines=True,
+)
+with azl.text_context(fallback=(&quot;My Font&quot;,)):
+    fig, ax = azl.subplots()
+    ax.set_title(&quot;Texto multilíngue&quot;)
+</code></pre>
+<p>Esse aceite é declaração do chamador, não uma conclusão jurídica automática da
+Azimlib. O registro copia bytes em memória, registra SHA-256/copyright/cobertura
+e impede substituição da família. Não exporta o caminho local. URLs de origem
+não aceitam credenciais, query ou fragmento. Os bits OpenType de restrição de
+embedding/bitmap-only bloqueiam este caminho; não substituem a licença da fonte.
+São aceitas fontes estáticas TTF/glyf e OTF/CFF monocromáticas. Coleções TTC,
+fontes variáveis não instanciadas e fontes coloridas/bitmap são recusadas.</p>
+<p>As fontes Noto Devanagari/CJK de validação são opcionais, OFL-1.1, fixadas por
+commit, tamanho e SHA-256 em <code>src/azimlib/data/optional-fonts.json</code>. Não integram
+wheel/sdist. Aquisição explícita e verificável:</p>
+<pre><code class="language-bash">python tools/acquire_text_fonts.py --output optional-data/text-fonts
+python tools/validate_text_engine.py --fonts optional-data/text-fonts --output text-review
+</code></pre>
+<p>Preservar as respectivas licenças e copyrights ao redistribuir fontes. Ver
+<a href="../THIRD_PARTY_LICENSES.html">avisos de terceiros</a> e
+<a href="text-dependencies-0.4.json">inventário tipográfico</a>.</p>
+<h2 id="exportação-acessibilidade-e-viewers">Exportação, acessibilidade e viewers</h2>
+<table>
+<thead>
+<tr>
+<th>Saída</th>
+<th>Política de texto complexo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PNG</td>
+<td>Contornos posicionados, antialiasing e proveniência/licenças em iTXt; texto não selecionável</td>
+</tr>
+<tr>
+<td>SVG</td>
+<td>Contornos não dependem de fontes no leitor; texto lógico em <code>aria-label</code>/<code>desc</code>, licenças em metadata</td>
+</tr>
+<tr>
+<td>PDF</td>
+<td>Contornos e <code>ActualText</code> UTF-16BE por texto; avisos anexados; cópia/pesquisa dependem do leitor</td>
+</tr>
+<tr>
+<td>Tk/Qt</td>
+<td>Mesmo compositor/PNG; Artists, visibilidade, edição, pan/zoom e recompose próprios</td>
+</tr>
+<tr>
+<td>HTML offline</td>
+<td>Contornos existentes mantidos, tamanho físico preservado ao navegar; componentes dinâmicos mantêm o protocolo portátil existente</td>
+</tr>
+</tbody>
+</table>
+<p>SVG de shaping usa outlines: editar a string em um editor SVG não recompõe esses
+paths. Editar o Artist Python e exportar novamente preserva texto lógico, fonte,
+estilo e posição. <code>aria-label</code>/<code>desc</code> e PDF <code>ActualText</code> não são promessa de PDF/UA,
+acessibilidade integral ou de seleção/pesquisa idêntica em todos os leitores.
+Não são incorporados arquivos de fontes externas; os contornos e avisos bastam
+para reproduzir o aspecto, dentro das permissões declaradas.</p>
+<p>O HTML não contém ICU/HarfBuzz executável. Recomposição dinâmica de texto
+arbitrário em scripts complexos exige o viewer Python; não se anuncia shaping
+universal no JavaScript. Ticks/escala numéricos seguem o protocolo existente.
+TeX completo, layout vertical CJK, quebra automática de parágrafos, hyphenation e
+edição de cursor/seleção por glifo não fazem parte deste lote; TeX pertence à etapa 8.</p>
+<h2 id="curvas-colisões-e-validação">Curvas, colisões e validação</h2>
+<p>Labels em curvas usam clusters compostos em ordem visual e mantêm as formas
+contextuais, ligaturas e offsets de marcas. A curva orienta cada cluster sem
+separar a marca da base. Caixas de colisão incluem overhangs e métricas de todas
+as fontes; prioridades, repetição e leader lines continuam usando o planejador
+cartográfico próprio. Curvatura extrema pode rejeitar um candidato para preservar
+legibilidade. Isso não equivale a deformar contornos de uma palavra ao longo da curva.</p>
+<p><code>tests/test_text_engine_040.py</code> compara glifos/advances/clusters com chamadas
+diretas a HarfBuzz, testa bidi/graphemes/isolates, recusa de cobertura, CFF,
+licenças/restrições, curvas, caches, componentes, rotação e DPI.
+<code>tools/validate_text_engine.py</code> gera espécimes/mapas PNG/SVG/PDF, HTML, manifest e
+capturas Tk/Qt quando solicitado. Os pacotes passam pelo auditor de privacidade.
+O workflow manual <code>text-review-0.4.yml</code> prepara artifacts separados em Windows,
+Linux e macOS. Não publica Pages, PyPI, release ou tag.</p>
+<p>Conformidade reproduzível, com aquisição explícita de dados Unicode 15.1.0:</p>
+<pre><code class="language-bash">python tools/validate_unicode_text.py --data optional-data/unicode-15.1 --acquire --output unicode-conformance.json
+</code></pre>
+<p>Tamanhos e SHA-256 são fixados; os datasets não entram nos archives. A ferramenta
+verifica todos os níveis, a ordem visual e graphemes: 91.707 casos de caracteres,
+770.241 casos/modos por classes bidi e 1.187 casos de segmentação. Não há lista
+de exceções que transforme falhas em sucesso. Apenas posições marcadas <code>x</code> pelo
+formato oficial são omitidas na comparação, conforme X9. Isso não prova
+conformidade com futuras versões de propriedades Unicode.</p>
+<p>A validação inicial de <code>ubidi_*</code> encontrou 30 divergências nos casos de
+overrides/isolates, brackets/marcas e profundidade, tanto no ICU do Windows
+72.1.0.4 quanto no binário oficial ICU 78.3. Por isso o runtime não usa esse
+resolvedor: o resolvedor próprio passou nos conjuntos oficiais completos de
+níveis e ordem citados acima. Graphemes continuam no serviço ICU, verificados
+separadamente. Fontes, HarfBuzz e rasterização têm seus próprios testes.</p>
+<p><strong>7.08 permanece pendente</strong>: testes locais e screenshots não substituem CI nos
+três sistemas nem aprovação visual humana explícita de cada plataforma. A versão
+do código e os hashes devem coincidir com os artifacts revisados antes do gate final.</p>
+<p>Referências de API: <a href="https://harfbuzz.github.io/">HarfBuzz</a>,
+<a href="https://www.unicode.org/reports/tr9/tr9-51.html">UAX #9</a>,
+<a href="https://unicode-org.github.io/icu-docs/apidoc/released/icu4c/ubrk_8h.html">ICU graphemes</a>,
+<a href="https://fonttools.readthedocs.io/en/latest/pens/index.html">fontTools pens</a>,
+<a href="https://learn.microsoft.com/en-us/typography/opentype/spec/os2#fstype">OpenType fsType</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/international-text-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

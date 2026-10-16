@@ -1,0 +1,80 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Publication state — 0.4.0 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="publication-state-040">Publication state — 0.4.0</h1>
+<p>The 112 original IDs remain intact. Before publication the source checklist has
+107 completed, exactly four deferred (2.08, 9.08, 13.06, 13.07), and 14.08 unchecked.
+The immutable source checklist is not required to claim a completed publication
+before uploading. Authorization and observed completion are separate records.</p>
+<table>
+<thead>
+<tr>
+<th>State</th>
+<th>Required evidence</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pending</code></td>
+<td>No validated exact-candidate final authorization</td>
+<td>Publication blocked</td>
+</tr>
+<tr>
+<td><code>authorized</code></td>
+<td>Versioned final human authorization, 107 completed, exactly four named deferments, only 14.08 pending, exact SHA/hashes/artifact provenance and both successful CI matrices</td>
+<td>107/108 active IDs complete; 14.08 authorized to start, not completed</td>
+</tr>
+<tr>
+<td><code>completed</code></td>
+<td>Authorization plus verified main/CI/tag/Release/PyPI hashes, clean PyPI install/smoke and public documentation observations</td>
+<td>108 active IDs complete, four still deferred; publication actually verified</td>
+</tr>
+</tbody>
+</table>
+<h2 id="immutable-candidate-and-separately-versioned-authorization">Immutable candidate and separately versioned authorization</h2>
+<p>The final candidate SHA and archive hashes cannot be embedded in their own input
+tree without a circular dependency. Build/audit the source candidate first, then
+commit <code>release-authorizations/0.4.0.json</code> on the separate
+<code>release/0.4.0-authorization</code> branch. This record does not change the candidate
+tree, version, canonical archives or their hashes. Pass its exact immutable Git
+commit as <code>authorization_ref</code>; the workflow verifies that it is the current tip
+of that specific branch and reads the file at that commit via the repository API.</p>
+<p>Required record fields:</p>
+<ul>
+<li><code>schema: 1</code>, <code>version: &quot;0.4.0&quot;</code>, <code>state: &quot;authorized&quot;</code>;</li>
+<li><code>candidate_sha</code>, exact wheel/sdist <code>package_sha256</code>, and <code>artifact</code> run/ID;</li>
+<li><code>expected_inventory</code>: 112 original, 107 completed, four exact named deferments,
+<code>authorized_item: &quot;14.08&quot;</code>, active 107/108;</li>
+<li><code>human_final_acceptance: true</code>, <code>approval_reference</code>, visual acceptance
+reference and SHA-256 of the versioned visual acceptance record;</li>
+<li><code>allows_start_14_08: true</code>, <code>considers_14_08_completed: false</code>;</li>
+<li><code>publication_execution_permitted</code>: false for a dry-run-only authorization.</li>
+</ul>
+<p>An explicit later human publication confirmation is required to version an
+execution-permitted record. Dry-run permission never grants permission to upload.
+Changing the authorization record alone does not require rebuilding source
+packages, but every new candidate SHA requires fresh CI/build/audits/hashes.</p>
+<h2 id="workflow-preflight">Workflow preflight</h2>
+<p><code>publish.yml</code> defaults to <code>dry_run: true</code>. Dry-run uses only
+<code>validation/0.4-candidate</code> and read permissions; the OIDC publish job is skipped.
+It verifies the versioned record, exact current branch/SHA, all 28 principal and
+42 complementary jobs at that SHA/context, original artifact provenance,
+canonical wheel/sdist hashes, strict twine, distribution/RECORD/notices/privacy,
+and a clean wheel installation. It emits <code>state: authorized</code>, <code>completed: false</code>.</p>
+<p>Real execution additionally requires explicit execution permission in the
+versioned record, <code>dry_run: false</code>, exact current <code>main</code>, and both main-context CI
+matrices. It retains the separate main CI gate and uses Trusted Publishing only
+after the build/preflight job succeeds. It retrieves already audited bytes;
+it does not rebuild packages or infer completion.</p>
+<h2 id="post-publication-completion">Post-publication completion</h2>
+<p><code>release_state040.completed</code> validates structured observations collected by the
+post-publication audits: exact main and CI; annotated tag and published Release;
+PyPI metadata hashes and independently downloaded hashes; isolated installation
+from the public PyPI index, imports and smoke log hash; deployed documentation
+version, exact source SHA, verified files and link-audit hash. Missing, stale or
+divergent evidence fails closed. A checked box, <code>passed: true</code>, or an authorization
+record alone is insufficient. This offline validator does not itself fetch those
+observations and must not be presented as a live publication check.</p>
+<p>Only the validated post-publication record may report 14.08 completed and an
+operational 108/108 active total. The source checklist remains a historical
+snapshot of the candidate; it must not be silently edited to change its identity.
+The four deferred scientific/performance/planetary gates remain deferred.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/release-publication-state-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

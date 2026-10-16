@@ -1,0 +1,14 @@
+{
+  "original_assets": 21,
+  "license": "MIT",
+  "geometry_sha256": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+  "compared_reference_hashes": 32,
+  "embedded_own_icons": 282,
+  "archives": [
+    "wheel",
+    "source_zip",
+    "sdist"
+  ],
+  "foreign_toolbar_assets_absent": true,
+  "_publication_history": "Historical result: license and execution hashes describe the original run, not the corrected BSD distribution. See publication-readiness.md and publication-source-map.json."
+}

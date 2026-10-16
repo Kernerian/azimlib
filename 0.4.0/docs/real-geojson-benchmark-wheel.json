@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "azimlib_version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tooling_sha256": "61d4a0ae82029099489f4a3a5b87f92e881565f5d7ac1740968b8bcea82d11fa",
+  "runtime_sha256": {
+    "azimlib.backends.tk": "c3e080e0bfa248e47d21aadacd5486885d3274aaf6a65cbf02d48c5d331b9c93",
+    "azimlib.backends._raster_cache": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+    "azimlib.renderers.pillow": "ca4864cd161853af4812d1ace526e1192160c691a28272c619e5fb3d67eb5500"
+  },
+  "source": {
+    "filename": "ibge-sp-municipalities.geojson",
+    "sha256": "57bf1e9d10b430d297955110792fb04b1af6f050956bc4ef598ef81636bc9340",
+    "bytes": 4913339,
+    "features": 645,
+    "vertices": 222324,
+    "bounds": [
+      -53.1101,
+      -25.3579,
+      -44.1614,
+      -19.7797
+    ]
+  },
+  "dpi": 100,
+  "repeats": 3,
+  "tk_only": true,
+  "read_validate_seconds": 0.4903125999990152,
+  "index_seconds": 0.011722799999915878,
+  "indexed_features": 645,
+  "always_features": 0,
+  "views": [],
+  "tk": {
+    "stages": [
+      {
+        "stage": "redraw",
+        "seconds": 0.41054869999970833,
+        "extent": [
+          -53.557535,
+          -43.713965,
+          -25.63681,
+          -19.50079
+        ],
+        "history_index": 0,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 169447424,
+          "peak_working_set_bytes": 172478464,
+          "private_committed_bytes": 149147648,
+          "source": "Windows GetProcessMemoryInfo"
+        },
+        "rgba_sha256": "288a6cc25f2f8bc0c2ef1f3a9335fbbd2987827262a35bb8bd34738aa2f36f05",
+        "cache": {
+          "hits": 1,
+          "misses": 1,
+          "retained_rgba_bytes": 873600
+        }
+      },
+      {
+        "stage": "zoom",
+        "seconds": 16.599658699999054,
+        "extent": [
+          -52.7389574855953,
+          -44.5359824855953,
+          -25.131228399889487,
+          -20.017878399889486
+        ],
+        "history_index": 1,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 144605184,
+          "peak_working_set_bytes": 195293184,
+          "private_committed_bytes": 123109376,
+          "source": "Windows GetProcessMemoryInfo"
+        },
+        "rgba_sha256": "457d8b64218f9f178b12a6080bfa953688297ed9a7221085e29e2bbf4f9089a4",
+        "cache": {
+          "hits": 1,
+          "misses": 2,
+          "retained_rgba_bytes": 1747200
+        }
+      },
+      {
+        "stage": "pan_preview_release",
+        "seconds": 16.55040089999966,
+        "extent": [
+          -52.92018503124763,
+          -44.71721003124762,
+          -25.032745514271046,
+          -19.915677957861522
+        ],
+        "history_index": 2,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 174985216,
+          "peak_working_set_bytes": 196120576,
+          "private_committed_bytes": 153751552,
+          "source": "Windows GetProcessMemoryInfo"
+        },
+        "rgba_sha256": "9561e284db1ad3ab2d5745943510e641628e8f2ee7c59333aa15801f69a280b5",
+        "cache": {
+          "hits": 1,
+          "misses": 3,
+          "retained_rgba_bytes": 2620800
+        }
+      },
+      {
+        "stage": "back",
+        "seconds": 0.41555110000081186,
+        "extent": [
+          -52.7389574855953,
+          -44.5359824855953,
+          -25.131228399889487,
+          -20.017878399889486
+        ],
+        "history_index": 1,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 149995520,
+          "peak_working_set_bytes": 196120576,
+          "private_committed_bytes": 128548864,
+          "source": "Windows GetProcessMemoryInfo"
+        },
+        "rgba_sha256": "457d8b64218f9f178b12a6080bfa953688297ed9a7221085e29e2bbf4f9089a4",
+        "cache": {
+          "hits": 2,
+          "misses": 3,
+          "retained_rgba_bytes": 2620800
+        }
+      },
+      {
+        "stage": "forward",
+        "seconds": 0.398273099999642,
+        "extent": [
+          -52.92018503124763,
+          -44.71721003124762,
+          -25.032745514271046,
+          -19.915677957861522
+        ],
+        "history_index": 2,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 176058368,
+          "peak_working_set_bytes": 196120576,
+          "private_committed_bytes": 155299840,
+          "source": "Windows GetProcessMemoryInfo"
+        },
+        "rgba_sha256": "9561e284db1ad3ab2d5745943510e641628e8f2ee7c59333aa15801f69a280b5",
+        "cache": {
+          "hits": 3,
+          "misses": 3,
+          "retained_rgba_bytes": 2620800
+        }
+      },
+      {
+        "stage": "home",
+        "seconds": 0.3951684000003297,
+        "extent": [
+          -53.557535,
+          -43.713965,
+          -25.63681,
+          -19.50079
+        ],
+        "history_index": 3,
+        "pixels": [
+          520,
+          420
+        ],
+        "memory": {
+          "working_set_bytes": 152064000,
+          "peak_working_set_bytes": 196120576,
+          "private_committed_bytes": 131358720,
+          "source": "Windows GetProcessMemoryInfo"
+        },
+        "rgba_sha256": "288a6cc25f2f8bc0c2ef1f3a9335fbbd2987827262a35bb8bd34738aa2f36f05",
+        "cache": {
+          "hits": 4,
+          "misses": 3,
+          "retained_rgba_bytes": 2620800
+        }
+      }
+    ],
+    "home_restored": true,
+    "tk_version": 8.6
+  },
+  "notes": [
+    "Local source explicitly supplied; no implicit network access.",
+    "Warm alternating linear/indexed culling; caches enabled in both. PNG raster/encoding reported separately once per mode/view.",
+    "Process memory outside timing; peak is process lifetime high-water mark, not stage-only allocation.",
+    "Tk, if requested: real withdrawn widgets, synthetic input, no visible presentation or physical-input latency.",
+    "Small local sample; no general speed guarantee. Detailed relative to bundled examples does not imply full-resolution original data."
+  ],
+  "independent_runtime": true
+}

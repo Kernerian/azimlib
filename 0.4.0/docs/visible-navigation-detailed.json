@@ -1,0 +1,4731 @@
+{
+  "schema_version": 1,
+  "started_utc": "2026-10-04T00:55:37.617733+00:00",
+  "case": "original-SP-645 + synthetic mesh/contour/1200 points",
+  "input_sha256": "1766afe1761ad4ff0af95b57ac95e972cbd95ffdd9809d4a18480362adbd2b5e",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "azimlib": "0.1.0",
+  "read_seconds": 1.9887931999983266,
+  "scripted_model_edits": true,
+  "tool_sha256": "e0cd6d2ac1d9a4d2f6c8512dbbbf84309f598c969f1f238110cfd3b2d9686cfa",
+  "runtime_sha256": {
+    "__init__.py": "e996f351665a23f3a22ceb2637a21576a306dd811012196d80dedc409f0af2e9",
+    "_state.py": "c68862c9e821aaf88e5897f60b24513d561933f10274ebc28c57b323fa85b7d6",
+    "_toolbar_icons.py": "45d5a0016aaa7617a35b737fdfbe43953699acf45099ee795bfd0abb668b1823",
+    "artist.py": "29671f8bcf9cee378100751226855e7b2b51427e7121ce796bb58f380fa2b08f",
+    "axes.py": "e980f8f9c31593c1cf08262383147c5cd4832207595131d3844b9bf0d5c311a0",
+    "axis.py": "afb42b33a15586412b7b02a6209a68458183257391d674214ead8f161bf70542",
+    "backend_bases.py": "50748620a631923fb863ad2e08219b9584cd2c519d8d5b9de42c4a19cb0d225e",
+    "backends/__init__.py": "a86a02ec2baf519ed2fbf15040d5ba5e595e6239131ce9dcf8056d53288c74b4",
+    "backends/_navigation_process.py": "2a22ce724fded67692ee358750837c044e4db9993b187dac69ac3fe9a31c4314",
+    "backends/_pan_raster.py": "583d7a54984eb2ee8dee13620f3c12609979082c9d1fbf35291b81fb89a03e7b",
+    "backends/_raster_cache.py": "049f3b70bc10ab77ba44112541672d757d0d3aaf6d62e4ba7d057d00aa4185f3",
+    "backends/_subplots.py": "05ab093183e9d7ad77d6d8fe1ce2000e3a2f49989868cf54cf660b52be048229",
+    "backends/_tk_input.py": "bb1ac6db0515547401adbf91c2777b81c2b87322e5a3c5457c544a8518f1b86f",
+    "backends/tk.py": "06306f731f1cd75ef23a2d96f6cf05b9bb0e1f94e2a4d53a385bd9d3cdaafc9e",
+    "callbacks.py": "0b226f49664fc70826db079df2c0d034bd5ba31478e0377b1ba1a28619093630",
+    "cm.py": "6c0e5e450ee6a4ed20984897be07caf2e826a26ecb5d6c59b9376482dd4262ba",
+    "collections.py": "674f786b05d69b82ee624480893c9427b361e3b177657f874b3f6f1f9a27af7d",
+    "colorbar.py": "ae498901dd4c226c86c9b1ec944bf1409c387dd7fbe8eb80cfe41419d7a667be",
+    "colorbar_render.py": "b1ab037f6939c3314f038ce0edb63cde929255c8b9a9509c91a82a69f6d2079e",
+    "colors.py": "4a59fe19a743b6c97b847ab34a7c875858e57fe65af8f729365d347ea98bdff9",
+    "components.py": "3d05c2751d95dee248f88f8648a76cfa68fe5e4c43e33fa1f20e330881dc5f06",
+    "config.py": "c925020cd6058efdfac5423fbe9c20954e606991fb89d475a7e687b6f9cd9176",
+    "contour_inline.py": "eae4819bed9bcdc089e336caabbfdcb639bd408dfc999ef9c0e9b7d146c5ec0b",
+    "contours.py": "e8ee17bf6a0b5e2b477871518d5db9116130da454e596042a791576ccac6a2e9",
+    "crs.py": "b44dfdbdab4effc34989374ad81e54fd03129f3bf17d50a8e0905d5bd9693a1f",
+    "cycles.py": "80eb57e6cc10299e50a08f68a22c56f5a037820f43c529d7f4ecf1659e837ab7",
+    "datasets.py": "eaa01503357d6c7d4a8ae7ee7689dae1a355f161c0b83238f63edcc75b04462d",
+    "field_artists.py": "88f83f1cc5eb56a8061f7e3fe5d92512aea414b0de33d8db518466960ad5535f",
+    "fields.py": "85bab5b21deffddca5737e5dbcc10cff54da640ccc685f7b0b604254678ae133",
+    "figure.py": "2b44898ad62c0b69a4f37e98227c1d716abf674f835bf5a6f959f6bbcec5afe4",
+    "figure_text.py": "d5bd06ef32524aa735ce3fd6ddf6f9db22fad4872f17e40bcf8570501e5dcb04",
+    "geometry.py": "73dcbb93f7f570683d6c2c9e71afbaaf21cf00d7d5aea4779440e6679256a27b",
+    "gridspec.py": "56f731c1bab5ab11cb7aa872f15a2121fcae2521cff109b78cb46174e06b3c69",
+    "hatches.py": "0baa612082cd84a0673fc8e4d98976ccffc912fc3276732043766189ab14cf60",
+    "io.py": "3e898d4bde7b89026c19ce61a7914ed2b7f39358e73e65cb6c7010d5e568663f",
+    "label_layout.py": "2f0939aeed905ccd5644b045237c8146c2bf427e8e05cca843b461b01c189cdd",
+    "layers.py": "4548c3975efafe7e073ac59fc38e54adc717286b93812ddc77ce36f0cd750533",
+    "layout_engine.py": "390e31d618d4877cd80e5537649436df82ac4939da47bcf86db5338b7937f0ae",
+    "legend_layout.py": "01ff3f45eb37266a6d049c671429b9513b38cc6b1beb0bf0b448ec6ac0492ac5",
+    "line_labels.py": "6b63544d34a389ce04220cdb4cd1461d369c29f5648712a1f365a6532db8f471",
+    "mosaic.py": "9bd1c15f76c5160b1273372f116cf2cdb644c7213965f63deed14977ed40d61e",
+    "navigation.py": "3ddebc442666be8b271176ef8e0f9bff12ed7a74a855b1dee43534f677f018ab",
+    "nested_layout.py": "283f7594b757926cf71e58d67547014fd90cba59df5893a2cc46bef6d60611b3",
+    "overview.py": "82af3c41c839d8888145e8835bb58f480a27fc63df4e3408316fcb25ae506387",
+    "plotting.py": "066db0a2f3af78645e1b59ea579122ccdf759fb24c212a14639c5160416c6765",
+    "projected_paths.py": "8556765ee2d71504e78df87a672e108ed0023832cdb5d0a56e19c897840ac4d1",
+    "projections.py": "be88c37f7f7aa9ed038710e04fb7c749b611f582fca30a60947d20462757e972",
+    "pyplot.py": "82570574c084b9b00f8fd7ce3e9768ac5c14211e94f3b176bf3aa08719179543",
+    "render_map.py": "1afda0199ca12f189ae54adaedbf144d5177730cd9b4e5d817521126ae099f20",
+    "renderers/__init__.py": "a50d68121df8f9ec9e397cb0d91e685aaaae72e357b434800214d8e56a61dd91",
+    "renderers/_common.py": "d842737d3f16f27f36cfa039266cf6cdd2c9cbb1e13028029379c8d893cc9155",
+    "renderers/_coverage_native.py": "900699bc644f2b1b83f31ac2042d0f069f8d95c6bc9160cf447770ae13a655a2",
+    "renderers/_interactive.py": "b0fab6fcf5d72a82d51f74584b5f1565b28cc14e368ba3d3b17e8e504541e6bc",
+    "renderers/_navigation_coverage.py": "798e5e4ff3b402b1f25dcf42059eb68486910e82d24f946532fc24e5675c405f",
+    "renderers/_render_control.py": "b3e574b2f7ed06e835d603e38ea20de17a5b381f70578db75c0870882f053616",
+    "renderers/_tile_cache.py": "c938677932a4d0dc32acec6af9a01dca0a5ff626213903d4f5f293155ffc9917",
+    "renderers/coverage.py": "84c27121a0f1ac615b08c9de289f914f63d82a2affd242df9905c492d46b157e",
+    "renderers/pillow.py": "6d13aa29d8ddb1f67a24ec259e221e58db0f754388febdeec3651a9ec088ea30",
+    "renderers/svg.py": "17834dd9de39a4a6b2444cee048637575ab2805c771159f67bed856331c24ced",
+    "scene.py": "a306a91c35c657fb706faf6b6584188f1aad25763cef1b7926bd33753ba3a429",
+    "shared_axes.py": "a87074901ab9a0be07bf1d20607c7094bd0ff4dd60e1591afe0c208900a14a9f",
+    "spatial.py": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4",
+    "style.py": "866becb658bb4fda4f2f920eadad060bddd45f85a15964c556d4aca5b62b24d5",
+    "styles.py": "ccd0ee01db5519e907e060fa5069ed9b3d62e9d5d30eb341eebb7cf3e30dd2bf",
+    "text_artists.py": "cc1f50e95fb22284592df853eb8d3b5735b7b28a46d23bbf42357dfe03312180",
+    "ticker.py": "c9ebb469d6cd371278c3ab0ab320a8623d387f98230eee2b23446a3572182c78",
+    "typography.py": "652fefff4b3b412fc133b46c9684b74e79dc7d98538f9934f932173a5aeaf7bc",
+    "viewer.py": "63181455dc4fd67baaf0ea80399382c672e491624fd08512a241155eaba3cc77",
+    "viewport.py": "0d604d69e7f1106f1132718c046ff78d340e2a3d221f886722a719a0e9e64507"
+  },
+  "initial_memory": {
+    "working_set_bytes": 27394048,
+    "peak_working_set_bytes": 27394048,
+    "private_committed_bytes": 18128896,
+    "source": "Windows GetProcessMemoryInfo"
+  },
+  "scope": [
+    "Visible native Tk window; input comes from native bindings, never generated by this script.",
+    "Windows event timestamp compared with GetTickCount64: approximate dispatch age at native timer granularity.",
+    "Frame delivery includes PhotoImage/canvas command; subsequent Tk idle records bound scheduled Tk painting, not compositor/vsync/monitor completion.",
+    "Input-to-frame associations require matching recorded geographic extents; intermediate old frames are not latest-view latency.",
+    "Manual observation is recorded separately; these timings do not verify screenshot appearance."
+  ],
+  "final": true,
+  "summary": {
+    "native_events": 0,
+    "actions": {
+      "press": 0,
+      "motion": 0,
+      "release": 0,
+      "wheel": 0,
+      "enter": 0,
+      "leave": 0,
+      "home": 0,
+      "back": 0,
+      "forward": 0
+    },
+    "handler_max_ms": null,
+    "dispatch_age_median_ms": null,
+    "dispatch_age_max_ms": null,
+    "heartbeat_max_gap_ms": 2002.271599994856,
+    "paint_idle_records": 3
+  },
+  "records": [
+    {
+      "kind": "compose",
+      "t": 11.855080199995427,
+      "seconds": 8.555249099998036,
+      "items": 3693
+    },
+    {
+      "kind": "raster",
+      "t": 19.48780550000083,
+      "renderer": "preview_renderer",
+      "seconds": 7.562261400002171
+    },
+    {
+      "kind": "frame_delivery",
+      "t": 47.70884389999992,
+      "extents": [
+        [
+          -53.3,
+          -25.4,
+          -44.1,
+          -19.6
+        ]
+      ],
+      "complete": true,
+      "pixels": [
+        640,
+        480
+      ],
+      "delivery_seconds": 0.006245099997613579,
+      "cache_hits": 0,
+      "cache_misses": 1
+    },
+    {
+      "kind": "tk_paint_idle",
+      "t": 47.70899890000146,
+      "extents": [
+        [
+          -53.3,
+          -25.4,
+          -44.1,
+          -19.6
+        ]
+      ],
+      "complete": true,
+      "pixels": [
+        640,
+        480
+      ],
+      "delivery_seconds": 0.006245099997613579,
+      "cache_hits": 0,
+      "cache_misses": 1
+    },
+    {
+      "kind": "ready",
+      "t": 47.725033700000495,
+      "extent": [
+        [
+          -53.3,
+          -44.1,
+          -25.4,
+          -19.6
+        ]
+      ],
+      "pixels": [
+        640,
+        480
+      ],
+      "tk": "8.6.15",
+      "window_state": "normal",
+      "canvas_viewable": false
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.72504169999593
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.75393780000013
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.77612919999956
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.80841209999926
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.84117089999927
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.8718990999987
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.9020692999984
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.93383000000176
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.96495290000166
+    },
+    {
+      "kind": "heartbeat",
+      "t": 47.99553439999727
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.026655100002245
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.05774229999952
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.08893689999968
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.119401999996626
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.150555299995176
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.182021699998586
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.21404690000054
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.24519909999799
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.27627099999518
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.306852900001104
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.33832589999656
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.36914429999888
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.400011199999426
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.43099079999956
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.46221779999905
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.494594199997664
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.52637120000145
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.557514200001606
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.587801599998784
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.61761039999692
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.64879590000055
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.67932909999945
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.71096160000161
+    },
+    {
+      "kind": "model_edit",
+      "t": 48.741350299998885,
+      "stage": "new_pan",
+      "extent": [
+        -52.9,
+        -43.7,
+        -25.2,
+        -19.400000000000002
+      ]
+    },
+    {
+      "kind": "heartbeat",
+      "t": 48.74152270000195
+    },
+    {
+      "kind": "compose",
+      "t": 49.098699599999236,
+      "seconds": 0.3569789999964996,
+      "items": 3695
+    },
+    {
+      "kind": "heartbeat",
+      "t": 50.74379429999681
+    },
+    {
+      "kind": "heartbeat",
+      "t": 50.82482259999961
+    },
+    {
+      "kind": "heartbeat",
+      "t": 50.94728549999854
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.070137499998964
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.1140344000014
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.163502600000356
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.196543199999724
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.22810059999756
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.25723969999672
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.28776739999739
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.319086499999685
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.342144900001585
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.366101899999194
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.39847960000043
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.43002790000173
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.458436699998856
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.48009230000025
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.52122470000177
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.54211479999503
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.56920829999581
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.60412499999802
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.63062209999771
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.66248220000125
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.69379279999703
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.72036919999664
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.74345059999905
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.7744756999964
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.80264570000145
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.82401769999706
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.87337689999549
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.896667199995136
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.92085589999624
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.94534439999552
+    },
+    {
+      "kind": "heartbeat",
+      "t": 51.976636399995186
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.00776490000135
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.03889889999846
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.067947199997434
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.10104129999672
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.15431919999537
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.18162940000184
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.2108212000021
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.2418628000014
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.29657230000157
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.320782700000564
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.35283039999922
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.38462399999844
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.41320959999575
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.44669679999788
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.47689530000207
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.50981879999745
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.532312499999534
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.55364980000013
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.58631510000123
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.615904899997986
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.65107129999524
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.69376639999973
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.723640299998806
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.76374389999546
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.79234259999794
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.837825800001156
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.86441629999899
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.89717530000053
+    },
+    {
+      "kind": "heartbeat",
+      "t": 52.98782119999669
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.1431264999992
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.17417369999748
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.204365400000825
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.23544540000148
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.26658799999859
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.29617729999882
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.3268076999957
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.35855640000227
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.388934299997345
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.41935279999598
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.44928709999658
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.481957399999374
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.51224689999799
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.55868059999921
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.59088360000169
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.61102199999732
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.63416649999999
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.656385900001624
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.68839509999816
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.716271099998266
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.74981229999685
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.77734789999522
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.80700179999985
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.83649719999812
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.88162139999622
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.912231299997075
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.934359899998526
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.95696019999741
+    },
+    {
+      "kind": "heartbeat",
+      "t": 53.98364479999873
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.01818639999692
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.040895599995565
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.062190500000725
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.088716999998724
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.120225099999516
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.148847299999034
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.178084999999555
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.33066459999827
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.51387650000106
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.5537719999993
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.57628879999538
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.60672720000002
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.63664620000054
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.66901479999797
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.70124099999521
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.73102729999664
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.76069869999628
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.794264099997235
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.82670739999594
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.85629709999921
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.88733040000079
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.91863229999581
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.95165730000008
+    },
+    {
+      "kind": "heartbeat",
+      "t": 54.98018169999705
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.015505700001086
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.040139999997336
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.06936699999642
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.093172299995786
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.12081880000187
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.156335300001956
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.185798200000136
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.22448879999865
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.24532360000012
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.27169960000174
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.301912800001446
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.33054209999682
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.351604899995436
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.377531699996325
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.491143499995815
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.51777189999848
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.54826089999551
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.57872379999753
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.6172407999984
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.648265800002264
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.67046619999746
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.70132110000122
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.73435349999636
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.77231110000139
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.79571220000071
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.82304589999694
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.84794139999576
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.87108140000055
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.902240399998846
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.93492459999834
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.96972490000189
+    },
+    {
+      "kind": "heartbeat",
+      "t": 55.99684989999514
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.02921829999832
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.05937260000064
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.089230300000054
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.1520359999995
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.18005129999801
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.214297099999385
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.2367643999969
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.271740399999544
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.30417769999622
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.336380100001406
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.366786099999445
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.39223800000036
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.41375519999565
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.48219229999813
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.505760799998825
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.53974619999644
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.566294299998845
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.594237799996336
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.61777350000193
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.637800500000594
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.69625470000028
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.72384130000137
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.75127179999981
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.836902299997746
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.860246799995366
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.89101519999531
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.92126629999984
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.95728919999965
+    },
+    {
+      "kind": "heartbeat",
+      "t": 56.9891432000004
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.01247390000208
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.04433649999555
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.069626500000595
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.12758400000166
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.15624839999509
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.1997979000007
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.220334300000104
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.25525529999868
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.29245400000218
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.31600239999534
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.34323579999909
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.37192630000209
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.409321699997236
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.44272120000096
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.467518199999176
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.501201400002174
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.529438099998515
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.56036540000059
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.59816570000112
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.622311300001456
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.65037229999871
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.67175000000134
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.69953629999509
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.73099789999833
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.760928999996395
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.79266919999645
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.813963599997805
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.83436580000125
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.87998069999594
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.900016999999934
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.923795800001244
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.946929500001715
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.96782859999803
+    },
+    {
+      "kind": "heartbeat",
+      "t": 57.99199940000108
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.02228489999834
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.049219900000026
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.08225649999804
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.11588440000196
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.14638679999916
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.18572239999776
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.20980640000198
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.241055999998935
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.283861299998534
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.31568229999539
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.34408099999564
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.38365329999942
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.407043899998826
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.43806619999668
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.47034300000087
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.50055810000049
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.52666869999666
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.56355049999547
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.592339199996786
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.629167099999904
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.65595069999836
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.686026700001094
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.71385300000111
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.74595459999546
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.80640739999944
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.874957100000756
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.89946129999589
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.92946259999735
+    },
+    {
+      "kind": "heartbeat",
+      "t": 58.961606799995934
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.00342200000159
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.02349359999789
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.05334249999578
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.07410649999656
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.11927679999644
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.14556849999644
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.17616129999806
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.20732539999881
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.24838240000099
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.27091030000156
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.302046199998586
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.33258470000146
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.361032599998
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.40099999999802
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.4222563000003
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.44466939999984
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.474697300000116
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.50048499999684
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.53217179999774
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.55695459999697
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.57966669999587
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.624944800001686
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.65709539999807
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.68555259999994
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.70586049999838
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.729643799997575
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.77256959999795
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.79338060000009
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.82365959999879
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.84647419999965
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.86976860000141
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.901688599995396
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.93107909999526
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.97084529999847
+    },
+    {
+      "kind": "heartbeat",
+      "t": 59.99324550000165
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.02517029999581
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.055773000000045
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.08623789999547
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.11593169999833
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.14279130000068
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.16338520000136
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.20873869999923
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.24434879999899
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.26754559999972
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.28890279999905
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.32123999999749
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.396017699997174
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.42655630000081
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.45726899999863
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.49995119999949
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.536219800000254
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.570190899998124
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.59613890000037
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.62942979999934
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.659770799997204
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.69162469999719
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.71941440000228
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.751202499996
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.7799681999968
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.81031219999568
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.84077160000015
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.87340740000218
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.90282819999993
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.93304270000226
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.96647849999863
+    },
+    {
+      "kind": "heartbeat",
+      "t": 60.99541319999844
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.02632359999552
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.05045479999535
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.0744091000015
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.12838059999922
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.149374000000535
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.18211929999961
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.213338299996394
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.243676199999754
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.27487339999789
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.298993899996276
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.3212652000002
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.34156069999881
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.3925145999965
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.4178310999996
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.47811669999646
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.50873909999791
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.54023939999752
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.565380399995774
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.58548339999834
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.61727260000043
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.665850299999875
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.69691149999562
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.727499100001296
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.756710000001476
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.79091139999946
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.82165769999847
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.85240650000196
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.88289100000111
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.913825600000564
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.95257180000044
+    },
+    {
+      "kind": "heartbeat",
+      "t": 61.974429599998984
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.00404400000116
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.024132499995176
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.04423169999791
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.06902439999976
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.09822010000062
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.12036680000165
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.14507500000036
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.18469460000051
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.20786719999887
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.22839899999963
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.25297139999748
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.28519470000174
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.305718600000546
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.32987000000139
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.353907400000026
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.376140499996836
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.4085613999996
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.44022319999931
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.46024129999569
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.493595100000675
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.514789299995755
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.564466099996935
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.592857199997525
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.62436719999823
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.644484600001306
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.68033640000067
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.70386829999916
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.73297530000127
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.76739909999742
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.80439540000225
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.827419699999155
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.85639319999609
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.88883419999911
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.91973499999585
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.948083499999484
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.970823499999824
+    },
+    {
+      "kind": "heartbeat",
+      "t": 62.99447549999604
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.02703029999975
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.055487300000095
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.09046279999893
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.11773990000074
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.137970399999176
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.20202559999598
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.22598039999866
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.25820409999869
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.29242459999659
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.31402340000204
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.33933149999939
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.36698159999651
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.39185899999575
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.4162778999962
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.43767099999968
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.461416799997096
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.48234859999502
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.50525299999572
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.53724259999581
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.584179600002244
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.61320690000139
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.64367820000189
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.68934929999523
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.72021079999831
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.740396000001056
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.76859859999968
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.81729059999634
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.84516160000203
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.87627110000176
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.90923430000112
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.94884900000034
+    },
+    {
+      "kind": "heartbeat",
+      "t": 63.97196489999624
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.00199050000083
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.02265919999627
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.04808950000006
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.07107159999578
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.11645560000034
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.14234949999809
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.17750279999746
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.20506999999634
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.22726379999949
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.25008629999502
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.29773330000171
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.32745359999535
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.36238369999774
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.38768980000168
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.41931089999707
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.45797299999685
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.56468779999705
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.5902541999967
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.6213917999994
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.65152139999554
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.68841379999503
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.7153393999979
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.73912949999794
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.76041499999701
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.79133659999934
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.83506189999753
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.8572159999967
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.8855309999999
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.91835179999907
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.95120750000206
+    },
+    {
+      "kind": "heartbeat",
+      "t": 64.9767858999985
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.01169819999632
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.040173399997
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.06990090000181
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.09903449999547
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.1206822000022
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.14807789999759
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.17323849999957
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.19487980000122
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.22987370000192
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.28164970000216
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.30363950000174
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.33359360000031
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.36304099999688
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.4118896
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.44227549999778
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.48396219999995
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.50462020000123
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.53742429999693
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.69006359999912
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.72311769999942
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.75742159999936
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.78494829999545
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.81570549999742
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.84419689999777
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.89005380000162
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.91522370000166
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.94249839999975
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.96494600000005
+    },
+    {
+      "kind": "heartbeat",
+      "t": 65.9884710999977
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.02818789999583
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.06009659999836
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.08980879999581
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.15017549999902
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.17161549999582
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.19811199999822
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.22833379999793
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.2597511999993
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.30446909999591
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.33709439999802
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.36755940000148
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.44380860000092
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.49163399999816
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.52070689999528
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.55250069999602
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.58431879999989
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.61391169999843
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.66073569999571
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.69051829999808
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.72192759999598
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.75793510000221
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.78281640000205
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.81433229999675
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.84426610000082
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.86925579999661
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.89032900000166
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.92182160000084
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.95276529999683
+    },
+    {
+      "kind": "heartbeat",
+      "t": 66.98277809999854
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.0154795999988
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.06469490000018
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.0917302999951
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.12248159999581
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.15220469999622
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.19937239999854
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.2286735000016
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.25877599999512
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.29138830000011
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.32274869999674
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.35144230000151
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.37398329999996
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.47365359999822
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.56426329999522
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.59789789999923
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.62871489999816
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.65959999999905
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.68119139999908
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.7057918999999
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.75852399999712
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.78717219999817
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.81666459999542
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.85078880000219
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.8858659999969
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.90898020000168
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.93882489999669
+    },
+    {
+      "kind": "heartbeat",
+      "t": 67.9975173999992
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.01976180000202
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.04696639999747
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.0768431999968
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.11122189999878
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.13928820000001
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.1655047000022
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.18750569999975
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.22317849999672
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.24887299999682
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.29475180000009
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.32570909999777
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.36297329999798
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.3916332000008
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.42518949999794
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.45144040000014
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.48291469999822
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.52806789999886
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.55834479999612
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.5788618000006
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.61200380000082
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.63778779999848
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.66767999999865
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.69857400000183
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.72846479999862
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.76992659999814
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.79151509999792
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.82076819999929
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.84216049999668
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.86855490000016
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.89964930000133
+    },
+    {
+      "kind": "heartbeat",
+      "t": 68.93141469999682
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.01197069999762
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.04041609999695
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.06929559999844
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.0989888999975
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.12239969999791
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.14633389999653
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.1763290999952
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.208707400001
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.2779773000002
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.30063459999656
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.33196209999733
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.36742460000096
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.39631969999755
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.42540849999932
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.46662389999983
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.48728829999891
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.572368000001
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.59614349999902
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.62729799999943
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.659616500001
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.68560669999715
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.71575160000066
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.7414140999972
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.76417869999568
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.79128569999739
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.83351540000149
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.85485679999692
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.8827237000005
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.91875599999912
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.94644939999853
+    },
+    {
+      "kind": "heartbeat",
+      "t": 69.9842617999966
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.00842209999973
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.03133669999806
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.05306149999524
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.08441250000033
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.11410559999786
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.15631669999857
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.19130829999631
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.2240507999959
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.2527190999972
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.35778069999651
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.38072989999637
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.40688919999957
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.43746549999923
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.46758099999715
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.49899310000183
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.53237850000005
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.56096570000227
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.58993609999743
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.6106931999966
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.64240060000157
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.67059419999714
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.69330600000103
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.74859949999518
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.77876359999937
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.80719749999844
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.84066339999845
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.86299169999984
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.89445519999572
+    },
+    {
+      "kind": "heartbeat",
+      "t": 70.91902319999645
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.03215559999808
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.0566103999954
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.08547130000079
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.11592309999833
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.14764759999525
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.17281229999935
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.19552599999588
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.22562689999904
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.2563897
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.28283589999774
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.30285790000198
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.3344300999961
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.35924949999753
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.37961509999877
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.42567199999758
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.4563444000014
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.48713519999728
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.51702249999653
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.53988150000077
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.56190960000094
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.5942911999955
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.61733789999562
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.64092069999606
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.66147259999707
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.68761069999891
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.7267823000002
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.74891429999843
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.77946189999784
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.81100760000118
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.83330109999952
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.86658580000221
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.8889257999981
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.92016380000132
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.95615269999689
+    },
+    {
+      "kind": "heartbeat",
+      "t": 71.984787399997
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.01711979999527
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.04159680000157
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.07288639999751
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.10494959999778
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.13454099999944
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.16629719999764
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.19307519999711
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.21513679999771
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.24508559999958
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.28781650000019
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.3209824000005
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.3503567000007
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.38400289999845
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.4044619999986
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.43487389999791
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.465838600001
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.50001479999628
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.5234163999994
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.55682399999932
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.59001039999566
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.6185198000021
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.64902099999745
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.67976030000136
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.70888109999942
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.74015369999688
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.77684990000125
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.9338243999955
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.95936049999727
+    },
+    {
+      "kind": "heartbeat",
+      "t": 72.99241710000206
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.0217507999987
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.052995799997
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.08326800000214
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.11269229999743
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.14670949999709
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.18028509999567
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.20579780000116
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.23852330000227
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.2680476999958
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.28837309999653
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.32351519999793
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.34656099999847
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.37747539999691
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.4083563000022
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.45077429999947
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.48474980000174
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.51991799999814
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.54796740000165
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.57284809999692
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.59484420000081
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.62330059999658
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.66192349999619
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.68667280000227
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.71743199999764
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.73754109999572
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.76330579999922
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.79460010000184
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.8273870999983
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.85261999999784
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.88807319999614
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.9095324000009
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.94366319999972
+    },
+    {
+      "kind": "heartbeat",
+      "t": 73.96853859999828
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.004030899996
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.03002510000078
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.06188970000221
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.09877399999823
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.12426569999661
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.15973269999813
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.19091549999575
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.21808469999814
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.24774339999567
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.27820110000175
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.30859280000004
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.34695890000148
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.3717955999964
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.40147920000163
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.43697979999706
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.4671617999993
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.51725140000053
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.54464469999948
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.58480769999733
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.60748140000214
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.62921970000025
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.65030359999946
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.69180300000153
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.71571730000142
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.73764949999895
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.76157760000206
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.79216209999868
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.81572810000216
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.84125810000114
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.87070569999923
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.90833130000101
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.93142039999657
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.96350969999912
+    },
+    {
+      "kind": "heartbeat",
+      "t": 74.98695230000158
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.01022070000181
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.04190139999992
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.08381219999865
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.12208559999999
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.14847159999772
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.17001390000223
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.1939635000017
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.24064260000159
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.39361410000129
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.42270730000018
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.44324039999628
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.47286059999897
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.50335710000218
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.5342068999962
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.56603249999898
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.60130519999802
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.63023930000054
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.66244949999964
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.68870759999845
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.71936399999686
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.7495323999974
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.78855549999571
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.80994059999648
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.8496679000018
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.87471329999971
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.90440909999597
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.9253133999955
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.95019219999813
+    },
+    {
+      "kind": "heartbeat",
+      "t": 75.98071949999576
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.02463390000048
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.05787179999606
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.08152980000159
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.13815279999835
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.16852999999537
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.19976419999875
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.23337039999751
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.26279729999806
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.29538109999703
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.32379840000067
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.349020499998
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.37441309999849
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.41421740000078
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.45316299999831
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.48236579999502
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.51584159999766
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.5439888999972
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.57485749999614
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.60643069999787
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.69901540000137
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.73024060000171
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.7603248000014
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.79664889999549
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.82235289999517
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.86892680000165
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.90176760000031
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.95467009999993
+    },
+    {
+      "kind": "heartbeat",
+      "t": 76.97852440000133
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.00950120000198
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.04064339999604
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.08705550000013
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.11793849999958
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.14049910000176
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.16780509999808
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.19951719999517
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.22708379999676
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.25675570000021
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.29162789999828
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.31846750000113
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.34970220000105
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.38134410000202
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.41231880000123
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.46178130000044
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.49027449999994
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.53637199999503
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.5691194999963
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.59975480000139
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.62042619999556
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.64397119999921
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.67652329999692
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.70553559999826
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.74200679999922
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.76424989999941
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.79673259999981
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.81842289999622
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.84540379999817
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.86551959999633
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.89756440000201
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.92714909999631
+    },
+    {
+      "kind": "heartbeat",
+      "t": 77.95614270000078
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.00191719999566
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.03203439999925
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.0652409999966
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.09619499999826
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.13543840000057
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.15761799999746
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.1886330999987
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.23544720000064
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.26869440000155
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.2997972000012
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.33102230000077
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.36170159999892
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.38643710000179
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.40944550000131
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.42959809999593
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.46584789999906
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.48879869999655
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.51658849999512
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.54787639999995
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.57870939999702
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.60946469999908
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.64155059999757
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.67462579999847
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.71686559999944
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.73887529999774
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.76842609999585
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.7937391000014
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.81437939999887
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.84412650000013
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.87575389999984
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.90649180000037
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.93617319999612
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.96734119999746
+    },
+    {
+      "kind": "heartbeat",
+      "t": 78.99911209999846
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.0320853000012
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.05966220000118
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.08005060000141
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.11011689999577
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.13646670000162
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.16691739999806
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.21041659999901
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.24273900000117
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.26568309999857
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.28956440000184
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.31314869999915
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.3355969999975
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.36425719999534
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.4011720999988
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.42614999999932
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.45750720000069
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.48917359999905
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.51058619999822
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.5402327999982
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.57032719999552
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.61890870000207
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.6463225999978
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.67342230000213
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.69543030000204
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.74132269999973
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.77179089999845
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.80289610000182
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.82339579999825
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.85186650000105
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.88481709999905
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.92443490000005
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.94674079999822
+    },
+    {
+      "kind": "heartbeat",
+      "t": 79.97797700000228
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.00195320000057
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.02745019999566
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.1120219000004
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.13260440000158
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.16581729999598
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.19308009999804
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.22292580000067
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.25553289999516
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.30945449999854
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.33181329999934
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.36361519999627
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.41551929999696
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.44179189999704
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.47388499999943
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.50347849999525
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.53432969999994
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.56595589999779
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.59696840000106
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.62964719999582
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.66028699999879
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.69106789999933
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.72259320000012
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.75423589999991
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.78982859999815
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.82984349999606
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.8574163000012
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.88947319999716
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.9238544999971
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.95956779999688
+    },
+    {
+      "kind": "heartbeat",
+      "t": 80.99392680000165
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.0159358000019
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.04032899999584
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.06742400000076
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.10758489999716
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.1382878000004
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.15971249999711
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.18879200000083
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.21986599999946
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.25286210000195
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.28452480000124
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.3164214999997
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.34763329999987
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.37590199999977
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.40789119999681
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.43779179999547
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.46957490000204
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.50177740000072
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.53316469999845
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.56495110000105
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.59619039999961
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.62927549999586
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.65988769999967
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.69077129999641
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.72313909999502
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.75311710000096
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.7855292000022
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.81661489999533
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.84570749999693
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.87913929999922
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.91001439999673
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.940090899996
+    },
+    {
+      "kind": "heartbeat",
+      "t": 81.97130409999954
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.00400369999988
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.03844079999544
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.0689310999951
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.09810529999959
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.1305085999993
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.15986259999772
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.19111539999722
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.22321910000028
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.25474289999693
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.28672910000023
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.31779110000207
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.34654739999678
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.37754169999971
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.40940350000164
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.44173769999907
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.47079239999584
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.50310960000206
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.53391859999829
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.56579129999591
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.59560719999718
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.62766449999617
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.66028240000014
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.68908409999858
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.72042890000012
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.75072569999611
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.7831875999982
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.81590039999719
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.84627819999878
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.87691569999879
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.90721179999673
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.9385351000019
+    },
+    {
+      "kind": "heartbeat",
+      "t": 82.97065199999633
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.00034120000055
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.02600789999997
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.04649139999674
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.07722769999964
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.10832300000038
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.13986830000067
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.17135379999672
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.202543899999
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.23554929999955
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.26398920000065
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.29715459999716
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.32891630000086
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.3613000999976
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.39188889999787
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.4226789999957
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.4545466999989
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.4857187000016
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.51448949999758
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.54808690000209
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.57665119999729
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.60757110000122
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.63897899999574
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.67157359999692
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.70218519999617
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.73461719999614
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.77054990000033
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.79090439999709
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.81402489999891
+    },
+    {
+      "kind": "raster",
+      "t": 83.83948119999695,
+      "renderer": "controlled_renderer",
+      "seconds": 33.09597750000103
+    },
+    {
+      "kind": "frame_delivery",
+      "t": 83.88552699999855,
+      "extents": [
+        [
+          -52.9,
+          -25.2,
+          -43.7,
+          -19.400000000000002
+        ]
+      ],
+      "complete": true,
+      "pixels": [
+        640,
+        480
+      ],
+      "delivery_seconds": 0.0438609999982873,
+      "cache_hits": 0,
+      "cache_misses": 2
+    },
+    {
+      "kind": "model_settled",
+      "t": 83.88561259999551,
+      "stage": "new_pan",
+      "extent": [
+        [
+          -52.9,
+          -43.7,
+          -25.2,
+          -19.400000000000002
+        ]
+      ],
+      "canvas_viewable": true
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.88563389999763
+    },
+    {
+      "kind": "tk_paint_idle",
+      "t": 83.88914649999788,
+      "extents": [
+        [
+          -52.9,
+          -25.2,
+          -43.7,
+          -19.400000000000002
+        ]
+      ],
+      "complete": true,
+      "pixels": [
+        640,
+        480
+      ],
+      "delivery_seconds": 0.0438609999982873,
+      "cache_hits": 0,
+      "cache_misses": 2
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.91891419999592
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.95030060000136
+    },
+    {
+      "kind": "heartbeat",
+      "t": 83.98145709999517
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.0123065000007
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.04348970000137
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.07546609999554
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.10640409999905
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.13739009999699
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.16818469999998
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.19897489999857
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.23005079999712
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.2612594999955
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.29271840000001
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.32346829999733
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.35406910000165
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.38489229999686
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.41591389999667
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.44673799999873
+    },
+    {
+      "kind": "heartbeat",
+      "t": 84.47821470000054
+    },
+    {
+      "kind": "model_edit",
+      "t": 84.49396890000207,
+      "stage": "returned_home",
+      "extent": [
+        -53.3,
+        -44.1,
+        -25.4,
+        -19.6
+      ]
+    },
+    {
+      "kind": "compose",
+      "t": 84.84050529999513,
+      "seconds": 0.34630620000098133,
+      "items": 3693
+    },
+    {
+      "kind": "frame_delivery",
+      "t": 86.1844471000004,
+      "extents": [
+        [
+          -53.3,
+          -25.4,
+          -44.1,
+          -19.6
+        ]
+      ],
+      "complete": true,
+      "pixels": [
+        640,
+        480
+      ],
+      "delivery_seconds": 0.004514199994446244,
+      "cache_hits": 1,
+      "cache_misses": 2
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.18451729999651
+    },
+    {
+      "kind": "model_settled",
+      "t": 86.18454679999559,
+      "stage": "returned_home",
+      "extent": [
+        [
+          -53.3,
+          -44.1,
+          -25.4,
+          -19.6
+        ]
+      ],
+      "canvas_viewable": true
+    },
+    {
+      "kind": "tk_paint_idle",
+      "t": 86.18901409999671,
+      "extents": [
+        [
+          -53.3,
+          -25.4,
+          -44.1,
+          -19.6
+        ]
+      ],
+      "complete": true,
+      "pixels": [
+        640,
+        480
+      ],
+      "delivery_seconds": 0.004514199994446244,
+      "cache_hits": 1,
+      "cache_misses": 2
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.21957999999722
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.25060849999863
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.2814287000001
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.31169099999534
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.3423255000016
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.37377720000222
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.40570679999655
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.43727280000167
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.46784399999888
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.49869449999824
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.52922920000128
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.56027389999508
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.59123720000207
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.62272179999854
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.65384389999963
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.68560399999842
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.71627649999573
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.74758309999743
+    },
+    {
+      "kind": "heartbeat",
+      "t": 86.7792707999979
+    },
+    {
+      "kind": "close_requested",
+      "t": 86.79429240000172
+    }
+  ],
+  "current_memory": {
+    "working_set_bytes": 461352960,
+    "peak_working_set_bytes": 614666240,
+    "private_committed_bytes": 782761984,
+    "source": "Windows GetProcessMemoryInfo"
+  }
+}

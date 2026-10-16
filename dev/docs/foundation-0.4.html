@@ -1,0 +1,273 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>0.4 foundation: units, frames, time and rendering contracts · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="04-foundation-units-frames-time-and-rendering-contracts">0.4 foundation: units, frames, time and rendering contracts</h1>
+<p>This guide describes the <strong>local development foundation for 0.4</strong>, not features
+in the published 0.3.0 wheel. Runtime metadata stays 0.3.0 until version preparation;
+no new package, tag or release is implied. <a href="release-progress-0.4.html">Progress</a>.
+Names in <code>_frames</code>, <code>_timescales</code> and <code>_contracts</code> are internal and may evolve.
+The inventory below records the initial foundation baseline. Later source
+stages add <a href="gpu-0.4.html">GPU rendering</a> and <a href="volumes-0.4.html">regular volumes</a>.
+There is no public planetary <code>Body</code> API or ephemeris in this baseline.</p>
+<h2 id="existing-api-inventory-and-regression-matrix">Existing API inventory and regression matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Existing entry points</th>
+<th>Coverage retained</th>
+<th>Limits remain explicit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Plotting state</td>
+<td><code>import azimlib as azl</code>, <code>import azimlib.pyplot as plt</code>, <code>subplots</code>, <code>savefig</code>, <code>show</code></td>
+<td><code>test_api</code>, <code>test_figure_state</code>, <code>test_foundation_040</code></td>
+<td>Familiar supported subset, no blanket compatibility</td>
+</tr>
+<tr>
+<td>Map core</td>
+<td>Geometry, CRS/Transformer, Geodesic, projections, extent/bearing</td>
+<td><code>test_core</code>, <code>test_geodesy</code>, <code>test_orientation</code></td>
+<td>WGS84 geographic/Web Mercator/UTM; no datum grids</td>
+</tr>
+<tr>
+<td>Urban/data</td>
+<td>GeoJSON/Shapefile/KML/OSM XML, GeoRaster, catalog, urban layers</td>
+<td><code>test_formats</code>, <code>test_urban</code>, <code>test_raster_bands</code></td>
+<td>Selected variants; no PBF/geocoder/route graph</td>
+</tr>
+<tr>
+<td>Typography</td>
+<td>Text/Annotation, symbols, expressions, collision priorities</td>
+<td><code>test_finishing</code>, <code>test_text_rotation</code>, <code>test_label_placement</code></td>
+<td>Internal limited expressions, not TeX or complex shaping</td>
+</tr>
+<tr>
+<td>Terrain</td>
+<td>TerrainAxes, Mesh, Camera, LocalFrame</td>
+<td><code>test_terrain3d</code>, <code>test_foundation_040</code></td>
+<td>Opaque regional CPU triangles, no volumes</td>
+</tr>
+<tr>
+<td>Time/atlas</td>
+<td>TemporalSeries, ScalarBinding, FuncAnimation, Atlas/PdfPages</td>
+<td><code>test_temporal</code>, <code>audit_atlas_pdf.py</code></td>
+<td>Bounded playback, no implicit astronomy</td>
+</tr>
+<tr>
+<td>Output/interaction</td>
+<td>PNG/SVG/PDF, Tk/Qt/browser, Artist lifecycle</td>
+<td><code>test_renderers</code>, <code>test_component_lifecycle</code>, <code>test_navigation</code></td>
+<td>Optional dependencies and owner-thread rules</td>
+</tr>
+</tbody>
+</table>
+<p>The full existing test suite remains a regression gate. New foundation tests
+exercise the same root/pyplot plotting state, editable/removable Artists and
+static exports. Components remain opt-in. <code>show()</code> does not change <code>savefig()</code>
+into an export of toolbar or UI. Existing naive-date handling in TemporalSeries
+(assume UTC) is preserved; the new astronomical Instant intentionally requires
+timezone-aware input. A temporal <code>Frame</code> payload is not a spatial reference frame.</p>
+<h2 id="units-axes-precision-and-errors">Units, axes, precision and errors</h2>
+<p><code>Unit</code> reuses the existing length/angle model and adds the <code>time</code> dimension.
+<code>SECOND</code> and <code>DAY</code> are available at the root; one DAY is <strong>86400 SI seconds</strong>, not
+a guarantee that every UTC calendar day has that many elapsed seconds.
+Cross-dimension conversion raises ValueError. Inputs require finite real numbers
+and reject booleans. No degrees/metres/pixels or milliseconds/seconds coercion
+is inferred from coordinate magnitude.</p>
+<table>
+<thead>
+<tr>
+<th>Space</th>
+<th>Units and axes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Geographic</td>
+<td>Longitude then geodetic latitude, degrees; ellipsoidal height, metres</td>
+</tr>
+<tr>
+<td>Body fixed</td>
+<td>Right-handed XYZ metres; X at Greenwich/equator, Y at 90E, Z north</td>
+</tr>
+<tr>
+<td>Observer</td>
+<td>Right-handed east/north/up metres; azimuth clockwise from north, elevation above tangent plane</td>
+</tr>
+<tr>
+<td>Projected CRS</td>
+<td>Existing explicit easting/northing and CRS units</td>
+</tr>
+<tr>
+<td>Scene</td>
+<td>Pixels, Y down, clockwise primitive rotation; physical styles converted once at DPI boundary</td>
+</tr>
+<tr>
+<td>Camera</td>
+<td>Existing homogeneous clip coordinates; display exaggeration is not physical height</td>
+</tr>
+</tbody>
+</table>
+<p>Geodetic conversion supports the existing oblate Ellipsoid model, canonical
+lon/lat and heights &gt;= -10000 m. The inverse rejects deep-interior coordinates
+and fails explicitly on nonconvergence. Pole longitude is undefined physically;
+roundtrip comparisons exclude longitude at the exact pole. Tested range extends
+to 35786000 m height, with &lt;=1e-10 degree and &lt;=1e-7 m roundtrip errors. These are
+tested numerical tolerances, not observational geodetic accuracy or a promise
+for arbitrary floating-point magnitude/model. The fixed frame is an ideal static
+reference ellipsoid, not an ITRF realization with tectonic motion or polar motion.</p>
+<p><code>linear_error_bound(J, bounds)</code> computes a conservative first-order local bound
+using absolute coefficients, with explicit units inherited from the Jacobian.
+It does not infer covariance, atmospheric error or a global nonlinear bound.
+Invalid inputs/domain raise ValueError/TypeError; exhausted numeric convergence
+raises ArithmeticError; unsupported renderer features raise NotImplementedError.
+Failures propagate, rather than silently clamping, changing datum or substituting
+another time scale. Callers must supply source/measurement uncertainties.</p>
+<h2 id="shared-body-frame-and-observer-implementation">Shared body, frame and observer implementation</h2>
+<p>Internal immutable Body reuses Ellipsoid; EARTH reuses the existing WGS84 object.
+Coordinates carry their frame. RigidTransform validates a proper orthonormal
+rotation, metre translation, body identity and exact intermediate-frame matching.
+Positions translate; directions do not. Inverse/composition preserve frame tags.
+Reflections, scales and cross-body/datum transformations are rejected. Inertial
+frames/Earth rotation require later validated models; an arbitrary rotation is
+not labelled an IERS celestial transformation.</p>
+<p>Observer stores lon/lat, ellipsoidal height and an explicit angular horizon.
+Its ENU transform gives geometric topocentric directions from body-fixed points;
+direction mode handles a supplied far-field vector. <code>local_direction()</code> supports
+manual azimuth/elevation; <code>above_horizon()</code> compares geometric elevation to the
+stored horizon. Zenith/nadir azimuth returns None; coincident targets fail.
+Geocentric and topocentric positions differ by the observer translation.
+Apparent coordinates require refraction/aberration/light-time and are <strong>not</strong>
+computed here. No geoid height is guessed from an unspecified building elevation.</p>
+<p>Existing LocalFrame now uses this shared conversion/ENU transform, retaining
+its zero-height horizontal rule, independent supplied elevation and 250 km limit.
+The immutable origin transform is cached per LocalFrame, rather than rebuilt
+for every vertex. This integrates the foundation into actual terrain rendering.</p>
+<h2 id="calendar-and-time-corrections">Calendar and time corrections</h2>
+<p>Instant accepts aware datetime, normalizes to UTC and supports years 1972..9999
+with the proleptic Gregorian calendar. Python datetime cannot represent <code>:60</code>;
+leap-second labels and pre-1972 UTC drift are explicitly outside this contract.
+There is no bundled leap/EOP table or automatic network access.</p>
+<p>TimeOffsets carries source/version, UTC start/end, TAI-UTC integer seconds,
+optional UT1-UTC seconds and caller-declared uncertainty. The validity interval
+is <strong>[start,end)</strong> with constant offsets; callers must split it at a leap or any
+correction change. A stale interval, absent correction or unknown scale fails.
+No current or historical offset is guessed. UT1-UTC is constrained to [-1,1] s
+for this post-1972 contract; it is not computed from longitude or local clock.</p>
+<p>Conversions implement TAI = UTC + supplied TAI-UTC, TT(TAI) = TAI + 32.184 s,
+and UT1 = UTC + supplied UT1-UTC. JulianCoordinate stores integer day plus
+seconds from noon and an explicit scale, avoiding a single large Julian-date
+float. The UTC calendar anchor at 2000-01-01 12:00 is day 2451545, seconds 0;
+it is not J2000 TT at that same UTC instant. TT/TAI same-scale differences give
+elapsed SI seconds when the supplied corrections are correct. UTC/UT1 differences
+are rejected as atomic durations; cross-scale subtraction is rejected.
+Reverse conversions, TDB/TCB/TCG and offset interpolation are future work.
+Sub-microsecond arithmetic is tested, without claiming better source accuracy.</p>
+<h2 id="renderer-capability-and-lifecycle-contract">Renderer capability and lifecycle contract</h2>
+<pre><code class="language-python">from azimlib.renderers import get_capabilities
+
+caps = get_capabilities('svg')
+caps.require('vector_output')
+assert not caps.gpu and not caps.volumes
+</code></pre>
+<p>Queries return immutable capabilities for exactly png/svg/pdf. PNG availability
+depends on Pillow; SVG/PDF core exports do not. Terrain depth is CPU raster,
+embedded into SVG/PDF where needed; it is not vector 3D. Current limited mathtext
+is distinct from full TeX and complex shaping. Unsupported/unknown requests fail.</p>
+<p>Future backends must consume the same scene/Artists and advertise capabilities
+before allocation. Device/context/resources belong to the creating viewer thread;
+creation, prepare/upload, draw/readback, cancellation, invalidation, context loss
+and idempotent disposal must be explicit. No graphics context is created at import.
+Workers may prepare immutable CPU data; stale generations cannot repaint a newer
+scene. Recoverable GPU failure must use an explicit supported CPU path or raise,
+without altering data/geometry. Static export remains independent of UI state.
+Font shaping/metrics are composed once before backend-specific painting. Volume
+and light primitives must carry frames, physical units, bounds and versioned
+resource identity. These are extension requirements, <strong>not implemented GPU APIs</strong>.</p>
+<p>That inventory describes the initial foundation snapshot. The later
+<a href="gpu-0.4.html">stage 9 GPU implementation</a> now supplies explicit contexts,
+original shaders, shared scenes and bounded resources; its outstanding
+performance/CI gate is recorded separately.</p>
+<h2 id="budgets-and-measurement-policy">Budgets and measurement policy</h2>
+<table>
+<thead>
+<tr>
+<th>Workload/resource</th>
+<th>Initial budget/target</th>
+<th>Enforcement/status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Existing mesh</td>
+<td>50000 vertices, 20000 triangles</td>
+<td>Same runtime allocation/scene checks as 0.3, shared constants</td>
+</tr>
+<tr>
+<td>Existing depth raster</td>
+<td>8M pixels, 64M projected pixel tests</td>
+<td>Same runtime guards; CPU stays available</td>
+</tr>
+<tr>
+<td>Future streamed block</td>
+<td>32 MiB, 1M decoded items</td>
+<td>ResourceBudget provided; reader integration belongs to step 2</td>
+</tr>
+<tr>
+<td>Future stream working set</td>
+<td>256 MiB, 2M in-memory indexed items</td>
+<td>Initial per-operation budget; disk spill required, not planet RAM</td>
+</tr>
+<tr>
+<td>1000 geodetic roundtrips</td>
+<td>p95 &lt;=250 ms, 7 repeats</td>
+<td>Local synthetic target, not universal CI timing threshold</td>
+</tr>
+<tr>
+<td>Hold 1000 fixed coordinates</td>
+<td>&lt;=4 MiB traced Python allocations</td>
+<td>Separate allocation measurement, not total process RSS</td>
+</tr>
+<tr>
+<td>Navigation target</td>
+<td>p95 &lt;=33 ms frame work, &lt;=100 ms initial response</td>
+<td>Future GPU/viewer target on identified hardware, not achieved claim</td>
+</tr>
+</tbody>
+</table>
+<p><code>ResourceBudget.check()</code> validates usage before allocation, preserving integer
+counts and raising at overflow. Future steps must add raster/volume/grid-specific
+allocation estimates and real-data benchmarks before advertising scale. Latency
+targets require hardware, OS/Python, samples and cold/warm distinction; data size,
+peak memory and numerical errors must accompany throughput. Synthetic loops cannot
+prove planet-scale ingestion or real viewer input latency.</p>
+<p>Run <code>python -I tools/benchmark_foundation.py --output foundation.json</code> for the
+deterministic synthetic workload, numeric errors, local-frame timings and source
+hashes. Timing targets are reported; numerical tolerance failure stops the tool.
+All later lots must retain declared limits or document a measured revision.</p>
+<h2 id="fixtures-provenance-and-gates">Fixtures, provenance and gates</h2>
+<p>The implementation and fixtures are original Azimlib code under BSD 3-Clause.
+No external implementation, table, font, binary or dataset was added. Analytic
+cardinal cases and a 60-digit Decimal derivation at 45 degrees use mathematical
+identities; <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/fixtures/foundation-040.json">fixture metadata</a> records origin.
+Synthetic time offsets deliberately do not impersonate an IERS bulletin.
+Published definitions used for validation, without copying source implementations:</p>
+<ul>
+<li><a href="https://earth-info.nga.mil/index.php?action=wgs84&amp;dir=wgs84">NGA WGS84 defining constants</a>.</li>
+<li><a href="https://www.iers.org/iers/en/service/faqs/time/howisttcomputedfromtai-163">IERS TT(TAI) relation</a>.</li>
+<li><a href="https://www.iers.org/iers/en/service/faqs/time/time">IERS time scales and correction sources</a>.</li>
+<li><a href="https://iers-conventions.obspm.fr/content/chapter5/icc5.pdf">IERS Conventions chapter 5</a>
+defines the full terrestrial/celestial transformation; that model is not yet implemented.</li>
+</ul>
+<p>Later grids/ephemerides/shaders/fonts require source, license, redistribution terms,
+validity, hashes and independent accuracy fixtures before inclusion. Existing
+third-party notices remain unchanged. Validation includes analytic expected values,
+global roundtrips, singular/domain failures, ENU/parallax, synthetic leap boundaries,
+timezone/precision, resource ceilings, renderer capabilities and facade/export
+regressions. New Artists must retain atomic edits, visibility, removal/ownership,
+optional placement, picking and deterministic static export; new models must fail
+on unavailable transforms/corrections rather than silently approximating them.</p>
+<p>Local <a href="foundation-validation-0.4.json">validation evidence</a> and commands are recorded
+in the <a href="release-progress-0.4.html">batch checklist</a>.
+It does not constitute hosted CI or native human approval on other platforms.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/foundation-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,138 @@
+{
+  "passed": true,
+  "python": "3.14.4",
+  "platform": "Windows",
+  "packages": {
+    "Pillow": "12.3.0",
+    "numpy": "2.5.3",
+    "aggdraw": "1.4.1"
+  },
+  "scope": "Local whole-scene recomposition/raster, synthetic data; not native input latency or total process/native memory",
+  "scenarios": [
+    {
+      "scenario": "urban",
+      "features": 400,
+      "first_compose_ms": 566.2666999996873,
+      "first_raster_ms": 5898.290199998883,
+      "first_paint_ms": 6464.55689999857,
+      "pan_compose": {
+        "median_ms": 25.568499997461913,
+        "p95_ms": 32.52850000717444,
+        "samples": 4
+      },
+      "pan_raster": {
+        "median_ms": 236.17659999945317,
+        "p95_ms": 258.5503999944194,
+        "samples": 4
+      },
+      "pan_total": {
+        "median_ms": 261.4646999973047,
+        "p95_ms": 291.07890000159387,
+        "samples": 4
+      },
+      "tile_cache": {
+        "hits": 26,
+        "misses": 1662,
+        "entries": 421,
+        "payload_bytes": 7736656,
+        "max_bytes": 16777216
+      },
+      "python_peak_bytes": 633650,
+      "memory_scope": "Separate warm composition pass; excludes native allocations and retained caches",
+      "primitives": 422,
+      "labels": {
+        "with_labels": 19.823800001177005,
+        "without_labels": 14.322100003482774
+      },
+      "cache": {
+        "hits": 2800,
+        "misses": 400,
+        "entries": 400,
+        "payload_bytes": 658316,
+        "max_bytes": 4194304
+      },
+      "exports": [
+        {
+          "format": "png",
+          "milliseconds": 7715.991599994595,
+          "bytes": 190283,
+          "sha256": "9772d9fc51934f37b69315663721046e9504fb00301f9789ea532f3e154974a0"
+        },
+        {
+          "format": "svg",
+          "milliseconds": 86.26199999707751,
+          "bytes": 1620501,
+          "sha256": "e1d03a3b43076ec038dd48abca85c6cf00e26d2c140ea1f4675721e8635f3e63"
+        },
+        {
+          "format": "pdf",
+          "milliseconds": 94.58200000517536,
+          "bytes": 814545,
+          "sha256": "156a260b9404d814e49cb1a2a2a0ed2a890cee4600678c6c177aec5f7ddea033"
+        }
+      ],
+      "physical_strokes_verified": true
+    },
+    {
+      "scenario": "dense",
+      "features": 5000,
+      "first_compose_ms": 100.40189999563154,
+      "first_raster_ms": 5922.453099999984,
+      "first_paint_ms": 6022.854999995616,
+      "pan_compose": {
+        "median_ms": 86.00105000004987,
+        "p95_ms": 87.79539999522967,
+        "samples": 4
+      },
+      "pan_raster": {
+        "median_ms": 223.1997999952,
+        "p95_ms": 311.2582999965525,
+        "samples": 4
+      },
+      "pan_total": {
+        "median_ms": 309.2008499952499,
+        "p95_ms": 399.0536999917822,
+        "samples": 4
+      },
+      "tile_cache": {
+        "hits": 19750,
+        "misses": 258,
+        "entries": 258,
+        "payload_bytes": 836476,
+        "max_bytes": 16777216
+      },
+      "python_peak_bytes": 3207602,
+      "memory_scope": "Separate warm composition pass; excludes native allocations and retained caches",
+      "primitives": 5002,
+      "labels": null,
+      "cache": {
+        "hits": 0,
+        "misses": 0,
+        "entries": 0,
+        "payload_bytes": 0,
+        "max_bytes": 4194304
+      },
+      "exports": [
+        {
+          "format": "png",
+          "milliseconds": 5463.981000000786,
+          "bytes": 202676,
+          "sha256": "9d20f67bc788264dfcb69ada5059c13b5de4dad34c74cbd26b242c4cdbc7b597"
+        },
+        {
+          "format": "svg",
+          "milliseconds": 149.5028999997885,
+          "bytes": 2192965,
+          "sha256": "0c504c995fcadcc261136192bde2b29e6908a6c1f2eff5f187019ec966c18cb0"
+        },
+        {
+          "format": "pdf",
+          "milliseconds": 334.82729999377625,
+          "bytes": 2493063,
+          "sha256": "a2875d855612e631df1f7fecb98baf914d0462d047a21074eded4fa3f9ed4dfe"
+        }
+      ],
+      "physical_strokes_verified": false
+    }
+  ]
+}

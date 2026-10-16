@@ -1,0 +1,18 @@
+{
+  "case": "atlas",
+  "dpi": 100,
+  "coverage_sha256": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1",
+  "area_vertex_counts": {
+    "3": 141109,
+    "4": 426544,
+    "5": 141551,
+    "6": 88198,
+    "7": 78266,
+    "8": 42692,
+    "9": 71079,
+    "10": 20030,
+    "11": 1227,
+    "12": 90
+  },
+  "note": "Untimed diagnostic: count polygon sizes entering exact area; not a timing benchmark."
+}

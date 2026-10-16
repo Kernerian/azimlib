@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "status": "requirements frozen before final validation; not an achieved uncertainty certificate",
+  "validation_domain": "1972-2100, explicit TT and UT1, WGS84 observers, smooth finite disks; no grazing-contact completeness claim",
+  "unchanged_contract_sha256": "31cddc2f9af5fbd5a93ca294985043f2e220643418cb9921b48a25d0359cc965",
+  "acceptance": {
+    "central_surface_error_m": 2000,
+    "boundary_surface_error_m": 3000,
+    "solar_absolute_contact_error_s": 30,
+    "lunar_absolute_contact_error_s": 60,
+    "solar_magnitude_absolute_error": 0.001,
+    "solar_obscuration_fraction_absolute_error": 0.001
+  },
+  "worst_case_additive_allocations": {
+    "central_m": {"ephemeris_and_apparent_states": 700, "clock_and_rotation": 300, "earth_and_frames": 200, "numerics": 100, "reference_rounding_and_conventions": 300, "reserve": 400},
+    "boundary_m": {"ephemeris_and_apparent_states": 700, "clock_and_rotation": 300, "earth_and_frames": 200, "numerics": 100, "limb_and_reference_conventions": 1300, "reserve": 400},
+    "solar_contact_s": {"states": 10, "clock_and_frames": 3, "observer_and_limbs": 8, "numerics": 0.02, "reference_quantization": 0.5, "reserve": 8.48},
+    "lunar_contact_s": {"states": 15, "clock_and_frames": 3, "shadow_and_limb_conventions": 30, "numerics": 0.02, "reference_quantization": 0.5, "reserve": 11.48},
+    "magnitude_fraction": {"apparent_states": 0.0004, "radius_conventions": 0.0003, "observer_and_frames": 0.0001, "numerics": 0.00001, "reference_quantization": 0.0001, "reserve": 0.00009}
+  },
+  "rationale": "Conservative additive requirements, not fitted RMS errors. Magnitude 0.001 means 0.1 percent of solar diameter; obscuration 0.1 percentage point of disk area. Require independent maximum-phase references at the already frozen observers before comparison with model results.",
+  "conditioning": "Propagate vector, clock, radius and terrestrial-model intervals through each local Jacobian or interval enclosure. Near tangency or grazing, surface/contact conditioning can diverge. An angular bound alone, including 0.01 degree, cannot certify a kilometre surface bound. Sampled comparisons cannot establish the global 1972-2100 contract.",
+  "required_evidence": [
+    "Supported state/clock/frame uncertainty bounds, not merely agreement between readers of the same ephemeris",
+    "Per-case conditioning and numerical convergence, retaining horizon rows and failed frozen references",
+    "Explicit physical-mean vs catalog limb conventions; no radius fitted to output errors",
+    "Absolute independent solar contacts and maximum-phase magnitude/obscuration at three frozen observers",
+    "Independent lunar contacts with an explicit atmospheric-shadow convention"
+  ],
+  "global_bound_established": false,
+  "all_allocations_supported": false,
+  "gate_13_06_complete": false,
+  "gate_13_07_complete": false
+}

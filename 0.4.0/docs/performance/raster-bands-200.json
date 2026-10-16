@@ -1,0 +1,73 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "dpi": 200,
+  "repeats": 2,
+  "points": 1500,
+  "renderer_source_sha256": {
+    "before": {
+      "pillow.py": "4778285f84103e6ff6017b79c3030e8fcd41369845893dbea389556062cc28cc",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    },
+    "after": {
+      "pillow.py": "b1c2b1cfb97906e0cf4dd10651a830701ee19883fb1890618e7f739a6387a396",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    }
+  },
+  "policy": "Each pair reverses before/after order; one immutable scene per case; PNG encoding included; no profiling or memory instrumentation.",
+  "cases": [
+    {
+      "name": "state",
+      "items": 137,
+      "samples_seconds": {
+        "before": [
+          3.3943567000005714,
+          3.080805399999008
+        ],
+        "after": [
+          3.4749320000009902,
+          3.3352253000011842
+        ]
+      },
+      "before_median_seconds": 3.2375810499997897,
+      "after_median_seconds": 3.4050786500010872,
+      "reduction_percent": -5.173541524197778,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be"
+        ],
+        "after": [
+          "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be"
+        ]
+      }
+    },
+    {
+      "name": "atlas",
+      "items": 656,
+      "samples_seconds": {
+        "before": [
+          13.0295718999987,
+          17.4124355999993
+        ],
+        "after": [
+          15.000717200000508,
+          16.12917759999982
+        ]
+      },
+      "before_median_seconds": 15.221003749999,
+      "after_median_seconds": 15.564947400000165,
+      "reduction_percent": -2.259664708388165,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827"
+        ],
+        "after": [
+          "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827"
+        ]
+      }
+    }
+  ]
+}

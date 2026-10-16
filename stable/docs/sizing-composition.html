@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dimensões, títulos e integração de composição · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="dimensões-títulos-e-integração-de-composição">Dimensões, títulos e integração de composição</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dimensões, títulos e integração de composição · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="dimensões-títulos-e-integração-de-composição">Dimensões, títulos e integração de composição</h1>
 <p>Outputs under <code>gallery/</code> are local generated previews, not distributed assets.
 For versioned current images, see the <a href="gallery-0.3.html">0.3 gallery</a>.</p>
 <pre><code class="language-python">import azimlib as azl
@@ -56,7 +56,7 @@ e desta versão, não uma conclusão geral sobre Matplotlib. Os bounds são medi
 por primitivas próprias e tight bboxes nativos, respectivamente; solvers e
 ornamentos diferem. A Azimlib adiciona escala/norte explicitamente; o núcleo
 Matplotlib não fornece equivalentes diretos. Não se declara igualdade de pixels.</p>
-<p>O teste usa polígonos e valores sintéticos. A <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/composition_matrix.py">galeria</a>
+<p>O teste usa polígonos e valores sintéticos. A <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/composition_matrix.py">galeria</a>
 usa divisões reais Natural Earth embarcadas, com valores de estações sintéticos:
 mapa (<code>gallery/composition-single.png</code>, generated locally), atlas (<code>gallery/composition-atlas.png</code>, generated locally)
 e aninhado (<code>gallery/composition-nested.png</code>, generated locally). PNG/SVG são estáticos; HTML é
@@ -70,7 +70,7 @@ Um callback de <code>draw_event</code> já observa o estado pronto. Falha nesse 
 fecha/libera a janela, restaura o canvas/registro anteriores e permite nova
 tentativa; o callback também pode fechar sua janela sem acesso posterior a
 widgets destruídos. São regras da implementação própria.</p>
-<p>O <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_composition_tk.py">smoke</a> cobre 14 cenários em Tk real oculto:
+<p>O <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_composition_tk.py">smoke</a> cobre 14 cenários em Tk real oculto:
 primeiro draw, edições agrupadas, resize, DPI, exportação temporária,
 <code>forward=False</code>, recuperação de erro e fechamento em callback.
 Relatórios: <a href="composition-tk-validation.json">source</a> e
@@ -85,4 +85,4 @@ python tools/inspect_sizing_titles.py
 python tools/compare_composition_matrix.py
 python tools/render_composition_comparisons.py
 </code></pre>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/sizing-composition.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/sizing-composition.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>0.4.0 development rescope and deferred gates · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="040-development-rescope-and-deferred-gates">0.4.0 development rescope and deferred gates</h1>
+<p>Decision date: 2026-10-14. This is a scope decision, not scientific acceptance,
+publication approval or a claim that deferred criteria passed.
+<a href="deferred-gates-0.4.json">Structured register</a>, <a href="release-progress-0.4.html">current checklist</a>,
+<a href="release-progress-0.4-before-rescope.html">historical checklist</a>.</p>
+<p>Original inventory: 112 IDs. Current: <strong>107 completed, 4 deferred, 1 pending
+delivery/revalidation</strong>. Active 0.4 scope: 107/108. Historical 102 completed
+included 14.01/14.06; both have separate revalidation; exact CI/distribution passed on the recorded SHA.
+Only final acceptance/publication remains pending; new commits require revalidation.
+Stage 14 preparation is now tracked separately in <a href="stage14-0.4.html">the current record</a>. 14.05 has explicit human acceptance; repeat exact-SHA CI/distribution after recording it. 14.08 remains pending.</p>
+<table>
+<thead>
+<tr>
+<th>Original ID</th>
+<th>State</th>
+<th>Unmet criterion / destination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.08</td>
+<td>Deferred, not completed</td>
+<td>Only the real full-planet trial remains; attempt in 0.4.1 if infrastructure exists</td>
+</tr>
+<tr>
+<td>9.08</td>
+<td>Deferred, not completed</td>
+<td>Frozen 33 ms exact p95 / 100 ms complete response and physical ARM64 GPU evidence; compatible refinements in 0.4.1, deep foundations for 0.5</td>
+</tr>
+<tr>
+<td>13.06</td>
+<td>Deferred, not completed</td>
+<td>Global supported physical precision and complete temporal/visible envelope; separate research track</td>
+</tr>
+<tr>
+<td>13.07</td>
+<td>Deferred, not completed</td>
+<td>Independent valid references and all required comparisons within fixed tolerances; no promised closure version</td>
+</tr>
+</tbody>
+</table>
+<p>The register stores every original criterion verbatim and its SHA-256. Original
+contracts and private evidence manifests retain their hashes. Copies of the
+<a href="deferred-gpu-protocol-0.4.json">frozen GPU protocol</a> and
+<a href="deferred-eclipse-budget-0.4.json">scientific budget</a> are byte-identical to their
+archived originals. Raw reports/references remain in the maintainer archive;
+do not distribute private paths, raw logs, conversations or large external datasets.</p>
+<h2 id="unchanged-acceptance-and-historical-evidence">Unchanged acceptance and historical evidence</h2>
+<ul>
+<li>GPU: exact frame p95 &lt;=33 ms, complete response &lt;=100 ms, memory/parity,
+frozen repetitions/workload and physical ARM64 GPU subgate remain.</li>
+<li>Science: centers 2 km, boundaries 3 km, solar contacts 30 s, lunar contacts
+60 s, magnitude/obscuration 0.001; no relaxed tolerances or removed failures.</li>
+<li>Planet: complete real dump, date/SHA-256, EOF, counts, memory/disk/time and
+zero missing/corrupt references under the <a href="planet-trial.html">existing procedure</a>.</li>
+<li><a href="observed-validation-0.4.html">Observed results</a> keep successes and unresolved
+checks distinct. No failed/indeterminate check was converted to a pass.</li>
+<li>Later evidence must name the version/commit that fulfills a gate. It must not
+retroactively certify the released 0.4 implementation or rewrite old reports.</li>
+</ul>
+<p>Only these four explicitly identified requirements are deferred out of the
+0.4 delivery scope. Functional regressions, corrupt outputs, resource violations,
+licensing and privacy failures still block delivery. The scoped release checker remains fail-closed and must not silently ignore
+arbitrary unchecked IDs. Preparation and publication are separate purposes.</p>
+<h2 id="future-sequence">Future sequence</h2>
+<p>0.4.1 preserves supported public signatures/semantics and accepts compatible
+fixes/refinements. Planet trial is conditional on infrastructure; scientific
+gates have no promised completion in that patch release.</p>
+<p>0.5.0 remains <strong>Planetary Cartography / Beyond Earth</strong>: public body models,
+body-specific coordinates/geodesy/projections, planetary DEMs/images, relief,
+illumination and existing map Artists. Deep renderer/science changes can serve
+these foundations. Global eclipse certification is not a mandatory 0.5 gate;
+scientific APIs remain experimental until evidence supports promotion.
+0.6.0 remains <strong>Orbits</strong>, with the existing planned sequence intact.</p>
+<h2 id="stage-14-after-review">Stage 14 after review</h2>
+<p>14.01 and 14.06 require renewed integrated regressions and license/provenance/privacy
+audit on the final candidate; their older evidence is historical only. 14.02
+must reconcile public docs/claims; 14.03 consolidates measured budgets including
+failures; 14.04 requires complete exact-candidate CI; 14.05 requires the applicable
+native human review; 14.07 covers metadata/build/install/hashes and explicitly
+scoped fail-closed release tooling; 14.08 requires final approval of the exact
+commit/artifacts before any external publication. None is completed by this document.</p>
+<h2 id="unpublished-preparation-and-publication-gate">Unpublished preparation and publication gate</h2>
+<p>Stage-14 tooling distinguishes source preparation, authorized publication preflight,
+and verified post-publication completion. Preflight requires 107 completed IDs,
+exactly the four named deferments, only 14.08 unchecked, and separately versioned
+human authorization bound to the exact SHA, audited hashes and successful CI.
+Authorization is not completion. Only validated post-publication observations
+permit the operational 108 active completed total. <a href="release-publication-state-0.4.html">State contract</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/deferred-gates-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

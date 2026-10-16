@@ -1,4 +1,13 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Referência pública da Azimlib · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="referência-pública-da-azimlib">Referência pública da Azimlib</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Azimlib 0.4.0 — unpublished candidate API · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="azimlib-040-unpublished-candidate-api">Azimlib 0.4.0 — unpublished candidate API</h1>
+<p>GPU selection (<code>Figure.show(renderer=&quot;gpu&quot;)</code>, Figure/root/pyplot
+<code>savefig(renderer=&quot;gpu&quot;)</code>, <code>GpuRenderer</code>/<code>GpuConfig</code>) is experimental.
+Stateful root/pyplot <code>show()</code> has no renderer keyword. Astronomical eclipses,
+finite-source geometry and disk conventions are experimental, not certified
+forecasts. Private ephemeris APIs remain internal. PBF has regional real-data
+validation, not proven planet scale. CPU defaults and explicit refusals remain.
+<a href="api-stability.html">Policy</a>, <a href="deferred-gates-0.4.html">scope</a>,
+<a href="observed-validation-0.4.html">observed evidence</a>.</p>
+<h1 id="referência-pública-da-azimlib">Referência pública da Azimlib</h1>
 <p>Gerada por <code>python tools/api_reference.py</code> a partir dos objetos reais.
 Assinaturas descrevem a implementação atual, não compatibilidade integral
 com Matplotlib. Veja <a href="scientific.html">guia científico</a>,
@@ -7,8 +16,161 @@ e <a href="math.html">matemática</a>.</p>
 <p>Coordenadas: longitude/latitude em graus. figsize: polegadas; linewidth,
 fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 (west, east, south, north). Arquivos PNG/SVG não incluem controles de UI.</p>
+<h2 id="azimlibsolar_artists">azimlib.solar_artists</h2>
+<h3 id="artist_mutationmethod"><code>artist_mutation(method)</code></h3>
+<p>Coalesce nested setters on one artist; failed edits do not notify.</p>
+<h3 id="attach_nightaxes-value-options"><code>attach_night(axes, value, **options)</code></h3>
+<h3 id="attach_pathaxes-path-visual_radius10000-width80-colord77924"><code>attach_path(axes, path, *, visual_radius=1000.0, width=8.0, color='#d77924')</code></h3>
+<h3 id="attach_sunaxes-value-options"><code>attach_sun(axes, value, **options)</code></h3>
+<h3 id="collectionvalue-role-samples"><code>collection(value, role, samples)</code></h3>
+<h3 id="statevalue-modelnone-observernone-offsetsnone"><code>state(value, model=None, observer=None, offsets=None)</code></h3>
+<h3 id="style_dictvaluesnone-kwargs"><code>style_dict(values=None, **kwargs)</code></h3>
+<h3 id="text_stylestyle"><code>text_style(style)</code></h3>
+<h2 id="azimliblunar_artists">azimlib.lunar_artists</h2>
+<h3 id="artist_mutationmethod-1"><code>artist_mutation(method)</code></h3>
+<p>Coalesce nested setters on one artist; failed edits do not notify.</p>
+<h3 id="attach_earth_moonaxes-value-options"><code>attach_earth_moon(axes, value, **options)</code></h3>
+<h3 id="attach_moonaxes-value-options"><code>attach_moon(axes, value, **options)</code></h3>
+<h3 id="attach_pathaxes-path-distance_scale10-width5000000-colora576bf-style"><code>attach_path(axes, path, *, distance_scale=1.0, width=500000.0, color='#a576bf', **style)</code></h3>
+<h3 id="collectionvalue"><code>collection(value)</code></h3>
+<h3 id="statevalue-modelnone-observernone-offsetsnone-1"><code>state(value, model=None, observer=None, offsets=None)</code></h3>
+<h3 id="style_dictvaluesnone-kwargs-1"><code>style_dict(values=None, **kwargs)</code></h3>
+<h3 id="text_stylestyle-1"><code>text_style(style)</code></h3>
+<h3 id="to_rgbacolor-alphanone"><code>to_rgba(color, alpha=None)</code></h3>
+<p>Dependency-free basic CSS/hex or normalized RGB(A) conversion.</p>
+<h3 id="transform_pointmatrix-point"><code>transform_point(matrix, point)</code></h3>
+<h2 id="azimlibeclipse_artists">azimlib.eclipse_artists</h2>
+<h3 id="artist_mutationmethod-2"><code>artist_mutation(method)</code></h3>
+<p>Coalesce nested setters on one artist; failed edits do not notify.</p>
+<h3 id="attach_eclipseaxes-geometry-options"><code>attach_eclipse(axes, geometry, **options)</code></h3>
+<h3 id="style_dictvaluesnone-kwargs-2"><code>style_dict(values=None, **kwargs)</code></h3>
+<h2 id="azimlibvolume_artist">azimlib.volume_artist</h2>
+<h3 id="artist_mutationmethod-3"><code>artist_mutation(method)</code></h3>
+<p>Coalesce nested setters on one artist; failed edits do not notify.</p>
+<h3 id="finitevalue"><code>finite(value)</code></h3>
+<h3 id="inverse_matrixmatrix"><code>inverse_matrix(matrix)</code></h3>
+<p>Own bounded Gauss-Jordan inversion, row major.</p>
+<h3 id="isosurface_meshfield-level"><code>isosurface_mesh(field, level)</code></h3>
+<p>Original marching tetrahedra, fixed shared cube diagonal; bounded output.</p>
+<h3 id="normalizeda"><code>normalized(a)</code></h3>
+<h3 id="slice_meshfield-axis-position"><code>slice_mesh(field, axis, position)</code></h3>
+<h3 id="to_rgbacolor-alphanone-1"><code>to_rgba(color, alpha=None)</code></h3>
+<p>Dependency-free basic CSS/hex or normalized RGB(A) conversion.</p>
+<h3 id="trace_raylayers-origin-direction-maximuminf-samplersnone-pickfalse"><code>trace_ray(layers, origin, direction, maximum=inf, *, samplers=None, pick=False)</code></h3>
+<p>Reference midpoint integration; overlapping fields mix optical depth.</p>
+<h2 id="azimlibpbf">azimlib.pbf</h2>
+<h3 id="assign_holesouters-holes"><code>assign_holes(outers, holes)</code></h3>
+<h3 id="chunksmessage-number"><code>chunks(message, number)</code></h3>
+<h3 id="decode_blockraw-header-max_refs100000"><code>decode_block(raw, header, *, max_refs=100000)</code></h3>
+<h3 id="decode_headerraw"><code>decode_header(raw)</code></h3>
+<h3 id="fieldsdata-budget"><code>fields(data, budget)</code></h3>
+<h3 id="int32value"><code>int32(value)</code></h3>
+<h3 id="iter_osm_pbfsource-max_refs100000-expected_sha256none"><code>iter_osm_pbf(source, *, max_refs=100000, expected_sha256=None)</code></h3>
+<p>Yield immutable OSMRecord snapshots with at most one block in memory.</p>
+<h3 id="onemessage-number-wire-defaultobject-object-at-0x000001b9ef940c10"><code>one(message, number, wire, default=&lt;object object at 0x000001B9EF940C10&gt;)</code></h3>
+<h3 id="read_osm_pbfsource-bboxnone-wherenone-include_untaggedfalse-max_features100000-max_vertices1000000-max_bytes67108864-index_options"><code>read_osm_pbf(source, *, bbox=None, where=None, include_untagged=False, max_features=100000, max_vertices=1000000, max_bytes=67108864, **index_options)</code></h3>
+<p>Read a bounded collection; for large inputs use OSMIndex.features().</p>
+<h3 id="textvalue"><code>text(value)</code></h3>
+<h2 id="azimlibcoordinate_operations">azimlib.coordinate_operations</h2>
+<h3 id="vector3value"><code>vector3(value)</code></h3>
+<h3 id="wrap_longitudelongitude-central_longitude00"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
+<h2 id="azimlibdatum_grids">azimlib.datum_grids</h2>
+<h3 id="read_gtxsource-nodata-888888-max_bytes134217728-max_nodes16000000"><code>read_gtx(source, *, nodata=(-88.8888,), max_bytes=134217728, max_nodes=16000000)</code></h3>
+<p>NOAA binary GTX: big-endian 4 doubles, 2 int32, float32 nodes (2009+).</p>
+<h3 id="read_ntv2source-nodata-max_bytes134217728-max_nodes16000000-max_tiles4096"><code>read_ntv2(source, *, nodata=(), max_bytes=134217728, max_nodes=16000000, max_tiles=4096)</code></h3>
+<p>NTv2 GSB, 11/11-record headers, SECONDS, either endian, nested subgrids.</p>
+<h2 id="azimlibgrid_operations">azimlib.grid_operations</h2>
+<h3 id="vector3value-1"><code>vector3(value)</code></h3>
+<h3 id="wrap_longitudelongitude-central_longitude00-1"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
+<h2 id="overlay">overlay</h2>
+<h2 id="azimlibgeocoding">azimlib.geocoding</h2>
+<h3 id="edit_distancea-b-limit2"><code>edit_distance(a, b, limit=2)</code></h3>
+<p>Own bounded Levenshtein dynamic program, over Unicode code points.</p>
+<h3 id="normalize_namevalue-accentsfalse"><code>normalize_name(value, *, accents=False)</code></h3>
+<h3 id="records_from_featuresfeatures-source-include_addressesfalse"><code>records_from_features(features, source, *, include_addresses=False)</code></h3>
+<p>Allowlisted OSM/GeoJSON tags; aliases/language names retain display text.</p>
+<h3 id="tokensvalue"><code>tokens(value)</code></h3>
+<h2 id="azimlibrouting">azimlib.routing</h2>
+<h3 id="allowedtags-profile"><code>allowed(tags, profile)</code></h3>
+<h3 id="budgetvalue-name"><code>budget(value, name)</code></h3>
+<h3 id="directionstags-profile"><code>directions(tags, profile)</code></h3>
+<h3 id="haversinestart-end-radius63710088"><code>haversine(start, end, radius=6371008.8)</code></h3>
+<p>Great-circle distance in metres on a sphere.</p>
+<h3 id="identifiervalue"><code>identifier(value)</code></h3>
+<h3 id="kept_tagstags"><code>kept_tags(tags)</code></h3>
+<h3 id="node_opentags-profile"><code>node_open(tags, profile)</code></h3>
+<h3 id="positivevalue-name-zerofalse"><code>positive(value, name, *, zero=False)</code></h3>
+<h3 id="restriction_valuetags-profile"><code>restriction_value(tags, profile)</code></h3>
+<h3 id="speedtags-profile-direction"><code>speed(tags, profile, direction)</code></h3>
+<h3 id="xml_recordssource"><code>xml_records(source)</code></h3>
+<p>Bounded, entity-free XML snapshot primitives with original IDs/references.</p>
+<h2 id="azimlibtext_engine">azimlib.text_engine</h2>
+<h3 id="cache_tokentext-style"><code>cache_token(text, style)</code></h3>
+<h3 id="cluster_unitstext-style"><code>cluster_units(text, style)</code></h3>
+<h3 id="current_defaults"><code>current_defaults()</code></h3>
+<h3 id="figure_defaultsmethod"><code>figure_defaults(method)</code></h3>
+<p>Recompose auto-generated components with the figure's captured controls.</p>
+<h3 id="is_shapedstyle"><code>is_shaped(style)</code></h3>
+<h3 id="register_fontpath-family-source-license_id-license_text-allow_outlinesfalse"><code>register_font(path, *, family, source, license_id, license_text, allow_outlines=False)</code></h3>
+<p>Register an immutable font snapshot with explicit redistribution provenance.</p>
+<h3 id="scene_optionsstyle"><code>scene_options(style)</code></h3>
+<h3 id="shape_texttext-style"><code>shape_text(text, style)</code></h3>
+<h3 id="text_commandsitem"><code>text_commands(item)</code></h3>
+<h3 id="text_context-engineharfbuzz-directionauto-languageund-fallback-features"><code>text_context(*, engine='harfbuzz', direction='auto', language='und', fallback=(), features=())</code></h3>
+<p>Defaults captured by newly composed Artists; reset on exit, thread-local.</p>
+<h3 id="text_optionsoptions"><code>text_options(options)</code></h3>
+<p>Validate the public opt-in controls without loading optional engines.</p>
+<h3 id="with_text_noticesscene"><code>with_text_notices(scene)</code></h3>
+<p>Return a shallow scene view with deduplicated font provenance; no paths.</p>
+<h2 id="azimlibtex">azimlib.tex</h2>
+<h3 id="clear_tex_cache"><code>clear_tex_cache()</code></h3>
+<p>Discard prepared fragments and force rehashing of tools/resources.</p>
+<h3 id="composition_resources"><code>composition_resources()</code></h3>
+<p>One verified tool/font snapshot per composition, never a time-based TTL.</p>
+<h3 id="tex_cache_info"><code>tex_cache_info()</code></h3>
+<p>Read prepared-fragment cache counts and measured retained payload.</p>
+<h3 id="tex_contextconfig"><code>tex_context(config)</code></h3>
+<p>Capture real TeX defaults in new figures/Artists; reset on exit.</p>
+<h3 id="tex_layouttext-style"><code>tex_layout(text, style)</code></h3>
+<h3 id="text_commandsitem-1"><code>text_commands(item)</code></h3>
+<h2 id="azimlibsolar">azimlib.solar</h2>
+<h3 id="solar_eventsday-observer-modelnone-offsetsnone-zonedatetimetimezoneutc-center_altitude-08333333333333334"><code>solar_events(day, observer, *, model=None, offsets=None, zone=datetime.timezone.utc, center_altitude=-0.8333333333333334)</code></h3>
+<p>Events in a civil day, fixed geometric center threshold plus local horizon.</p>
+<h3 id="wrap_longitudelongitude-central_longitude00-2"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
+<h2 id="azimliblunar">azimlib.lunar</h2>
+<h3 id="wrap_longitudelongitude-central_longitude00-3"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
+<h2 id="azimliblighting">azimlib.lighting</h2>
+<h3 id="artist_mutationmethod-4"><code>artist_mutation(method)</code></h3>
+<p>Coalesce nested setters on one artist; failed edits do not notify.</p>
+<h3 id="attach_lightaxes-value-framenone-options"><code>attach_light(axes, value, *, frame=None, **options)</code></h3>
+<h3 id="dota-b"><code>dot(a, b)</code></h3>
+<h3 id="finitevalue-1"><code>finite(value)</code></h3>
+<h3 id="subdividepoints-max_edge-depth0"><code>subdivide(points, max_edge, depth=0)</code></h3>
+<h2 id="azimlibeclipse">azimlib.eclipse</h2>
+<h3 id="disk_overlapa-b-d"><code>disk_overlap(a, b, d)</code></h3>
+<p>Area of two planar disks, independent analytic circle intersection.</p>
+<h3 id="occultationpoint-source-occulter-uncertainty_degrees00"><code>occultation(point, source, occulter, *, uncertainty_degrees=0.0)</code></h3>
+<h2 id="azimlibsolar_disk">azimlib.solar_disk</h2>
+<h3 id="compare_disksevaluator-conventions"><code>compare_disks(evaluator, conventions)</code></h3>
+<p>Report every selected model. Never choose the one closest to a reference.</p>
+<h2 id="azimlibvolume">azimlib.volume</h2>
+<h3 id="finitevalue-2"><code>finite(value)</code></h3>
+<h3 id="length_unitunit"><code>length_unit(unit)</code></h3>
+<h3 id="read_volumepath-budgetnone-sha256none"><code>read_volume(path, *, budget=None, sha256=None)</code></h3>
+<p>Verify every AZV brick in bounded memory; retain only its file descriptor.</p>
+<h3 id="write_volumepath-fieldnone-shapenone-bricksnone-brick_size16-origin0-0-0-spacing1-1-1-components1-value_unit1-framenone-budgetnone"><code>write_volume(path, field=None, *, shape=None, bricks=None, brick_size=16, origin=(0, 0, 0), spacing=(1, 1, 1), components=1, value_unit='1', frame=None, budget=None)</code></h3>
+<p>Write atomic AZV1; a streaming producer yields ordered (XYZ brick, LE f32).</p>
+<h2 id="azimlibrenderersgpu">azimlib.renderers.gpu</h2>
+<h3 id="render_gpu_imagescene-scale1-fallbackraise-confignone-cancelnone"><code>render_gpu_image(scene, scale=1, *, fallback='raise', config=None, cancel=None)</code></h3>
+<h3 id="render_gpu_pngscene-path_or_stream-scale1-fallbackraise-confignone"><code>render_gpu_png(scene, path_or_stream, scale=1, *, fallback='raise', config=None)</code></h3>
 <h2 id="azimlib">azimlib</h2>
 <h3 id="cla"><code>cla()</code></h3>
+<h3 id="clear_tex_cache-1"><code>clear_tex_cache()</code></h3>
+<p>Discard prepared fragments and force rehashing of tools/resources.</p>
 <h3 id="clf"><code>clf()</code></h3>
 <h3 id="clip_orthographic_linecoordinates-projection-step20"><code>clip_orthographic_line(coordinates, projection, *, step=2.0)</code></h3>
 <p>Projected-metre line parts ending exactly on the visible horizon.</p>
@@ -20,6 +182,7 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <p>Create zipped properties or combine cycles with + (zip) / * (product).</p>
 <h3 id="destinationlon-lat-bearing-distance-radius63710088"><code>destination(lon, lat, bearing, distance, radius=6371008.8)</code></h3>
 <p>Destination at a bearing clockwise from true north and metres of travel.</p>
+<h3 id="differenceleft-right-kwargs"><code>difference(left, right, **kwargs)</code></h3>
 <h3 id="fignum_existsnum"><code>fignum_exists(num)</code></h3>
 <h3 id="figurenumnone-figsizenone-dpinone-facecolornone-layoutnone-clearfalse"><code>figure(num=None, *, figsize=None, dpi=None, facecolor=None, layout=None, clear=False)</code></h3>
 <p>Create/reactivate an own figure by number, label or managed Figure.</p>
@@ -32,15 +195,23 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="getpartist-propertynone"><code>getp(artist, property=None)</code></h3>
 <h3 id="great_circlestart-end-steps100"><code>great_circle(start, end, steps=100)</code></h3>
 <p>Sample the shorter spherical arc; return steps+1 positions.</p>
-<h3 id="haversinestart-end-radius63710088"><code>haversine(start, end, radius=6371008.8)</code></h3>
+<h3 id="haversinestart-end-radius63710088-1"><code>haversine(start, end, radius=6371008.8)</code></h3>
 <p>Great-circle distance in metres on a sphere.</p>
+<h3 id="intersectionleft-right-kwargs"><code>intersection(left, right, **kwargs)</code></h3>
 <h3 id="ioff"><code>ioff()</code></h3>
 <h3 id="ion"><code>ion()</code></h3>
 <h3 id="isinteractive"><code>isinteractive()</code></h3>
+<h3 id="iter_osm_pbfsource-max_refs100000-expected_sha256none-1"><code>iter_osm_pbf(source, *, max_refs=100000, expected_sha256=None)</code></h3>
+<p>Yield immutable OSMRecord snapshots with at most one block in memory.</p>
 <h3 id="longitude_boundslongitudes"><code>longitude_bounds(longitudes)</code></h3>
 <p>Shortest circular interval, returned increasing, possibly east&gt;180.</p>
+<h3 id="occultationpoint-source-occulter-uncertainty_degrees00-1"><code>occultation(point, source, occulter, *, uncertainty_degrees=0.0)</code></h3>
 <h3 id="orientationa-b-c"><code>orientation(a, b, c)</code></h3>
 <p>Exact sign of the binary-float 2D determinant: -1, 0 or 1.</p>
+<h3 id="overlayleft-right-operationintersection-domainplanar-max_segments20000-max_pairs2000000-max_edges100000"><code>overlay(left, right, operation='intersection', *, domain='planar', max_segments=20000, max_pairs=2000000, max_edges=100000)</code></h3>
+<p>Return geometry and a shared noded graph with source-edge lineage.</p>
+<h3 id="overlay_featuresleft-right-operationintersection-kwargs"><code>overlay_features(left, right, operation='intersection', **kwargs)</code></h3>
+<p>Keep both property namespaces/IDs; never silently overwrite a field.</p>
 <h3 id="rcgroup-kwargs"><code>rc(group, **kwargs)</code></h3>
 <h3 id="rc_contextrcnone"><code>rc_context(rc=None)</code></h3>
 <h3 id="rcdefaults"><code>rcdefaults()</code></h3>
@@ -52,22 +223,37 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <p>Read a path, JSON string, mapping, text stream or <strong>geo_interface</strong>.</p>
 <h3 id="read_geotiffsource-crsnone-nodatanone-max_pixels16000000"><code>read_geotiff(source, *, crs=None, nodata=None, max_pixels=16000000)</code></h3>
 <p>Classic scalar/RGB/RGBA TIFF, GeoKeys and affine georeference interpreted here.</p>
+<h3 id="read_gtxsource-nodata-888888-max_bytes134217728-max_nodes16000000-1"><code>read_gtx(source, *, nodata=(-88.8888,), max_bytes=134217728, max_nodes=16000000)</code></h3>
+<p>NOAA binary GTX: big-endian 4 doubles, 2 int32, float32 nodes (2009+).</p>
 <h3 id="read_kmlsource"><code>read_kml(source)</code></h3>
 <p>Local KML 2.2/2.3 Point/LineString/Polygon/MultiGeometry placemarks.</p>
+<h3 id="read_ntv2source-nodata-max_bytes134217728-max_nodes16000000-max_tiles4096-1"><code>read_ntv2(source, *, nodata=(), max_bytes=134217728, max_nodes=16000000, max_tiles=4096)</code></h3>
+<p>NTv2 GSB, 11/11-record headers, SECONDS, either endian, nested subgrids.</p>
 <h3 id="read_osmsource-include_untaggedfalse"><code>read_osm(source, *, include_untagged=False)</code></h3>
 <p>Interpret local OSM 0.6 nodes/ways and multipolygon relations strictly.</p>
+<h3 id="read_osm_pbfsource-bboxnone-wherenone-include_untaggedfalse-max_features100000-max_vertices1000000-max_bytes67108864-index_options-1"><code>read_osm_pbf(source, *, bbox=None, where=None, include_untagged=False, max_features=100000, max_vertices=1000000, max_bytes=67108864, **index_options)</code></h3>
+<p>Read a bounded collection; for large inputs use OSMIndex.features().</p>
 <h3 id="read_rastersource-crsnone-world_filenone-extentnone-nodatanone-max_pixels16000000"><code>read_raster(source, *, crs=None, world_file=None, extent=None, nodata=None, max_pixels=16000000)</code></h3>
 <p>Scalar or RGB/RGBA image with an explicit extent/world-file, or embedded GeoTIFF.</p>
 <h3 id="read_shapefilesource-crs-dbfnone-shxnone-encodingnone-include_deletedfalse"><code>read_shapefile(source, *, crs, dbf=None, shx=None, encoding=None, include_deleted=False)</code></h3>
 <p>Read SHP plus optional SHX/DBF; source CRS is always explicit.</p>
 <h3 id="read_svg_symbolpath-provenance"><code>read_svg_symbol(path, *, provenance)</code></h3>
 <p>Read a local SVG geometry subset; caller supplies legal provenance.</p>
+<h3 id="read_volumepath-budgetnone-sha256none-1"><code>read_volume(path, *, budget=None, sha256=None)</code></h3>
+<p>Verify every AZV brick in bounded memory; retain only its file descriptor.</p>
 <h3 id="read_world_filesource"><code>read_world_file(source)</code></h3>
 <p>Convert six world-file values A,D,B,E,C,F (pixel centres) to corner affine.</p>
+<h3 id="records_from_featuresfeatures-source-include_addressesfalse-1"><code>records_from_features(features, source, *, include_addresses=False)</code></h3>
+<p>Allowlisted OSM/GeoJSON tags; aliases/language names retain display text.</p>
+<h3 id="register_fontpath-family-source-license_id-license_text-allow_outlinesfalse-1"><code>register_font(path, *, family, source, license_id, license_text, allow_outlines=False)</code></h3>
+<p>Register an immutable font snapshot with explicit redistribution provenance.</p>
 <h3 id="register_projectionname-projection_class-replacefalse"><code>register_projection(name, projection_class, *, replace=False)</code></h3>
 <p>Register an independently implemented Projection subclass.</p>
+<h3 id="repair_geometrygeometry-methodnormalize-max_segments20000-max_pairs2000000-max_edges100000"><code>repair_geometry(geometry, *, method='normalize', max_segments=20000, max_pairs=2000000, max_edges=100000)</code></h3>
+<p>Explicit planar deduplication/winding, optionally even-odd polygonization.</p>
 <h3 id="ring_orientationring"><code>ring_orientation(ring)</code></h3>
 <h3 id="savefigpath-kwargs"><code>savefig(path, **kwargs)</code></h3>
+<p>Static export; renderer=&quot;gpu&quot; forwards experimental PNG selection.</p>
 <h3 id="scaax"><code>sca(ax)</code></h3>
 <p>Select an axes and its managed figure without reordering Figure.axes.</p>
 <h3 id="segment_intersectiona-b-c-d"><code>segment_intersection(a, b, c, d)</code></h3>
@@ -75,29 +261,43 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="setpartists-args-kwargs"><code>setp(artists, *args, **kwargs)</code></h3>
 <p>Set properties on an artist or nested sequence of artists.</p>
 <h3 id="show-blocktrue-backendtk-open_browsertrue"><code>show(*, block=True, backend='tk', open_browser=True)</code></h3>
-<p>Show own viewers; desktop event loop blocks only when requested.</p>
+<p>Show own CPU viewers; desktop loop blocks only when requested.</p>
 <h3 id="simplify_boundariesdata-transform-tolerance"><code>simplify_boundaries(data, transform, tolerance)</code></h3>
 <p>Simplify exact shared chains once; preserve IDs/properties/ring direction.</p>
 <h3 id="simplify_pathpoints-tolerance"><code>simplify_path(points, tolerance)</code></h3>
+<h3 id="solar_eventsday-observer-modelnone-offsetsnone-zonedatetimetimezoneutc-center_altitude-08333333333333334-1"><code>solar_events(day, observer, *, model=None, offsets=None, zone=datetime.timezone.utc, center_altitude=-0.8333333333333334)</code></h3>
+<p>Events in a civil day, fixed geometric center threshold plus local horizon.</p>
 <h3 id="subplotargs-kwargs"><code>subplot(*args, **kwargs)</code></h3>
 <p>Select/reuse a subplot; explicit projection options can create another.</p>
 <h3 id="subplot_mosaicmosaic-projectionequirectangular-projection_kwnone-figsizenone-dpinone-facecolornone-layoutnone-numnone-clearfalse-subplot_kwnone-per_subplot_kwnone-gridspec_kwnone-width_ratiosnone-height_ratiosnone-empty_sentinel-sharexfalse-shareyfalse"><code>subplot_mosaic(mosaic, *, projection='equirectangular', projection_kw=None, figsize=None, dpi=None, facecolor=None, layout=None, num=None, clear=False, subplot_kw=None, per_subplot_kw=None, gridspec_kw=None, width_ratios=None, height_ratios=None, empty_sentinel='.', sharex=False, sharey=False)</code></h3>
 <p>Return (figure, dict of named axes) for a rectangular or nested mosaic.</p>
 <h3 id="subplotsnrows1-ncols1-projectionequirectangular-figsizenone-dpinone-facecolornone-squeezetrue-projection_kwnone-subplot_kwnone-layoutnone-gridspec_kwnone-width_ratiosnone-height_ratiosnone-numnone-clearfalse-sharexfalse-shareyfalse"><code>subplots(nrows=1, ncols=1, *, projection='equirectangular', figsize=None, dpi=None, facecolor=None, squeeze=True, projection_kw=None, subplot_kw=None, layout=None, gridspec_kw=None, width_ratios=None, height_ratios=None, num=None, clear=False, sharex=False, sharey=False)</code></h3>
+<h3 id="symmetric_differenceleft-right-kwargs"><code>symmetric_difference(left, right, **kwargs)</code></h3>
+<h3 id="tex_contextconfig-1"><code>tex_context(config)</code></h3>
+<p>Capture real TeX defaults in new figures/Artists; reset on exit.</p>
+<h3 id="text_context-engineharfbuzz-directionauto-languageund-fallback-features-1"><code>text_context(*, engine='harfbuzz', direction='auto', language='und', fallback=(), features=())</code></h3>
+<p>Defaults captured by newly composed Artists; reset on exit, thread-local.</p>
 <h3 id="transformx-y-sourceepsg4326-targetepsg3857"><code>transform(x, y, source='EPSG:4326', target='EPSG:3857')</code></h3>
 <p>Transform one coordinate pair, always using longitude before latitude.</p>
+<h3 id="unionleft-right-kwargs"><code>union(left, right, **kwargs)</code></h3>
 <h3 id="utm_crslongitude-latitude"><code>utm_crs(longitude, latitude)</code></h3>
 <h3 id="utm_zonelongitude-latitude"><code>utm_zone(longitude, latitude)</code></h3>
 <h3 id="validate_geometrygeometry-require_windingfalse"><code>validate_geometry(geometry, *, require_winding=False)</code></h3>
 <p>Check rings/holes and multipolygon interiors in a regional lon/lat plane.</p>
 <h3 id="validate_ringring-windingnone"><code>validate_ring(ring, *, winding=None)</code></h3>
+<h3 id="validate_topologygeometry-domainplanar"><code>validate_topology(geometry, *, domain='planar')</code></h3>
+<p>Diagnose the new overlay contract without modifying any coordinates.</p>
 <h3 id="write_geojsondata-destinationnone-indent2"><code>write_geojson(data, destination=None, *, indent=2)</code></h3>
 <p>Serialize native objects or validated input; optionally write a path/stream.</p>
+<h3 id="write_volumepath-fieldnone-shapenone-bricksnone-brick_size16-origin0-0-0-spacing1-1-1-components1-value_unit1-framenone-budgetnone-1"><code>write_volume(path, field=None, *, shape=None, bricks=None, brick_size=16, origin=(0, 0, 0), spacing=(1, 1, 1), components=1, value_unit='1', frame=None, budget=None)</code></h3>
+<p>Write atomic AZV1; a streaming producer yields ordered (XYZ brick, LE f32).</p>
 <h2 id="azimlibpyplot">azimlib.pyplot</h2>
 <h3 id="annotateargs-kwargs"><code>annotate(*args, **kwargs)</code></h3>
 <h3 id="autoscaleenabletrue-axisboth-tightnone"><code>autoscale(enable=True, axis='both', tight=None)</code></h3>
 <h3 id="cla-1"><code>cla()</code></h3>
 <h3 id="clabelargs-kwargs"><code>clabel(*args, **kwargs)</code></h3>
+<h3 id="clear_tex_cache-2"><code>clear_tex_cache()</code></h3>
+<p>Discard prepared fragments and force rehashing of tools/resources.</p>
 <h3 id="clf-1"><code>clf()</code></h3>
 <h3 id="closefignone-1"><code>close(fig=None)</code></h3>
 <p>Close current, numbered/named/explicit figure, or 'all', without creation.</p>
@@ -134,14 +334,17 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="rcgroup-kwargs-1"><code>rc(group, **kwargs)</code></h3>
 <h3 id="rc_contextrcnone-1"><code>rc_context(rc=None)</code></h3>
 <h3 id="rcdefaults-1"><code>rcdefaults()</code></h3>
+<h3 id="register_fontpath-family-source-license_id-license_text-allow_outlinesfalse-2"><code>register_font(path, *, family, source, license_id, license_text, allow_outlines=False)</code></h3>
+<p>Register an immutable font snapshot with explicit redistribution provenance.</p>
 <h3 id="savefigpath-kwargs-1"><code>savefig(path, **kwargs)</code></h3>
+<p>Static export; renderer=&quot;gpu&quot; forwards experimental PNG selection.</p>
 <h3 id="scaax-1"><code>sca(ax)</code></h3>
 <p>Select an axes and its managed figure without reordering Figure.axes.</p>
 <h3 id="scatterargs-kwargs"><code>scatter(*args, **kwargs)</code></h3>
 <h3 id="setpartists-args-kwargs-1"><code>setp(artists, *args, **kwargs)</code></h3>
 <p>Set properties on an artist or nested sequence of artists.</p>
 <h3 id="show-blocktrue-backendtk-open_browsertrue-1"><code>show(*, block=True, backend='tk', open_browser=True)</code></h3>
-<p>Show own viewers; desktop event loop blocks only when requested.</p>
+<p>Show own CPU viewers; desktop loop blocks only when requested.</p>
 <h3 id="subplotargs-kwargs-1"><code>subplot(*args, **kwargs)</code></h3>
 <p>Select/reuse a subplot; explicit projection options can create another.</p>
 <h3 id="subplot_mosaicmosaic-projectionequirectangular-projection_kwnone-figsizenone-dpinone-facecolornone-layoutnone-numnone-clearfalse-subplot_kwnone-per_subplot_kwnone-gridspec_kwnone-width_ratiosnone-height_ratiosnone-empty_sentinel-sharexfalse-shareyfalse-1"><code>subplot_mosaic(mosaic, *, projection='equirectangular', projection_kw=None, figsize=None, dpi=None, facecolor=None, layout=None, num=None, clear=False, subplot_kw=None, per_subplot_kw=None, gridspec_kw=None, width_ratios=None, height_ratios=None, empty_sentinel='.', sharex=False, sharey=False)</code></h3>
@@ -149,7 +352,11 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="subplotsnrows1-ncols1-projectionequirectangular-figsizenone-dpinone-facecolornone-squeezetrue-projection_kwnone-subplot_kwnone-layoutnone-gridspec_kwnone-width_ratiosnone-height_ratiosnone-numnone-clearfalse-sharexfalse-shareyfalse-1"><code>subplots(nrows=1, ncols=1, *, projection='equirectangular', figsize=None, dpi=None, facecolor=None, squeeze=True, projection_kw=None, subplot_kw=None, layout=None, gridspec_kw=None, width_ratios=None, height_ratios=None, num=None, clear=False, sharex=False, sharey=False)</code></h3>
 <h3 id="subplots_adjustkwargs"><code>subplots_adjust(**kwargs)</code></h3>
 <h3 id="suptitletext-kwargs"><code>suptitle(text, **kwargs)</code></h3>
+<h3 id="tex_contextconfig-2"><code>tex_context(config)</code></h3>
+<p>Capture real TeX defaults in new figures/Artists; reset on exit.</p>
 <h3 id="textargs-kwargs"><code>text(*args, **kwargs)</code></h3>
+<h3 id="text_context-engineharfbuzz-directionauto-languageund-fallback-features-2"><code>text_context(*, engine='harfbuzz', direction='auto', language='und', fallback=(), features=())</code></h3>
+<p>Defaults captured by newly composed Artists; reset on exit, thread-local.</p>
 <h3 id="tick_paramskwargs"><code>tick_params(**kwargs)</code></h3>
 <h3 id="ticklabel_formatkwargs"><code>ticklabel_format(**kwargs)</code></h3>
 <h3 id="tight_layout-pad108-w_padnone-h_padnone-rect0-0-1-1"><code>tight_layout(*, pad=1.08, w_pad=None, h_pad=None, rect=(0, 0, 1, 1))</code></h3>
@@ -175,7 +382,7 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h2 id="azimlibcolors">azimlib.colors</h2>
 <h3 id="get_cmapvalueviridis"><code>get_cmap(value='viridis')</code></h3>
 <h3 id="sample_colorcmap-t"><code>sample_color(cmap, t)</code></h3>
-<h3 id="to_rgbacolor-alphanone"><code>to_rgba(color, alpha=None)</code></h3>
+<h3 id="to_rgbacolor-alphanone-2"><code>to_rgba(color, alpha=None)</code></h3>
 <p>Dependency-free basic CSS/hex or normalized RGB(A) conversion.</p>
 <h2 id="azimlibcm">azimlib.cm</h2>
 <h3 id="get_cmapvalueviridis-1"><code>get_cmap(value='viridis')</code></h3>
@@ -218,7 +425,7 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <p>Register an independently implemented Projection subclass.</p>
 <h3 id="tm_forwardlon-lat-central_longitude0-central_latitude0-scale_factor09996-false_easting0-false_northing0-ellipsoidellipsoidsemi_major_axis63781370-inverse_flattening298257223563-namewgs84"><code>tm_forward(lon, lat, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))</code></h3>
 <h3 id="tm_inversex-y-central_longitude0-central_latitude0-scale_factor09996-false_easting0-false_northing0-ellipsoidellipsoidsemi_major_axis63781370-inverse_flattening298257223563-namewgs84"><code>tm_inverse(x, y, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))</code></h3>
-<h3 id="wrap_longitudelongitude-central_longitude00"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<h3 id="wrap_longitudelongitude-central_longitude00-4"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
 <p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
 <h2 id="azimlibcrs">azimlib.crs</h2>
 <h3 id="positionvalue-1"><code>position(value)</code></h3>
@@ -228,7 +435,7 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="transformx-y-sourceepsg4326-targetepsg3857-1"><code>transform(x, y, source='EPSG:4326', target='EPSG:3857')</code></h3>
 <p>Transform one coordinate pair, always using longitude before latitude.</p>
 <h3 id="transform_coordinatescoordinates-sourceepsg4326-targetepsg3857"><code>transform_coordinates(coordinates, source='EPSG:4326', target='EPSG:3857')</code></h3>
-<p>Transform a sequence of 2D/3D positions, preserving optional elevation.</p>
+<p>Transform positions; actual XYZ conversion for explicit 3D CRS.</p>
 <h3 id="transform_geojsondata-sourceepsg4326-targetepsg3857"><code>transform_geojson(data, source='EPSG:4326', target='EPSG:3857')</code></h3>
 <p>Transform raw GeoJSON coordinates before geographic geometry validation.</p>
 <h3 id="utm_crslongitude-latitude-1"><code>utm_crs(longitude, latitude)</code></h3>
@@ -245,11 +452,11 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="statename-str---dict"><code>state(name: 'str') -&gt; 'dict'</code></h3>
 <p>Return one bundled Brazilian state by name, postal code or ISO code.</p>
 <h2 id="azimlibgeodesy">azimlib.geodesy</h2>
-<h3 id="haversinestart-end-radius63710088-1"><code>haversine(start, end, radius=6371008.8)</code></h3>
+<h3 id="haversinestart-end-radius63710088-2"><code>haversine(start, end, radius=6371008.8)</code></h3>
 <p>Great-circle distance in metres on a sphere.</p>
 <h3 id="positionvalue-2"><code>position(value)</code></h3>
 <p>Validate and freeze a two- or three-dimensional geographic position.</p>
-<h3 id="wrap_longitudelongitude-central_longitude00-1"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<h3 id="wrap_longitudelongitude-central_longitude00-5"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
 <p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
 <h2 id="azimlibtopology">azimlib.topology</h2>
 <h3 id="orientationa-b-c-1"><code>orientation(a, b, c)</code></h3>
@@ -262,7 +469,7 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="validate_geometrygeometry-require_windingfalse-1"><code>validate_geometry(geometry, *, require_winding=False)</code></h3>
 <p>Check rings/holes and multipolygon interiors in a regional lon/lat plane.</p>
 <h3 id="validate_ringring-windingnone-1"><code>validate_ring(ring, *, winding=None)</code></h3>
-<h3 id="wrap_longitudelongitude-central_longitude00-2"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<h3 id="wrap_longitudelongitude-central_longitude00-6"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
 <p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
 <h2 id="azimlibtransverse">azimlib.transverse</h2>
 <h3 id="positionvalue-4"><code>position(value)</code></h3>
@@ -271,7 +478,7 @@ fontes e espaçamentos: pontos; s: pontos². set_extent/extent:
 <h3 id="tm_inversex-y-central_longitude0-central_latitude0-scale_factor09996-false_easting0-false_northing0-ellipsoidellipsoidsemi_major_axis63781370-inverse_flattening298257223563-namewgs84-2"><code>tm_inverse(x, y, *, central_longitude=0, central_latitude=0, scale_factor=0.9996, false_easting=0, false_northing=0, ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'))</code></h3>
 <h3 id="utm_crslongitude-latitude-2"><code>utm_crs(longitude, latitude)</code></h3>
 <h3 id="utm_zonelongitude-latitude-2"><code>utm_zone(longitude, latitude)</code></h3>
-<h3 id="wrap_longitudelongitude-central_longitude00-3"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
+<h3 id="wrap_longitudelongitude-central_longitude00-7"><code>wrap_longitude(longitude, central_longitude=0.0)</code></h3>
 <p>Wrap longitude into the central meridian's closed +/-180° interval.</p>
 <h2 id="azimlibtransforms">azimlib.transforms</h2>
 <h3 id="blended_transform_factoryx_transform-y_transform"><code>blended_transform_factory(x_transform, y_transform)</code></h3>
@@ -395,6 +602,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="countrieskwargs"><code>countries(**kwargs)</code></h3>
 <h3 id="densitylon-lat-bins24-smoothing1-cmapsunset-weightsnone-extentnone-normalizationnone-kwargs"><code>density(lon, lat, *, bins=24, smoothing=1, cmap='sunset', weights=None, extent=None, normalization=None, **kwargs)</code></h3>
 <p>A regular lon/lat count grid with optional Gaussian cell smoothing.</p>
+<h3 id="earth_moonposition-kwargs"><code>earth_moon(position, **kwargs)</code></h3>
+<h3 id="eclipse_shadowgeometry-kwargs"><code>eclipse_shadow(geometry, **kwargs)</code></h3>
+<p>Experimental sampled eclipse visualization, not certified event prediction.</p>
 <h3 id="filllon-lat-kwargs"><code>fill(lon, lat, **kwargs)</code></h3>
 <h3 id="findobjmatchnone-include_selftrue"><code>findobj(match=None, include_self=True)</code></h3>
 <h3 id="fit_extentdatanone-margin005"><code>fit_extent(data=None, *, margin=0.05)</code></h3>
@@ -459,6 +669,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="insetbounds068-066-028-028-projectionequirectangular-projection_kwnone"><code>inset(bounds=(0.68, 0.66, 0.28, 0.28), *, projection='equirectangular', projection_kw=None)</code></h3>
 <h3 id="inset_axesargs-kwargs"><code>inset_axes(*args, **kwargs)</code></h3>
 <p>Add a north arrow without replacing the compass rose.</p>
+<h3 id="isosurfacefield-level-style"><code>isosurface(field, level, **style)</code></h3>
 <h3 id="label_outerremove_inner_ticksfalse"><code>label_outer(remove_inner_ticks=False)</code></h3>
 <p>Hide inner labels; optionally hide ticks, using the local SubplotSpec.</p>
 <h3 id="labelsdata-fieldname-avoid_overlaptrue-padding2-offsetsnone-leaderfalse-placementauto-repeatnone-priority_fieldpriority-min_span0-max_spannone-kwargs"><code>labels(data, field='name', *, avoid_overlap=True, padding=2, offsets=None, leader=False, placement='auto', repeat=None, priority_field='priority', min_span=0, max_span=None, **kwargs)</code></h3>
@@ -474,9 +685,13 @@ Raises ValueError if the value is not present.</p>
 <h3 id="minorticks_off-1"><code>minorticks_off()</code></h3>
 <h3 id="minorticks_on-1"><code>minorticks_on()</code></h3>
 <p>Enable automatic minor ticks without enabling any grid.</p>
+<h3 id="moonposition-kwargs"><code>moon(position, **kwargs)</code></h3>
+<p>Optional sublunar marker, or finite Earth-fixed lunar body in 3D.</p>
+<h3 id="moon_pathpath-kwargs"><code>moon_path(path, **kwargs)</code></h3>
 <h3 id="municipalitiesdatanone-kwargs"><code>municipalities(data=None, **kwargs)</code></h3>
 <h3 id="neighborhoodsdatanone-wherenone-crsnone-kwargs"><code>neighborhoods(data=None, *, where=None, crs=None, **kwargs)</code></h3>
 <p>Draw supplied neighborhood polygons; where filters properties.</p>
+<h3 id="nightshadeposition-kwargs"><code>nightshade(position, **kwargs)</code></h3>
 <h3 id="north_arrowargs-kwargs"><code>north_arrow(*args, **kwargs)</code></h3>
 <p>Add a north arrow without replacing the compass rose.</p>
 <h3 id="oceancolore5f1f4"><code>ocean(color='#e5f1f4')</code></h3>
@@ -490,13 +705,16 @@ Raises ValueError if the value is not present.</p>
 <h3 id="pickmouseevent"><code>pick(mouseevent)</code></h3>
 <h3 id="plotargs-kwargs-1"><code>plot(*args, **kwargs)</code></h3>
 <p>Add a north arrow without replacing the compass rose.</p>
-<h3 id="plot_surfacex-y-z-horizontal_unitm-vertical_unitm-cmapterrain-normnone-colornone-shadetrue-light1--1-2-elevation_referenceunspecified"><code>plot_surface(X, Y, Z, *, horizontal_unit='m', vertical_unit='m', cmap='terrain', norm=None, color=None, shade=True, light=(1, -1, 2), elevation_reference='unspecified')</code></h3>
+<h3 id="plot_surfacex-y-z-horizontal_unitm-vertical_unitm-cmapterrain-normnone-colornone-shadetrue-light1--1-2-elevation_referenceunspecified-texturenone-uvnone"><code>plot_surface(X, Y, Z, *, horizontal_unit='m', vertical_unit='m', cmap='terrain', norm=None, color=None, shade=True, light=(1, -1, 2), elevation_reference='unspecified', texture=None, uv=None)</code></h3>
+<h3 id="plot_volumefield-regionnone-style"><code>plot_volume(field, *, region=None, **style)</code></h3>
 <h3 id="polygoncoordinates-holesnone-kwargs"><code>polygon(coordinates, *, holes=None, **kwargs)</code></h3>
 <h3 id="properties"><code>properties()</code></h3>
 <h3 id="quiverlon-lat-u-v-cnone-scalenone-cmapviridis-normnone-vminnone-vmaxnone-kwargs"><code>quiver(lon, lat, u, v, C=None, *, scale=None, cmap='viridis', norm=None, vmin=None, vmax=None, **kwargs)</code></h3>
 <p>East/north vectors; scale is data units per axes width.</p>
 <h3 id="rasterdata-crsnone-world_filenone-extentnone-nodatanone-kwargs"><code>raster(data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs)</code></h3>
 <p>Draw an explicit GeoRaster or read a locally georeferenced scalar or RGB/RGBA image.</p>
+<h3 id="regionregion-kwargs"><code>region(region, **kwargs)</code></h3>
+<p>Optional spherical region, with explicit fill/boundary resolution.</p>
 <h3 id="relimvisible_onlyfalse"><code>relim(visible_only=False)</code></h3>
 <p>Recompute geographic data bounds without moving the current view.</p>
 <h3 id="remove"><code>remove()</code></h3>
@@ -554,6 +772,8 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_zlimbottom-topnone"><code>set_zlim(bottom, top=None)</code></h3>
 <h3 id="sharexother"><code>sharex(other)</code></h3>
 <h3 id="shareyother"><code>sharey(other)</code></h3>
+<h3 id="solar_lightposition-kwargs"><code>solar_light(position, **kwargs)</code></h3>
+<h3 id="solar_terminatorposition-kwargs"><code>solar_terminator(position, **kwargs)</code></h3>
 <h3 id="statename-kwargs"><code>state(name, **kwargs)</code></h3>
 <p>Draw and fit one Brazilian state by name, postal code or BR-XX.</p>
 <h3 id="statesargs-kwargs"><code>states(*args, **kwargs)</code></h3>
@@ -561,6 +781,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="streetsdatanone-wherenone-crsnone-kwargs"><code>streets(data=None, *, where=None, crs=None, **kwargs)</code></h3>
 <p>Draw supplied street lines, with linewidth in points, not metres.</p>
 <h3 id="subtitletext-kwargs"><code>subtitle(text, **kwargs)</code></h3>
+<h3 id="sunposition-kwargs"><code>sun(position, **kwargs)</code></h3>
+<p>Optional subsolar marker, or explicit local sky marker on 3D axes.</p>
+<h3 id="sun_pathpath-kwargs"><code>sun_path(path, **kwargs)</code></h3>
 <h3 id="terrainraster-origin-elevation_unitm-elevation_referenceunspecified-style"><code>terrain(raster, *, origin, elevation_unit='m', elevation_reference='unspecified', **style)</code></h3>
 <p>Hypsometric RGB illumination plus a separate elevation ScalarMappable.</p>
 <h3 id="textargs-kwargs-1"><code>text(*args, **kwargs)</code></h3>
@@ -576,6 +799,7 @@ Raises ValueError if the value is not present.</p>
 <p>Flat triangle colors from nodal means; masked nodes/triangles omitted.</p>
 <h3 id="updateprops"><code>update(props)</code></h3>
 <h3 id="view_initelevnone-azimnone-rollnone"><code>view_init(elev=None, azim=None, roll=None)</code></h3>
+<h3 id="volume_slicefield-axisz-position-style"><code>volume_slice(field, *, axis='z', position, **style)</code></h3>
 <h3 id="zoomfactor2-centernone"><code>zoom(factor=2, center=None)</code></h3>
 <p>Zoom geographic limits by a positive factor (&gt;1 zooms in).</p>
 <h2 id="azimlibterrain_axessurfaceartist">azimlib.terrain_axes.SurfaceArtist</h2>
@@ -585,7 +809,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="autoscale_none"><code>autoscale_None()</code></h3>
 <h3 id="changed"><code>changed()</code></h3>
 <h3 id="containsmouseevent-1"><code>contains(mouseevent)</code></h3>
-<h3 id="facescamera-bounds-aspect-exaggeration"><code>faces(camera, bounds, aspect, exaggeration)</code></h3>
+<h3 id="facescamera-bounds-aspect-exaggeration-with_uvfalse"><code>faces(camera, bounds, aspect, exaggeration, *, with_uv=False)</code></h3>
 <h3 id="findobjmatchnone-include_selftrue-1"><code>findobj(match=None, include_self=True)</code></h3>
 <h3 id="get_array"><code>get_array()</code></h3>
 <h3 id="get_children-1"><code>get_children()</code></h3>
@@ -598,6 +822,8 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_norm"><code>get_norm()</code></h3>
 <h3 id="get_picker-1"><code>get_picker()</code></h3>
 <h3 id="get_pickradius-1"><code>get_pickradius()</code></h3>
+<h3 id="get_texture"><code>get_texture()</code></h3>
+<h3 id="get_texture_uv"><code>get_texture_uv()</code></h3>
 <h3 id="get_transform-1"><code>get_transform()</code></h3>
 <h3 id="get_visible-1"><code>get_visible()</code></h3>
 <h3 id="get_zorder"><code>get_zorder()</code></h3>
@@ -617,6 +843,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_pickervalue-1"><code>set_picker(value)</code></h3>
 <h3 id="set_pickradiusvalue-1"><code>set_pickradius(value)</code></h3>
 <h3 id="set_shadevalue"><code>set_shade(value)</code></h3>
+<h3 id="set_texturetexture-uvnone"><code>set_texture(texture, uv=None)</code></h3>
 <h3 id="set_transformtransform-1"><code>set_transform(transform)</code></h3>
 <h3 id="set_visiblevalue"><code>set_visible(value)</code></h3>
 <h3 id="to_colorvalue"><code>to_color(value)</code></h3>
@@ -1545,10 +1772,12 @@ Raises ValueError if the value is not present.</p>
 <h3 id="forwardlon-lat-2"><code>forward(lon, lat)</code></h3>
 <h3 id="inversex-y-2"><code>inverse(x, y)</code></h3>
 <h2 id="azimlibrastergeoraster">azimlib.raster.GeoRaster</h2>
-<p><code>GeoRaster(values: tuple, affine: tuple, crs: object = 'EPSG:4326', nodata: float | None = None, pixel_type: str = 'area', color_mode: str = 'auto', mask: object = None) -&gt; None</code></p>
+<p><code>GeoRaster(values: tuple, affine: tuple, crs: object = 'EPSG:4326', nodata: float | None = None, pixel_type: str = 'area', color_mode: str = 'auto', mask: object = None, height_frame: object = None) -&gt; None</code></p>
 <h3 id="coordinatecolumn-row-centerfalse"><code>coordinate(column, row, *, center=False)</code></h3>
 <h3 id="geographic_mesh"><code>geographic_mesh()</code></h3>
 <p>Return lon/lat edges and south-to-north rows for the own mesh Artist.</p>
+<h3 id="mask_regionregion-domainplanar-invertfalse"><code>mask_region(region, *, domain='planar', invert=False)</code></h3>
+<p>Return a geographic region mask sampled at pixel centres; no warp.</p>
 <h3 id="resampleshape-extentnone-affinenone-crsnone-methodnearest-missingstrict"><code>resample(shape, *, extent=None, affine=None, crs=None, method='nearest', missing='strict')</code></h3>
 <p>Own inverse-affine/CRS sampling at destination pixel centres.</p>
 <h3 id="samplex-y-crsnone-methodnearest-missingstrict"><code>sample(x, y, *, crs=None, method='nearest', missing='strict')</code></h3>
@@ -1557,7 +1786,11 @@ Raises ValueError if the value is not present.</p>
 <p><code>DatasetCatalog(manifest)</code></p>
 <h3 id="available"><code>available()</code></h3>
 <p>Return detached metadata; editing it does not change the catalog.</p>
+<h3 id="grid_operationidentifier-versionnone"><code>grid_operation(identifier, *, version=None)</code></h3>
+<p>Load an exact declared grid operation, verifying data and legal notices.</p>
 <h3 id="loadidentifier-versionnone"><code>load(identifier, *, version=None)</code></h3>
+<h3 id="open_pbfidentifier-versionnone-index_options"><code>open_pbf(identifier, *, version=None, **index_options)</code></h3>
+<p>Open a verified disk index; caller must close it (prefer <code>with</code>).</p>
 <h3 id="verifyidentifiernone-versionnone"><code>verify(identifier=None, *, version=None)</code></h3>
 <h2 id="azimlibshapefiledbfrecord">azimlib.shapefile.DBFRecord</h2>
 <p><code>DBFRecord(index: int, properties: object, deleted: bool = False) -&gt; None</code></p>
@@ -1633,9 +1866,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="pickmouseevent-15"><code>pick(mouseevent)</code></h3>
 <h3 id="properties-15"><code>properties()</code></h3>
 <h3 id="remove_callbackoid-15"><code>remove_callback(oid)</code></h3>
-<h3 id="savepath-formatnone-dpinone"><code>save(path, *, format=None, dpi=None)</code></h3>
+<h3 id="savepath-formatnone-dpinone-renderercpu-gpu_fallbackraise-gpu_confignone"><code>save(path, *, format=None, dpi=None, renderer='cpu', gpu_fallback='raise', gpu_config=None)</code></h3>
 <p>Export static .svg, .png or vector .pdf without UI; streams require format.</p>
-<h3 id="savefigpath-formatnone-dpinone"><code>savefig(path, *, format=None, dpi=None)</code></h3>
+<h3 id="savefigpath-formatnone-dpinone-renderercpu-gpu_fallbackraise-gpu_confignone"><code>savefig(path, *, format=None, dpi=None, renderer='cpu', gpu_fallback='raise', gpu_config=None)</code></h3>
 <p>Export static .svg, .png or vector .pdf without UI; streams require format.</p>
 <h3 id="scaax-2"><code>sca(ax)</code></h3>
 <p>Select an existing axes without changing Figure.axes creation order.</p>
@@ -1652,7 +1885,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_size_inchesw-hnone-forwardtrue"><code>set_size_inches(w, h=None, forward=True)</code></h3>
 <p>Set physical figure size; optionally resize an existing desktop canvas.</p>
 <h3 id="set_transformtransform-15"><code>set_transform(transform)</code></h3>
-<h3 id="show-backendtk-blockfalse-open_browsertrue-pathnone"><code>show(*, backend='tk', block=False, open_browser=True, path=None)</code></h3>
+<h3 id="show-backendtk-blockfalse-open_browsertrue-pathnone-renderercpu-gpu_fallbackraise-gpu_confignone"><code>show(*, backend='tk', block=False, open_browser=True, path=None, renderer='cpu', gpu_fallback='raise', gpu_config=None)</code></h3>
 <p>Display a native figure, or explicitly request the browser viewer.</p>
 <h3 id="subfiguresargs-kwargs-1"><code>subfigures(*args, **kwargs)</code></h3>
 <h3 id="subplot_mosaicmosaic-projectionequirectangular-projection_kwnone-empty_sentinel-subplot_kwnone-per_subplot_kwnone-gridspec_kwnone-width_ratiosnone-height_ratiosnone-sharexfalse-shareyfalse"><code>subplot_mosaic(mosaic, *, projection='equirectangular', projection_kw=None, empty_sentinel='.', subplot_kw=None, per_subplot_kw=None, gridspec_kw=None, width_ratios=None, height_ratios=None, sharex=False, sharey=False)</code></h3>
@@ -1764,6 +1997,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="countrieskwargs-1"><code>countries(**kwargs)</code></h3>
 <h3 id="densitylon-lat-bins24-smoothing1-cmapsunset-weightsnone-extentnone-normalizationnone-kwargs-1"><code>density(lon, lat, *, bins=24, smoothing=1, cmap='sunset', weights=None, extent=None, normalization=None, **kwargs)</code></h3>
 <p>A regular lon/lat count grid with optional Gaussian cell smoothing.</p>
+<h3 id="earth_moonposition-kwargs-1"><code>earth_moon(position, **kwargs)</code></h3>
+<h3 id="eclipse_shadowgeometry-kwargs-1"><code>eclipse_shadow(geometry, **kwargs)</code></h3>
+<p>Experimental sampled eclipse visualization, not certified event prediction.</p>
 <h3 id="filllon-lat-kwargs-1"><code>fill(lon, lat, **kwargs)</code></h3>
 <h3 id="findobjmatchnone-include_selftrue-16"><code>findobj(match=None, include_self=True)</code></h3>
 <h3 id="fit_extentdatanone-margin005-1"><code>fit_extent(data=None, *, margin=0.05)</code></h3>
@@ -1837,9 +2073,13 @@ Raises ValueError if the value is not present.</p>
 <h3 id="minorticks_off-2"><code>minorticks_off()</code></h3>
 <h3 id="minorticks_on-2"><code>minorticks_on()</code></h3>
 <p>Enable automatic minor ticks without enabling any grid.</p>
+<h3 id="moonposition-kwargs-1"><code>moon(position, **kwargs)</code></h3>
+<p>Optional sublunar marker, or finite Earth-fixed lunar body in 3D.</p>
+<h3 id="moon_pathpath-kwargs-1"><code>moon_path(path, **kwargs)</code></h3>
 <h3 id="municipalitiesdatanone-kwargs-1"><code>municipalities(data=None, **kwargs)</code></h3>
 <h3 id="neighborhoodsdatanone-wherenone-crsnone-kwargs-1"><code>neighborhoods(data=None, *, where=None, crs=None, **kwargs)</code></h3>
 <p>Draw supplied neighborhood polygons; where filters properties.</p>
+<h3 id="nightshadeposition-kwargs-1"><code>nightshade(position, **kwargs)</code></h3>
 <h3 id="north_arrow-locupper-right-size36-colorblack"><code>north_arrow(*, loc='upper right', size=36, color='black')</code></h3>
 <p>Add a north arrow without replacing the compass rose.</p>
 <h3 id="oceancolore5f1f4-1"><code>ocean(color='#e5f1f4')</code></h3>
@@ -1859,6 +2099,8 @@ Raises ValueError if the value is not present.</p>
 <p>East/north vectors; scale is data units per axes width.</p>
 <h3 id="rasterdata-crsnone-world_filenone-extentnone-nodatanone-kwargs-1"><code>raster(data, *, crs=None, world_file=None, extent=None, nodata=None, **kwargs)</code></h3>
 <p>Draw an explicit GeoRaster or read a locally georeferenced scalar or RGB/RGBA image.</p>
+<h3 id="regionregion-kwargs-1"><code>region(region, **kwargs)</code></h3>
+<p>Optional spherical region, with explicit fill/boundary resolution.</p>
 <h3 id="relimvisible_onlyfalse-1"><code>relim(visible_only=False)</code></h3>
 <p>Recompute geographic data bounds without moving the current view.</p>
 <h3 id="remove-7"><code>remove()</code></h3>
@@ -1908,12 +2150,17 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_yticksticks-labelsnone-minorfalse-kwargs-1"><code>set_yticks(ticks, labels=None, *, minor=False, **kwargs)</code></h3>
 <h3 id="sharexother-1"><code>sharex(other)</code></h3>
 <h3 id="shareyother-1"><code>sharey(other)</code></h3>
+<h3 id="solar_lightposition-kwargs-1"><code>solar_light(position, **kwargs)</code></h3>
+<h3 id="solar_terminatorposition-kwargs-1"><code>solar_terminator(position, **kwargs)</code></h3>
 <h3 id="statename-kwargs-1"><code>state(name, **kwargs)</code></h3>
 <p>Draw and fit one Brazilian state by name, postal code or BR-XX.</p>
 <h3 id="statescountrynone-kwargs"><code>states(country=None, **kwargs)</code></h3>
 <h3 id="streetsdatanone-wherenone-crsnone-kwargs-1"><code>streets(data=None, *, where=None, crs=None, **kwargs)</code></h3>
 <p>Draw supplied street lines, with linewidth in points, not metres.</p>
 <h3 id="subtitletext-kwargs-1"><code>subtitle(text, **kwargs)</code></h3>
+<h3 id="sunposition-kwargs-1"><code>sun(position, **kwargs)</code></h3>
+<p>Optional subsolar marker, or explicit local sky marker on 3D axes.</p>
+<h3 id="sun_pathpath-kwargs-1"><code>sun_path(path, **kwargs)</code></h3>
 <h3 id="terrainvalues-extent-dx-dy-azdeg315-altdeg45-vert_exag1-originlower-cmapterrain-normnone-vminnone-vmaxnone-shade065-kwargs"><code>terrain(values, *, extent, dx, dy, azdeg=315, altdeg=45, vert_exag=1, origin='lower', cmap='terrain', norm=None, vmin=None, vmax=None, shade=0.65, **kwargs)</code></h3>
 <p>Hypsometric RGB illumination plus a separate elevation ScalarMappable.</p>
 <h3 id="textlon-lat-text-transformdata-kwargs"><code>text(lon, lat, text, *, transform='data', **kwargs)</code></h3>
@@ -2704,20 +2951,26 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_children-25"><code>get_children()</code></h3>
 <h3 id="get_clip_on-25"><code>get_clip_on()</code></h3>
 <h3 id="get_color-12"><code>get_color()</code></h3>
+<h3 id="get_direction"><code>get_direction()</code></h3>
 <h3 id="get_figurerootfalse-25"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontfallback"><code>get_fontfallback()</code></h3>
 <h3 id="get_fontfamily"><code>get_fontfamily()</code></h3>
+<h3 id="get_fontfeatures"><code>get_fontfeatures()</code></h3>
 <h3 id="get_fontsize-12"><code>get_fontsize()</code></h3>
 <h3 id="get_fontstyle"><code>get_fontstyle()</code></h3>
 <h3 id="get_fontweight-12"><code>get_fontweight()</code></h3>
 <h3 id="get_ha"><code>get_ha()</code></h3>
 <h3 id="get_horizontalalignment"><code>get_horizontalalignment()</code></h3>
 <h3 id="get_in_layout-25"><code>get_in_layout()</code></h3>
+<h3 id="get_language"><code>get_language()</code></h3>
 <h3 id="get_picker-25"><code>get_picker()</code></h3>
 <h3 id="get_pickradius-25"><code>get_pickradius()</code></h3>
 <h3 id="get_rotation-12"><code>get_rotation()</code></h3>
 <h3 id="get_rotation_mode"><code>get_rotation_mode()</code></h3>
 <h3 id="get_size"><code>get_size()</code></h3>
+<h3 id="get_texconfig"><code>get_texconfig()</code></h3>
 <h3 id="get_text-12"><code>get_text()</code></h3>
+<h3 id="get_textengine"><code>get_textengine()</code></h3>
 <h3 id="get_transform-29"><code>get_transform()</code></h3>
 <h3 id="get_va"><code>get_va()</code></h3>
 <h3 id="get_verticalalignment"><code>get_verticalalignment()</code></h3>
@@ -2732,19 +2985,25 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_alphavalue-12"><code>set_alpha(value)</code></h3>
 <h3 id="set_clip_onvalue-25"><code>set_clip_on(value)</code></h3>
 <h3 id="set_colorvalue-13"><code>set_color(value)</code></h3>
+<h3 id="set_directionvalue"><code>set_direction(value)</code></h3>
+<h3 id="set_fontfallbackvalue"><code>set_fontfallback(value)</code></h3>
 <h3 id="set_fontfamilyvalue"><code>set_fontfamily(value)</code></h3>
+<h3 id="set_fontfeaturesvalue"><code>set_fontfeatures(value)</code></h3>
 <h3 id="set_fontsizevalue-12"><code>set_fontsize(value)</code></h3>
 <h3 id="set_fontstylevalue"><code>set_fontstyle(value)</code></h3>
 <h3 id="set_fontweightvalue-12"><code>set_fontweight(value)</code></h3>
 <h3 id="set_havalue"><code>set_ha(value)</code></h3>
 <h3 id="set_horizontalalignmentvalue"><code>set_horizontalalignment(value)</code></h3>
 <h3 id="set_in_layoutvalue-25"><code>set_in_layout(value)</code></h3>
+<h3 id="set_languagevalue"><code>set_language(value)</code></h3>
 <h3 id="set_pickervalue-25"><code>set_picker(value)</code></h3>
 <h3 id="set_pickradiusvalue-25"><code>set_pickradius(value)</code></h3>
 <h3 id="set_rotationvalue-12"><code>set_rotation(value)</code></h3>
 <h3 id="set_rotation_modevalue"><code>set_rotation_mode(value)</code></h3>
 <h3 id="set_sizevalue"><code>set_size(value)</code></h3>
+<h3 id="set_texconfigvalue"><code>set_texconfig(value)</code></h3>
 <h3 id="set_textvalue-12"><code>set_text(value)</code></h3>
+<h3 id="set_textenginevalue"><code>set_textengine(value)</code></h3>
 <h3 id="set_transformtransform-25"><code>set_transform(transform)</code></h3>
 <h3 id="set_vavalue"><code>set_va(value)</code></h3>
 <h3 id="set_verticalalignmentvalue"><code>set_verticalalignment(value)</code></h3>
@@ -2770,10 +3029,13 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_dash_capstyle-12"><code>get_dash_capstyle()</code></h3>
 <h3 id="get_dash_joinstyle-12"><code>get_dash_joinstyle()</code></h3>
 <h3 id="get_data-12"><code>get_data()</code></h3>
+<h3 id="get_direction-1"><code>get_direction()</code></h3>
 <h3 id="get_edgecolor-12"><code>get_edgecolor()</code></h3>
 <h3 id="get_facecolor-14"><code>get_facecolor()</code></h3>
 <h3 id="get_figurerootfalse-26"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontfallback-1"><code>get_fontfallback()</code></h3>
 <h3 id="get_fontfamily-1"><code>get_fontfamily()</code></h3>
+<h3 id="get_fontfeatures-1"><code>get_fontfeatures()</code></h3>
 <h3 id="get_fontsize-13"><code>get_fontsize()</code></h3>
 <h3 id="get_fontstyle-1"><code>get_fontstyle()</code></h3>
 <h3 id="get_fontweight-13"><code>get_fontweight()</code></h3>
@@ -2781,6 +3043,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_horizontalalignment-1"><code>get_horizontalalignment()</code></h3>
 <h3 id="get_in_layout-26"><code>get_in_layout()</code></h3>
 <h3 id="get_label-16"><code>get_label()</code></h3>
+<h3 id="get_language-1"><code>get_language()</code></h3>
 <h3 id="get_linestyle-12"><code>get_linestyle()</code></h3>
 <h3 id="get_linewidth-12"><code>get_linewidth()</code></h3>
 <h3 id="get_marker-12"><code>get_marker()</code></h3>
@@ -2798,7 +3061,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_size-1"><code>get_size()</code></h3>
 <h3 id="get_solid_capstyle-12"><code>get_solid_capstyle()</code></h3>
 <h3 id="get_solid_joinstyle-12"><code>get_solid_joinstyle()</code></h3>
+<h3 id="get_texconfig-1"><code>get_texconfig()</code></h3>
 <h3 id="get_text-13"><code>get_text()</code></h3>
+<h3 id="get_textengine-1"><code>get_textengine()</code></h3>
 <h3 id="get_transform-30"><code>get_transform()</code></h3>
 <h3 id="get_va-1"><code>get_va()</code></h3>
 <h3 id="get_verticalalignment-1"><code>get_verticalalignment()</code></h3>
@@ -2829,9 +3094,12 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_dash_joinstylevalue-12"><code>set_dash_joinstyle(value)</code></h3>
 <h3 id="set_dataargs-10"><code>set_data(*args)</code></h3>
 <p>Replace a geographic plot series; explicit map limits stay unchanged.</p>
+<h3 id="set_directionvalue-1"><code>set_direction(value)</code></h3>
 <h3 id="set_edgecolorvalue-12"><code>set_edgecolor(value)</code></h3>
 <h3 id="set_facecolorvalue-12"><code>set_facecolor(value)</code></h3>
+<h3 id="set_fontfallbackvalue-1"><code>set_fontfallback(value)</code></h3>
 <h3 id="set_fontfamilyvalue-1"><code>set_fontfamily(value)</code></h3>
+<h3 id="set_fontfeaturesvalue-1"><code>set_fontfeatures(value)</code></h3>
 <h3 id="set_fontsizevalue-13"><code>set_fontsize(value)</code></h3>
 <h3 id="set_fontstylevalue-1"><code>set_fontstyle(value)</code></h3>
 <h3 id="set_fontweightvalue-13"><code>set_fontweight(value)</code></h3>
@@ -2839,6 +3107,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_horizontalalignmentvalue-1"><code>set_horizontalalignment(value)</code></h3>
 <h3 id="set_in_layoutvalue-26"><code>set_in_layout(value)</code></h3>
 <h3 id="set_labelvalue-12"><code>set_label(value)</code></h3>
+<h3 id="set_languagevalue-1"><code>set_language(value)</code></h3>
 <h3 id="set_linestylevalue-12"><code>set_linestyle(value)</code></h3>
 <h3 id="set_linewidthvalue-12"><code>set_linewidth(value)</code></h3>
 <h3 id="set_markervalue-12"><code>set_marker(value)</code></h3>
@@ -2856,7 +3125,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_sizevalue-1"><code>set_size(value)</code></h3>
 <h3 id="set_solid_capstylevalue-12"><code>set_solid_capstyle(value)</code></h3>
 <h3 id="set_solid_joinstylevalue-12"><code>set_solid_joinstyle(value)</code></h3>
+<h3 id="set_texconfigvalue-1"><code>set_texconfig(value)</code></h3>
 <h3 id="set_textvalue-13"><code>set_text(value)</code></h3>
+<h3 id="set_textenginevalue-1"><code>set_textengine(value)</code></h3>
 <h3 id="set_transformtransform-26"><code>set_transform(transform)</code></h3>
 <h3 id="set_vavalue-1"><code>set_va(value)</code></h3>
 <h3 id="set_verticalalignmentvalue-1"><code>set_verticalalignment(value)</code></h3>
@@ -2891,10 +3162,13 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_dash_capstyle-13"><code>get_dash_capstyle()</code></h3>
 <h3 id="get_dash_joinstyle-13"><code>get_dash_joinstyle()</code></h3>
 <h3 id="get_data-13"><code>get_data()</code></h3>
+<h3 id="get_direction-2"><code>get_direction()</code></h3>
 <h3 id="get_edgecolor-13"><code>get_edgecolor()</code></h3>
 <h3 id="get_facecolor-15"><code>get_facecolor()</code></h3>
 <h3 id="get_figurerootfalse-27"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontfallback-2"><code>get_fontfallback()</code></h3>
 <h3 id="get_fontfamily-2"><code>get_fontfamily()</code></h3>
+<h3 id="get_fontfeatures-2"><code>get_fontfeatures()</code></h3>
 <h3 id="get_fontsize-14"><code>get_fontsize()</code></h3>
 <h3 id="get_fontstyle-2"><code>get_fontstyle()</code></h3>
 <h3 id="get_fontweight-14"><code>get_fontweight()</code></h3>
@@ -2902,6 +3176,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_horizontalalignment-2"><code>get_horizontalalignment()</code></h3>
 <h3 id="get_in_layout-27"><code>get_in_layout()</code></h3>
 <h3 id="get_label-17"><code>get_label()</code></h3>
+<h3 id="get_language-2"><code>get_language()</code></h3>
 <h3 id="get_linestyle-13"><code>get_linestyle()</code></h3>
 <h3 id="get_linewidth-13"><code>get_linewidth()</code></h3>
 <h3 id="get_marker-13"><code>get_marker()</code></h3>
@@ -2919,7 +3194,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_size-2"><code>get_size()</code></h3>
 <h3 id="get_solid_capstyle-13"><code>get_solid_capstyle()</code></h3>
 <h3 id="get_solid_joinstyle-13"><code>get_solid_joinstyle()</code></h3>
+<h3 id="get_texconfig-2"><code>get_texconfig()</code></h3>
 <h3 id="get_text-14"><code>get_text()</code></h3>
+<h3 id="get_textengine-2"><code>get_textengine()</code></h3>
 <h3 id="get_transform-31"><code>get_transform()</code></h3>
 <h3 id="get_va-2"><code>get_va()</code></h3>
 <h3 id="get_verticalalignment-2"><code>get_verticalalignment()</code></h3>
@@ -2951,9 +3228,12 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_dash_joinstylevalue-13"><code>set_dash_joinstyle(value)</code></h3>
 <h3 id="set_dataargs-11"><code>set_data(*args)</code></h3>
 <p>Replace a geographic plot series; explicit map limits stay unchanged.</p>
+<h3 id="set_directionvalue-2"><code>set_direction(value)</code></h3>
 <h3 id="set_edgecolorvalue-13"><code>set_edgecolor(value)</code></h3>
 <h3 id="set_facecolorvalue-13"><code>set_facecolor(value)</code></h3>
+<h3 id="set_fontfallbackvalue-2"><code>set_fontfallback(value)</code></h3>
 <h3 id="set_fontfamilyvalue-2"><code>set_fontfamily(value)</code></h3>
+<h3 id="set_fontfeaturesvalue-2"><code>set_fontfeatures(value)</code></h3>
 <h3 id="set_fontsizevalue-14"><code>set_fontsize(value)</code></h3>
 <h3 id="set_fontstylevalue-2"><code>set_fontstyle(value)</code></h3>
 <h3 id="set_fontweightvalue-14"><code>set_fontweight(value)</code></h3>
@@ -2961,6 +3241,7 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_horizontalalignmentvalue-2"><code>set_horizontalalignment(value)</code></h3>
 <h3 id="set_in_layoutvalue-27"><code>set_in_layout(value)</code></h3>
 <h3 id="set_labelvalue-13"><code>set_label(value)</code></h3>
+<h3 id="set_languagevalue-2"><code>set_language(value)</code></h3>
 <h3 id="set_linestylevalue-13"><code>set_linestyle(value)</code></h3>
 <h3 id="set_linewidthvalue-13"><code>set_linewidth(value)</code></h3>
 <h3 id="set_markervalue-13"><code>set_marker(value)</code></h3>
@@ -2978,7 +3259,9 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_sizevalue-2"><code>set_size(value)</code></h3>
 <h3 id="set_solid_capstylevalue-13"><code>set_solid_capstyle(value)</code></h3>
 <h3 id="set_solid_joinstylevalue-13"><code>set_solid_joinstyle(value)</code></h3>
+<h3 id="set_texconfigvalue-2"><code>set_texconfig(value)</code></h3>
 <h3 id="set_textvalue-14"><code>set_text(value)</code></h3>
+<h3 id="set_textenginevalue-2"><code>set_textengine(value)</code></h3>
 <h3 id="set_transformtransform-27"><code>set_transform(transform)</code></h3>
 <h3 id="set_vavalue-2"><code>set_va(value)</code></h3>
 <h3 id="set_verticalalignmentvalue-2"><code>set_verticalalignment(value)</code></h3>
@@ -3002,21 +3285,27 @@ Raises ValueError if the value is not present.</p>
 <h3 id="get_children-28"><code>get_children()</code></h3>
 <h3 id="get_clip_on-28"><code>get_clip_on()</code></h3>
 <h3 id="get_color-15"><code>get_color()</code></h3>
+<h3 id="get_direction-3"><code>get_direction()</code></h3>
 <h3 id="get_figurerootfalse-28"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontfallback-3"><code>get_fontfallback()</code></h3>
 <h3 id="get_fontfamily-3"><code>get_fontfamily()</code></h3>
+<h3 id="get_fontfeatures-3"><code>get_fontfeatures()</code></h3>
 <h3 id="get_fontsize-15"><code>get_fontsize()</code></h3>
 <h3 id="get_fontstyle-3"><code>get_fontstyle()</code></h3>
 <h3 id="get_fontweight-15"><code>get_fontweight()</code></h3>
 <h3 id="get_ha-3"><code>get_ha()</code></h3>
 <h3 id="get_horizontalalignment-3"><code>get_horizontalalignment()</code></h3>
 <h3 id="get_in_layout-28"><code>get_in_layout()</code></h3>
+<h3 id="get_language-3"><code>get_language()</code></h3>
 <h3 id="get_picker-28"><code>get_picker()</code></h3>
 <h3 id="get_pickradius-28"><code>get_pickradius()</code></h3>
 <h3 id="get_position-2"><code>get_position()</code></h3>
 <h3 id="get_rotation-15"><code>get_rotation()</code></h3>
 <h3 id="get_rotation_mode-3"><code>get_rotation_mode()</code></h3>
 <h3 id="get_size-3"><code>get_size()</code></h3>
+<h3 id="get_texconfig-3"><code>get_texconfig()</code></h3>
 <h3 id="get_text-15"><code>get_text()</code></h3>
+<h3 id="get_textengine-3"><code>get_textengine()</code></h3>
 <h3 id="get_transform-32"><code>get_transform()</code></h3>
 <h3 id="get_va-3"><code>get_va()</code></h3>
 <h3 id="get_verticalalignment-3"><code>get_verticalalignment()</code></h3>
@@ -3033,20 +3322,26 @@ Raises ValueError if the value is not present.</p>
 <h3 id="set_alphavalue-15"><code>set_alpha(value)</code></h3>
 <h3 id="set_clip_onvalue-28"><code>set_clip_on(value)</code></h3>
 <h3 id="set_colorvalue-16"><code>set_color(value)</code></h3>
+<h3 id="set_directionvalue-3"><code>set_direction(value)</code></h3>
+<h3 id="set_fontfallbackvalue-3"><code>set_fontfallback(value)</code></h3>
 <h3 id="set_fontfamilyvalue-3"><code>set_fontfamily(value)</code></h3>
+<h3 id="set_fontfeaturesvalue-3"><code>set_fontfeatures(value)</code></h3>
 <h3 id="set_fontsizevalue-15"><code>set_fontsize(value)</code></h3>
 <h3 id="set_fontstylevalue-3"><code>set_fontstyle(value)</code></h3>
 <h3 id="set_fontweightvalue-15"><code>set_fontweight(value)</code></h3>
 <h3 id="set_havalue-3"><code>set_ha(value)</code></h3>
 <h3 id="set_horizontalalignmentvalue-3"><code>set_horizontalalignment(value)</code></h3>
 <h3 id="set_in_layoutvalue-28"><code>set_in_layout(value)</code></h3>
+<h3 id="set_languagevalue-3"><code>set_language(value)</code></h3>
 <h3 id="set_pickervalue-28"><code>set_picker(value)</code></h3>
 <h3 id="set_pickradiusvalue-28"><code>set_pickradius(value)</code></h3>
 <h3 id="set_positionvalue-2"><code>set_position(value)</code></h3>
 <h3 id="set_rotationvalue-15"><code>set_rotation(value)</code></h3>
 <h3 id="set_rotation_modevalue-3"><code>set_rotation_mode(value)</code></h3>
 <h3 id="set_sizevalue-3"><code>set_size(value)</code></h3>
+<h3 id="set_texconfigvalue-3"><code>set_texconfig(value)</code></h3>
 <h3 id="set_textvalue-15"><code>set_text(value)</code></h3>
+<h3 id="set_textenginevalue-3"><code>set_textengine(value)</code></h3>
 <h3 id="set_transformtransform-28"><code>set_transform(transform)</code></h3>
 <h3 id="set_vavalue-3"><code>set_va(value)</code></h3>
 <h3 id="set_verticalalignmentvalue-3"><code>set_verticalalignment(value)</code></h3>
@@ -3370,15 +3665,22 @@ Raises ValueError if the value is not present.</p>
 <h3 id="to_geojson-1"><code>to_geojson()</code></h3>
 <h2 id="azimlibgeometryfeaturecollection">azimlib.geometry.FeatureCollection</h2>
 <p><code>FeatureCollection(features: 'tuple' = ()) -&gt; None</code></p>
+<h3 id="clipregion-kwargs"><code>clip(region, **kwargs)</code></h3>
+<p>Explicit planar overlay; retain source IDs/properties and order.</p>
 <h3 id="selectwherenone-predicatenone-geometry_typesnone"><code>select(where=None, *, predicate=None, geometry_types=None)</code></h3>
 <p>Return a new collection, preserving feature objects, IDs and order.</p>
+<h3 id="spatial_selectregion-kwargs"><code>spatial_select(region, **kwargs)</code></h3>
+<p>Select intersecting features without modifying their geometry.</p>
 <h3 id="to_geojson-2"><code>to_geojson()</code></h3>
 <h2 id="azimlibcrscrs">azimlib.crs.CRS</h2>
 <p><code>CRS(code: 'str' = 'EPSG:4326') -&gt; None</code></p>
-<h3 id="transform_totarget-x-y"><code>transform_to(target, x, y)</code></h3>
+<h3 id="to_dict"><code>to_dict()</code></h3>
+<h3 id="to_string"><code>to_string()</code></h3>
+<h3 id="transform_totarget-x-y-znone"><code>transform_to(target, x, y, z=None)</code></h3>
 <h2 id="azimlibcrstransformer">azimlib.crs.Transformer</h2>
 <p><code>Transformer(source: 'CRS', target: 'CRS') -&gt; None</code></p>
-<h3 id="transformx-y"><code>transform(x, y)</code></h3>
+<h3 id="inverse"><code>inverse()</code></h3>
+<h3 id="transformx-y-znone"><code>transform(x, y, z=None)</code></h3>
 <h2 id="azimlibtickerlocator">azimlib.ticker.Locator</h2>
 <p><code>Locator()</code></p>
 <h3 id="raise_if_exceedslocs-3"><code>raise_if_exceeds(locs)</code></h3>
@@ -3576,4 +3878,870 @@ Raises ValueError if the value is not present.</p>
 <h3 id="executefigure-4"><code>execute(figure)</code></h3>
 <h3 id="get-4"><code>get()</code></h3>
 <h3 id="setkwargs-39"><code>set(**kwargs)</code></h3>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/api.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<h2 id="azimlibsolar_artistsskysunartist">azimlib.solar_artists.SkySunArtist</h2>
+<p><code>SkySunArtist(value, *, model=None, observer=None, offsets=None, visual_radius=1000.0, symbol_radius=40.0, color='#eea52d')</code></p>
+<h3 id="add_callbackfunc-36"><code>add_callback(func)</code></h3>
+<h3 id="autoscale-16"><code>autoscale()</code></h3>
+<h3 id="autoscale_none-16"><code>autoscale_None()</code></h3>
+<h3 id="changed-16"><code>changed()</code></h3>
+<h3 id="containsmouseevent-36"><code>contains(mouseevent)</code></h3>
+<h3 id="facescamera-bounds-aspect-exaggeration-with_uvfalse-1"><code>faces(camera, bounds, aspect, exaggeration, *, with_uv=False)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-36"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_array-16"><code>get_array()</code></h3>
+<h3 id="get_children-36"><code>get_children()</code></h3>
+<h3 id="get_clim-16"><code>get_clim()</code></h3>
+<h3 id="get_clip_on-36"><code>get_clip_on()</code></h3>
+<h3 id="get_cmap-16"><code>get_cmap()</code></h3>
+<h3 id="get_figurerootfalse-36"><code>get_figure(root=False)</code></h3>
+<h3 id="get_in_layout-36"><code>get_in_layout()</code></h3>
+<h3 id="get_label-18"><code>get_label()</code></h3>
+<h3 id="get_norm-16"><code>get_norm()</code></h3>
+<h3 id="get_picker-36"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-36"><code>get_pickradius()</code></h3>
+<h3 id="get_position-3"><code>get_position()</code></h3>
+<h3 id="get_texture-1"><code>get_texture()</code></h3>
+<h3 id="get_texture_uv-1"><code>get_texture_uv()</code></h3>
+<h3 id="get_transform-40"><code>get_transform()</code></h3>
+<h3 id="get_visible-34"><code>get_visible()</code></h3>
+<h3 id="get_zorder-15"><code>get_zorder()</code></h3>
+<h3 id="pchanged-36"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-37"><code>pick(mouseevent)</code></h3>
+<h3 id="properties-36"><code>properties()</code></h3>
+<h3 id="remove-25"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-36"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-40"><code>set(**kwargs)</code></h3>
+<h3 id="set_arrayvalues-16"><code>set_array(values)</code></h3>
+<h3 id="set_climvminnone-vmaxnone-15"><code>set_clim(vmin=None, vmax=None)</code></h3>
+<h3 id="set_clip_onvalue-36"><code>set_clip_on(value)</code></h3>
+<h3 id="set_cmapvalue-16"><code>set_cmap(value)</code></h3>
+<h3 id="set_colorvalue-20"><code>set_color(value)</code></h3>
+<h3 id="set_in_layoutvalue-36"><code>set_in_layout(value)</code></h3>
+<h3 id="set_normvalue-16"><code>set_norm(value)</code></h3>
+<h3 id="set_pickervalue-36"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-36"><code>set_pickradius(value)</code></h3>
+<h3 id="set_positionvalue-3"><code>set_position(value)</code></h3>
+<h3 id="set_shadevalue-1"><code>set_shade(value)</code></h3>
+<h3 id="set_texturetexture-uvnone-1"><code>set_texture(texture, uv=None)</code></h3>
+<h3 id="set_timeinstant-offsetsnone"><code>set_time(instant, *, offsets=None)</code></h3>
+<h3 id="set_transformtransform-36"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevalue-18"><code>set_visible(value)</code></h3>
+<h3 id="to_colorvalue-16"><code>to_color(value)</code></h3>
+<h3 id="to_rgbavalues-alphanone-bytesfalse-normtrue-16"><code>to_rgba(values, alpha=None, bytes=False, norm=True)</code></h3>
+<p>Map scalars/matrices to RGBA, or pass RGB/RGBA images through.</p>
+<h3 id="updateprops-31"><code>update(props)</code></h3>
+<h2 id="azimlibsolar_artistssolarbinding">azimlib.solar_artists.SolarBinding</h2>
+<p><code>SolarBinding(series, artist, *, scale='global', norm=None)</code></p>
+<h3 id="applyindex-1"><code>apply(index)</code></h3>
+<h2 id="azimlibsolar_artistssolarnightshade">azimlib.solar_artists.SolarNightshade</h2>
+<p><code>SolarNightshade(value, *, model=None, observer=None, offsets=None, step=5.0, color='#192b45', alpha=0.28, zorder=3)</code></p>
+<h3 id="add_callbackfunc-37"><code>add_callback(func)</code></h3>
+<h3 id="autoscale-17"><code>autoscale()</code></h3>
+<h3 id="autoscale_none-17"><code>autoscale_None()</code></h3>
+<h3 id="changed-17"><code>changed()</code></h3>
+<h3 id="containsmouseevent-37"><code>contains(mouseevent)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-37"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_alpha-17"><code>get_alpha()</code></h3>
+<h3 id="get_antialiased-14"><code>get_antialiased()</code></h3>
+<h3 id="get_array-17"><code>get_array()</code></h3>
+<h3 id="get_children-37"><code>get_children()</code></h3>
+<h3 id="get_clim-17"><code>get_clim()</code></h3>
+<h3 id="get_clip_on-37"><code>get_clip_on()</code></h3>
+<h3 id="get_cmap-17"><code>get_cmap()</code></h3>
+<h3 id="get_color-19"><code>get_color()</code></h3>
+<h3 id="get_coordinates-2"><code>get_coordinates()</code></h3>
+<h3 id="get_dash_capstyle-14"><code>get_dash_capstyle()</code></h3>
+<h3 id="get_dash_joinstyle-14"><code>get_dash_joinstyle()</code></h3>
+<h3 id="get_data-14"><code>get_data()</code></h3>
+<h3 id="get_edgecolor-16"><code>get_edgecolor()</code></h3>
+<h3 id="get_facecolor-17"><code>get_facecolor()</code></h3>
+<h3 id="get_figurerootfalse-37"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontsize-17"><code>get_fontsize()</code></h3>
+<h3 id="get_fontweight-16"><code>get_fontweight()</code></h3>
+<h3 id="get_in_layout-37"><code>get_in_layout()</code></h3>
+<h3 id="get_label-19"><code>get_label()</code></h3>
+<h3 id="get_linestyle-14"><code>get_linestyle()</code></h3>
+<h3 id="get_linewidth-16"><code>get_linewidth()</code></h3>
+<h3 id="get_marker-14"><code>get_marker()</code></h3>
+<h3 id="get_markeredgecolor-14"><code>get_markeredgecolor()</code></h3>
+<h3 id="get_markeredgewidth-14"><code>get_markeredgewidth()</code></h3>
+<h3 id="get_markerfacecolor-14"><code>get_markerfacecolor()</code></h3>
+<h3 id="get_markersize-14"><code>get_markersize()</code></h3>
+<h3 id="get_norm-17"><code>get_norm()</code></h3>
+<h3 id="get_picker-37"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-37"><code>get_pickradius()</code></h3>
+<h3 id="get_position-4"><code>get_position()</code></h3>
+<h3 id="get_rotation-16"><code>get_rotation()</code></h3>
+<h3 id="get_simplify-14"><code>get_simplify()</code></h3>
+<h3 id="get_solid_capstyle-14"><code>get_solid_capstyle()</code></h3>
+<h3 id="get_solid_joinstyle-14"><code>get_solid_joinstyle()</code></h3>
+<h3 id="get_text-16"><code>get_text()</code></h3>
+<h3 id="get_transform-41"><code>get_transform()</code></h3>
+<h3 id="get_visible-35"><code>get_visible()</code></h3>
+<h3 id="get_xdata-14"><code>get_xdata()</code></h3>
+<h3 id="get_ydata-14"><code>get_ydata()</code></h3>
+<h3 id="get_zorder-16"><code>get_zorder()</code></h3>
+<h3 id="pchanged-37"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-38"><code>pick(mouseevent)</code></h3>
+<h3 id="properties-37"><code>properties()</code></h3>
+<h3 id="remove-26"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-37"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-41"><code>set(**kwargs)</code></h3>
+<p>Edit supported data/text, styles and colors after batch validation.</p>
+<h3 id="set_alphavalue-18"><code>set_alpha(value)</code></h3>
+<h3 id="set_antialiasedvalue-14"><code>set_antialiased(value)</code></h3>
+<h3 id="set_arrayvalues-17"><code>set_array(values)</code></h3>
+<h3 id="set_classesbins5-schemeequal_interval-14"><code>set_classes(bins=5, *, scheme='equal_interval')</code></h3>
+<p>Reclassify an own choropleth; geometry/feature IDs remain unchanged.</p>
+<h3 id="set_climvminnone-vmaxnone-16"><code>set_clim(vmin=None, vmax=None)</code></h3>
+<h3 id="set_clip_onvalue-37"><code>set_clip_on(value)</code></h3>
+<h3 id="set_cmapvalue-17"><code>set_cmap(value)</code></h3>
+<h3 id="set_colorvalue-21"><code>set_color(value)</code></h3>
+<h3 id="set_dash_capstylevalue-14"><code>set_dash_capstyle(value)</code></h3>
+<h3 id="set_dash_joinstylevalue-14"><code>set_dash_joinstyle(value)</code></h3>
+<h3 id="set_dataargs-12"><code>set_data(*args)</code></h3>
+<p>Replace a geographic plot series; explicit map limits stay unchanged.</p>
+<h3 id="set_edgecolorvalue-17"><code>set_edgecolor(value)</code></h3>
+<h3 id="set_facecolorvalue-16"><code>set_facecolor(value)</code></h3>
+<h3 id="set_fontsizevalue-17"><code>set_fontsize(value)</code></h3>
+<h3 id="set_fontweightvalue-16"><code>set_fontweight(value)</code></h3>
+<h3 id="set_in_layoutvalue-37"><code>set_in_layout(value)</code></h3>
+<h3 id="set_labelvalue-14"><code>set_label(value)</code></h3>
+<h3 id="set_linestylevalue-14"><code>set_linestyle(value)</code></h3>
+<h3 id="set_linewidthvalue-16"><code>set_linewidth(value)</code></h3>
+<h3 id="set_markervalue-14"><code>set_marker(value)</code></h3>
+<h3 id="set_markeredgecolorvalue-14"><code>set_markeredgecolor(value)</code></h3>
+<h3 id="set_markeredgewidthvalue-14"><code>set_markeredgewidth(value)</code></h3>
+<h3 id="set_markerfacecolorvalue-14"><code>set_markerfacecolor(value)</code></h3>
+<h3 id="set_markersizevalue-14"><code>set_markersize(value)</code></h3>
+<h3 id="set_normvalue-17"><code>set_norm(value)</code></h3>
+<h3 id="set_pickervalue-37"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-37"><code>set_pickradius(value)</code></h3>
+<h3 id="set_positionvalue-4"><code>set_position(value)</code></h3>
+<h3 id="set_rotationvalue-16"><code>set_rotation(value)</code></h3>
+<h3 id="set_simplifytolerance-14"><code>set_simplify(tolerance)</code></h3>
+<h3 id="set_solid_capstylevalue-14"><code>set_solid_capstyle(value)</code></h3>
+<h3 id="set_solid_joinstylevalue-14"><code>set_solid_joinstyle(value)</code></h3>
+<h3 id="set_textvalue-16"><code>set_text(value)</code></h3>
+<h3 id="set_timeinstant-offsetsnone-1"><code>set_time(instant, *, offsets=None)</code></h3>
+<h3 id="set_transformtransform-37"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevisible-16"><code>set_visible(visible)</code></h3>
+<h3 id="set_xdatavalue-14"><code>set_xdata(value)</code></h3>
+<h3 id="set_ydatavalue-14"><code>set_ydata(value)</code></h3>
+<h3 id="set_zordervalue-14"><code>set_zorder(value)</code></h3>
+<h3 id="to_colorvalue-17"><code>to_color(value)</code></h3>
+<h3 id="to_rgbavalues-alphanone-bytesfalse-normtrue-17"><code>to_rgba(values, alpha=None, bytes=False, norm=True)</code></h3>
+<p>Map scalars/matrices to RGBA, or pass RGB/RGBA images through.</p>
+<h3 id="updateprops-32"><code>update(props)</code></h3>
+<h2 id="azimlibsolar_artistssunartist">azimlib.solar_artists.SunArtist</h2>
+<p><code>SunArtist(value, *, model=None, observer=None, offsets=None, role='point', samples=361, annotation=None, annotation_style=None, **style)</code></p>
+<h3 id="add_callbackfunc-38"><code>add_callback(func)</code></h3>
+<h3 id="autoscale-18"><code>autoscale()</code></h3>
+<h3 id="autoscale_none-18"><code>autoscale_None()</code></h3>
+<h3 id="changed-18"><code>changed()</code></h3>
+<h3 id="containsmouseevent-38"><code>contains(mouseevent)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-38"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_alpha-18"><code>get_alpha()</code></h3>
+<h3 id="get_antialiased-15"><code>get_antialiased()</code></h3>
+<h3 id="get_array-18"><code>get_array()</code></h3>
+<h3 id="get_children-38"><code>get_children()</code></h3>
+<h3 id="get_clim-18"><code>get_clim()</code></h3>
+<h3 id="get_clip_on-38"><code>get_clip_on()</code></h3>
+<h3 id="get_cmap-18"><code>get_cmap()</code></h3>
+<h3 id="get_color-20"><code>get_color()</code></h3>
+<h3 id="get_dash_capstyle-15"><code>get_dash_capstyle()</code></h3>
+<h3 id="get_dash_joinstyle-15"><code>get_dash_joinstyle()</code></h3>
+<h3 id="get_data-15"><code>get_data()</code></h3>
+<h3 id="get_edgecolor-17"><code>get_edgecolor()</code></h3>
+<h3 id="get_facecolor-18"><code>get_facecolor()</code></h3>
+<h3 id="get_figurerootfalse-38"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontsize-18"><code>get_fontsize()</code></h3>
+<h3 id="get_fontweight-17"><code>get_fontweight()</code></h3>
+<h3 id="get_in_layout-38"><code>get_in_layout()</code></h3>
+<h3 id="get_label-20"><code>get_label()</code></h3>
+<h3 id="get_linestyle-15"><code>get_linestyle()</code></h3>
+<h3 id="get_linewidth-17"><code>get_linewidth()</code></h3>
+<h3 id="get_marker-15"><code>get_marker()</code></h3>
+<h3 id="get_markeredgecolor-15"><code>get_markeredgecolor()</code></h3>
+<h3 id="get_markeredgewidth-15"><code>get_markeredgewidth()</code></h3>
+<h3 id="get_markerfacecolor-15"><code>get_markerfacecolor()</code></h3>
+<h3 id="get_markersize-15"><code>get_markersize()</code></h3>
+<h3 id="get_norm-18"><code>get_norm()</code></h3>
+<h3 id="get_picker-38"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-38"><code>get_pickradius()</code></h3>
+<h3 id="get_position-5"><code>get_position()</code></h3>
+<h3 id="get_rotation-17"><code>get_rotation()</code></h3>
+<h3 id="get_simplify-15"><code>get_simplify()</code></h3>
+<h3 id="get_solid_capstyle-15"><code>get_solid_capstyle()</code></h3>
+<h3 id="get_solid_joinstyle-15"><code>get_solid_joinstyle()</code></h3>
+<h3 id="get_text-17"><code>get_text()</code></h3>
+<h3 id="get_transform-42"><code>get_transform()</code></h3>
+<h3 id="get_visible-36"><code>get_visible()</code></h3>
+<h3 id="get_xdata-15"><code>get_xdata()</code></h3>
+<h3 id="get_ydata-15"><code>get_ydata()</code></h3>
+<h3 id="get_zorder-17"><code>get_zorder()</code></h3>
+<h3 id="pchanged-38"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-39"><code>pick(mouseevent)</code></h3>
+<h3 id="properties-38"><code>properties()</code></h3>
+<h3 id="remove-27"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-38"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-42"><code>set(**kwargs)</code></h3>
+<p>Edit supported data/text, styles and colors after batch validation.</p>
+<h3 id="set_alphavalue-19"><code>set_alpha(value)</code></h3>
+<h3 id="set_annotationtext"><code>set_annotation(text)</code></h3>
+<h3 id="set_antialiasedvalue-15"><code>set_antialiased(value)</code></h3>
+<h3 id="set_arrayvalues-18"><code>set_array(values)</code></h3>
+<h3 id="set_classesbins5-schemeequal_interval-15"><code>set_classes(bins=5, *, scheme='equal_interval')</code></h3>
+<p>Reclassify an own choropleth; geometry/feature IDs remain unchanged.</p>
+<h3 id="set_climvminnone-vmaxnone-17"><code>set_clim(vmin=None, vmax=None)</code></h3>
+<h3 id="set_clip_onvalue-38"><code>set_clip_on(value)</code></h3>
+<h3 id="set_cmapvalue-18"><code>set_cmap(value)</code></h3>
+<h3 id="set_colorvalue-22"><code>set_color(value)</code></h3>
+<h3 id="set_dash_capstylevalue-15"><code>set_dash_capstyle(value)</code></h3>
+<h3 id="set_dash_joinstylevalue-15"><code>set_dash_joinstyle(value)</code></h3>
+<h3 id="set_dataargs-13"><code>set_data(*args)</code></h3>
+<p>Replace a geographic plot series; explicit map limits stay unchanged.</p>
+<h3 id="set_edgecolorvalue-18"><code>set_edgecolor(value)</code></h3>
+<h3 id="set_facecolorvalue-17"><code>set_facecolor(value)</code></h3>
+<h3 id="set_fontsizevalue-18"><code>set_fontsize(value)</code></h3>
+<h3 id="set_fontweightvalue-17"><code>set_fontweight(value)</code></h3>
+<h3 id="set_in_layoutvalue-38"><code>set_in_layout(value)</code></h3>
+<h3 id="set_labelvalue-15"><code>set_label(value)</code></h3>
+<h3 id="set_linestylevalue-15"><code>set_linestyle(value)</code></h3>
+<h3 id="set_linewidthvalue-17"><code>set_linewidth(value)</code></h3>
+<h3 id="set_manualazimuth-elevation"><code>set_manual(azimuth, elevation)</code></h3>
+<h3 id="set_markervalue-15"><code>set_marker(value)</code></h3>
+<h3 id="set_markeredgecolorvalue-15"><code>set_markeredgecolor(value)</code></h3>
+<h3 id="set_markeredgewidthvalue-15"><code>set_markeredgewidth(value)</code></h3>
+<h3 id="set_markerfacecolorvalue-15"><code>set_markerfacecolor(value)</code></h3>
+<h3 id="set_markersizevalue-15"><code>set_markersize(value)</code></h3>
+<h3 id="set_normvalue-18"><code>set_norm(value)</code></h3>
+<h3 id="set_pickervalue-38"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-38"><code>set_pickradius(value)</code></h3>
+<h3 id="set_positionvalue-5"><code>set_position(value)</code></h3>
+<h3 id="set_rotationvalue-17"><code>set_rotation(value)</code></h3>
+<h3 id="set_simplifytolerance-15"><code>set_simplify(tolerance)</code></h3>
+<h3 id="set_solid_capstylevalue-15"><code>set_solid_capstyle(value)</code></h3>
+<h3 id="set_solid_joinstylevalue-15"><code>set_solid_joinstyle(value)</code></h3>
+<h3 id="set_textvalue-17"><code>set_text(value)</code></h3>
+<h3 id="set_timeinstant-offsetsnone-2"><code>set_time(instant, *, offsets=None)</code></h3>
+<h3 id="set_transformtransform-38"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevisible-17"><code>set_visible(visible)</code></h3>
+<h3 id="set_xdatavalue-15"><code>set_xdata(value)</code></h3>
+<h3 id="set_ydatavalue-15"><code>set_ydata(value)</code></h3>
+<h3 id="set_zordervalue-15"><code>set_zorder(value)</code></h3>
+<h3 id="to_colorvalue-18"><code>to_color(value)</code></h3>
+<h3 id="to_rgbavalues-alphanone-bytesfalse-normtrue-18"><code>to_rgba(values, alpha=None, bytes=False, norm=True)</code></h3>
+<p>Map scalars/matrices to RGBA, or pass RGB/RGBA images through.</p>
+<h3 id="updateprops-33"><code>update(props)</code></h3>
+<h2 id="azimliblunar_artistsearthmoonartist">azimlib.lunar_artists.EarthMoonArtist</h2>
+<p><code>EarthMoonArtist(value, *, model=None, observer=None, offsets=None, include_earth=True, distance_scale=1.0, moon_radius_scale=1.0, earth_color='#47869b', moon_color='#c3c5ca', ambient=0.12, shade=True)</code></p>
+<h3 id="add_callbackfunc-39"><code>add_callback(func)</code></h3>
+<h3 id="autoscale-19"><code>autoscale()</code></h3>
+<h3 id="autoscale_none-19"><code>autoscale_None()</code></h3>
+<h3 id="changed-19"><code>changed()</code></h3>
+<h3 id="containsmouseevent-39"><code>contains(mouseevent)</code></h3>
+<h3 id="facescamera-bounds-aspect-exaggeration-with_uvfalse-2"><code>faces(camera, bounds, aspect, exaggeration, *, with_uv=False)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-39"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_array-19"><code>get_array()</code></h3>
+<h3 id="get_children-39"><code>get_children()</code></h3>
+<h3 id="get_clim-19"><code>get_clim()</code></h3>
+<h3 id="get_clip_on-39"><code>get_clip_on()</code></h3>
+<h3 id="get_cmap-19"><code>get_cmap()</code></h3>
+<h3 id="get_figurerootfalse-39"><code>get_figure(root=False)</code></h3>
+<h3 id="get_in_layout-39"><code>get_in_layout()</code></h3>
+<h3 id="get_label-21"><code>get_label()</code></h3>
+<h3 id="get_norm-19"><code>get_norm()</code></h3>
+<h3 id="get_picker-39"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-39"><code>get_pickradius()</code></h3>
+<h3 id="get_position-6"><code>get_position()</code></h3>
+<h3 id="get_texture-2"><code>get_texture()</code></h3>
+<h3 id="get_texture_uv-2"><code>get_texture_uv()</code></h3>
+<h3 id="get_transform-43"><code>get_transform()</code></h3>
+<h3 id="get_visible-37"><code>get_visible()</code></h3>
+<h3 id="get_zorder-18"><code>get_zorder()</code></h3>
+<h3 id="pchanged-39"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-40"><code>pick(mouseevent)</code></h3>
+<h3 id="properties-39"><code>properties()</code></h3>
+<h3 id="remove-28"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-39"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-43"><code>set(**kwargs)</code></h3>
+<h3 id="set_arrayvalues-19"><code>set_array(values)</code></h3>
+<h3 id="set_climvminnone-vmaxnone-18"><code>set_clim(vmin=None, vmax=None)</code></h3>
+<h3 id="set_clip_onvalue-39"><code>set_clip_on(value)</code></h3>
+<h3 id="set_cmapvalue-19"><code>set_cmap(value)</code></h3>
+<h3 id="set_colorvalue-23"><code>set_color(value)</code></h3>
+<h3 id="set_eclipse_geometrygeometry-allow_approximatefalse"><code>set_eclipse_geometry(geometry, *, allow_approximate=False)</code></h3>
+<h3 id="set_in_layoutvalue-39"><code>set_in_layout(value)</code></h3>
+<h3 id="set_manualazimuth-elevation-distance_m"><code>set_manual(azimuth, elevation, distance_m)</code></h3>
+<h3 id="set_normvalue-19"><code>set_norm(value)</code></h3>
+<h3 id="set_pickervalue-39"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-39"><code>set_pickradius(value)</code></h3>
+<h3 id="set_positionvalue-6"><code>set_position(value)</code></h3>
+<h3 id="set_scales-distance_scalenone-moon_radius_scalenone"><code>set_scales(*, distance_scale=None, moon_radius_scale=None)</code></h3>
+<h3 id="set_shadevalue-2"><code>set_shade(value)</code></h3>
+<h3 id="set_texturetexture-uvnone-2"><code>set_texture(texture, uv=None)</code></h3>
+<h3 id="set_timeinstant-offsetsnone-3"><code>set_time(instant, *, offsets=None)</code></h3>
+<h3 id="set_transformtransform-39"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevalue-19"><code>set_visible(value)</code></h3>
+<h3 id="to_colorvalue-19"><code>to_color(value)</code></h3>
+<h3 id="to_rgbavalues-alphanone-bytesfalse-normtrue-19"><code>to_rgba(values, alpha=None, bytes=False, norm=True)</code></h3>
+<p>Map scalars/matrices to RGBA, or pass RGB/RGBA images through.</p>
+<h3 id="updateprops-34"><code>update(props)</code></h3>
+<h2 id="azimliblunar_artistslunarbinding">azimlib.lunar_artists.LunarBinding</h2>
+<p><code>LunarBinding(series, artist, *, scale='global', norm=None)</code></p>
+<h3 id="applyindex-2"><code>apply(index)</code></h3>
+<h2 id="azimliblunar_artistslunarhandle">azimlib.lunar_artists.LunarHandle</h2>
+<p><code>LunarHandle()</code></p>
+<h3 id="get_position-7"><code>get_position()</code></h3>
+<h3 id="set_manualazimuth-elevation-distance_m-1"><code>set_manual(azimuth, elevation, distance_m)</code></h3>
+<h3 id="set_timeinstant-offsetsnone-4"><code>set_time(instant, *, offsets=None)</code></h3>
+<h2 id="azimliblunar_artistsmoonartist">azimlib.lunar_artists.MoonArtist</h2>
+<p><code>MoonArtist(value, *, model=None, observer=None, offsets=None, annotation=None, annotation_style=None, **style)</code></p>
+<h3 id="add_callbackfunc-40"><code>add_callback(func)</code></h3>
+<h3 id="autoscale-20"><code>autoscale()</code></h3>
+<h3 id="autoscale_none-20"><code>autoscale_None()</code></h3>
+<h3 id="changed-20"><code>changed()</code></h3>
+<h3 id="containsmouseevent-40"><code>contains(mouseevent)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-40"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_alpha-19"><code>get_alpha()</code></h3>
+<h3 id="get_antialiased-16"><code>get_antialiased()</code></h3>
+<h3 id="get_array-20"><code>get_array()</code></h3>
+<h3 id="get_children-40"><code>get_children()</code></h3>
+<h3 id="get_clim-20"><code>get_clim()</code></h3>
+<h3 id="get_clip_on-40"><code>get_clip_on()</code></h3>
+<h3 id="get_cmap-20"><code>get_cmap()</code></h3>
+<h3 id="get_color-21"><code>get_color()</code></h3>
+<h3 id="get_dash_capstyle-16"><code>get_dash_capstyle()</code></h3>
+<h3 id="get_dash_joinstyle-16"><code>get_dash_joinstyle()</code></h3>
+<h3 id="get_data-16"><code>get_data()</code></h3>
+<h3 id="get_edgecolor-18"><code>get_edgecolor()</code></h3>
+<h3 id="get_facecolor-19"><code>get_facecolor()</code></h3>
+<h3 id="get_figurerootfalse-40"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontsize-19"><code>get_fontsize()</code></h3>
+<h3 id="get_fontweight-18"><code>get_fontweight()</code></h3>
+<h3 id="get_in_layout-40"><code>get_in_layout()</code></h3>
+<h3 id="get_label-22"><code>get_label()</code></h3>
+<h3 id="get_linestyle-16"><code>get_linestyle()</code></h3>
+<h3 id="get_linewidth-18"><code>get_linewidth()</code></h3>
+<h3 id="get_marker-16"><code>get_marker()</code></h3>
+<h3 id="get_markeredgecolor-16"><code>get_markeredgecolor()</code></h3>
+<h3 id="get_markeredgewidth-16"><code>get_markeredgewidth()</code></h3>
+<h3 id="get_markerfacecolor-16"><code>get_markerfacecolor()</code></h3>
+<h3 id="get_markersize-16"><code>get_markersize()</code></h3>
+<h3 id="get_norm-20"><code>get_norm()</code></h3>
+<h3 id="get_picker-40"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-40"><code>get_pickradius()</code></h3>
+<h3 id="get_position-8"><code>get_position()</code></h3>
+<h3 id="get_rotation-18"><code>get_rotation()</code></h3>
+<h3 id="get_simplify-16"><code>get_simplify()</code></h3>
+<h3 id="get_solid_capstyle-16"><code>get_solid_capstyle()</code></h3>
+<h3 id="get_solid_joinstyle-16"><code>get_solid_joinstyle()</code></h3>
+<h3 id="get_text-18"><code>get_text()</code></h3>
+<h3 id="get_transform-44"><code>get_transform()</code></h3>
+<h3 id="get_visible-38"><code>get_visible()</code></h3>
+<h3 id="get_xdata-16"><code>get_xdata()</code></h3>
+<h3 id="get_ydata-16"><code>get_ydata()</code></h3>
+<h3 id="get_zorder-19"><code>get_zorder()</code></h3>
+<h3 id="pchanged-40"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-41"><code>pick(mouseevent)</code></h3>
+<h3 id="properties-40"><code>properties()</code></h3>
+<h3 id="remove-29"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-40"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-44"><code>set(**kwargs)</code></h3>
+<p>Edit supported data/text, styles and colors after batch validation.</p>
+<h3 id="set_alphavalue-20"><code>set_alpha(value)</code></h3>
+<h3 id="set_annotationtext-1"><code>set_annotation(text)</code></h3>
+<h3 id="set_antialiasedvalue-16"><code>set_antialiased(value)</code></h3>
+<h3 id="set_arrayvalues-20"><code>set_array(values)</code></h3>
+<h3 id="set_classesbins5-schemeequal_interval-16"><code>set_classes(bins=5, *, scheme='equal_interval')</code></h3>
+<p>Reclassify an own choropleth; geometry/feature IDs remain unchanged.</p>
+<h3 id="set_climvminnone-vmaxnone-19"><code>set_clim(vmin=None, vmax=None)</code></h3>
+<h3 id="set_clip_onvalue-40"><code>set_clip_on(value)</code></h3>
+<h3 id="set_cmapvalue-20"><code>set_cmap(value)</code></h3>
+<h3 id="set_colorvalue-24"><code>set_color(value)</code></h3>
+<h3 id="set_dash_capstylevalue-16"><code>set_dash_capstyle(value)</code></h3>
+<h3 id="set_dash_joinstylevalue-16"><code>set_dash_joinstyle(value)</code></h3>
+<h3 id="set_dataargs-14"><code>set_data(*args)</code></h3>
+<p>Replace a geographic plot series; explicit map limits stay unchanged.</p>
+<h3 id="set_edgecolorvalue-19"><code>set_edgecolor(value)</code></h3>
+<h3 id="set_facecolorvalue-18"><code>set_facecolor(value)</code></h3>
+<h3 id="set_fontsizevalue-19"><code>set_fontsize(value)</code></h3>
+<h3 id="set_fontweightvalue-18"><code>set_fontweight(value)</code></h3>
+<h3 id="set_in_layoutvalue-40"><code>set_in_layout(value)</code></h3>
+<h3 id="set_labelvalue-16"><code>set_label(value)</code></h3>
+<h3 id="set_linestylevalue-16"><code>set_linestyle(value)</code></h3>
+<h3 id="set_linewidthvalue-18"><code>set_linewidth(value)</code></h3>
+<h3 id="set_manualazimuth-elevation-distance_m-2"><code>set_manual(azimuth, elevation, distance_m)</code></h3>
+<h3 id="set_markervalue-16"><code>set_marker(value)</code></h3>
+<h3 id="set_markeredgecolorvalue-16"><code>set_markeredgecolor(value)</code></h3>
+<h3 id="set_markeredgewidthvalue-16"><code>set_markeredgewidth(value)</code></h3>
+<h3 id="set_markerfacecolorvalue-16"><code>set_markerfacecolor(value)</code></h3>
+<h3 id="set_markersizevalue-16"><code>set_markersize(value)</code></h3>
+<h3 id="set_normvalue-20"><code>set_norm(value)</code></h3>
+<h3 id="set_pickervalue-40"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-40"><code>set_pickradius(value)</code></h3>
+<h3 id="set_positionvalue-7"><code>set_position(value)</code></h3>
+<h3 id="set_rotationvalue-18"><code>set_rotation(value)</code></h3>
+<h3 id="set_simplifytolerance-16"><code>set_simplify(tolerance)</code></h3>
+<h3 id="set_solid_capstylevalue-16"><code>set_solid_capstyle(value)</code></h3>
+<h3 id="set_solid_joinstylevalue-16"><code>set_solid_joinstyle(value)</code></h3>
+<h3 id="set_textvalue-18"><code>set_text(value)</code></h3>
+<h3 id="set_timeinstant-offsetsnone-5"><code>set_time(instant, *, offsets=None)</code></h3>
+<h3 id="set_transformtransform-40"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevisible-18"><code>set_visible(visible)</code></h3>
+<h3 id="set_xdatavalue-16"><code>set_xdata(value)</code></h3>
+<h3 id="set_ydatavalue-16"><code>set_ydata(value)</code></h3>
+<h3 id="set_zordervalue-16"><code>set_zorder(value)</code></h3>
+<h3 id="to_colorvalue-20"><code>to_color(value)</code></h3>
+<h3 id="to_rgbavalues-alphanone-bytesfalse-normtrue-20"><code>to_rgba(values, alpha=None, bytes=False, norm=True)</code></h3>
+<p>Map scalars/matrices to RGBA, or pass RGB/RGBA images through.</p>
+<h3 id="updateprops-35"><code>update(props)</code></h3>
+<h2 id="azimlibeclipse_artistseclipsebinding">azimlib.eclipse_artists.EclipseBinding</h2>
+<p><code>EclipseBinding(series, artist, *, scale='global', norm=None)</code></p>
+<h3 id="applyindex-3"><code>apply(index)</code></h3>
+<h2 id="azimlibeclipse_artistseclipsemapartist">azimlib.eclipse_artists.EclipseMapArtist</h2>
+<p><code>EclipseMapArtist(geometry, *, allow_approximate=False, step=4.0, mode='estimate', cmap='viridis', alpha=0.75, zorder=4)</code></p>
+<h3 id="add_callbackfunc-41"><code>add_callback(func)</code></h3>
+<h3 id="autoscale-21"><code>autoscale()</code></h3>
+<h3 id="autoscale_none-21"><code>autoscale_None()</code></h3>
+<h3 id="changed-21"><code>changed()</code></h3>
+<h3 id="containsmouseevent-41"><code>contains(mouseevent)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-41"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_alpha-20"><code>get_alpha()</code></h3>
+<h3 id="get_antialiased-17"><code>get_antialiased()</code></h3>
+<h3 id="get_array-21"><code>get_array()</code></h3>
+<h3 id="get_children-41"><code>get_children()</code></h3>
+<h3 id="get_clim-21"><code>get_clim()</code></h3>
+<h3 id="get_clip_on-41"><code>get_clip_on()</code></h3>
+<h3 id="get_cmap-21"><code>get_cmap()</code></h3>
+<h3 id="get_color-22"><code>get_color()</code></h3>
+<h3 id="get_coordinates-3"><code>get_coordinates()</code></h3>
+<h3 id="get_dash_capstyle-17"><code>get_dash_capstyle()</code></h3>
+<h3 id="get_dash_joinstyle-17"><code>get_dash_joinstyle()</code></h3>
+<h3 id="get_data-17"><code>get_data()</code></h3>
+<h3 id="get_edgecolor-19"><code>get_edgecolor()</code></h3>
+<h3 id="get_facecolor-20"><code>get_facecolor()</code></h3>
+<h3 id="get_figurerootfalse-41"><code>get_figure(root=False)</code></h3>
+<h3 id="get_fontsize-20"><code>get_fontsize()</code></h3>
+<h3 id="get_fontweight-19"><code>get_fontweight()</code></h3>
+<h3 id="get_geometry-3"><code>get_geometry()</code></h3>
+<h3 id="get_in_layout-41"><code>get_in_layout()</code></h3>
+<h3 id="get_label-23"><code>get_label()</code></h3>
+<h3 id="get_linestyle-17"><code>get_linestyle()</code></h3>
+<h3 id="get_linewidth-19"><code>get_linewidth()</code></h3>
+<h3 id="get_marker-17"><code>get_marker()</code></h3>
+<h3 id="get_markeredgecolor-17"><code>get_markeredgecolor()</code></h3>
+<h3 id="get_markeredgewidth-17"><code>get_markeredgewidth()</code></h3>
+<h3 id="get_markerfacecolor-17"><code>get_markerfacecolor()</code></h3>
+<h3 id="get_markersize-17"><code>get_markersize()</code></h3>
+<h3 id="get_norm-21"><code>get_norm()</code></h3>
+<h3 id="get_picker-41"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-41"><code>get_pickradius()</code></h3>
+<h3 id="get_rotation-19"><code>get_rotation()</code></h3>
+<h3 id="get_simplify-17"><code>get_simplify()</code></h3>
+<h3 id="get_solid_capstyle-17"><code>get_solid_capstyle()</code></h3>
+<h3 id="get_solid_joinstyle-17"><code>get_solid_joinstyle()</code></h3>
+<h3 id="get_text-19"><code>get_text()</code></h3>
+<h3 id="get_transform-45"><code>get_transform()</code></h3>
+<h3 id="get_visible-39"><code>get_visible()</code></h3>
+<h3 id="get_xdata-17"><code>get_xdata()</code></h3>
+<h3 id="get_ydata-17"><code>get_ydata()</code></h3>
+<h3 id="get_zorder-20"><code>get_zorder()</code></h3>
+<h3 id="pchanged-41"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-42"><code>pick(mouseevent)</code></h3>
+<h3 id="properties-41"><code>properties()</code></h3>
+<h3 id="remove-30"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-41"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-45"><code>set(**kwargs)</code></h3>
+<p>Edit supported data/text, styles and colors after batch validation.</p>
+<h3 id="set_alphavalue-21"><code>set_alpha(value)</code></h3>
+<h3 id="set_antialiasedvalue-17"><code>set_antialiased(value)</code></h3>
+<h3 id="set_arrayvalues-21"><code>set_array(values)</code></h3>
+<h3 id="set_classesbins5-schemeequal_interval-17"><code>set_classes(bins=5, *, scheme='equal_interval')</code></h3>
+<p>Reclassify an own choropleth; geometry/feature IDs remain unchanged.</p>
+<h3 id="set_climvminnone-vmaxnone-20"><code>set_clim(vmin=None, vmax=None)</code></h3>
+<h3 id="set_clip_onvalue-41"><code>set_clip_on(value)</code></h3>
+<h3 id="set_cmapvalue-21"><code>set_cmap(value)</code></h3>
+<h3 id="set_colorvalue-25"><code>set_color(value)</code></h3>
+<h3 id="set_dash_capstylevalue-17"><code>set_dash_capstyle(value)</code></h3>
+<h3 id="set_dash_joinstylevalue-17"><code>set_dash_joinstyle(value)</code></h3>
+<h3 id="set_dataargs-15"><code>set_data(*args)</code></h3>
+<p>Replace a geographic plot series; explicit map limits stay unchanged.</p>
+<h3 id="set_edgecolorvalue-20"><code>set_edgecolor(value)</code></h3>
+<h3 id="set_facecolorvalue-19"><code>set_facecolor(value)</code></h3>
+<h3 id="set_fontsizevalue-20"><code>set_fontsize(value)</code></h3>
+<h3 id="set_fontweightvalue-19"><code>set_fontweight(value)</code></h3>
+<h3 id="set_geometrygeometry"><code>set_geometry(geometry)</code></h3>
+<h3 id="set_in_layoutvalue-41"><code>set_in_layout(value)</code></h3>
+<h3 id="set_labelvalue-17"><code>set_label(value)</code></h3>
+<h3 id="set_linestylevalue-17"><code>set_linestyle(value)</code></h3>
+<h3 id="set_linewidthvalue-19"><code>set_linewidth(value)</code></h3>
+<h3 id="set_markervalue-17"><code>set_marker(value)</code></h3>
+<h3 id="set_markeredgecolorvalue-17"><code>set_markeredgecolor(value)</code></h3>
+<h3 id="set_markeredgewidthvalue-17"><code>set_markeredgewidth(value)</code></h3>
+<h3 id="set_markerfacecolorvalue-17"><code>set_markerfacecolor(value)</code></h3>
+<h3 id="set_markersizevalue-17"><code>set_markersize(value)</code></h3>
+<h3 id="set_normvalue-21"><code>set_norm(value)</code></h3>
+<h3 id="set_pickervalue-41"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-41"><code>set_pickradius(value)</code></h3>
+<h3 id="set_rotationvalue-19"><code>set_rotation(value)</code></h3>
+<h3 id="set_simplifytolerance-17"><code>set_simplify(tolerance)</code></h3>
+<h3 id="set_solid_capstylevalue-17"><code>set_solid_capstyle(value)</code></h3>
+<h3 id="set_solid_joinstylevalue-17"><code>set_solid_joinstyle(value)</code></h3>
+<h3 id="set_textvalue-19"><code>set_text(value)</code></h3>
+<h3 id="set_transformtransform-41"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevisible-19"><code>set_visible(visible)</code></h3>
+<h3 id="set_xdatavalue-17"><code>set_xdata(value)</code></h3>
+<h3 id="set_ydatavalue-17"><code>set_ydata(value)</code></h3>
+<h3 id="set_zordervalue-17"><code>set_zorder(value)</code></h3>
+<h3 id="to_colorvalue-21"><code>to_color(value)</code></h3>
+<h3 id="to_rgbavalues-alphanone-bytesfalse-normtrue-21"><code>to_rgba(values, alpha=None, bytes=False, norm=True)</code></h3>
+<p>Map scalars/matrices to RGBA, or pass RGB/RGBA images through.</p>
+<h3 id="updateprops-36"><code>update(props)</code></h3>
+<h2 id="azimlibvolume_artistvolumeartist">azimlib.volume_artist.VolumeArtist</h2>
+<p><code>VolumeArtist(field, *, norm=None, cmap='viridis', opacity=None, step=None, reference_length=None, density=1.0, light=None)</code></p>
+<h3 id="add_callbackfunc-42"><code>add_callback(func)</code></h3>
+<h3 id="autoscale-22"><code>autoscale()</code></h3>
+<h3 id="autoscale_none-22"><code>autoscale_None()</code></h3>
+<h3 id="changed-22"><code>changed()</code></h3>
+<h3 id="containsmouseevent-42"><code>contains(mouseevent)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-42"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_array-22"><code>get_array()</code></h3>
+<h3 id="get_children-42"><code>get_children()</code></h3>
+<h3 id="get_clim-22"><code>get_clim()</code></h3>
+<h3 id="get_clip_on-42"><code>get_clip_on()</code></h3>
+<h3 id="get_cmap-22"><code>get_cmap()</code></h3>
+<h3 id="get_data-18"><code>get_data()</code></h3>
+<h3 id="get_figurerootfalse-42"><code>get_figure(root=False)</code></h3>
+<h3 id="get_in_layout-42"><code>get_in_layout()</code></h3>
+<h3 id="get_label-24"><code>get_label()</code></h3>
+<h3 id="get_norm-22"><code>get_norm()</code></h3>
+<h3 id="get_opacity"><code>get_opacity()</code></h3>
+<h3 id="get_picker-42"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-42"><code>get_pickradius()</code></h3>
+<h3 id="get_transform-46"><code>get_transform()</code></h3>
+<h3 id="get_visible-40"><code>get_visible()</code></h3>
+<h3 id="get_zorder-21"><code>get_zorder()</code></h3>
+<h3 id="layermatrix"><code>layer(matrix)</code></h3>
+<h3 id="pchanged-42"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-43"><code>pick(mouseevent)</code></h3>
+<h3 id="pick_rayorigin-direction-maximuminf"><code>pick_ray(origin, direction, *, maximum=inf)</code></h3>
+<h3 id="properties-42"><code>properties()</code></h3>
+<h3 id="remove-31"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-42"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-46"><code>set(**kwargs)</code></h3>
+<h3 id="set_arrayfield"><code>set_array(field)</code></h3>
+<h3 id="set_climvminnone-vmaxnone-21"><code>set_clim(vmin=None, vmax=None)</code></h3>
+<h3 id="set_clip_onvalue-42"><code>set_clip_on(value)</code></h3>
+<h3 id="set_cmapvalue-22"><code>set_cmap(value)</code></h3>
+<h3 id="set_datafield"><code>set_data(field)</code></h3>
+<h3 id="set_densityvalue"><code>set_density(value)</code></h3>
+<h3 id="set_in_layoutvalue-42"><code>set_in_layout(value)</code></h3>
+<h3 id="set_lightvalue"><code>set_light(value)</code></h3>
+<h3 id="set_normnorm"><code>set_norm(norm)</code></h3>
+<h3 id="set_opacityvalue"><code>set_opacity(value)</code></h3>
+<h3 id="set_pickervalue-42"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-42"><code>set_pickradius(value)</code></h3>
+<h3 id="set_reference_lengthvalue"><code>set_reference_length(value)</code></h3>
+<h3 id="set_stepvalue"><code>set_step(value)</code></h3>
+<h3 id="set_transformtransform-42"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevalue-20"><code>set_visible(value)</code></h3>
+<h3 id="to_colorvalue-22"><code>to_color(value)</code></h3>
+<h3 id="to_rgbavalues-alphanone-bytesfalse-normtrue-22"><code>to_rgba(values, alpha=None, bytes=False, norm=True)</code></h3>
+<p>Map scalars/matrices to RGBA, or pass RGB/RGBA images through.</p>
+<h3 id="updateprops-37"><code>update(props)</code></h3>
+<h2 id="azimlibvolume_artistvolumebinding">azimlib.volume_artist.VolumeBinding</h2>
+<p><code>VolumeBinding(series, artist, *, scale='global', norm=None)</code></p>
+<h3 id="applyindex-4"><code>apply(index)</code></h3>
+<h2 id="azimlibpbfosmindex">azimlib.pbf.OSMIndex</h2>
+<p><code>OSMIndex(source, *, directory=None, max_disk_bytes=8000000000, reserve_free_bytes=67108864, max_refs=100000, missing='error', expected_sha256=None)</code></p>
+<h3 id="audit_references"><code>audit_references()</code></h3>
+<p>Scan every way/member, including raw relation types, without repair.</p>
+<h3 id="close-5"><code>close()</code></h3>
+<h3 id="collection-max_features100000-max_vertices1000000-max_bytes67108864-filters"><code>collection(*, max_features=100000, max_vertices=1000000, max_bytes=67108864, **filters)</code></h3>
+<p>Materialize only a bounded selected region for the plotting API.</p>
+<h3 id="features-bboxnone-wherenone-include_untaggedfalse"><code>features(*, bbox=None, where=None, include_untagged=False)</code></h3>
+<p>Stream complete geometries whose envelopes intersect bbox, AND tags.</p>
+<h3 id="relations-restrictions_onlyfalse-include_incompletefalse"><code>relations(*, restrictions_only=False, include_incomplete=False)</code></h3>
+<p>Stream raw members/tags; restrictions retain conditional/except tags.</p>
+<h2 id="azimlibcoordinate_operationscoordinateframe">azimlib.coordinate_operations.CoordinateFrame</h2>
+<p><code>CoordinateFrame(name: str, kind: str, datum: azimlib.geodesy.Datum = Datum(name='WGS84', ellipsoid=Ellipsoid(semi_major_axis=6378137.0, inverse_flattening=298.257223563, name='WGS84'), prime_meridian=0.0), height_reference: str = 'ellipsoidal') -&gt; None</code></p>
+<h2 id="azimlibcoordinate_operationscoordinatepipeline">azimlib.coordinate_operations.CoordinatePipeline</h2>
+<p><code>CoordinatePipeline(steps: tuple) -&gt; None</code></p>
+<h3 id="inverse-1"><code>inverse()</code></h3>
+<h3 id="thenoperation"><code>then(operation)</code></h3>
+<h3 id="transformx-y-znone-epochnone"><code>transform(x, y, z=None, *, epoch=None)</code></h3>
+<h2 id="azimlibcoordinate_operationsgeodeticconversion">azimlib.coordinate_operations.GeodeticConversion</h2>
+<p><code>GeodeticConversion(source: azimlib.coordinate_operations.CoordinateFrame, target: azimlib.coordinate_operations.CoordinateFrame) -&gt; None</code></p>
+<h3 id="inverse-2"><code>inverse()</code></h3>
+<h3 id="transformx-y-z-epochnone"><code>transform(x, y, z, *, epoch=None)</code></h3>
+<h2 id="azimlibcoordinate_operationshelmert">azimlib.coordinate_operations.Helmert</h2>
+<p><code>Helmert(source: azimlib.coordinate_operations.CoordinateFrame, target: azimlib.coordinate_operations.CoordinateFrame, parameters: tuple, convention: str, rates: tuple = None, reference_epoch: float = None, valid_epochs: tuple = None, area_of_use: tuple = None) -&gt; None</code></p>
+<h3 id="inverse-3"><code>inverse()</code></h3>
+<h3 id="transformx-y-z-epochnone-1"><code>transform(x, y, z, *, epoch=None)</code></h3>
+<h2 id="azimlibdatum_gridsgridcoverageerror">azimlib.datum_grids.GridCoverageError</h2>
+<p><code>GridCoverageError(...)</code></p>
+<h2 id="azimlibdatum_gridsgridnodataerror">azimlib.datum_grids.GridNoDataError</h2>
+<p><code>GridNoDataError(...)</code></p>
+<h2 id="azimlibdatum_gridsgridtile">azimlib.datum_grids.GridTile</h2>
+<p><code>GridTile(name: str, parent: str, longitude: float, latitude: float, longitude_step: float, latitude_step: float, rows: int, columns: int, offset: int, depth: int = 0) -&gt; None</code></p>
+<h2 id="azimlibdatum_gridsshiftgrid">azimlib.datum_grids.ShiftGrid</h2>
+<p><code>ShiftGrid(format: str, tiles: tuple, _raw: bytes, _endian: str, nodata: tuple = (), metadata: object = &lt;factory&gt;) -&gt; None</code></p>
+<h3 id="accuracylongitude-latitude"><code>accuracy(longitude, latitude)</code></h3>
+<p>NTv2 interpolated (lon,lat) accuracy fields, arcsec; not a guarantee.</p>
+<h3 id="samplelongitude-latitude"><code>sample(longitude, latitude)</code></h3>
+<h2 id="azimlibgrid_operationsgridoperation">azimlib.grid_operations.GridOperation</h2>
+<p><code>GridOperation(source: azimlib.coordinate_operations.CoordinateFrame, target: azimlib.coordinate_operations.CoordinateFrame, grid: azimlib.datum_grids.ShiftGrid, kind: str, factor: float = 1.0, valid_epochs: tuple = None) -&gt; None</code></p>
+<h3 id="inverse-4"><code>inverse()</code></h3>
+<h3 id="transformx-y-z-epochnone-2"><code>transform(x, y, z, *, epoch=None)</code></h3>
+<h3 id="transform_rasterraster-epochnone"><code>transform_raster(raster, *, epoch=None)</code></h3>
+<p>Explicit scalar-height correction at pixel centres; strict grid coverage.</p>
+<h2 id="azimlibgrid_operationsinversegridoperation">azimlib.grid_operations.InverseGridOperation</h2>
+<p><code>InverseGridOperation(operation: azimlib.grid_operations.GridOperation) -&gt; None</code></p>
+<h3 id="inverse-5"><code>inverse()</code></h3>
+<h3 id="transformx-y-z-epochnone-3"><code>transform(x, y, z, *, epoch=None)</code></h3>
+<h3 id="transform_rasterraster-epochnone-1"><code>transform_raster(raster, *, epoch=None)</code></h3>
+<h2 id="azimlibgrid_operationsoperationset">azimlib.grid_operations.OperationSet</h2>
+<p><code>OperationSet(operations)</code></p>
+<h3 id="selectsource-target-x-y-z-epochnone-namenone"><code>select(source, target, x, y, z, *, epoch=None, name=None)</code></h3>
+<h2 id="azimlibgeocodingaddress">azimlib.geocoding.Address</h2>
+<p><code>Address(house_number: 'str' = '', street: 'str' = '', neighborhood: 'str' = '', city: 'str' = '', state: 'str' = '', country: 'str' = '', postcode: 'str' = '') -&gt; None</code></p>
+<h3 id="as_dict"><code>as_dict()</code></h3>
+<h3 id="display"><code>display()</code></h3>
+<h2 id="azimlibgeocodingaddressrange">azimlib.geocoding.AddressRange</h2>
+<p><code>AddressRange(record: 'GeocodingRecord', start_id: 'str', end_id: 'str', step: 'int' = 1) -&gt; None</code></p>
+<h2 id="azimlibgeocodingexternalgeocoder">azimlib.geocoding.ExternalGeocoder</h2>
+<p><code>ExternalGeocoder(search, reverse=None)</code></p>
+<h3 id="reverseargs-kwargs"><code>reverse(*args, **kwargs)</code></h3>
+<h3 id="searchargs-kwargs"><code>search(*args, **kwargs)</code></h3>
+<h2 id="azimlibgeocodinggeocodinglimiterror">azimlib.geocoding.GeocodingLimitError</h2>
+<p><code>GeocodingLimitError(...)</code></p>
+<h2 id="azimlibgeocodinggeocodingrecord">azimlib.geocoding.GeocodingRecord</h2>
+<p><code>GeocodingRecord(id: 'str', kind: 'str', names: 'tuple[str, ...]', geometry: 'Geometry', source: 'str', address: 'Address' = &lt;factory&gt;, category: 'str' = '', accuracy_m: 'float | None' = None) -&gt; None</code></p>
+<h3 id="as_dict-1"><code>as_dict()</code></h3>
+<h2 id="azimlibgeocodinggeocodingresult">azimlib.geocoding.GeocodingResult</h2>
+<p><code>GeocodingResult(record: 'GeocodingRecord', source: 'GeocodingSource', coordinate: 'tuple[float, float]', precision: 'str', score: 'float' = 0.0, match: 'str' = 'exact', distance_m: 'float | None' = None, contains: 'bool' = False, range_ids: 'tuple[str, ...]' = ()) -&gt; None</code></p>
+<h3 id="to_feature-boundaryfalse"><code>to_feature(*, boundary=False)</code></h3>
+<p>Normal layer/picking/labels integration; no contacts or query history.</p>
+<h2 id="azimlibgeocodinggeocodingresults">azimlib.geocoding.GeocodingResults</h2>
+<p><code>GeocodingResults(items: 'tuple[GeocodingResult, ...]', total: 'int', ambiguous: 'bool', truncated: 'bool', diagnostics: 'tuple[str, ...]' = ()) -&gt; None</code></p>
+<h3 id="to_features-boundaryfalse"><code>to_features(*, boundary=False)</code></h3>
+<h2 id="azimlibgeocodinggeocodingsource">azimlib.geocoding.GeocodingSource</h2>
+<p><code>GeocodingSource(id: 'str', version: 'str', license: 'str', copyright: 'str', attribution: 'str', origin: 'str', sha256: 'str', notices: 'tuple[str, ...]' = ()) -&gt; None</code></p>
+<h3 id="as_dict-2"><code>as_dict()</code></h3>
+<h2 id="azimlibgeocodinglocalgeocoder">azimlib.geocoding.LocalGeocoder</h2>
+<p><code>LocalGeocoder(directory, *, max_candidates=5000)</code></p>
+<h3 id="close-6"><code>close()</code></h3>
+<h3 id="reverselon-lat-radius_m10000-kindsnone-filtersnone-limit10"><code>reverse(lon, lat, *, radius_m=1000.0, kinds=None, filters=None, limit=10)</code></h3>
+<p>Nearest imported objects/containing regional boundaries, in spherical metres.</p>
+<h3 id="searchquery-filtersnone-kindsnone-bboxnone-nearnone-radius_m50000-fuzzyfalse-prefixfalse-interpolatefalse-limit10"><code>search(query='', *, filters=None, kinds=None, bbox=None, near=None, radius_m=5000.0, fuzzy=False, prefix=False, interpolate=False, limit=10)</code></h3>
+<p>Own exact/prefix/fuzzy token ranking; score is not a probability.</p>
+<h2 id="azimlibroutingnetworksnap">azimlib.routing.NetworkSnap</h2>
+<p><code>NetworkSnap(coordinate: 'tuple', distance_m: 'float', node: 'int | None', segment: 'tuple | None', fraction: 'float', _network: 'object') -&gt; None</code></p>
+<h2 id="azimlibroutingroadedge">azimlib.routing.RoadEdge</h2>
+<p><code>RoadEdge(id: 'str', way_id: 'int', segment_index: 'int', start: 'int', end: 'int', direction: 'int', geometry: 'tuple', distance_m: 'float', speed_kmh: 'float', tags: 'object') -&gt; None</code></p>
+<h2 id="azimlibroutingroadgraph">azimlib.routing.RoadGraph</h2>
+<p><code>RoadGraph()</code></p>
+<h3 id="routeorigin-destination-via-objectivedistance-algorithmastar-snap_radius_m1000-max_states250000-max_candidates10000-cancelnone"><code>route(origin, destination, *, via=(), objective='distance', algorithm='astar', snap_radius_m=1000, max_states=250000, max_candidates=10000, cancel=None)</code></h3>
+<p>Globally optimal path through ordered stops, retaining turn history.</p>
+<h3 id="savedirectory-max_bytes134217728-reserve_free_bytes67108864"><code>save(directory, *, max_bytes=134217728, reserve_free_bytes=67108864)</code></h3>
+<p>Atomic new-directory JSON index, SHA-256 manifest and original notices.</p>
+<h3 id="snaplocation-radius_m1000-max_candidates10000"><code>snap(location, *, radius_m=1000, max_candidates=10000)</code></h3>
+<p>Nearest physical edge; ties at disconnected coincident roads are errors.</p>
+<h3 id="submitexecutor-origin-destination-options"><code>submit(executor, origin, destination, **options)</code></h3>
+<p>Caller-owned executor; no worker touches Artists or opens a viewer.</p>
+<h2 id="azimlibroutingroadnode">azimlib.routing.RoadNode</h2>
+<p><code>RoadNode(id: 'int', coordinate: 'tuple') -&gt; None</code></p>
+<h2 id="azimlibroutingroadroute">azimlib.routing.RoadRoute</h2>
+<p><code>RoadRoute(steps: 'tuple', stops: 'tuple', source: 'RoutingSource', profile: 'RoutingProfile', objective: 'str', algorithm: 'str', expanded_states: 'int') -&gt; None</code></p>
+<h3 id="playbackax-frames100-interval100-autoplayfalse-marker_style"><code>playback(ax, *, frames=100, interval=100, autoplay=False, **marker_style)</code></h3>
+<p>Own FuncAnimation edits one marker on the viewer thread; hold the handle.</p>
+<h3 id="sampleseconds"><code>sample(seconds)</code></h3>
+<p>Clamped estimated-time position; spherical interpolation, not a GPS fix.</p>
+<h3 id="to_features"><code>to_features()</code></h3>
+<p>Editable/pickable source-edge features, without query logs or input addresses.</p>
+<h2 id="azimlibroutingrouteinstruction">azimlib.routing.RouteInstruction</h2>
+<p><code>RouteInstruction(maneuver: 'str', coordinate: 'tuple', way_id: 'int | None', name: 'str', distance_m: 'float', duration_s: 'float') -&gt; None</code></p>
+<h2 id="azimlibroutingroutestep">azimlib.routing.RouteStep</h2>
+<p><code>RouteStep(edge: 'RoadEdge', start_fraction: 'float', end_fraction: 'float', geometry: 'tuple') -&gt; None</code></p>
+<h2 id="azimlibroutingroutingsource">azimlib.routing.RoutingSource</h2>
+<p><code>RoutingSource(id: 'str', version: 'str', license: 'str', copyright: 'str', attribution: 'str', origin: 'str', sha256: 'str', notices: 'tuple[str, ...]' = ()) -&gt; None</code></p>
+<h3 id="as_dict-3"><code>as_dict()</code></h3>
+<h2 id="azimlibroutingroutingtask">azimlib.routing.RoutingTask</h2>
+<p><code>RoutingTask(future, event)</code></p>
+<h3 id="cancel"><code>cancel()</code></h3>
+<h3 id="done"><code>done()</code></h3>
+<h3 id="drawax-style"><code>draw(ax, **style)</code></h3>
+<h3 id="resulttimeoutnone"><code>result(timeout=None)</code></h3>
+<h2 id="azimlibtext_engineclustertext">azimlib.text_engine.ClusterText</h2>
+<p><code>ClusterText(text, layout)</code></p>
+<h3 id="replaceold-new-count-1"><code>replace(old, new, count=-1)</code></h3>
+<p>Return a copy with all occurrences of substring old replaced by new.</p>
+<h3 id="splitsepnone-maxsplit-1"><code>split(sep=None, maxsplit=-1)</code></h3>
+<p>Return a list of the substrings in the string, using sep as the separator string.</p>
+<h2 id="azimlibtext_enginefontpermissionerror">azimlib.text_engine.FontPermissionError</h2>
+<p><code>FontPermissionError(...)</code></p>
+<h2 id="azimlibtext_enginefontrecord">azimlib.text_engine.FontRecord</h2>
+<p><code>FontRecord(family: str, sha256: str, source: str, license_id: str, license_text: str, copyright: str, coverage: tuple) -&gt; None</code></p>
+<h3 id="notice"><code>notice()</code></h3>
+<h2 id="azimlibtext_engineglyph">azimlib.text_engine.Glyph</h2>
+<p><code>Glyph(font: str, glyph: int, start: int, end: int, x: float, y: float, advance: float, outline: tuple, ink: tuple | None) -&gt; None</code></p>
+<h2 id="azimlibtext_enginemissingglypherror">azimlib.text_engine.MissingGlyphError</h2>
+<p><code>MissingGlyphError(...)</code></p>
+<h2 id="azimlibtext_engineshapedline">azimlib.text_engine.ShapedLine</h2>
+<p><code>ShapedLine(text: str, glyphs: tuple, runs: tuple, width: float, ascent: float, descent: float, ink: tuple, engines: tuple, notices: tuple, signature: tuple) -&gt; None</code></p>
+<h2 id="azimlibtext_enginetextengineerror">azimlib.text_engine.TextEngineError</h2>
+<p><code>TextEngineError(...)</code></p>
+<h2 id="azimlibtext_enginetextrun">azimlib.text_engine.TextRun</h2>
+<p><code>TextRun(start: int, end: int, direction: str, script: str, font: str, glyph_start: int, glyph_end: int) -&gt; None</code></p>
+<h2 id="azimlibtextexconfig">azimlib.tex.TexConfig</h2>
+<p><code>TexConfig(executable: str = 'tectonic', converter: str = 'pdftocairo', cache_dir: object = None, temp_root: object = None, preamble: str = '\\usepackage{amsmath}', font_notices: tuple = (), resource_files: tuple = (), trusted: bool = False, allow_outlines: bool = False, timeout: float = 30, max_memory_bytes: int = 1073741824, max_temp_bytes: int = 67108864, max_cache_bytes: int = 268435456, fallback: object = None) -&gt; None</code></p>
+<h2 id="azimlibtextexerror">azimlib.tex.TexError</h2>
+<p><code>TexError(...)</code></p>
+<h2 id="azimlibtextexlayout">azimlib.tex.TexLayout</h2>
+<p><code>TexLayout(width: float, ascent: float, descent: float, commands: tuple, notices: tuple, identity: str, metrics: tuple = (), engine: str = 'tectonic') -&gt; None</code></p>
+<h2 id="azimlibtextexresourceerror">azimlib.tex.TexResourceError</h2>
+<p><code>TexResourceError(...)</code></p>
+<h2 id="azimlibtextextext">azimlib.tex.TexText</h2>
+<p><code>TexText(text, layout)</code></p>
+<h3 id="replaceold-new-count-1-1"><code>replace(old, new, count=-1)</code></h3>
+<p>Return a copy with all occurrences of substring old replaced by new.</p>
+<h3 id="splitsepnone-maxsplit-1-1"><code>split(sep=None, maxsplit=-1)</code></h3>
+<p>Return a list of the substrings in the string, using sep as the separator string.</p>
+<h2 id="azimlibtextexunavailableerror">azimlib.tex.TexUnavailableError</h2>
+<p><code>TexUnavailableError(...)</code></p>
+<h2 id="azimlibsolarsolarevents">azimlib.solar.SolarEvents</h2>
+<p><code>SolarEvents(start: datetime.datetime, end: datetime.datetime, rises: tuple, sets: tuple, transits: tuple, status: str, center_altitude: float, estimated_model_timing_seconds: tuple) -&gt; None</code></p>
+<h2 id="azimlibsolarsolarmodel">azimlib.solar.SolarModel</h2>
+<p><code>SolarModel(time_policy: str = 'strict', aberration: bool = True, parallax: bool = True, refraction: azimlib.solar.SolarRefraction | None = None) -&gt; None</code></p>
+<h3 id="eventsday-observer-offsetsnone-zonedatetimetimezoneutc-center_altitude-08333333333333334"><code>events(day, observer, *, offsets=None, zone=datetime.timezone.utc, center_altitude=-0.8333333333333334)</code></h3>
+<h3 id="pathinstants-observer-offsetsnone"><code>path(instants, observer, *, offsets=None)</code></h3>
+<h3 id="positioninstant-observernone-offsetsnone"><code>position(instant, observer=None, *, offsets=None)</code></h3>
+<h3 id="seasonsyear-offsetsnone"><code>seasons(year, *, offsets=None)</code></h3>
+<h2 id="azimlibsolarsolarpath">azimlib.solar.SolarPath</h2>
+<p><code>SolarPath(positions: tuple, observer: azimlib._frames.Observer) -&gt; None</code></p>
+<h3 id="mesh-visual_radius10000-width80"><code>mesh(*, visual_radius=1000.0, width=8.0)</code></h3>
+<p>ENU ribbon on a visual sky sphere, not physical Sun-distance geometry.</p>
+<h2 id="azimlibsolarsolarrefraction">azimlib.solar.SolarRefraction</h2>
+<p><code>SolarRefraction(pressure_hpa: float = 1010.0, temperature_c: float = 10.0) -&gt; None</code></p>
+<h3 id="correctionelevation"><code>correction(elevation)</code></h3>
+<h2 id="azimlibsolarsundirection">azimlib.solar.SunDirection</h2>
+<p><code>SunDirection(azimuth: float, elevation: float, observer: azimlib._frames.Observer | None = None) -&gt; None</code></p>
+<h2 id="azimlibsolarsunposition">azimlib.solar.SunPosition</h2>
+<p><code>SunPosition(instant: azimlib._timescales.Instant, right_ascension: float, declination: float, distance_m: float, ecliptic_longitude: float, sidereal_angle: float, equation_of_time_minutes: float, fixed: azimlib._frames.Coordinates, observer: azimlib._frames.Observer | None, azimuth: float | None, geometric_elevation: float | None, elevation: float | None, refraction_degrees: float, parallax: bool, aberration: bool, time_policy: str, angular_budget_degrees: float, model: str = 'azim-usno-approx-v1') -&gt; None</code></p>
+<h3 id="night_region"><code>night_region()</code></h3>
+<h3 id="terminator-samples361"><code>terminator(*, samples=361)</code></h3>
+<h2 id="azimliblunarlunarmodel">azimlib.lunar.LunarModel</h2>
+<p><code>LunarModel(time_policy: str = 'strict', parallax: bool = True, refraction: azimlib.solar.SolarRefraction | None = None) -&gt; None</code></p>
+<h3 id="pathinstants-observernone-offsetsnone"><code>path(instants, observer=None, *, offsets=None)</code></h3>
+<h3 id="positioninstant-observernone-offsetsnone-1"><code>position(instant, observer=None, *, offsets=None)</code></h3>
+<h2 id="azimliblunarlunarpath">azimlib.lunar.LunarPath</h2>
+<p><code>LunarPath(positions: tuple) -&gt; None</code></p>
+<h3 id="mesh-distance_scale10-width5000000"><code>mesh(*, distance_scale=1.0, width=500000.0)</code></h3>
+<h2 id="azimliblunarmoondirection">azimlib.lunar.MoonDirection</h2>
+<p><code>MoonDirection(azimuth: float, elevation: float, distance_m: float, observer: azimlib._frames.Observer) -&gt; None</code></p>
+<h2 id="azimliblunarmoonposition">azimlib.lunar.MoonPosition</h2>
+<p><code>MoonPosition(instant: azimlib._timescales.Instant, right_ascension: float, declination: float, distance_m: float, ecliptic_longitude: float, ecliptic_latitude: float, sidereal_angle: float, fixed: azimlib._frames.Coordinates, sun: azimlib.solar.SunPosition, observer: azimlib._frames.Observer | None, topocentric_right_ascension: float | None, topocentric_declination: float | None, topocentric_distance_m: float | None, azimuth: float | None, geometric_elevation: float | None, elevation: float | None, refraction_degrees: float, parallax: bool, time_policy: str, angular_budget_degrees: float, distance_budget_m: float = 5000000.0, model: str = 'azim-almanac-short-v1') -&gt; None</code></p>
+<h2 id="azimliblightinglightingbinding">azimlib.lighting.LightingBinding</h2>
+<p><code>LightingBinding(series, artist, *, scale='global', norm=None)</code></p>
+<h3 id="applyindex-5"><code>apply(index)</code></h3>
+<h2 id="azimliblightingshadowbudget">azimlib.lighting.ShadowBudget</h2>
+<p><code>ShadowBudget(max_triangles: int = 20000, max_rays: int = 500000, max_triangle_tests: int = 4000000) -&gt; None</code></p>
+<h2 id="azimliblightingshadowindex">azimlib.lighting.ShadowIndex</h2>
+<p><code>ShadowIndex(triangles, budget, bias)</code></p>
+<h3 id="blockedorigin-direction-maximuminf-ignorenone"><code>blocked(origin, direction, maximum=inf, ignore=None)</code></h3>
+<h3 id="reset-1"><code>reset()</code></h3>
+<h2 id="azimliblightingsolarlighting">azimlib.lighting.SolarLighting</h2>
+<p><code>SolarLighting(axes, value, *, frame, model=None, offsets=None, ambient=0.25, diffuse=0.75, shadows=True, samples=1, angular_radius=None, bias_m=0.001, max_edge_m=None, budget=None)</code></p>
+<h3 id="add_callbackfunc-43"><code>add_callback(func)</code></h3>
+<h3 id="bind_volumeartist-shadow_steps0"><code>bind_volume(artist, *, shadow_steps=0)</code></h3>
+<h3 id="containsmouseevent-43"><code>contains(mouseevent)</code></h3>
+<h3 id="facesartist-camera-bounds-aspect-exaggeration-with_uvfalse"><code>faces(artist, camera, bounds, aspect, exaggeration, *, with_uv=False)</code></h3>
+<h3 id="findobjmatchnone-include_selftrue-43"><code>findobj(match=None, include_self=True)</code></h3>
+<h3 id="get_children-43"><code>get_children()</code></h3>
+<h3 id="get_clip_on-43"><code>get_clip_on()</code></h3>
+<h3 id="get_figurerootfalse-43"><code>get_figure(root=False)</code></h3>
+<h3 id="get_in_layout-43"><code>get_in_layout()</code></h3>
+<h3 id="get_picker-43"><code>get_picker()</code></h3>
+<h3 id="get_pickradius-43"><code>get_pickradius()</code></h3>
+<h3 id="get_position-9"><code>get_position()</code></h3>
+<h3 id="get_transform-47"><code>get_transform()</code></h3>
+<h3 id="get_visible-41"><code>get_visible()</code></h3>
+<h3 id="pchanged-43"><code>pchanged()</code></h3>
+<h3 id="pickmouseevent-44"><code>pick(mouseevent)</code></h3>
+<h3 id="prepareartists"><code>prepare(artists)</code></h3>
+<h3 id="properties-43"><code>properties()</code></h3>
+<h3 id="remove-32"><code>remove()</code></h3>
+<h3 id="remove_callbackoid-43"><code>remove_callback(oid)</code></h3>
+<h3 id="setkwargs-47"><code>set(**kwargs)</code></h3>
+<h3 id="set_clip_onvalue-43"><code>set_clip_on(value)</code></h3>
+<h3 id="set_in_layoutvalue-43"><code>set_in_layout(value)</code></h3>
+<h3 id="set_pickervalue-43"><code>set_picker(value)</code></h3>
+<h3 id="set_pickradiusvalue-43"><code>set_pickradius(value)</code></h3>
+<h3 id="set_positionvalue-8"><code>set_position(value)</code></h3>
+<h3 id="set_timeinstant-offsetsnone-6"><code>set_time(instant, *, offsets=None)</code></h3>
+<h3 id="set_transformtransform-43"><code>set_transform(transform)</code></h3>
+<h3 id="set_visiblevalue-21"><code>set_visible(value)</code></h3>
+<h3 id="updateprops-38"><code>update(props)</code></h3>
+<h3 id="volume_light-shadow_steps0"><code>volume_light(*, shadow_steps=0)</code></h3>
+<h2 id="azimlibeclipseeclipsegeometry">azimlib.eclipse.EclipseGeometry</h2>
+<p><code>EclipseGeometry(sun: azimlib.eclipse.ShadowSphere, moon: azimlib.eclipse.ShadowSphere, source: str, instant: object = None, angular_uncertainty_degrees: float = 0.0, earth_radius_m: float = 6378137.0) -&gt; None</code></p>
+<h3 id="atpoint-occultermoon"><code>at(point, *, occulter='moon')</code></h3>
+<h3 id="compare_solar_disksobserver-conventions"><code>compare_solar_disks(observer, conventions)</code></h3>
+<h3 id="eventsargs-kwargs"><code>events(*args, **kwargs)</code></h3>
+<h3 id="lunar"><code>lunar()</code></h3>
+<h3 id="require_visual_permissionallow_approximate"><code>require_visual_permission(allow_approximate)</code></h3>
+<h3 id="solarobserver-solar_disknone"><code>solar(observer, *, solar_disk=None)</code></h3>
+<h2 id="azimlibeclipseoccultation">azimlib.eclipse.Occultation</h2>
+<p><code>Occultation(visible_fraction: float, classification: str, separation_degrees: float, source_radius_degrees: float, occulter_radius_degrees: float, fraction_bounds: tuple, uncertainty_degrees: float) -&gt; None</code></p>
+<h2 id="azimlibeclipseshadowcone">azimlib.eclipse.ShadowCone</h2>
+<p><code>ShadowCone(source: azimlib.eclipse.ShadowSphere, occulter: azimlib.eclipse.ShadowSphere) -&gt; None</code></p>
+<h3 id="radiidistance_m"><code>radii(distance_m)</code></h3>
+<h2 id="azimlibeclipseshadowsphere">azimlib.eclipse.ShadowSphere</h2>
+<p><code>ShadowSphere(center: azimlib._frames.Coordinates, radius_m: float) -&gt; None</code></p>
+<h2 id="azimlibsolar_disksolardiskcomparison">azimlib.solar_disk.SolarDiskComparison</h2>
+<p><code>SolarDiskComparison(results: tuple) -&gt; None</code></p>
+<h2 id="azimlibsolar_disksolardiskconvention">azimlib.solar_disk.SolarDiskConvention</h2>
+<p><code>SolarDiskConvention(name: str, radius_m: float, definition: str, source: str) -&gt; None</code></p>
+<h2 id="azimlibvolumebrickstore">azimlib.volume.BrickStore</h2>
+<p><code>BrickStore(path: pathlib.Path, shape: tuple, components: int, brick_size: int, header_bytes: int, signature: tuple, sha256: str, summary: dict) -&gt; None</code></p>
+<h3 id="brickindex"><code>brick(index)</code></h3>
+<h2 id="azimlibvolumevolumebudget">azimlib.volume.VolumeBudget</h2>
+<p><code>VolumeBudget(max_dense_bytes: int = 33554432, max_cache_bytes: int = 16777216, max_file_bytes: int = 20000000000, max_samples: int = 64000000, max_steps: int = 512, max_pixels: int = 1000000) -&gt; None</code></p>
+<h2 id="azimlibvolumevolumefield">azimlib.volume.VolumeField</h2>
+<p><code>VolumeField(shape: tuple, values: bytes | None, origin: tuple = (0.0, 0.0, 0.0), spacing: tuple = (1.0, 1.0, 1.0), components: int = 1, value_unit: str = '1', frame: azimlib.terrain3d.LocalFrame | None = None, store: object = None, budget: azimlib.volume.VolumeBudget = VolumeBudget(max_dense_bytes=33554432, max_cache_bytes=16777216, max_file_bytes=20000000000, max_samples=64000000, max_steps=512, max_pixels=1000000)) -&gt; None</code></p>
+<h3 id="componentcomponent"><code>component(component)</code></h3>
+<h3 id="iter_bricks-brick_size16"><code>iter_bricks(*, brick_size=16)</code></h3>
+<h3 id="samplex-y-z-methodlinear"><code>sample(x, y, z, *, method='linear')</code></h3>
+<h3 id="sampler"><code>sampler()</code></h3>
+<h3 id="selectbounds"><code>select(bounds)</code></h3>
+<p>Copy a bounded nodal ROI, including interpolation support at its edges.</p>
+<h2 id="azimlibvolumevolumesampler">azimlib.volume.VolumeSampler</h2>
+<p><code>VolumeSampler(field)</code></p>
+<h3 id="nodex-y-z"><code>node(x, y, z)</code></h3>
+<h3 id="samplep-methodlinear"><code>sample(p, method='linear')</code></h3>
+<h2 id="azimlibrenderersgpugpucancelled">azimlib.renderers.gpu.GpuCancelled</h2>
+<p><code>GpuCancelled(...)</code></p>
+<h2 id="azimlibrenderersgpugpuconfig">azimlib.renderers.gpu.GpuConfig</h2>
+<p><code>GpuConfig(context_backend: str | None = None, max_surface_bytes: int = 268435456, max_cache_bytes: int = 33554432, max_vertices: int = 2000000) -&gt; None</code></p>
+<h2 id="azimlibrenderersgpugpuerror">azimlib.renderers.gpu.GpuError</h2>
+<p><code>GpuError(...)</code></p>
+<h2 id="azimlibrenderersgpugpurenderer">azimlib.renderers.gpu.GpuRenderer</h2>
+<p><code>GpuRenderer(config=None)</code></p>
+<h3 id="close-7"><code>close()</code></h3>
+<h3 id="renderscene-scale1-cancelnone-generationnone"><code>render(scene, scale=1, *, cancel=None, generation=None)</code></h3>
+<h2 id="azimlibrenderersgpugpuresourceerror">azimlib.renderers.gpu.GpuResourceError</h2>
+<p><code>GpuResourceError(...)</code></p>
+<h2 id="azimlibrenderersgpugpuunavailableerror">azimlib.renderers.gpu.GpuUnavailableError</h2>
+<p><code>GpuUnavailableError(...)</code></p>
+<h2 id="azimlibprojectionslambertazimuthalequalarea">azimlib.projections.LambertAzimuthalEqualArea</h2>
+<p><code>LambertAzimuthalEqualArea(central_longitude: 'float' = 0.0, central_latitude: 'float' = 0.0, radius: 'float' = 6371008.8) -&gt; None</code></p>
+<h3 id="forwardlon-lat-10"><code>forward(lon, lat)</code></h3>
+<h3 id="inversex-y-10"><code>inverse(x, y)</code></h3>
+<h2 id="azimlibsimplifysimplificationcache">azimlib.simplify.SimplificationCache</h2>
+<p><code>SimplificationCache(max_bytes=4194304)</code></p>
+<h3 id="clear-5"><code>clear()</code></h3>
+<h3 id="indicespacked-scale-tolerance"><code>indices(packed, scale, tolerance)</code></h3>
+<h3 id="info"><code>info()</code></h3>
+<h3 id="pathpacked-scale-tolerance"><code>path(packed, scale, tolerance)</code></h3>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/api.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

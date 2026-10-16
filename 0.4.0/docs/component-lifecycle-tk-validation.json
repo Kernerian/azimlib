@@ -1,0 +1,15 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tk": 8.6,
+  "checks": [
+    "real Tk window, optional components and explicit draw after callback transfer",
+    "one redraw hides legend entry/title and colorbar label",
+    "one redraw replaces local colorbar/scale after registration",
+    "discarded mapping/components do not schedule a redraw",
+    "norm replacement updates current bar and detaches previous ticks",
+    "clear removes local bar and disconnects its mapping",
+    "close releases current owned raster"
+  ],
+  "scope": "real withdrawn Tk; programmatic edits; no physical input or visible OS comparison"
+}

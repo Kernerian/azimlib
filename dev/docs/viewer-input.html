@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teclado, mouse e atalhos no viewer Tk · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="teclado-mouse-e-atalhos-no-viewer-tk">Teclado, mouse e atalhos no viewer Tk</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teclado, mouse e atalhos no viewer Tk · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="teclado-mouse-e-atalhos-no-viewer-tk">Teclado, mouse e atalhos no viewer Tk</h1>
 <p>O viewer interpreta os eventos com implementação própria. Matplotlib é apenas
 referência de desenvolvimento; nenhum normalizador/backend dele é importado
 em execução. O HTML portátil conserva seu sistema JavaScript e suas limitações;
@@ -133,7 +133,7 @@ with azl.rc_context({'keymap.pan': ['ctrl+p'], 'keymap.save': []}):
 </code></pre>
 <p>As configurações são lidas ao receber cada evento: mantenha o contexto ativo
 durante o viewer. Listas são copiadas e validação de update é prospectiva;
-<code>[]</code> desativa um atalho. O <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/viewer_events.py">exemplo interativo</a>
+<code>[]</code> desativa um atalho. O <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/viewer_events.py">exemplo interativo</a>
 conecta clique com Ctrl a uma annotation e alterna legenda/escala/norte/rosa
 individualmente, sem substituir os componentes uns pelos outros.</p>
 <h2 id="evidência-e-limites">Evidência e limites</h2>
@@ -154,4 +154,4 @@ não há visibilidade individual de cada linha de tick para o caso misto de grid
 Atalhos de escalas logarítmicas, clipboard/help/quit_all não são implementados.
 Conferência visual/input nativo e CI remota continuam pendentes. Veja
 <a href="viewer-validation.html">validação desktop</a>; não se declara equivalência integral.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/viewer-input.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/viewer-input.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

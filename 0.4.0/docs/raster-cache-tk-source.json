@@ -1,0 +1,16 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tk": 8.6,
+  "checks": [
+    "unchanged redraws reuse exact RGBA while emitting each draw_event",
+    "back/forward/home reuse visited frames and restore exact original pixels",
+    "style and visibility edits rerasterize changed scenes",
+    "direct raster and static PNG equal cached current-view pixels",
+    "DPI changes invalidate dimensions and LRU respects retained pixel limits",
+    "optional cache retention failure still displays a fresh rendered frame",
+    "optional cache lookup allocation failure falls back to direct raster",
+    "closing releases active and all retained cached RGBA frames"
+  ],
+  "scope": "Real withdrawn Tk with programmatic input; no visible presentation or physical-input timing."
+}

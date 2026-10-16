@@ -1,0 +1,22 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tk": 8.6,
+  "checks": [
+    "single: callback observes registered first draw",
+    "single: grouped size/title/visibility edits update physical raster and preserve extent",
+    "single: DPI updates native canvas and typography",
+    "single: forward=False preserves widget request; static save DPI is temporary",
+    "atlas: callback observes registered first draw",
+    "atlas: grouped size/title/visibility edits update physical raster and preserve extent",
+    "atlas: DPI updates native canvas and typography",
+    "atlas: forward=False preserves widget request; static save DPI is temporary",
+    "nested: callback observes registered first draw",
+    "nested: grouped size/title/visibility edits update physical raster and preserve extent",
+    "nested: DPI updates native canvas and typography",
+    "nested: forward=False preserves widget request; static save DPI is temporary",
+    "failed first callback releases window, restores canvas/registry and permits retry",
+    "first draw callback can close its window without later widget access"
+  ],
+  "scope": "real withdrawn Tk; programmatic dimension/title edits; no physical input or perceptual latency"
+}

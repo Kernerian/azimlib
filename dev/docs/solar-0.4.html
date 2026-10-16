@@ -1,0 +1,157 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Terrestrial Sun — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="terrestrial-sun-04-development">Terrestrial Sun — 0.4 development</h1>
+<p>This is an original, bounded low-precision solar implementation, not a general
+ephemeris or a navigation/surveying service. Stable PyPI metadata remains 0.3.0;
+these APIs describe the local development tree.</p>
+<h2 id="model-provenance-and-limits">Model, provenance and limits</h2>
+<p><code>azim-usno-approx-v1</code> independently evaluates the published
+<a href="https://aa.usno.navy.mil/faq/sun_approx">USNO approximate solar equations</a>: mean
+anomaly/longitude, two periodic longitude terms, changing obliquity and orbital
+distance. No USNO/JPL/NOAA implementation, ephemeris library, kernel, leap table
+or EOP file is embedded. The equations are mathematical model definitions;
+source code was independently written. USNO identifies its public information
+as reusable subject to stated exceptions and requests credit in its
+<a href="https://aa.usno.navy.mil/about/PrivacyNotice">notice</a>.</p>
+<p>Supported UTC years are <strong>1972–2100</strong>, inclusive, at terrestrial WGS84 observers
+with heights from −10,000 to 100,000 metres. The API rejects naive datetimes,
+pre-1972 UTC, leap-second labels and extrapolation past the supported years.
+The published model is approximately one arcminute over a wider interval;
+Azimlib adopts a conservative <strong>0.05° model allowance</strong>, plus Earth-rotation
+uncertainty <code>360.98564736629 / 86400 × offset_uncertainty_seconds</code>.
+This is a declared engineering budget, not a statistical confidence interval
+or a proof for every instant. It excludes weather, terrain horizons, clock
+errors exceeding supplied bounds and arbitrary observer-position errors.
+Distance validation uses a relative tolerance of <strong>0.0003</strong>.</p>
+<p>The solar longitude includes the approximate aberration in the published
+model. <code>aberration=False</code> removes its leading 20.49 arcsecond/distance term.
+There is no full nutation/precession/relativity or light-time iteration.
+RA/declination use the approximate date equator; Earth-fixed direction uses
+mean sidereal rotation on UT1. Calling it apparent does not promise an exact
+IAU/GCRS/CIRS apparent frame. <code>parallax=True</code> translates the finite geocentric
+position by the observer's WGS84 ECEF position before computing ENU angles;
+<code>False</code> uses the parallel geocentric direction.</p>
+<h2 id="explicit-clocks-and-angles">Explicit clocks and angles</h2>
+<p>The default <code>SolarModel()</code> is strict: supply <code>SolarTimeOffsets</code> for <strong>both</strong>
+TAI−UTC (TT = TAI + 32.184 s) and UT1−UTC over an explicit validity interval.
+An offsets callable may select intervals, including leap boundaries. TT drives
+the orbital terms and UT1 the sidereal rotation. Provenance and an uncertainty
+bound are required by the existing <a href="foundation-0.4.html">time contract</a>.
+No time corrections are downloaded or inferred.</p>
+<p>For illustrations, <code>SolarModel(time_policy=&quot;utc-approx&quot;)</code> explicitly uses
+UTC as TT and UT1, with a one-second rotation allowance. Supplying offsets to
+this policy fails rather than ignoring them. This approximation remains part
+of the returned state and is unsuitable for precision timing.</p>
+<pre><code class="language-python">from datetime import datetime, timezone
+import azimlib as azl                    # azimlib.pyplot also works
+
+model = azl.SolarModel(time_policy=&quot;utc-approx&quot;)
+observer = azl.SolarObserver(-46.63, -23.55, height=0)
+sun = model.position(datetime(2025, 6, 21, 12, tzinfo=timezone.utc), observer)
+print(sun.azimuth, sun.elevation, sun.subsolar)
+manual = azl.SunDirection(azimuth=90, elevation=30, observer=observer)
+</code></pre>
+<p>Angles are degrees; longitude is east-positive, latitude north-positive.
+Azimuth increases clockwise from north; elevation is above the local tangent
+plane. ENU unit vectors mean east/north/up. Distances and observer height are
+metres. <code>SunDirection</code> is manual: no date, distance, terminator or physical
+solar ephemeris is invented. A manual geographic point requires an observer.</p>
+<p><code>SunPosition.fixed</code> is a frame-tagged Earth-fixed metre vector.
+<code>lighting_direction</code> is a normalized observer-to-Sun ENU vector before optical
+refraction, using the selected parallax/aberration model. This provides the
+shared geometry for stage 13; it does not itself implement terrain shadows or
+eclipses. <code>fixed_direction</code> is the geocentric unit vector.</p>
+<h2 id="optical-refraction-and-events">Optical refraction and events</h2>
+<p>Refraction is disabled by default. <code>SolarRefraction(pressure_hpa=1010, temperature_c=10)</code> independently evaluates the piecewise angular approximation
+described by <a href="https://gml.noaa.gov/grad/solcalc/calcdetails.html">NOAA</a>.
+It is an average optical estimate, not observed atmosphere or ray tracing.
+It is zero below −1° and above 85°; the low-altitude cutoff is explicit and
+not a continuous atmospheric extrapolation. Zero pressure disables it.
+<code>geometric_elevation</code> and <code>refraction_degrees</code> remain separately inspectable;
+the lighting vector is never bent by refraction.</p>
+<p><code>model.events(date, observer, zone=timezone.utc)</code> returns all rises, sets and
+upper meridian transits within the civil day, plus first-event convenience
+properties. Timezones are explicit; DST days use their actual UTC duration.
+The default geometric center threshold is −5/6° plus <code>observer.horizon</code>, an
+average upper-limb/refraction convention consistent with
+<a href="https://aa.usno.navy.mil/faq/RST_defs">event definitions</a>.
+No second refraction correction is applied. Height-dependent horizon dip,
+weather and variable obstacles are <strong>not inferred</strong>; supply the desired center
+threshold/horizon explicitly. A positive horizon delays rise and advances set.</p>
+<p>Roots use bounded ten-minute bracketing and ≤0.25-second numeric refinement;
+numeric convergence is not physical accuracy. The independent normal-latitude
+event validation tolerance is 120 seconds. Near tangency, timing uncertainty
+grows as angular budget / elevation rate; no universal polar timing accuracy
+is asserted. Status is <code>crossings</code>, <code>always_above</code>, <code>always_below</code> or
+<code>grazing_or_uncertain</code>. The latter is not silently converted to a fabricated
+sunrise. Very short events within an unsampled ten-minute extremum can remain
+unresolved; this is not an exhaustive grazing-event solver. At exact poles,
+the meridian is undefined, so transits are absent. Their azimuth remains the
+explicit observer-frame convention, not a unique physical north direction.
+An event interval must lie wholly within model/time-correction validity.</p>
+<p><code>model.seasons(year)</code> solves solar ecliptic longitude 0°, 90°, 180°, 270°.
+These approximate instants are not high-precision almanac entries: the angular
+budget corresponds to roughly two hours of seasonal timing, not subsecond
+physical precision despite numeric root refinement.</p>
+<h2 id="optional-artists-projections-and-time">Optional Artists, projections and time</h2>
+<pre><code class="language-python">fig, ax = azl.subplots(figsize=(8, 4))
+ax.map(&quot;world&quot;, facecolor=&quot;#e6ebee&quot;, linewidth=0.3)
+night = ax.nightshade(sun, model=model, step=3, alpha=0.25)
+boundary = ax.solar_terminator(sun, model=model)
+marker = ax.sun(sun, model=model, annotation=&quot;Subsolar point&quot;)
+marker.set_picker(4)
+marker.set_time(datetime(2025, 6, 21, 15, tzinfo=timezone.utc))
+marker.set_visible(False)
+fig.savefig(&quot;solar.svg&quot;)
+</code></pre>
+<p>No solar component is inserted by default. Handles support visibility, removal
+and the existing style/picking contracts. Marker labels use a white outline,
+not a compulsory background box. <code>set_position</code> prevalidates observer identity
+before changing geometry; <code>set_time</code> uses the explicitly stored model/offsets.
+Attaching a precomputed state alone does not silently opt into approximate UTC
+for future edits. <code>set_manual</code> exists on the geographic marker.</p>
+<p>The subsolar point is geocentric on the model sphere, not a claim about an
+ellipsoidal terrain zenith. The terminator is the perpendicular great circle
+for parallel solar rays, using the own projection and antimeridian pipeline.
+<code>night_region()</code> returns an analytic spherical hemisphere. <code>nightshade</code> is a
+cell-center approximation at explicit 1–30° geographic resolution: its boundary
+can differ from the continuous terminator by about one cell diagonal. Cells
+without visible orthographic area are excluded analytically. This does not
+close the separate general topology/visual acceptance gate in 14.05.</p>
+<p>For apparent daily/seasonal trajectories, <code>model.path(instants, observer)</code>
+requires 2–4096 strictly increasing instants. <code>ax.sun_path(path)</code> on 3D axes
+draws an ENU ribbon; <code>ax.sun(state)</code> draws a round planar sky marker. Both use
+the existing 3D camera/depth/export system and the observer's <code>LocalFrame</code>
+(its origin latitude must be within ±89°). <strong>visual_radius</strong> and marker/ribbon
+sizes are explicit illustrative metre coordinates centered on the diagram's
+local origin, not the real Sun distance, diameter or observer-height geometry.
+They must not be reused as physical occluders for eclipse calculations.</p>
+<p><code>TemporalSeries(times, states).bind(marker)</code> works for markers, nightshade and
+3D sky markers, retaining the Artist and camera. Every frame is validated for
+observer identity; dated frames must match their calculated instants. These
+are direction bindings, so scalar normalization policies are rejected.
+<code>FuncAnimation</code> supplies existing playback and PNG/GIF exports; map SVG/PDF
+remain vector, while 3D SVG/PDF use their established raster-layer policy.
+<code>show()</code> remains separate and uses existing optional native backends.</p>
+<h2 id="reproducible-validation-and-reference-boundaries">Reproducible validation and reference boundaries</h2>
+<ul>
+<li><code>examples/solar_maps.py</code>: world/globe and seasonal sky; no external ephemeris.</li>
+<li><code>tests/test_solar_040.py</code>: time contracts, manual frames, parallax/refraction,
+root residuals, polar/grazing status, projection/limb, editing, picking and time.</li>
+<li><code>tools/validate_solar.py --references EXTERNAL_DIRECTORY --fetch --report REPORT.json</code>
+makes 13 bounded sequential public Horizons requests. Raw responses stay
+outside the repository; omit <code>--fetch</code> to repeat from identical inputs.
+Reports record exact queries, signature, SHA-256 and original error statistics.
+The predetermined limits are 0.06° angular, 0.0003 relative range and 120 s
+for the tested event crossings/transits. Inputs cover 1972–2100, four seasons,
+six observer sites, 2,500 m height, the dateline and both exact poles.</li>
+<li><a href="solar-validation-0.4.json">Local validation report</a>.</li>
+</ul>
+<p><a href="https://ssd.jpl.nasa.gov/horizons/manual.html">JPL Horizons</a> supplies independent
+reference calculations only. Its <a href="https://ssd.jpl.nasa.gov/faq.html">terms</a>
+are separate from Azimlib's BSD license: <strong>no raw Horizons responses, reference
+numerical tables, kernels or JPL code are distributed</strong>. Validation uses an
+approximate date frame versus Horizons' fuller apparent frame; polar azimuth
+and meridian are excluded because their conventions are not equivalent, while
+polar RA/declination, elevation and no-rise/no-set status are checked. Published
+reports contain Azimlib's own analysis and source hashes/queries, not a copied
+ephemeris. General font/dataset/export notices remain applicable.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/solar-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

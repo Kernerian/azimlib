@@ -1,0 +1,24 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tk": 8.6,
+  "checks": [
+    "real widgets, toolbar, canvas, optional components, callback transfer",
+    "batched edits, visibility and live own Scene in draw_event",
+    "direct RGBA without PNG codec/initial copy; previous image closed",
+    "registered Motion binding and synthetic cursor coordinates",
+    "normalized keys/modifiers, editable keymap and Ctrl+S cancellation",
+    "middle/double-click input exposed without starting a pan drag",
+    "axes/figure transitions, cursor-targeted keys and major/minor grid cycles",
+    "pan preview/recomposition, shared axes, Home/Back/Forward toolbar",
+    "rectangle zoom, rubberband cleanup and fractional scroll",
+    "overview recentering, focus and optional visibility",
+    "registered Configure binding, real debounce timer and resized scene",
+    "Save toolbar writes static PNG/SVG; dialog cancellation",
+    "close cancels pending work, unregisters window and releases images"
+  ],
+  "timings": {
+    "first_draw_seconds": 0.7024573999988206
+  },
+  "scope": "withdrawn real Tk windows; synthetic input; not visual OS comparison"
+}

@@ -1,0 +1,16 @@
+{
+  "source": "examples/urban.py; original synthetic features and composition",
+  "renderer": "Azimlib own PNG renderer",
+  "license": "BSD-3-Clause",
+  "copyright": "2026 Kernerian",
+  "files": [
+    {
+      "file": "urban.png",
+      "sha256": "42190c5bc403e3c4f77df97f59cb66441af5cf017b705dc407c3441b4ebcdf3c",
+      "pixels": [
+        1000,
+        500
+      ]
+    }
+  ]
+}

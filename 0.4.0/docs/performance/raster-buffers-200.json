@@ -1,0 +1,73 @@
+{
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "dpi": 200,
+  "repeats": 2,
+  "points": 1500,
+  "renderer_source_sha256": {
+    "before": {
+      "pillow.py": "0df7334cd8b68bde883611880588d83aa739fe44836f4b2b63139851c8195cfd",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    },
+    "after": {
+      "pillow.py": "4778285f84103e6ff6017b79c3030e8fcd41369845893dbea389556062cc28cc",
+      "coverage.py": "b7bea2b0eec90ecd8f9100d39c50e35a4de25aa6ba3580d0f41445ad94ef27d1"
+    }
+  },
+  "policy": "Each pair reverses before/after order; one immutable scene per case; PNG encoding included; no profiling or memory instrumentation.",
+  "cases": [
+    {
+      "name": "state",
+      "items": 137,
+      "samples_seconds": {
+        "before": [
+          3.5694679000007454,
+          3.6836122999993677
+        ],
+        "after": [
+          3.7500249999993684,
+          3.6006218000002264
+        ]
+      },
+      "before_median_seconds": 3.6265401000000566,
+      "after_median_seconds": 3.6753233999997974,
+      "reduction_percent": -1.3451747024592509,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be"
+        ],
+        "after": [
+          "fc3784eafebdbecf751f7e9db3b784f5b4769e04695c6d3c0e6620b29af9a3be"
+        ]
+      }
+    },
+    {
+      "name": "atlas",
+      "items": 656,
+      "samples_seconds": {
+        "before": [
+          15.332978300000832,
+          15.081486199998835
+        ],
+        "after": [
+          14.580769899999723,
+          14.691312999999354
+        ]
+      },
+      "before_median_seconds": 15.207232249999834,
+      "after_median_seconds": 14.636041449999539,
+      "reduction_percent": 3.756047061096879,
+      "identical_png": true,
+      "png_sha256": {
+        "before": [
+          "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827"
+        ],
+        "after": [
+          "0e276b6814e6256d19f6b5c925c3cac7deac929c3ba4df751b32a24104eba827"
+        ]
+      }
+    }
+  ]
+}

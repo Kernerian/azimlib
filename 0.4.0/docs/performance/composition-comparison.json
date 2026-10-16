@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "azimlib_version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pillow_version": "12.3.0",
+  "dpi": 100,
+  "repeats": 4,
+  "baseline_sha256": "b43c204c083c8653bbb95f062e86f8fd68dcfc60567e4fbc7269ee8546674c85",
+  "notes": [
+    "Serial alternating warm-composition trials; no GUI/event-loop latency measurement.",
+    "All three modes use current immutable geometry bounds; before replaces only Viewport.",
+    "PNG comparisons use one output per mode, after timing, without file I/O in timings.",
+    "dense contains 2501 synthetic polygons, not municipal boundaries.",
+    "Results are local observations, not a general speed guarantee."
+  ],
+  "cases": [
+    {
+      "name": "state",
+      "samples_seconds": {
+        "before": [
+          0.3336929000015516,
+          0.36571729999923264,
+          0.3858044000007794,
+          0.38426439999966533
+        ],
+        "cached_full": [
+          0.3078509999995731,
+          0.36635410000053525,
+          0.33634210000127496,
+          0.4266182999999728
+        ],
+        "cached_culled": [
+          0.10730729999886535,
+          0.12246330000016314,
+          0.12117229999967094,
+          0.11796529999992345
+        ]
+      },
+      "median_seconds": {
+        "before": 0.374990849999449,
+        "cached_full": 0.3513481000009051,
+        "cached_culled": 0.11956879999979719
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.33774049999919953,
+          0.3928636999989976,
+          0.3560056000005716,
+          0.37548009999954957
+        ],
+        "cached_full": [
+          0.3111431999986962,
+          0.35705310000048485,
+          0.3483195999997406,
+          0.34386520000043674
+        ],
+        "cached_culled": [
+          0.0901651000003767,
+          0.09670760000153678,
+          0.10028819999934058,
+          0.12059140000019397
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.36574285000006057,
+        "cached_full": 0.3460924000000887,
+        "cached_culled": 0.09849790000043868
+      },
+      "items": {
+        "before": 137,
+        "cached_full": 137,
+        "cached_culled": 82
+      },
+      "identical_png": true,
+      "png_sha256": {
+        "before": "ced87b9dbd78b2bad6ca85e47adf72a4beaeb34ca244b483c881f75df5b616cd",
+        "cached_full": "ced87b9dbd78b2bad6ca85e47adf72a4beaeb34ca244b483c881f75df5b616cd",
+        "cached_culled": "ced87b9dbd78b2bad6ca85e47adf72a4beaeb34ca244b483c881f75df5b616cd"
+      },
+      "reduction_percent_vs_before": {
+        "cached_full": 6.304887172201301,
+        "cached_culled": 68.11420865336504
+      }
+    },
+    {
+      "name": "brazil",
+      "samples_seconds": {
+        "before": [
+          0.5846447999992961,
+          0.7105000000010477,
+          0.8455212000008032,
+          0.5850276999990456
+        ],
+        "cached_full": [
+          0.622502500000337,
+          0.665500000000975,
+          0.5557958999997936,
+          0.5562546999990445
+        ],
+        "cached_culled": [
+          0.5020721000000776,
+          0.6180676000003587,
+          0.48892809999961173,
+          0.4510580999995
+        ]
+      },
+      "median_seconds": {
+        "before": 0.6477638500000467,
+        "cached_full": 0.5893785999996908,
+        "cached_culled": 0.4955000999998447
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.5735844999999244,
+          0.7340648999997939,
+          0.6700878999999986,
+          0.6291970000002038
+        ],
+        "cached_full": [
+          0.5926823999998305,
+          0.6841819000001124,
+          0.6044865999992908,
+          0.5879120000008697
+        ],
+        "cached_culled": [
+          0.5342703000005713,
+          0.5325952999992296,
+          0.5113117000000784,
+          0.48495569999977306
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.6496424500001012,
+        "cached_full": 0.5985844999995606,
+        "cached_culled": 0.521953499999654
+      },
+      "items": {
+        "before": 568,
+        "cached_full": 568,
+        "cached_culled": 323
+      },
+      "identical_png": true,
+      "png_sha256": {
+        "before": "c3508542ee87e8deb80edd42730aaaf001b2af4c1b896ca6a5534db1746fa291",
+        "cached_full": "c3508542ee87e8deb80edd42730aaaf001b2af4c1b896ca6a5534db1746fa291",
+        "cached_culled": "c3508542ee87e8deb80edd42730aaaf001b2af4c1b896ca6a5534db1746fa291"
+      },
+      "reduction_percent_vs_before": {
+        "cached_full": 9.013354172257637,
+        "cached_culled": 23.506058573690247
+      }
+    },
+    {
+      "name": "atlas",
+      "samples_seconds": {
+        "before": [
+          1.3138383000004978,
+          1.2636366000006092,
+          1.1442876000000979,
+          1.3404601000002003
+        ],
+        "cached_full": [
+          1.0781585999993695,
+          1.1012126000005082,
+          0.9990917000013724,
+          1.138286600000356
+        ],
+        "cached_culled": [
+          0.6705452000005607,
+          0.6859228000012081,
+          0.7293998999994074,
+          0.6621288000005734
+        ]
+      },
+      "median_seconds": {
+        "before": 1.2887374500005535,
+        "cached_full": 1.0896855999999389,
+        "cached_culled": 0.6782340000008844
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          1.1524767000009888,
+          1.2463435999998183,
+          1.1525676000001113,
+          1.1734353999981977
+        ],
+        "cached_full": [
+          1.0870973000000959,
+          1.067509100001189,
+          1.0277454999995825,
+          1.1470646999987366
+        ],
+        "cached_culled": [
+          0.6310255999997025,
+          0.6637069000007614,
+          0.7112347999991471,
+          0.689755100000184
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 1.1630014999991545,
+        "cached_full": 1.0773032000006424,
+        "cached_culled": 0.6767310000004727
+      },
+      "items": {
+        "before": 656,
+        "cached_full": 656,
+        "cached_culled": 549
+      },
+      "identical_png": true,
+      "png_sha256": {
+        "before": "8f9af81fb924967db2ed7a80a619e85d2be4d451af637a0a812af31b2b7c3c56",
+        "cached_full": "8f9af81fb924967db2ed7a80a619e85d2be4d451af637a0a812af31b2b7c3c56",
+        "cached_culled": "8f9af81fb924967db2ed7a80a619e85d2be4d451af637a0a812af31b2b7c3c56"
+      },
+      "reduction_percent_vs_before": {
+        "cached_full": 15.445492796110582,
+        "cached_culled": 47.372213013551125
+      }
+    },
+    {
+      "name": "dense",
+      "samples_seconds": {
+        "before": [
+          0.22625449999941338,
+          0.22422000000005937,
+          0.21970059999875957,
+          0.2066646999992372
+        ],
+        "cached_full": [
+          0.18009629999869503,
+          0.2479299999995419,
+          0.1918745000002673,
+          0.19007070000043313
+        ],
+        "cached_culled": [
+          0.04919090000112192,
+          0.039117000000260305,
+          0.03602529999989201,
+          0.03761730000042007
+        ]
+      },
+      "median_seconds": {
+        "before": 0.22196029999940947,
+        "cached_full": 0.1909726000003502,
+        "cached_culled": 0.03836715000034019
+      },
+      "zoom_samples_seconds": {
+        "before": [
+          0.21785579999959737,
+          0.26130059999923105,
+          0.2069803000013053,
+          0.20178850000047532
+        ],
+        "cached_full": [
+          0.1908621000002313,
+          0.21781519999967713,
+          0.17189810000127181,
+          0.18843650000053458
+        ],
+        "cached_culled": [
+          0.038456300000689225,
+          0.0383544999986043,
+          0.03658420000101614,
+          0.037009300000136136
+        ]
+      },
+      "zoom_median_seconds": {
+        "before": 0.21241805000045133,
+        "cached_full": 0.18964930000038294,
+        "cached_culled": 0.037681899999370216
+      },
+      "items": {
+        "before": 2535,
+        "cached_full": 2535,
+        "cached_culled": 58
+      },
+      "identical_png": true,
+      "png_sha256": {
+        "before": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7",
+        "cached_full": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7",
+        "cached_culled": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7"
+      },
+      "reduction_percent_vs_before": {
+        "cached_full": 13.960920038016578,
+        "cached_culled": 82.71440883777763
+      }
+    }
+  ]
+}

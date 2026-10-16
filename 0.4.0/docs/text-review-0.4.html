@@ -1,0 +1,71 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Revisão humana 7.08 — tipografia internacional · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="revisão-humana-708-tipografia-internacional">Revisão humana 7.08 — tipografia internacional</h1>
+<p>O item <strong>7.08 permanece pendente</strong> até haver aceite explícito em Windows,
+Linux e macOS. Gerar arquivos ou passar testes não substitui essa inspeção.
+O workflow manual <code>text-review-0.4.yml</code> prepara três artifacts independentes:
+<code>azimlib-0.4-complex-text-windows</code>, <code>azimlib-0.4-complex-text-linux</code> e
+<code>azimlib-0.4-complex-text-macos</code>. Não publica documentação ou pacotes.</p>
+<h2 id="arquivos-a-comparar">Arquivos a comparar</h2>
+<p>Abra <code>index.html</code> de cada artifact, mantendo as três pastas separadas.
+Compare arquivos de mesmo nome, em tamanho natural, com o mesmo visualizador.
+<code>manifest.json</code> registra fontes fixadas, versões dos motores, hashes das saídas
+e do código. Exija o mesmo código e fontes nas três plataformas. Os hashes dos
+PNG não precisam ser iguais entre sistemas; investigue diferenças visuais.</p>
+<table>
+<thead>
+<tr>
+<th>Arquivo</th>
+<th>Verificação</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>specimens.png</code>, <code>.svg</code>, <code>.pdf</code></td>
+<td>Acentos compostos, ligaturas, conexão árabe, números/pontuação em RTL/LTR, devanágari e cobertura CJK</td>
+</tr>
+<tr>
+<td><code>multilingual-map-100dpi.*</code></td>
+<td>Labels, título, eixos, legenda, colorbar e texto sobre curva sem cortes ou colisões inesperadas</td>
+</tr>
+<tr>
+<td><code>multilingual-map-200dpi.*</code></td>
+<td>Mesmo tamanho físico, contornos nítidos, rotações e espaçamentos consistentes</td>
+</tr>
+<tr>
+<td><code>multilingual-map.html</code></td>
+<td>Abertura offline, textos e controles; conferir limites documentados da recomposição no navegador</td>
+</tr>
+<tr>
+<td><code>tk-multilingual-native.png</code>, <code>qt-multilingual-native.png</code></td>
+<td>Canvas do aplicativo correto, texto, toolbar, escala do sistema e margens</td>
+</tr>
+<tr>
+<td><code>unicode-conformance.json</code>, <code>licenses.json</code>, <code>source-privacy.json</code></td>
+<td>Execução completa aprovada e avisos preservados</td>
+</tr>
+</tbody>
+</table>
+<p>As referências são saídas da própria Azimlib. Não são renderizações de outra
+biblioteca. Capturas estáticas não medem fluidez: em uma sessão interativa de
+cada sistema, confira pan, zoom, Home, redimensionamento e edição de texto.
+O runner Linux usa Xvfb com plugin Qt nativo XCB; isso não comprova todas as
+combinações de compositor/monitor de um desktop Linux real.</p>
+<h2 id="checklist-de-aceite-por-sistema">Checklist de aceite por sistema</h2>
+<ul>
+<li>[ ] Windows: PNG/SVG/PDF, scripts, rotações/DPI e Tk/Qt conferidos.</li>
+<li>[ ] Linux: PNG/SVG/PDF, scripts, rotações/DPI e Tk/Qt conferidos.</li>
+<li>[ ] macOS: PNG/SVG/PDF, scripts, rotações/DPI e Tk/Qt conferidos.</li>
+<li>[ ] Identificador da execução, commit/hashes de origem e observações registrados.</li>
+<li>[ ] Aceite humano explícito dos três sistemas registrado no item 7.08.</li>
+</ul>
+<p>Para preparar localmente, instale os extras <code>text,gui,qt</code>, adquira as fontes
+explicitamente e use um diretório de saída novo:</p>
+<pre><code class="language-bash">python -I tools/acquire_text_fonts.py --output .text-fonts
+python -I tools/validate_text_engine.py --fonts .text-fonts --output text-review --native
+</code></pre>
+<p>O gerador inclui este roteiro no pacote. Não captura o desktop arbitrariamente:
+Tk verifica o canvas antes de salvar e Qt captura sua própria janela.</p>
+<p>Antes da inspeção, a ferramenta abaixo confere hashes, capturas nativas e a
+mesma origem/fontes nos três pacotes. Ela <strong>nunca registra aceite humano</strong>:</p>
+<pre><code class="language-bash">python -I tools/compare_text_review.py --packet windows --packet linux --packet macos --report comparison.json
+</code></pre>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/text-review-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

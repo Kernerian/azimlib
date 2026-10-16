@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Interação e integração — desenvolvimento 0.3.0 · Azimlib 0.3.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.3.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.3.html">Migration</a><a href="../docs/gallery-0.3.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.3.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="interação-e-integração-desenvolvimento-030">Interação e integração — desenvolvimento 0.3.0</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Interação e integração — desenvolvimento 0.3.0 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="interação-e-integração-desenvolvimento-030">Interação e integração — desenvolvimento 0.3.0</h1>
 <p>O runtime continua próprio. Tk é o viewer padrão; Qt, notebook e uma sessão
 HTTP <strong>explicitamente local</strong> são opcionais. A versão publicada 0.2.0 não muda.
 Para usar estes recursos, instale o checkout 0.3 com <code>python -m pip install &quot;.[qt,notebook]&quot;</code>
@@ -163,15 +163,15 @@ During navigation only, circle centers quantize to 1/16 supersample pixel
 settled frames/exports are exact. Viewer tiles retain at most 512 entries/16 MiB
 (default standalone TileCache remains 128); large primitive tiles are excluded.
 This preview policy is explicit, not a claim of pixel-identical preview/export.</p>
-<p><a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/benchmark_interaction.py">benchmark_interaction.py</a> records first
+<p><a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/benchmark_interaction.py">benchmark_interaction.py</a> records first
 composition/raster, pan p95/median, with/without labels, separate Python allocation
 peak, cache payload and PNG/SVG/PDF time/size. Default synthetic cases use 400
 streets and 5000 points at 640×480. Tracemalloc runs separately from timing;
 native/Pillow/Qt memory, human-input latency and hardware-independent FPS are
 not inferred. There is no performance promise for 500000 points or dense labels.</p>
-<p>See <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/examples/interactive_layers.py">example</a>, <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tests/test_interaction_integration.py">integration tests</a>,
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_interaction_tk.py">Tk smoke</a>, <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_interaction_qt.py">Qt smoke</a>,
-<a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/smoke_notebook.py">IPython smoke</a>, <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/tools/check_live_viewer.js">client protocol test</a>
+<p>See <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/interactive_layers.py">example</a>, <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tests/test_interaction_integration.py">integration tests</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_interaction_tk.py">Tk smoke</a>, <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_interaction_qt.py">Qt smoke</a>,
+<a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/smoke_notebook.py">IPython smoke</a>, <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/tools/check_live_viewer.js">client protocol test</a>
 and <a href="dependencies.html">dependency terms</a>. Native Windows is checked locally;
 Linux/macOS and frontend/native human acceptance must only be claimed from
 their actual executions, never from an offscreen fixture.</p>
@@ -188,4 +188,4 @@ coverage is verified separately against disk-area mathematics; image/PNG and
 full/banded composition must still match byte for byte. This deliberate circle
 geometry change is not hidden by replacing the frozen baseline or broadening
 an arbitrary visual tolerance.</p>
-<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/d14469929927d3b83227f3c297799a14bd627c54/docs/interaction.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/interaction.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

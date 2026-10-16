@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "azimlib_version": "0.1.0",
+  "pillow_version": "12.3.0",
+  "repeats": 6,
+  "source_sha256": {
+    "before": "5002fff902ef4ad06d3a3c4881c188b08277a1cf1f91b2d7826af4cd80b75102",
+    "packed_str": "114e32eb0a40bc9982d7d5c73a4c7584b752531d45e3e468ab9fc96f0a0356b4"
+  },
+  "notes": [
+    "Own median-split BVH versus own packed float64 STR hierarchy.",
+    "Fresh index per preparation sample; same source geometries and already cached bounds.",
+    "Alternating serial timings; memory, Scene and PNG verification outside preparation/query timing.",
+    "Python index allocation excludes source data/bounds, native buffers/RSS and painting.",
+    "Synthetic polygons, not municipal boundaries; not GUI latency or general speed guarantees."
+  ],
+  "cases": [
+    {
+      "name": "dense",
+      "features": 2501,
+      "samples_seconds": {
+        "before": [
+          0.04333690000021306,
+          0.04584709999835468,
+          0.04810619999989285,
+          0.04478860000017448,
+          0.045778000001519104,
+          0.046711899998626905
+        ],
+        "packed_str": [
+          0.03807079999933194,
+          0.03932130000066536,
+          0.039554500001031556,
+          0.03858159999981581,
+          0.04121060000034049,
+          0.04256060000079742
+        ]
+      },
+      "median_seconds": {
+        "before": 0.04581254999993689,
+        "packed_str": 0.03943790000084846
+      },
+      "query_samples_seconds": {
+        "before": {
+          "focused": [
+            1.847300000008545e-05,
+            1.9178999991709134e-05,
+            1.862499999333522e-05,
+            1.839400001699687e-05,
+            1.8302999997104053e-05,
+            1.831100000345032e-05
+          ],
+          "all": [
+            0.0008038380000107282,
+            0.0008075190000090515,
+            0.0007810910000080185,
+            0.0007821030000013707,
+            0.0008082949999879929,
+            0.000798517000002903
+          ]
+        },
+        "packed_str": {
+          "focused": [
+            1.8856999995477965e-05,
+            1.898599999549333e-05,
+            1.8703000005189097e-05,
+            2.0244999996066325e-05,
+            1.9831999998132234e-05,
+            1.8618000012793345e-05
+          ],
+          "all": [
+            0.00010149900001124479,
+            9.990299999117269e-05,
+            0.00010040600000138511,
+            9.821200001169927e-05,
+            0.00010713100000430132,
+            9.988699999667005e-05
+          ]
+        }
+      },
+      "query_median_seconds": {
+        "before": {
+          "focused": 1.843350000854116e-05,
+          "all": 0.0008011775000068156
+        },
+        "packed_str": {
+          "focused": 1.8921499995485648e-05,
+          "all": 0.0001001544999962789
+        }
+      },
+      "query_candidates": {
+        "focused": 24,
+        "all": 2501
+      },
+      "python_index_allocation_bytes": {
+        "before": {
+          "retained": 1107495,
+          "peak": 1390599
+        },
+        "packed_str": {
+          "retained": 523081,
+          "peak": 938239
+        }
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "before": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7",
+        "packed_str": "b1e4550e8b7b26b6c317eb0fe9b28bde690900c83c4507e4ed5780f9fe2c0fb7"
+      }
+    },
+    {
+      "name": "large",
+      "features": 20000,
+      "samples_seconds": {
+        "before": [
+          0.44708170000012615,
+          0.40954969999984314,
+          0.40970019999986107,
+          0.4414758000002621,
+          0.3947844000012992,
+          0.40659539999978733
+        ],
+        "packed_str": [
+          0.4380173999998078,
+          0.3199780000013561,
+          0.32150910000018484,
+          0.35739509999984875,
+          0.3558907000006002,
+          0.33935420000125305
+        ]
+      },
+      "median_seconds": {
+        "before": 0.4096249499998521,
+        "packed_str": 0.3476224500009266
+      },
+      "query_samples_seconds": {
+        "before": {
+          "focused": [
+            0.00011357399998814798,
+            6.47439999920607e-05,
+            6.494699999166188e-05,
+            7.02389999969455e-05,
+            6.403900000805152e-05,
+            6.380599999829428e-05
+          ],
+          "all": [
+            0.012208126000004996,
+            0.012748375999999553,
+            0.01689034900000479,
+            0.015930790999991586,
+            0.013192999999992025,
+            0.014489312999994581
+          ]
+        },
+        "packed_str": {
+          "focused": [
+            8.543800000552437e-05,
+            7.19560000106867e-05,
+            6.635699999606004e-05,
+            6.575299999894924e-05,
+            7.75219999923138e-05,
+            0.00011387700000341283
+          ],
+          "all": [
+            0.0019352020000042102,
+            0.0017971790000046895,
+            0.0025154880000081902,
+            0.0026586129999850525,
+            0.0026092820000121718,
+            0.0024891939999906756
+          ]
+        }
+      },
+      "query_median_seconds": {
+        "before": {
+          "focused": 6.484549999186129e-05,
+          "all": 0.013841156499993304
+        },
+        "packed_str": {
+          "focused": 7.473900000150026e-05,
+          "all": 0.0025023409999994327
+        }
+      },
+      "query_candidates": {
+        "focused": 108,
+        "all": 20000
+      },
+      "python_index_allocation_bytes": {
+        "before": {
+          "retained": 6829232,
+          "peak": 12164496
+        },
+        "packed_str": {
+          "retained": 2217505,
+          "peak": 10937920
+        }
+      },
+      "identical_scene": true,
+      "identical_png": true,
+      "png_sha256": {
+        "before": "e969a2a679b9bfe07e524b03cd6f0c9cacc2a2c0c65c57d87c355518d2e07de7",
+        "packed_str": "e969a2a679b9bfe07e524b03cd6f0c9cacc2a2c0c65c57d87c355518d2e07de7"
+      }
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Terrestrial Moon and Earth–Moon scenes — 0.4 development · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="terrestrial-moon-and-earthmoon-scenes-04-development">Terrestrial Moon and Earth–Moon scenes — 0.4 development</h1>
+<p>Independent standard-library numerics; no ephemeris engine, kernel, network or
+downloaded table at runtime. These APIs describe development sources; stable
+metadata stays 0.3.0.</p>
+<h2 id="model-provenance-and-precision">Model, provenance and precision</h2>
+<p><code>azim-almanac-short-v1</code> evaluates the short Almanac lunar series reproduced in
+equations <strong>1–4</strong>, pages 176–177 of David G. Simpson, <em>An Alternative Lunar
+Ephemeris Model for On-Board Flight Software Use</em>, NASA GSFC, 1999 Flight
+Mechanics Symposium. The <a href="https://ntrs.nasa.gov/citations/19990040527">NTRS record</a>
+identifies it as a US government work permitting public use. NTRS dates the
+record 1998; the <a href="https://caps.gsfc.nasa.gov/simpson/pubs/slunar.pdf">paper</a>
+bears the 1999 symposium header. This uses the review's <strong>mean-of-date</strong> series,
+not the paper's later direct J2000 alternative. See
+<a href="lunar-model-0.4.json">model provenance</a>. No third-party code or paper text is
+bundled. Model definitions are not claimed as exclusive Azimlib property.</p>
+<p>Longitude has six periodic terms, latitude four, horizontal parallax four.
+Distance uses the model's historical IAU-1976 radius <strong>6,378,140 m</strong>, distinct
+from the WGS84 observer ellipsoid. Ecliptic-of-date coordinates rotate by date
+obliquity <code>23.439291111 - 0.0130042 T</code> degrees and mean sidereal angle on UT1.
+This approximate date equator is not exact GCRS/CIRS, J2000 or ITRF.</p>
+<p>Validity: <strong>1972–2100 UTC</strong>, WGS84 observer heights −10,000…100,000 m.
+Engineering allowances: <strong>0.5°</strong> plus <code>0.0043 × clock_uncertainty_seconds</code>, and
+<strong>5,000 km</strong> in range. These conservative budgets are not confidence intervals
+or proofs for every instant. There is no full lunar theory, light-time
+iteration, stellar aberration, nutation, polar motion, lunar libration,
+surface texture or perturbation integration. Eclipse contact/timing requires
+a separately validated accuracy contract in stage 13.</p>
+<h2 id="position-clocks-and-corrections">Position, clocks and corrections</h2>
+<pre><code class="language-python">from datetime import datetime, timezone
+import azimlib as azl
+
+model = azl.LunarModel(time_policy=&quot;utc-approx&quot;)
+observer = azl.SolarObserver(-46.63, -23.55, height=0)
+moon = model.position(datetime(2025, 1, 7, 12, tzinfo=timezone.utc), observer)
+print(moon.sublunar, moon.distance_m, moon.topocentric_distance_m)
+print(moon.azimuth, moon.elevation, moon.illuminated_fraction)
+</code></pre>
+<p>Default <code>LunarModel()</code> requires explicit <code>SolarTimeOffsets</code> for TT and UT1,
+with source, validity and uncertainty. TT drives orbital terms; UT1 drives
+Earth rotation. An offsets callable is evaluated once per state and shared
+with its solar state. No leap/EOP values are guessed/downloaded. Explicit
+<code>utc-approx</code> uses UTC for both scales and rejects supplied corrections.
+Naive dates, leap-second labels and extrapolation outside validity fail.</p>
+<p>Angles are degrees; longitude east-positive, latitude north-positive, azimuth
+clockwise from north, elevation above the tangent plane. Distances, heights
+and tagged Earth-fixed XYZ are <strong>metres</strong>. Geocentric <code>right_ascension</code>,
+<code>declination</code>, <code>distance_m</code> remain separate from <code>topocentric_*</code> values.
+<code>parallax=True</code> subtracts WGS84 observer XYZ before angles and slant range;
+<code>False</code> uses geocentric parallel directions and geocentric phase geometry.
+Optional <code>SolarRefraction</code> affects reported optical elevation only, never
+positions, phases or 3D light. Exact poles have conventional azimuths.</p>
+<p><code>sublunar</code> plots directional longitude <code>RA - GMST</code> and geocentric declination;
+it is not an exact geodetic ellipsoid intersection or ellipsoidal zenith
+footpoint. Manual input requires an observer and finite range:
+<code>MoonDirection(90, 30, distance_m=384e6, observer=observer)</code>. ENU rotates and
+translates to Earth-fixed XYZ; no date, phase or Sun is inferred for it.</p>
+<h2 id="optional-artists-and-playback">Optional Artists and playback</h2>
+<pre><code class="language-python">fig, ax = azl.subplots()
+ax.map(&quot;world&quot;)
+handle = ax.moon(moon, model=model, annotation=&quot;Sublunar point&quot;)
+handle.set_picker(4)
+handle.set_visible(False)
+handle.set_visible(True)
+handle.set_annotation(&quot;Moon&quot;)
+handle.set_time(datetime(2025, 1, 8, 12, tzinfo=timezone.utc))
+fig.savefig(&quot;moon.svg&quot;)
+</code></pre>
+<p>Map picking retains feature identity, units, UTC, model, geocentric distance
+and phase metadata. Labels use existing halo/text styles. Observer changes
+fail atomically. Date setters require a configured clock/model; manual edits
+preserve observer identity.</p>
+<p><code>model.path(instants, observer=None)</code> accepts 2…4096 strictly increasing dates.
+<code>ax.moon_path(path)</code> draws a geographic groundtrack, or a metre-width 3D ribbon
+through calculated <strong>Earth-fixed</strong> XYZ. This rotating-frame trajectory is not
+a Keplerian/inertial orbit. Lines interpolate samples visually, without orbit
+propagation. <code>TemporalSeries(times, positions).bind(handle)</code> prevalidates
+dates and states, keeps the same Artist and preserves map extent/camera.
+Scalar normalization options do not apply to lunar states.</p>
+<h2 id="earthmoon-3d-and-illuminated-orientation">Earth–Moon 3D and illuminated orientation</h2>
+<pre><code class="language-python">fig, ax = azl.subplots(subplot_kw={&quot;projection&quot;: &quot;3d&quot;})
+system = ax.earth_moon(moon)       # physical radii/distances by default
+system.set_scales(distance_scale=0.1, moon_radius_scale=3)
+ax.set_title(&quot;Distance ×0.1; Moon radius ×3&quot;)
+ax.set_axis_off()
+fig.savefig(&quot;earth-moon.png&quot;)
+</code></pre>
+<p><code>ax.moon(moon)</code> in 3D draws only the Moon; <code>ax.earth_moon(moon)</code> composes both
+bodies using the existing camera/depth painter, CPU/GPU and PNG/SVG/PDF paths.
+Earth is an oblate WGS84 ellipsoid; Moon is a sphere of mean radius
+<strong>1,737,400 m</strong> (<a href="https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html">NASA factsheet</a>).
+Meshes are opaque and flat-shaded, with optional body colors, shading and
+ambient fraction; no cast shadows/eclipses or geographic textures are implied.
+Global bodies reject mixed local terrain frames and vertical exaggeration
+other than one. Bounded visual scales reject intersecting body volumes.</p>
+<p><code>physical_centers</code> retains calculated metres; <code>display_centers</code> uses the
+declared distance multiplier. Radius scaling changes only the drawn Moon.
+Neither changes phases or lighting vectors. A free camera can show a different
+illuminated fraction from the Earth observer: compare the numerical fraction
+with a view from Earth, not an arbitrary viewpoint. Camera magnification is
+not an angular-size measurement.</p>
+<p>Phase angle uses <strong>Moon→Sun</strong> and <strong>Moon→observer</strong> vectors; illuminated
+fraction is <code>(1 + cos(phase_angle))/2</code>. The existing solar model runs on the
+same clock. <code>bright_limb_position_angle</code> is east of celestial north in the sky
+plane; exact conjunction or undefined polar basis returns <code>None</code>. Near
+conjunction it is ill-conditioned. The 2° validation budget applies only at
+elongations <strong>20°…160°</strong>. <code>phase_name</code> is an eight-sector longitude
+classification, not an event timestamp or inferred lunar age.</p>
+<h2 id="validation">Validation</h2>
+<p><a href="lunar-validation-0.4.json">Evidence</a> separates local regression, independent
+sampling, native-window checks and exports. <a href="https://ssd.jpl.nasa.gov/horizons/manual.html">JPL Horizons</a>
+is queried only explicitly: 72 dates including 1972/2100 and a daily two-month
+sequence, geocentre and five sites including both poles. Airless apparent JPL
+output is compared against the documented geometric approximation. Raw
+responses remain outside repository/distributions; only original statistics,
+request identities and input hashes are retained. Tolerances precede the
+comparison, and sampled maxima are not global accuracy guarantees.</p>
+<pre><code class="language-sh">python tools/validate_lunar.py --reference-dir /external/lunar-reference --fetch --output lunar-report.json
+python tools/validate_lunar_visual.py --output /external/lunar-review --gpu --native
+python -m unittest discover -s tests -p test_lunar_040.py
+</code></pre>
+<p>The visual packet includes physical/exaggerated scales, four phase views,
+24-hour groundtrack, temporal frames, CPU/GPU PNG, SVG/PDF and own native Tk/Qt
+captures when requested. Automation is not human acceptance on every platform.
+See <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/examples/lunar_maps.py">the executable example</a>.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/lunar-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

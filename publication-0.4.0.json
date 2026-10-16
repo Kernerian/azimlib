@@ -1,0 +1,13 @@
+{
+  "version": "0.4.0",
+  "candidate_sha": "50b467e252afe314645c031629ed1729007b267c",
+  "state": "authorized",
+  "completed": false,
+  "documentation_verification_pending": true,
+  "deferred": [
+    "2.08",
+    "9.08",
+    "13.06",
+    "13.07"
+  ]
+}

@@ -1,0 +1,231 @@
+{
+  "schema_version": 1,
+  "version": "0.1.0",
+  "python": "3.14.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tooling_sha256": "46ca82aab4646036a8b54ec5494cc64364162000254e59c1537bdb6631f26e91",
+  "factory_sha256": {
+    "stroke_kernel_map_factory": "9f9068f6bd5e745adaa2272e2ce91f83369c4f7542ee72038d00aaca6d597bc4",
+    "stroke_kernel_scientific_factory": "48bfe1eab77f5038dae335b64dfb79fcd22c21ffe55fd92bdce36e9b1e0dcfe2",
+    "stroke_kernel_municipal_factory": "61d4a0ae82029099489f4a3a5b87f92e881565f5d7ac1740968b8bcea82d11fa"
+  },
+  "coverage_sha256": {
+    "before": "e12a1ed30afa9a62a973f25a02f84b43eb180243c3a1a608f7e4dbc3d0af6509",
+    "after": "d1ccfeb3cf9f83386b12476d4a4dd5f298e97616f23911b97b9dcdcb8df3e17b"
+  },
+  "renderer_sha256": "33de4725add6f8523cff9d890cc0eb52c106c057d41bb2c0a8f8c06eac6abe0a",
+  "source": {
+    "filename": "ibge-sp-municipalities.geojson",
+    "sha256": "57bf1e9d10b430d297955110792fb04b1af6f050956bc4ef598ef81636bc9340",
+    "features": 645,
+    "vertices": 222324
+  },
+  "repeats": 2,
+  "points": 1500,
+  "cases": [
+    {
+      "name": "state",
+      "dpi": 100,
+      "pixels": [
+        640.0,
+        480.0
+      ],
+      "scene_items": 82,
+      "samples_seconds": {
+        "before": [
+          1.0318900999991456,
+          1.0872747000030358
+        ],
+        "after": [
+          0.9949448000006669,
+          1.0756672999996226
+        ]
+      },
+      "median_seconds": {
+        "before": 1.0595824000010907,
+        "after": 1.0353060500001448
+      },
+      "rgba_sha256": "62ebe4feaf52c42368de46eb3b1b29985eecbe2fca44aa64ac7a4a3f8328daa3",
+      "png_sha256": "bcbdc4065539489e8c8173c079d3982b3d0dcc5a4fe5b09f003c59f932879c6b",
+      "svg_sha256": "d1468ce474d3e5e300dd9950c2b63a1eb8300872d3938eac111b79f8aac45abe",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "brazil",
+      "dpi": 100,
+      "pixels": [
+        640.0,
+        480.0
+      ],
+      "scene_items": 323,
+      "samples_seconds": {
+        "before": [
+          3.8294357000013406,
+          3.8892768999976397
+        ],
+        "after": [
+          3.8182221000024583,
+          3.6616461999983585
+        ]
+      },
+      "median_seconds": {
+        "before": 3.85935629999949,
+        "after": 3.7399341500004084
+      },
+      "rgba_sha256": "9a20965a9ff50fee8953ac8ed6093981714c1f488ee8e2a0679647488e409b33",
+      "png_sha256": "590a1b5cfbc39c2c8b1c76ce6b8b68e90b49b0ed9be483ec3a299fa1b92bd8aa",
+      "svg_sha256": "2a9a4a10257feb3624765d2a61b825a50557ed0b5730c5db947f8b2d4191efbc",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "atlas",
+      "dpi": 100,
+      "pixels": [
+        1200.0,
+        800.0
+      ],
+      "scene_items": 549,
+      "samples_seconds": {
+        "before": [
+          5.483254899998428,
+          5.676665800001501
+        ],
+        "after": [
+          5.441303799998423,
+          5.266808100001072
+        ]
+      },
+      "median_seconds": {
+        "before": 5.579960349999965,
+        "after": 5.354055949999747
+      },
+      "rgba_sha256": "abb3ce43f4db934c7f907685dc258dc3cdf5b4330b7df144013f0b755c4d9aa0",
+      "png_sha256": "e991ea4fcde175534f26d5df3c8be77969734ff10f8eb228a64b12dcd8d20082",
+      "svg_sha256": "9087c0e62edb227cd2f70c7a1b900c67037911d05118b3aa7da36696bbbcb9bc",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "points",
+      "dpi": 100,
+      "pixels": [
+        640.0,
+        480.0
+      ],
+      "scene_items": 1564,
+      "samples_seconds": {
+        "before": [
+          1.495531000000483,
+          1.5442331000012928
+        ],
+        "after": [
+          1.4954115000000456,
+          1.5337124000034237
+        ]
+      },
+      "median_seconds": {
+        "before": 1.5198820500008878,
+        "after": 1.5145619500017347
+      },
+      "rgba_sha256": "b076a582b167a1132ae2994d75ba497bf21c4f3ab2a2190824d69707dcf1446c",
+      "png_sha256": "d77cb81667672bf16e64a02b95be2b2cc57b5eada3f61829dbc6ce7599bdb8bd",
+      "svg_sha256": "1aaaf1441849e20ff525449492ae20b7ae14aa56887db672bb79b949669744bf",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "terrain",
+      "dpi": 100,
+      "pixels": [
+        800.0,
+        650.0
+      ],
+      "scene_items": 3371,
+      "samples_seconds": {
+        "before": [
+          0.9093433000016375,
+          0.8804286000013235
+        ],
+        "after": [
+          0.9270289999985835,
+          0.8978237999981502
+        ]
+      },
+      "median_seconds": {
+        "before": 0.8948859500014805,
+        "after": 0.9124263999983668
+      },
+      "rgba_sha256": "241335eb94cc714c7515f8211e70cd9f19265f6ea0a957f9e1476b9807d8b8ed",
+      "png_sha256": "0dd57296633c9fb0f46c4cef9b532db02011d03360c9cbd088e58b28712398e2",
+      "svg_sha256": "5a92e91fd5ed1bb728cbd5efed78bba03da6364db0b5ae5240bc3ff0ae20efb5",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "globe",
+      "dpi": 100,
+      "pixels": [
+        800.0,
+        800.0
+      ],
+      "scene_items": 430,
+      "samples_seconds": {
+        "before": [
+          1.8502079999998386,
+          1.9307512999985192
+        ],
+        "after": [
+          1.8702135999992606,
+          1.8560227999987546
+        ]
+      },
+      "median_seconds": {
+        "before": 1.890479649999179,
+        "after": 1.8631181999990076
+      },
+      "rgba_sha256": "3456ede5720d8e6795812dbc8d847171652e01b8072ae93428b1ac82ad19f78f",
+      "png_sha256": "b753eb3cc8e73199270b3246902a4c13f59c8460fe9ba511954da1da293e51e8",
+      "svg_sha256": "5d6aec4ea9865f7cdade68dd212b52e1fd32b3604ae995cf34d833bab14a4abe",
+      "identical_rgba": true,
+      "identical_png": true
+    },
+    {
+      "name": "municipal",
+      "dpi": 100,
+      "pixels": [
+        520.0,
+        420.0
+      ],
+      "scene_items": 719,
+      "samples_seconds": {
+        "before": [
+          13.146937699999398,
+          12.907211699999607
+        ],
+        "after": [
+          12.749558399998932,
+          12.60372599999755
+        ]
+      },
+      "median_seconds": {
+        "before": 13.027074699999503,
+        "after": 12.676642199998241
+      },
+      "rgba_sha256": "288a6cc25f2f8bc0c2ef1f3a9335fbbd2987827262a35bb8bd34738aa2f36f05",
+      "png_sha256": "284b15b40ba55f5e1ae5f31e4a8ca1fb826025c0df6d311ce461d81abff36a0a",
+      "svg_sha256": "782de3b6a9e433532826d904672c72eed9d71f60cd19df6ba6cfdcc1ac56c300",
+      "identical_rgba": true,
+      "identical_png": true
+    }
+  ],
+  "notes": [
+    "One immutable scene per case/DPI. Before swaps only _area with our own previous snapshot.",
+    "Serial alternating calls; raster timings exclude composition, hash, PNG/SVG encoding and I/O.",
+    "No concurrent profiling/measurement sampler, geometry simplification or Tk frame cache.",
+    "Small local samples; caches warm across calls. Not a statistical or visible-input latency guarantee.",
+    "Terrain/vector/point values are synthetic. Bundled boundaries generalized; optional municipal source not redistributed."
+  ],
+  "independent_runtime": true
+}

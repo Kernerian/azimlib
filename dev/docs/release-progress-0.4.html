@@ -1,0 +1,278 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Progresso da Azimlib 0.4.0 · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="progresso-da-azimlib-040">Progresso da Azimlib 0.4.0</h1>
+<p>Status: <strong>etapa 14 em validação; candidato 0.4.0 não publicado; 14.08 não executado</strong>.
+<strong>107 concluídos / 4 adiados / 1 pendentes de entrega ou revalidação</strong>.
+Inventário original: <strong>112 IDs estáveis</strong>. Escopo ativo: <strong>107/108</strong>; um item
+permanece aberto: 14.08 — aceite final e publicação. O total histórico anterior de 102
+incluía 14.01 e 14.06. A revalidação e a CI/distribuição exatas foram concluídas no SHA registrado.
+Qualquer commit novo exige nova verificação antes do aceite final.</p>
+<p>Metadata local do candidato: 0.4.0; versão publicada: 0.3.0. Esta página não constitui aceite
+final, publicação ou evidência de que o candidato final passou pela etapa 14.</p>
+<h2 id="escopo-estados-e-rastreabilidade">Escopo, estados e rastreabilidade</h2>
+<ul>
+<li>Preservar os 112 IDs e seus textos originais. <a href="release-progress-0.4-before-rescope.html">Checklist anterior, histórica</a>.</li>
+<li><a href="deferred-gates-0.4.html">Decisão e gates adiados</a>, <a href="deferred-gates-0.4.json">registro estruturado</a>.</li>
+<li>GPU opcional e eclipses são experimentais nos aspectos sem demonstração;
+PBF tem validação regional real, sem comprovação planetária.</li>
+<li>2.08, 9.08, 13.06 e 13.07 não foram concluídos: somente sua obrigatoriedade
+para o corte 0.4.0 foi adiada explicitamente. Budgets e tolerâncias não mudaram.</li>
+<li>Critérios funcionais, integridade, licenças, privacidade e regressões continuam
+obrigatórios. Falhas de gates adiados são visíveis e não viram resultados aprovados.</li>
+<li>14.01 e 14.06 conservam evidência histórica separada da revalidação local atual.
+14.05 tem aceite humano explícito. CI/distribuição devem ser repetidas no
+novo SHA; 14.08 permanece aberto e exige autorização separada.</li>
+<li>Cada resultado pertence ao SHA testado. CI contratual de desenvolvimento não
+substitui CI completa, aceite humano ou auditoria do candidato final.</li>
+<li>Não usar uma contagem de conclusão integral do plano original. Ao fechar o
+escopo ativo, registrar 108 concluídos e quatro adiados dos 112 originais.</li>
+<li>0.4.1: correções compatíveis; 0.5.0: Planetary Cartography / Beyond Earth;
+0.6.0: Orbits. Certificação global de eclipses não bloqueia automaticamente 0.5.0.</li>
+<li>Publicação, tags, Release, PyPI e documentação hospedada exigem aceite próprio;
+esta preparação não executa nenhuma dessas operações.</li>
+</ul>
+<h2 id="contratos-de-entrega">Contratos de entrega</h2>
+<p>Imports root/pyplot, Artists editáveis, pontos físicos/DPI, CPU padrão e
+componentes opcionais permanecem. Modelos, formatos, CRS e engines opcionais
+mantêm sua cobertura declarada; familiaridade de API não significa cobertura
+irrestrita. <a href="api-stability.html">Política de estabilidade</a>.</p>
+<h2 id="1-fundação-compartilhada-compatibilidade-e-contratos">1. Fundação compartilhada, compatibilidade e contratos</h2>
+<ul>
+<li>[x] <strong>1.01</strong> Inventariar APIs e limites da 0.3.0; estabelecer matriz de regressão para mapas, urbano, texto, 3D, tempo e ambos os imports.</li>
+<li>[x] <strong>1.02</strong> Definir unidades, precisão numérica, convenções de eixos e propagação de erros para todos os novos subsistemas.</li>
+<li>[x] <strong>1.03</strong> Criar abstrações internas compartilhadas de corpo, frame e transformações; manter Terra como padrão sem antecipar a API planetária pública da 0.5.0.</li>
+<li>[x] <strong>1.04</strong> Definir instantes, escalas de tempo, calendários e conversões UTC/TT/UT1 aplicáveis, com fontes de offsets e limites de validade explícitos.</li>
+<li>[x] <strong>1.05</strong> Definir observador geográfico: longitude, latitude, elevação, horizonte e distinção entre posição geocêntrica, topocêntrica e aparente.</li>
+<li>[x] <strong>1.06</strong> Especificar extensões do renderer para recursos GPU, volumes, iluminação e texto, com capacidades consultáveis e backend CPU preservado.</li>
+<li>[x] <strong>1.07</strong> Estabelecer budgets mensuráveis de memória, latência, precisão e tamanho dos datasets; separar medição sintética de ensaio em dados reais.</li>
+<li>[x] <strong>1.08</strong> Fixar fixtures próprias ou licenciadas, fontes primárias de validação e contratos de erro/visibilidade/edição/exportação antes de implementar os lotes dependentes.</li>
+</ul>
+<h2 id="2-osm-pbf-e-streaming-de-grande-escala">2. OSM PBF e streaming de grande escala</h2>
+<ul>
+<li>[x] <strong>2.01</strong> Implementar enquadramento binário PBF e decodificação dos tipos necessários do protocolo, sem delegar a interpretação geográfica a outro leitor.</li>
+<li>[x] <strong>2.02</strong> Implementar string tables, nodes/dense nodes, ways, relations, IDs, deltas, granularity e offsets, preservando a semântica dos atributos.</li>
+<li>[x] <strong>2.03</strong> Implementar descompressão por codecs genéricos suportados e limites contra blocos inválidos; diagnosticar variantes não suportadas.</li>
+<li>[x] <strong>2.04</strong> Resolver referências entre blocos com índices em disco ou estratégia equivalente, mantendo consumo limitado de memória.</li>
+<li>[x] <strong>2.05</strong> Interpretar multipolígonos, fronteiras e relações de restrição necessárias ao urbano/roteamento, incluindo referências incompletas.</li>
+<li>[x] <strong>2.06</strong> Adicionar filtros espaciais e por atributos e extração regional sem carregar implicitamente o planeta inteiro.</li>
+<li>[x] <strong>2.07</strong> Integrar catálogo opcional, aquisição explícita, versão/hash, licenças OSM/ODbL e política de metadados pessoais; não incorporar bases grandes no wheel.</li>
+<li>[ ] <strong>2.08</strong> Validar leitor completo no contrato declarado, equivalência com fixtures XML, dados corrompidos, memória e ensaio reproduzível de streaming em escala planetária.
+Estado: <strong>ADIADO</strong> (2.08). Critério não satisfeito; <a href="deferred-gates-0.4.html">registro preservado</a>.</li>
+</ul>
+<p><strong>Pendência exclusiva de 2.08: ensaio real com o dump planetário completo.</strong>
+A implementação necessária existe; PBF real menor, streaming, referências em
+disco, filtros, corrupção, equivalência XML e limites de recursos já foram
+validados nas <a href="#evid%C3%AAncia-hist%C3%B3rica-e-revalida%C3%A7%C3%A3o">evidências por lote</a>. Falta exclusivamente executar e validar
+o processamento integral de <code>planet.osm.pbf</code>. Nenhum resultado regional ou
+sintético substitui esse critério. A pendência não bloqueia etapas independentes
+seguintes da 0.4.0; <strong>revisitar obrigatoriamente antes do gate final da release</strong>.
+O <a href="planet-trial.html">procedimento planetário</a> fixa entrada, budgets, métricas e
+provas de conclusão. Não baixar nem executar esse dump no ambiente atual.</p>
+<h2 id="3-crs-datums-épocas-e-grids-oficiais">3. CRS, datums, épocas e grids oficiais</h2>
+<ul>
+<li>[x] <strong>3.01</strong> Definir a matriz de cobertura: identificação de CRS, representações textuais, unidades, ordem de eixos, áreas de uso e erros para operações indisponíveis.</li>
+<li>[x] <strong>3.02</strong> Implementar catálogo versionado com origem/licença, lookup explícito e composição de pipelines, sem delegar transformações a um motor GIS externo.</li>
+<li>[x] <strong>3.03</strong> Ampliar famílias de projeções e inversas e integrar coordenadas geográficas, projetadas e geocêntricas nos readers e Artists existentes.</li>
+<li>[x] <strong>3.04</strong> Implementar operações de datum parametrizadas com convenções, épocas, unidades e domínio de validade explícitos.</li>
+<li>[x] <strong>3.05</strong> Implementar leitura/interpolação dos formatos de grids selecionados e suportados; preservar NoData, bordas e precisão publicada.</li>
+<li>[x] <strong>3.06</strong> Implementar seleção e inversão de operações horizontais/verticais e encadeamentos dependentes de época quando houver modelos válidos.</li>
+<li>[x] <strong>3.07</strong> Gerenciar grids oficiais como dados opcionais auditados, com versão/hash/licença e aquisição explícita; ausência de grid não pode provocar transformação aproximada silenciosa.</li>
+<li>[x] <strong>3.08</strong> Validar operações contra fixtures primárias independentes, ida/volta, limites de área/época, descontinuidades e integração com raster, viewport e exportação.</li>
+</ul>
+<h2 id="4-topologia-e-overlay-global">4. Topologia e overlay global</h2>
+<ul>
+<li>[x] <strong>4.01</strong> Definir semântica planar/esférica, orientação/interior, holes, multipolígonos, tolerâncias e operações sobre entradas inválidas.</li>
+<li>[x] <strong>4.02</strong> Implementar predicados robustos, índice espacial e noding, incluindo cruzamentos, contatos, segmentos coincidentes e degenerações.</li>
+<li>[x] <strong>4.03</strong> Construir representação topológica compartilhada e rastreabilidade das features e arestas durante operações.</li>
+<li>[x] <strong>4.04</strong> Implementar interseção, união, diferença e diferença simétrica para linhas/polígonos, preservando holes, multipartes e atributos conforme política explícita.</li>
+<li>[x] <strong>4.05</strong> Tratar antimeridiano, polos, regiões maiores que um hemisfério e interiores globais sem reduzir silenciosamente a operação a um plano regional.</li>
+<li>[x] <strong>4.06</strong> Oferecer validação e reparo opt-in, com diagnóstico e relatório de mudanças; não modificar geometrias de entrada implicitamente.</li>
+<li>[x] <strong>4.07</strong> Integrar recorte, seleção, máscaras raster e fronteiras compartilhadas aos readers, camadas urbanas e renderers.</li>
+<li>[x] <strong>4.08</strong> Validar identidades de conjuntos, área/topologia, coincidências e casos adversariais globais, com benchmarks e cobertura suportada publicada.</li>
+</ul>
+<h2 id="5-geocodificação-endereços-e-pesquisa-urbana">5. Geocodificação, endereços e pesquisa urbana</h2>
+<ul>
+<li>[x] <strong>5.01</strong> Definir modelos de endereço, localidade, POI e resultado, preservando IDs, fonte, precisão e distinção entre ponto e limite administrativo.</li>
+<li>[x] <strong>5.02</strong> Construir importação e índices locais a partir de bases opcionais licenciadas, incluindo bairros, ruas, números e aliases.</li>
+<li>[x] <strong>5.03</strong> Implementar normalização Unicode e pesquisa multilíngue, variantes de nomes e tokenização coerente com o sistema de texto.</li>
+<li>[x] <strong>5.04</strong> Implementar busca de endereços/POIs, ranking e filtros administrativos/espaciais, com resultados ambíguos explícitos.</li>
+<li>[x] <strong>5.05</strong> Implementar geocodificação reversa para localidades, vias e endereços com distância e nível de precisão informados.</li>
+<li>[x] <strong>5.06</strong> Tratar interpolação de endereços, cobertura incompleta e correspondências aproximadas sem inventar coordenadas ou certeza.</li>
+<li>[x] <strong>5.07</strong> Integrar resultados ao mapa/picking/labels; permitir provedores externos somente como opção explícita separada do índice e motor próprios.</li>
+<li>[x] <strong>5.08</strong> Validar consultas reais e sintéticas, ambiguidade, idioma, memória/latência, proveniência e privacidade dos dados de endereço.</li>
+</ul>
+<h2 id="6-grafos-e-roteamento-urbano">6. Grafos e roteamento urbano</h2>
+<ul>
+<li>[x] <strong>6.01</strong> Definir grafo próprio de nós/arestas, conectividade, geometria, unidades, custos e persistência de índices.</li>
+<li>[x] <strong>6.02</strong> Construir grafos a partir de vias OSM, separando cruzamento geométrico de conexão e respeitando pontes, túneis e níveis.</li>
+<li>[x] <strong>6.03</strong> Interpretar sentidos únicos, acesso, modalidades e restrições de conversão, incluindo relações aplicáveis entre vias.</li>
+<li>[x] <strong>6.04</strong> Implementar associação de origem/destino à rede e cálculos de caminho com custos e heurísticas próprios.</li>
+<li>[x] <strong>6.05</strong> Suportar perfis configuráveis de deslocamento, distância/tempo, pontos intermediários e rotas inviáveis com erros claros.</li>
+<li>[x] <strong>6.06</strong> Produzir geometria, trechos e instruções/atributos de rota com rastreabilidade; não confundir duração estimada com trânsito ao vivo.</li>
+<li>[x] <strong>6.07</strong> Integrar rotas, seletores, mapa urbano, escalas e playback; medir redes grandes sem bloquear o viewer.</li>
+<li>[x] <strong>6.08</strong> Validar caminhos ótimos conhecidos, restrições, direção, componentes desconexos, custos/unidades e desempenho em base real licenciada.</li>
+</ul>
+<h2 id="7-texto-internacional-e-shaping-complexo">7. Texto internacional e shaping complexo</h2>
+<ul>
+<li>[x] <strong>7.01</strong> Definir runs de texto, graphemes, scripts, linguagem, direção, fallback de fontes e métricas físicas comuns aos renderers.</li>
+<li>[x] <strong>7.02</strong> Implementar integração tipográfica de baixo nível, original ou licenciada/auditada, para bidi, contextualização, ligaturas e marcas combinantes.</li>
+<li>[x] <strong>7.03</strong> Adicionar seleção/fallback de fontes e cobertura auditada, com origens, licenças e políticas para fontes fornecidas pelo usuário.</li>
+<li>[x] <strong>7.04</strong> Aplicar posicionamento de glifos e métricas ao PNG, SVG, PDF e viewers sem duplicar a composição por backend.</li>
+<li>[x] <strong>7.05</strong> Integrar textos multilíngues a títulos, ticks, legendas, colorbars, annotations e labels geográficos editáveis.</li>
+<li>[x] <strong>7.06</strong> Adaptar texto em curvas, colisões, prioridades e leader lines para runs compostos, preservando legibilidade e âncoras.</li>
+<li>[x] <strong>7.07</strong> Definir acessibilidade, pesquisa/cópia e incorporação de fontes onde suportadas, com política explícita de outlines e fallback.</li>
+<li>[x] <strong>7.08</strong> Validar RTL/LTR misto, árabe, scripts índicos, CJK, acentos e diferentes DPI/rotações em três sistemas, incluindo licenças e inspeção visual.</li>
+</ul>
+<h2 id="8-tex-completo-e-composição-científica">8. TeX completo e composição científica</h2>
+<ul>
+<li>[x] <strong>8.01</strong> Definir suporte real a TeX como opção tipográfica separada das expressões internas limitadas; registrar motor, dependências, licenças e contrato de cobertura.</li>
+<li>[x] <strong>8.02</strong> Implementar seleção/configuração explícita de motor e ferramentas auxiliares sem downloads ou instalações implícitos.</li>
+<li>[x] <strong>8.03</strong> Implementar compilação de documentos/fragmentos com diretório temporário controlado, limites de recursos e política explícita de acesso a arquivos/execução externa.</li>
+<li>[x] <strong>8.04</strong> Extrair métricas, baseline, caixas e saída do motor, integrando tamanho físico, alinhamento, rotação e transparência aos Artists.</li>
+<li>[x] <strong>8.05</strong> Suportar matemática, macros e preâmbulos no contrato declarado, sem apresentar o parser interno simples como TeX completo.</li>
+<li>[x] <strong>8.06</strong> Integrar SVG/PNG/PDF, cache por conteúdo/configuração/fontes e invalidação consistente nos viewers e exportações.</li>
+<li>[x] <strong>8.07</strong> Diagnosticar motor ausente, erros de compilação e fontes não disponíveis; fallback somente se explicitamente solicitado.</li>
+<li>[x] <strong>8.08</strong> Validar fórmulas, texto misto, baseline, edição e exportações nos sistemas suportados, inclusive avisos de ferramentas/fontes e instalação sem o extra.</li>
+</ul>
+<h2 id="9-pipeline-gpu-e-interação-acelerada">9. Pipeline GPU e interação acelerada</h2>
+<ul>
+<li>[x] <strong>9.01</strong> Selecionar API gráfica de baixo nível após avaliar portabilidade/licenças; manter geometrias, projeções e shaders cartográficos próprios.</li>
+<li>[x] <strong>9.02</strong> Implementar lifecycle de device/context/resources, capacidades e recuperação de falhas, com caminho CPU disponível.</li>
+<li>[x] <strong>9.03</strong> Implementar transformações, clipping, triangulação/upload e buffers de camadas, preservando a origem dos dados e precisão necessária.</li>
+<li>[x] <strong>9.04</strong> Renderizar linhas, marcadores, polígonos e raster com estilos, unidades físicas, transparência, z-order e antialiasing compatíveis.</li>
+<li>[x] <strong>9.05</strong> Integrar câmera/depth, terreno e extrusões 3D, texturas e iluminação, mantendo o mesmo modelo de cena/Artists.</li>
+<li>[x] <strong>9.06</strong> Integrar texto composto, picking e atualizações incrementais em pan/zoom/tempo; não mover composição geográfica para um engine externo.</li>
+<li>[x] <strong>9.07</strong> Garantir exportação estática, leitura de pixels e fallback explícito quando a GPU/driver estiver indisponível.</li>
+<li>[ ] <strong>9.08</strong> Medir primeira pintura, pan inicial/retomada, FPS/latência, memória e paridade CPU/GPU em hardware identificado; registrar diferenças visuais e CI sem GPU.
+Estado: <strong>ADIADO</strong> (9.08). Critério não satisfeito; <a href="deferred-gates-0.4.html">registro preservado</a>.
+Medições e CI contratuais históricas estão nos <a href="observed-validation-0.4.html">resultados observados</a>.
+Prévia rápida não demonstra os budgets do frame exato: pan, retomada e zoom
+ainda os excedem no workload registrado. CI sem GPU e Mesa não comprovam
+desempenho de GPU física ARM64, que continua sem evidência.
+Preservar o critério integral; revalidar a declaração de limites na etapa 14.</li>
+</ul>
+<h2 id="10-volumes-3d-e-nuvens-volumétricas">10. Volumes 3D e nuvens volumétricas</h2>
+<ul>
+<li>[x] <strong>10.01</strong> Definir campos escalares/vetoriais 3D, voxels, unidades, frame espacial, máscara/NoData e entrada por arrays ou arquivos de escopo declarado.</li>
+<li>[x] <strong>10.02</strong> Implementar streaming por blocos/bricks, seleção espacial e budgets de memória para volumes grandes.</li>
+<li>[x] <strong>10.03</strong> Implementar amostragem e composição volumétrica próprias com transfer functions, opacidade e referência de comprimento.</li>
+<li>[x] <strong>10.04</strong> Adicionar cortes, slices e isosuperfícies no contrato declarado, sem confundir nuvem de pontos com volume contínuo.</li>
+<li>[x] <strong>10.05</strong> Integrar GPU e caminho CPU de referência, profundidade/oclusão, terreno e georreferência em uma única cena.</li>
+<li>[x] <strong>10.06</strong> Implementar iluminação e sombras volumétricas compatíveis com o modelo declarado; distinguir visualização ilustrativa de simulação física.</li>
+<li>[x] <strong>10.07</strong> Integrar edição, picking, norm/colorbar, câmera e atualização temporal, com PNG/SVG/PDF e animação segundo política de rasterização explícita.</li>
+<li>[x] <strong>10.08</strong> Validar volumes analíticos, alpha/depth, NoData, nuvens sintéticas, precisão de amostragem, memória e desempenho; auditar qualquer dataset externo.</li>
+</ul>
+<h2 id="11-sol-e-geometria-solar-terrestre">11. Sol e geometria solar terrestre</h2>
+<ul>
+<li>[x] <strong>11.01</strong> Selecionar e documentar modelo solar, fontes, licença, escalas temporais, intervalo de validade e orçamento de erro antes de anunciá-lo.</li>
+<li>[x] <strong>11.02</strong> Criar objeto/Artist solar próprio e entrada manual por azimute e elevação, com convenções de origem e unidades explícitas.</li>
+<li>[x] <strong>11.03</strong> Calcular posição geocêntrica/topocêntrica/aparente por instante e observador, separando correções e refração opcionais.</li>
+<li>[x] <strong>11.04</strong> Calcular e visualizar trajetórias aparentes diárias e sazonais, incluindo solstícios e equinócios.</li>
+<li>[x] <strong>11.05</strong> Calcular ponto subsolar e terminador dia/noite sobre globo/mapas, respeitando projeção e antimeridiano.</li>
+<li>[x] <strong>11.06</strong> Calcular nascer/pôr e passagem pelo meridiano, com política de horizonte/refração e casos de dia/noite polar.</li>
+<li>[x] <strong>11.07</strong> Integrar edição, labels, picking e tempo ao mesmo sistema de Artists; fornecer vetor solar físico à iluminação do passo 13.</li>
+<li>[x] <strong>11.08</strong> Validar posições/eventos contra referências independentes auditadas, datas extremas e polos; publicar tolerâncias e exemplos estáticos/temporais.</li>
+</ul>
+<h2 id="12-lua-e-visualização-terralua">12. Lua e visualização Terra–Lua</h2>
+<ul>
+<li>[x] <strong>12.01</strong> Selecionar e documentar modelo/efeméride lunar, origem/licença, frames, escalas temporais, intervalo de validade e orçamento de erro.</li>
+<li>[x] <strong>12.02</strong> Criar objeto/Artist lunar próprio e entrada manual coerente com o frame e as unidades da cena.</li>
+<li>[x] <strong>12.03</strong> Calcular posição e distância geocêntrica/topocêntrica por data/hora, incluindo paralaxe e correções declaradas.</li>
+<li>[x] <strong>12.04</strong> Calcular ponto sublunar e posição relativa à Terra; integrar rótulos, projeções, unidades e picking.</li>
+<li>[x] <strong>12.05</strong> Visualizar órbita/trajetória lunar e playback temporal com distinção entre trajetória calculada e aproximação ilustrativa.</li>
+<li>[x] <strong>12.06</strong> Compor visualização 3D Terra–Lua com câmera existente, escala física versus visual explícita e oclusão correta.</li>
+<li>[x] <strong>12.07</strong> Calcular fases e orientação iluminada a partir da geometria Sol–Terra–Lua, vinculando a iluminação e tempo.</li>
+<li>[x] <strong>12.08</strong> Validar posição, distância, paralaxe, fases e animação contra referências auditadas; declarar validade e limites sem prometer astrodinâmica completa.</li>
+</ul>
+<h2 id="13-iluminação-sombras-e-eclipses-geométricos">13. Iluminação, sombras e eclipses geométricos</h2>
+<ul>
+<li>[x] <strong>13.01</strong> Definir luz solar, extensão angular, frames locais/globais, unidades e conexão da geometria celeste à cena 3D.</li>
+<li>[x] <strong>13.02</strong> Implementar incidência solar e iluminação de terreno/construções, separando altura física de exagero visual.</li>
+<li>[x] <strong>13.03</strong> Implementar sombras sobre terreno e entre construções com oclusão e tolerâncias de precisão declaradas.</li>
+<li>[x] <strong>13.04</strong> Implementar atualização temporal e sombras diárias/sazonais com cache/invalidação consistente nos caminhos CPU/GPU suportados.</li>
+<li>[x] <strong>13.05</strong> Representar umbra, penumbra e oclusão de fonte extensa na geometria Sol–Terra–Lua, sem regras decorativas específicas que finjam um eclipse.</li>
+<li>[ ] <strong>13.06</strong> Visualizar eclipses solares e lunares no contrato de precisão validado, distinguindo localização/instante físicos de escala visual exagerada.
+Estado: <strong>ADIADO</strong> (13.06). Critério não satisfeito; <a href="deferred-gates-0.4.html">registro preservado</a>.</li>
+<li>[ ] <strong>13.07</strong> Validar eventos e limites espaciais/temporais contra fontes independentes; manter o item pendente se a precisão não sustentar o resultado anunciado.
+Estado: <strong>ADIADO</strong> (13.07). Critério não satisfeito; <a href="deferred-gates-0.4.html">registro preservado</a>.</li>
+<li>[x] <strong>13.08</strong> Integrar mapas 2D, terreno 3D, volumes quando aplicável, componentes opcionais e exportação/animação, com exemplos e inspeção visual.</li>
+</ul>
+<h2 id="14-integração-validação-e-entrega-040">14. Integração, validação e entrega 0.4.0</h2>
+<ul>
+<li>[x] <strong>14.01</strong> Executar regressões integradas de urbano, CRS, topologia, geocodificação/rotas, tipografia, GPU/volumes e Sol/Lua, preservando a simplicidade da API.</li>
+<li>[x] <strong>14.02</strong> Publicar documentação e galeria reproduzível de todos os lotes, matriz de formatos/CRS/modelos/capacidades e guias de migração da 0.3.0.</li>
+<li>[x] <strong>14.03</strong> Consolidar benchmarks de datasets grandes, memória e navegação, baselines numéricas/visuais e budgets com hardware/metodologia registrados.</li>
+<li>[x] <strong>14.04</strong> Executar CI nos sistemas/Pythons suportados, cobrindo core sem extras, dependências opcionais e ausência de GPU/motores tipográficos.</li>
+<li>[x] <strong>14.05</strong> Obter validação visual humana nativa Linux/macOS/Windows e registrar o escopo de viewer, texto, 3D/volumes, navegação e exportações.</li>
+<li>[x] <strong>14.06</strong> Auditar licenças/proveniência/privacidade de código, dados, grids, efemérides, fontes, shaders, documentação e histórico; manter termos de terceiros separados.</li>
+<li>[x] <strong>14.07</strong> Preparar metadata/changelog, wheel/sdist, instalação isolada e auditorias de conteúdo/RECORD/hashes; não reutilizar resultados de outro commit.</li>
+<li>[ ] <strong>14.08</strong> Registrar aceite final do commit exato; somente com autorização explícita criar tag/Release, publicar bytes auditados, verificar PyPI, smoke limpo e documentação pública.</li>
+</ul>
+<h2 id="evidência-histórica-e-revalidação">Evidência histórica e revalidação</h2>
+<p>Os registros originais por lote, commits, testes e aceites permanecem na
+<a href="release-progress-0.4-before-rescope.html">checklist anterior</a>. Não foram reescritos.
+<a href="observed-validation-0.4.html">Resultados observados</a> distinguem evidência de precisão/latência garantida.</p>
+<h3 id="lote-1-evidência-histórica-preservada">Lote 1 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-2-evidência-histórica-preservada">Lote 2 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-3-evidência-histórica-preservada">Lote 3 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-4-evidência-histórica-preservada">Lote 4 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-5-evidência-histórica-preservada">Lote 5 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-6-evidência-histórica-preservada">Lote 6 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-7-evidência-histórica-preservada">Lote 7 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-8-evidência-histórica-preservada">Lote 8 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-9-evidência-histórica-preservada">Lote 9 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-10-evidência-histórica-preservada">Lote 10 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-11-evidência-histórica-preservada">Lote 11 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-12-evidência-histórica-preservada">Lote 12 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-13-evidência-histórica-preservada">Lote 13 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>.</p>
+<h3 id="lote-14-evidência-histórica-preservada">Lote 14 — evidência histórica preservada</h3>
+<p>Ver <a href="release-progress-0.4-before-rescope.html">registro anterior</a>. Revalidação local registrada em <a href="stage14-0.4.html">preparação atual</a>. CI, aceite visual, artifacts finais e aceite de publicação não são inferidos desses resultados.</p>
+<h2 id="preparação-atual-da-etapa-14">Preparação atual da etapa 14</h2>
+<p><a href="stage14-0.4.html">Estado e escopo da revalidação</a>. 14.02 conclui documentação e
+galeria locais; o verbo original de publicação não autoriza deploy nesta rodada.
+14.03 consolida somente medições existentes, sem fechar 9.08. 14.04/14.07
+têm evidência anterior e serão repetidos no novo SHA; 14.05 foi aprovado e 14.08
+permanece bloqueado até autorização final explícita.</p>
+<h2 id="registro-operacional-após-a-execução">Registro operacional após a execução</h2>
+<p><a href="stage14-execution-0.4.json">Evidência estruturada</a> identifica o SHA, os dois
+workflows completos e os bytes auditados. Este registro local foi escrito
+após o build e não integra aqueles artifacts. Incorporar aceites/este registro
+em um novo commit exige repetir CI, build e hashes antes de 14.08. Nenhum
+registro posterior certifica automaticamente um SHA novo.</p>
+<h2 id="histórico-revisão-visual-parcial-de-1405">Histórico: revisão visual parcial de 14.05</h2>
+<p>Escopo visual acessível aprovado nos três sistemas. TeX Windows/Linux/macOS
+permanece pendente de inspeção humana. Os artifacts TeX originais do mesmo
+SHA foram recuperados e seus hashes conferidos, sem regeneração. O registro
+estruturado acima identifica a execução e os artifacts. 14.05 permanece aberto;
+contagem inalterada: 106 concluídos, quatro adiados, dois pendentes.</p>
+<p>O estado parcial acima é histórico e foi superado pelo aceite completo abaixo.</p>
+<h2 id="aceite-visual-completo-e-candidato-pré-1408">Aceite visual completo e candidato pré-14.08</h2>
+<p>14.05 concluído por aceite humano explícito do material nativo Windows/Linux/macOS,
+incluindo TeX recuperado das execuções originais. O aceite pertence ao candidato
+<code>8e04017185b98bfa79d3ce43f8cc68d569441568</code>; <a href="visual-acceptance-0.4.json">registro</a>.
+O candidato seguinte incorpora somente documentação/registro, sem mudança de
+código funcional ou dos renders aprovados. A identidade de fonte equivalente
+deve ser verificada, e CI/auditorias/pacotes devem ser repetidos no novo SHA.</p>
+<p>Inventário original: 112 IDs; 107 concluídos, quatro formalmente adiados e um
+pendente: 14.08. Escopo ativo 107/108. Não confundir candidato pronto com release
+efetivamente publicada. A conclusão de 14.08 não é inferida deste aceite visual.</p>
+<h2 id="estado-de-publicação-separado-da-checklist-imutável">Estado de publicação separado da checklist imutável</h2>
+<p>A fonte permanece em 107/108 ativos concluídos, com 14.08 desmarcado e os quatro
+gates adiados intactos. O <a href="release-publication-state-0.4.html">contrato da máquina de estados</a>
+distingue <code>pending</code>, <code>authorized</code> e <code>completed</code>. A autorização final é versionada
+em uma branch separada, após CI/build, vinculada ao SHA e hashes exatos; não é
+incluída nos próprios arquivos que identifica. Preflight autorizado não conclui
+14.08. Somente a evidência pós-publicação validada pode registrar 108 concluídos
+operacionais, mantendo este snapshot histórico do candidato.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/release-progress-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>

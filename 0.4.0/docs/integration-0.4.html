@@ -1,0 +1,150 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>0.4 development integration and delivery gates · Azimlib 0.4.0</title><link rel="stylesheet" href="../site.css"><body data-root="../"><header><a href="../docs/index.html">Azimlib</a><span>0.4.0 · documentation</span><input id="search" type="search" aria-label="Search documentation titles" placeholder="Find a guide"><div id="results"></div></header><aside><a href="../docs/index.html">Overview</a><a href="../docs/getting-started.html">Getting started</a><a href="../docs/migration-0.4.html">Migration</a><a href="../docs/gallery-0.4.html">Gallery</a><a href="../docs/api.html">API reference</a><a href="../docs/api-stability.html">Compatibility policy</a><a href="../docs/release-progress-0.4.html">Release progress</a><a href="../docs/roadmap.html">Roadmap</a></aside><main><h1 id="04-development-integration-and-delivery-gates">0.4 development integration and delivery gates</h1>
+<p>This is an <strong>unreleased source-tree preview</strong>, not an installed PyPI 0.4 release.
+Candidate metadata is 0.4.0; published stable files remain 0.3.0. The authoritative
+<a href="release-progress-0.4.html">112-item checklist</a> records completed work and pending
+evidence; successful local examples do not approve a release.</p>
+<h2 id="reproduce-the-cumulative-gallery">Reproduce the cumulative gallery</h2>
+<p>From a reviewed source checkout, install only the required extras explicitly:</p>
+<pre><code class="language-sh">python -m pip install '.[gui,qt,gpu,dev]'
+python -I tools/validate_integration_040.py --gpu --native --output integration-review
+python -I tools/check_release_progress_040.py
+</code></pre>
+<p>Use a new output directory for every run. The validator checks the source import,
+shared <code>azimlib</code>/<code>azimlib.pyplot</code> state, original geocoding-to-route scene, topology
+clipping, geocentric roundtrip, urban shadows, Earth–Moon composition, solar globe
+and lit volume. It exports PNG/SVG/PDF according to capabilities, records source,
+example and export SHA-256s, and writes an HTML comparison index. GPU is explicit:
+an unavailable context fails rather than silently falling back. Native review
+captures only the application's verified windows. They do not grant human approval.</p>
+<p>For an isolated wheel installation, pass <code>--installed</code>. For the dependency-free
+core, use <code>--installed --core</code> without GPU/native flags. Core produces vector
+SVG/PDF where supported and PDF volumes; raster export requires a provider.
+Small core images test packaging and capabilities, not typography at display size.</p>
+<table>
+<thead>
+<tr>
+<th>Scene</th>
+<th>Inspect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>City</td>
+<td>Labels and physical symbols, legend, scale, route, geocentric conversion</td>
+</tr>
+<tr>
+<td>Urban light</td>
+<td>Building/terrain occlusion, shadow bounds, original synthetic input</td>
+</tr>
+<tr>
+<td>Earth–Moon</td>
+<td>Depth, spherical bodies, explicit visual distance/radius scaling</td>
+</tr>
+<tr>
+<td>Solar globe</td>
+<td>Orthographic boundary, night/terminator, labels and seams</td>
+</tr>
+<tr>
+<td>Volume light</td>
+<td>Transparent volume, local physical frame, CPU/GPU raster exports</td>
+</tr>
+<tr>
+<td>Tk/Qt captures</td>
+<td>Toolbar, margins, resize, text; manually exercise pan/zoom/history</td>
+</tr>
+</tbody>
+</table>
+<p>CPU/GPU antialiasing and edge pixels may differ. Compare legibility, dimensions,
+holes, alpha, depth and relative placement, not only exact pixel equality. Follow
+the separate <a href="text-review-0.4.html">text review</a>, <a href="tex-0.4.html">TeX</a> and
+<a href="gpu-0.4.html">GPU</a> procedures for their complete platform gates.</p>
+<h2 id="coverage-and-explicit-boundaries">Coverage and explicit boundaries</h2>
+<table>
+<thead>
+<tr>
+<th>Subsystem</th>
+<th>Development contract</th>
+<th>Guide</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Geographic formats</td>
+<td>Existing GeoJSON/CSV/SHP/DBF/KML/OSM XML/raster; own bounded PBF stream/index</td>
+<td><a href="formats.html">Formats</a>, <a href="osm-pbf.html">PBF</a></td>
+</tr>
+<tr>
+<td>CRS</td>
+<td>Catalog, axis/unit rules, geographic/projected/geocentric transforms, explicit datum/height grids</td>
+<td><a href="crs-0.4.html">CRS</a>, <a href="datum-grids.html">grids</a></td>
+</tr>
+<tr>
+<td>Topology</td>
+<td>Own planar overlay and spherical regions, declared precision/domain and resource errors</td>
+<td><a href="topology-0.4.html">Topology</a></td>
+</tr>
+<tr>
+<td>Urban operations</td>
+<td>Local provenance-bearing geocoder and own road graph; no implicit online address service</td>
+<td><a href="geocoding-0.4.html">Geocoding</a>, <a href="routing-0.4.html">routing</a></td>
+</tr>
+<tr>
+<td>Text</td>
+<td>Optional shaping/fonts and explicit TeX toolchain; no bundled engine binaries</td>
+<td><a href="international-text-0.4.html">International text</a>, <a href="tex-0.4.html">TeX</a></td>
+</tr>
+<tr>
+<td>Rendering</td>
+<td>Own CPU/GPU scene renderers; explicit optional context and failure/fallback rules</td>
+<td><a href="gpu-0.4.html">GPU</a></td>
+</tr>
+<tr>
+<td>Volumes</td>
+<td>Bounded field/brick storage, ray integration, slices/isosurfaces; SVG volume embedding needs Pillow</td>
+<td><a href="volumes-0.4.html">Volumes</a></td>
+</tr>
+<tr>
+<td>Sun/Moon</td>
+<td>Bounded terrestrial models, explicit units/frames/time policies and accuracy</td>
+<td><a href="solar-0.4.html">Sun</a>, <a href="lunar-0.4.html">Moon</a></td>
+</tr>
+<tr>
+<td>Lighting</td>
+<td>Physical local shadows, finite source geometry; precise real eclipses remain blocked</td>
+<td><a href="lighting-0.4.html">Lighting</a></td>
+</tr>
+</tbody>
+</table>
+<p>No universal CRS, arbitrary TeX, planetary throughput, precise eclipse prediction
+or universal real-time performance is claimed. Query renderer capabilities before
+requesting an optional output. Map components remain opt-in and editable Artists.</p>
+<h2 id="ci-and-release-separation">CI and release separation</h2>
+<p>The existing 28-job CI contract is preserved. The manual
+<code>integration-0.4.yml</code> workflow prepares <strong>22 additional jobs</strong>: 15 core OS/Python
+combinations, three native capture jobs, three optional-provider absence jobs and
+one explicitly software Mesa GPU job. Software Mesa is not hardware-GPU evidence.
+This workflow has read-only repository permissions and no publication steps.
+Its configuration/tests do not constitute a successful hosted execution.</p>
+<p>Before release, run complete exact-candidate CI, the applicable native review,
+final 14.01/14.06 revalidation and same-commit distribution audits. Four original
+IDs are explicitly deferred, not passed: <a href="deferred-gates-0.4.html">rescope</a>.
+<a href="stage14-0.4.html">Current stage-14 preparation</a> distinguishes local evidence from
+exact hosted CI, human review and final distributions. The scoped publication
+checker rejects every unchecked active ID; four named deferments are preserved.
+Unknown series, arbitrary unchecked-ID bypasses and failed functional checks
+remain rejected.</p>
+<p>See <a href="migration-0.4.html">migration</a>, <a href="release-notes-0.4.0.html">draft release notes</a>,
+<a href="gallery-0.4.html">the static original gallery</a>,
+<a href="integration-benchmarks-0.4.html">benchmark methodology</a> and
+<a href="../THIRD_PARTY_LICENSES.html">third-party boundaries</a>. Raw external references,
+private paths, logs and local development environments are excluded from packages.</p>
+<h2 id="unpublished-preparation-and-publication-gate">Unpublished preparation and publication gate</h2>
+<p>Stage-14 tooling distinguishes <code>--purpose prepare</code> from the default publication
+gate. Preparation permits only 14.04/14.05/14.07/14.08 to remain open; it is not
+publication approval. Publication requires all 108 active IDs complete, exactly
+the four named deferments still unchecked, and no other unchecked ID. Human
+14.05 and explicit final 14.08 acceptance cannot be inferred from CI.</p>
+<p>For explicitly headless Linux Mesa validation, select <code>--gpu --gpu-context egl</code>
+(and an installed EGL driver). Desktop default context selection is unchanged;
+the validator does not silently consume a GPU-context environment variable.</p>
+<footer>Original code/compositions: BSD 3-Clause · Kernerian. <a href="../THIRD_PARTY_LICENSES.html">Third-party notices</a>. <a href="https://github.com/Kernerian/azimlib/blob/validation/0.4-candidate/docs/integration-0.4.md">Source</a>.</footer></main><script src="../site.js"></script></body></html>
