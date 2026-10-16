@@ -27,10 +27,10 @@
   "human_final_acceptance": true,
   "allows_start_14_08": true,
   "considers_14_08_completed": false,
-  "publication_execution_permitted": false,
-  "approval_reference": "Explicit human authorization for the corrected release-state preflight; real publication awaits separate final confirmation.",
+  "publication_execution_permitted": true,
+  "approval_reference": "Explicit final human authorization to execute 14.08 for the exact approved 0.4.0 candidate and canonical package hashes.",
   "visual_acceptance_reference": "docs/visual-acceptance-0.4.json; original native Windows/Linux/macOS acceptance including TeX",
   "visual_acceptance_sha256": "728fb75a14470e9aca812e210725fd8b19f8b542ba5cb0ba9feda90aa39176b5",
-  "recorded_at": "2026-10-15T23:44:43.540833+00:00",
+  "recorded_at": "2026-10-16T17:11:50.584193+00:00",
   "publication_completed": false
 }
