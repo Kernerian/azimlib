@@ -1,6 +1,8 @@
 # Azimlib 0.5.0 — Planetary Cartography / Beyond Earth
 
-Estado: proposta ampliada, ainda sem implementação ou aceite de entrega.
+Estado: proposta normativa ampliada; Fase A implementada no recorte documentado.
+[Contratos efetivos](foundation-0.5.md) e [evidências](foundation-validation-0.5.md)
+distinguem entrega parcial da proposta completa, ainda não concluída.
 Data de consolidação: 2026-10-18. As 19 frentes abaixo são cumulativas: as
 dez frentes planetárias anteriores permanecem integrais. A identidade principal
 continua Beyond Earth, com uma camada temática, histórica, educacional e

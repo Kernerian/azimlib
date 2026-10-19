@@ -34,6 +34,8 @@ identificador executa rotação IAU, transformação inercial ou cálculo tempor
 Malhas irregulares têm representação explícita de triângulos com proveniência,
 mas interseção radial/normal, projeção de superfície e geodésia são recusadas.
 As validações da malha não certificam fechamento, orientação ou topologia global.
+Vértices irregulares são limitados a magnitude absoluta de 1e12 m por componente,
+evitando overflow na validação local de triângulos; não é um certificado de malha.
 
 ## Presets e origem dos parâmetros
 
@@ -170,6 +172,19 @@ research e not_implemented. O resultado não é um solver: `require` recusa o
 que não é suportado, salvo experimental explicitamente permitido. Distingue
 coordenadas radiais/normais, carta angular, projeções/geodésia, orientação
 temporal e geodésia irregular. Backend GPU não recebe validação por analogia.
+
+| Modelo / presets | XYZ radial estático | Normal/planetográfico | Carta angular CPU | Superfície planetária métrica / orientação temporal nova |
+|---|---|---|---|---|
+| Esfera: Lua/Vênus | Suportado | Suportado no domínio raso/exterior | Experimental | Não implementado |
+| Oblato: Terra/Marte/Mercúrio | Suportado | Suportado no domínio/achatamento declarados | Experimental fora da Terra; Terra preserva mapas existentes | Novo contrato planetário não implementado; APIs terrestres anteriores preservadas |
+| Triaxial fornecido | Suportado radialmente | Recusado | Experimental | Não implementado |
+| Malha irregular fornecida | Recusado | Recusado | Recusado | Geodésia em pesquisa; demais operações não implementadas |
+
+As consultas de capacidade cobrem os contratos novos desta fundação, não são
+um inventário completo das APIs terrestres legadas. Grupos são organização de
+Layers de um Axes 2D existente, não prova de suporte à superfície desse Body.
+SVG/PDF mantêm os backends existentes; PNG depende do extra anterior. O estado
+geométrico da capacidade não instala nem certifica disponibilidade de opcionais.
 
 0.4.0 e seus quatro gates adiados permanecem intactos. A próxima fase é
 Superfícies Planetárias (B), não órbitas ou certificação global de eclipses.

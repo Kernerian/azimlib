@@ -13,6 +13,12 @@ in an interactive viewer. Azimlib owns its geometry, projections, coordinate
 transformations, map layers, layout and rendering. Matplotlib and other GIS
 engines are not runtime dependencies.
 
+Development 0.5.0.dev0: [Phase A foundation](docs/foundation-0.5.md) adds
+immutable Body presets, static coordinate conventions, isolated map contexts
+and owned Layer groups. Non-Earth charts are experimental and nonmetric;
+planetary surfaces and the full thematic/editorial features remain planned.
+See the [122-item development checklist](docs/release-plan-0.5.md).
+
 [Getting started](https://github.com/Kernerian/azimlib/blob/main/docs/getting-started.md) ·
 [API reference](https://github.com/Kernerian/azimlib/blob/main/docs/api.md) ·
 [Examples](https://github.com/Kernerian/azimlib/tree/main/examples) ·

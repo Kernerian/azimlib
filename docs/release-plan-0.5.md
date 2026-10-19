@@ -1,9 +1,10 @@
-# Checklist proposta — Azimlib 0.5.0
+# Checklist de desenvolvimento — Azimlib 0.5.0
 
-Estado: **planejamento não executado**, sujeito a revisão antes da implementação.
-São **19 frentes preservadas/ampliadas + uma etapa transversal de validação**,
-com **122 subitens propostos, nenhum concluído**. Não é contagem de uma release
-em andamento nem promessa de data ou aprovação do contrato científico.
+Estado: **Fase A implementada e validada localmente**, sem publicação.
+Inventário preservado: **122 IDs** (19 frentes + etapa transversal).
+**17/122 concluídos; 105 abertos**, incluindo implementações parciais.
+Os resultados locais não equivalem à matriz multiplataforma/aceite final da release.
+Evidência e limites: [registro da Fase A](foundation-validation-0.5.md).
 
 Fonte de escopo: [proposta consolidada](proposal-0.5.md). Os seis subitens de
 cada frente decompõem contrato, implementação futura e evidência; as descrições
@@ -13,21 +14,21 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## 1 — Modelo público de corpo celeste
 
-- [ ] 1.01 — Definir Body público: identidade, formas, eixos, meridiano, orientação, convenções, imutabilidade e validação de parâmetros.
-- [ ] 1.02 — Especificar esfera/elipsoide/triaxial e malha irregular explícita; matriz de operações suportadas e recusas, sem fallback esférico oculto.
-- [ ] 1.03 — Preparar presets Terra/Lua/Marte/Vênus/Mercúrio com constantes, modelo, fonte, versão, unidade e domínio.
-- [ ] 1.04 — Definir registro/extensão para luas, planetas anões, asteroides e modelos fornecidos, sem download implícito.
-- [ ] 1.05 — Migrar o Body interno para a fundação pública sem regressão dos defaults e objetos terrestres existentes.
-- [ ] 1.06 — Validar identidade, invariantes de formas, entradas inválidas, presets e fixtures independentes; registrar capacidades não demonstradas.
+- [x] 1.01 — Definir Body público: identidade, formas, eixos, meridiano, orientação, convenções, imutabilidade e validação de parâmetros.
+- [x] 1.02 — Especificar esfera/elipsoide/triaxial e malha irregular explícita; matriz de operações suportadas e recusas, sem fallback esférico oculto.
+- [x] 1.03 — Preparar presets Terra/Lua/Marte/Vênus/Mercúrio com constantes, modelo, fonte, versão, unidade e domínio.
+- [x] 1.04 — Definir registro/extensão para luas, planetas anões, asteroides e modelos fornecidos, sem download implícito.
+- [x] 1.05 — Migrar o Body interno para a fundação pública sem regressão dos defaults e objetos terrestres existentes.
+- [x] 1.06 — Validar identidade, invariantes de formas, entradas inválidas, presets e fixtures independentes; registrar capacidades não demonstradas.
 
 ## 2 — Coordenadas e referenciais planetários
 
-- [ ] 2.01 — Fixar contrato planetocêntrico/planetográfico, altura, longitude positiva/intervalo, unidades e polos por modelo.
-- [ ] 2.02 — Representar Body, datum, época, frame e orientação sem inferência terrestre em dados planetários.
-- [ ] 2.03 — Implementar as transformações suportadas e inversas, com consistência de eixos/unidades e erros explícitos para combinações inválidas.
+- [x] 2.01 — Fixar contrato planetocêntrico/planetográfico, altura, longitude positiva/intervalo, unidades e polos por modelo.
+- [x] 2.02 — Representar Body, datum, época, frame e orientação sem inferência terrestre em dados planetários.
+- [x] 2.03 — Implementar as transformações suportadas e inversas, com consistência de eixos/unidades e erros explícitos para combinações inválidas.
 - [ ] 2.04 — Integrar contexto de coordenadas a datasets/leitores; dados GeoJSON não terrestres exigem declaração explícita sem redefinir o padrão externo.
-- [ ] 2.05 — Preservar tempos/recusas existentes; documentar dados, relógios e validade exigidos por novas orientações dependentes do tempo.
-- [ ] 2.06 — Validar roundtrips, polos, emendas e conversões contra referências independentes, fixando tolerâncias antes da avaliação.
+- [x] 2.05 — Preservar tempos/recusas existentes; documentar dados, relógios e validade exigidos por novas orientações dependentes do tempo.
+- [x] 2.06 — Validar roundtrips, polos, emendas e conversões contra referências independentes, fixando tolerâncias antes da avaliação.
 
 ## 3 — Projeções e geodésia por corpo
 
@@ -85,12 +86,12 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## 9 — Integração com a API existente
 
-- [ ] 9.01 — Definir propagação de Body e contexto em Figure/Axes/Artists, com defaults terrestres e propriedade explícita dos dados.
+- [x] 9.01 — Definir propagação de Body e contexto em Figure/Axes/Artists, com defaults terrestres e propriedade explícita dos dados.
 - [ ] 9.02 — Integrar scatter, linhas, raster, terreno, labels, escalas e dados GeoJSON contextualizados ao Body ativo.
-- [ ] 9.03 — Preservar lifecycle, ownership, stale/invalidação, callbacks, picking e remoção de objetos.
-- [ ] 9.04 — Preservar CPU padrão, dependências opcionais e imports raiz/pyplot; documentar mudanças públicas e migração.
-- [ ] 9.05 — Fixar matriz de API/capacidades/erros explícitos, distinguindo suportado, experimental, pesquisa e não implementado.
-- [ ] 9.06 — Executar regressão Terra e testes de isolamento entre corpos/projeções/layouts sem criar segundo sistema de plotting.
+- [x] 9.03 — Preservar lifecycle, ownership, stale/invalidação, callbacks, picking e remoção de objetos.
+- [x] 9.04 — Preservar CPU padrão, dependências opcionais e imports raiz/pyplot; documentar mudanças públicas e migração.
+- [x] 9.05 — Fixar matriz de API/capacidades/erros explícitos, distinguindo suportado, experimental, pesquisa e não implementado.
+- [x] 9.06 — Executar regressão Terra e testes de isolamento entre corpos/projeções/layouts sem criar segundo sistema de plotting.
 
 ## 10 — Dados, precisão e proveniência
 
@@ -157,7 +158,7 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## 17 — Camadas temáticas e grupos
 
-- [ ] 17.01 — Definir extensão de Artist/Layer para grupos sem hierarquia incompatível ou ciclos, com propriedade/lifecycle explícitos.
+- [x] 17.01 — Definir extensão de Artist/Layer para grupos sem hierarquia incompatível ou ciclos, com propriedade/lifecycle explícitos.
 - [ ] 17.02 — Integrar visibilidade e zorder de grupos, clipping comum e estilos compartilhados com precedência documentada.
 - [ ] 17.03 — Definir inclusão/exclusão de grupos na legenda e tratamento dos labels/símbolos associados.
 - [ ] 17.04 — Reutilizar dados/definições em layouts/insets com instâncias por viewport, sem anexar o mesmo Artist mutável a múltiplos Axes.
@@ -195,14 +196,47 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## Regras de contagem e fechamento futuro
 
-Os 122 itens estão propostos e desmarcados; escrever este plano não os executa.
+A contagem distingue os 17 subitens demonstrados dos 105 ainda abertos.
+Interfaces preparadas, recortes ou exemplos parciais não concluem frentes inteiras.
+As descrições originais dos 122 critérios permanecem preservadas.
 Não transportar os quatro adiamentos da 0.4.0 como quatro itens aprovados,
 nem ocultá-los na contagem da 0.5.0. Suas identidades continuam **0.4.0/2.08**,
 **0.4.0/9.08**, **0.4.0/13.06** e **0.4.0/13.07**, no registro original.
 
-Antes da implementação, revisar contratos, domínios científicos e viabilidade
+Antes de cada fase seguinte, revisar contratos, domínios científicos e viabilidade
 dos subitens de pesquisa. Qualquer adiamento futuro precisa de decisão explícita,
 critério/evidência preservados e contagem distinta de entregue/adiado/pendente.
 Não promover operação irregular/triaxial ou previsão científica sem demonstração.
 Nada neste plano autoriza modificar os pacotes da 0.4.0, iniciar a etapa 14 antiga,
 publicar site, criar nova tag/Release ou enviar arquivos ao PyPI.
+
+## Evidência da Fase A e progresso parcial
+
+As marcações acima referem-se aos contratos estáticos delimitados em
+[foundation-0.5.md](foundation-0.5.md), testes
+`test_planetary_foundation_050.py`, `test_groups_050.py`,
+`test_foundation_examples_050.py` e regressão integrada local.
+SHA, contagens, corpus e formatos estão no registro de validação.
+
+Continuam abertos, com progresso parcial:
+
+- **2.04**: wrapper PlanetaryData/leitor GeoJSON explícito; raster e outros
+  datasets planetários ainda não integrados.
+- **8.01/8.02/8.05/8.06**: dois contextos na mesma Figure e exemplo sintético
+  angular; comparação física, todas as vistas e aceite multiplataforma futuros.
+- **9.02**: linhas/scatter/texto/geometrias angulares; raster, terreno e escala
+  métrica fora da Terra são recusados, não implementados.
+- **10.01–10.06**: fontes das constantes/fixtures, tolerâncias prévias e auditoria
+  local desta fundação; inventário/corpus dos recursos posteriores continuam abertos.
+- **17.02**: visibilidade, offsets de zorder, defaults de estilos e clip retangular
+  reais; clipping geográfico/poligonal comum continua futuro.
+- **17.03**: sem política de legenda seccional/inclusão de grupos nesta fase.
+- **17.04**: instâncias independentes apenas de Layer geométrico simples;
+  clonagem de coleções especializadas/dados futuros continua recusada.
+- **17.05/17.06**: picking de folhas, callbacks, stale, serial de cache,
+  remoção/toggles e isolamento testados localmente; cobertura editorial completa
+  e interação nativa multiplataforma permanecem abertas.
+- **20.01/20.05/20.06/20.07**: regressão, guia, auditorias e pacotes privados
+  dev desta fase não substituem validação integrada final da 0.5.0.
+
+Demais frentes continuam planejadas; nenhuma Fase B–F foi concluída por analogia.

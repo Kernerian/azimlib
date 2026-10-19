@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.5.0.dev0 — Phase A foundation, unreleased
+
+- Public immutable Body, bounded explicit SurfaceMesh, local BodyRegistry and
+  Earth/Moon/Mars/Venus/Mercury presets with factual parameter provenance.
+- Static planetocentric/oblate planetographic coordinate conversions, declared
+  longitude, units, height reference, datum/frame/epoch and explicit refusals.
+- Body context in the existing Figure/Axes/Artists API. Earth stays the default;
+  non-Earth CPU charts are experimental, angular and nonmetric. No planetary
+  metric projection, terrain, dynamic orientation or surface geodesy is claimed.
+- Owned hierarchical 2D Layer groups, local visibility, visual defaults, additive
+  drawing order, Axes clipping, leaf picking and deterministic invalidation.
+  Plain-geometry instantiation shares immutable data, never mutable Artists.
+- Four small foundation demonstrations; complete editorial maps remain future.
+- No added mandatory dependency, download, publication or change to 0.4.0 tags.
+  Existing deferred GPU/eclipse/PBF gates retain their original status.
+
+See [contracts and limitations](docs/foundation-0.5.md).
+
 ## 0.4.0 — unreleased development tree
 
 - Release tooling separates pending, exact-candidate authorized preflight and

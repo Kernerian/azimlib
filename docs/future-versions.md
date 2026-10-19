@@ -4,19 +4,21 @@ Planning update (2026-10-18): the cumulative **0.5.0 proposal now has 19 fronts*
 the ten planetary foundations are retained in full and nine thematic/editorial
 fronts use the same Body-aware Artists. Read the
 [consolidated proposal](proposal-0.5.md) and
-[detailed proposed checklist](release-plan-0.5.md) before implementation.
-This branch updates planning only; earlier release documents and the v0.4.0
+[development checklist](release-plan-0.5.md). Phase A now has a limited
+[implemented foundation](foundation-0.5.md); the remaining proposal is future work.
+Earlier release documents and the v0.4.0
 tag/distributions remain immutable. Below, earlier development descriptions are
 historical context, not current publication status. 0.4.0 is now published;
 its separate operational receipt records 108 active completed and four deferred.
 
-These are future requirements, not implemented features, release dates or frozen
-public API names. The terrestrial Sun/Moon requirements below are now included in
+Except for the documented Phase A subset, these are future requirements, not
+implemented features, release dates or frozen public API names. The terrestrial Sun/Moon requirements below are now included in
 the [combined 0.4.0 implementation checklist](release-progress-0.4.md), alongside
 GPU/volumes, large OSM PBF, CRS/grids, global topology, geocoding/routing and
 TeX/complex shaping reserved by 0.3.0. That checklist is the single source of
 0.4 inventory counts, explicit deferments and delivery/revalidation dependencies. Beyond Earth (0.5) and Orbits (0.6)
-remain proposals; the [existing roadmap](roadmap.md) preserves their sequence.
+retain their sequence in the [roadmap](roadmap.md); the 0.5 foundation does not
+claim the complete planetary/editorial scope.
 
 ## 0.4 proposal — terrestrial Sun and Moon
 
@@ -102,7 +104,8 @@ a Mars exploration page using the same primitives, plus lunar/venusian and
 cross-world cases. The atlas case reproduces a cartographic structure, not
 protected assets from a reference illustration. Full contracts, architecture
 reuse, dependencies, research risks and implementation phases are in the
-[consolidated proposal](proposal-0.5.md). None is implemented by this update.
+[consolidated proposal](proposal-0.5.md). Only the Phase A subset linked above
+is implemented; remaining capabilities are future work.
 
 ## 0.6 proposal — Orbits and spatial visualization
 
