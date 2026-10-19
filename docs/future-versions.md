@@ -1,5 +1,15 @@
 # Future proposals: terrestrial sky, planetary maps and orbits
 
+Planning update (2026-10-18): the cumulative **0.5.0 proposal now has 19 fronts**:
+the ten planetary foundations are retained in full and nine thematic/editorial
+fronts use the same Body-aware Artists. Read the
+[consolidated proposal](proposal-0.5.md) and
+[detailed proposed checklist](release-plan-0.5.md) before implementation.
+This branch updates planning only; earlier release documents and the v0.4.0
+tag/distributions remain immutable. Below, earlier development descriptions are
+historical context, not current publication status. 0.4.0 is now published;
+its separate operational receipt records 108 active completed and four deferred.
+
 These are future requirements, not implemented features, release dates or frozen
 public API names. The terrestrial Sun/Moon requirements below are now included in
 the [combined 0.4.0 implementation checklist](release-progress-0.4.md), alongside
@@ -34,6 +44,12 @@ unresolved. [Observed evidence](observed-validation-0.4.md), [rescope](deferred-
 
 ## 0.5 proposal — Beyond Earth cartography
 
+The original planetary requirements below remain intact. The consolidated
+proposal numbers them as fronts 1–10; fronts 11–19 extend the same cartographic
+language for atlas, historical, economic, geological, educational, scientific
+and exploratory maps on Earth and other bodies. There is no parallel historical
+plotting API or desktop GIS/editor scope.
+
 - Public body model: name/identity, size/shape, sphere/ellipsoid/triaxial model,
   prime meridian, axes/orientation and coordinate conventions. Earth becomes a
   preset; initial candidates Moon, Mars, Venus and Mercury. Extensible to moons,
@@ -57,6 +73,36 @@ Acceptance requires authoritative body constants, datum/epoch/frame identifiers,
 units and source licensing. Triaxial/irregular geodesics, projection inverses and
 area require their own numerical limits; an Earth formula with a new radius is
 not automatically a correct irregular-body implementation.
+
+### Added thematic/editorial fronts 11–19
+
+11. Georeferenced native/vector/custom SVG/PNG/user symbols, categories,
+    visual/map units, anchoring, rotation, clipping, priorities, labels and legends.
+12. Independent thematic Polygon/MultiPolygon regions, patterns/masks/overlap,
+    antimeridian, and explicit binary/discrete/stepped/appropriate-gradient modes;
+    no automatic historical heatmaps or inferred probability.
+13. Editorial, geodesic and graph routes, waypoints, Bézier/splines/explicit paths,
+    directional arrows, flow widths, repeated symbols and path labels; preserve
+    scientific geometry and keep physical orbital trajectories in 0.6.0.
+14. Multiple Axes-compatible insets/locators, independent bodies/projections/views,
+    geographical footprints, focus masks, connectors and optional synchronization.
+15. Full programmatic editorial composition: mixed sectional legends, titles,
+    subtitles, notes/sources, orientation/scale, frames/neatlines and page layout.
+16. Advanced point/area/line/curved labels, halos/outlines/backgrounds, callouts,
+    leader lines, collisions/priorities/overrides, scale rules and international shaping.
+17. Compatible Artist/Layer groups: visibility, zorder, clip/style/legend controls,
+    safe reuse across layouts/insets and existing interactive lifecycle.
+18. Optional extensible atlas/historical/political/physical/scientific/geological/
+    planetary exploration themes, with granular API preserved and no embedded data.
+19. PNG/SVG/PDF-as-supported editorial exports, vectors where possible, explicit
+    font/outline/raster fallbacks, physical dimensions/DPI and three-OS validation.
+
+Future acceptance includes a synthetic/licensed historical trade atlas page and
+a Mars exploration page using the same primitives, plus lunar/venusian and
+cross-world cases. The atlas case reproduces a cartographic structure, not
+protected assets from a reference illustration. Full contracts, architecture
+reuse, dependencies, research risks and implementation phases are in the
+[consolidated proposal](proposal-0.5.md). None is implemented by this update.
 
 ## 0.6 proposal — Orbits and spatial visualization
 
