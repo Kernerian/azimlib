@@ -82,6 +82,7 @@ class SurfaceMesh:
         vertices = tuple(tuple(_number(v) for v in p) for p in self.vertices)
         faces = tuple(tuple(f) for f in self.faces)
         if any(len(p) != 3 for p in vertices):raise ValueError('Mesh vertices require XYZ metres')
+        if any(abs(v)>1e12 for p in vertices for v in p):raise ValueError('Mesh vertex magnitude exceeds the supported 1e12 metre range')
         if any(len(f) != 3 or any(type(i) is not int or not 0 <= i < len(vertices) for i in f) or len(set(f)) != 3 for f in faces):
             raise ValueError('Mesh faces require three distinct valid indices')
         for f in faces:

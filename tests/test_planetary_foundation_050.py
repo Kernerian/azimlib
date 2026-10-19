@@ -52,6 +52,7 @@ class Bodies050(unittest.TestCase):
         with self.assertRaises(azl.UnsupportedBodyOperation):azl.PlanetaryContext(body).to_fixed(0,0)
         with self.assertRaises(ValueError):azl.SurfaceMesh(mesh.vertices,[(0,1,3)],source)
         with self.assertRaises(ValueError):azl.SurfaceMesh([(0,0,0),(1,0,0),(2,0,0)],[(0,1,2)],source)
+        with self.assertRaises(ValueError):azl.SurfaceMesh([(1e308,0,0),(-1e308,0,0),(0,0,0)],[(0,1,2)],source)
 
     def test_capability_states_and_unknowns(self):
         self.assertEqual(azl.MARS.capability('planetocentric').status,'supported')
