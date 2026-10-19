@@ -66,6 +66,20 @@ class Artist:
         self._ensure_artist()
         self._artist_parent = parent
 
+    def get_context(self):
+        """Find the immutable coordinate context through the ownership tree."""
+        node=self;seen=set()
+        while node is not None and id(node) not in seen:
+            seen.add(id(node))
+            value=getattr(node,'_body_context',None)
+            if value is not None:return value
+            node=getattr(node,'_artist_parent',None)
+        return None
+
+    def get_body(self):
+        context=self.get_context()
+        return context.body if context is not None else None
+
     def get_figure(self, root=False):
         node = self
         seen = set()
@@ -157,7 +171,9 @@ class Artist:
         from .picking import pick
         return pick(mouseevent.canvas,mouseevent,only=self)
 
-    def get_clip_on(self):return getattr(self,'_clip_on',True)
+    def get_clip_on(self):
+        group=getattr(self,'_group',None)
+        return bool(group and group.get_clip_on()) or getattr(self,'_clip_on',True)
     @artist_mutation
     def set_clip_on(self,value):self._clip_on=bool(value)
 
@@ -173,8 +189,9 @@ class Artist:
 
     @artist_mutation
     def set_transform(self,transform):
-        from .transforms import Transform
+        from .transforms import Transform,validate_context
         if not isinstance(transform,Transform):raise TypeError('Require an Azimlib Transform')
+        validate_context(transform,self.get_context())
         figure=self.get_figure(root=True)
         if figure is not None and any(owner is not figure for owner in transform.owners()):raise ValueError('Transform belongs to another figure')
         self._transform=transform

@@ -44,7 +44,7 @@ def _feature(data):
     return Feature(geometry, data["properties"], data.get("id"))
 
 
-def read_geojson(source, *, crs=None):
+def read_geojson(source, *, crs=None, context=None):
     """Read a path, JSON string, mapping, text stream or __geo_interface__.
 
     Return FeatureCollection uniformly, wrapping standalone geometries and
@@ -52,6 +52,14 @@ def read_geojson(source, *, crs=None):
     is always used; legacy CRS declarations must be transformed explicitly.
     No network requests are made and foreign members are not retained.
     """
+    from .planetary import PlanetaryData,PlanetaryContext
+    if isinstance(source,PlanetaryData):
+        if context is not None:raise ValueError('Data already has a coordinate context')
+        raise ValueError('PlanetaryData is not plain terrestrial GeoJSON; preserve its context')
+    if context is not None:
+        if not isinstance(context,PlanetaryContext):raise TypeError('Require PlanetaryContext')
+        if crs is not None:raise ValueError('Cannot combine terrestrial CRS conversion and a planetary declaration')
+        return PlanetaryData(read_geojson(source),context)
     if crs is not None:
         from .crs import transform_geojson
         source=transform_geojson(source,crs,"EPSG:4326")

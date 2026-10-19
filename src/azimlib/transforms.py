@@ -19,6 +19,7 @@ class Transform:
         if not isinstance(other,Transform):return NotImplemented
         return CompositeTransform(self,other)
     def owners(self):return ()
+    def contexts(self):return ()
 
 class IdentityTransform(Transform):
     def transform_point(self,p):return _pair(p)
@@ -59,12 +60,14 @@ class CompositeTransform(Transform):
         p=self.first.transform_point(p);return None if p is None else self.second.transform_point(p)
     def inverted(self):return self.second.inverted()+self.first.inverted()
     def owners(self):return self.first.owners()+self.second.owners()
+    def contexts(self):return self.first.contexts()+self.second.contexts()
 
 class _Inverse(Transform):
     def __init__(self,source):self.source=source
     def transform_point(self,p):return self.source._inverse(_pair(p))
     def inverted(self):return self.source
     def owners(self):return self.source.owners()
+    def contexts(self):return self.source.contexts()
 
 class FigureTransform(Transform):
     def __init__(self,figure):self.figure=figure
@@ -90,6 +93,7 @@ class AxesTransform(Transform):
         if space not in ('axes','geo','projected'):raise ValueError('Unknown axes coordinate space')
         self.axes,self.space=axes,space
     def owners(self):return (self.axes.figure,)
+    def contexts(self):return () if self.space=='axes' else (self.axes.get_context(),)
     def transform_point(self,p):
         p=_pair(p);v=self.axes._transform_viewport();x,y,w,h=v.box
         q=(x+p[0]*w,y+(1-p[1])*h) if self.space=='axes' else v.xy(*p) if self.space=='projected' else v.project(*p)
@@ -105,6 +109,7 @@ class BlendedTransform(Transform):
         if not isinstance(x_transform,Transform) or not isinstance(y_transform,Transform):raise TypeError('Require two transforms')
         self.x,self.y=x_transform,y_transform
     def owners(self):return self.x.owners()+self.y.owners()
+    def contexts(self):return self.x.contexts()+self.y.contexts()
     def transform_point(self,p):
         a,b=self.x.transform_point(p),self.y.transform_point(p)
         return None if a is None or b is None else (a[0],b[1])
@@ -127,6 +132,7 @@ class OffsetTransform(Transform):
     def __init__(self,source,figure,x,y,unit):
         self.source=source;self.physical=PhysicalTransform(figure,unit);self.offset=_pair((x,y))
     def owners(self):return self.source.owners()+self.physical.owners()
+    def contexts(self):return self.source.contexts()
     def transform_point(self,p):
         q=self.source.transform_point(p);d=self.physical.transform_point(self.offset)
         return None if q is None else (q[0]+d[0],q[1]+d[1])
@@ -145,3 +151,13 @@ def offset_copy(transform,fig=None,x=0,y=0,units='inches'):
 def scene_point(transform,p,figure):
     q=transform.transform_point(p)
     return None if q is None else (q[0]*100/figure.dpi,figure.figsize[1]*100-q[1]*100/figure.dpi)
+
+
+def validate_context(transform,context):
+    """Known geographic transforms must not silently change Body/conventions.
+
+    Physical, fractional and affine transforms carry no geographic context.
+    Custom transforms are explicit user code and declare contexts when needed.
+    """
+    if context is not None and any(other!=context for other in transform.contexts()):
+        raise ValueError('Geographic transform Body/coordinate context mismatch')

@@ -144,9 +144,13 @@ def triangulate_ring(points):
 
 class TerrainAxes(MapAxes):
     _terrain3d=True
-    def __init__(self,figure,position,*,elev=35,azim=-60,roll=0,proj_type='persp',vertical_exaggeration=1):
+    def __init__(self,figure,position,*,elev=35,azim=-60,roll=0,proj_type='persp',vertical_exaggeration=1,context=None):
         self._terrain_grid=False
-        super().__init__(figure,position,'equirectangular')
+        from .planetary import resolve_context
+        from .bodies import EARTH,UnsupportedBodyOperation
+        declared=resolve_context(context=context,default=figure.get_context())
+        if declared.body!=EARTH:raise UnsupportedBodyOperation('Planetary 3D terrain awaits Phase B')
+        super().__init__(figure,position,'equirectangular',context=declared)
         self.camera=Camera(elev=elev,azim=azim,roll=roll,projection=proj_type)
         self._world_limits={};self._zlabel=None;self.local_frame=None
         self.vertical_exaggeration=finite(vertical_exaggeration)

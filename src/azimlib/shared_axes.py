@@ -30,6 +30,7 @@ def share(owner,other,name):
     if getattr(owner,'_terrain3d',False) or getattr(other,'_terrain3d',False):raise ValueError('Experimental 3D physical limits cannot share geographic axes')
     if owner._colorbar_artist is not None or other._colorbar_artist is not None:
         raise ValueError('Colorbar axes cannot share geographic coordinates')
+    if owner.get_context()!=other.get_context():raise ValueError('Cannot share coordinates across Bodies/conventions')
     previous=getattr(owner,'_share'+name)
     if previous is not None and previous is not other:raise ValueError(name+'-axis is already shared')
     if name=='x' and owner._longitude_wrap!=other._longitude_wrap:

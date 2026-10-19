@@ -33,12 +33,15 @@ def _defaults(values, **defaults):
 
 class MapAxes(AxisComponents):
     """Longitude/latitude are always in degrees; coordinates are always lon first."""
-    def __init__(self, figure, position, projection="equirectangular", projection_kw=None):
+    def __init__(self, figure, position, projection="equirectangular", projection_kw=None,*,body=None,context=None):
         Artist.__init__(self,figure)
         self.figure, self.position = figure, tuple(position)
         self._subplot_spec=None
         self._label=''
-        self.projection = get_projection(projection, **(projection_kw or {}))
+        from .planetary import resolve_context,angular_projection
+        self._body_context=resolve_context(body,context,default=figure.get_context() if figure is not None else None)
+        self.projection=angular_projection(self._body_context,projection,projection_kw)
+        self._groups=[]
         self._longitude_wrap = False
         self._bearing=0.;self._family_indices={}
         self.layers = []
@@ -101,12 +104,26 @@ class MapAxes(AxisComponents):
         from .transforms import AxesTransform
         return AxesTransform(self,'projected')
 
+    def _check_kind(self,kind):
+        from .bodies import EARTH,UnsupportedBodyOperation
+        if self.get_body()!=EARTH and kind not in ('geometry','scatter','text','annotation','labels','grid','path','line_collection'):
+            raise UnsupportedBodyOperation('Planetary '+kind+' not implemented in Phase A')
+
+    def group(self,*,name='',parent=None,style=None,zorder=0,visible=True,clip_on=True):
+        from .groups import ArtistGroup
+        return ArtistGroup(self,name=name,parent=parent,style=style,zorder=zorder,visible=visible,clip_on=clip_on)
+
+    def _earth_only(self,operation):
+        from .bodies import EARTH,UnsupportedBodyOperation
+        if self.get_body()!=EARTH:raise UnsupportedBodyOperation(operation+' is only validated on Earth; no planetary fallback')
+
     def get_projection(self):return self.projection
     @artist_mutation
     def set_projection(self,projection,**parameters):
         """Replace projection after domain checks; keep geographic view/data/bearing."""
         from .viewport import Viewport
-        candidate=get_projection(projection,**parameters)
+        from .planetary import angular_projection
+        candidate=angular_projection(self.get_context(),projection,parameters)
         if self._longitude_wrap and not isinstance(candidate,(Equirectangular,Mercator)):raise ValueError('Unwrap the extent before choosing a noncylindrical projection')
         if any(len(self._shared_axes[name].members)>1 for name in ('x','y')):raise ValueError('Change projections before sharing axes')
         Viewport(candidate,self._get_extent(),(0,0,400,400),bearing=self.get_bearing())
@@ -135,8 +152,11 @@ class MapAxes(AxisComponents):
     def add_collection(self,collection,autolim=True):
         if not isinstance(collection,Layer):raise TypeError('Require an Azimlib Layer')
         if collection.axes is not None:raise ValueError('Artist is already attached')
-        from .transforms import Transform
+        if collection.get_context()!=self.get_context():raise ValueError('Artist Body/coordinate context mismatch; provide a fresh explicitly contextualized instance')
+        self._check_kind(collection.kind)
+        from .transforms import Transform,validate_context
         explicit=getattr(collection,'_transform',None)
+        if explicit is not None:validate_context(explicit,self.get_context())
         if explicit is not None and any(owner is not self.figure for owner in explicit.owners()):raise ValueError('Transform belongs to another figure')
         family='patch' if collection.kind=='path' else 'collection'
         index=getattr(self,'_family_indices',{}).get(family,0)
@@ -172,6 +192,7 @@ class MapAxes(AxisComponents):
 
     @artist_mutation
     def _add(self, kind, data, style=None, **options):
+        self._check_kind(kind)
         style=dict(style or {})
         controls={key:style.pop(key) for key in ('clip_on','transform') if key in style}
         style=style_dict(style)
@@ -233,12 +254,20 @@ class MapAxes(AxisComponents):
             if emit:ax.callbacks.process(name+'lim_changed',ax)
             ax._changed()
 
-    def geojson(self, data, *, style=None, fit=True, crs=None, **kwargs):
+    def geojson(self, data, *, style=None, fit=True, crs=None, context=None, **kwargs):
         """Read GeoJSON; style(feature) can override appearance per feature.
 
         Input must follow RFC 7946. To import projected coordinates, pass an
         explicit supported source CRS (currently EPSG:3857 or EPSG:4326).
         """
+        from .planetary import PlanetaryData
+        from .bodies import EARTH,UnsupportedBodyOperation
+        if isinstance(data,PlanetaryData):
+            if context is not None:raise ValueError('Data already has a declared context')
+            context=data.context;data=data.features
+        if context is not None and context!=self.get_context():raise ValueError('Dataset Body/coordinate context mismatch; convert explicitly')
+        if self.get_body()!=EARTH and context is None:raise ValueError('Non-Earth geographic data require explicit PlanetaryData/context; plain GeoJSON remains terrestrial')
+        if crs is not None and self.get_body()!=EARTH:raise UnsupportedBodyOperation('Terrestrial CRS cannot transform planetary data')
         if crs is not None:
             from .crs import transform_geojson
             data = transform_geojson(data, crs, "EPSG:4326")
@@ -253,6 +282,7 @@ class MapAxes(AxisComponents):
     add_geometries = geojson
 
     def solar_light(self,position,**kwargs):
+        self._earth_only('solar_light')
         from .lighting import attach_light
         return attach_light(self,position,**kwargs)
 
@@ -262,46 +292,56 @@ class MapAxes(AxisComponents):
         Existing approximation permission, model/domain and resource rules apply;
         samples do not establish complete physical boundaries or contact discovery.
         """
+        self._earth_only('eclipse_shadow')
         from .eclipse_artists import attach_eclipse
         return attach_eclipse(self,geometry,**kwargs)
 
     def moon(self,position,**kwargs):
         """Optional sublunar marker, or finite Earth-fixed lunar body in 3D."""
+        self._earth_only('moon')
         from .lunar_artists import attach_moon
         return attach_moon(self,position,**kwargs)
 
     def earth_moon(self,position,**kwargs):
+        self._earth_only('earth_moon')
         from .lunar_artists import attach_earth_moon
         return attach_earth_moon(self,position,**kwargs)
 
     def moon_path(self,path,**kwargs):
+        self._earth_only('moon_path')
         from .lunar_artists import attach_path
         return attach_path(self,path,**kwargs)
 
     def sun(self,position,**kwargs):
         """Optional subsolar marker, or explicit local sky marker on 3D axes."""
+        self._earth_only('sun')
         from .solar_artists import attach_sun
         return attach_sun(self,position,**kwargs)
 
     def solar_terminator(self,position,**kwargs):
+        self._earth_only('solar_terminator')
         from .solar_artists import attach_sun
         if getattr(self,'_terrain3d',False):raise ValueError('Terminator is a global map layer')
         return attach_sun(self,position,role='terminator',**kwargs)
 
     def nightshade(self,position,**kwargs):
+        self._earth_only('nightshade')
         from .solar_artists import attach_night
         return attach_night(self,position,**kwargs)
 
     def sun_path(self,path,**kwargs):
+        self._earth_only('sun_path')
         from .solar_artists import attach_path
         return attach_path(self,path,**kwargs)
 
     def region(self,region,**kwargs):
         """Optional spherical region, with explicit fill/boundary resolution."""
+        self._earth_only('region')
         from .overlay import draw_region
         return draw_region(self,region,**kwargs)
 
     def map(self, region="world", **kwargs):
+        self._earth_only('map')
         collection = read_geojson(datasets.country(region))
         layer = self.geojson(collection, **_defaults(kwargs, facecolor="#e9e7de", edgecolor="#768782", linewidth=.7, zorder=1))
         self._country = region if len(collection) == 1 else None
@@ -312,10 +352,12 @@ class MapAxes(AxisComponents):
         return layer
 
     def countries(self, **kwargs):
+        self._earth_only('countries')
         return self.geojson(datasets.load("countries"),
                             **_defaults(kwargs, fit=False, facecolor="#e7e8e1", edgecolor="#a6b0aa", linewidth=.6, zorder=0))
 
     def states(self, country=None, **kwargs):
+        self._earth_only('states')
         fill=kwargs.get('fc',kwargs.get('facecolor','none'))
         default_order=2 if fill is None or str(fill).lower()=='none' else 1
         return self.geojson(datasets.load("states", country=country or self._country or "brazil"),
@@ -323,6 +365,7 @@ class MapAxes(AxisComponents):
 
     def state(self,name,**kwargs):
         """Draw and fit one Brazilian state by name, postal code or BR-XX."""
+        self._earth_only('state')
         collection=read_geojson(datasets.state(name))
         layer=self.geojson(collection,**_defaults(kwargs,facecolor='white',edgecolor='black',linewidth=.8))
         self._country='brazil'
@@ -333,14 +376,17 @@ class MapAxes(AxisComponents):
         return layer
 
     def rivers(self, **kwargs):
+        self._earth_only('rivers')
         return self.geojson(datasets.load("rivers", country=self._country),
                             **_defaults(kwargs, fit=False, color="#4e9bb0", linewidth=.9, zorder=3))
 
     def lakes(self, **kwargs):
+        self._earth_only('lakes')
         return self.geojson(datasets.load("lakes", country=self._country),
                             **_defaults(kwargs, fit=False, facecolor="#b4d9e4", edgecolor="#7bb2c3", linewidth=.5, zorder=3))
 
     def coastlines(self, **kwargs):
+        self._earth_only('coastlines')
         return self.geojson(datasets.load("coastlines", country=self._country),
                             **_defaults(kwargs, fit=False, color="#486c76", linewidth=.8, zorder=3))
 
@@ -418,14 +464,14 @@ class MapAxes(AxisComponents):
         options=normalize_aliases(kwargs);index=getattr(self,'_family_indices',{}).get('fill',0)
         row=self._prop_cycle[index%len(self._prop_cycle)];consume=options.get('facecolor',options.get('color')) is None
         if consume:options['facecolor']=row.get('color','black')
-        layer=self.geojson(_collection('Polygon',[points]),**options)
+        layer=self.geojson(_collection('Polygon',[points]),context=self.get_context(),**options)
         if consume:
             if not hasattr(self,'_family_indices'):self._family_indices={}
             self._family_indices['fill']=(index+1)%len(self._prop_cycle)
         return [layer]
 
     def line(self, coordinates, **kwargs):
-        return self.geojson(_collection("LineString", list(coordinates)), **_defaults(kwargs, zorder=2))
+        return self.geojson(_collection("LineString", list(coordinates)), context=self.get_context(), **_defaults(kwargs, zorder=2))
 
     @artist_mutation
     def set_prop_cycle(self,*args,**kwargs):
@@ -499,6 +545,7 @@ class MapAxes(AxisComponents):
         return result
 
     def route(self, coordinates, *, geodesic=True, steps=64, ellipsoid=None, **kwargs):
+        if geodesic or ellipsoid is not None:self._earth_only('surface geodesy')
         from .routing import RoadRoute
         if isinstance(coordinates,RoadRoute):
             if ellipsoid is not None: raise ValueError('A RoadRoute already has source network geometry')
@@ -523,7 +570,7 @@ class MapAxes(AxisComponents):
         for ring in rings:
             if ring and tuple(ring[0]) != tuple(ring[-1]):
                 ring.append(ring[0])
-        return self.geojson(_collection("Polygon", rings), **kwargs)
+        return self.geojson(_collection("Polygon", rings), context=self.get_context(), **kwargs)
 
     @artist_mutation
     def scatter(self, lon, lat, *, s=36, c=None,cmap='viridis',norm=None,vmin=None,vmax=None, **kwargs):
@@ -553,8 +600,9 @@ class MapAxes(AxisComponents):
         return layer
 
     def text(self, lon, lat, text, *, transform="data", **kwargs):
-        from .transforms import Transform
+        from .transforms import Transform,validate_context
         explicit=isinstance(transform,Transform)
+        if explicit:validate_context(transform,self.get_context())
         if not explicit and transform not in ("data", "axes"):raise ValueError("transform must be data, axes or an Azimlib Transform")
         if explicit and any(owner is not self.figure for owner in transform.owners()):raise ValueError('Transform belongs to another figure')
         if not all(math.isfinite(float(v)) for v in (lon, lat)):
@@ -594,9 +642,10 @@ class MapAxes(AxisComponents):
                          placement=placement,repeat=repeat,priority_field=priority_field,min_span=float(min_span),max_span=None if max_span is None else float(max_span))
 
     def annotate(self, text, xy, xytext=None, *, textcoords="offset pixels", arrow=True, **kwargs):
-        from .transforms import Transform
+        from .transforms import Transform,validate_context
         explicit=kwargs.get('transform')
         if explicit is not None and not isinstance(explicit,Transform):raise TypeError('Require an Azimlib Transform')
+        if explicit is not None:validate_context(explicit,self.get_context())
         if explicit is not None and any(owner is not self.figure for owner in explicit.owners()):raise ValueError('Transform belongs to another figure')
         xy=coordinate_pair(xy,explicit is None)
         if textcoords not in ANNOTATION_COORDS:
@@ -799,6 +848,7 @@ class MapAxes(AxisComponents):
         context='brazil' loads a country outline independently of the main map.
         Otherwise current geometry layers and their current extent are captured.
         """
+        self._earth_only('overview')
         _validate_loc(loc)
         if not math.isfinite(width) or width<60:raise ValueError('Overview width must be at least 60 pixels')
         if not 0<=shade_alpha<=1:raise ValueError('shade_alpha must lie in [0,1]')
@@ -1020,6 +1070,7 @@ class MapAxes(AxisComponents):
     @artist_mutation
     def scale_bar(self, *, length=None, units="km", loc="lower left", fontsize=9,
                   frameon=True,facecolor='white',edgecolor='#cccccc',framealpha=.8,color='black'):
+        self._earth_only('scale_bar')
         _validate_loc(loc)
         if units not in ("km", "m", "mi"):
             raise ValueError("units must be km, m, or mi")
@@ -1063,7 +1114,7 @@ class MapAxes(AxisComponents):
         x, y, w, h = map(float, bounds)
         if min(x,y) < 0 or min(w,h) <= 0 or x+w > 1 or y+h > 1:
             raise ValueError("inset must fit within axes: x,y,width,height in [0,1]")
-        child = MapAxes(self.figure, (x, y, w, h), projection, projection_kw)
+        child = MapAxes(self.figure, (x, y, w, h), projection, projection_kw,context=self.get_context())
         child._parent_axes=self
         child._bind_parent(self)
         self.insets.append(child)
@@ -1271,6 +1322,7 @@ class MapAxes(AxisComponents):
         pcolormesh. Source CRS/georeferencing are never inferred from filenames.
         Rotated affines are rejected before mutating the Axes; no resampling.
         """
+        self._earth_only('raster')
         from .raster import GeoRaster, read_raster
         if isinstance(data, GeoRaster):
             if any(value is not None for value in (crs, world_file, extent, nodata)):
@@ -1496,6 +1548,7 @@ class MapAxes(AxisComponents):
         if parent is None:self.figure._forget_axes(self)
         from .shared_axes import detach
         detach(self)
+        for group in tuple(self._groups):group.remove()
         self._changed()
         self.visible=False
         self._bind_parent(None)
@@ -1503,7 +1556,7 @@ class MapAxes(AxisComponents):
     def get_children(self):
         decorations=[getattr(self,name,None) for name in ('_title','_left_title','_right_title','_subtitle','_xlabel','_ylabel','_legend','_scale_bar','_north','_compass','_overview','_colorbar')]
         labels=[a for store in (self._tick_labels,self._minor_tick_labels) for values in store.values() for a in values or []]
-        return [*self.layers,*self.insets,*self.spines.values(),self.xaxis.offsetText,self.yaxis.offsetText,*labels,*[a for a in decorations if a is not None]]
+        return [*[g for g in self._groups if g._group is None],*[l for l in self.layers if getattr(l,'_group',None) is None],*self.insets,*self.spines.values(),self.xaxis.offsetText,self.yaxis.offsetText,*labels,*[a for a in decorations if a is not None]]
 
     @artist_mutation
     def clear(self):
@@ -1511,6 +1564,7 @@ class MapAxes(AxisComponents):
         if self._colorbar is not None:
             self._colorbar._bind_parent(None)
             self._colorbar.remove()
+        for group in tuple(self._groups):group.remove()
         for child in self.get_children():child._bind_parent(None)
         for layer in self.layers:
             layer._axes = None

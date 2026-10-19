@@ -10,6 +10,11 @@
 """
 from __future__ import annotations
 
+from .bodies import (Body,BodySource,BodyRegistry,BODIES,EARTH,MOON,MARS,VENUS,MERCURY,
+                     SurfaceMesh,LongitudeConvention,Capability,CapabilityStatus,UnsupportedBodyOperation)
+from .planetary import PlanetaryContext,PlanetaryData
+from .groups import ArtistGroup
+from ._frames import ReferenceFrame,Coordinates,RigidTransform,GeodeticFrame
 from .figure import Figure,AxesGrid
 from .gridspec import GridSpec,SubplotSpec,GridSpecFromSubplotSpec
 from .axes import MapAxes
@@ -46,7 +51,7 @@ from .patches import PathPatch,Symbol
 from .patterns import Provenance,HatchPattern
 from .icons import read_svg_symbol
 
-__version__="0.4.0"
+__version__="0.5.0.dev0"
 from .text_engine import register_font, text_context, TextEngineError, MissingGlyphError, FontPermissionError
 __all__=["Artist","setp","getp","ion","ioff","isinteractive","Figure","GridSpec","SubplotSpec","MapAxes","AxesGrid","Layer","ScatterCollection","MeshCollection","ScalarImage","VectorCollection","ContourSet","ContourLabel","ContourLabels","Geometry","Feature","FeatureCollection",
          "Projection","Equirectangular","Mercator","EqualEarth","Orthographic","LambertConformalConic",
@@ -147,3 +152,6 @@ from .eclipse import EclipseGeometry,ShadowSphere,ShadowCone,Occultation,occulta
 from .solar_disk import SolarDiskConvention,SolarDiskComparison,IAU2015_NOMINAL,NASA_SVS_696000
 __all__.extend(('SolarDiskConvention','SolarDiskComparison','IAU2015_NOMINAL','NASA_SVS_696000'))
 __all__.extend(('SolarLighting','ShadowBudget','EclipseGeometry','ShadowSphere','ShadowCone','Occultation','occultation'))
+
+__all__.extend(('Body','BodySource','BodyRegistry','BODIES','EARTH','MOON','MARS','VENUS','MERCURY','SurfaceMesh','LongitudeConvention','Capability','CapabilityStatus','UnsupportedBodyOperation','PlanetaryContext','PlanetaryData','ArtistGroup'))
+__all__.extend(('ReferenceFrame','Coordinates','RigidTransform','GeodeticFrame'))

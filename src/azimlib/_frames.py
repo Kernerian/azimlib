@@ -10,6 +10,7 @@ import math
 
 from .geometry import _number
 from .geodesy import Ellipsoid, WGS84
+from .bodies import Body, EARTH
 
 
 def vector3(value):
@@ -29,33 +30,19 @@ def _geodetic_xyz(lon, lat, height, ellipsoid):
 
 
 @dataclass(frozen=True)
-class Body:
-    """Internal oblate reference surface; no ephemeris, mass or public registry."""
-    name: str
-    ellipsoid: Ellipsoid
-
-    def __post_init__(self):
-        if not isinstance(self.name, str) or not self.name.strip():
-            raise ValueError('Body requires a nonempty name')
-        if not isinstance(self.ellipsoid, Ellipsoid):
-            raise TypeError('Body requires an Ellipsoid')
-
-
-EARTH = Body('Earth', WGS84)
-
-
-@dataclass(frozen=True)
 class ReferenceFrame:
     """Identity of a metric Cartesian frame; equality includes its full body."""
     name: str
     body: Body = EARTH
     kind: str = 'fixed'
+    epoch: str | None = None
 
     def __post_init__(self):
         if not isinstance(self.name, str) or not self.name.strip():
             raise ValueError('Frame requires a nonempty name')
         if not isinstance(self.body, Body):
             raise TypeError('Frame requires a Body')
+        if self.epoch is not None and (not isinstance(self.epoch,str) or not self.epoch.strip()):raise ValueError('Invalid frame epoch')
         if self.kind not in ('fixed', 'local'):
             raise ValueError('Supported frame kinds are fixed and local')
 
@@ -213,7 +200,7 @@ Apparent positions/refraction/light time are intentionally not inferred here.
         origin = self.fixed_position.xyz
         t = tuple(-sum(r[i*3+k]*origin[k] for k in range(3)) for i in range(3))
         frame = ReferenceFrame(f'ENU:{self.longitude!r},{self.latitude!r},{self.height!r}',
-                               self.geodetic.fixed.body, 'local')
+                               self.geodetic.fixed.body, 'local',self.geodetic.fixed.epoch)
         return RigidTransform(self.geodetic.fixed, frame, r, t)
 
     def azimuth_elevation(self, target, *, direction=False):

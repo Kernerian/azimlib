@@ -157,10 +157,11 @@ class GridSpec:
         sharex,sharey=sharing_mode(sharex),sharing_mode(sharey)
         from .figure import AxesGrid
         options=dict(subplot_kw or {})
+        context_options={k:options.pop(k) for k in ('body','context') if k in options}
         projection=options.pop('projection',projection);projection_kw=options.pop('projection_kw',projection_kw)
         if options:raise TypeError('Unsupported subplot_kw: '+', '.join(options))
         with self.figure._mutation():
-            matrix=[[self.figure.add_subplot(self[row,col],projection=projection,projection_kw=projection_kw)
+            matrix=[[self.figure.add_subplot(self[row,col],projection=projection,projection_kw=projection_kw,**context_options)
                      for col in range(self.ncols)] for row in range(self.nrows)]
             configure_grid(matrix,sharex,sharey)
         if squeeze and self.nrows==self.ncols==1:return matrix[0][0]

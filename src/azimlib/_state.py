@@ -21,18 +21,21 @@ def _find(num):
     return next((f for f in _figures if f.number==number),None)
 
 
-def figure(num=None,*,figsize=None,dpi=None,facecolor=None,layout=None,clear=False):
+def figure(num=None,*,figsize=None,dpi=None,facecolor=None,layout=None,clear=False,body=None,context=None):
     """Create/reactivate an own figure by number, label or managed Figure."""
     found=None if num is None else _find(num)
     if isinstance(num,Figure) and found is None:raise ValueError('Figure is not managed by pyplot')
     if found is not None:
+        if body is not None or context is not None:
+            from .planetary import resolve_context
+            if resolve_context(body,context)!=found.get_context():raise ValueError('Existing Figure has another Body/context')
         if any(v is not None for v in (figsize,dpi,facecolor,layout)):
             warnings.warn('Ignoring specified arguments because figure already exists.',UserWarning,stacklevel=2)
         _figures.remove(found);_figures.append(found)
         if clear:found.clear()
         return found
     number=max([0,*get_fignums()])+1 if num is None or isinstance(num,str) else _number(num)
-    fig=Figure(figsize=figsize,dpi=dpi,facecolor=facecolor,layout=layout)
+    fig=Figure(figsize=figsize,dpi=dpi,facecolor=facecolor,layout=layout,body=body,context=context)
     fig.number=number
     if isinstance(num,str):fig.set_label(num)
     _figures.append(fig)
@@ -41,9 +44,9 @@ def figure(num=None,*,figsize=None,dpi=None,facecolor=None,layout=None,clear=Fal
 
 def subplots(nrows=1,ncols=1,*,projection='equirectangular',figsize=None,dpi=None,
              facecolor=None,squeeze=True,projection_kw=None,subplot_kw=None,layout=None,
-             gridspec_kw=None,width_ratios=None,height_ratios=None,num=None,clear=False,sharex=False,sharey=False):
+             gridspec_kw=None,width_ratios=None,height_ratios=None,num=None,clear=False,sharex=False,sharey=False,body=None,context=None):
     existing=set(_figures)
-    fig=figure(num,figsize=figsize,dpi=dpi,facecolor=facecolor,layout=layout,clear=clear)
+    fig=figure(num,figsize=figsize,dpi=dpi,facecolor=facecolor,layout=layout,clear=clear,body=body,context=context)
     try:
         axes=fig.subplots(nrows,ncols,projection=projection,projection_kw=projection_kw,squeeze=squeeze,
                           subplot_kw=subplot_kw,gridspec_kw=gridspec_kw,width_ratios=width_ratios,height_ratios=height_ratios,sharex=sharex,sharey=sharey)

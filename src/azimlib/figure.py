@@ -13,13 +13,16 @@ from .config import rcParams
 from .components import TextArtist
 from .figure_text import FigureTextArtist,label_fontsize
 from .artist import Artist,artist_mutation
+from .bodies import EARTH,UnsupportedBodyOperation
 from .text_engine import current_defaults,figure_defaults
 from .gridspec import GridSpec,SubplotSpec,GridSpecFromSubplotSpec,grid_ancestors,_validate_params
 
 
 class Figure(Artist):
     _is_figure=True
-    def __init__(self, figsize=None, dpi=None, facecolor=None,layout=None):
+    def __init__(self, figsize=None, dpi=None, facecolor=None,layout=None,*,body=None,context=None):
+        from .planetary import resolve_context
+        self._body_context=resolve_context(body,context)
         Artist.__init__(self)
         self._text_defaults=current_defaults()
         self._composing=False
@@ -56,7 +59,7 @@ class Figure(Artist):
         if layout is not None:self.set_layout_engine(layout)
 
     @artist_mutation
-    def add_axes(self, rect=(.06,.07,.88,.86), *, projection="equirectangular", projection_kw=None,sharex=None,sharey=None):
+    def add_axes(self, rect=(.06,.07,.88,.86), *, projection="equirectangular", projection_kw=None,sharex=None,sharey=None,body=None,context=None):
         """Add axes at figure fractions (left,bottom,width,height)."""
         if len(rect)!=4 or not all(math.isfinite(float(v)) for v in rect):
             raise ValueError("rect must be four finite fractions")
@@ -66,11 +69,15 @@ class Figure(Artist):
         for other in (sharex,sharey):
             if other is not None and not isinstance(other,MapAxes):raise TypeError('Sharing requires a MapAxes')
             if other is not None and other._colorbar_artist is not None:raise ValueError('Cannot share a colorbar axis')
+        from .planetary import resolve_context
+        resolved=resolve_context(body,context,default=self.get_context())
+        from .bodies import EARTH,UnsupportedBodyOperation
+        if projection=='3d' and resolved.body!=EARTH:raise UnsupportedBodyOperation('Planetary terrain awaits Phase B')
         if projection=='3d':
             if sharex is not None or sharey is not None:raise ValueError('Experimental 3D axes do not share geographic limits')
             from .terrain_axes import TerrainAxes
-            ax=TerrainAxes(self,rect,**(projection_kw or {}))
-        else:ax=MapAxes(self,rect,projection,projection_kw)
+            ax=TerrainAxes(self,rect,context=resolved,**(projection_kw or {}))
+        else:ax=MapAxes(self,rect,projection,projection_kw,context=resolved)
         if sharex is not None:ax.sharex(sharex)
         if sharey is not None:ax.sharey(sharey)
         self.axes.append(ax)
@@ -177,6 +184,7 @@ class Figure(Artist):
         from .shared_axes import sharing_mode
         sharex,sharey=sharing_mode(sharex),sharing_mode(sharey)
         options=dict(subplot_kw or {})
+        context_options={k:options.pop(k) for k in ('body','context') if k in options}
         projection=options.pop("projection",projection)
         projection_kw=options.pop("projection_kw",projection_kw)
         if options:
@@ -187,7 +195,7 @@ class Figure(Artist):
                 if name in grid_options:raise ValueError(name+' supplied both directly and in gridspec_kw')
                 grid_options[name]=value
         grid=self.add_gridspec(nrows,ncols,**grid_options)
-        return grid.subplots(projection=projection,projection_kw=projection_kw,squeeze=squeeze,sharex=sharex,sharey=sharey)
+        return grid.subplots(projection=projection,projection_kw=projection_kw,squeeze=squeeze,sharex=sharex,sharey=sharey,subplot_kw=context_options)
 
     @artist_mutation
     def subplot_mosaic(self,mosaic,*,projection='equirectangular',projection_kw=None,
@@ -213,7 +221,7 @@ class Figure(Artist):
         return axes
 
     @artist_mutation
-    def add_subplot(self,*args,projection="equirectangular",projection_kw=None,sharex=None,sharey=None):
+    def add_subplot(self,*args,projection="equirectangular",projection_kw=None,sharex=None,sharey=None,body=None,context=None):
         """Add a subplot using a SubplotSpec, 111 or (rows, columns, index).
 
         A one-based index pair spans the rectangle between its endpoint cells.
@@ -237,7 +245,7 @@ class Figure(Artist):
             grid=next((g for g in reversed(self._gridspecs) if not isinstance(g,GridSpecFromSubplotSpec) and g.get_geometry()==(nrows,ncols)),None)
             if grid is None:grid=GridSpec(nrows,ncols,figure=self)
             spec=SubplotSpec(grid,endpoints[0]-1,endpoints[1]-1)
-        ax=self.add_axes(spec.get_position(self),projection=projection,projection_kw=projection_kw,sharex=sharex,sharey=sharey)
+        ax=self.add_axes(spec.get_position(self),projection=projection,projection_kw=projection_kw,sharex=sharex,sharey=sharey,body=body,context=context)
         for ancestor in reversed(grid_ancestors(grid)):
             ancestor.figure=self
             if ancestor not in self._gridspecs:self._gridspecs.append(ancestor)
@@ -492,6 +500,9 @@ class Figure(Artist):
         if fmt not in ("svg","png","pdf"):
             raise ValueError("savefig supports static svg/png/pdf only; use show(path=...) for an interactive viewer")
         if renderer not in ('cpu','gpu') or gpu_fallback not in ('raise','cpu'):raise ValueError('Invalid explicit renderer/fallback')
+        if renderer=='gpu' and any(a.get_body()!=EARTH or getattr(a,'_groups',()) for a in self.axes):
+            from .bodies import UnsupportedBodyOperation
+            raise UnsupportedBodyOperation('Planetary/group GPU export has not been validated in Phase A; select CPU')
         if renderer=='gpu' and fmt!='png':raise ValueError('GPU export is raster PNG; select CPU for SVG/PDF vector export')
         if dpi is not None and (not math.isfinite(float(dpi)) or dpi<=0):
             raise ValueError("dpi must be finite and positive")
@@ -541,6 +552,9 @@ class Figure(Artist):
         if backend not in ("tk","browser","browser-live","notebook","qt"):
             raise ValueError("Interactive backends: tk, browser, browser-live, notebook or qt")
         if renderer not in ('cpu','gpu') or gpu_fallback not in ('raise','cpu'):raise ValueError('Invalid explicit renderer/fallback')
+        if renderer=='gpu' and any(a.get_body()!=EARTH or getattr(a,'_groups',()) for a in self.axes):
+            from .bodies import UnsupportedBodyOperation
+            raise UnsupportedBodyOperation('Planetary/group GPU interaction has not been validated in Phase A; select CPU')
         if renderer=='gpu' and backend not in ('tk','qt'):raise ValueError('GPU viewer currently requires Tk or Qt')
         requested=(renderer,gpu_fallback,gpu_config)
         viewer=getattr(self,'_viewer',None)

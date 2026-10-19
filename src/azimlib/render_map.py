@@ -12,6 +12,7 @@ from .viewport import Viewport, densify
 from .typography import POINT,text_width
 from .hatches import add_hatches
 from .projected_paths import _paths, screen_points
+from .bodies import EARTH
 
 
 def axes_viewport(ax,box,*,inset=False):
@@ -59,6 +60,10 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     grid_format=ax._grid_format,
                     tick_rotation={name:ax._tick_params[name]['rotation'] for name in ('x','y')},
                     axes_index=ax.figure.axes.index(ax) if ax.figure and ax in ax.figure.axes else -1)
+    metadata['body']={'identifier':ax.get_body().identifier,'shape':ax.get_body().shape,
+                      'frame':ax.get_context().frame,'datum':ax.get_context().datum,
+                      'latitude_type':ax.get_context().latitude_type,
+                      'metric_surface':ax.get_body()==EARTH}
     metadata['axes_path']=ax._axes_path()
     scene.maps.append(metadata)
     figure_axes=ax.figure.axes if ax.figure is not None else []

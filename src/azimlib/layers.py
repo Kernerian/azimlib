@@ -23,6 +23,12 @@ class Layer(ScalarMappable,LayoutArtist):
             from .text_engine import scene_options
             self.style=dict(self.style,**scene_options(self.style))
             validate_text_properties(self.style)
+        from .planetary import PlanetaryData,axis_context
+        from .bodies import EARTH
+        if isinstance(self.data,PlanetaryData):
+            self._body_context=self.data.context;self.data=self.data.features
+            if self._axes is not None and self._axes.get_context()!=self._body_context:raise ValueError('Layer coordinate context mismatch')
+        else:self._body_context=self._axes.get_context() if self._axes is not None else axis_context(EARTH)
         Artist.__init__(self,self._axes)
         ScalarMappable.__init__(self)
 
@@ -92,6 +98,10 @@ class Layer(ScalarMappable,LayoutArtist):
 
     @property
     def zorder(self):
+        offset=self._group.get_zorder() if getattr(self,'_group',None) is not None else 0
+        return self._local_zorder()+offset
+
+    def _local_zorder(self):
         if self.kind=='grid' and 'zorder' not in self.style and self._axes is not None:
             below=self._axes.get_axisbelow()
             return .5 if below is True else 2.5 if below is False else 1.5
@@ -133,9 +143,10 @@ class Layer(ScalarMappable,LayoutArtist):
         mapping=self._prepare_mapping(options,array=array)
         controls={key:options.pop(key) for key in ('visible','in_layout','transform','clip_on') if key in options}
         if 'transform' in controls:
-            from .transforms import Transform
+            from .transforms import Transform,validate_context
             transform=controls['transform']
             if not isinstance(transform,Transform):raise TypeError('Require an Azimlib Transform')
+            validate_context(transform,self.get_context())
             figure=self.get_figure(root=True)
             if figure is not None and any(owner is not figure for owner in transform.owners()):raise ValueError('Transform belongs to another figure')
         clear_alpha='alpha' in options and options['alpha'] is None
@@ -211,6 +222,7 @@ class Layer(ScalarMappable,LayoutArtist):
     def set_zorder(self,value):return self.set(zorder=value)
     def get_zorder(self):return self.zorder
     def get_visible(self):return self.visible
+    def get_local_visible(self):return getattr(self,'_local_visible',True)
     def set_facecolor(self,value):return self.set(facecolor=value)
     def set_edgecolor(self,value):return self.set(edgecolor=value)
     def get_facecolor(self):return self.style.get('facecolor',self.get_color())
@@ -254,7 +266,16 @@ class Layer(ScalarMappable,LayoutArtist):
     def remove(self):
         if self._axes is not None:
             self._axes.layers[:]=[layer for layer in self._axes.layers if layer is not self]
+        if getattr(self,'_group',None) is not None:self._group._forget(self)
         self._changed()
         self._axes = None
         self._bind_parent(None)
 
+
+
+def _effective_visible(layer):
+    group=getattr(layer,'_group',None)
+    return getattr(layer,'_local_visible',True) and (group is None or group.get_visible())
+
+
+Layer.visible=property(_effective_visible,lambda layer,value:setattr(layer,'_local_visible',bool(value)))

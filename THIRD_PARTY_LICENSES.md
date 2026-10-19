@@ -1,5 +1,23 @@
 # Third-party materials
 
+## Static planetary reference parameters (0.5 development)
+
+`bodies.py` records four sets of numerical radii from NASA NAIF pck00011
+(2022-12-27), with URL and source SHA-256 in BodySource and the
+[foundation guide](docs/foundation-0.5.md). These factual parameters are
+converted from kilometres to metres. No PCK kernel, CSPICE implementation,
+NAIF prose or artwork is bundled or relicensed as Azimlib code.
+WGS84 retains its existing parameter source and notices.
+
+`tests/fixtures/planetary-050.json` contains 25 original numeric test inputs
+and corresponding outputs computed using CSPICE georec via SpiceyPy. Generator
+version, equations/reference URLs and numerical tolerances are recorded in the
+fixture. It contains no third-party implementation or documentation text.
+SpiceyPy/CSPICE are reference-only QA tools, not new runtime dependencies;
+they are unnecessary to run the frozen numeric tests. Original static
+conversion code reuses Azimlib's existing frame equations and generic radial
+surface geometry. These distinctions do not change third-party rights.
+
 ## Optional GPU rendering
 
 The `gpu` extra uses ModernGL and glcontext as generic OpenGL/context bindings.
