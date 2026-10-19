@@ -9,6 +9,7 @@ recursive-include examples *.py
 recursive-include examples *.mplstyle
 recursive-include tests *.py
 include tests/fixtures/foundation-040.json
+include tests/fixtures/planetary-050.json
 recursive-include src/azimlib/data *.json *.geojson.gz
 recursive-include src/azimlib/assets *.js *.css
 recursive-include src/azimlib/assets/icons *.png *.svg *.json
