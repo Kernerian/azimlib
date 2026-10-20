@@ -1,6 +1,24 @@
 # Changelog
 
-## 0.5.0.dev0 — Phase A foundation, unreleased
+## 0.5.0.dev0 — Phases A/B, unreleased
+
+- Phase B: BodySurface/SurfaceProjection with bounded sphere/oblate methods,
+  exact ellipsoidal orthographic horizon, inverse projections, metres, geodesic
+  distances/azimuths/routes and explicitly bounded polygon/parallel areas.
+- PlanetaryRaster/RasterBudget, explicit local image registration, inverse
+  resampling/mosaics/masks, physical elevation profiles, hillshade and terrain.
+  The existing SurfaceArtist/CPU renderer supports fixed XYZ or regional ENU,
+  explicit visual exaggeration, texture and geometric hard-shadow lighting.
+- GeometricLight accepts explicit fixed-frame direction/position; no implicit
+  planetary solar ephemeris or atmosphere. Finite-source terrain shadows,
+  triaxial/irregular surface operations and unsupported projections fail explicitly.
+- Non-Earth default plotting becomes metric EQC; `projection='angular'` keeps
+  the Phase A chart. Existing Earth projections/defaults remain unchanged.
+- Seventeen reproducible synthetic surface scenes in PNG/SVG/PDF, independent
+  PROJ/GeographicLib/CSPICE numeric fixtures and nonpublishing native QA workflow.
+  See [Phase B contracts](docs/surfaces-0.5.md).
+
+### Phase A snapshot (historical contract)
 
 - Public immutable Body, bounded explicit SurfaceMesh, local BodyRegistry and
   Earth/Moon/Mars/Venus/Mercury presets with factual parameter provenance.

@@ -470,6 +470,7 @@ def clip_orthographic_polygon(rings, projection, *, step=2.0):
     unsupported; this is a rendering clip, not a general topology operation.
     """
     rings = _polygon(rings)
+    if callable(getattr(projection,"clip_polygon",None)):return projection.clip_polygon(rings,step=step)
     step = _number(step, "step")
     if not 0 < step <= 10:
         raise ValueError("step must be greater than zero and at most ten degrees")

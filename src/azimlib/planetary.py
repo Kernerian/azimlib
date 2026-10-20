@@ -125,20 +125,22 @@ def resolve_context(body=None,context=None,*,default=None):
 
 def angular_projection(context, projection, parameters):
     from .projections import Equirectangular,get_projection
+    from .surfaces import BodySurface,SurfaceProjection
+    if isinstance(projection,SurfaceProjection):
+        if projection.context!=context:raise ValueError('Projection Body/context mismatch')
+        if parameters:raise ValueError('Cannot override an existing Body projection')
+        return projection
     if context.body==EARTH:
         if (context.latitude_type!='planetographic' or context.longitude!=LongitudeConvention() or
                 context.angle_unit!=DEGREE or context.prime_meridian!=0):
             raise UnsupportedBodyOperation('Terrestrial Axes retain canonical geodetic east-positive signed degrees; convert data explicitly')
         return get_projection(projection,**(parameters or {}))
-    if (context.latitude_type!='planetocentric' or context.longitude!=LongitudeConvention() or
+    if (context.longitude!=LongitudeConvention() or
             context.angle_unit!=DEGREE or context.prime_meridian!=0):
-        raise UnsupportedBodyOperation('Phase A angular Axes require east-positive signed degrees, zero meridian offset and planetocentric latitude; convert data explicitly')
-    context.body.capability('angular_map').require(experimental=True)
-    if parameters and set(parameters)-{'central_longitude','central_latitude','standard_parallel'}:
-        raise UnsupportedBodyOperation('Planetary metric projection parameters are not supported in Phase A')
-    if isinstance(projection,str):
-        if projection!='equirectangular':raise UnsupportedBodyOperation('Planetary surface projections await Phase B; use the nonmetric equirectangular angular chart')
-        return Equirectangular(radius=1,**(parameters or {}))
-    if type(projection) is not Equirectangular or projection.radius!=1:
-        raise UnsupportedBodyOperation('Non-Earth Phase A uses an explicit radius=1 angular chart, not surface metres')
-    return projection
+        raise UnsupportedBodyOperation('Phase A angular Axes require east-positive signed degrees, zero meridian offset and a declared latitude convention; convert data explicitly')
+    if projection=='angular' or isinstance(projection,Equirectangular) and projection.radius==1:
+        context.body.capability('angular_map').require(experimental=True)
+        if parameters and set(parameters)-{'central_longitude','central_latitude','standard_parallel'}:raise UnsupportedBodyOperation('Angular chart has no physical projection parameters')
+        return Equirectangular(radius=1,**(parameters or {})) if isinstance(projection,str) else projection
+    if not isinstance(projection,str):raise ValueError('Non-Earth metric projection requires a Body-bound SurfaceProjection')
+    return BodySurface(context).projection(projection,**(parameters or {}))

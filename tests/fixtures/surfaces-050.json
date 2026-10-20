@@ -1,0 +1,5059 @@
+{
+  "schema": 1,
+  "latitude_type": "planetographic",
+  "axes_m": {
+    "earth": [
+      6378137.0,
+      6356752.314245179
+    ],
+    "moon": [
+      1737400.0,
+      1737400.0
+    ],
+    "mars": [
+      3396190.0,
+      3376200.0
+    ],
+    "venus": [
+      6051800.0,
+      6051800.0
+    ],
+    "mercury": [
+      2440530.0,
+      2438260.0
+    ]
+  },
+  "reference": {
+    "pyproj": "3.8.0",
+    "PROJ": "9.8.1",
+    "geographiclib": "2.1",
+    "projection_url": "https://proj.org/en/stable/operations/projections/",
+    "geodesic_url": "https://geographiclib.sourceforge.io/html/python/",
+    "spiceypy": "8.3.0",
+    "cspice": "CSPICE_N0067",
+    "normal_url": "https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/surfnm_c.html",
+    "origin_convention": "Subtract projected central origin, including methods where PROJ ignores lat_0"
+  },
+  "tolerances": {
+    "sphere_xy_m": 1e-05,
+    "oblate_xy_m": 0.05,
+    "tm_xy_m": 0.5,
+    "inverse_deg": 1e-08,
+    "distance_m": 0.05,
+    "difficult_distance_m": 0.1,
+    "azimuth_deg": 1e-07,
+    "area_abs_m2": 10,
+    "area_relative": 1e-07
+  },
+  "projections": [
+    {
+      "body": "earth",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1658989.5894005457
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "earth",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        2226389.8158654715,
+        3325954.7885771985
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "earth",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -1113194.9079327357,
+        -4979102.987340928
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "earth",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        8287129.164463902
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "earth",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        7792364.355529149,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "earth",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        18367715.980890136,
+        -553134.756166173
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "earth",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        17699799.0361305,
+        -6088518.61975106
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "earth",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1678147.5163917788
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        2226389.8158654715,
+        3913148.4021616136
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -1113194.9079327357,
+        -5160336.601800395
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        32941141.85555498
+      ],
+      "within_declared_domain": false,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        7792364.355529149,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        18367715.98089014,
+        -566672.4135395545
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        17699799.0361305,
+        -6516618.914452914
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1640106.515481334
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1545107.0798706454,
+        3246397.687719455
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -959971.6910883095,
+        -4460749.820029708
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        6136138.592909315
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        5790563.613917072,
+        1049406.7408169166
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -12713600.098850505
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1809683.5503610328,
+        -4972064.69097541
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -3811052.4533196525,
+        -21613552.492121212
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        -55847.329866713815
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        9183059.999735933,
+        -3342360.499384481
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        2764287.401696524,
+        10316461.029853994
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        9728696.10621988,
+        25344119.840042584
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        17,
+        -79
+      ],
+      "xy": [
+        -63901.72314472262,
+        -10434115.605713712
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        18,
+        -30
+      ],
+      "xy": [
+        -192992.30209942715,
+        -4980787.595100716
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1658989.5894005452
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        22,
+        45
+      ],
+      "xy": [
+        157693.71821723675,
+        3327901.33824227
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "earth",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        23,
+        83
+      ],
+      "xy": [
+        40816.070104719125,
+        7562218.335378678
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -454850.25636224216
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "moon",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        606467.0084829896,
+        909700.5127244845
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "moon",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -303233.5042414948,
+        -1364550.7690867267
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "moon",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        2259089.6065991367
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "moon",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        2122634.5296904636,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "moon",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        5003352.819984664,
+        -151616.75212074735
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "moon",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        4821412.717439768,
+        -1667784.2733282214
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "moon",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -460136.921260041
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        606467.0084829896,
+        1071161.548827713
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -303233.5042414948,
+        -1414501.416426028
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        8981789.404881231
+      ],
+      "within_declared_domain": false,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        2122634.5296904636,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        5003352.819984665,
+        -155352.0848229719
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        4821412.717439768,
+        -1785616.15076057
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -449672.2089611195
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        420181.09062459227,
+        887875.7123177004
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -261276.69802768828,
+        -1222611.042013796
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        1674211.5494046616
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        1576991.7151061464,
+        285793.5507464957
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -3474799.9999999995
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        492272.7684703351,
+        -1352508.315584659
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -1045106.7921107528,
+        -5927095.149656697
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        -15161.771431773632
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        2505509.781157963,
+        -911930.9820043255
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        754639.5693798958,
+        2816353.214327672
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        2670462.1494037127,
+        6956791.743090317
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        17,
+        -79
+      ],
+      "xy": [
+        -17350.550668399137,
+        -2850840.9399387375
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        18,
+        -30
+      ],
+      "xy": [
+        -52526.91626123583,
+        -1365009.2692992666
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -454850.25636224204
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        22,
+        45
+      ],
+      "xy": [
+        42883.69183426084,
+        910229.8625094143
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        23,
+        83
+      ],
+      "xy": [
+        11081.5456892747,
+        2062275.8483212804
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -524780.0583573205
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        447806.93483144965,
+        969785.4296286204
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -244365.4717545717,
+        -1554945.535581265
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        1763876.402392708
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        1798907.6080723517,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        4279305.602590073,
+        -173751.52379576268
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        3681605.816726464,
+        -1870606.9241468692
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -454850.25636224216
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        446573.750967753,
+        943645.4806985423
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -291639.09979932616,
+        -1364688.0352867658
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        2259089.6065991367
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        2007699.5724439034,
+        363849.4635986995
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        2399475.734845166,
+        3896717.585055475
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        2408222.531912607,
+        -3822854.9641723013
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -453552.4127262352
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        439885.5914206394,
+        929512.8732240822
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -283862.4413565646,
+        -1328298.1522475886
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        2103275.5496514495
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        1894295.3191384214,
+        343297.54572147253
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        1763582.628255183,
+        2864035.3975756187
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "moon",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        1784739.2188118007,
+        -2833126.5453982065
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -879033.3563913261
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mars",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1185493.9504661243,
+        1765491.3500744828
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mars",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -592746.9752330622,
+        -2639084.854996629
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mars",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        4410188.083086369
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mars",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        4149228.826631435,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mars",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        9780325.091345526,
+        -293139.5583692446
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mars",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        9424676.90620569,
+        -3228293.3804660332
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mars",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -889134.755742418
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1185493.9504661243,
+        2075935.1416937108
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -592746.9752330622,
+        -2734732.091359625
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        17527492.803820234
+      ],
+      "within_declared_domain": false,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        4149228.826631435,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        9780325.091345526,
+        -300278.14661065175
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        9424676.90620569,
+        -3454456.328187251
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -869029.1480537956
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        823771.5492622787,
+        1723356.8894467233
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -511482.7148416598,
+        -2364168.3965326105
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        3263286.603739079
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        3083843.808251183,
+        558875.9049684533
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -6752556.513198752
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        964618.8893424971,
+        -2650268.616847908
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -2019053.6079066305,
+        -11450622.019354418
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        -29813.00300545331
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        4883758.575010233,
+        -1777542.7526460497
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        1469478.5803490938,
+        5484168.722497007
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        5150423.43551389,
+        13417311.770399919
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        17,
+        -79
+      ],
+      "xy": [
+        -34109.50089048786,
+        -5543204.661687593
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        18,
+        -30
+      ],
+      "xy": [
+        -102828.32863251555,
+        -2639982.4335902384
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -879033.3563913257
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        22,
+        45
+      ],
+      "xy": [
+        84074.19401041594,
+        1766529.1513656324
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mars",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        23,
+        83
+      ],
+      "xy": [
+        21788.03260668263,
+        4023224.4861606923
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1584357.5350828923
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "venus",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        2112476.7134438567,
+        3168715.0701657855
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "venus",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -1056238.3567219283,
+        -4753072.605248678
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "venus",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        7868975.757578367
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "venus",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        7393668.497053498,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "venus",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        17427932.885911815,
+        -528119.1783609639
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "venus",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        16794189.87187866,
+        -5809310.961970605
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "venus",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1602772.315000297
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        2112476.7134438567,
+        3731124.358924573
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -1056238.3567219283,
+        -4927063.239281129
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        31285825.440578006
+      ],
+      "within_declared_domain": false,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        7393668.497053498,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        17427932.88591182,
+        -541130.2791134231
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        16794189.87187866,
+        -6219748.947377011
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1566321.097151435
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1463596.1345930167,
+        3092693.8159343037
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -910092.2764613583,
+        -4258660.932461777
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        5831698.776727945
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        5493057.707769873,
+        995490.6241554293
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -12103599.999999998
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1714709.5316155027,
+        -4711125.719037205
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -3640369.105845432,
+        -20645559.12667918
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        -52812.25299344288
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        8727319.036267849,
+        -3176484.3541462976
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        2628598.9098499217,
+        9810064.684280077
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        9301889.51062587,
+        24232250.645121433
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        17,
+        -79
+      ],
+      "xy": [
+        -60436.32009613094,
+        -9930194.083297601
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        18,
+        -30
+      ],
+      "xy": [
+        -182964.4249048849,
+        -4754669.676496662
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1584357.535082892
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        22,
+        45
+      ],
+      "xy": [
+        149374.6553715781,
+        3170558.9282459267
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        23,
+        83
+      ],
+      "xy": [
+        38599.80327060702,
+        7183424.069800118
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1827940.5762442916
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1559823.879482541,
+        3378005.907117811
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -851186.233431747,
+        -5416265.334540521
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        6144023.950731087
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        6266046.427151063,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        14905894.811646484,
+        -605220.1402712078
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "equalearth",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        12823956.533708537,
+        -6515793.129706471
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1584357.5350828923
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1555528.3907601289,
+        3286953.9081912274
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -1015852.1377722817,
+        -4753550.737854524
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        7868975.757578367
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        6993321.211301954,
+        1267378.9477418035
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        8357975.85595486,
+        13573244.780268634
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "azimuthal_equidistant",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        8388443.14413993,
+        -13315962.744433023
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -1579836.8201546161
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        1532231.8534358384,
+        3237726.491411017
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -988764.0857612856,
+        -4626795.647388026
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        7326236.313675976
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        6598305.751330666,
+        1195791.4626437249
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        6143000.661721376,
+        9976153.688873105
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "venus",
+      "method": "lambert_azimuthal_equal_area",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        6216694.373434589,
+        -9868490.40373021
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -637781.3307650316
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mercury",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        851905.6798739441,
+        1276412.6259517455
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mercury",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -425952.8399369721,
+        -1913571.655639873
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mercury",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        3172694.1138037955
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mercury",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        2981669.8795588044,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mercury",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        7028221.858960039,
+        -212608.53385385204
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mercury",
+      "method": "equirectangular",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        6772650.154997856,
+        -2339123.937532404
+      ],
+      "within_declared_domain": true,
+      "reference": "IOGP EQC via GeographicLib meridian"
+    },
+    {
+      "body": "mercury",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -645180.9101636109
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        851905.6798739441,
+        1502628.0034074744
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -425952.8399369721,
+        -1983509.73861956
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        12613375.402611699
+      ],
+      "within_declared_domain": false,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        2981669.8795588044,
+        0.0
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        7028221.85896004,
+        -217836.92093924765
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        6772650.154997856,
+        -2504167.157429049
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -630521.1013316163
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        590503.9561895843,
+        1245814.9969757148
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -367101.3451688325,
+        -1714477.3201691988
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        2350705.706209084
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        2215342.063163042,
+        401479.8989015727
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "orthographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": null,
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -4876522.814133844
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        40,
+        45
+      ],
+      "xy": [
+        691763.1769660404,
+        -1900603.708324388
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        10,
+        -30
+      ],
+      "xy": [
+        -1465336.253403147,
+        -8310334.853551997
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        20,
+        89.5
+      ],
+      "xy": [
+        0.0,
+        -21317.603700113614
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        90,
+        15
+      ],
+      "xy": [
+        3517916.7721276833,
+        -1280416.991680316
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        -175,
+        10
+      ],
+      "xy": [
+        1059400.6823776022,
+        3953737.172206353
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "stereographic",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 90.0
+      },
+      "input": [
+        179,
+        -40
+      ],
+      "xy": [
+        3743240.0303343274,
+        9751473.669548051
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        17,
+        -79
+      ],
+      "xy": [
+        -24394.223933412864,
+        -4001232.946423157
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        18,
+        -30
+      ],
+      "xy": [
+        -73801.85781776969,
+        -1914215.8623653906
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        20,
+        0
+      ],
+      "xy": [
+        0.0,
+        -637781.3307650317
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        22,
+        45
+      ],
+      "xy": [
+        60266.85312810943,
+        1277156.5510883755
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    },
+    {
+      "body": "mercury",
+      "method": "transverse_mercator",
+      "parameters": {
+        "central_longitude": 20.0,
+        "central_latitude": 15.0
+      },
+      "input": [
+        23,
+        83
+      ],
+      "xy": [
+        15580.550687490995,
+        2895976.0926991226
+      ],
+      "within_declared_domain": true,
+      "reference": "PROJ; explicit origin translation"
+    }
+  ],
+  "geodesics": [
+    {
+      "body": "earth",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        1,
+        1
+      ],
+      "distance_m": 156899.56829134029,
+      "azimuth1": 45.188040229358876,
+      "azimuth2": 45.19676732164486,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "earth",
+      "start": [
+        170,
+        -20
+      ],
+      "end": [
+        -170,
+        30
+      ],
+      "distance_m": 5933344.623449086,
+      "azimuth1": 21.718022439092813,
+      "azimuth2": 23.661780155533037,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "earth",
+      "start": [
+        30,
+        80
+      ],
+      "end": [
+        -120,
+        79
+      ],
+      "distance_m": 2264722.089489196,
+      "azimuth1": 344.0219693961216,
+      "azimuth2": 194.50811608412357,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "earth",
+      "start": [
+        -40,
+        -45
+      ],
+      "end": [
+        90,
+        50
+      ],
+      "distance_m": 16281019.529362734,
+      "azimuth1": 63.235409526318215,
+      "azimuth2": 79.08840095019788,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "earth",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        179.7,
+        0.1
+      ],
+      "distance_m": 19985791.197580088,
+      "azimuth1": 24.897433840137825,
+      "azimuth2": 155.10252592795405,
+      "ambiguous": false,
+      "difficult": true
+    },
+    {
+      "body": "earth",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        180,
+        0
+      ],
+      "distance_m": 20003931.458625447,
+      "azimuth1": 0.0,
+      "azimuth2": 180.0,
+      "ambiguous": true,
+      "difficult": true
+    },
+    {
+      "body": "moon",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        1,
+        1
+      ],
+      "distance_m": 42882.604775055,
+      "azimuth1": 44.99563645534485,
+      "azimuth2": 45.00436354465514,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "moon",
+      "start": [
+        170,
+        -20
+      ],
+      "end": [
+        -170,
+        30
+      ],
+      "distance_m": 1624703.9716993764,
+      "azimuth1": 21.598154075547754,
+      "azimuth2": 23.541052416342026,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "moon",
+      "start": [
+        30,
+        80
+      ],
+      "end": [
+        -120,
+        79
+      ],
+      "distance_m": 614909.8706297145,
+      "azimuth1": 344.0217691825658,
+      "azimuth2": 194.50798461913914,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "moon",
+      "start": [
+        -40,
+        -45
+      ],
+      "end": [
+        90,
+        50
+      ],
+      "distance_m": 4442209.953587169,
+      "azimuth1": 63.12730732900479,
+      "azimuth2": 78.89338933928092,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "moon",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        179.7,
+        0.1
+      ],
+      "distance_m": 5448613.995365646,
+      "azimuth1": 71.56495518367117,
+      "azimuth2": 108.43478301627647,
+      "ambiguous": false,
+      "difficult": true
+    },
+    {
+      "body": "moon",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        180,
+        0
+      ],
+      "distance_m": 5458203.076346907,
+      "azimuth1": 0.0,
+      "azimuth2": 180.0,
+      "ambiguous": true,
+      "difficult": true
+    },
+    {
+      "body": "mars",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        1,
+        1
+      ],
+      "distance_m": 83334.53663731039,
+      "azimuth1": 45.33383436621037,
+      "azimuth2": 45.34256146075134,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mars",
+      "start": [
+        170,
+        -20
+      ],
+      "end": [
+        -170,
+        30
+      ],
+      "distance_m": 3146880.031993102,
+      "azimuth1": 21.809260302452802,
+      "azimuth2": 23.753667449952975,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mars",
+      "start": [
+        30,
+        80
+      ],
+      "end": [
+        -120,
+        79
+      ],
+      "distance_m": 1208873.5348497208,
+      "azimuth1": 344.02212195365536,
+      "azimuth2": 194.50821625273497,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mars",
+      "start": [
+        -40,
+        -45
+      ],
+      "end": [
+        90,
+        50
+      ],
+      "distance_m": 8658516.219749477,
+      "azimuth1": 63.31692026457603,
+      "azimuth2": 79.23658380800568,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mars",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        179.7,
+        0.1
+      ],
+      "distance_m": 10629908.203522068,
+      "azimuth1": 14.983887058873796,
+      "azimuth2": 165.01608985856467,
+      "ambiguous": false,
+      "difficult": true
+    },
+    {
+      "body": "mars",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        180,
+        0
+      ],
+      "distance_m": 10638068.506567718,
+      "azimuth1": 0.0,
+      "azimuth2": 180.0,
+      "ambiguous": true,
+      "difficult": true
+    },
+    {
+      "body": "venus",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        1,
+        1
+      ],
+      "distance_m": 149370.8688716921,
+      "azimuth1": 44.99563645534485,
+      "azimuth2": 45.00436354465514,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "venus",
+      "start": [
+        170,
+        -20
+      ],
+      "end": [
+        -170,
+        30
+      ],
+      "distance_m": 5659251.465367955,
+      "azimuth1": 21.598154075547754,
+      "azimuth2": 23.541052416342026,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "venus",
+      "start": [
+        30,
+        80
+      ],
+      "end": [
+        -120,
+        79
+      ],
+      "distance_m": 2141885.3200626834,
+      "azimuth1": 344.0217691825658,
+      "azimuth2": 194.50798461913914,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "venus",
+      "start": [
+        -40,
+        -45
+      ],
+      "end": [
+        90,
+        50
+      ],
+      "distance_m": 15473331.528213898,
+      "azimuth1": 63.12730732900479,
+      "azimuth2": 78.89338933928092,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "venus",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        179.7,
+        0.1
+      ],
+      "distance_m": 18978889.246663872,
+      "azimuth1": 71.56495518367117,
+      "azimuth2": 108.43478301627647,
+      "ambiguous": false,
+      "difficult": true
+    },
+    {
+      "body": "venus",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        180,
+        0
+      ],
+      "distance_m": 19012290.42099471,
+      "azimuth1": 0.0,
+      "azimuth2": 180.0,
+      "ambiguous": true,
+      "difficult": true
+    },
+    {
+      "body": "mercury",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        1,
+        1
+      ],
+      "distance_m": 60181.331438826615,
+      "azimuth1": 45.04894810210226,
+      "azimuth2": 45.05767519223705,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mercury",
+      "start": [
+        170,
+        -20
+      ],
+      "end": [
+        -170,
+        30
+      ],
+      "distance_m": 2278923.3592565935,
+      "azimuth1": 21.63130648869587,
+      "azimuth2": 23.574443214775386,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mercury",
+      "start": [
+        30,
+        80
+      ],
+      "end": [
+        -120,
+        79
+      ],
+      "distance_m": 864542.5122509907,
+      "azimuth1": 344.0218245318233,
+      "azimuth2": 194.50802096341837,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mercury",
+      "start": [
+        -40,
+        -45
+      ],
+      "end": [
+        90,
+        50
+      ],
+      "distance_m": 6237144.8700592145,
+      "azimuth1": 63.15732058800097,
+      "azimuth2": 78.94736236540037,
+      "ambiguous": false,
+      "difficult": false
+    },
+    {
+      "body": "mercury",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        179.7,
+        0.1
+      ],
+      "distance_m": 7653059.913748935,
+      "azimuth1": 57.778549129291925,
+      "azimuth2": 122.22131266592076,
+      "ambiguous": false,
+      "difficult": true
+    },
+    {
+      "body": "mercury",
+      "start": [
+        0,
+        0
+      ],
+      "end": [
+        180,
+        0
+      ],
+      "distance_m": 7663585.82596617,
+      "azimuth1": 0.0,
+      "azimuth2": 180.0,
+      "ambiguous": true,
+      "difficult": true
+    }
+  ],
+  "areas": [
+    {
+      "body": "earth",
+      "vertices": [
+        [
+          -40,
+          -10
+        ],
+        [
+          10,
+          -10
+        ],
+        [
+          20,
+          40
+        ],
+        [
+          -20,
+          50
+        ]
+      ],
+      "area_m2": 30624628907136.1
+    },
+    {
+      "body": "earth",
+      "vertices": [
+        [
+          170,
+          -5
+        ],
+        [
+          -175,
+          -5
+        ],
+        [
+          -175,
+          10
+        ],
+        [
+          170,
+          10
+        ]
+      ],
+      "area_m2": 2774900951575.6025
+    },
+    {
+      "body": "earth",
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          0.01,
+          0
+        ],
+        [
+          0.01,
+          0.01
+        ],
+        [
+          0,
+          0.01
+        ]
+      ],
+      "area_m2": 1230907.2049932538
+    },
+    {
+      "body": "moon",
+      "vertices": [
+        [
+          -40,
+          -10
+        ],
+        [
+          10,
+          -10
+        ],
+        [
+          20,
+          40
+        ],
+        [
+          -20,
+          50
+        ]
+      ],
+      "area_m2": 2283017029503.5225
+    },
+    {
+      "body": "moon",
+      "vertices": [
+        [
+          170,
+          -5
+        ],
+        [
+          -175,
+          -5
+        ],
+        [
+          -175,
+          10
+        ],
+        [
+          170,
+          10
+        ]
+      ],
+      "area_m2": 207260296888.4563
+    },
+    {
+      "body": "moon",
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          0.01,
+          0
+        ],
+        [
+          0.01,
+          0.01
+        ],
+        [
+          0,
+          0.01
+        ]
+      ],
+      "area_m2": 91950.55786116213
+    },
+    {
+      "body": "moon",
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          90,
+          0
+        ],
+        [
+          0,
+          90
+        ]
+      ],
+      "area_m2": 4741541012422.558
+    },
+    {
+      "body": "moon",
+      "vertices": [
+        [
+          -120,
+          80
+        ],
+        [
+          0,
+          80
+        ],
+        [
+          120,
+          80
+        ]
+      ],
+      "area_m2": 120515792948.05469
+    },
+    {
+      "body": "mars",
+      "vertices": [
+        [
+          -40,
+          -10
+        ],
+        [
+          10,
+          -10
+        ],
+        [
+          20,
+          40
+        ],
+        [
+          -20,
+          50
+        ]
+      ],
+      "area_m2": 8652282392707.295
+    },
+    {
+      "body": "mars",
+      "vertices": [
+        [
+          170,
+          -5
+        ],
+        [
+          -175,
+          -5
+        ],
+        [
+          -175,
+          10
+        ],
+        [
+          170,
+          10
+        ]
+      ],
+      "area_m2": 782850641664.6385
+    },
+    {
+      "body": "mars",
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          0.01,
+          0
+        ],
+        [
+          0.01,
+          0.01
+        ],
+        [
+          0,
+          0.01
+        ]
+      ],
+      "area_m2": 347225.0629125432
+    },
+    {
+      "body": "venus",
+      "vertices": [
+        [
+          -40,
+          -10
+        ],
+        [
+          10,
+          -10
+        ],
+        [
+          20,
+          40
+        ],
+        [
+          -20,
+          50
+        ]
+      ],
+      "area_m2": 27699928667375.17
+    },
+    {
+      "body": "venus",
+      "vertices": [
+        [
+          170,
+          -5
+        ],
+        [
+          -175,
+          -5
+        ],
+        [
+          -175,
+          10
+        ],
+        [
+          170,
+          10
+        ]
+      ],
+      "area_m2": 2514696721573.6143
+    },
+    {
+      "body": "venus",
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          0.01,
+          0
+        ],
+        [
+          0.01,
+          0.01
+        ],
+        [
+          0,
+          0.01
+        ]
+      ],
+      "area_m2": 1115639.4633786127
+    },
+    {
+      "body": "venus",
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          90,
+          0
+        ],
+        [
+          0,
+          90
+        ]
+      ],
+      "area_m2": 57529289584887.89
+    },
+    {
+      "body": "venus",
+      "vertices": [
+        [
+          -120,
+          80
+        ],
+        [
+          0,
+          80
+        ],
+        [
+          120,
+          80
+        ]
+      ],
+      "area_m2": 1462222499794.125
+    },
+    {
+      "body": "mercury",
+      "vertices": [
+        [
+          -40,
+          -10
+        ],
+        [
+          10,
+          -10
+        ],
+        [
+          20,
+          40
+        ],
+        [
+          -20,
+          50
+        ]
+      ],
+      "area_m2": 4499005079981.541
+    },
+    {
+      "body": "mercury",
+      "vertices": [
+        [
+          170,
+          -5
+        ],
+        [
+          -175,
+          -5
+        ],
+        [
+          -175,
+          10
+        ],
+        [
+          170,
+          10
+        ]
+      ],
+      "area_m2": 408219051610.45056
+    },
+    {
+      "body": "mercury",
+      "vertices": [
+        [
+          0,
+          0
+        ],
+        [
+          0.01,
+          0
+        ],
+        [
+          0.01,
+          0.01
+        ],
+        [
+          0,
+          0.01
+        ]
+      ],
+      "area_m2": 181098.4620746757
+    }
+  ],
+  "normals": [
+    {
+      "body": "earth",
+      "input": [
+        0,
+        0
+      ],
+      "xyz": [
+        6378136.999999999,
+        0.0,
+        0.0
+      ],
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "body": "earth",
+      "input": [
+        179,
+        -60
+      ],
+      "xyz": [
+        -3196617.652409836,
+        55797.168673499924,
+        -5500477.133938639
+      ],
+      "normal": [
+        -0.49992384757819575,
+        0.008726203218641721,
+        -0.8660254037844386
+      ]
+    },
+    {
+      "body": "earth",
+      "input": [
+        -45,
+        25
+      ],
+      "xyz": [
+        4089915.6030012616,
+        -4089915.6030012616,
+        2679074.462957787
+      ],
+      "normal": [
+        0.6408563820557887,
+        -0.6408563820557887,
+        0.42261826174069944
+      ]
+    },
+    {
+      "body": "earth",
+      "input": [
+        90,
+        89.999
+      ],
+      "xyz": [
+        6.839283727207688e-15,
+        111.6939795534429,
+        6356752.3132704655
+      ],
+      "normal": [
+        1.068705940903256e-21,
+        1.7453292519072936e-05,
+        0.9999999998476914
+      ]
+    },
+    {
+      "body": "earth",
+      "input": [
+        0,
+        -90
+      ],
+      "xyz": [
+        3.918620924814472e-10,
+        0.0,
+        -6356752.314245179
+      ],
+      "normal": [
+        6.123233995736767e-17,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "body": "moon",
+      "input": [
+        0,
+        0
+      ],
+      "xyz": [
+        1737400.0,
+        0.0,
+        0.0
+      ],
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "body": "moon",
+      "input": [
+        179,
+        -60
+      ],
+      "xyz": [
+        -868567.6927823573,
+        15160.905472068127,
+        -1504632.5365350835
+      ],
+      "normal": [
+        -0.49992384757819575,
+        0.008726203218641721,
+        -0.8660254037844386
+      ]
+    },
+    {
+      "body": "moon",
+      "input": [
+        -45,
+        25
+      ],
+      "xyz": [
+        1113423.8781837274,
+        -1113423.8781837274,
+        734256.9679482915
+      ],
+      "normal": [
+        0.6408563820557885,
+        -0.6408563820557885,
+        0.42261826174069944
+      ]
+    },
+    {
+      "body": "moon",
+      "input": [
+        90,
+        89.999
+      ],
+      "xyz": [
+        1.856769701725317e-15,
+        30.32335042263733,
+        1737399.9997353794
+      ],
+      "normal": [
+        1.0687059409032558e-21,
+        1.745329251907294e-05,
+        0.9999999998476915
+      ]
+    },
+    {
+      "body": "moon",
+      "input": [
+        0,
+        -90
+      ],
+      "xyz": [
+        1.0638506744193057e-10,
+        0.0,
+        -1737400.0
+      ],
+      "normal": [
+        6.123233995736766e-17,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "body": "mars",
+      "input": [
+        0,
+        0
+      ],
+      "xyz": [
+        3396190.0,
+        0.0,
+        0.0
+      ],
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "body": "mars",
+      "input": [
+        179,
+        -60
+      ],
+      "xyz": [
+        -1705359.1259137671,
+        29767.154268753064,
+        -2919543.836270238
+      ],
+      "normal": [
+        -0.4999238475781958,
+        0.00872620321864172,
+        -0.8660254037844385
+      ]
+    },
+    {
+      "body": "mars",
+      "input": [
+        -45,
+        25
+      ],
+      "xyz": [
+        2178754.969327968,
+        -2178754.969327968,
+        1419934.494808303
+      ],
+      "normal": [
+        0.6408563820557887,
+        -0.6408563820557887,
+        0.4226182617406995
+      ]
+    },
+    {
+      "body": "mars",
+      "input": [
+        90,
+        89.999
+      ],
+      "xyz": [
+        3.651018351029184e-15,
+        59.625654573566266,
+        3376199.999479668
+      ],
+      "normal": [
+        1.068705940903256e-21,
+        1.745329251907294e-05,
+        0.9999999998476914
+      ]
+    },
+    {
+      "body": "mars",
+      "input": [
+        0,
+        -90
+      ],
+      "xyz": [
+        2.091879424495956e-10,
+        0.0,
+        -3376199.9999999995
+      ],
+      "normal": [
+        6.123233995736766e-17,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "body": "venus",
+      "input": [
+        0,
+        0
+      ],
+      "xyz": [
+        6051800.0,
+        0.0,
+        0.0
+      ],
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "body": "venus",
+      "input": [
+        179,
+        -60
+      ],
+      "xyz": [
+        -3025439.1407737248,
+        52809.236638575974,
+        -5241012.538622665
+      ],
+      "normal": [
+        -0.4999238475781957,
+        0.008726203218641723,
+        -0.8660254037844386
+      ]
+    },
+    {
+      "body": "venus",
+      "input": [
+        -45,
+        25
+      ],
+      "xyz": [
+        3878334.6529252217,
+        -3878334.6529252217,
+        2557601.196402365
+      ],
+      "normal": [
+        0.6408563820557887,
+        -0.6408563820557887,
+        0.42261826174069944
+      ]
+    },
+    {
+      "body": "venus",
+      "input": [
+        90,
+        89.999
+      ],
+      "xyz": [
+        6.467594613158324e-15,
+        105.62383566692561,
+        6051799.999078259
+      ],
+      "normal": [
+        1.068705940903256e-21,
+        1.745329251907294e-05,
+        0.9999999998476914
+      ]
+    },
+    {
+      "body": "venus",
+      "input": [
+        0,
+        -90
+      ],
+      "xyz": [
+        3.705658749539976e-10,
+        0.0,
+        -6051800.0
+      ],
+      "normal": [
+        6.123233995736766e-17,
+        0.0,
+        -1.0
+      ]
+    },
+    {
+      "body": "mercury",
+      "input": [
+        0,
+        0
+      ],
+      "xyz": [
+        2440530.0,
+        0.0,
+        0.0
+      ],
+      "normal": [
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "body": "mercury",
+      "input": [
+        179,
+        -60
+      ],
+      "xyz": [
+        -1220930.7630682623,
+        21311.425742214666,
+        -2111103.574513704
+      ],
+      "normal": [
+        -0.4999238475781956,
+        0.00872620321864172,
+        -0.8660254037844385
+      ]
+    },
+    {
+      "body": "mercury",
+      "input": [
+        -45,
+        25
+      ],
+      "xyz": [
+        1564288.996255179,
+        -1564288.996255179,
+        1029665.7408681976
+      ],
+      "normal": [
+        0.6408563820557885,
+        -0.6408563820557885,
+        0.42261826174069944
+      ]
+    },
+    {
+      "body": "mercury",
+      "input": [
+        90,
+        89.999
+      ],
+      "xyz": [
+        2.610637130988848e-15,
+        42.63493985051813,
+        2438259.99962794
+      ],
+      "normal": [
+        1.068705940903256e-21,
+        1.7453292519072936e-05,
+        0.9999999998476913
+      ]
+    },
+    {
+      "body": "mercury",
+      "input": [
+        0,
+        -90
+      ],
+      "xyz": [
+        1.4957848945330445e-10,
+        0.0,
+        -2438259.9999999995
+      ],
+      "normal": [
+        6.123233995736767e-17,
+        0.0,
+        -1.0
+      ]
+    }
+  ]
+}

@@ -63,7 +63,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
     metadata['body']={'identifier':ax.get_body().identifier,'shape':ax.get_body().shape,
                       'frame':ax.get_context().frame,'datum':ax.get_context().datum,
                       'latitude_type':ax.get_context().latitude_type,
-                      'metric_surface':ax.get_body()==EARTH}
+                      'metric_surface':ax.get_body()==EARTH or getattr(ax.projection,'context',None) is not None}
     metadata['axes_path']=ax._axes_path()
     scene.maps.append(metadata)
     figure_axes=ax.figure.axes if ax.figure is not None else []
@@ -220,7 +220,9 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
     metadata['components']=[]
     if ax._scale_bar:
         first=len(scene.items)
-        with scene.layout_artist(ax._scale_bar):_scale(ax._scale_bar, vp, scene)
+        with scene.layout_artist(ax._scale_bar):
+            from .surfaces import BodySurface,SurfaceProjection
+            _scale(ax._scale_bar,vp,scene,surface=BodySurface(ax.get_context()) if ax.get_body()!=EARTH or isinstance(ax.projection,SurfaceProjection) else None)
         from .typography import _export_metrics
         metadata['components'].append(dict(kind='scale',options=dict(ax._scale_bar),
             metrics=_export_metrics('0123456789.e+- '+ax._scale_bar['units'],text_style({})),
@@ -935,7 +937,7 @@ def _scale_labels(length,width,units,style):
     return ((.5,f'{length:g} {units}'),),True
 
 
-def _scale(options,vp,scene):
+def _scale(options,vp,scene,*,surface=None):
     from .typography import text_bounds
     fs=options['fontsize']*POINT
     maxwidth=min(vp.box[2]*.25,180)
@@ -971,7 +973,7 @@ def _scale(options,vp,scene):
         reference,endpoint=vp.inverse(x,y),vp.inverse(x+width,y)
         if reference is None or endpoint is None:
             raise ValueError("Scale bar anchor lies outside the projection; choose a regional extent or another location")
-        return haversine(reference,endpoint)/factor
+        return (haversine(reference,endpoint) if surface is None else surface.distance(reference,endpoint))/factor
     available=measure(maxwidth)
     if available <= 0:
         raise ValueError("Scale bar has no measurable geographic span at this location")

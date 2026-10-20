@@ -18,6 +18,19 @@ they are unnecessary to run the frozen numeric tests. Original static
 conversion code reuses Azimlib's existing frame equations and generic radial
 surface geometry. These distinctions do not change third-party rights.
 
+## Phase B numeric QA records (0.5 development)
+
+`tests/fixtures/surfaces-050.json` records original test inputs and factual
+black-box outputs from pyproj 3.8.0 / PROJ 9.8.1, GeographicLib 2.1 and
+SpiceyPy 8.3.0 / CSPICE N0067. The generator and fixture identify origins,
+versions, normalization and tolerances. No implementation, kernels, upstream
+prose, imagery or dataset is incorporated. These QA tools are not imported by
+the runtime or frozen tests. Existing upstream license notices elsewhere in
+this inventory remain applicable to the tools where installed separately.
+The gallery's non-Earth elevations and texture are original deterministic
+synthetic data, BSD-3-Clause, Copyright (c) 2026 Kernerian. Natural Earth,
+fonts, colormaps and all other existing third-party terms remain unchanged.
+
 ## Optional GPU rendering
 
 The `gpu` extra uses ModernGL and glcontext as generic OpenGL/context bindings.

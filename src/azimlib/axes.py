@@ -26,6 +26,11 @@ def _collection(kind, coordinates):
     return read_geojson({"type": kind, "coordinates": coordinates})
 
 
+def _cylindrical(projection):
+    from .surfaces import SurfaceProjection
+    return type(projection) in (Equirectangular,Mercator) or type(projection) is SurfaceProjection and projection.method in ('equirectangular','mercator')
+
+
 def _defaults(values, **defaults):
     """Merge plotting defaults with caller overrides, including style aliases."""
     return {**defaults, **normalize_aliases(values)}
@@ -106,7 +111,7 @@ class MapAxes(AxisComponents):
 
     def _check_kind(self,kind):
         from .bodies import EARTH,UnsupportedBodyOperation
-        if self.get_body()!=EARTH and kind not in ('geometry','scatter','text','annotation','labels','grid','path','line_collection'):
+        if self.get_body()!=EARTH and kind not in ('geometry','scatter','text','annotation','labels','grid','path','line_collection','mesh','color_image'):
             raise UnsupportedBodyOperation('Planetary '+kind+' not implemented in Phase A')
 
     def group(self,*,name='',parent=None,style=None,zorder=0,visible=True,clip_on=True):
@@ -280,6 +285,10 @@ class MapAxes(AxisComponents):
         return self._add("geometry", collection, kwargs, feature_style=style,fit=bool(fit))
 
     add_geometries = geojson
+
+    def geometric_light(self,value,**kwargs):
+        from .planetary_light import attach_geometric_light
+        return attach_geometric_light(self,value,**kwargs)
 
     def solar_light(self,position,**kwargs):
         self._earth_only('solar_light')
@@ -545,7 +554,18 @@ class MapAxes(AxisComponents):
         return result
 
     def route(self, coordinates, *, geodesic=True, steps=64, ellipsoid=None, **kwargs):
-        if geodesic or ellipsoid is not None:self._earth_only('surface geodesy')
+        from .bodies import EARTH
+        if self.get_body()!=EARTH and geodesic:
+            from .surfaces import BodySurface
+            surface=BodySurface(self.get_context())
+            if ellipsoid is not None and ellipsoid!=self.get_body().ellipsoid:raise ValueError('Geodesic model must match the active Body')
+            points=list(coordinates)
+            if len(points)<2:raise ValueError('A route needs at least two coordinates')
+            result=[]
+            for a,b in zip(points,points[1:]):
+                part=surface.route(a,b,samples=steps+1);result.extend(part if not result else part[1:])
+            return self.line(result,**_defaults(kwargs,arrow=True))
+        if ellipsoid is not None:self._earth_only('surface geodesy')
         from .routing import RoadRoute
         if isinstance(coordinates,RoadRoute):
             if ellipsoid is not None: raise ValueError('A RoadRoute already has source network geometry')
@@ -728,12 +748,12 @@ class MapAxes(AxisComponents):
         if not -90<=s<n<=90:raise ValueError('Require -90 <= south < north <= 90')
         crossing=-180<=e<w<=180
         if crossing:
-            if type(self.projection) not in (Equirectangular,Mercator):raise ValueError('Crossing extents require a cylindrical projection')
+            if not _cylindrical(self.projection):raise ValueError('Crossing extents require a cylindrical projection')
             e+=360
             if e<=w:raise ValueError('Crossing extent must have nonzero longitude span')
         if not self._longitude_wrap and crossing:
             members=tuple(self._shared_axes['x'].members)
-            if any(type(ax.projection) not in (Equirectangular,Mercator) for ax in members):raise ValueError('Shared crossing extents require cylindrical projections')
+            if any(not _cylindrical(ax.projection) for ax in members):raise ValueError('Shared crossing extents require cylindrical projections')
             center=(w+e)/2
             # Rebranch all shared longitudes before committing their limits.
             for ax in members:
@@ -882,6 +902,13 @@ class MapAxes(AxisComponents):
             return self._extent
         if self._bounds:
             return self._data_extent()
+        from .surfaces import SurfaceProjection
+        if type(self.projection) is SurfaceProjection:
+            p=self.projection;c=p.central_longitude;lat=p.central_latitude
+            if p.method=='transverse_mercator':return c-3,max(-80,lat-8),c+3,min(84,lat+8)
+            if p.method=='stereographic' and abs(lat)==90:return c-180,40 if lat>0 else -90,c+180,90 if lat>0 else -40
+            if p.method=='mercator':s,n=p.latitude_limits;return c-180,s,c+180,n
+            return c-180,-90,c+180,90
         if type(self.projection) is TransverseMercator:
             center=wrap_longitude(self.projection.central_longitude)
             latitude=self.projection.central_latitude
@@ -1070,7 +1097,10 @@ class MapAxes(AxisComponents):
     @artist_mutation
     def scale_bar(self, *, length=None, units="km", loc="lower left", fontsize=9,
                   frameon=True,facecolor='white',edgecolor='#cccccc',framealpha=.8,color='black'):
-        self._earth_only('scale_bar')
+        from .bodies import EARTH,UnsupportedBodyOperation
+        if self.get_body()!=EARTH:
+            from .surfaces import SurfaceProjection
+            if not isinstance(self.projection,SurfaceProjection):raise UnsupportedBodyOperation('Angular charts do not have physical scale bars')
         _validate_loc(loc)
         if units not in ("km", "m", "mi"):
             raise ValueError("units must be km, m, or mi")
@@ -1298,7 +1328,7 @@ class MapAxes(AxisComponents):
             layer=ColorImage('color_image',rows,style,dict(origin=origin,image_extent=extent))
             automatic=dict(self._autoscale_on)
             self._fit(_collection('MultiPoint',[(extent[0],extent[2]),(extent[1],extent[3])]))
-            layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+            layer._body_context=self.get_context();layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
             if automatic['x'] and automatic['y']:self.set_extent(extent)
             elif automatic['x']:self.set_xlim(extent[0],extent[1])
             elif automatic['y']:self.set_ylim(extent[2],extent[3])
@@ -1322,7 +1352,15 @@ class MapAxes(AxisComponents):
         pcolormesh. Source CRS/georeferencing are never inferred from filenames.
         Rotated affines are rejected before mutating the Axes; no resampling.
         """
-        self._earth_only('raster')
+        from .planetary_raster import PlanetaryRaster
+        if isinstance(data,PlanetaryRaster):
+            if data.context!=self.get_context():raise ValueError('Raster Body/context mismatch')
+            if any(v is not None for v in (crs,world_file,extent,nodata)):raise ValueError('Existing planetary raster already declares its reference grid')
+            lon,lat,rows=data.geographic_mesh()
+            layer=self.imshow(rows,extent=(lon[0],lon[-1],lat[0],lat[-1]),origin='lower',**kwargs) if data.color_mode=='rgba' else self.pcolormesh(lon,lat,rows,**kwargs)
+            layer.options['planetary_raster']=data
+            return layer
+        self._earth_only('terrestrial raster')
         from .raster import GeoRaster, read_raster
         if isinstance(data, GeoRaster):
             if any(value is not None for value in (crs, world_file, extent, nodata)):
@@ -1356,7 +1394,7 @@ class MapAxes(AxisComponents):
         layer=FilledContourSet('geometry',data,style,dict(contour=True,filled=True,levels=levels,triangles=triangles))
         layer.set(norm=norm,cmap=cmap,array=values)
         self._fit(_collection('MultiPoint',[(p[0],p[1]) for t in triangles for p in t]))
-        layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+        layer._body_context=self.get_context();layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
         return layer
 
     def contourf(self,lon,lat,values,levels=7,**kwargs):
@@ -1391,7 +1429,7 @@ class MapAxes(AxisComponents):
         norm,cmap=_field_mapping(array,cmap,norm,vmin,vmax)
         layer=Layer('geometry',FeatureCollection(features),style,dict(mapped=True,continuous=True))
         layer.set(norm=norm,cmap=cmap,array=array)
-        self._fit(layer.data);layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+        self._fit(layer.data);layer._body_context=self.get_context();layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
         return layer
 
     def heatmap(self,values,*,extent,origin='lower',**kwargs):
@@ -1435,7 +1473,7 @@ class MapAxes(AxisComponents):
         style=style_dict(_defaults(kwargs,arrow=True,zorder=3))
         layer=FlowCollection('geometry',FeatureCollection(features),style,dict(flow=True,minwidth=minwidth,maxwidth=maxwidth))
         layer.set(norm=norm,cmap=cmap,array=values)
-        self._fit(layer.data);layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+        self._fit(layer.data);layer._body_context=self.get_context();layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
         return layer
 
     def hillshade(self,values,*,extent,dx=1,dy=1,azdeg=315,altdeg=45,vert_exag=1,origin='lower',**kwargs):
@@ -1501,7 +1539,7 @@ class MapAxes(AxisComponents):
             edits['linestyles']=linestyles
         layer=ContourSet('geometry',read_geojson({'type':'FeatureCollection','features':features}),style,dict(contour=True,levels=levels,fit=True,initial_cvalues=tuple(color_values)))
         layer.set(**edits)
-        layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
+        layer._body_context=self.get_context();layer._axes=self;layer._bind_parent(self);self.layers.append(layer);self._changed()
         self._fit(_collection('MultiPoint',[(x[0],y[0]),(x[-1],y[-1])]))
         return layer
 

@@ -1,0 +1,37 @@
+name: planetary-surfaces-0.5
+on:
+  push:
+    branches: [dev/0.5.0]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: planetary-surfaces-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  native-surface-contracts:
+    if: github.ref == 'refs/heads/dev/0.5.0'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install '.[png]'
+      - run: python -c "from pathlib import Path; Path('.ci-results').mkdir(exist_ok=True)"
+      - run: python -m unittest discover -s tests -p 'test*050.py' -v
+      - run: python tools/validate_planetary_surfaces.py --output .ci-results/scientific-errors.json
+      - run: python examples/planetary/surfaces_050.py --output .ci-results/gallery
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase-b-${{ runner.os }}-py314
+          path: .ci-results/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

@@ -15,8 +15,11 @@ engines are not runtime dependencies.
 
 Development 0.5.0.dev0: [Phase A foundation](docs/foundation-0.5.md) adds
 immutable Body presets, static coordinate conventions, isolated map contexts
-and owned Layer groups. Non-Earth charts are experimental and nonmetric;
-planetary surfaces and the full thematic/editorial features remain planned.
+and owned Layer groups. [Phase B surfaces](docs/surfaces-0.5.md) adds static
+sphere/oblate metric projections, surface measurements, contextual rasters,
+synthetic terrain and explicit geometric light. Unsupported models are refused;
+3D remains experimental and no temporal planetary ephemeris is implied.
+The full thematic/editorial features remain planned.
 See the [122-item development checklist](docs/release-plan-0.5.md).
 
 [Getting started](https://github.com/Kernerian/azimlib/blob/main/docs/getting-started.md) ·

@@ -13,6 +13,9 @@ from __future__ import annotations
 from .bodies import (Body,BodySource,BodyRegistry,BODIES,EARTH,MOON,MARS,VENUS,MERCURY,
                      SurfaceMesh,LongitudeConvention,Capability,CapabilityStatus,UnsupportedBodyOperation)
 from .planetary import PlanetaryContext,PlanetaryData
+from .surfaces import BodySurface,SurfaceProjection
+from .planetary_raster import PlanetaryRaster,RasterBudget,ElevationProfile,SurfaceFrame
+from .planetary_light import GeometricLight,GeometricTerrainLight
 from .groups import ArtistGroup
 from ._frames import ReferenceFrame,Coordinates,RigidTransform,GeodeticFrame
 from .figure import Figure,AxesGrid
@@ -155,3 +158,4 @@ __all__.extend(('SolarLighting','ShadowBudget','EclipseGeometry','ShadowSphere',
 
 __all__.extend(('Body','BodySource','BodyRegistry','BODIES','EARTH','MOON','MARS','VENUS','MERCURY','SurfaceMesh','LongitudeConvention','Capability','CapabilityStatus','UnsupportedBodyOperation','PlanetaryContext','PlanetaryData','ArtistGroup'))
 __all__.extend(('ReferenceFrame','Coordinates','RigidTransform','GeodeticFrame'))
+__all__.extend(('BodySurface','SurfaceProjection','PlanetaryRaster','RasterBudget','ElevationProfile','SurfaceFrame','GeometricLight','GeometricTerrainLight'))

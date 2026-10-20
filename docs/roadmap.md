@@ -50,8 +50,10 @@ e reutilizável entre Terra e demais corpos.
 
 A [proposta consolidada](proposal-0.5.md) preserva todas as dez frentes antigas
 e acrescenta nove, com contratos, dependências e riscos. A
-[checklist de desenvolvimento](release-plan-0.5.md) preserva **122 IDs: 17
-concluídos e 105 abertos**. São 19 frentes e uma etapa transversal.
+[checklist de desenvolvimento](release-plan-0.5.md) preserva **122 IDs: 29
+concluídos e 93 abertos**. São 19 frentes e uma etapa transversal.
+Os contratos efetivamente implementados das [superfícies da Fase B](surfaces-0.5.md)
+não promovem geodésia triaxial/irregular ou orientação temporal não demonstradas.
 Recortes/interfaces preparados não são conclusão das funcionalidades futuras.
 
 Sequência sugerida:

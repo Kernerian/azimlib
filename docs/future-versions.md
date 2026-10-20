@@ -5,13 +5,14 @@ the ten planetary foundations are retained in full and nine thematic/editorial
 fronts use the same Body-aware Artists. Read the
 [consolidated proposal](proposal-0.5.md) and
 [development checklist](release-plan-0.5.md). Phase A now has a limited
-[implemented foundation](foundation-0.5.md); the remaining proposal is future work.
+[implemented foundation](foundation-0.5.md), followed by the bounded
+[Phase B surfaces](surfaces-0.5.md); the remaining proposal is future work.
 Earlier release documents and the v0.4.0
 tag/distributions remain immutable. Below, earlier development descriptions are
 historical context, not current publication status. 0.4.0 is now published;
 its separate operational receipt records 108 active completed and four deferred.
 
-Except for the documented Phase A subset, these are future requirements, not
+Except for the documented Phase A/B subsets, these are future requirements, not
 implemented features, release dates or frozen public API names. The terrestrial Sun/Moon requirements below are now included in
 the [combined 0.4.0 implementation checklist](release-progress-0.4.md), alongside
 GPU/volumes, large OSM PBF, CRS/grids, global topology, geocoding/routing and
@@ -104,7 +105,7 @@ a Mars exploration page using the same primitives, plus lunar/venusian and
 cross-world cases. The atlas case reproduces a cartographic structure, not
 protected assets from a reference illustration. Full contracts, architecture
 reuse, dependencies, research risks and implementation phases are in the
-[consolidated proposal](proposal-0.5.md). Only the Phase A subset linked above
+[consolidated proposal](proposal-0.5.md). Only the Phase A/B subsets linked above
 is implemented; remaining capabilities are future work.
 
 ## 0.6 proposal — Orbits and spatial visualization

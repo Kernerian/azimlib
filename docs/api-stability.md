@@ -48,3 +48,19 @@ not erase existing geometric contracts or authorize arbitrary patch breakage.
 to a documented minor-version migration. GPU/science experimentation does not
 change CPU defaults, root/pyplot imports or explicit fallback/approximation rules.
 [Measured evidence](observed-validation-0.4.md), [deferred criteria](deferred-gates-0.4.md).
+
+## 0.5 development foundation/surfaces
+
+Body/PlanetaryContext/PlanetaryData/ArtistGroup retain the documented Phase A
+contracts. Phase B adds BodySurface, SurfaceProjection, PlanetaryRaster,
+RasterBudget, ElevationProfile, SurfaceFrame, GeometricLight and
+GeometricTerrainLight. Their supported static sphere/oblate domains and
+explicit refusals are in the [surface guide](surfaces-0.5.md). No universal
+geodesy, triaxial/irregular solver, temporal orientation or atmosphere claim.
+
+Non-Earth Axes now default to metric EQC; callers preserving Phase A's visual
+angular scale must request `projection='angular'`. Earth defaults are preserved.
+3D remains experimental under the existing camera/mesh/texture contracts.
+Planetary GPU and HTML/browser coverage are not silently promoted; unsupported
+paths refuse. This development work does not change the 0.4.0 frozen release,
+its four deferred gates or the separate Orbits 0.6.0 roadmap.

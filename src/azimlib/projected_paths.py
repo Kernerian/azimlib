@@ -13,7 +13,7 @@ import weakref
 
 from .geometry import (Geometry, split_antimeridian, clip_polygon_antimeridian,
                        clip_orthographic_polygon, clip_orthographic_line)
-from .viewport import _BUILTINS, densify
+from .viewport import _CACHEABLE, densify
 
 
 _PAIR=Struct('<2d')
@@ -52,7 +52,8 @@ def _polygon_paths(rings,projection):
         paths=[]
         for index,ring in enumerate(polygon):
             if projection.name=='mercator':
-                ring=_clip_latitude(ring,-projection.max_latitude,projection.max_latitude)
+                low,high=getattr(projection,'latitude_limits',(-projection.max_latitude,projection.max_latitude))
+                ring=_clip_latitude(ring,low,high)
             if not ring:
                 if index==0:break
                 continue
@@ -143,7 +144,7 @@ class _ProjectedPathCache:
 
     def get(self,geometry,projection):
         if (not self.max_bytes or not self.max_entries or type(geometry) is not Geometry or
-                type(projection) not in _BUILTINS or
+                type(projection) not in _CACHEABLE or
                 geometry.type not in ('LineString','MultiLineString','Polygon','MultiPolygon')):
             return None
         # Identity avoids hashing every source vertex and distinguishes replacements.

@@ -72,7 +72,6 @@ class Figure(Artist):
         from .planetary import resolve_context
         resolved=resolve_context(body,context,default=self.get_context())
         from .bodies import EARTH,UnsupportedBodyOperation
-        if projection=='3d' and resolved.body!=EARTH:raise UnsupportedBodyOperation('Planetary terrain awaits Phase B')
         if projection=='3d':
             if sharex is not None or sharey is not None:raise ValueError('Experimental 3D axes do not share geographic limits')
             from .terrain_axes import TerrainAxes
@@ -480,6 +479,8 @@ class Figure(Artist):
         return bar
 
     def to_html(self, title=None):
+        if any(getattr(a.projection,'context',None) is not None for a in self.axes):
+            raise UnsupportedBodyOperation('Body-aware physical HTML navigation is not validated; use static PNG/SVG/PDF or CPU Tk/Qt')
         from .viewer import render_html
         return render_html(self.to_scene(simplify=False), title=self._window_title() if title is None else title)
 
@@ -549,6 +550,8 @@ class Figure(Artist):
         Figure.show is non-blocking by default, matching the object-oriented
         desktop convention. pyplot.show() runs the native GUI event loop.
         """
+        if backend in ('browser','browser-live','notebook') and any(getattr(a.projection,'context',None) is not None for a in self.axes):
+            raise UnsupportedBodyOperation('Body-aware physical portable navigation is not implemented; select CPU Tk/Qt')
         if backend not in ("tk","browser","browser-live","notebook","qt"):
             raise ValueError("Interactive backends: tk, browser, browser-live, notebook or qt")
         if renderer not in ('cpu','gpu') or gpu_fallback not in ('raise','cpu'):raise ValueError('Invalid explicit renderer/fallback')

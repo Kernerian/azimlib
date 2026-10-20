@@ -22,7 +22,7 @@ def terrestrial():
 
 
 def mars():
-    fig,ax=azl.subplots(body=azl.MARS,figsize=(8,5),dpi=120)
+    fig,ax=azl.subplots(body=azl.MARS,projection='angular',figsize=(8,5),dpi=120)
     ax.set_extent((-30,80,-30,45));ax.set_facecolor('#fbf5ed')
     area=ax.polygon([(-15,-15),(30,-20),(65,15),(20,30)],facecolor='#d9ac82',edgecolor='#966d51',label='Synthetic region')
     line,=ax.plot([-10,20,55],[-5,18,6],color='#874f45',marker='o',label='Angular path')
@@ -38,7 +38,7 @@ def mars():
 
 def comparison():
     fig=azl.figure(figsize=(10,5),dpi=120)
-    earth=fig.add_subplot(121);planet=fig.add_subplot(122,body=azl.MARS)
+    earth=fig.add_subplot(121);planet=fig.add_subplot(122,body=azl.MARS,projection='angular')
     earth.map('brazil');earth.states(linewidth=.3);earth.set_title('Earth · existing map')
     planet.set_extent((-30,80,-30,45));planet.set_facecolor('#fbf5ed')
     planet.polygon([(-15,-15),(30,-20),(65,15),(20,30)],facecolor='#d9ac82',edgecolor='#966d51')

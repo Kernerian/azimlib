@@ -5,14 +5,22 @@ from functools import lru_cache
 from .projections import (Equirectangular, Mercator, EqualEarth, Orthographic,
                           LambertConformalConic, AlbersEqualArea, TransverseMercator, Stereographic, AzimuthalEquidistant)
 from .geometry import wrap_longitude
+from .surfaces import SurfaceProjection
 
 
 _BUILTINS = (Equirectangular, Mercator, EqualEarth, Orthographic,
              LambertConformalConic, AlbersEqualArea, TransverseMercator, Stereographic, AzimuthalEquidistant)
 
+# Body-bound projections require explicit context and are not portable browser
+# built-ins. They are immutable and independently eligible for numeric caching.
+_CACHEABLE = (*_BUILTINS,SurfaceProjection)
+
 
 def _projected_bounds(projection, extent):
     west, south, east, north = extent
+    if type(projection) is SurfaceProjection and projection.method=='orthographic' and east-west>=360 and south<=-90 and north>=90:
+        _,b,offset=projection.auxiliary
+        return -projection.radius,-b-offset,projection.radius,b-offset
     points = []
     for i in range(49):
         lon = west + (east-west)*i/48
@@ -59,6 +67,9 @@ def _geometry_projected_bounds(projection, bounds):
 
 def _rotated_bounds(projection,extent,bearing):
     west,south,east,north=extent;c,s=math.cos(math.radians(bearing)),math.sin(math.radians(bearing));points=[]
+    if type(projection) is SurfaceProjection and projection.method=='orthographic' and east-west>=360 and south<=-90 and north>=90:
+        _,b,offset=projection.auxiliary;a=projection.radius;dx=math.hypot(a*c,b*s);dy=math.hypot(a*s,b*c)
+        return -offset*s-dx,-offset*c-dy,-offset*s+dx,-offset*c+dy
     for i in range(49):
         for j in range(25):
             p=projection.forward(west+(east-west)*i/48,south+(north-south)*j/24)
@@ -70,12 +81,12 @@ _cached_rotated_bounds=lru_cache(maxsize=128)(_rotated_bounds)
 class Viewport:
     def __init__(self, projection, extent, box, *, bearing=0):
         self.projection, self.extent, self.box = projection, extent, box
-        bounds = _cached_bounds if type(projection) in _BUILTINS else _projected_bounds
+        bounds = _cached_bounds if type(projection) in _CACHEABLE else _projected_bounds
         self.bearing=float(bearing)%360
         self._cos,self._sin=math.cos(math.radians(self.bearing)),math.sin(math.radians(self.bearing))
         self.projected_bounds = bounds(projection, tuple(extent))
         if self.bearing:
-            rb=_cached_rotated_bounds if type(projection) in _BUILTINS else _rotated_bounds
+            rb=_cached_rotated_bounds if type(projection) in _CACHEABLE else _rotated_bounds
             self.projected_bounds=rb(projection,tuple(extent),self.bearing)
         x0,y0,x1,y1 = self.projected_bounds
         bx, by, bw, bh = box

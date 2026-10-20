@@ -1,6 +1,9 @@
 # Azimlib 0.5.0 — Planetary Cartography / Beyond Earth
 
-Estado: proposta normativa ampliada; Fase A implementada no recorte documentado.
+Estado: proposta normativa ampliada; Fases A/B implementadas nos recortes documentados.
+As [superfícies da Fase B](surfaces-0.5.md) têm projeções e medidas físicas,
+raster/terreno e luz geométrica funcionais, com modelos/domínios explícitos.
+As frentes editoriais seguintes continuam propostas, não entregas por analogia.
 [Contratos efetivos](foundation-0.5.md) e [evidências](foundation-validation-0.5.md)
 distinguem entrega parcial da proposta completa, ainda não concluída.
 Data de consolidação: 2026-10-18. As 19 frentes abaixo são cumulativas: as

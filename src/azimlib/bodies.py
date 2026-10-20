@@ -168,7 +168,7 @@ class Body:
                'temporal_orientation','irregular_geodesy','groups')
         if operation not in known:raise ValueError('Unknown capability: '+str(operation))
         if backend not in ('cpu','svg','png','pdf','gpu'):raise ValueError('Unknown backend')
-        status=CapabilityStatus.NOT_IMPLEMENTED;reason='Not implemented in Phase A'
+        status=CapabilityStatus.NOT_IMPLEMENTED;reason='Not implemented in the static planetary contract'
         if operation in ('static_coordinates','planetocentric') and self.shape!='irregular':
             status=CapabilityStatus.SUPPORTED;reason='Static radial coordinates; oblate normal coordinates within declared domain'
         elif operation=='planetographic':
@@ -177,10 +177,14 @@ class Body:
             else:status=CapabilityStatus.SUPPORTED;reason='Static oblate normal-height conversion, height >= -10 km'
         elif operation=='angular_map' and self.shape!='irregular':
             status=CapabilityStatus.EXPERIMENTAL;reason='Nonmetric longitude/latitude chart; not a validated planetary surface projection'
+        elif operation in ('planetary_projection','surface_geodesy'):
+            try:self.ellipsoid
+            except UnsupportedBodyOperation:reason='No demonstrated sphere/oblate solver for this model'
+            else:status=CapabilityStatus.SUPPORTED;reason='Static sphere/oblate surface; projection-specific domains and bounded polygon-area contract apply'
         elif operation=='groups':status=CapabilityStatus.SUPPORTED;reason='Owned 2D Layer groups; physical clip paths remain unsupported'
         elif operation=='irregular_geodesy':status=CapabilityStatus.RESEARCH;reason='No demonstrated irregular-surface solver'
-        if backend=='gpu' and operation in ('angular_map','groups'):
-            status=CapabilityStatus.NOT_IMPLEMENTED;reason='Planetary/group GPU coverage not validated in Phase A'
+        if backend=='gpu' and operation in ('angular_map','groups','planetary_projection'):
+            status=CapabilityStatus.NOT_IMPLEMENTED;reason='Planetary/group GPU rendering coverage not validated'
         return Capability(operation,status,reason)
 
 

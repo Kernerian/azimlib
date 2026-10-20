@@ -1,10 +1,13 @@
 # Checklist de desenvolvimento — Azimlib 0.5.0
 
-Estado: **Fase A implementada e validada localmente**, sem publicação.
+Estado: **Fases A/B implementadas nos domínios documentados**, sem publicação.
 Inventário preservado: **122 IDs** (19 frentes + etapa transversal).
-**17/122 concluídos; 105 abertos**, incluindo implementações parciais.
+**29/122 concluídos; 93 abertos**, incluindo implementações parciais.
 Os resultados locais não equivalem à matriz multiplataforma/aceite final da release.
 Evidência e limites: [registro da Fase A](foundation-validation-0.5.md).
+Fase B: [contratos](surfaces-0.5.md), [validação](surfaces-validation-0.5.md),
+[investigação não oblata](surfaces-research-0.5.md). Investigação concluída
+em 3.05 não significa solver triaxial/irregular entregue.
 
 Fonte de escopo: [proposta consolidada](proposal-0.5.md). Os seis subitens de
 cada frente decompõem contrato, implementação futura e evidência; as descrições
@@ -32,18 +35,18 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## 3 — Projeções e geodésia por corpo
 
-- [ ] 3.01 — Fixar matriz de projeções globais/regionais/polares e planificação global, superfícies e singularidades, preservando fórmulas terrestres válidas.
-- [ ] 3.02 — Implementar projeção/inversa Body-aware com clipping de horizonte, polos, antimeridiano e domínios declarados.
-- [ ] 3.03 — Integrar distância, azimute, rotas geodésicas, comprimento e área para modelos demonstrados; unidades físicas explícitas.
-- [ ] 3.04 — Preparar perfil de elevação entre pontos com datum vertical, resolução, amostragem, NoData e exagero separados de distância real.
-- [ ] 3.05 — Investigar geodésia/área/inversas triaxiais e irregulares e planificação de malhas; documentar método, limites e pesquisa não encerrada.
-- [ ] 3.06 — Validar casos independentes e adversos por modelo, sem aprovar operações não demonstradas ou chamar troca de raio de generalização universal.
+- [x] 3.01 — Fixar matriz de projeções globais/regionais/polares e planificação global, superfícies e singularidades, preservando fórmulas terrestres válidas.
+- [x] 3.02 — Implementar projeção/inversa Body-aware com clipping de horizonte, polos, antimeridiano e domínios declarados.
+- [x] 3.03 — Integrar distância, azimute, rotas geodésicas, comprimento e área para modelos demonstrados; unidades físicas explícitas.
+- [x] 3.04 — Preparar perfil de elevação entre pontos com datum vertical, resolução, amostragem, NoData e exagero separados de distância real.
+- [x] 3.05 — Investigar geodésia/área/inversas triaxiais e irregulares e planificação de malhas; documentar método, limites e pesquisa não encerrada.
+- [x] 3.06 — Validar casos independentes e adversos por modelo, sem aprovar operações não demonstradas ou chamar troca de raio de generalização universal.
 
 ## 4 — Raster, imagens e relevo extraterrestre
 
-- [ ] 4.01 — Definir raster Body-aware, georreferência, resolução, unidades, datum vertical, máscaras/NoData e origem de pixels.
+- [x] 4.01 — Definir raster Body-aware, georreferência, resolução, unidades, datum vertical, máscaras/NoData e origem de pixels.
 - [ ] 4.02 — Integrar DEMs, imagens orbitais e mosaicos com resampling/máscaras e leitura delimitada por recursos.
-- [ ] 4.03 — Estender texturas, relevo 2D/3D, hillshade e exagero vertical, preservando a superfície e o dado original.
+- [x] 4.03 — Estender texturas, relevo 2D/3D, hillshade e exagero vertical, preservando a superfície e o dado original.
 - [ ] 4.04 — Suportar corpo inteiro → região → feição → terreno local com eixos/escala consistentes e cobertura explicitada.
 - [ ] 4.05 — Preparar fixtures e aquisição opcional verificável de dados licenciados, recusando mistura incompatível de Body/datum.
 - [ ] 4.06 — Validar mosaicos, polos, emendas, NoData, perfis e exportação; quantificar diferenças de resolução/interpolação.
@@ -59,12 +62,12 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## 6 — Iluminação planetária
 
-- [ ] 6.01 — Definir origem da luz, relógios, orientação, frame, normais, horizonte e validade científica por Body.
-- [ ] 6.02 — Estender iluminação, terminadores e incidência para modelos suportados com dados/referências próprios.
-- [ ] 6.03 — Integrar relevo, sombras e exagero visual, distinguindo superfície física de apresentação.
+- [x] 6.01 — Definir origem da luz, relógios, orientação, frame, normais, horizonte e validade científica por Body.
+- [x] 6.02 — Estender iluminação, terminadores e incidência para modelos suportados com dados/referências próprios.
+- [x] 6.03 — Integrar relevo, sombras e exagero visual, distinguindo superfície física de apresentação.
 - [ ] 6.04 — Definir modelos atmosféricos opcionais somente onde dados/física sustentarem contrato e limites claros.
 - [ ] 6.05 — Integrar tempo e playback sem extrapolar silenciosamente efemérides/orientação nem promover eclipses experimentais.
-- [ ] 6.06 — Validar iluminação/terminador/incidência contra casos geométricos e referências independentes, com tolerâncias predefinidas por domínio.
+- [x] 6.06 — Validar iluminação/terminador/incidência contra casos geométricos e referências independentes, com tolerâncias predefinidas por domínio.
 
 ## 7 — Exploração e evolução temporal
 
@@ -196,7 +199,7 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## Regras de contagem e fechamento futuro
 
-A contagem distingue os 17 subitens demonstrados dos 105 ainda abertos.
+A contagem distingue os 29 subitens demonstrados dos 93 ainda abertos.
 Interfaces preparadas, recortes ou exemplos parciais não concluem frentes inteiras.
 As descrições originais dos 122 critérios permanecem preservadas.
 Não transportar os quatro adiamentos da 0.4.0 como quatro itens aprovados,
@@ -220,12 +223,13 @@ SHA, contagens, corpus e formatos estão no registro de validação.
 
 Continuam abertos, com progresso parcial:
 
-- **2.04**: wrapper PlanetaryData/leitor GeoJSON explícito; raster e outros
-  datasets planetários ainda não integrados.
+- **2.04**: PlanetaryData/GeoJSON e PlanetaryRaster explícitos; leitores de
+  produtos planetários de missão ainda ausentes, sem claim de suporte universal.
 - **8.01/8.02/8.05/8.06**: dois contextos na mesma Figure e exemplo sintético
   angular; comparação física, todas as vistas e aceite multiplataforma futuros.
-- **9.02**: linhas/scatter/texto/geometrias angulares; raster, terreno e escala
-  métrica fora da Terra são recusados, não implementados.
+- **9.02**: linhas/scatter/texto/GeoJSON, raster, terreno e escala métrica
+  funcionais no recorte B; cobertura de todos os Artists/readers/viewers futuros
+  ainda incompleta. Não equivale à integração final de toda a proposta.
 - **10.01–10.06**: fontes das constantes/fixtures, tolerâncias prévias e auditoria
   local desta fundação; inventário/corpus dos recursos posteriores continuam abertos.
 - **17.02**: visibilidade, offsets de zorder, defaults de estilos e clip retangular
@@ -239,4 +243,19 @@ Continuam abertos, com progresso parcial:
 - **20.01/20.05/20.06/20.07**: regressão, guia, auditorias e pacotes privados
   dev desta fase não substituem validação integrada final da 0.5.0.
 
-Demais frentes continuam planejadas; nenhuma Fase B–F foi concluída por analogia.
+## Evidência adicional da Fase B
+
+3.01–3.04/3.06: SurfaceProjection/BodySurface/PlanetaryRaster, fixtures congeladas
+PROJ/GeographicLib/CSPICE, casos analíticos/adversariais e galeria real. 3.05:
+investigação com métodos/limites e recusas explícitas, sem solver entregue.
+4.01/4.03: grid/contexto/unidades/NoData, hillshade, texturas e terreno no
+renderer existente; exagero local não modifica o dataset. 6.01–6.03/6.06:
+luz geométrica explícita, normais da quádrica, terminadores e sombras de terreno,
+sem efeméride ou atmosfera implícita. Veja o registro de validação para hashes,
+testes, plataformas realmente executadas, resultados e limitações.
+
+Continuam parciais 4.02/4.04–4.06: mosaicos/reamostragem/imagens locais são reais,
+mas produtos de missão, aquisição real verificável, terreno global fechado e
+validação multiplataforma final não estão todos cobertos. 6.04–6.05: atmosfera
+e orientação/iluminação astronômica temporal não foram implementadas.
+As fases C–F continuam planejadas, sem conclusão por analogia.

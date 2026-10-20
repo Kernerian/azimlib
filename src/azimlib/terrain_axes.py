@@ -149,7 +149,8 @@ class TerrainAxes(MapAxes):
         from .planetary import resolve_context
         from .bodies import EARTH,UnsupportedBodyOperation
         declared=resolve_context(context=context,default=figure.get_context())
-        if declared.body!=EARTH:raise UnsupportedBodyOperation('Planetary 3D terrain awaits Phase B')
+        from .surfaces import BodySurface
+        BodySurface(declared)
         super().__init__(figure,position,'equirectangular',context=declared)
         self.camera=Camera(elev=elev,azim=azim,roll=roll,projection=proj_type)
         self._world_limits={};self._zlabel=None;self.local_frame=None
@@ -157,9 +158,11 @@ class TerrainAxes(MapAxes):
         if self.vertical_exaggeration<=0:raise ValueError('vertical_exaggeration must be positive')
     def get_projection(self):return '3d'
     def _attach(self,artist):
+        if artist.get_context() is not None and artist.get_context()!=self.get_context():raise ValueError('Surface Artist Body/context mismatch')
         if sum(len(a.mesh.triangles) for a in self.layers if hasattr(a,'mesh'))+len(artist.mesh.triangles)>TERRAIN_MAX_TRIANGLES:raise ValueError('3D axes triangle budget exceeded')
         artist._axes=self;artist._bind_parent(self);self.layers.append(artist);self._changed();return artist
     def plot_volume(self,field,*,region=None,**style):
+        self._earth_only('terrestrial volume')
         from .volume import VolumeField
         from .volume_artist import VolumeArtist
         if not isinstance(field,VolumeField):raise TypeError('Require an Azimlib VolumeField')
@@ -168,11 +171,13 @@ class TerrainAxes(MapAxes):
         if sum(isinstance(a,VolumeArtist) for a in self.layers)>=4:raise ValueError('3D axes support at most four volume fields')
         artist=VolumeArtist(field,**style);artist._axes=self;artist._bind_parent(self);self.layers.append(artist);self.local_frame=field.frame;self._changed();return artist
     def volume_slice(self,field,*,axis='z',position,**style):
+        self._earth_only('terrestrial volume')
         from .volume_artist import slice_mesh
         if self.layers and field.frame!=self.local_frame:raise ValueError('Slice and terrain require one local frame')
         mesh,values=slice_mesh(field,axis,position);style.setdefault('shade',False)
         artist=SurfaceArtist(mesh,**style);artist.set_array(values);result=self._attach(artist);self.local_frame=field.frame;return result
     def isosurface(self,field,level,**style):
+        self._earth_only('terrestrial volume')
         from .volume_artist import isosurface_mesh
         if self.layers and field.frame!=self.local_frame:raise ValueError('Isosurface and terrain require one local frame')
         mesh=isosurface_mesh(field,level);artist=SurfaceArtist(mesh,**style);artist.set_array([level]*len(mesh.vertices));result=self._attach(artist);self.local_frame=field.frame;return result
@@ -182,7 +187,13 @@ class TerrainAxes(MapAxes):
         if texture is not None:artist.set_texture(texture,uv)
         elif uv is not None:raise ValueError('UV requires an explicit texture')
         return self._attach(artist)
-    def terrain(self,raster,*,origin,elevation_unit='m',elevation_reference='unspecified',**style):
+    def terrain(self,raster,*,origin=None,elevation_unit='m',elevation_reference='unspecified',**style):
+        from .planetary_raster import PlanetaryRaster
+        if isinstance(raster,PlanetaryRaster):
+            if elevation_unit!='m' or elevation_reference!='unspecified':raise ValueError('Planetary DEM already declares elevation units/reference')
+            from .planetary_light import planetary_terrain
+            return planetary_terrain(self,raster,origin=origin,**style)
+        self._earth_only('terrestrial terrain')
         from .raster import GeoRaster
         from .crs import transform
         if not isinstance(raster,GeoRaster) or raster.color_mode!='scalar':raise TypeError('terrain requires a scalar GeoRaster')
@@ -203,6 +214,7 @@ class TerrainAxes(MapAxes):
         return artist
     def buildings(self,data,*,height,base=0,coordinates='world',unit='m',color='#aab1b8',shade=True):
         from .io import read_geojson
+        if coordinates=='geographic':self._earth_only('terrestrial geographic buildings')
         if coordinates not in ('world','geographic'):raise ValueError('coordinates must be world or geographic')
         if coordinates=='geographic' and self.local_frame is None:raise ValueError('Add terrain with an explicit origin first')
         if coordinates=='geographic':collection=read_geojson(data)
@@ -244,6 +256,9 @@ class TerrainAxes(MapAxes):
     def set_proj_type(self,proj_type,*,fov=None):self.set_camera(replace(self.camera,projection=proj_type,**({} if fov is None else {'fov':fov})))
     @artist_mutation
     def set_vertical_exaggeration(self,value):
+        if self.local_frame is None and value!=1 and any(hasattr(a,'_planetary_raster') for a in self.layers):
+            from .bodies import UnsupportedBodyOperation
+            raise UnsupportedBodyOperation('Body-fixed XYZ has no common vertical; use local ENU terrain for vertical exaggeration')
         value=finite(value)
         if value<=0:raise ValueError('vertical_exaggeration must be positive')
         self.vertical_exaggeration=value

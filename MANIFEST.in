@@ -4,12 +4,14 @@ include THIRD_PARTY_LICENSES.md
 recursive-include licenses *.txt *.json
 include .gitattributes
 include .github/workflows/tests.yml
+include .github/workflows/planetary-surfaces-0.5.yml
 recursive-include docs *.md *.json
 recursive-include examples *.py
 recursive-include examples *.mplstyle
 recursive-include tests *.py
 include tests/fixtures/foundation-040.json
 include tests/fixtures/planetary-050.json
+include tests/fixtures/surfaces-050.json
 recursive-include src/azimlib/data *.json *.geojson.gz
 recursive-include src/azimlib/assets *.js *.css
 recursive-include src/azimlib/assets/icons *.png *.svg *.json

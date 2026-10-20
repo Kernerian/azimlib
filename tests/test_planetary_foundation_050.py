@@ -139,7 +139,9 @@ class PlotContext050(unittest.TestCase):
         earth.map('brazil');earth.scale_bar();svg=f.to_svg();self.assertIn('Mars',svg)
         metadata=f.to_scene().maps
         self.assertTrue(any(m['body']['metric_surface'] for m in metadata))
-        self.assertTrue(any(not m['body']['metric_surface'] for m in metadata))
+        self.assertTrue(all(m['body']['metric_surface'] for m in metadata))
+        angular=azl.figure(body=azl.MARS).add_subplot(111,projection='angular')
+        self.assertFalse(angular.figure.to_scene().maps[0]['body']['metric_surface'])
         with self.assertRaises(ValueError):mars.sharex(earth)
 
     def test_figure_and_subplot_kw_and_import_facade(self):
@@ -178,14 +180,16 @@ class PlotContext050(unittest.TestCase):
 
     def test_non_earth_refusals_before_attachment(self):
         f,ax=azl.subplots(body=azl.MARS)
-        for action in (lambda:ax.map('brazil'),lambda:ax.scale_bar(),lambda:ax.overview(),
-                       lambda:ax.route([(0,0),(1,1)]),lambda:ax.set_projection('mercator'),
-                       lambda:ax.imshow([[1]],extent=(0,1,0,1)),lambda:f.add_subplot(111,projection='3d')):
+        for action in (lambda:ax.map('brazil'),lambda:ax.overview(),
+                       lambda:ax.set_projection('equalearth'),lambda:ax.sun('2024-01-01')):
             before=len(ax.layers)
             with self.subTest(action=action),self.assertRaises(azl.UnsupportedBodyOperation):action()
             self.assertEqual(len(ax.layers),before)
         with self.assertRaises(azl.UnsupportedBodyOperation):f.savefig('unused.png',renderer='gpu')
         ax.route([(0,0),(1,1)],geodesic=False)
+        ax.route([(0,0),(1,1)]);ax.set_projection('mercator')
+        ax.imshow([[1]],extent=(0,1,0,1));ax.scale_bar()
+        terrain=f.add_subplot(111,projection='3d');self.assertIs(terrain.get_body(),azl.MARS)
 
     def test_explicit_planetary_geojson_and_wrong_body_are_not_stripped(self):
         source={'type':'LineString','coordinates':[[0,0],[10,10]]}

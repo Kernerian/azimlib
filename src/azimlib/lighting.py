@@ -78,8 +78,8 @@ class SolarLighting(Artist):
     """Optional editable light for one explicit metre ENU frame."""
     _lighting_artist=True
     def __init__(self,axes,value,*,frame,model=None,offsets=None,ambient=.25,diffuse=.75,shadows=True,samples=1,angular_radius=None,bias_m=.001,max_edge_m=None,budget=None):
-        super().__init__(axes);self._axes=axes;self.frame=frame;self.model=model or SolarModel();self.offsets=offsets
-        if not isinstance(frame,LocalFrame):raise TypeError('Surface solar lighting requires an explicit LocalFrame')
+        super().__init__(axes);self._axes=axes;self.frame=frame;self.model=model if model is not None else self._default_model();self.offsets=offsets
+        self._validate_frame(frame)
         self.ambient,self.diffuse=finite(ambient),finite(diffuse)
         if not 0<=self.ambient<=1 or not 0<=self.diffuse<=1 or self.ambient+self.diffuse>1:raise ValueError('Ambient/diffuse require nonnegative total <=1')
         if isinstance(samples,bool) or not isinstance(samples,int) or not 1<=samples<=64:raise ValueError('Solar disk samples must be 1..64')
@@ -91,6 +91,9 @@ class SolarLighting(Artist):
         if not isinstance(self.budget,ShadowBudget):raise TypeError('Require ShadowBudget')
         self.visible=True;self._key=None;self._pieces={};self._factors={};self._index=None;self._volumes=[];self.geometry_builds=0;self.lighting_builds=0
         self.state=self._prepare_lighting(value);self._state_key=None
+    def _default_model(self):return SolarModel()
+    def _validate_frame(self,frame):
+        if not isinstance(frame,LocalFrame):raise TypeError("Surface solar lighting requires an explicit LocalFrame")
     @property
     def axes(self):return self._axes
     def _prepare_lighting(self,value):
