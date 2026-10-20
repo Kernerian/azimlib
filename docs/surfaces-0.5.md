@@ -135,6 +135,8 @@ expõe `distance_m`, `elevation_m` e, opcionalmente, `projected_distance_m`.
 Mais amostras não aumentam a resolução real do DEM. Alturas e exagero visual
 são separados. Os perfis de QA incluem NoData e bilinear; não certificam
 acurácia de um DEM observado não fornecido.
+Comprimento projetado que cruza a emenda da carta é recusado; escolha outro
+meridiano central ou divida o perfil, sem contar o salto entre bordas como rota.
 
 `TerrainAxes.terrain(raster, origin=(lon,lat))` produz o SurfaceArtist/Mesh
 existente, com SurfaceFrame ENU exato via XYZ, unidades em metros e raio local

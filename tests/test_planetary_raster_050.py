@@ -79,6 +79,10 @@ class BodyRasterTests(unittest.TestCase):
         self.assertGreater(profile.projected_distance_m[-1],profile.distance_m[-1]*2)
         self.assertAlmostEqual(profile.distance_m[-1],a.BodySurface(r.context).distance((.5,61.5),(3.5,61.5)),delta=1e-7)
         self.assertEqual(r.values[0],(100,)*4)
+        world=raster(a.MOON,values=[[100]*8]*4,affine=(45,0,-180,0,-45,90))
+        with self.assertRaises(a.UnsupportedBodyOperation):world.profile((179,0),(-179,0),projection=a.BodySurface(world.context).projection())
+        joined=world.profile((179,0),(-179,0),projection=a.BodySurface(world.context).projection(central_longitude=180))
+        self.assertLess(joined.projected_distance_m[-1],61000)
 
     def test_hillshade_sphere_plane_units_and_mask(self):
         r=raster(a.MOON,values=[[0.]*3]*3,affine=(.001,0,-.0015,0,-.001,.0015))
@@ -167,6 +171,7 @@ class SurfaceArtistTests(unittest.TestCase):
         with self.assertRaises(a.UnsupportedBodyOperation):f.to_html()
         ef,ea=a.subplots();ea.set_projection(a.BodySurface(ea.get_context()).projection('orthographic'))
         with self.assertRaises(a.UnsupportedBodyOperation):ef.to_html()
+        route=ea.route([(0,0),(20,30)]);self.assertIs(route.get_body(),a.EARTH)
         _,angular=a.subplots(body=a.MARS,projection='angular')
         with self.assertRaises(a.UnsupportedBodyOperation):angular.scale_bar()
 

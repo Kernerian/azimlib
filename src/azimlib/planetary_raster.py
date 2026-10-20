@@ -5,7 +5,7 @@ import math
 from pathlib import Path
 from .bodies import BodySource,UnsupportedBodyOperation
 from .planetary import PlanetaryContext
-from .geometry import _number
+from .geometry import _number,wrap_longitude
 from .scientific import scalar,color_rows,is_color,interpolate
 from .surfaces import BodySurface,SurfaceProjection
 from .geodesy import METRE,Unit
@@ -185,6 +185,8 @@ class PlanetaryRaster:
         if projection is not None and projection.context!=self.context:raise ValueError('Profile projection/context mismatch')
         projected=None
         if projection is not None:
+            if any(abs(wrap_longitude(b[0],projection.central_longitude)-wrap_longitude(a[0],projection.central_longitude))>180 for a,b in zip(points,points[1:])):
+                raise UnsupportedBodyOperation('Projected profile crosses the chart seam; select another central meridian or split the profile explicitly')
             projected=[0.];previous=projection.forward(*points[0])
             if previous is None:raise ValueError('Profile starts outside projection')
             for p in points[1:]:

@@ -1,4 +1,4 @@
-"""Explicit QA-only fixture generation; requires pyproj and GeographicLib.
+"""Explicit QA-only fixture generation; pyproj, GeographicLib and SpiceyPy.
 
 No downloads, no runtime cartography implementation imported. Preset numerical
 axes are frozen facts from WGS84/NAIF pck00011, not derived from Azimlib output.

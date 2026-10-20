@@ -555,8 +555,8 @@ class MapAxes(AxisComponents):
 
     def route(self, coordinates, *, geodesic=True, steps=64, ellipsoid=None, **kwargs):
         from .bodies import EARTH
-        if self.get_body()!=EARTH and geodesic:
-            from .surfaces import BodySurface
+        from .surfaces import BodySurface,SurfaceProjection
+        if geodesic and (self.get_body()!=EARTH or isinstance(self.projection,SurfaceProjection)):
             surface=BodySurface(self.get_context())
             if ellipsoid is not None and ellipsoid!=self.get_body().ellipsoid:raise ValueError('Geodesic model must match the active Body')
             points=list(coordinates)
