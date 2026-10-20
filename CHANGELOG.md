@@ -17,6 +17,11 @@
 - Seventeen reproducible synthetic surface scenes in PNG/SVG/PDF, independent
   PROJ/GeographicLib/CSPICE numeric fixtures and nonpublishing native QA workflow.
   See [Phase B contracts](docs/surfaces-0.5.md).
+- Native CI exposed Pillow 13 BOX axis-order differences on tall RGBA bands.
+  The CPU adapter preserves whole-frame bytes through bounded public image
+  operations; regression tolerances remain unchanged. Development baselines
+  explicitly inherit the unchanged reviewed 0.4 Earth cases and pixels, with
+  a separately pinned 0.5 verifier; unknown versions cannot fall back to 0.3.
 
 ### Phase A snapshot (historical contract)
 

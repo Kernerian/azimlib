@@ -76,6 +76,16 @@ Testes de sockets locais exigem loopback disponível; falhas de permissão do
 sandbox são mantidas no registro privado, nunca ocultadas como aprovação.
 Não foram suprimidos testes ou alteradas tolerâncias históricas.
 
+A primeira CI geral revelou duas incompatibilidades de ambiente/tooling:
+Pillow 13 mudou a ordem de filtragem BOX em imagens muito altas; o adapter
+CPU agora preserva a ordem do frame inteiro em bandas, via API pública e
+comparação byte a byte, sem incorporar implementação Pillow. O seletor antigo
+também enviava qualquer versão diferente de 0.4 para o snapshot 0.3. A 0.5
+tem seleção explícita e manifesto próprio, herdando **os mesmos hashes de
+primitivas e os mesmos PNGs 0.4**, com integridade do manifesto histórico e
+pin do novo verificador. Não se regeneram imagens para obter aprovação.
+Snapshots 0.3/0.4, tolerâncias visuais e bloqueio de sobrescrita são preservados.
+
 Medições da galeria são diagnósticas: primeira cena e três cenas quentes,
 dimensões/DPI fixados por exemplo, CPU, cache limitado. `--profile-memory`
 mede alocações Python/tracemalloc separadamente e interfere nos tempos.

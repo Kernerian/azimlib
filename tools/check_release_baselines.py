@@ -4,7 +4,13 @@ from pathlib import Path
 import azimlib as azl
 from azimlib.renderers import render_image
 ROOT=Path(__file__).resolve().parents[1]
-BASE=ROOT/'tools/baselines'/('release040' if azl.__version__.startswith('0.4.') else 'release030')
+def baseline_directory(version):
+    minor='.'.join(version.split('.')[:2])
+    directories={'0.3':'release030','0.4':'release040','0.5':'release050'}
+    if minor not in directories:raise ValueError('No reviewed regression baseline registered for '+version)
+    return ROOT/'tools/baselines'/directories[minor]
+
+BASE=baseline_directory(azl.__version__)
 
 def create(name):
     fig,ax=azl.subplots(figsize=(3.2,2.8),dpi=100,projection='3d' if name=='depth' else 'equirectangular')
@@ -103,6 +109,16 @@ def main():
     if a.record and BASE.exists():raise FileExistsError('Reviewed baselines must not be overwritten')
     if a.record:BASE.mkdir(parents=True)
     reference=None if a.record else json.loads((BASE/'manifest.json').read_text('utf8'))
+    images=BASE
+    if reference is not None and BASE.name=='release050':
+        original=ROOT/'tools/baselines/release040'
+        assert reference['inherited_manifest_sha256']==hashlib.sha256((original/'manifest.json').read_bytes()).hexdigest(),'Historical baseline changed'
+        historical=json.loads((original/'manifest.json').read_text('utf8'))
+        assert reference['cases']==historical['cases'],'Development oracle must retain the reviewed Earth cases'
+        assert hashlib.sha256((BASE/'inherited-verifier/check_release_baselines.py').read_bytes()).hexdigest()==historical['tool_sha256'],'Historical verifier changed'
+        images=original
+        for name,row in reference['cases'].items():
+            assert hashlib.sha256((images/(name+'.png')).read_bytes()).hexdigest()==row['png_sha256'],'Historical baseline image changed'
     runtime=Path(azl.__file__).resolve().parent;assert runtime.is_relative_to(Path(sys.prefix).resolve()),'Install the wheel before checking gates'
     rows=[]
     from azimlib.geodesy import Geodesic,WGS84
@@ -119,7 +135,7 @@ def main():
             image.save(BASE/(name+'.png'));comparison=dict(recorded=True)
         else:
             assert key==reference['cases'][name]['scene_sha256'],('Numeric/layout regression',name,key)
-            with Image.open(BASE/(name+'.png')) as expected_image:comparison=pixels(image,expected_image,text_mask(scene,image.size))
+            with Image.open(images/(name+'.png')) as expected_image:comparison=pixels(image,expected_image,text_mask(scene,image.size))
         rows.append(dict(name=name,pixels=list(image.size),scene_sha256=key,primitives=len(scene.items),warm_seconds=samples[1:],median_seconds=statistics.median(samples[1:]),max_frame_seconds=30,visual=comparison,png_sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
         image.close();azl.close(fig)
     tool_sha=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()

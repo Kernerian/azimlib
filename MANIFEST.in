@@ -48,3 +48,4 @@ include .github/workflows/review-gates-7-8.yml
 recursive-include docs/_static/integration-0.4 *.svg *.pdf *.html
 
 recursive-include tools/baselines/release040 *.json *.png *.md
+recursive-include tools/baselines/release050 *.json

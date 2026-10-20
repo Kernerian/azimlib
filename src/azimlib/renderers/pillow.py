@@ -55,13 +55,23 @@ def _downsample_box(canvas, target, Image, *, ratio=3):
     if canvas.width*canvas.height*4<=_BAND_THRESHOLD_BYTES:
         return canvas.resize(target,Image.Resampling.BOX)
     rows=max(1,_BOX_BAND_BYTES//(canvas.width*ratio*4))
+    # Pillow 13's whole-image BOX result changes axis order for tall images.
+    # Preserve that order across small bands through public image operations,
+    # retaining premultiplied alpha until both axes have been filtered. This
+    # compatibility rule is verified by black-box full-frame comparisons.
+    vertical_first=int(Image.__version__.split('.')[0])>=13 and height>2*width
     result=Image.new('RGBA',target)
     try:
         for top in range(0,height,rows):
             bottom=min(height,top+rows)
             source=canvas.crop((0,top*ratio,canvas.width,bottom*ratio))
             try:
-                band=source.resize((width,bottom-top),Image.Resampling.BOX)
+                if vertical_first:
+                    with source.convert('RGBa') as premultiplied:
+                        with premultiplied.resize((source.width,bottom-top),Image.Resampling.BOX) as vertical:
+                            with vertical.resize((width,bottom-top),Image.Resampling.BOX) as horizontal:
+                                band=horizontal.convert('RGBA')
+                else:band=source.resize((width,bottom-top),Image.Resampling.BOX)
                 try:result.paste(band,(0,top))
                 finally:band.close()
             finally:source.close()

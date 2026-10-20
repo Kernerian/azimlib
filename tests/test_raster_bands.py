@@ -67,6 +67,18 @@ class RasterBandTests(unittest.TestCase):
                 actual.close()
             reference.close();source.close()
 
+    def test_tall_box_native_axis_order_at_both_sides_of_dispatch_boundary(self):
+        rng=random.Random(504031)
+        for width in (1,2,3,7,12):
+            for height in (1,2,width*2,width*2+1,width*3+1):
+                source=Image.frombytes('RGBA',(width*3,height*3),rng.randbytes(width*height*36))
+                reference=source.resize((width,height),Image.Resampling.BOX)
+                for rows in (1,2,3,7):
+                    with self.subTest(width=width,height=height,rows=rows),patch.object(pillow,'_BOX_BAND_BYTES',width*36*rows):
+                        actual=pillow._downsample_box(source,(width,height),Image)
+                        self.assertEqual(actual.tobytes(),reference.tobytes());actual.close()
+                source.close();reference.close()
+
     def test_alpha_bands_match_full_composition_at_offsets_and_small_budgets(self):
         rng=random.Random(911)
         for width,height in ((1,1),(3,17),(19,31),(79,47)):
