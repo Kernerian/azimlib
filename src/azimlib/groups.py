@@ -37,7 +37,7 @@ class ArtistGroup(Artist):
         if parent is not None and (not isinstance(parent,ArtistGroup) or parent.axes is not axes):raise ValueError('Parent belongs to another Axes')
         self._axes=axes;self._children=[];self._group=None;self.name=name
         self._style=self._validated_style(style or {});self._zorder=_number(zorder,'zorder')
-        self._visible=bool(visible);self._clip_on=bool(clip_on)
+        self._visible=bool(visible);self._clip_on=bool(clip_on);self._clip_box=None;self._legend_visible=True
         Artist.__init__(self,axes)
         axes._groups.append(self)
         if parent is not None:parent.add(self)
@@ -49,6 +49,8 @@ class ArtistGroup(Artist):
     def _changed(self):
         # Existing label/cache keys depend on leaf change serials. Group edits
         # must invalidate those keys too, without replacing geometry or handles.
+        if getattr(self,'_mutation_depth',0):
+            super()._changed();return
         for child in tuple(getattr(self,'_children',())):child._changed()
         super()._changed()
     def get_children(self):return list(self._children)
@@ -111,6 +113,24 @@ class ArtistGroup(Artist):
     def set_style(self,**values):
         self._require_live();self._style=self._validated_style(values)
 
+    def get_legend_visible(self):return self._legend_visible and (self._group is None or self._group.get_legend_visible())
+    @artist_mutation
+    def set_legend_visible(self,value):self._require_live();self._legend_visible=bool(value);return self
+    def effective_clip_box(self,box):
+        parent=self._group.effective_clip_box(box) if self._group else None
+        if self._clip_box is None:return parent
+        x,y,w,h=box;a,b,c,d=self._clip_box;current=(x+a*w,y+b*h,c*w,d*h)
+        if parent is None:return current
+        x,y,w,h=current;a,b,c,d=parent;r=min(x+w,a+c);bottom=min(y+h,b+d);x,y=max(x,a),max(y,b)
+        return x,y,max(0,r-x),max(0,bottom-y)
+    @artist_mutation
+    def set_clip_box(self,value):
+        self._require_live()
+        if value is not None:
+            value=tuple(_number(v) for v in value)
+            if len(value)!=4 or min(value)<0 or value[2]<=0 or value[3]<=0 or value[0]+value[2]>1 or value[1]+value[3]>1:raise ValueError('Clip box uses top-left normalized Axes fractions')
+        self._clip_box=value;return self
+
     def set_transform(self,transform):
         raise NotImplementedError('Phase A groups do not transform descendant coordinates; edit leaf Artists explicitly')
 
@@ -133,6 +153,8 @@ class ArtistGroup(Artist):
         def validate(group):
             for child in group._children:
                 if isinstance(child,ArtistGroup):validate(child)
+                elif hasattr(child,'instantiate') and child.kind in ('thematic_symbols','thematic_region','thematic_path'):
+                    if getattr(child,'_transform',None) is not None:raise NotImplementedError('Transformed thematic instances cannot be cloned')
                 elif (type(child) is not Layer or child.kind!='geometry' or getattr(child,'_transform',None) is not None
                       or set(child.options)-{'feature_style','fit'} or child.options.get('feature_style') is not None):
                     raise NotImplementedError('Phase A cloning supports plain immutable geometry Layers without transforms/options')
@@ -140,8 +162,10 @@ class ArtistGroup(Artist):
         def clone(group,parent=None):
             result=ArtistGroup(axes,name=group.name,parent=parent,style=group._style,zorder=group._zorder,
                                visible=group._visible,clip_on=group._clip_on)
+            result._clip_box=group._clip_box;result._legend_visible=group._legend_visible
             for child in group._children:
                 if isinstance(child,ArtistGroup):clone(child,result)
+                elif hasattr(child,'instantiate') and child.kind in ('thematic_symbols','thematic_region','thematic_path'):result.add(child.instantiate(axes))
                 else:
                     local=dict(child.style.local) if isinstance(child.style,_GroupStyle) else dict(child.style)
                     new=Layer('geometry',child.data,local,dict(child.options),visible=child.get_local_visible())

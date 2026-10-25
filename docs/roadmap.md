@@ -50,8 +50,8 @@ e reutilizável entre Terra e demais corpos.
 
 A [proposta consolidada](proposal-0.5.md) preserva todas as dez frentes antigas
 e acrescenta nove, com contratos, dependências e riscos. A
-[checklist de desenvolvimento](release-plan-0.5.md) preserva **122 IDs: 29
-concluídos e 93 abertos**. São 19 frentes e uma etapa transversal.
+[checklist de desenvolvimento](release-plan-0.5.md) preserva **122 IDs: 43
+concluídos e 79 abertos**. São 19 frentes e uma etapa transversal.
 Os contratos efetivamente implementados das [superfícies da Fase B](surfaces-0.5.md)
 não promovem geodésia triaxial/irregular ou orientação temporal não demonstradas.
 Recortes/interfaces preparados não são conclusão das funcionalidades futuras.
@@ -96,3 +96,5 @@ conservam suas próprias licenças. Sem downloads implícitos, claims universais
 precisão/performance ou promessa de compatibilidade integral com outro toolkit.
 Promover APIs experimentais somente com evidência adequada e migração quando
 necessária. Publicação exige autorização futura específica; este plano não a concede.
+
+A [Fase C temática](thematic-0.5.md) entrega primitivas comuns e protótipos Terra/Marte; composição completa permanece na Fase D. Validação e limites no [registro C](thematic-validation-0.5.md).

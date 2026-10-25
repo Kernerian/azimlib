@@ -20,6 +20,9 @@ sphere/oblate metric projections, surface measurements, contextual rasters,
 synthetic terrain and explicit geometric light. Unsupported models are refused;
 3D remains experimental and no temporal planetary ephemeris is implied.
 The full thematic/editorial features remain planned.
+[Phase C thematic primitives](docs/thematic-0.5.md) add shared Earth/Mars symbols,
+custom regions, authored gradients, editorial paths and independent group instances.
+Atlas composition and advanced labels remain future work.
 See the [122-item development checklist](docs/release-plan-0.5.md).
 
 [Getting started](https://github.com/Kernerian/azimlib/blob/main/docs/getting-started.md) ·

@@ -159,3 +159,6 @@ __all__.extend(('SolarLighting','ShadowBudget','EclipseGeometry','ShadowSphere',
 __all__.extend(('Body','BodySource','BodyRegistry','BODIES','EARTH','MOON','MARS','VENUS','MERCURY','SurfaceMesh','LongitudeConvention','Capability','CapabilityStatus','UnsupportedBodyOperation','PlanetaryContext','PlanetaryData','ArtistGroup'))
 __all__.extend(('ReferenceFrame','Coordinates','RigidTransform','GeodeticFrame'))
 __all__.extend(('BodySurface','SurfaceProjection','PlanetaryRaster','RasterBudget','ElevationProfile','SurfaceFrame','GeometricLight','GeometricTerrainLight'))
+
+from .thematic import (AssetSource,SymbolPart,SymbolDefinition,symbol_catalog,RegionDefinition,LinearGradient,CartographicPath,SymbolArtist,RegionArtist,CartographicPathArtist)
+__all__.extend(('AssetSource','SymbolPart','SymbolDefinition','symbol_catalog','RegionDefinition','LinearGradient','CartographicPath','SymbolArtist','RegionArtist','CartographicPathArtist'))

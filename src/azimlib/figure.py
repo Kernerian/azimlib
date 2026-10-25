@@ -479,6 +479,8 @@ class Figure(Artist):
         return bar
 
     def to_html(self, title=None):
+        if any(l.kind.startswith('thematic_') for a in self.axes for l in a.layers):
+            raise UnsupportedBodyOperation('Portable HTML thematic navigation is not validated; use static exports or CPU Tk/Qt')
         if any(getattr(a.projection,'context',None) is not None for a in self.axes):
             raise UnsupportedBodyOperation('Body-aware physical HTML navigation is not validated; use static PNG/SVG/PDF or CPU Tk/Qt')
         from .viewer import render_html

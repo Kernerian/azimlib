@@ -1,7 +1,17 @@
 # Changelog
 
-## 0.5.0.dev0 — Phases A/B, unreleased
+## 0.5.0.dev0 — Phases A/B/C, unreleased
 
+- Phase C: context-bound SymbolDefinition/SymbolArtist, safe bounded SVG/PNG,
+  18 original programmatic icons, custom regions/masks/bands and authored linear
+  gradients; geographic editorial Bezier/cardinal splines separated from surface
+  geodesics and existing Earth network metrics. Shared Artists work on Earth/Mars.
+- Nested group style/clip/legend control and independent thematic instantiation;
+  PNG sprites preserve surrounding vectors, PDF gradients use a declared local
+  alpha tile. Native browser navigation refuses unsupported thematic payloads.
+- Eight reproducible thematic scenes, content/security/lifecycle regressions,
+  CPU workload measurements and a nonpublishing native validation workflow.
+  See [Phase C contracts](docs/thematic-0.5.md); complete atlas composition remains Phase D.
 - Phase B: BodySurface/SurfaceProjection with bounded sphere/oblate methods,
   exact ellipsoidal orthographic horizon, inverse projections, metres, geodesic
   distances/azimuths/routes and explicitly bounded polygon/parallel areas.

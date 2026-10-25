@@ -1,0 +1,14 @@
+{
+  "observation.svg": {
+    "sha256": "851a89d797a76bc5c5d79e9c491bebfb08208a0780eeffe22fe24a59c5b95de0",
+    "license": "BSD-3-Clause",
+    "credit": "Copyright (c) 2026 Kernerian",
+    "origin": "Original programmatic illustration for Azimlib examples; not mission artwork"
+  },
+  "sample.png": {
+    "sha256": "699358ea6d0698586fb640b72688c6eee994ad28be54ac349efbf5ed7508d710",
+    "license": "BSD-3-Clause",
+    "credit": "Copyright (c) 2026 Kernerian",
+    "origin": "Original programmatic illustration for Azimlib examples; not mission artwork"
+  }
+}

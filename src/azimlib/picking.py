@@ -1,7 +1,7 @@
 """Feature hit tests on final physical scene geometry; no spatial dependency."""
 import math
 from types import SimpleNamespace
-from .scene import Path,Circle,Rect
+from .scene import Path,Circle,Rect,RasterIcon
 from .colors import to_rgba
 
 def segment_distance(p,a,b):
@@ -25,6 +25,10 @@ def primitive_hit(item,p,tolerance):
     if item.clip:
         a,b,w,h=item.clip
         if not (a<=x<=a+w and b<=y<=b+h):return False
+    if isinstance(item,RasterIcon):
+        if item.width<=0 or item.height<=0 or not (item.x<=x<item.x+item.width and item.y<=y<item.y+item.height):return False
+        col=min(item.pixel_width-1,int((x-item.x)/item.width*item.pixel_width));row=min(item.pixel_height-1,int((y-item.y)/item.height*item.pixel_height))
+        return item.rgba[(row*item.pixel_width+col)*4+3]*item.style.get('opacity',1)>0
     fill,stroke=_painted(item.style,'fill'),_painted(item.style,'stroke')
     radius=tolerance+item.style.get('stroke_width',1)/2
     if isinstance(item,Circle):

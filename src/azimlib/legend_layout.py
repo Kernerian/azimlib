@@ -51,6 +51,8 @@ def symbol(layer,legend=None):
     from .legend_handler import get_handler
     handler=get_handler(legend.get('handler_map',{}),layer) if legend is not None else None
     if handler is not None:return {'_handler':handler,'_handle':layer},'custom'
+    if layer.kind=='thematic_symbols':return dict(layer.style,_symbol=layer.symbol),'cartographic_symbol'
+    if layer.kind=='thematic_region':return dict(layer.style),'polygon'
     kind='scatter' if layer.kind=='scatter' else 'line'
     if layer.kind=='geometry' and any(f.geometry and f.geometry.type in ('Polygon','MultiPolygon') for f in layer.data):kind='polygon'
     style=layer._scatter_style(0) if kind=='scatter' and layer.data else dict(layer.style)
@@ -69,6 +71,7 @@ def entries(legend):
     items=[];options=legend
     layers=options['handles'] if options['handles'] is not None else legend.axes.layers
     for i,layer in enumerate(layers):
+        if getattr(layer,'_group',None) is not None and not layer._group.get_legend_visible():continue
         explicit=options['labels'][i] if options['labels'] is not None else None
         if isinstance(layer,tuple):
             if explicit is not None:items.append((str(explicit),[symbol(h,legend) for h in layer]))
@@ -203,6 +206,9 @@ def render_legend(legend,vp,scene):
                 if kind=='custom':
                     from .legend_handler import HandleBox
                     symbolstyle['_handler'].legend_artist(legend,symbolstyle['_handle'],fs,HandleBox(legend,scene,(cx,center-fs/2,handle,fs)))
+                elif kind=='cartographic_symbol':
+                    from .thematic_render import symbol_scene
+                    symbol_scene(symbolstyle['_symbol'],(cx+handle/2,center),fs,symbolstyle,scene,None)
                 elif kind=='polygon':
                     scene.add(Rect(cx,center-fs*.35,handle,fs*.7,path_style(symbolstyle,True)))
                     add_hatches(scene,[[(cx,center-fs*.35),(cx+handle,center-fs*.35),(cx+handle,center+fs*.35),(cx,center+fs*.35)]],symbolstyle)

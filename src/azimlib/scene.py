@@ -102,7 +102,23 @@ class Raster3D:
             if any(v.inverse!=self.volumes[0].inverse or v.field.frame!=self.volumes[0].field.frame for v in self.volumes):raise ValueError('Volume layers require one shared camera and spatial frame')
 
 
-Primitive = Path | Text | Circle | Rect | Raster3D
+@dataclass(frozen=True)
+class RasterIcon:
+    """A bounded transparent sprite; never rasterizes surrounding vectors."""
+    x:float
+    y:float
+    width:float
+    height:float
+    pixel_width:int
+    pixel_height:int
+    rgba:bytes
+    style:Style=field(default_factory=dict)
+    clip:Clip | None=None
+    def __post_init__(self):
+        if any(type(v) is not int or v<1 for v in (self.pixel_width,self.pixel_height)) or self.pixel_width*self.pixel_height>1048576:raise ValueError('Raster icon pixel budget exceeded')
+        if not isinstance(self.rgba,bytes) or len(self.rgba)!=self.pixel_width*self.pixel_height*4:raise ValueError('Raster icon needs immutable exact RGBA bytes')
+
+Primitive = Path | Text | Circle | Rect | Raster3D | RasterIcon
 
 
 @dataclass
@@ -134,7 +150,7 @@ class Scene:
 
     def add(self, item: Primitive) -> Primitive:
         """Append a primitive in painting order and return it."""
-        if not isinstance(item, (Path, Text, Circle, Rect, Raster3D)):
+        if not isinstance(item, (Path, Text, Circle, Rect, Raster3D, RasterIcon)):
             raise TypeError("A scene accepts only Path, Text, Circle, or Rect primitives")
         if isinstance(item,Text):
             from .mathtext import has_math,primitives
@@ -163,6 +179,8 @@ class Scene:
                 new = Text(item.x*factor,item.y*factor,item.text,style,clip)
             elif isinstance(item, Circle):
                 new = Circle(item.x*factor,item.y*factor,item.r*factor,style,clip)
+            elif isinstance(item,RasterIcon):
+                new=RasterIcon(item.x*factor,item.y*factor,item.width*factor,item.height*factor,item.pixel_width,item.pixel_height,item.rgba,style,clip)
             elif isinstance(item, Raster3D):
                 new = Raster3D(item.x*factor,item.y*factor,item.width*factor,item.height*factor,item.triangles,style,clip,item.texture,item.uv,item.volumes)
             else:

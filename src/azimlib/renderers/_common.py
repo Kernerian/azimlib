@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import math
 
-from ..scene import Circle, Path, Rect, Scene, Text, Raster3D
+from ..scene import Circle, Path, Rect, Scene, Text, Raster3D, RasterIcon
 
 SHAPE_STYLE = {
     "fill", "stroke", "stroke_width", "opacity", "dash", "linecap",
@@ -28,6 +28,9 @@ def validate(scene: Scene, *, _path_validator=None) -> None:
             raise ValueError("Scene width and height must be finite and positive")
     for item in scene.items:
         allowed = TEXT_STYLE if isinstance(item, Text) else SHAPE_STYLE
+        if isinstance(item,Path) and '_thematic_gradient' in item.style:
+            if type(item.style['_thematic_gradient']) is not int or item.style['_thematic_gradient']<0:raise ValueError('Invalid internal gradient group')
+            allowed=allowed|{'_thematic_gradient'}
         unknown = set(item.style) - allowed
         if unknown:
             raise ValueError(f"Unsupported {type(item).__name__} style: {', '.join(sorted(unknown))}")
@@ -87,7 +90,7 @@ def validate(scene: Scene, *, _path_validator=None) -> None:
                 number(value)
             if item.r < 0:
                 raise ValueError("Circle radius cannot be negative")
-        elif isinstance(item, (Rect,Raster3D)):
+        elif isinstance(item, (Rect,Raster3D,RasterIcon)):
             for value in (item.x, item.y, item.width, item.height):
                 number(value)
             if item.width < 0 or item.height < 0:

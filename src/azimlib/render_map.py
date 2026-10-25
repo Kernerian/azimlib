@@ -85,7 +85,11 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
     for layer in (sorted((l for l in ax.layers if l.kind in ("text","annotation")),key=lambda a:a.zorder) if measure_layout else sorted(ax.layers, key=lambda a:a.zorder)):
         if not layer.visible:
             continue
-        if layer.kind == "geometry":
+        layer_start=len(scene.items)
+        if layer.kind in ('thematic_symbols','thematic_region','thematic_path'):
+            from .thematic_render import render_thematic
+            render_thematic(layer,vp,scene)
+        elif layer.kind == "geometry":
             layer_start=len(scene.items)
             pixel_padding=2*max(1,100/ax.figure.dpi) if ax.figure else 2
             candidates=_geometry_candidates(layer,vp,pixel_padding) if cull else None
@@ -192,6 +196,9 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
             _annotation(layer, vp, scene)
         elif layer.kind == "labels":
             _labels(layer, vp, scene, planned)
+        if getattr(layer,'_group',None) is not None:
+            from .thematic_render import apply_group_clip
+            apply_group_clip(layer,scene,layer_start,mapbox)
     metadata["end"] = len(scene.items)
     tick_start=len(scene.items)
     tick_label_end=tick_start

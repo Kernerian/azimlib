@@ -1,8 +1,8 @@
 # Checklist de desenvolvimento — Azimlib 0.5.0
 
-Estado: **Fases A/B implementadas nos domínios documentados**, sem publicação.
+Estado: **Fases A/B/C implementadas nos domínios documentados**, sem publicação.
 Inventário preservado: **122 IDs** (19 frentes + etapa transversal).
-**29/122 concluídos; 93 abertos**, incluindo implementações parciais.
+**43/122 concluídos; 79 abertos**, incluindo implementações parciais.
 Os resultados locais não equivalem à matriz multiplataforma/aceite final da release.
 Evidência e limites: [registro da Fase A](foundation-validation-0.5.md).
 Fase B: [contratos](surfaces-0.5.md), [validação](surfaces-validation-0.5.md),
@@ -107,29 +107,29 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## 11 — Símbolos e ícones cartográficos georreferenciados
 
-- [ ] 11.01 — Definir símbolo georreferenciado genérico, catálogo/categorias e ownership como Artist compatível, válido em qualquer Body.
-- [ ] 11.02 — Suportar símbolos nativos, marcadores vetoriais, SVG customizado delimitado, PNG/imagens externas e símbolos do usuário com proveniência.
-- [ ] 11.03 — Integrar tamanho visual/mapa, rotação, alpha, zorder, ancoragem, offsets, clipping e prioridade visual sem distorção pelo viewport.
-- [ ] 11.04 — Integrar labels associados, picking e legenda automática/explícita com amostras coerentes de ícones/categorias.
-- [ ] 11.05 — Preparar recursos/portos/cidades/fortalezas/batalhas/minas/templos e pousos/sondas/rovers/bases/instrumentos/pontos científicos na mesma infraestrutura.
-- [ ] 11.06 — Validar SVG seguro/limitado, assets inválidos, direitos, proporções e edição/exportação Terra/Marte/Lua; rejeitar recursos não suportados explicitamente.
+- [x] 11.01 — Definir símbolo georreferenciado genérico, catálogo/categorias e ownership como Artist compatível, válido em qualquer Body.
+- [x] 11.02 — Suportar símbolos nativos, marcadores vetoriais, SVG customizado delimitado, PNG/imagens externas e símbolos do usuário com proveniência.
+- [x] 11.03 — Integrar tamanho visual/mapa, rotação, alpha, zorder, ancoragem, offsets, clipping e prioridade visual sem distorção pelo viewport.
+- [x] 11.04 — Integrar labels associados, picking e legenda automática/explícita com amostras coerentes de ícones/categorias.
+- [x] 11.05 — Preparar recursos/portos/cidades/fortalezas/batalhas/minas/templos e pousos/sondas/rovers/bases/instrumentos/pontos científicos na mesma infraestrutura.
+- [x] 11.06 — Validar SVG seguro/limitado, assets inválidos, direitos, proporções e edição/exportação Terra/Marte/Lua; rejeitar recursos não suportados explicitamente.
 
 ## 12 — Regiões e áreas temáticas personalizadas
 
-- [ ] 12.01 — Definir áreas independentes de limites administrativos, Polygon/MultiPolygon e conjuntos de geometrias com Body explícito.
-- [ ] 12.02 — Integrar preenchimento, alpha, contorno, hatches/padrões, máscaras, sobreposição e prioridade de desenho.
+- [x] 12.01 — Definir áreas independentes de limites administrativos, Polygon/MultiPolygon e conjuntos de geometrias com Body explícito.
+- [x] 12.02 — Integrar preenchimento, alpha, contorno, hatches/padrões, máscaras, sobreposição e prioridade de desenho.
 - [ ] 12.03 — Integrar label central/calculado, clipping geográfico, antimeridiano, polos/horizonte e diversas projeções.
-- [ ] 12.04 — Oferecer área binária, polígonos discretos, bandas/degraus e gradiente matematicamente definido como escolhas explícitas.
-- [ ] 12.05 — Documentar núcleo/controle/influência/fronteira aproximada/alcance provável como semânticas externas; nunca inferir heatmap ou probabilidade.
+- [x] 12.04 — Oferecer área binária, polígonos discretos, bandas/degraus e gradiente matematicamente definido como escolhas explícitas.
+- [x] 12.05 — Documentar núcleo/controle/influência/fronteira aproximada/alcance provável como semânticas externas; nunca inferir heatmap ou probabilidade.
 - [ ] 12.06 — Validar furos, componentes, interseções, continuidade de padrões e efeitos por projeção em regiões históricas/sintéticas e geológicas planetárias.
 
 ## 13 — Rotas, fluxos e curvas cartográficas
 
-- [ ] 13.01 — Separar contratos editorial, geodésico, rede/grafo e trajetória física reservada à 0.6.0; declarar espaço de interpolação e unidades.
-- [ ] 13.02 — Integrar polilinhas, waypoints, curvas suaves, Bézier, splines, arcos geodésicos e paths explícitos do usuário.
+- [x] 13.01 — Separar contratos editorial, geodésico, rede/grafo e trajetória física reservada à 0.6.0; declarar espaço de interpolação e unidades.
+- [x] 13.02 — Integrar polilinhas, waypoints, curvas suaves, Bézier, splines, arcos geodésicos e paths explícitos do usuário.
 - [ ] 13.03 — Suportar setas/direção, largura, cor, alpha, tracejado e fluxos proporcionais com unidade e legenda explícitas.
 - [ ] 13.04 — Posicionar símbolos e labels ao longo do caminho com clipping, offsets e efeitos visuais sem mudar a geometria científica.
-- [ ] 13.05 — Integrar usos comerciais/migração/expedições/campanhas/ferrovias/marítimos/econômicos e rotas de rover/superfície com a mesma API.
+- [x] 13.05 — Integrar usos comerciais/migração/expedições/campanhas/ferrovias/marítimos/econômicos e rotas de rover/superfície com a mesma API.
 - [ ] 13.06 — Validar continuidade, antimeridiano, horizonte, medida original preservada, proporção de setas e determinismo sob projeção/zoom/exportação.
 
 ## 14 — Inset maps, minimapas e locator maps
@@ -162,7 +162,7 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 ## 17 — Camadas temáticas e grupos
 
 - [x] 17.01 — Definir extensão de Artist/Layer para grupos sem hierarquia incompatível ou ciclos, com propriedade/lifecycle explícitos.
-- [ ] 17.02 — Integrar visibilidade e zorder de grupos, clipping comum e estilos compartilhados com precedência documentada.
+- [x] 17.02 — Integrar visibilidade e zorder de grupos, clipping comum e estilos compartilhados com precedência documentada.
 - [ ] 17.03 — Definir inclusão/exclusão de grupos na legenda e tratamento dos labels/símbolos associados.
 - [ ] 17.04 — Reutilizar dados/definições em layouts/insets com instâncias por viewport, sem anexar o mesmo Artist mutável a múltiplos Axes.
 - [ ] 17.05 — Integrar picking, callbacks, redraw/invalidação e remoção com renderização interativa e caches seguros.
@@ -199,7 +199,7 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 
 ## Regras de contagem e fechamento futuro
 
-A contagem distingue os 29 subitens demonstrados dos 93 ainda abertos.
+A contagem distingue os 43 subitens demonstrados dos 79 ainda abertos.
 Interfaces preparadas, recortes ou exemplos parciais não concluem frentes inteiras.
 As descrições originais dos 122 critérios permanecem preservadas.
 Não transportar os quatro adiamentos da 0.4.0 como quatro itens aprovados,
@@ -259,3 +259,32 @@ mas produtos de missão, aquisição real verificável, terreno global fechado e
 validação multiplataforma final não estão todos cobertos. 6.04–6.05: atmosfera
 e orientação/iluminação astronômica temporal não foram implementadas.
 As fases C–F continuam planejadas, sem conclusão por analogia.
+
+## Evidência da Fase C e itens ainda parciais
+
+[Contratos temáticos](thematic-0.5.md) e [validação](thematic-validation-0.5.md).
+Novos concluídos: 11.01–11.06, 12.01/12.02/12.04/12.05,
+13.01/13.02/13.05 e 17.02. São 14 novos + 29 anteriores = **43/122**.
+O fechamento se refere aos domínios e recusas explícitos dos contratos,
+nunca a um Body ou importador SVG universal.
+
+- 12.03: máscaras/antimeridiano/horizonte reais; labels calculados e interiores
+  polares universais não entregues. 12.06: casos sintéticos/furos/projeções
+  testados; continuidade universal dos efeitos/padrões permanece aberta.
+- 13.03: setas/estilos reais; fluxo proporcional com unidade/legenda ainda aberto.
+- 13.04: símbolos tangentes reais; labels curvos/offsets avançados são Fase D.
+- 13.06: casos analíticos/determinísticos passaram; cobertura final das combinações
+  de clipping/projeção/DPI/backend permanece aberta.
+- 17.03: política de inclusão para as novas primitivas, sem cobertura universal
+  das coleções legadas nem legenda seccional. 17.04: instâncias temáticas reais
+  e isoladas, mas integração completa com layouts/insets futuros permanece aberta.
+- 17.05/17.06: callbacks, toggles, picking por folha, remoção e contrato Tk reais;
+  aceite/interação multiplataforma e layouts editoriais finais ainda abertos.
+- 19/20: galerias/benchmarks/exportações desta fase não concluem matriz final,
+  locators/atlas completos, aceite humano futuro ou autorização de publicação.
+
+O progresso parcial histórico das Fases A/B acima continua registrado como
+snapshot, não descreve limitações já superadas pela implementação C. Fase B:
+encerramento técnico/funcional aceito, Linux e Windows validados; macOS nativo
+no SHA b77b12c92523d203211a3d30e39f09998e5d0816 permanece pendente externo,
+matriz B completa não aprovada. Evidência C em outro SHA não substitui essa prova.

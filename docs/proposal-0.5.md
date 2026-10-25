@@ -330,3 +330,10 @@ release antes dessa análise por subdomínio.
 - A checklist seguinte é proposta de implementação/validação futura, sem
   execução e sem autorização de publicação. Alterações de escopo exigem
   registro explícito; uma documentação de planejamento não conclui recursos.
+
+## Implementação delimitada da Fase C
+
+A proposta integral permanece normativa. A implementação entregue e suas recusas
+estão em [thematic-0.5.md](thematic-0.5.md); [a checklist](release-plan-0.5.md)
+distingue 43 demonstrados de 79 abertos. Protótipos históricos/planetários não
+concluem locators, labels curvos, atlas ou temas das fases seguintes.

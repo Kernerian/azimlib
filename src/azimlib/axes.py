@@ -118,6 +118,39 @@ class MapAxes(AxisComponents):
         from .groups import ArtistGroup
         return ArtistGroup(self,name=name,parent=parent,style=style,zorder=zorder,visible=visible,clip_on=clip_on)
 
+    @artist_mutation
+    def symbols(self,points,symbol='city',*,context=None,**options):
+        from .thematic import SymbolArtist,_attach
+        context=self.get_context() if context is None else context
+        return _attach(self,SymbolArtist(points,symbol,context,**options))
+
+    @artist_mutation
+    def thematic_region(self,region,*,context=None,category='',semantics='decorative',meaning='',**options):
+        from .thematic import RegionDefinition,RegionArtist,_attach
+        if not isinstance(region,RegionDefinition):region=RegionDefinition(region,self.get_context() if context is None else context,category,semantics,meaning)
+        elif context is not None and region.context!=context:raise ValueError('Conflicting region contexts')
+        return _attach(self,RegionArtist(region,**options))
+
+    @artist_mutation
+    def region_bands(self,bands,*,name='',semantics='decorative'):
+        from .thematic import RegionArtist,RegionDefinition,_semantic
+        _semantic(semantics)
+        bands=tuple(bands)
+        if not 1<=len(bands)<=128:raise ValueError('Band count must be 1..128')
+        prepared=[]
+        for region,style in bands:
+            if not isinstance(region,RegionDefinition) or region.context!=self.get_context() or region.semantics!=semantics:raise ValueError('Band Body/semantics mismatch')
+            prepared.append(RegionArtist(region,**style))
+        from .thematic import _attach
+        group=self.group(name=name)
+        for artist in prepared:group.add(_attach(self,artist))
+        return group
+
+    @artist_mutation
+    def cartographic_path(self,path,**options):
+        from .thematic import CartographicPathArtist,_attach
+        return _attach(self,CartographicPathArtist(path,**options))
+
     def _earth_only(self,operation):
         from .bodies import EARTH,UnsupportedBodyOperation
         if self.get_body()!=EARTH:raise UnsupportedBodyOperation(operation+' is only validated on Earth; no planetary fallback')
@@ -345,6 +378,8 @@ class MapAxes(AxisComponents):
 
     def region(self,region,**kwargs):
         """Optional spherical region, with explicit fill/boundary resolution."""
+        from .thematic import RegionDefinition
+        if isinstance(region,(RegionDefinition,Geometry)):return self.thematic_region(region,**kwargs)
         self._earth_only('region')
         from .overlay import draw_region
         return draw_region(self,region,**kwargs)

@@ -104,6 +104,13 @@ def audit():
     assert lighting['sun_nominal_radius_m']==SUN_RADIUS_M and lighting['earth_shadow_radius_m']==EARTH_SHADOW_RADIUS_M
     assert not lighting['third_party_implementation_incorporated'] and not lighting['raw_reference_data_distributed']
     assert 'Physical light and finite-source geometry' in notices
+    # Own example assets remain separate from third-party material notices.
+    own=json.loads((ROOT/'examples/thematic/assets/provenance.json').read_text('utf8'))
+    for name,item in own.items():
+        assert sha(ROOT/'examples/thematic/assets'/name)==item['sha256'],name
+        assert item['license']=='BSD-3-Clause' and 'Kernerian' in item['credit'],name
+    from azimlib.thematic_assets import symbol_catalog
+    assert all(s.source.origin=='azimlib:programmatic-catalog' and s.source.license=='BSD-3-Clause' for s in symbol_catalog().values())
     return {'passed': True, 'original_code_license': 'BSD-3-Clause', 'copyright_identifier': 'Kernerian',
             'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics', 'Carlito wordmark artwork credit (font not shipped)', 'LINZ optional grid metadata and CC BY 4.0 notice (grids not shipped)'],
             'license_texts_verified': len(manifest['license_texts'])+len(text_dependencies)+len(fonts_optional)+len(tex_dependencies)+len(gpu_dependencies), 'own_cycle_colors': len(AZIM10),

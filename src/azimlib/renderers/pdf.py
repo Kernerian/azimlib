@@ -6,7 +6,7 @@ PDF is one static page; no UI, external resources, TeX or cartographic backend.
 """
 import math
 from pathlib import Path as FilePath
-from ..scene import Path,Text,Circle,Rect,Raster3D
+from ..scene import Path,Text,Circle,Rect,Raster3D, RasterIcon
 from ..colors import to_rgba
 from ..font_outline import text_commands
 from ._common import validate
@@ -67,11 +67,19 @@ def render_pdf(scene,path_or_stream=None,*,dpi=100,_objects=False):
     images=[]
     ratio=72/dpi
     commands.append(f'{n(ratio)} 0 0 {n(-ratio)} 0 {n(scene.height*ratio)} cm')
-    items=list(scene.items)
+    items=_gradient_tiles(scene)
     if scene.background is not None:items.insert(0,Rect(0,0,scene.width,scene.height,dict(fill=scene.background)))
     for item in items:
         commands.append('q')
         if item.clip is not None:commands.append(' '.join(n(v) for v in item.clip)+' re W n')
+        if isinstance(item,RasterIcon):
+            import zlib
+            rgb=bytes(c for i,c in enumerate(item.rgba) if i%4!=3);alpha=bytes(round(a*item.style.get('opacity',1)) for a in item.rgba[3::4])
+            def icon_object(data,space,mask=''):
+                data=zlib.compress(data)
+                return object(f'<< /Type /XObject /Subtype /Image /Width {item.pixel_width} /Height {item.pixel_height} /ColorSpace /{space} /BitsPerComponent 8 /Filter /FlateDecode {mask} /Length {len(data)} >>\nstream\n'.encode()+data+b'\nendstream')
+            mask=icon_object(alpha,'DeviceGray');ref=icon_object(rgb,'DeviceRGB',f'/SMask {mask} 0 R');name=f'Im{len(images)}';images.append((name,ref))
+            commands.append(f'{n(item.width)} 0 0 {n(-item.height)} {n(item.x)} {n(item.y+item.height)} cm /{name} Do');commands.append('Q');continue
         if isinstance(item,Raster3D):
             import zlib
             from ..terrain3d import rasterize
@@ -189,3 +197,39 @@ def render_pdf_pages(pages):
     for offset in offsets[1:]:out+=f'{offset:010d} 00000 n \n'.encode()
     out+=f'trailer\n<< /Size {len(offsets)} /Root 1 0 R >>\nstartxref\n{start}\n%%EOF\n'.encode()
     return bytes(out)
+
+
+def _gradient_tiles(scene):
+    """Only gradient fills use a bounded RGBA tile to avoid PDF stitching.
+
+    Exact authored topology/clipping is rendered by the existing CPU backend;
+    all outlines, text and unrelated artwork remain independent vectors.
+    """
+    from itertools import groupby
+    from ..scene import Scene
+    result=[]
+    for key,group in groupby(scene.items,key=lambda item:item.style.get('_thematic_gradient')):
+        items=list(group)
+        if key is None:result.extend(items);continue
+        bounds=[]
+        for item in items:
+            points=[p for part in item.paths for p in part]
+            if points:
+                xs,ys=zip(*points);bounds.append((min(xs),min(ys),max(xs)-min(xs),max(ys)-min(ys)))
+        if not bounds:continue
+        x=math.floor(min(b[0] for b in bounds));y=math.floor(min(b[1] for b in bounds))
+        right=math.ceil(max(b[0]+b[2] for b in bounds));bottom=math.ceil(max(b[1]+b[3] for b in bounds))
+        w,h=max(1,right-x),max(1,bottom-y)
+        if w*h>1000000:raise ValueError('PDF gradient tile exceeds 1 million pixels; reduce output DPI/size or export SVG')
+        from dataclasses import replace
+        tile=Scene(w,h,background=None)
+        for item in items:
+            clip=None if item.clip is None else (item.clip[0]-x,item.clip[1]-y,*item.clip[2:])
+            tile.add(replace(item,paths=tuple(tuple((a-x,b-y) for a,b in part) for part in item.paths),clip=clip))
+        from .pillow import render_image
+        try:from PIL import Image
+        except ImportError as exc:raise ImportError('PDF thematic gradients require the optional png extra; SVG remains vector-only') from exc
+        with render_image(tile) as image:
+            rgba=image.convert('RGBA').tobytes()
+        result.append(RasterIcon(x,y,w,h,w,h,rgba))
+    return result

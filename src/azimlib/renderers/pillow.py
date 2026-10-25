@@ -9,7 +9,7 @@ from __future__ import annotations
 import math
 from pathlib import Path as FilePath
 
-from ..scene import Circle, Path, Rect, Scene, Text, Raster3D
+from ..scene import Circle, Path, Rect, Scene, Text, Raster3D, RasterIcon
 from ._common import validate
 
 
@@ -332,9 +332,16 @@ def _render_image(scene: Scene, scale: float = 1, *, _interactive=False, _path_c
         fill = style.get("fill", "#172b38" if isinstance(item, Text) else "none")
         stroke = style.get("stroke", "none")
         stroke_width = style.get("stroke_width", 1) * factor
-        cached=_tile_cache.lookup(item,factor) if _tile_cache is not None and not isinstance(item,Raster3D) else None
+        cached=_tile_cache.lookup(item,factor) if _tile_cache is not None and not isinstance(item,(Raster3D,RasterIcon)) else None
         cacheable=False;text_offset=None
         if cached is not None:layer,origin=cached
+        elif isinstance(item,RasterIcon):
+            rw,rh=max(1,round(item.width*factor)),max(1,round(item.height*factor))
+            if rw*rh>8000000:raise ValueError('Raster icon output pixel budget exceeded')
+            with Image.frombytes('RGBA',(item.pixel_width,item.pixel_height),item.rgba) as original:
+                with original.convert('RGBa') as premultiplied:
+                    with premultiplied.resize((rw,rh),Image.Resampling.BICUBIC) as resized:layer=resized.convert('RGBA')
+            origin=(round(item.x*factor),round(item.y*factor))
         elif isinstance(item,Raster3D):
             from ..terrain3d import rasterize
             rw,rh=max(1,round(item.width*factor)),max(1,round(item.height*factor))

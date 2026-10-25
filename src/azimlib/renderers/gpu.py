@@ -268,7 +268,8 @@ class GpuRenderer:
             if isinstance(generation,bool) or not isinstance(generation,int) or generation<self._generation:raise GpuCancelled('Stale GPU frame generation')
             self._generation=generation
         from ._common import validate
-        from ..scene import Raster3D
+        from ..scene import Raster3D,RasterIcon
+        if any(isinstance(i,RasterIcon) for i in scene.items):raise GpuUnavailableError('RasterIcon GPU upload is not implemented; select CPU or explicit CPU fallback')
         from ..colors import to_rgba
         from PIL import Image
         validate(scene)
