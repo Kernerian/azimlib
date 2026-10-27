@@ -116,7 +116,8 @@ class Thematic(unittest.TestCase):
     def test_path_unwrap_and_marker_direction_spacing(self):
         f,ax=self.axes();ax.set_extent((-180,180,-30,30));p=a.CartographicPath.bezier([(170,0),(175,4),(-175,4),(-170,0)],context=ax.get_context());self.assertLess(max(x for x,y in p.points)-min(x for x,y in p.points),30)
         l=ax.cartographic_path(p,path_symbol='arrow',spacing=20,color='red');scene,items=self.records(f,l)
-        self.assertTrue(any(isinstance(i,ScenePath) and i.closed for i in items))
+        self.assertTrue(any(n.get('name')=='lucide:arrow-right' for n in scene._material_notices))
+        original=ax.cartographic_path(p,path_symbol='original:arrow',spacing=20);_,legacy=self.records(f,original);self.assertTrue(any(isinstance(i,ScenePath) and i.closed for i in legacy))
         self.assertEqual(p.points,l.definition.points)
     def test_nested_groups_clipping_styles_and_legend_inclusion(self):
         f,ax=self.axes();root=ax.group(style={'alpha':.5,'color':'red'},zorder=5);child=ax.group(parent=root,style={'alpha':.8});s=child.add(ax.symbols([(0,0),(6,0)],category='cities'));s.set_picker(True)
@@ -163,7 +164,7 @@ class Thematic(unittest.TestCase):
         _,mars=self.axes(a.MARS)
         with self.assertRaises(a.UnsupportedBodyOperation):a.CartographicPath.network(route,context=mars.get_context())
     def test_own_asset_provenance_in_all_exports(self):
-        f,ax=self.axes();ax.symbols([(0,0)],'gold',category='gold');self.assertIn('azimlib:programmatic-catalog',f.to_svg())
+        f,ax=self.axes();ax.symbols([(0,0)],'original:gold',category='gold');self.assertIn('azimlib:programmatic-catalog',f.to_svg())
         pdf=io.BytesIO();f.savefig(pdf,format='pdf');self.assertIn(b'cartographic_symbol',pdf.getvalue())
         try:from PIL import Image
         except ImportError:return
@@ -171,7 +172,7 @@ class Thematic(unittest.TestCase):
         with Image.open(png) as im:self.assertIn('cartographic_symbol',im.info['Azimlib material provenance'])
     def test_explicit_legend_handles_keep_real_symbol(self):
         f,ax=self.axes();s=ax.symbols([(0,0)],'rover');ax.legend(handles=[s],labels=['Rover'])
-        svg=f.to_svg();self.assertIn('Rover',svg);self.assertIn('programmatic-catalog',svg)
+        svg=f.to_svg();self.assertIn('Rover',svg);self.assertTrue('lucide:bot' in svg)
     def test_no_ignored_scalar_mapping(self):
         f,ax=self.axes();s=ax.symbols([(0,0)])
         for fun in (lambda:s.set_array([1]),lambda:s.set_cmap('viridis'),lambda:s.set(norm=Normalize()),lambda:s.set_clim(0,1)):

@@ -21,6 +21,7 @@ def _painted(style,key):
     return color is not None and color!='none' and to_rgba(color)[3]*style.get('opacity',1)>0
 
 def primitive_hit(item,p,tolerance):
+    if item.style.get('_icon_effect'):return False
     x,y=p
     if item.clip:
         a,b,w,h=item.clip

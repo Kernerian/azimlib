@@ -8,7 +8,7 @@ version = "0.5.0.dev0"
 description = "An independent Python cartography engine with a familiar plotting API"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "BSD-3-Clause AND CC0-1.0 AND LicenseRef-DejaVu AND LicenseRef-ColorBrewer"
+license = "BSD-3-Clause AND CC0-1.0 AND LicenseRef-DejaVu AND LicenseRef-ColorBrewer AND ISC AND MIT"
 license-files = ["LICENSE", "THIRD_PARTY_LICENSES.md", "NOTICE_COLORMAPS", "licenses/*.txt", "src/azimlib/fonts/LICENSE_DEJAVU"]
 authors = [{name = "Kernerian"}]
 keywords = ["cartography", "maps", "geography", "geojson", "visualization"]
@@ -44,7 +44,7 @@ dev = ["Pillow>=10", "aggdraw>=1.3.19", "numpy>=1.24", "build>=1", "pytest>=8", 
 where = ["src"]
 
 [tool.setuptools.package-data]
-azimlib = ["py.typed", "data/*.json", "data/*.geojson.gz", "assets/*.js", "assets/*.css", "assets/icons/*.png", "assets/icons/*.svg", "assets/icons/*.json", "fonts/*.ttf", "fonts/*.json", "fonts/*.md", "fonts/LICENSE_DEJAVU"]
+azimlib = ["py.typed", "data/*.json", "data/*.geojson.gz", "assets/*.js", "assets/*.css", "assets/icons/*.png", "assets/icons/*.svg", "assets/icons/*.json", "assets/lucide/*.svg", "assets/lucide/*.json", "fonts/*.ttf", "fonts/*.json", "fonts/*.md", "fonts/LICENSE_DEJAVU"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -95,20 +95,37 @@ def _svg_path(s):
     tokens=re.findall(_NUM+'|[A-Za-z]',s)
     if re.sub(_NUM+'|[A-Za-z]|[ ,\t\r\n]','',s):raise ValueError('Invalid SVG path syntax')
     vertices=[];codes=[];i=0;command=None;current=(0.,0.);start=current
-    counts={'M':2,'L':2,'H':1,'V':1,'Q':4,'C':6,'Z':0}
+    counts={'M':2,'L':2,'H':1,'V':1,'Q':4,'C':6,'S':4,'T':2,'A':7,'Z':0}
+    previous=None;control=None
     while i<len(tokens):
         if tokens[i].isalpha():command=tokens[i];i+=1
-        if command is None or command.upper() not in counts:raise ValueError('SVG supports M/L/H/V/Q/C/Z only')
+        if command is None or command.upper() not in counts:raise ValueError('SVG supports M/L/H/V/Q/C/S/T/A/Z only')
         key=command.upper();n=counts[key];relative=command.islower()
         if key=='Z':
-            vertices.append(start);codes.append(Path.CLOSEPOLY);current=start;command=None;continue
+            vertices.append(start);codes.append(Path.CLOSEPOLY);current=start;command=None;previous='Z';control=None;continue
+        if key=='A':
+            # SVG flags may be adjacent to each other or the following coordinate.
+            for flag in (i+3,i+4):
+                if flag<len(tokens) and len(tokens[flag])>1 and tokens[flag][0] in '01':tokens[flag:flag+1]=[tokens[flag][0],tokens[flag][1:]]
         if i+n>len(tokens) or any(t.isalpha() for t in tokens[i:i+n]):raise ValueError('Incomplete SVG path')
         values=[float(v) for v in tokens[i:i+n]];i+=n
         if any(not math.isfinite(v) or abs(v)>1e7 for v in values):raise ValueError('Invalid SVG coordinate')
         if key=='H':values=[values[0]+current[0] if relative else values[0],current[1]];key='L';relative=False
         if key=='V':values=[current[0],values[0]+current[1] if relative else values[0]];key='L';relative=False
+        if key=='A':
+            rx,ry,angle,large,sweep,x,y=values
+            if large not in (0,1) or sweep not in (0,1):raise ValueError('SVG arc flags must be 0 or 1')
+            end=(x+current[0],y+current[1]) if relative else (x,y)
+            for point in _arc_points(current,end,rx,ry,angle,large,sweep):vertices.append(point);codes.append(Path.LINETO)
+            current=end;previous='A';control=None
+            if len(vertices)>4096:raise ValueError('SVG arc vertex budget exceeded')
+            continue
         points=[tuple(values[j:j+2]) for j in range(0,len(values),2)]
         if relative:points=[(x+current[0],y+current[1]) for x,y in points]
+        if key in ('S','T'):
+            reflected=tuple(2*a-b for a,b in zip(current,control)) if control is not None and previous in (('C','S') if key=='S' else ('Q','T')) else current
+            points=[reflected,*points];key='C' if key=='S' else 'Q'
+        previous=key;control=points[-2] if key in ('C','Q') else None
         if key=='M':start=points[0];code=Path.MOVETO
         else:code={'L':Path.LINETO,'Q':Path.CURVE3,'C':Path.CURVE4}[key]
         vertices.extend(points);codes.extend([code]*len(points));current=points[-1]
@@ -116,6 +133,29 @@ def _svg_path(s):
         if len(vertices)>4096:raise ValueError('SVG path budget exceeded')
     if not vertices or codes[0]!=Path.MOVETO:raise ValueError('SVG path must begin with move')
     return Path(vertices,codes).to_polylines(steps=24)
+
+def _arc_points(start,end,rx,ry,angle,large,sweep):
+    """Own bounded endpoint-to-center geometry from SVG2 Appendix B equations.
+
+    Mathematical SVG convention, not third-party implementation code.
+    """
+    if start==end:return ()
+    rx,ry=abs(rx),abs(ry)
+    if not rx or not ry:return (end,)
+    phi=math.radians(angle%360);c,s=math.cos(phi),math.sin(phi)
+    dx,dy=((a-b)/2 for a,b in zip(start,end));x=c*dx+s*dy;y=-s*dx+c*dy
+    factor=max(1.,math.sqrt((x/rx)**2+(y/ry)**2));rx*=factor;ry*=factor
+    denominator=(rx*y)**2+(ry*x)**2
+    coef=math.sqrt(max(0.,((rx*ry)**2-denominator)/denominator)) if denominator else 0.
+    if large==sweep:coef=-coef
+    cx,cy=coef*rx*y/ry,-coef*ry*x/rx
+    ox=c*cx-s*cy+(start[0]+end[0])/2;oy=s*cx+c*cy+(start[1]+end[1])/2
+    first=math.atan2((y-cy)/ry,(x-cx)/rx);last=math.atan2((-y-cy)/ry,(-x-cx)/rx);span=(last-first)%math.tau
+    if not sweep:span=span-math.tau if span else 0.
+    n=max(2,math.ceil(abs(span)*24/math.pi));result=[]
+    for i in range(1,n+1):
+        theta=first+span*i/n;u,v=rx*math.cos(theta),ry*math.sin(theta);result.append((ox+c*u-s*v,oy+s*u+c*v))
+    result[-1]=end;return tuple(result)
 
 def _transform(s):
     result=(1.,0.,0.,1.,0.,0.)
@@ -154,7 +194,7 @@ def parse_svg(raw,*,name,source):
         nodes+=1
         if nodes>256 or depth>8:raise ValueError('SVG node/depth budget exceeded')
         tag=el.tag.removeprefix('{http://www.w3.org/2000/svg}')
-        allowed={'svg':{'viewBox','width','height','version','preserveAspectRatio'},'g':set(),'path':{'d'},'rect':{'x','y','width','height'},'circle':{'cx','cy','r'},'ellipse':{'cx','cy','rx','ry'},'line':{'x1','y1','x2','y2'},'polyline':{'points'},'polygon':{'points'}}
+        allowed={'svg':{'viewBox','width','height','version','preserveAspectRatio'},'g':set(),'path':{'d'},'rect':{'x','y','width','height','rx','ry'},'circle':{'cx','cy','r'},'ellipse':{'cx','cy','rx','ry'},'line':{'x1','y1','x2','y2'},'polyline':{'points'},'polygon':{'points'}}
         if tag not in allowed or set(el.attrib)-(allowed[tag]|set(paint)|{'style','transform','id','fill-rule'}):raise ValueError('Unsupported SVG element/attribute: '+tag)
         if (el.text and el.text.strip()) or el.tail and el.tail.strip():raise ValueError('SVG text content is not supported')
         attrs=dict(el.attrib)
@@ -196,7 +236,15 @@ def parse_svg(raw,*,name,source):
         elif tag=='rect':
             x,y,w,h=num('x'),num('y'),num('width'),num('height')
             if min(w,h)<=0:raise ValueError('Invalid SVG rect')
-            shapes=[(((x,y),(x+w,y),(x+w,y+h),(x,y+h)),True)]
+            rx=num('rx',num('ry',0));ry=num('ry',rx)
+            if min(rx,ry)<0:raise ValueError('Invalid SVG corner radius')
+            rx,ry=min(rx,w/2),min(ry,h/2)
+            if rx and ry:
+                points=[]
+                for cx,cy,angle in ((x+w-rx,y+ry,-90),(x+w-rx,y+h-ry,0),(x+rx,y+h-ry,90),(x+rx,y+ry,180)):
+                    points.extend((cx+rx*math.cos(math.radians(angle+90*i/12)),cy+ry*math.sin(math.radians(angle+90*i/12))) for i in range(13))
+                shapes=[(tuple(points),True)]
+            else:shapes=[(((x,y),(x+w,y),(x+w,y+h),(x,y+h)),True)]
         elif tag in ('circle','ellipse'):
             x,y=num('cx'),num('cy');rx=num('r') if tag=='circle' else num('rx');ry=rx if tag=='circle' else num('ry')
             if min(rx,ry)<=0:raise ValueError('Invalid SVG ellipse')
@@ -250,8 +298,20 @@ def _catalog():
       'arrow':(_part(((.05,.35),(.55,.35),(.55,.1),(.95,.5),(.55,.9),(.55,.65),(.05,.65))),)}
     return {name:SymbolDefinition(name,(0,0,1,1),parts,AssetSource('azimlib:programmatic-catalog','BSD-3-Clause','Copyright (c) 2026 Kernerian')) for name,parts in icons.items()}
 _CATALOG=_catalog()
-def symbol_catalog():return dict(_CATALOG)
+def symbol_catalog(catalog='lucide'):
+    if catalog=='original':return dict(_CATALOG)
+    if catalog!='lucide':raise ValueError('Catalog must be lucide or original')
+    from .lucide import lucide_catalog
+    return lucide_catalog()
 def get_symbol(symbol):
     if isinstance(symbol,SymbolDefinition):return symbol
-    if symbol not in _CATALOG:raise ValueError('Unknown cartographic symbol: '+str(symbol))
-    return _CATALOG[symbol]
+    if not isinstance(symbol,str):raise TypeError('Require symbol name or SymbolDefinition')
+    if symbol.startswith('original:'):
+        name=symbol.split(':',1)[1]
+        if name not in _CATALOG:raise ValueError('Unknown original symbol')
+        return _CATALOG[name]
+    from .lucide import lucide_catalog,CARTOGRAPHIC_ALIASES
+    catalog=lucide_catalog();name=CARTOGRAPHIC_ALIASES.get(symbol,symbol.removeprefix('lucide:'))
+    if name.startswith('original:'):return _CATALOG[name.split(':',1)[1]]
+    if name not in catalog:raise ValueError('Unknown cartographic symbol: '+symbol)
+    return catalog[name]

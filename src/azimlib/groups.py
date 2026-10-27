@@ -64,7 +64,7 @@ class ArtistGroup(Artist):
     def _validated_style(value):
         parsed=style_dict(dict(value))
         allowed={'color','facecolor','edgecolor','alpha','linewidth','linestyle','marker','markersize',
-                 'markerfacecolor','markeredgecolor','markeredgewidth','hatch'}
+                 'markerfacecolor','markeredgecolor','markeredgewidth','hatch','icon_halo','icon_shadow','icon_stroke_width','icon_scale'}
         if set(parsed)-allowed:raise ValueError('Group styles are visual defaults only; unsupported keys: '+str(sorted(set(parsed)-allowed)))
         return parsed
 

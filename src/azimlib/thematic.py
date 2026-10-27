@@ -234,7 +234,11 @@ class ThematicArtist(Layer):
         return [(str(label),dict(self.style),'polygon' if self.kind=='thematic_region' else 'line')]
 
 class SymbolArtist(ThematicArtist):
-    def __init__(self,points,symbol,context,*,size=12,size_unit='pt',anchor='center',offset=(0,0),labels=None,category='',priorities=None,**style):
+    def __init__(self,points,symbol,context,*,size=12,size_unit='pt',anchor='center',offset=(0,0),labels=None,category='',priorities=None,stroke_width=None,halo=None,shadow=None,scale=1,**style):
+        if stroke_width is not None:style['icon_stroke_width']=stroke_width
+        if halo is not None:style['icon_halo']=halo
+        if shadow is not None:style['icon_shadow']=shadow
+        if scale!=1:style['icon_scale']=scale
         super().__init__('thematic_symbols',_points(points,context,limit=2048),style_dict(style),dict(category=str(category)))
         self._body_context=context;self.symbol=get_symbol(symbol)
         self._size=self._validate_size(size,size_unit);self.size_unit=size_unit
@@ -252,6 +256,12 @@ class SymbolArtist(ThematicArtist):
         size=_number(size)
         if not 0<size<=(256 if unit=='pt' else 500000):raise ValueError('Symbol size out of bounded range')
         return size
+    @artist_mutation
+    def set_halo(self,value):self.style.update(style_dict(icon_halo=value));return self
+    @artist_mutation
+    def set_shadow(self,value):self.style.update(style_dict(icon_shadow=value));return self
+    @artist_mutation
+    def set_stroke_width(self,value):self.style.update(style_dict(icon_stroke_width=value));return self
     @artist_mutation
     def set_size(self,value):self._size=self._validate_size(value,self.size_unit);return self
     @artist_mutation

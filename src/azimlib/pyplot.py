@@ -114,3 +114,6 @@ def symbols(*a,**k):return gca().symbols(*a,**k)
 def region(*a,**k):return gca().region(*a,**k)
 def region_bands(*a,**k):return gca().region_bands(*a,**k)
 def cartographic_path(*a,**k):return gca().cartographic_path(*a,**k)
+
+from .icon_effects import IconHalo,IconShadow
+from .lucide import lucide_catalog

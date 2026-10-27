@@ -162,3 +162,7 @@ __all__.extend(('BodySurface','SurfaceProjection','PlanetaryRaster','RasterBudge
 
 from .thematic import (AssetSource,SymbolPart,SymbolDefinition,symbol_catalog,RegionDefinition,LinearGradient,CartographicPath,SymbolArtist,RegionArtist,CartographicPathArtist)
 __all__.extend(('AssetSource','SymbolPart','SymbolDefinition','symbol_catalog','RegionDefinition','LinearGradient','CartographicPath','SymbolArtist','RegionArtist','CartographicPathArtist'))
+
+from .icon_effects import IconHalo,IconShadow
+from .lucide import lucide_catalog
+__all__.extend(('IconHalo','IconShadow','lucide_catalog'))

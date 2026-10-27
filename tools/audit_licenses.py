@@ -110,9 +110,17 @@ def audit():
         assert sha(ROOT/'examples/thematic/assets'/name)==item['sha256'],name
         assert item['license']=='BSD-3-Clause' and 'Kernerian' in item['credit'],name
     from azimlib.thematic_assets import symbol_catalog
-    assert all(s.source.origin=='azimlib:programmatic-catalog' and s.source.license=='BSD-3-Clause' for s in symbol_catalog().values())
+    assert all(s.source.origin=='azimlib:programmatic-catalog' and s.source.license=='BSD-3-Clause' for s in symbol_catalog("original").values())
+    lucide=json.loads((ROOT/'src/azimlib/assets/lucide/manifest.json').read_text('utf8'))
+    assert sha(ROOT/lucide['license_file'])==lucide['license_sha256']
+    assert lucide['commit']=='c29c276f16590cf017126671535ad8c792be64d8'
+    for icon in lucide['icons']:
+        assert sha(ROOT/'src/azimlib/assets/lucide'/icon['file'])==icon['sha256']
+        assert lucide['commit'] in icon['source'] and not icon['modified']
+    assert 'Lucide cartographic icon subset' in notices
     return {'passed': True, 'original_code_license': 'BSD-3-Clause', 'copyright_identifier': 'Kernerian',
-            'materials': ['ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics', 'Carlito wordmark artwork credit (font not shipped)', 'LINZ optional grid metadata and CC BY 4.0 notice (grids not shipped)'],
+            'lucide_svg_assets_verified':len(lucide['icons']), 'lucide_license_sha256':lucide['license_sha256'],
+            'materials': ['Lucide pinned SVG subset / ISC and Feather MIT','ColorBrewer Blues 5', 'BIDS CC0 colormaps', 'Natural Earth', 'DejaVu and metrics', 'Carlito wordmark artwork credit (font not shipped)', 'LINZ optional grid metadata and CC BY 4.0 notice (grids not shipped)'],
             'license_texts_verified': len(manifest['license_texts'])+len(text_dependencies)+len(fonts_optional)+len(tex_dependencies)+len(gpu_dependencies), 'own_cycle_colors': len(AZIM10),
             'optional_gpu_notices':len(gpu_dependencies),
             'optional_tex_reference_notices':len(tex_dependencies),

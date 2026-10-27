@@ -353,3 +353,14 @@ NASA's published lunar-limb and Danjon effective-shadow conventions retain
 their attribution and are separate from the physical mean-radius defaults.
 Sources, input hashes and the unpassed scientific accuracy criteria are in
 [the experimental eclipse guide](docs/eclipse-precision-0.4.md).
+
+## Lucide cartographic icon subset
+
+Thirty unmodified official SVGs from Lucide 1.61.0, commit
+c29c276f16590cf017126671535ad8c792be64d8. Lucide Icons and Contributors,
+ISC; Feather-derived crosshair, circle, navigation, arrow-right and compass
+retain Cole Bemis MIT terms as listed upstream. The complete upstream notice,
+including both license texts, is copied verbatim in licenses/Lucide.txt.
+Per-file origins/hashes and applicability: src/azimlib/assets/lucide/manifest.json.
+Cartographic aliases and rendering effects are Azimlib presentation code, not
+upstream icon names or changes to the distributed SVG source. No runtime download.

@@ -19,6 +19,7 @@ _KEYS = {
     "arrowsize", "curved", "marker", "markersize", "rotation", "fontfamily",
     "fontsize", "fontweight", "ha", "va", "rotation_mode", "background", "halo", "halo_width",
     "priority", "symbol", "fill_alpha", "edge_alpha", "fontstyle",
+    "icon_halo", "icon_shadow", "icon_stroke_width", "icon_scale",
     "markerfacecolor", "markeredgecolor", "markeredgewidth",
     "hatch","hatch_color","hatch_linewidth","hatch_spacing","antialiased",
     "solid_capstyle", "dash_capstyle", "solid_joinstyle", "dash_joinstyle",
@@ -81,6 +82,13 @@ def style_dict(values=None, **kwargs):
         result['rotation_mode']=result['rotation_mode'] or 'default'
         if result['rotation_mode'] not in ('default','anchor','xtick','ytick'):
             raise ValueError('rotation_mode must be default, anchor, xtick or ytick')
+    from .icon_effects import IconHalo,IconShadow
+    for key,cls in (('icon_halo',IconHalo),('icon_shadow',IconShadow)):
+        if key in result and result[key] is not None and not isinstance(result[key],cls):raise TypeError('Require '+cls.__name__)
+    for key,low,high in (('icon_stroke_width',0,8),('icon_scale',.05,8)):
+        if key in result:
+            result[key]=float(result[key])
+            if not math.isfinite(result[key]) or not low<=result[key]<=high:raise ValueError('Invalid '+key)
     from .patterns import HatchPattern
     if 'marker' in result:
         from .patches import Symbol

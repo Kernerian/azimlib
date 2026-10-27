@@ -10,6 +10,9 @@ from .bodies import UnsupportedBodyOperation
 def symbol_scene(definition,point,size,style,scene,clip,*,anchor=(.5,.5),offset=(0,0),rotation=None):
     notice=dict(kind='cartographic_symbol',name=definition.name,origin=definition.source.origin,license=definition.source.license,credit=definition.source.credit,sha256=definition.source.sha256)
     if notice not in scene._material_notices:scene._material_notices.append(notice)
+    from .scene import Scene
+    target_scene=scene;scene=Scene(scene.width,scene.height);size*=style.get('icon_scale',1)
+    if size>256*POINT:raise ValueError('Scaled icon exceeds256pt visual budget')
     x0,y0,w,h=definition.viewbox;scale=size/max(w,h)
     angle=math.radians(-style.get('rotation',0) if rotation is None else -rotation);c,s=math.cos(angle),math.sin(angle)
     ox,oy=point[0]+offset[0]*POINT,point[1]+offset[1]*POINT
@@ -18,13 +21,15 @@ def symbol_scene(definition,point,size,style,scene,clip,*,anchor=(.5,.5),offset=
         from .scene import RasterIcon
         pw,ph,data,factor=rotated(definition.raster,size,style.get('rotation',0) if rotation is None else rotation)
         u=(.5-anchor[0])*w*scale;v=(.5-anchor[1])*h*scale;cx=ox+c*u-s*v;cy=oy+s*u+c*v
-        scene.add(RasterIcon(cx-pw*factor/2,cy-ph*factor/2,pw*factor,ph*factor,pw,ph,data,dict(opacity=style.get('alpha',1)),clip));return
+        scene.add(RasterIcon(cx-pw*factor/2,cy-ph*factor/2,pw*factor,ph*factor,pw,ph,data,dict(opacity=style.get('alpha',1)),clip))
+        return _emit_icon(scene.items,target_scene,style)
     for part in definition.parts:
         appearance=dict(part.style)
         current=style.get('facecolor',style.get('color','#245d71'))
         if 'facecolor' not in appearance:appearance['facecolor']=current
         for key in ('facecolor','edgecolor'):
             if appearance.get(key)=='currentColor':appearance[key]=current
+        if 'icon_stroke_width' in style:appearance['linewidth']=style['icon_stroke_width']
         if 'linewidth' in appearance:appearance['linewidth']*=scale/POINT
         for key in ('alpha','linewidth','linestyle','hatch','hatch_color','hatch_spacing','hatch_linewidth'):
             if key in style:
@@ -38,6 +43,15 @@ def symbol_scene(definition,point,size,style,scene,clip,*,anchor=(.5,.5),offset=
                 points.append((ox+c*u-s*v,oy+s*u+c*v))
             paths.append(points)
         scene.add(Path(paths,part.closed,path_style(appearance,part.closed),clip))
+    return _emit_icon(scene.items,target_scene,style)
+
+
+def _emit_icon(items,scene,style):
+    from .icon_effects import add_effects
+    add_effects(items,scene,style.get('icon_halo'),style.get('icon_shadow'))
+    first=len(scene.items)
+    for item in items:scene.add(item)
+    return first,len(scene.items)
 
 
 def render_thematic(layer,vp,scene):
@@ -57,7 +71,7 @@ def render_thematic(layer,vp,scene):
                 if pa is None or pb is None:raise UnsupportedBodyOperation('Map-size symbol footprint crosses projection horizon')
                 size=math.dist(pa,pb)
             first=len(scene.items)
-            symbol_scene(layer.symbol,p,size,layer.style,scene,clip,anchor=layer.anchor,offset=layer.offset)
+            first,_=symbol_scene(layer.symbol,p,size,layer.style,scene,clip,anchor=layer.anchor,offset=layer.offset)
             if layer.labels[i]:
                 labelstyle=text_style(dict(color=layer.style.get('labelcolor','#23313c'),fontsize=layer.style.get('fontsize',9),ha='left',va='center',halo='white',halo_width=1))
                 _text(scene,p[0]+layer.offset[0]*POINT+size*.65,p[1]+layer.offset[1]*POINT,layer.labels[i],labelstyle,clip)

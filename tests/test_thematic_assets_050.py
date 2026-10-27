@@ -11,11 +11,11 @@ class ThematicAssets(unittest.TestCase):
         return parse_svg(('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 10" '+extra+'>'+body+'</svg>').encode(),name='test',source=S)
     def test_catalog_is_original_and_return_value_is_independent(self):
         required={'city','village','port','gold','salt','ivory','fortress','mine','monument','landing','rover','probe','instrument','battle','temple','base'}
-        c=a.symbol_catalog();self.assertTrue(required<=c.keys())
+        c=a.symbol_catalog("original");self.assertTrue(required<=c.keys())
         for definition in c.values():
             self.assertEqual(definition.source.license,'BSD-3-Clause');self.assertTrue(definition.source.origin.startswith('azimlib:'))
             with self.assertRaises(dataclasses.FrozenInstanceError):definition.name='changed'
-        c.clear();self.assertGreater(len(a.symbol_catalog()),15)
+        c.clear();self.assertGreater(len(a.symbol_catalog("original")),15)
     def test_custom_definition_freezes_input(self):
         p=[[(0,0),(1,0),(0,1)]];d=a.SymbolDefinition.from_paths('custom',p,source=S);p[0][0]=(2,2)
         self.assertEqual(d.parts[0].paths[0][0],(0,0))
@@ -44,8 +44,8 @@ class ThematicAssets(unittest.TestCase):
             with self.subTest(body=body),self.assertRaises((ValueError,TypeError)):self.svg(body)
         for raw in (b'<!DOCTYPE svg [<!ENTITY a "x">]><svg/>','<svg/>'.encode('utf-16')):
             with self.assertRaises(ValueError):parse_svg(raw,name='bad',source=S)
-    def test_svg_unsupported_arc_css_and_outside_viewbox_fail_explicitly(self):
-        for body in ('<path d="M0 0 A1 1 0 0 0 2 2"/>','<rect width="2" height="2" style="filter:blur(2)"/>','<g transform="skewX(3)"/>','<rect x="30" width="2" height="2"/>','<path d="M0 0 L1e309 1"/>'):
+    def test_svg_invalid_arc_css_and_outside_viewbox_fail_explicitly(self):
+        for body in ('<path d="M0 0 A1 1 0 7 0 2 2"/>','<rect width="2" height="2" style="filter:blur(2)"/>','<g transform="skewX(3)"/>','<rect x="30" width="2" height="2"/>','<path d="M0 0 L1e309 1"/>'):
             with self.subTest(body=body),self.assertRaises(ValueError):self.svg(body)
     def test_svg_resource_budgets(self):
         for body in ('<g>'*10+'<rect width="2" height="2"/>'+'</g>'*10,'<rect width="1" height="1"/>'*260):

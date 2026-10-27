@@ -31,6 +31,9 @@ def validate(scene: Scene, *, _path_validator=None) -> None:
         if isinstance(item,Path) and '_thematic_gradient' in item.style:
             if type(item.style['_thematic_gradient']) is not int or item.style['_thematic_gradient']<0:raise ValueError('Invalid internal gradient group')
             allowed=allowed|{'_thematic_gradient'}
+        if isinstance(item,(Path,RasterIcon)) and '_icon_effect' in item.style:
+            if item.style['_icon_effect'] is not True:raise ValueError('Invalid internal icon effect')
+            allowed=allowed|{'_icon_effect'}
         unknown = set(item.style) - allowed
         if unknown:
             raise ValueError(f"Unsupported {type(item).__name__} style: {', '.join(sorted(unknown))}")

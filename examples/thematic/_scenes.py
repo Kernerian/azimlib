@@ -30,10 +30,10 @@ def historical():
     p=a.CartographicPath.bezier([(-16,12),(-13,25),(-1,18),(5,23)],context=ax.get_context());routes.add(ax.cartographic_path(p,color='#b64b3a',linewidth=1.7,linestyle='--',arrow='end',label='Editorial trade curve'))
     p=a.CartographicPath.spline([(-12,7),(-8,12),(-2,13),(6,10)],context=ax.get_context());routes.add(ax.cartographic_path(p,color='#5b7f89',linewidth=1.3,linestyle=':',label='Illustrative secondary route'))
     cities=ax.group(name='Cities',parent=layers,zorder=6)
-    cities.add(ax.symbols([(-16,12),(-10,8),(-5,16),(4,23),(6,10)],'city',size=8,color='#3e4b54',labels=['Port A','Town B','City C','Market D','Town E']))
+    cities.add(ax.symbols([(-16,12),(-10,8),(-5,16),(4,23),(6,10)],'city',size=11,color='#3e4b54',labels=['Port A','Town B','City C','Market D','Town E']))
     resources=ax.group(name='Resources',parent=layers,zorder=5)
     for icon,positions,color,label in [('gold',[(-9,14),(-3,8)],'#b48424','Gold (illustrative)'),('salt',[(-8,23),(0,21)],'#7a7193','Salt (illustrative)'),('ivory',[(-7,6),(0,6)],'#6c7753','Ivory (illustrative)'),('port',[(-17,10)],'#357f91','Port')]:
-        resources.add(ax.symbols(positions,icon,size=14,color=color,category=label))
+        resources.add(ax.symbols(positions,icon,size=16,color=color,category=label,halo=a.IconHalo(width=.6)))
     ax.grid(True,step=10,linewidth=.35,color='#afbab8',alpha=.5)
     ax.set_title('Didactic atlas | West Africa',fontsize=17);ax.subtitle('Real geographic base; all territories, towns and routes are fictional',fontsize=10)
     ax.set_xlabel('Longitude');ax.set_ylabel('Latitude');ax.scale_bar(length=400,units='km');ax.north_arrow()
@@ -76,12 +76,12 @@ def mars(real_data=None):
 def catalog():
     f,ax=a.subplots(figsize=(12,7),dpi=110);ax.set_extent((0,10,0,7));ax.set_axis_off()
     for i,(name,symbol) in enumerate(a.symbol_catalog().items()):
-        x=.6+(i%6)*1.6;y=6-(i//6)*1.6;ax.symbols([(x,y)],symbol,size=23,color=('#a87328','#427c86','#966471')[i%3],labels=[name.replace('scientific-point','science point')],fontsize=8)
+        x=.6+(i%6)*1.6;y=6-(i//6)*1.05;ax.symbols([(x,y)],symbol,size=23,color=('#a87328','#427c86','#966471')[i%3],labels=[name.replace('scientific-point','science point')],fontsize=8)
     ax.symbols([(1.5,.7)],asset('observation.svg'),size=26,labels=['Original safe SVG'])
     ax.symbols([(6,.7)],asset('sample.png'),size=26,rotation=25,labels=['Own PNG with partial alpha'])
     ax.set_title('Original cartographic catalog + user assets',fontsize=16)
-    f.text(.5,.03,'Programmatic BSD-3-Clause illustrations; aspect-preserving vector symbols; PNG only rasterizes its small sprite',ha='center',fontsize=9)
-    return f,dict(body='Earth',data='Original programmatic icons / own SVG and PNG',limits='Bounded SVG subset; no third-party artwork; no remote resources')
+    f.text(.5,.03,'Lucide 1.61.0 / ISC + applicable Feather MIT | own custom SVG/PNG BSD-3-Clause | aspect-preserving vectors',ha='center',fontsize=9)
+    return f,dict(body='Earth',data='Official pinned Lucide icons / own custom SVG and PNG',limits='Bounded SVG subset; upstream license/provenance preserved; no remote resources')
 
 def regions():
     f,axes=a.subplots(1,3,figsize=(12,4.8),dpi=110);f.subplots_adjust(left=.05,right=.97,top=.82,bottom=.17,wspace=.35)
