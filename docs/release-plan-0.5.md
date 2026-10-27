@@ -304,7 +304,7 @@ Evidência: testes Lucide/editorial/aplicações/integrados, regressões existen
 18 cenas Azimlib em três formatos, contratos matemáticos B preservados e
 workflows nativos separados. Inclusão de testes não significa aceite humano.
 
-Permanecem abertos, sem novos adiamentos formais:
+Itens parciais e atualizações de evidência (estado individual abaixo):
 
 - 2.04/9.02: leitores de missão e cobertura integral de todos os Artists ausentes.
 - 4.02/4.04/4.05/4.06: raster e DEM regional/real funcionais; formatos de produtos,
