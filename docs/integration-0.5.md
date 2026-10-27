@@ -96,6 +96,13 @@ Cenas densas de labels/sombras podem custar segundos; não prometer fluidez
 por ter renderizado um mapa. Planejamento de colisão agora reutiliza índices
 espaciais por conjunto de exclusões e a cópia de estilo retorna snapshot
 independente, evitando atravessar ownership/objetos internos.
+Máscaras de sombra são reutilizadas por chave SHA-256 dos parâmetros exatos de
+paths/pixels/estilo/posição/padding,sem arredondamento. LRU limitado a256entradas
+ou8MiB de pixels L; overhead de objetos Python não incluído. Cada uso recebe
+uma imagem independente; mudanças invalidam a chave. Aviso Lucide tem cache1.
+Teste compara pixels frios/quentes e força limites/evicção. O profiling anterior
+identificou rasterização repetida de máscaras como custo dominante; benchmarks
+posteriores medem a mudança, sem selecionar somente cenas favoráveis.
 A meta adiada0.4/9.08 não foi herdada nem considerada aprovada.
 
 ## Precisão e operações recusadas

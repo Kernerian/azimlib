@@ -24,7 +24,7 @@ def planetary(body):
  def style(item):
   if item.geometry.type in ('Polygon','MultiPolygon'):return dict(facecolor='#d5a96a' if item.identifier=='unit1' else '#75a7af',edgecolor='#8b7656',alpha=.35,hatch='..' if item.identifier=='unit2' else '//')
   if item.kind=='fault':return dict(color='#9c5548',linewidth=1.2,linestyle='--')
-  return dict(color='#35687b',halo=a.IconHalo(width=.8)) if False else dict(color='#35687b',icon_halo=a.IconHalo(width=.8))
+  return dict(color='#35687b',icon_halo=a.IconHalo(width=.8))
  group=catalog.draw(ax,style=style);ax.scale_bar();ax.north_arrow(size=24);inset=page.locator(bounds=(.7,.03,.26,.22),shade=True);inset.grid(True,step=60,linewidth=.25)
  handles=tuple(l for l in group.get_children() if l.kind!='labels');page.legend(sections=[a.LegendSection('Synthetic features',handles)],fontsize=7.5,symbol_size=11)
  page.note('Crater symbols mark authored locations, not measured diameters. Unit names and boundaries are fictional. Height is an analytic field, not a mission DEM.')

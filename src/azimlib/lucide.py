@@ -16,5 +16,6 @@ def _definitions():
 
 def lucide_catalog():return dict(_definitions())
 
+@lru_cache(maxsize=1)
 def lucide_notice():
  return (Path(__file__).resolve().parent/"assets/lucide/LICENSE.txt").read_text("utf8")

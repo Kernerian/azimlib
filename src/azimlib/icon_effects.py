@@ -1,6 +1,25 @@
 """Optional physical icon effects, independent of source strokes and coordinates."""
 from dataclasses import dataclass,replace
-import math
+import math,hashlib
+from collections import OrderedDict
+from threading import RLock
+_MASK_CACHE=OrderedDict()
+_MASK_CACHE_ENTRIES=256
+_MASK_CACHE_BYTES=8*1024*1024
+_MASK_LOCK=RLock()
+
+def _mask_key(items,padding):
+ from .scene import Path
+ digest=hashlib.sha256(repr(padding).encode())
+ for item in items:
+  if isinstance(item,Path):value=(item.paths,item.closed,dict(item.style))
+  else:
+   value=(item.x,item.y,item.width,item.height,item.pixel_width,item.pixel_height,dict(item.style));digest.update(item.rgba)
+  digest.update(repr(value).encode())
+ return digest.digest()
+
+def _clear_mask_cache():
+ with _MASK_LOCK:_MASK_CACHE.clear()
 from .geometry import _number
 @dataclass(frozen=True)
 class IconHalo:
@@ -46,6 +65,13 @@ def add_effects(items,scene,halo=None,shadow=None):
 def _mask_tile(items,padding):
  from .scene import Path,RasterIcon,Scene
  from .renderers.pillow import render_image
+ from PIL import Image
+ key=_mask_key(items,padding)
+ with _MASK_LOCK:
+  cached=_MASK_CACHE.get(key)
+  if cached is not None:
+   _MASK_CACHE.move_to_end(key);x,y,w,h,data=cached
+   return x,y,w,h,Image.frombytes('L',(w,h),data)
  from .layout_engine import primitive_bounds
  boxes=[primitive_bounds(replace(i,clip=None)) for i in items];x=math.floor(min(b[0] for b in boxes)-padding);y=math.floor(min(b[1] for b in boxes)-padding)
  right=math.ceil(max(b[0]+b[2] for b in boxes)+padding);bottom=math.ceil(max(b[1]+b[3] for b in boxes)+padding);w,h=max(1,right-x),max(1,bottom-y)
@@ -55,6 +81,10 @@ def _mask_tile(items,padding):
   if isinstance(item,Path):tile.add(replace(item,paths=tuple(tuple((a-x,b-y) for a,b in p) for p in item.paths),clip=None))
   else:tile.add(replace(item,x=item.x-x,y=item.y-y,clip=None))
  with render_image(tile) as image:mask=image.getchannel('A')
+ data=mask.tobytes()
+ with _MASK_LOCK:
+  _MASK_CACHE[key]=(x,y,w,h,data);_MASK_CACHE.move_to_end(key)
+  while len(_MASK_CACHE)>_MASK_CACHE_ENTRIES or sum(len(v[4]) for v in _MASK_CACHE.values())>_MASK_CACHE_BYTES:_MASK_CACHE.popitem(last=False)
  return x,y,w,h,mask
 
 def _colored_tile(mask,color,alpha):

@@ -58,4 +58,21 @@ class Lucide(unittest.TestCase):
   f,s,scene=self.scene();snapshot=copy.deepcopy(s.style)
   self.assertIsInstance(snapshot,dict);s.set_halo(a.IconHalo())
   self.assertNotIn('icon_halo',snapshot)
+ def test_effect_cache_is_exact_and_drawing_changes_invalidate(self):
+  from azimlib import icon_effects as effects
+  from azimlib.renderers import render_image
+  effects._clear_mask_cache();f,s,scene=self.scene(shadow=a.IconShadow(blur=1))
+  with render_image(scene) as image:baseline=image.tobytes()
+  with patch('azimlib.icon_effects._mask_key',wraps=effects._mask_key),patch('azimlib.renderers.pillow.render_image',side_effect=AssertionError('Warm mask must be reused')):
+   warm=f.to_scene()
+  with render_image(warm) as image:self.assertEqual(image.tobytes(),baseline)
+  before=tuple(effects._MASK_CACHE);s.set_stroke_width(3);f.to_scene();self.assertNotEqual(before,tuple(effects._MASK_CACHE));effects._clear_mask_cache()
+ def test_effect_cache_payload_and_entry_limits(self):
+  from azimlib import icon_effects as effects
+  effects._clear_mask_cache()
+  with patch.object(effects,'_MASK_CACHE_ENTRIES',2),patch.object(effects,'_MASK_CACHE_BYTES',16000):
+   for x in range(5):
+    f,s,scene=self.scene(shadow=a.IconShadow(blur=1));s.set_positions([(x*.1,0)]);f.to_scene();a.close(f)
+   self.assertLessEqual(len(effects._MASK_CACHE),2);self.assertLessEqual(sum(len(v[4]) for v in effects._MASK_CACHE.values()),16000)
+  effects._clear_mask_cache()
 if __name__=='__main__':unittest.main()
