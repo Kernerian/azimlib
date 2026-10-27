@@ -9,6 +9,9 @@ from .bodies import UnsupportedBodyOperation
 
 def symbol_scene(definition,point,size,style,scene,clip,*,anchor=(.5,.5),offset=(0,0),rotation=None):
     notice=dict(kind='cartographic_symbol',name=definition.name,origin=definition.source.origin,license=definition.source.license,credit=definition.source.credit,sha256=definition.source.sha256)
+    if definition.name.startswith('lucide:'):
+        from .lucide import lucide_notice
+        notice['license_text']=lucide_notice()
     if notice not in scene._material_notices:scene._material_notices.append(notice)
     from .scene import Scene
     target_scene=scene;scene=Scene(scene.width,scene.height);size*=style.get('icon_scale',1)
@@ -56,6 +59,10 @@ def _emit_icon(items,scene,style):
 
 def render_thematic(layer,vp,scene):
     from .render_map import _geometry,_text
+    feature=layer.options.get('surface_feature')
+    if feature is not None:
+        notice=dict(kind='surface_feature',identifier=feature.identifier,status=feature.status,epoch=feature.epoch,origin=feature.source.origin,license=feature.source.license,credit=feature.source.credit,sha256=feature.source.sha256)
+        if notice not in scene._material_notices:scene._material_notices.append(notice)
     start=len(scene.items);clip=vp.box if layer.get_clip_on() else None
     if layer.kind=='thematic_symbols':
         for i in sorted(range(len(layer.data)),key=lambda i:(layer.priorities[i],i)):

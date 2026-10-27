@@ -21,3 +21,4 @@ optional-data/** -text
 # Unmodified upstream Lucide source and combined legal notice are verbatim.
 src/azimlib/assets/lucide/*.svg -text
 licenses/Lucide.txt -text
+src/azimlib/assets/lucide/LICENSE.txt -text

@@ -176,3 +176,8 @@ __all__.extend(('CartographicTheme','get_theme','LegendSection','FlowScale','Flo
 
 from .editorial_page import CartographicPage
 __all__.append('CartographicPage')
+
+from .planetary_features import SurfaceFeature,FeatureName,FeatureCatalog
+from .exploration import ExplorationSequence,ExplorationBinding
+from .world_comparison import WorldComparison,compare_worlds
+__all__.extend(('SurfaceFeature','FeatureName','FeatureCatalog','ExplorationSequence','ExplorationBinding','WorldComparison','compare_worlds'))

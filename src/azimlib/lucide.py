@@ -7,6 +7,7 @@ CARTOGRAPHIC_ALIASES=dict(city='building',village='map-pin',port='anchor',gold='
 def _definitions():
  from .thematic_assets import AssetSource,parse_svg
  root=Path(__file__).resolve().parent/'assets/lucide';manifest=json.loads((root/'manifest.json').read_text('utf8'));result={}
+ if hashlib.sha256((root/'LICENSE.txt').read_bytes()).hexdigest()!=manifest['license_sha256']:raise ValueError('Lucide license integrity mismatch')
  for row in manifest['icons']:
   raw=(root/row['file']).read_bytes()
   if hashlib.sha256(raw).hexdigest()!=row['sha256']:raise ValueError('Lucide integrity mismatch: '+row['name'])
@@ -14,3 +15,6 @@ def _definitions():
  return result
 
 def lucide_catalog():return dict(_definitions())
+
+def lucide_notice():
+ return (Path(__file__).resolve().parent/"assets/lucide/LICENSE.txt").read_text("utf8")

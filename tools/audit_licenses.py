@@ -113,6 +113,7 @@ def audit():
     assert all(s.source.origin=='azimlib:programmatic-catalog' and s.source.license=='BSD-3-Clause' for s in symbol_catalog("original").values())
     lucide=json.loads((ROOT/'src/azimlib/assets/lucide/manifest.json').read_text('utf8'))
     assert sha(ROOT/lucide['license_file'])==lucide['license_sha256']
+    assert sha(ROOT/'src/azimlib/assets/lucide/LICENSE.txt')==lucide['license_sha256']
     assert lucide['commit']=='c29c276f16590cf017126671535ad8c792be64d8'
     for icon in lucide['icons']:
         assert sha(ROOT/'src/azimlib/assets/lucide'/icon['file'])==icon['sha256']

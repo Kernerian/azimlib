@@ -124,3 +124,7 @@ from .cartographic_themes import CartographicTheme,get_theme
 from .editorial_legend import LegendSection,FlowScale,FlowKey
 
 from .editorial_page import CartographicPage
+
+from .planetary_features import SurfaceFeature,FeatureName,FeatureCatalog
+from .exploration import ExplorationSequence,ExplorationBinding
+from .world_comparison import WorldComparison,compare_worlds

@@ -161,6 +161,12 @@ class ArtistGroup(Artist):
                       or set(child.options)-{'feature_style','fit'} or child.options.get('feature_style') is not None):
                     raise NotImplementedError('Phase A cloning supports plain immutable geometry Layers without transforms/options')
         validate(self)
+        def leaves(group):
+            return [leaf for child in group._children for leaf in (leaves(child) if isinstance(child,ArtistGroup) else [child])]
+        ids={id(child) for child in leaves(self)}
+        for child in leaves(self):
+            ref=child.options.get('associated_source')
+            if ref is not None and id(ref()) not in ids:raise ValueError('Associated label source must be included in cloned group')
         mapping={};pending=[]
         def clone(group,parent=None):
             result=ArtistGroup(axes,name=group.name,parent=parent,style=group._style,zorder=group._zorder,

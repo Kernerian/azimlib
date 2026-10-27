@@ -174,7 +174,14 @@ def plan_labels(ax,vp):
             if along:
                 theta=math.radians(angle);normal=(-math.sin(theta)*fs,math.cos(theta)*fs)
                 offsets=layer.options.get('offsets') or ((0,0),normal,(-normal[0],-normal[1]))
-            else:offsets=layer.options.get('offsets') or default
+            else:
+                if any(l.visible and l.kind=='thematic_symbols' for l in ax.layers):
+                    covering=[b for b in obstacles if b[0]<=p[0]<=b[0]+b[2] and b[1]<=p[1]<=b[1]+b[3]]
+                    if covering:
+                        clearance=max(max(p[0]-b[0],b[0]+b[2]-p[0],p[1]-b[1],b[1]+b[3]-p[1]) for b in covering)+padding+4
+                        horizontal=width/2+max(d,clearance);vertical=max(fs*1.5,clearance+fs/2)
+                        default=((0,0),(horizontal,0),(-horizontal,0),(0,-vertical),(0,vertical),(horizontal,-vertical),(-horizontal,-vertical),(horizontal,vertical),(-horizontal,vertical))
+                offsets=layer.options.get('offsets') or default
             for dx,dy in offsets:
                 q=(p[0]+dx,p[1]+dy);box=text_box(*q,text,candidate_style,padding)
                 x,y,w,h=vp.box

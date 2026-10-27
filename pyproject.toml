@@ -44,7 +44,7 @@ dev = ["Pillow>=10", "aggdraw>=1.3.19", "numpy>=1.24", "build>=1", "pytest>=8", 
 where = ["src"]
 
 [tool.setuptools.package-data]
-azimlib = ["py.typed", "data/*.json", "data/*.geojson.gz", "assets/*.js", "assets/*.css", "assets/icons/*.png", "assets/icons/*.svg", "assets/icons/*.json", "assets/lucide/*.svg", "assets/lucide/*.json", "fonts/*.ttf", "fonts/*.json", "fonts/*.md", "fonts/LICENSE_DEJAVU"]
+azimlib = ["py.typed", "data/*.json", "data/*.geojson.gz", "assets/*.js", "assets/*.css", "assets/icons/*.png", "assets/icons/*.svg", "assets/icons/*.json", "assets/lucide/*.svg", "assets/lucide/*.json", "assets/lucide/*.txt", "fonts/*.ttf", "fonts/*.json", "fonts/*.md", "fonts/LICENSE_DEJAVU"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

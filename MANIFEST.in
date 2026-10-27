@@ -53,4 +53,4 @@ recursive-include tools/baselines/release050 *.json
 include .github/workflows/thematic-0.5.yml
 recursive-include examples/thematic/assets *.svg *.png *.json
 
-recursive-include src/azimlib/assets/lucide *.svg *.json
+recursive-include src/azimlib/assets/lucide *.svg *.json *.txt

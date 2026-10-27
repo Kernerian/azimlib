@@ -17,7 +17,7 @@ class LegendSection:
   from .groups import ArtistGroup
   def leaves(g):
    result=[]
-   for child in g.get_children():result.extend(leaves(child) if isinstance(child,ArtistGroup) else [child])
+   for child in g.get_children():result.extend(leaves(child) if isinstance(child,ArtistGroup) else [] if getattr(child,'kind',None) in ('labels','locator') else [child])
    return result
   return cls(title or group.name,tuple(leaves(group)))
 @dataclass(frozen=True)
