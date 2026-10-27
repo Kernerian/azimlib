@@ -17,6 +17,9 @@ class _GroupStyle(MutableMapping):
     def __len__(self):return len(self._values())
     def __setitem__(self,key,value):self.local[key]=value
     def __delitem__(self,key):del self.local[key]
+    def __deepcopy__(self,memo):
+        from copy import deepcopy
+        return deepcopy(self._values(),memo)
     def __contains__(self,key):return key in self._values()
     def pop(self,key,*default):return self.local.pop(key,*default)
 

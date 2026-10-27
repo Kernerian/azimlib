@@ -19,10 +19,16 @@ and owned Layer groups. [Phase B surfaces](docs/surfaces-0.5.md) adds static
 sphere/oblate metric projections, surface measurements, contextual rasters,
 synthetic terrain and explicit geometric light. Unsupported models are refused;
 3D remains experimental and no temporal planetary ephemeris is implied.
-The full thematic/editorial features remain planned.
+The supported domains remain explicit; scientific operations in research are refused.
 [Phase C thematic primitives](docs/thematic-0.5.md) add shared Earth/Mars symbols,
 custom regions, authored gradients, editorial paths and independent group instances.
-Atlas composition and advanced labels remain future work.
+[Phase D editorial composition](docs/editorial-0.5.md) adds locators, sectional
+legends, bounded page layout, contextual labels and presentation themes.
+[Phase E applications](docs/applications-0.5.md) adds sourced feature catalogs,
+finite exploration sequences and physical/normalized world comparisons.
+Lucide 1.61.0 is the recommended local vector catalog, with optional halos and
+shadows; original/custom symbols remain supported. Integrated native validation
+and new human visual acceptance remain separately recorded.
 See the [122-item development checklist](docs/release-plan-0.5.md).
 
 [Getting started](https://github.com/Kernerian/azimlib/blob/main/docs/getting-started.md) ·
@@ -36,12 +42,14 @@ The examples above use Azimlib's own renderer. Boundaries and rivers are from
 Natural Earth; thematic values, terrain and vectors are synthetic. See the
 [reproducible showcase](https://github.com/Kernerian/azimlib/blob/main/docs/showcase.md).
 
-## Unpublished 0.4.0 candidate scope
+## Published 0.4.0 scope and development 0.5
 
-Local candidate metadata is 0.4.0; the published stable package remains 0.3.0. The [0.4 development rescope](docs/deferred-gates-0.4.md)
-preserves 112 original IDs: 107 completed, four deferred, one pending item (14.08: final acceptance and publication). Optional GPU and scientific eclipse use are experimental; no
-universal 33 ms/100 ms or certified eclipse forecast is promised. PBF has regional
-real-data validation, not proven planetary scale. [Measured evidence](docs/observed-validation-0.4.md).
+The 0.4.0 published snapshot is preserved. Its four deferred gates remain
+[explicitly tracked](docs/deferred-gates-0.4.md): optional GPU and scientific
+eclipses are experimental, without universal 33 ms/100 ms or certified eclipse
+forecast claims. PBF has regional real-data validation, not proven planetary
+scale. The [0.5 development checklist](docs/release-plan-0.5.md) retains all122
+IDs and separates delivered, partial, scientific research and human review.
 0.5 remains Planetary Cartography / Beyond Earth; 0.6 remains Orbits.
 
 ## Install

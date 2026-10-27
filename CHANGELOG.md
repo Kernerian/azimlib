@@ -1,6 +1,28 @@
 # Changelog
 
-## 0.5.0.dev0 — Phases A/B/C, unreleased
+## 0.5.0.dev0 — development, unreleased
+
+- Locally pinned Lucide 1.61.0 subset of 30 unchanged SVGs, with ISC/Feather MIT
+  notices and hashes; recommended catalog, original symbols retained. Source
+  stroke width, optional physical halo and vector/local-raster shadow controls.
+- Editorial locators with inverse geographic footprints and explicit synchronized
+  view links; sectional heterogeneous legends, physical page layout, flow keys,
+  contextual associated labels and optional presentation themes.
+- Sourced surface feature catalogs separate nomenclature, geology, epochs,
+  uncertainty and visual styles. Finite exploration sequences reuse Artists and
+  animation without implying orbital propagation or scientific prediction.
+- Physical versus normalized world comparisons, isolated contexts and common
+  thematic primitives. Consolidated actual PNG/SVG/PDF gallery and native Tk/Qt
+  development checks. Human visual acceptance remains pending.
+- PDF orbital imagery uses a bounded per-image alpha tile to avoid cell seams;
+  surrounding vectors remain vectors. Optional soft icon shadows use local
+  RGBA tiles, never whole-page rasterization. Existing terrain mesh rendering
+  and its previously documented PDF limits are unchanged.
+- See [editorial contracts](docs/editorial-0.5.md), [applications](docs/applications-0.5.md)
+  and [integrated validation](docs/integration-0.5.md). Scientific research items
+  remain open; this development snapshot is not an authorized release.
+
+### Phase C snapshot (historical contract)
 
 - Phase C: context-bound SymbolDefinition/SymbolArtist, safe bounded SVG/PNG,
   18 original programmatic icons, custom regions/masks/bands and authored linear
@@ -11,7 +33,7 @@
   alpha tile. Native browser navigation refuses unsupported thematic payloads.
 - Eight reproducible thematic scenes, content/security/lifecycle regressions,
   CPU workload measurements and a nonpublishing native validation workflow.
-  See [Phase C contracts](docs/thematic-0.5.md); complete atlas composition remains Phase D.
+  See [Phase C contracts](docs/thematic-0.5.md); editorial evolution is recorded separately.
 - Phase B: BodySurface/SurfaceProjection with bounded sphere/oblate methods,
   exact ellipsoidal orthographic horizon, inverse projections, metres, geodesic
   distances/azimuths/routes and explicitly bounded polygon/parallel areas.

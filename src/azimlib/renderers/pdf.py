@@ -208,7 +208,7 @@ def _gradient_tiles(scene):
     from itertools import groupby
     from ..scene import Scene
     result=[]
-    for key,group in groupby(scene.items,key=lambda item:item.style.get('_thematic_gradient')):
+    for key,group in groupby(scene.items,key=lambda item:('gradient',item.style['_thematic_gradient']) if '_thematic_gradient' in item.style else ('raster',item.style['_raster_surface']) if '_raster_surface' in item.style else None):
         items=list(group)
         if key is None:result.extend(items);continue
         bounds=[]
@@ -220,7 +220,8 @@ def _gradient_tiles(scene):
         x=math.floor(min(b[0] for b in bounds));y=math.floor(min(b[1] for b in bounds))
         right=math.ceil(max(b[0]+b[2] for b in bounds));bottom=math.ceil(max(b[1]+b[3] for b in bounds))
         w,h=max(1,right-x),max(1,bottom-y)
-        if w*h>1000000:raise ValueError('PDF gradient tile exceeds 1 million pixels; reduce output DPI/size or export SVG')
+        limit=4000000 if key[0]=='raster' else 1000000
+        if w*h>limit:raise ValueError('PDF local raster tile exceeds its declared pixel budget; reduce output DPI/size or export SVG')
         from dataclasses import replace
         tile=Scene(w,h,background=None)
         for item in items:

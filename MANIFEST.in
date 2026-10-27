@@ -54,3 +54,5 @@ include .github/workflows/thematic-0.5.yml
 recursive-include examples/thematic/assets *.svg *.png *.json
 
 recursive-include src/azimlib/assets/lucide *.svg *.json *.txt
+
+include .github/workflows/integrated-0.5.yml

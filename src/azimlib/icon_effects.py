@@ -47,7 +47,7 @@ def _mask_tile(items,padding):
  from .scene import Path,RasterIcon,Scene
  from .renderers.pillow import render_image
  from .layout_engine import primitive_bounds
- boxes=[primitive_bounds(i) for i in items];x=math.floor(min(b[0] for b in boxes)-padding);y=math.floor(min(b[1] for b in boxes)-padding)
+ boxes=[primitive_bounds(replace(i,clip=None)) for i in items];x=math.floor(min(b[0] for b in boxes)-padding);y=math.floor(min(b[1] for b in boxes)-padding)
  right=math.ceil(max(b[0]+b[2] for b in boxes)+padding);bottom=math.ceil(max(b[1]+b[3] for b in boxes)+padding);w,h=max(1,right-x),max(1,bottom-y)
  if w*h>1000000:raise ValueError('Icon effect tile exceeds1Mpx')
  tile=Scene(w,h,background=None)

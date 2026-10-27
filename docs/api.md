@@ -9475,3 +9475,14 @@ Copy a bounded nodal ROI, including interpolation support at its edges.
 ### `info()`
 
 ### `path(packed, scale, tolerance)`
+
+## 0.5 development extensions (unreleased)
+
+Body/context/surface contracts: [foundation](foundation-0.5.md),
+[surfaces](surfaces-0.5.md), [thematic](thematic-0.5.md).
+[Editorial APIs](editorial-0.5.md): LegendSection, FlowScale, CartographicPage,
+CartographicTheme, Axes.locator/link_view, associated labels.
+[Application APIs](applications-0.5.md): SurfaceFeature, FeatureName,
+FeatureCatalog, ExplorationSequence, compare_worlds. IconHalo/IconShadow and
+lucide_catalog expose optional presentation, without changing coordinates.
+Scientific/domain refusals remain binding; see [integrated status](integration-0.5.md).

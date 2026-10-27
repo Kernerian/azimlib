@@ -1,0 +1,51 @@
+name: integrated-development-0.5
+on:
+  push:
+    branches: [dev/0.5.0]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: integrated-development-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  native-editorial-applications:
+    if: github.ref == 'refs/heads/dev/0.5.0'
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - run: python -m pip install '.[gui,qt,text,tex]'
+      - run: python -m unittest discover -s tests -p 'test*050.py' -v
+      - run: python tools/validate_planetary_surfaces.py --output .ci-results/scientific-errors.json
+      - run: python tools/build_gallery_050.py --output .ci-results/gallery
+      - run: python tools/benchmark_thematic.py --output .ci-results/benchmark.json
+      - run: python tools/benchmark_editorial_050.py --output .ci-results/benchmark-editorial.json
+      - name: Linux native display
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y xvfb xauth libegl1 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 libxcb-xinerama0
+      - name: Native Tk/Qt on Linux
+        if: runner.os == 'Linux'
+        run: |
+          xvfb-run -a python tools/smoke_editorial_native.py --backend tk --output .ci-results/tk.json
+          xvfb-run -a python tools/smoke_editorial_native.py --backend qt --output .ci-results/qt.json
+      - name: Native Tk/Qt on Windows/macOS
+        if: runner.os != 'Linux'
+        run: |
+          python tools/smoke_editorial_native.py --backend tk --output .ci-results/tk.json
+          python tools/smoke_editorial_native.py --backend qt --output .ci-results/qt.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integrated-050-${{ runner.os }}-py314
+          path: .ci-results/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 21

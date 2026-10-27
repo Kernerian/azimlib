@@ -34,6 +34,9 @@ def validate(scene: Scene, *, _path_validator=None) -> None:
         if isinstance(item,(Path,RasterIcon)) and '_icon_effect' in item.style:
             if item.style['_icon_effect'] is not True:raise ValueError('Invalid internal icon effect')
             allowed=allowed|{'_icon_effect'}
+        if isinstance(item,Path) and '_raster_surface' in item.style:
+            if type(item.style['_raster_surface']) is not int or item.style['_raster_surface']<0:raise ValueError('Invalid internal raster layer')
+            allowed=allowed|{'_raster_surface'}
         unknown = set(item.style) - allowed
         if unknown:
             raise ValueError(f"Unsupported {type(item).__name__} style: {', '.join(sorted(unknown))}")

@@ -113,6 +113,7 @@ def plan_labels(ax,vp):
     index=BoxIndex();leader_index=BoxIndex();candidates=[];plan={}
     obstacles=obstacle_boxes(ax,vp);accepted=[];by_exclusion={}
     for box in obstacles:index.add(box)
+    default_index=index
     span=max(vp.extent[2]-vp.extent[0],vp.extent[3]-vp.extent[1])
     for layer in ax.layers:
         if not layer.visible or layer.kind!='labels':continue
@@ -129,12 +130,17 @@ def plan_labels(ax,vp):
         exclusion=layer.options.get('collision_exclude',())
         if exclusion:
             key=tuple(id(v) for v in exclusion)
-            if key not in by_exclusion:by_exclusion[key]=obstacle_boxes(ax,vp,exclusion)
-            index=BoxIndex()
-            for box in (*by_exclusion[key],*accepted):index.add(box)
+            if key not in by_exclusion:
+                alternative=BoxIndex()
+                for box in obstacle_boxes(ax,vp,exclusion):alternative.add(box)
+                by_exclusion[key]=(alternative,0)
+            index,seen=by_exclusion[key]
+            for box in accepted[seen:]:index.add(box)
+            by_exclusion[key]=(index,len(accepted))
         else:
-            index=BoxIndex()
-            for box in (*obstacles,*accepted):index.add(box)
+            index=default_index
+            for box in accepted[getattr(default_index,'_accepted_count',0):]:index.add(box)
+            default_index._accepted_count=len(accepted)
         style=text_style(layer.style);fs=style['font_size']
         width=text_width(text,style);d=fs*.9
         default=((0,0),(width/2+d,0),(-width/2-d,0),(0,-fs*1.5),(0,fs*1.5),(width/2+d,-fs*1.5),(-width/2-d,-fs*1.5),(width/2+d,fs*1.5),(-width/2-d,fs*1.5))

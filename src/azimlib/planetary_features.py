@@ -32,6 +32,7 @@ class SurfaceFeature:
   if not isinstance(self.source,AssetSource) or not isinstance(self.epoch,str) or not self.epoch.strip():raise ValueError('Feature requires source/license/epoch')
   if self.status not in ('observation','reconstruction','synthetic','illustrative-plan'):raise ValueError('Declare feature evidential status')
   if self.uncertainty_m is not None and _number(self.uncertainty_m)<0:raise ValueError('Uncertainty must be nonnegative metres')
+  if not isinstance(self.classification,str):raise ValueError('Classification is an explicit string')
   object.__setattr__(self,'names',names)
 @dataclass(frozen=True)
 class FeatureCatalog:
@@ -65,6 +66,7 @@ class FeatureCatalog:
   from .io import read_geojson
   geo=read_geojson(value);items=[]
   for f in geo:
+   if f.id is None:raise ValueError('Feature requires an explicit stable identifier')
    q=f.properties;name=FeatureName(q['name'],q['language'],q['authority'])
    items.append(SurfaceFeature(str(f.id),q['kind'],f.geometry,(name,),source,q['epoch'],q['status'],q.get('classification',''),q.get('uncertainty_m')))
   return cls(context,tuple(items),source)

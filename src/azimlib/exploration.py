@@ -40,6 +40,7 @@ class ExplorationBinding:
     # Existing scalar/lighting binders retain their own complete validation.
     prepared=None;self.delegate=self.series.bind(artist);break
   self.prepared=None if prepared is None else tuple(prepared)
+  self.region_slices=tuple(artist.gradient.slices(v) if v is not None and artist.gradient else () for v in self.prepared) if isinstance(artist,RegionArtist) else ()
  def apply(self,index):
   from .animation import frame_index
   from .thematic import SymbolArtist,CartographicPathArtist
@@ -54,7 +55,7 @@ class ExplorationBinding:
     elif isinstance(self.artist,CartographicPathArtist):self.artist.set_definition(value)
     else:
      # Region replacement is an explicit data edit, not interpolation of history.
-     self.artist.definition=value;self.artist.data=value.geometry;self.artist.slices=self.artist.gradient.slices(value) if self.artist.gradient else ();self.artist._changed()
+     self.artist.definition=value;self.artist.data=value.geometry;self.artist.slices=self.region_slices[index];self.artist._changed()
     self.artist.set_visible(True)
   self.index=index;return self.series[index]
  def at(self,time,*,method='exact'):return self.apply(self.series.index_at(time,method=method))

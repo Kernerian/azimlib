@@ -29,7 +29,7 @@ def mars(real_data=None):
  # Reuse immutable raster/scalar data, not a mutable Artist from the source Figure.
  base=old.layers[0]
  if base.options.get('planetary_raster') is not None:ax.raster(base.options['planetary_raster'],alpha=.78)
- elif base.kind=='mesh':ax.imshow(base.get_array() if hasattr(base,'get_array') else [[math.sin(i/7)*math.cos(j/6) for i in range(40)] for j in range(32)],extent=(-75,-20,-30,15),cmap='terrain',alpha=.6)
+ elif base.kind=='mesh':ax.imshow(base.get_data() if hasattr(base,'get_data') else [[math.sin(i/7)*math.cos(j/6) for i in range(40)] for j in range(32)],extent=(-75,-20,-30,15),cmap='terrain',alpha=.6)
  else:
   ax.imshow([[math.sin(i/7)*math.cos(j/6) for i in range(40)] for j in range(32)],extent=(-75,-20,-30,15),cmap='terrain',alpha=.6)
  groups=[]

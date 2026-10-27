@@ -55,7 +55,15 @@ def main():
         assert canonicalize_name(metadata['Name'])==canonicalize_name(config['name'])=='azimlib'
         assert metadata['Version']==config['version'] and metadata['Requires-Python']==config['requires-python']
         assert metadata['License-Expression']==canonicalize_license_expression(config['license'])
-        assert 'BSD-3-Clause' in metadata['License-Expression'] and 'MIT' not in metadata['License-Expression']
+        assert metadata['License-Expression']=='BSD-3-Clause AND CC0-1.0 AND LicenseRef-DejaVu AND LicenseRef-ColorBrewer AND ISC AND MIT'
+        # MIT applies to the pinned Feather-derived subset, never to original code.
+        assert (ROOT/'LICENSE').read_text('utf8').startswith('BSD 3-Clause License')
+        lucide=json.loads((runtime/'assets/lucide/manifest.json').read_text('utf8'))
+        for icon in lucide['icons']:
+            assert icon['license'] in ('ISC','MIT'),icon
+            assert sha((runtime/'assets/lucide'/icon['file']).read_bytes())==icon['sha256']
+        assert sha((ROOT/lucide['license_file']).read_bytes())==lucide['license_sha256']
+        assert sha((runtime/'assets/lucide/LICENSE.txt').read_bytes())==lucide['license_sha256']
         dependencies=[Requirement(x) for x in metadata.get_all('Requires-Dist',[])]
         assert all(r.marker is not None and 'extra' in str(r.marker) for r in dependencies)
         assert not any(canonicalize_name(r.name) in FORBIDDEN for r in dependencies)

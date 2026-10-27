@@ -182,6 +182,11 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
                     if pixel[3]==0:continue
                     ring=[(lon[i],lat[j]),(lon[i+1],lat[j]),(lon[i+1],lat[j+1]),(lon[i],lat[j+1]),(lon[i],lat[j])]
                     _polygon([ring],dict(layer.style,facecolor=color_hex(pixel)),vp,scene)
+            # Color imagery is raster data. Only this layer becomes a PDF tile;
+            # surrounding contours, labels and cartographic artwork stay vector.
+            from dataclasses import replace
+            for k in range(layer_start,len(scene.items)):
+                item=scene.items[k];scene.items[k]=replace(item,style=dict(item.style,_raster_surface=layer_start))
         elif layer.kind=='vectors':
             _vectors(layer,vp,scene)
         elif layer.kind == "text":

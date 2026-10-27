@@ -484,7 +484,11 @@ class Figure(Artist):
         return bar
 
     def to_html(self, title=None):
-        if any(l.kind.startswith('thematic_') for a in self.axes for l in a.layers):
+        def descendants(axes):
+            for ax in axes:
+                yield ax
+                yield from descendants(ax.insets)
+        if getattr(self,'_editorial_pages',None) or any(l.kind.startswith('thematic_') or l.kind=='locator' for a in descendants(self.axes) for l in a.layers):
             raise UnsupportedBodyOperation('Portable HTML thematic navigation is not validated; use static exports or CPU Tk/Qt')
         if any(getattr(a.projection,'context',None) is not None for a in self.axes):
             raise UnsupportedBodyOperation('Body-aware physical HTML navigation is not validated; use static PNG/SVG/PDF or CPU Tk/Qt')

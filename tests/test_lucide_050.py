@@ -49,4 +49,13 @@ class Lucide(unittest.TestCase):
   f,s,scene=self.scene();base=[i for o,_,lo,hi in scene._pick_records if o is s for i in scene.items[lo:hi]];s.set_halo(a.IconHalo());s.set_shadow(a.IconShadow(blur=1));updated=f.to_scene();front=[i for o,_,lo,hi in updated._pick_records if o is s for i in updated.items[lo:hi]];self.assertEqual(base,front)
  def test_group_clone_keeps_effect_definitions_not_artist(self):
   f,axes=a.subplots(1,2,body=a.MARS);g=axes[0].group();s=g.add(axes[0].symbols([(0,0)],'gold',halo=a.IconHalo(),shadow=a.IconShadow()));clone=g.instantiate(axes[1]);self.assertIsNot(clone.get_children()[0],s);self.assertEqual(clone.get_children()[0].style['icon_halo'],s.style['icon_halo'])
+ def test_soft_effect_partially_clipped_icon(self):
+  f,ax=a.subplots(body=a.MARS);ax.set_extent((-2,2,-2,2))
+  ax.symbols([(2,2)],'bot',size=32,halo=a.IconHalo(),shadow=a.IconShadow(blur=1))
+  self.assertTrue(f.to_scene().items)
+ def test_style_copy_is_detached_snapshot(self):
+  import copy
+  f,s,scene=self.scene();snapshot=copy.deepcopy(s.style)
+  self.assertIsInstance(snapshot,dict);s.set_halo(a.IconHalo())
+  self.assertNotIn('icon_halo',snapshot)
 if __name__=='__main__':unittest.main()

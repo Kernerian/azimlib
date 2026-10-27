@@ -34,7 +34,8 @@ nessa versão. Manutenção urbana/cartográfica e de plataformas continua.
 
 ## 0.5.0 — Planetary Cartography / Beyond Earth
 
-Fase A de fundação implementada e validada localmente; próximas fases abertas.
+Fases A–E implementadas nos domínios delimitados; integração F e validações
+operacionais em desenvolvimento, sem autorização de publicação.
 [Contratos](foundation-0.5.md), [evidência](foundation-validation-0.5.md). Identidade principal Beyond
 Earth, com camada temática/histórica/educacional/editorial integrada à mesma API
 e reutilizável entre Terra e demais corpos.
@@ -50,8 +51,8 @@ e reutilizável entre Terra e demais corpos.
 
 A [proposta consolidada](proposal-0.5.md) preserva todas as dez frentes antigas
 e acrescenta nove, com contratos, dependências e riscos. A
-[checklist de desenvolvimento](release-plan-0.5.md) preserva **122 IDs: 43
-concluídos e 79 abertos**. São 19 frentes e uma etapa transversal.
+[checklist de desenvolvimento](release-plan-0.5.md) preserva **122 IDs: 94
+concluídos e 28 abertos**. São 19 frentes e uma etapa transversal.
 Os contratos efetivamente implementados das [superfícies da Fase B](surfaces-0.5.md)
 não promovem geodésia triaxial/irregular ou orientação temporal não demonstradas.
 Recortes/interfaces preparados não são conclusão das funcionalidades futuras.
