@@ -60,7 +60,7 @@ def main():
         assert (ROOT/'LICENSE').read_text('utf8').startswith('BSD 3-Clause License')
         lucide=json.loads((runtime/'assets/lucide/manifest.json').read_text('utf8'))
         for icon in lucide['icons']:
-            assert icon['license'] in ('ISC','MIT'),icon
+            assert icon['license'] in ('ISC','ISC AND MIT'),icon
             assert sha((runtime/'assets/lucide'/icon['file']).read_bytes())==icon['sha256']
         assert sha((ROOT/lucide['license_file']).read_bytes())==lucide['license_sha256']
         assert sha((runtime/'assets/lucide/LICENSE.txt').read_bytes())==lucide['license_sha256']

@@ -228,7 +228,20 @@ movie.step();assert points.get_array()==[10,20] and movie.index==1
 pages=io.BytesIO()
 with PdfPages(pages) as pdf:pdf.savefig(fig);pdf.savefig(fig)
 assert b'/Count 2' in pages.getvalue();movie.close();azl.close(fig)
-print('Installed wheel: SVG/HTML, data/fonts, artists, styles/aliases, scientific text and prevalidated edits; no optional/GIS/reference libraries.')
+# 0.5 core-only installation must expose actual new APIs without Pillow/JS.
+import azimlib.pyplot as plt
+assert len(azl.lucide_catalog())==30 and len(azl.symbol_catalog('original'))==18
+fig=plt.figure(figsize=(8,6));page=fig.cartographic_page(body=azl.MARS,title='Installed Beyond Earth')
+ax=page.axes;ax.set_extent((-20,20,-15,15));ax.set_theme('planetary-exploration')
+g=ax.group(name='Sites');symbol=g.add(ax.symbols([(0,0)],'lucide:bot',halo=azl.IconHalo(),shadow=azl.IconShadow(blur=0)))
+g.add(symbol.labels_for('Own site'));page.legend(sections=[azl.LegendSection('Sites',(symbol,))]);page.locator()
+svg=fig.to_svg();assert 'lucide:bot' in svg and 'Lucide' in svg and 'Installed Beyond Earth' in svg
+region=ax.region(azl.RegionDefinition.polygon([(-5,-5),(5,-5),(5,5),(-5,5)],context=ax.get_context()),facecolor='red',alpha=.2)
+path=ax.cartographic_path(azl.CartographicPath.geodesic([(-8,0),(8,0)],context=ax.get_context()))
+assert path.get_length()>0
+azl.close(fig)
+comparison=azl.compare_worlds((azl.MOON,azl.MARS),mode='physical');assert comparison.axes[0].get_body()!=comparison.axes[1].get_body();assert '<svg' in comparison.figure.to_svg();azl.close(comparison.figure)
+print('Installed wheel: existing core regressions plus Lucide, editorial page, labels/groups/locator, planetary path and world comparison; no optional/GIS/reference libraries.')
 '''
 
 
