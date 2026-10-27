@@ -188,3 +188,12 @@ Own finite FuncAnimation, TemporalSeries and PdfPages/Atlas are available in
 and [temporal contracts](temporal.md) distinguish supported subsets/experimental
 APIs from the full Matplotlib surface. Multipage PDF is now supported for our
 own figure output; arbitrary PDF merging, PDF-A and searchable text are not.
+
+## Desenvolvimento0.5 — contratos delimitados
+
+Extensões temáticas/editoriais/BeyondEarth são documentadas em
+[integration-0.5.md](integration-0.5.md). Root/pyplot e defaults terrestres
+continuam preservados. Catálogo recomendado Lucide com original:* disponível;
+PNG opcional para sombras suaves. HTML portátil recusa novos locators/editorial
+sem suporte em vez de exportar navegação incompleta. GPU planetária continua
+não demonstrada; nenhuma garantia científica universal é adicionada.

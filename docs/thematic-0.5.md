@@ -208,3 +208,11 @@ Os testes visuais internos não substituem aceite humano final multiplataforma.
 Veja [registro da fase](thematic-validation-0.5.md) e [checklist](release-plan-0.5.md).
 Fases D–F, labels curvos, locators, temas, composição e validação integral
 permanecem abertas. Não iniciar automaticamente a fase seguinte.
+
+## Evolução após o snapshot C
+
+O contrato histórico acima descreve a Fase C. [Lucide](lucide-0.5.md),
+[editorial D](editorial-0.5.md), [aplicações E](applications-0.5.md) e
+[integração F](integration-0.5.md) agora registram as extensões efetivas.
+Não interpretar as pendências históricas D–F acima como estado atual; consultar
+a checklist e a evidência integrada. O aceite dos novos outputs permanece separado.

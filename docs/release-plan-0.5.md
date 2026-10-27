@@ -3,7 +3,7 @@
 Estado: **Fases A–E e integração F implementadas nos domínios documentados**.
 Validação integrada nativa e aceite visual novos continuam separados; sem publicação.
 Inventário preservado: **122 IDs** (19 frentes + etapa transversal).
-**94/122 concluídos; 28 abertos**, incluindo implementações parciais.
+**98/122 concluídos; 24 abertos**, incluindo implementações parciais.
 Os resultados locais não equivalem à matriz multiplataforma/aceite final da release.
 Evidência e limites: [registro da Fase A](foundation-validation-0.5.md).
 Fase B: [contratos](surfaces-0.5.md), [validação](surfaces-validation-0.5.md),
@@ -167,7 +167,7 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 - [x] 17.03 — Definir inclusão/exclusão de grupos na legenda e tratamento dos labels/símbolos associados.
 - [x] 17.04 — Reutilizar dados/definições em layouts/insets com instâncias por viewport, sem anexar o mesmo Artist mutável a múltiplos Axes.
 - [x] 17.05 — Integrar picking, callbacks, redraw/invalidação e remoção com renderização interativa e caches seguros.
-- [ ] 17.06 — Validar grupos aninhados, clipping, estilos, toggles e isolamento entre corpos/layouts, incluindo ausência de vazamentos de estado.
+- [x] 17.06 — Validar grupos aninhados, clipping, estilos, toggles e isolamento entre corpos/layouts, incluindo ausência de vazamentos de estado.
 
 ## 18 — Estilos temáticos reutilizáveis
 
@@ -184,23 +184,23 @@ adiados da 0.4.0. Evidências futuras devem identificar versão + ID + SHA.
 - [x] 19.02 — Preservar vetores SVG quando possível para texto, rotas, áreas, símbolos, molduras e insets, sem rasterização silenciosa da página.
 - [x] 19.03 — Integrar dimensões/páginas, DPI, unidades físicas, embedding/fontes, transparência, blending e efeitos suportados com fallback explícito.
 - [x] 19.04 — Validar clipping, padrões/hatches, imagens, símbolos, fontes e composição de insets nos backends correspondentes.
-- [ ] 19.05 — Executar matriz Windows/Linux/macOS com mesmos workloads e registro de versão, SHA, dependências/fontes e resultados por backend.
+- [x] 19.05 — Executar matriz Windows/Linux/macOS com mesmos workloads e registro de versão, SHA, dependências/fontes e resultados por backend.
 - [ ] 19.06 — Gerar artifacts comparáveis e exigir aceite visual humano dos formatos/plataformas, sem prometer identidade pixel a pixel universal.
 
 ## 20 — Integração, exemplos e futura entrega (etapa transversal)
 
-- [ ] 20.01 — Executar a regressão integrada Terra/Bodies e contratos de lifecycle, CPU/fallback, erros, formatos e dependências opcionais no mesmo SHA.
+- [x] 20.01 — Executar a regressão integrada Terra/Bodies e contratos de lifecycle, CPU/fallback, erros, formatos e dependências opcionais no mesmo SHA.
 - [x] 20.02 — Criar `examples/thematic/historical_trade_map.py`: região, territórios, cidades, recursos, rotas curvas, labels, legenda mista, orientação e locator, com dados próprios/públicos/sintéticos documentados.
 - [x] 20.03 — Criar `examples/planetary/mars_exploration_map.py` com geologia, rover, waypoints e minimapa, demonstrando as mesmas primitivas do exemplo terrestre.
 - [x] 20.04 — Completar exemplos Lua/mares/crateras/pousos/inset, Vênus/raster/regiões/símbolos e comparação com Mercúrio; verificar polos e escalas.
 - [x] 20.05 — Consolidar API, migração, galeria, limites científicos, capacidades/recusas, proveniência e resultados reais de benchmarks sem herdar metas GPU como garantias.
-- [ ] 20.06 — Auditar licenças, assets, privacidade, datasets e preservação dos quatro gates adiados da 0.4.0; nenhuma evidência histórica reescrita.
+- [x] 20.06 — Auditar licenças, assets, privacidade, datasets e preservação dos quatro gates adiados da 0.4.0; nenhuma evidência histórica reescrita.
 - [ ] 20.07 — Preparar CI exata, pacotes, hashes, instalação isolada e revisão humana final futura, distinguindo candidato técnico de publicação concluída.
 - [ ] 20.08 — Publicar somente com autorização explícita futura; exigir estados pending/authorized/completed e evidência pós-publicação sem dependência circular.
 
 ## Regras de contagem e fechamento futuro
 
-A contagem atual distingue 94 subitens demonstrados e 28 abertos.
+A contagem atual distingue 98 subitens demonstrados e 24 abertos.
 Os snapshots A/B/C abaixo preservam o estado histórico e não descrevem o progresso atual.
 Interfaces preparadas, recortes ou exemplos parciais não concluem frentes inteiras.
 As descrições originais dos 122 critérios permanecem preservadas.
@@ -324,16 +324,23 @@ Permanecem abertos, sem novos adiamentos formais:
   com correspondência de dados específica ainda não demonstrados.
 - 15.06/16.06: regressões e overrides reais; matriz completa adversa
   internacional de páginas/DPI/orientação ainda incompleta.
-- 17.06/19.05/20.01: evidência nativa integrada no mesmo SHA será registrada
-  separadamente; não presumir aprovação de jobs não executados.
+- 17.06/19.05/20.01: concluídos no snapshot técnico f410159, com regressão
+  local integral e os três workflows especializados aprovados nativamente.
+  A matriz principal e o novo commit de registro precisam de evidência final
+  própria; acompanhar o relatório operacional, sem presumir jobs pendentes.
 - 18.02/18.05: temas aplicam apresentação de folhas/background; todos os papéis
   de legenda/inset/moldura e sua legibilidade não estão integrados por completo.
 - 19.06/20.07: novos artifacts, CI/pacotes e hashes serão apresentados; revisão
   humana final ainda obrigatória, sem herdar o aceite da antiga galeria C.
-- 20.06: auditores locais e de distribuição precisam ser repetidos no commit
-  final; resultados anteriores não constituem auditoria antecipada.
+- 20.06: auditorias fonte/histórico/assets/pacotes aprovadas no snapshot técnico;
+  o novo commit de registro terá repetição das verificações. Não representa
+  garantia jurídica nem eliminação remota de todo conteúdo histórico possível.
 - 20.08: publicação futura não autorizada, permanece aberta.
 
 Pendência histórica B/macOS permanece no SHA b77b12c92523d203211a3d30e39f09998e5d0816.
 A CI posterior não a conclui retroativamente. Os quatro gates0.4 permanecem
 intactos e separados; nenhuma certificação global foi promovida.
+
+Consolidação técnica posterior: 17.06/19.05/20.01/20.06 também demonstrados.
+Ver [evidência integrada](integration-validation-0.5.md). **98 concluídos,24
+abertos**, sem novos adiamentos;19.06/20.07/20.08 continuam abertos.
