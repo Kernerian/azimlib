@@ -241,6 +241,8 @@ class MapAxes(AxisComponents):
              MapText if kind=='text' else Annotation if kind=='annotation' else Layer)
         layer = cls(kind, data, style, options, _axes=self)
         if controls:layer.set(**controls)
+        from .groups import _GroupStyle
+        layer._theme_aware=True;layer.style=_GroupStyle(layer,layer.style)
         self.layers.append(layer)
         return layer
 
@@ -669,7 +671,7 @@ class MapAxes(AxisComponents):
         return artist
 
     def labels(self, data, field="name", *, avoid_overlap=True,padding=2,offsets=None,leader=False,
-               placement='auto',repeat=None,priority_field='priority',min_span=0,max_span=None,**kwargs):
+               placement='auto',repeat=None,priority_field='priority',min_span=0,max_span=None,collision_exclude=(),max_candidates=4096,**kwargs):
         """Place feature labels with collision avoidance and local line tangents.
 
         placement: auto, point, line (tangent block), or curve (glyph baselines).
@@ -685,16 +687,24 @@ class MapAxes(AxisComponents):
         if offsets is not None:
             offsets=tuple(tuple(float(v) for v in p) for p in offsets)
             if not offsets or any(len(p)!=2 or any(not math.isfinite(v) for v in p) for p in offsets):raise ValueError('offsets must be finite screen pairs')
-        collection = read_geojson(data.data if isinstance(data, Layer) else data)
+        from .editorial_labels import prepare
+        collection,source=prepare(self,data,field)
+        if type(max_candidates) is not int or not 1<=max_candidates<=4096 or len(collection)>max_candidates:raise ValueError('Label candidate budget exceeded')
+        collision_exclude=tuple(collision_exclude)
+        if any(getattr(artist,'axes',None) is not self for artist in collision_exclude):raise ValueError('Collision exclusions must be owned by this Axes')
         if placement in ('line','curve') and any(f.geometry and f.geometry.type not in ('LineString','MultiLineString') for f in collection):
             raise ValueError('placement=line/curve requires line geometries')
         if priority_field is not None:
             for feature in collection:
                 value=feature.properties.get(priority_field)
                 if value is not None and not math.isfinite(float(value)):raise ValueError('Feature label priority must be finite')
-        return self._add("labels", collection, _defaults(kwargs, fontsize=10, ha="center", va="center", halo="white", zorder=8),
+        result=self._add("labels", collection, _defaults(kwargs, fontsize=10, ha="center", va="center", halo="white", zorder=8),
                          field=field, avoid_overlap=bool(avoid_overlap),padding=padding,offsets=offsets,leader=bool(leader),
-                         placement=placement,repeat=repeat,priority_field=priority_field,min_span=float(min_span),max_span=None if max_span is None else float(max_span))
+                         placement=placement,repeat=repeat,priority_field=priority_field,min_span=float(min_span),max_span=None if max_span is None else float(max_span),collision_exclude=collision_exclude,max_candidates=max_candidates)
+        if source is not None:
+            import weakref
+            result.options['associated_source']=weakref.ref(source)
+        return result
 
     def annotate(self, text, xy, xytext=None, *, textcoords="offset pixels", arrow=True, **kwargs):
         from .transforms import Transform,validate_context
@@ -1101,7 +1111,10 @@ class MapAxes(AxisComponents):
                frameon=True, facecolor=None, edgecolor=None, framealpha=None,
                title_fontsize=None, borderpad=.4, labelspacing=.5, handlelength=2,
                handletextpad=.8, borderaxespad=.5,ncols=None,ncol=None,columnspacing=2,
-               bbox_to_anchor=None,bbox_transform='axes',mode=None,handler_map=None):
+               bbox_to_anchor=None,bbox_transform='axes',mode=None,handler_map=None,sections=None,symbol_size=None):
+        from .editorial_legend import prepare
+        handles,labels,handler_map,section_lengths=prepare(sections,handles,labels,handler_map)
+        if symbol_size is not None and (not math.isfinite(symbol_size) or not 0<symbol_size<=128):raise ValueError('Legend symbol_size in points must be0..128')
         loc=rcParams['legend.loc'] if loc is None else loc
         fontsize=rcParams['legend.fontsize'] if fontsize is None else fontsize
         facecolor=rcParams['legend.facecolor'] if facecolor is None else facecolor
@@ -1125,6 +1138,7 @@ class MapAxes(AxisComponents):
             frameon=bool(frameon),facecolor=facecolor,edgecolor=edgecolor,framealpha=framealpha,
             ncols=ncols if ncols is not None else ncol if ncol is not None else 1,columnspacing=columnspacing,
             bbox_to_anchor=bbox_to_anchor,bbox_transform=bbox_transform,mode=mode,linewidth=rcParams['axes.linewidth'],**values)
+        self._legend['_section_lengths']=section_lengths;self._legend['_symbol_size']=symbol_size
         return self._legend
 
     def get_legend(self):return self._legend
@@ -1173,17 +1187,40 @@ class MapAxes(AxisComponents):
         return self._orientation('_compass',loc,size,color,True)
 
     @artist_mutation
-    def inset(self, bounds=(.68, .66, .28, .28), *, projection="equirectangular", projection_kw=None):
+    def inset(self, bounds=(.68, .66, .28, .28), *, projection="equirectangular", projection_kw=None,body=None,context=None,facecolor=None,frame=True):
         if len(bounds) != 4 or not all(math.isfinite(float(v)) for v in bounds):
             raise ValueError("inset bounds must be four finite fractions")
         x, y, w, h = map(float, bounds)
         if min(x,y) < 0 or min(w,h) <= 0 or x+w > 1 or y+h > 1:
             raise ValueError("inset must fit within axes: x,y,width,height in [0,1]")
-        child = MapAxes(self.figure, (x, y, w, h), projection, projection_kw,context=self.get_context())
+        child = MapAxes(self.figure, (x, y, w, h), projection, projection_kw,body=body,context=context if context is not None else self.get_context() if body is None else None)
+        if facecolor is not None:child.set_facecolor(facecolor)
+        child._inset_frame=bool(frame)
         child._parent_axes=self
         child._bind_parent(self)
         self.insets.append(child)
         return child
+
+    def set_theme(self,value):
+        from .cartographic_themes import set_theme
+        return set_theme(self,value)
+
+    def get_theme(self):return getattr(self,'_cartographic_theme',None)
+
+    def flow_path(self,path,value,*,scale,**style):
+        from .editorial_legend import FlowScale
+        if not isinstance(scale,FlowScale):raise TypeError('Require an authored FlowScale')
+        if 'linewidth' in style or 'lw' in style:raise ValueError('FlowScale defines the point width')
+        artist=self.cartographic_path(path,linewidth=scale.width(value),**style)
+        artist.options.update(flow_value=float(value),flow_unit=scale.unit);return artist
+
+    def locator(self,source,**kwargs):
+        from .locators import LocatorArtist
+        return LocatorArtist(self,source,**kwargs)
+
+    def link_view(self,target,*,bidirectional=False):
+        from .locators import link_view
+        return link_view(self,target,bidirectional=bidirectional)
 
     inset_axes = inset
 
@@ -1614,6 +1651,12 @@ class MapAxes(AxisComponents):
     def get_visible(self):return self.visible
 
     def remove(self):
+        for link in tuple(getattr(self.figure,'_view_links',())):
+            if link.source() is self or link.target() is self:link.remove()
+        for child in tuple(self.insets):child.remove()
+        for other in tuple(self.figure.axes):
+            for layer in tuple(other.layers):
+                if layer.kind=='locator' and layer.get_source() is self:layer.remove()
         if self._colorbar_artist is not None:return self._colorbar_artist.remove()
         parent=getattr(self,'_parent_axes',None)
         collection=parent.insets if parent is not None else self.figure.axes

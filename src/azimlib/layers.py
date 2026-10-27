@@ -275,6 +275,8 @@ class Layer(ScalarMappable,LayoutArtist):
 
 def _effective_visible(layer):
     group=getattr(layer,'_group',None)
+    source=getattr(layer,'options',{}).get('associated_source')
+    if source is not None and (source() is None or source().axes is not layer.axes or not source().get_visible()):return False
     return getattr(layer,'_local_visible',True) and (group is None or group.get_visible())
 
 

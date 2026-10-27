@@ -213,9 +213,15 @@ def _attach(axes,artist):
     from .axes import MapAxes
     if not isinstance(axes,MapAxes) or getattr(axes,'_terrain3d',False) or axes.figure is None or axes._colorbar_artist is not None:raise TypeError('Thematic Artists require a live 2D MapAxes')
     if artist.axes is not None or artist.get_context()!=axes.get_context():raise ValueError('Thematic Artist ownership/Body mismatch')
-    artist._axes=axes;artist._bind_parent(axes);axes.layers.append(artist);axes._changed();return artist
+    artist._axes=axes;artist._bind_parent(axes)
+    from .groups import _GroupStyle
+    artist._theme_aware=True;artist.style=_GroupStyle(artist,artist.style)
+    axes.layers.append(artist);axes._changed();return artist
 
 class ThematicArtist(Layer):
+    def labels_for(self,text,**options):
+        from .editorial_labels import associated_labels
+        return associated_labels(self,text,**options)
     def set_array(self,value):raise TypeError('Thematic styles are explicit; scalar fields use separate numeric Artists')
     def set_norm(self,value):raise TypeError('No implicit scalar normalizer for thematic geometry')
     def set_cmap(self,value):raise TypeError('Set an explicit LinearGradient or visual styles')

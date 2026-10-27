@@ -9,6 +9,8 @@ def curve_candidates(geometry,vp,text,style,repeat=None):
     from .mathtext import has_math
     if style.get('textengine')=='tex':raise ValueError('TeX labels are whole blocks; use placement="line" for tangent alignment')
     if has_math(text) or '\n' in text:raise ValueError('Curved labels require single-line plain text')
+    import unicodedata
+    if style.get('textengine')!='harfbuzz' and any(unicodedata.combining(c) or unicodedata.bidirectional(c) in ('R','AL','AN') or '\u0900'<=c<='\u0fff' for c in text):raise ValueError('Curved complex scripts require cluster-aware HarfBuzz; use tangent block labels otherwise')
     paths=visible_paths(geometry,vp);paths.sort(key=lambda p:-sum(math.dist(a,b) for a,b in zip(p,p[1:])))
     advances=[];previous='';characters=list(text)
     if style.get('textengine')=='harfbuzz':

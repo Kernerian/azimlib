@@ -117,3 +117,10 @@ def cartographic_path(*a,**k):return gca().cartographic_path(*a,**k)
 
 from .icon_effects import IconHalo,IconShadow
 from .lucide import lucide_catalog
+
+from .locators import LocatorArtist,ViewLink,link_view,viewport_footprint
+
+from .cartographic_themes import CartographicTheme,get_theme
+from .editorial_legend import LegendSection,FlowScale,FlowKey
+
+from .editorial_page import CartographicPage

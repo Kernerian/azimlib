@@ -86,7 +86,8 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
         if not layer.visible:
             continue
         layer_start=len(scene.items)
-        if layer.kind in ('thematic_symbols','thematic_region','thematic_path'):
+        if layer.kind=='locator':layer.render(vp,scene)
+        elif layer.kind in ('thematic_symbols','thematic_region','thematic_path'):
             from .thematic_render import render_thematic
             render_thematic(layer,vp,scene)
         elif layer.kind == "geometry":
@@ -315,7 +316,7 @@ def render_axes(ax, scene, box, *, inset=False,measure_layout=False,cull=False):
         cx,cy,cw,ch = mapbox
         childbox = cx+ix*cw, cy+(1-iy-ih)*ch, iw*cw, ih*ch
         with scene.layout_artist(child):
-            scene.add(Rect(childbox[0]-4,childbox[1]-4,childbox[2]+8,childbox[3]+8,dict(fill="white",stroke="#90a5ac",stroke_width=1)))
+            if getattr(child,"_inset_frame",True):scene.add(Rect(childbox[0]-4,childbox[1]-4,childbox[2]+8,childbox[3]+8,dict(fill="white",stroke="#90a5ac",stroke_width=1)))
             render_axes(child,scene,childbox,inset=True,measure_layout=measure_layout,cull=cull)
     if not inset:
         # A shared colorbar may have compressed/translated this subplot inside

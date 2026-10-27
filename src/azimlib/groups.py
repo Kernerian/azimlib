@@ -10,7 +10,8 @@ class _GroupStyle(MutableMapping):
     def __init__(self,layer,local):self.layer,self.local=layer,dict(local)
     def _values(self):
         group=getattr(self.layer,'_group',None)
-        return dict(group.effective_style() if group else {},**self.local)
+        from .cartographic_themes import defaults
+        return dict(defaults(self.layer),**dict(group.effective_style() if group else {},**self.local))
     def __getitem__(self,key):return self._values()[key]
     def __iter__(self):return iter(self._values())
     def __len__(self):return len(self._values())
@@ -94,13 +95,13 @@ class ArtistGroup(Artist):
         if not any(a is artist for a in self._children):raise ValueError('Artist is not a direct child')
         self._children[:]=[a for a in self._children if a is not artist]
         artist._group=None;artist._bind_parent(self.axes)
-        if hasattr(artist,'style') and isinstance(artist.style,_GroupStyle):artist.style=dict(artist.style.local)
+        if hasattr(artist,'style') and isinstance(artist.style,_GroupStyle) and not getattr(artist,'_theme_aware',False):artist.style=dict(artist.style.local)
         artist._changed();return artist
 
     def _forget(self,artist):
         self._children[:]=[a for a in self._children if a is not artist]
         artist._group=None
-        if hasattr(artist,'style') and isinstance(artist.style,_GroupStyle):artist.style=dict(artist.style.local)
+        if hasattr(artist,'style') and isinstance(artist.style,_GroupStyle) and not getattr(artist,'_theme_aware',False):artist.style=dict(artist.style.local)
         self._changed()
 
     @artist_mutation
@@ -155,10 +156,12 @@ class ArtistGroup(Artist):
                 if isinstance(child,ArtistGroup):validate(child)
                 elif hasattr(child,'instantiate') and child.kind in ('thematic_symbols','thematic_region','thematic_path'):
                     if getattr(child,'_transform',None) is not None:raise NotImplementedError('Transformed thematic instances cannot be cloned')
+                elif child.kind=='labels' and type(child) is Layer and getattr(child,'_transform',None) is None:pass
                 elif (type(child) is not Layer or child.kind!='geometry' or getattr(child,'_transform',None) is not None
                       or set(child.options)-{'feature_style','fit'} or child.options.get('feature_style') is not None):
                     raise NotImplementedError('Phase A cloning supports plain immutable geometry Layers without transforms/options')
         validate(self)
+        mapping={};pending=[]
         def clone(group,parent=None):
             result=ArtistGroup(axes,name=group.name,parent=parent,style=group._style,zorder=group._zorder,
                                visible=group._visible,clip_on=group._clip_on)
@@ -166,10 +169,24 @@ class ArtistGroup(Artist):
             for child in group._children:
                 if isinstance(child,ArtistGroup):clone(child,result)
                 elif hasattr(child,'instantiate') and child.kind in ('thematic_symbols','thematic_region','thematic_path'):result.add(child.instantiate(axes))
+                elif child.kind=='labels':
+                    local=dict(child.style.local) if isinstance(child.style,_GroupStyle) else dict(child.style)
+                    new=Layer('labels',child.data,local,dict(child.options),visible=child.get_local_visible(),_axes=axes)
+                    axes.layers.append(new);result.add(new);pending.append((child,new))
                 else:
                     local=dict(child.style.local) if isinstance(child.style,_GroupStyle) else dict(child.style)
                     new=Layer('geometry',child.data,local,dict(child.options),visible=child.get_local_visible())
                     new._body_context=child.get_context()
                     axes.add_collection(new,autolim=False);result.add(new)
+                mapping[id(child)]=new if getattr(child,'kind',None)=='labels' else result._children[-1]
             return result
-        return clone(self)
+        result=clone(self)
+        import weakref
+        for old,new in pending:
+            ref=old.options.get('associated_source')
+            if ref is not None:
+                target=mapping.get(id(ref()))
+                if target is None:result.remove();raise ValueError('Associated label source must be included in the cloned group')
+                new.options['associated_source']=weakref.ref(target)
+            new.options['collision_exclude']=tuple(mapping[id(v)] for v in old.options.get('collision_exclude',()) if id(v) in mapping)
+        return result

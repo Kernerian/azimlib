@@ -166,3 +166,13 @@ __all__.extend(('AssetSource','SymbolPart','SymbolDefinition','symbol_catalog','
 from .icon_effects import IconHalo,IconShadow
 from .lucide import lucide_catalog
 __all__.extend(('IconHalo','IconShadow','lucide_catalog'))
+
+from .locators import LocatorArtist,ViewLink,link_view,viewport_footprint
+__all__.extend(('LocatorArtist','ViewLink','link_view','viewport_footprint'))
+
+from .cartographic_themes import CartographicTheme,get_theme
+from .editorial_legend import LegendSection,FlowScale,FlowKey
+__all__.extend(('CartographicTheme','get_theme','LegendSection','FlowScale','FlowKey'))
+
+from .editorial_page import CartographicPage
+__all__.append('CartographicPage')

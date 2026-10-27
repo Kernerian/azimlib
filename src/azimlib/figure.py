@@ -364,8 +364,13 @@ class Figure(Artist):
                 artist.set(text=text,position=(x,y),**defaults);artist._autopos=autopos
         return artist
 
+    def cartographic_page(self,**kwargs):
+        from .editorial_page import CartographicPage
+        return CartographicPage(self,**kwargs)
+
     @figure_defaults
     def to_scene(self,*,cull=False,interactive=False,simplify=True):
+        for page in tuple(getattr(self,"_editorial_pages",())):page.reflow()
         """Compose a scene; optionally omit safely invisible geometry.
 
         Keep cull=False for consumers that transform the scene to other views,

@@ -43,15 +43,18 @@ class LabelPlacement:
     repetitions: tuple=()
 
 
-def obstacle_boxes(ax,vp):
+def obstacle_boxes(ax,vp,exclude=()):
     """Visible explicit artists reserve space regardless of in_layout status."""
     from .render_map import _axes_xy,_legend,_scale,_north,_annotation,_text,_marker,render_axes
     from .scene import Scene,Rect
     from .layout_engine import primitive_bounds
     scene=Scene(1,1)
     for layer in ax.layers:
-        if not layer.visible:continue
-        if layer.kind=='scatter':
+        if not layer.visible or any(layer is other for other in exclude):continue
+        if layer.kind=='thematic_symbols':
+            from .thematic_render import render_thematic
+            render_thematic(layer,vp,scene)
+        elif layer.kind=='scatter':
             for i,coordinate in enumerate(layer.data):
                 size=layer._scatter_size(i)
                 if size==0:continue
@@ -108,7 +111,8 @@ def _polygon_contains_box(geometry,box,vp):
 def plan_labels(ax,vp):
     from .render_map import _label_position
     index=BoxIndex();leader_index=BoxIndex();candidates=[];plan={}
-    for box in obstacle_boxes(ax,vp):index.add(box)
+    obstacles=obstacle_boxes(ax,vp);accepted=[];by_exclusion={}
+    for box in obstacles:index.add(box)
     span=max(vp.extent[2]-vp.extent[0],vp.extent[3]-vp.extent[1])
     for layer in ax.layers:
         if not layer.visible or layer.kind!='labels':continue
@@ -119,8 +123,18 @@ def plan_labels(ax,vp):
             field=layer.options.get('priority_field','priority')
             value_priority=feature.properties.get(field) if field is not None else None
             priority=float(layer.style.get('priority',0) if value_priority is None else value_priority)
+            if len(candidates)>=4096:raise ValueError('Global label candidate budget exceeded')
             candidates.append((-priority,len(candidates),layer,i,feature,str(value)))
     for _,_,layer,i,feature,text in sorted(candidates):
+        exclusion=layer.options.get('collision_exclude',())
+        if exclusion:
+            key=tuple(id(v) for v in exclusion)
+            if key not in by_exclusion:by_exclusion[key]=obstacle_boxes(ax,vp,exclusion)
+            index=BoxIndex()
+            for box in (*by_exclusion[key],*accepted):index.add(box)
+        else:
+            index=BoxIndex()
+            for box in (*obstacles,*accepted):index.add(box)
         style=text_style(layer.style);fs=style['font_size']
         width=text_width(text,style);d=fs*.9
         default=((0,0),(width/2+d,0),(-width/2-d,0),(0,-fs*1.5),(0,fs*1.5),(width/2+d,-fs*1.5),(-width/2-d,-fs*1.5),(width/2+d,fs*1.5),(-width/2-d,fs*1.5))
@@ -135,7 +149,7 @@ def plan_labels(ax,vp):
                 x,y,w,h=vp.box
                 if x0<x or y0<y or x0+box[2]>x+w or y0+box[3]>y+h:continue
                 if layer.options['avoid_overlap'] and index.overlaps(box):continue
-                index.add(box);leader_index.add(box);p=poses[len(poses)//2][1]
+                index.add(box);accepted.append(box);leader_index.add(box);p=poses[len(poses)//2][1]
                 placements.append(LabelPlacement(p,text,p,style,box,poses))
                 if repeat is None:break
             if placements:
@@ -171,7 +185,7 @@ def plan_labels(ax,vp):
                     from .polygon_labels import leader_endpoint
                     endpoint=leader_endpoint(p,box)
                     if leader_index.crosses(p,endpoint) or index.crosses(p,endpoint,allow_origin=True):continue
-                index.add(box);leader_index.add(box);plan[(id(layer),i)]=LabelPlacement(q,text,p,candidate_style,box)
+                index.add(box);accepted.append(box);leader_index.add(box);plan[(id(layer),i)]=LabelPlacement(q,text,p,candidate_style,box)
                 placed=True;break
             if placed:break
     return plan

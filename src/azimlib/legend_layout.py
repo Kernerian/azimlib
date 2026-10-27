@@ -50,9 +50,11 @@ def validate_options(options):
 def symbol(layer,legend=None):
     from .legend_handler import get_handler
     handler=get_handler(legend.get('handler_map',{}),layer) if legend is not None else None
-    if handler is not None:return {'_handler':handler,'_handle':layer},'custom'
+    if handler is not None:
+        from .editorial_legend import _Heading
+        return {'_handler':handler,'_handle':layer,'_heading':isinstance(layer,_Heading)},'custom'
     if layer.kind=='thematic_symbols':return dict(layer.style,_symbol=layer.symbol),'cartographic_symbol'
-    if layer.kind=='thematic_region':return dict(layer.style),'polygon'
+    if layer.kind=='thematic_region':return (dict(layer.style,_gradient=layer.gradient),'cartographic_gradient') if layer.gradient else (dict(layer.style),'polygon')
     kind='scatter' if layer.kind=='scatter' else 'line'
     if layer.kind=='geometry' and any(f.geometry and f.geometry.type in ('Polygon','MultiPolygon') for f in layer.data):kind='polygon'
     style=layer._scatter_style(0) if kind=='scatter' and layer.data else dict(layer.style)
@@ -156,11 +158,17 @@ def layout(legend,vp):
     fs=legend['fontsize']*POINT;pad=legend['borderpad']*fs;gap=legend['labelspacing']*fs
     handle=legend['handlelength']*fs;textgap=legend['handletextpad']*fs
     ncols=min(legend['ncols'],len(data)) or 1;columns=[];cursor=0
+    counts=None
+    lengths=legend.get('_section_lengths')
+    if lengths and ncols>1 and sum(lengths)==len(data):
+        ncols=min(ncols,len(lengths));counts=[];remaining=list(lengths)
+        for c in range(ncols):
+            take=len(remaining)//(ncols-c);counts.append(sum(remaining[:take]));remaining=remaining[take:]
     for col in range(ncols):
-        count=len(data)//ncols+(col<len(data)%ncols)
+        count=counts[col] if counts else len(data)//ncols+(col<len(data)%ncols)
         column=[]
         for i in range(cursor,cursor+count):
-            artist=texts[i];style=text_style(dict(artist.style,va='center'))
+            artist=texts[i];header=any(s.get('_heading') for s,k in data[i][1]);style=text_style(dict(artist.style,va='center',**({'fontweight':'bold'} if header else {})))
             height=text_bounds(artist.text,style)[3]
             column.append((data[i][1],artist.text,style,height,artist.visible))
         cursor+=count
@@ -208,7 +216,12 @@ def render_legend(legend,vp,scene):
                     symbolstyle['_handler'].legend_artist(legend,symbolstyle['_handle'],fs,HandleBox(legend,scene,(cx,center-fs/2,handle,fs)))
                 elif kind=='cartographic_symbol':
                     from .thematic_render import symbol_scene
-                    symbol_scene(symbolstyle['_symbol'],(cx+handle/2,center),fs,symbolstyle,scene,None)
+                    symbol_scene(symbolstyle['_symbol'],(cx+handle/2,center),(legend.get('_symbol_size') or legend['fontsize'])*POINT,symbolstyle,scene,None)
+                elif kind=='cartographic_gradient':
+                    first=len(scene.items)
+                    for k in range(32):
+                        x0=cx+handle*k/32;x1=cx+handle*(k+1)/32
+                        scene.add(Path([[(x0,center-fs*.35),(x1,center-fs*.35),(x1,center+fs*.35),(x0,center+fs*.35)]],True,dict(fill=symbolstyle['_gradient'].color((k+.5)/32),_thematic_gradient=first,shape_rendering='crispEdges')))
                 elif kind=='polygon':
                     scene.add(Rect(cx,center-fs*.35,handle,fs*.7,path_style(symbolstyle,True)))
                     add_hatches(scene,[[(cx,center-fs*.35),(cx+handle,center-fs*.35),(cx+handle,center+fs*.35),(cx,center+fs*.35)]],symbolstyle)
